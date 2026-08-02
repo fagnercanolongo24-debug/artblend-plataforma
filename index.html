@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArtBlend - Plataforma de Consultoria Gourmet</title>
+  <link rel="stylesheet" href="ARTBLEND_DESIGN_SYSTEM.css">
+  <style>
+    :root {
+      --bg: #F5F7FA;
+      --card: #FFFFFF;
+      --card-hover: #EEF6F8;
+      --border: #E2E6ED;
+      --text: #16294A;
+      --muted: #6E7A8C;
+      --accent: #2EC4D6;
+      --accent-soft: #E4F8FB;
+      --good: #2ECC71;
+      --good-bg: #E3FBEF;
+      --bad: #B3411F;
+      --bad-bg: #FBEAE3;
+      --amber: #9a5420;
+      --amber-bg: #FDF3E0;
+      --blue: #1C93A8;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); }
+    
+    .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+    
+    .header {
+      background: linear-gradient(135deg, var(--blue), var(--accent));
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+      margin-bottom: 50px;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(28, 147, 168, 0.2);
+    }
+    
+    .header h1 { font-size: 48px; margin-bottom: 10px; font-weight: 700; }
+    .header p { font-size: 18px; opacity: 0.95; margin-bottom: 20px; }
+    .header .badges { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .badge { background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; font-size: 14px; backdrop-filter: blur(10px); }
+    
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .toolbar-left { display: flex; gap: 12px; }
+    .toolbar-right { display: flex; gap: 12px; }
+    
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-primary:hover { background: #20a0b0; transform: translateY(-2px); }
+    
+    .btn-secondary { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: var(--card-hover); }
+    
+    .modulos-header {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      border: 2px solid var(--border);
+    }
+    
+    .modulos-header h2 { color: var(--blue); margin-bottom: 20px; font-size: 22px; }
+    
+    .pilares-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    
+    .pilar-pill {
+      padding: 12px 20px;
+      border-radius: 20px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+    
+    .pilar-pill:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    
+    .pilar-pill.financeiro { background: rgba(46, 196, 214, 0.1); border-color: var(--accent); color: var(--blue); }
+    .pilar-pill.operacao { background: rgba(154, 84, 32, 0.1); border-color: var(--amber); color: var(--amber); }
+    .pilar-pill.pessoas { background: rgba(46, 204, 113, 0.1); border-color: var(--good); color: var(--good); }
+    .pilar-pill.mercado { background: rgba(52, 152, 219, 0.1); border-color: #3498DB; color: #3498DB; }
+    .pilar-pill.sanitario { background: rgba(155, 89, 182, 0.1); border-color: #9b59b6; color: #9b59b6; }
+    
+    .grid-cursos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    
+    .curso-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .curso-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 8px 24px rgba(28, 147, 168, 0.15);
+      transform: translateY(-4px);
+    }
+    
+    .curso-card.bloqueado {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    
+    .curso-header {
+      padding: 20px;
+      background: linear-gradient(135deg, var(--accent-soft), rgba(46, 196, 214, 0.05));
+      border-bottom: 2px solid var(--border);
+    }
+    
+    .curso-icon { font-size: 32px; margin-bottom: 10px; }
+    .curso-titulo { font-size: 18px; font-weight: 700; color: var(--text); margin: 0; }
+    .curso-pilar { font-size: 12px; color: var(--muted); margin: 4px 0 0 0; }
+    
+    .curso-body {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .curso-descricao { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 15px; }
+    
+    .curso-meta {
+      background: var(--good-bg);
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--good);
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    
+    .curso-footer {
+      margin-top: auto;
+    }
+    
+    .btn-acesso {
+      width: 100%;
+      padding: 12px;
+      background: var(--blue);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+    }
+    
+    .btn-acesso:hover { background: #165d71; }
+    
+    .status-bloqueado {
+      width: 100%;
+      padding: 12px;
+      background: var(--bad-bg);
+      color: var(--bad);
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: not-allowed;
+      text-align: center;
+      display: block;
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 30px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      margin-top: 50px;
+    }
+    
+    .info-cliente {
+      background: white;
+      padding: 15px 20px;
+      border-radius: 8px;
+      border-left: 4px solid var(--accent);
+      font-size: 13px;
+      color: var(--text);
+    }
+    
+    .filtro-ativo {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- HEADER -->
+    <div class="header">
+      <h1>🎓 ArtBlend Consultoria Gourmet</h1>
+      <p>Plataforma Completa de Consultoria para Restaurantes</p>
+      <div class="badges">
+        <span class="badge">✅ 14 Cursos Profissionais</span>
+        <span class="badge">🧠 Inteligência Automática</span>
+        <span class="badge">📱 100% Responsivo</span>
+      </div>
+    </div>
+
+    <!-- INFO CLIENTE (Se logado) -->
+    <div id="infoCliente" style="display: none; margin-bottom: 20px;">
+      <div class="info-cliente">
+        👤 <strong id="nomeCliente"></strong> | Módulos contratados: <span id="modulosCliente"></span>
+        <button onclick="logout()" style="float: right; padding: 6px 12px; background: var(--bad-bg); border: none; border-radius: 4px; cursor: pointer; color: var(--bad); font-weight: 600;">Logout</button>
+      </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <button class="btn btn-secondary" onclick="mostrarTodos()">Todos os Cursos</button>
+        <button class="btn btn-secondary" onclick="filtrarPilar('financeiro')">💰 Financeiro</button>
+        <button class="btn btn-secondary" onclick="filtrarPilar('operacao')">⚙️ Operação</button>
+        <button class="btn btn-secondary" onclick="filtrarPilar('pessoas')">👥 Pessoas</button>
+        <button class="btn btn-secondary" onclick="filtrarPilar('sanitario')">🧼 Sanitário</button>
+      </div>
+      <div class="toolbar-right">
+        <button class="btn btn-primary" onclick="abrirCadastro()">➕ Novo Cliente</button>
+        <button class="btn btn-secondary" onclick="abrirPainelConsultor()">🎯 Painel Consultor</button>
+      </div>
+    </div>
+
+    <!-- GRID DE CURSOS -->
+    <div class="grid-cursos" id="gridCursos">
+      <!-- Preenchido por JavaScript -->
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <p>© 2026 ArtBlend Consultoria Gourmet</p>
+      <p>Versão 2.0 - Design EEG | Deploy: 02/08/2026</p>
+      <p><strong>Contato:</strong> consultoria@artblend.com.br | WhatsApp: +55 11 98765-4321</p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="ARTBLEND_PERMISSOES_MODULOS.js"></script>
+  <script src="ARTBLEND_INTEGRACAO_SUPABASE_TWILIO.js"></script>
+
+  <script>
+    // Dados dos 14 cursos
+    const cursos = [
+      {
+        id: 1,
+        titulo: 'Gestão Financeira',
+        icon: '💰',
+        pilar: 'financeiro',
+        descricao: 'Controle receitas, despesas, fluxo de caixa e lucratividade',
+        meta: '✅ 4 semanas | Intermediário',
+        arquivo: 'ARTBLEND_CURSO_GESTAO_FINANCEIRA_V2_EEG.html'
+      },
+      {
+        id: 2,
+        titulo: 'Prime Cost',
+        icon: '📊',
+        pilar: 'financeiro',
+        descricao: 'CMV + Folha = Lucro. Fórmula que decide tudo',
+        meta: '✅ 2 semanas | Intermediário',
+        arquivo: 'ARTBLEND_CURSO_PRIME_COST_V2_EEG.html'
+      },
+      {
+        id: 3,
+        titulo: 'Indicadores & KPIs',
+        icon: '📈',
+        pilar: 'financeiro',
+        descricao: '8 métricas de gestão + 90 dias acompanhamento',
+        meta: '✅ 3 semanas | Avançado',
+        arquivo: 'ARTBLEND_CURSO_INDICADORES_KPI_V2_EEG.html'
+      },
+      {
+        id: 4,
+        titulo: 'Fluxo de Caixa',
+        icon: '💵',
+        pilar: 'financeiro',
+        descricao: 'Planejamento 90 dias + simulações de cenários',
+        meta: '✅ 2 semanas | Intermediário',
+        arquivo: 'ARTBLEND_CURSO_FLUXO_CAIXA_V2_EEG.html'
+      },
+      {
+        id: 5,
+        titulo: 'Engenharia de Cardápio',
+        icon: '🍽️',
+        pilar: 'operacao',
+        descricao: 'Preços certos + margens saudáveis + atração de clientes',
+        meta: '✅ 4 semanas | Intermediário',
+        arquivo: 'ARTBLEND_CURSO_CARDAPIO_ENGENHARIA_V2_EEG.html'
+      },
+      {
+        id: 6,
+        titulo: 'Receitas Padrão',
+        icon: '👨‍🍳',
+        pilar: 'operacao',
+        descricao: '100% consistência + replicação de sucesso',
+        meta: '✅ 2 semanas | Básico',
+        arquivo: 'ARTBLEND_CURSO_RECEITAS_PADRAO_V2_EEG.html'
+      },
+      {
+        id: 7,
+        titulo: 'Higiene & Sanidade',
+        icon: '🧼',
+        pilar: 'operacao',
+        descricao: 'BPF implementação + segurança alimentar',
+        meta: '✅ 3 semanas | Intermediário',
+        arquivo: 'ARTBLEND_CURSO_HIGIENE_SANIDADE_V2_EEG.html'
+      },
+      {
+        id: 8,
+        titulo: 'Controle de Estoque',
+        icon: '📦',
+        pilar: 'operacao',
+        descricao: 'Zero desperdício + máxima rentabilidade',
+        meta: '✅ 2 semanas | Básico',
+        arquivo: 'ARTBLEND_CURSO_ESTOQUE_CONTROLE_V2_EEG.html'
+      },
+      {
+        id: 9,
+        titulo: 'Gestão de RH',
+        icon: '👥',
+        pilar: 'pessoas',
+        descricao: 'Equipe engajada + rotatividade reduzida',
+        meta: '✅ 3 semanas | Intermediário',
+        arquivo: 'ARTBLEND_CURSO_RH_GESTOR_V2_EEG.html'
+      },
+      {
+        id: 10,
+        titulo: 'Reforço Psicossocial',
+        icon: '💪',
+        pilar: 'pessoas',
+        descricao: 'Bem-estar equipe + produtividade elevada',
+        meta: '✅ 2 semanas | Básico',
+        arquivo: 'ARTBLEND_CURSO_REFORCO_PSICOSSOCIAL_V2_EEG.html'
+      },
+      {
+        id: 11,
+        titulo: 'Análise de Concorrência',
+        icon: '🎯',
+        pilar: 'mercado',
+        descricao: 'Posicionamento claro + diferencial de mercado',
+        meta: '✅ 2 semanas | Intermediário',
+        arquivo: 'ARTBLEND_CURSO_CONCORRENCIA_ANALISE_V2_EEG.html'
+      },
+      {
+        id: 12,
+        titulo: 'Operação & Checklist',
+        icon: '⚙️',
+        pilar: 'operacao',
+        descricao: 'Integração total de todos os módulos',
+        meta: '✅ 4 semanas | Avançado',
+        arquivo: 'ARTBLEND_CURSO_OPERACAO_CHECKLIST_V2_EEG.html'
+      },
+      {
+        id: 13,
+        titulo: 'Consultoria Sanitária',
+        icon: '🧪',
+        pilar: 'sanitario',
+        descricao: 'BPF + APPCC + conformidade vigilância',
+        meta: '✅ 4 semanas | Avançado',
+        arquivo: 'ARTBLEND_CURSO_CONSULTORIA_SANITARIA_V2_EEG.html'
+      },
+      {
+        id: 14,
+        titulo: 'APPCC',
+        icon: '🔬',
+        pilar: 'sanitario',
+        descricao: 'Análise de perigos críticos + plano de ação',
+        meta: '✅ 3 semanas | Avançado',
+        arquivo: 'ARTBLEND_CURSO_APPCC_V2_EEG.html'
+      }
+    ];
+
+    let filtroAtual = null;
+
+    function renderizarCursos(lista = cursos) {
+      const grid = document.getElementById('gridCursos');
+      grid.innerHTML = '';
+
+      lista.forEach(curso => {
+        const temPermissao = verificarPermissao(curso.pilar);
+        const iconBloqueio = temPermissao ? '' : '🔒';
+
+        const card = document.createElement('div');
+        card.className = `curso-card ${temPermissao ? '' : 'bloqueado'}`;
+        card.innerHTML = `
+          <div class="curso-header">
+            <div class="curso-icon">${curso.icon} ${iconBloqueio}</div>
+            <h3 class="curso-titulo">${curso.titulo}</h3>
+            <p class="curso-pilar">📚 ${curso.pilar.toUpperCase()}</p>
+          </div>
+          <div class="curso-body">
+            <p class="curso-descricao">${curso.descricao}</p>
+            <div class="curso-meta">${curso.meta}</div>
+            <div class="curso-footer">
+              ${temPermissao 
+                ? `<a href="${curso.arquivo}" class="btn-acesso">→ Acessar Curso</a>`
+                : `<button class="status-bloqueado">🔒 Não Contratado</button>`
+              }
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function verificarPermissao(pilar) {
+      // Se tem controlador de permissões, usa ele
+      if (window.controladorPermissoes && window.controladorPermissoes.modulosPermitidos) {
+        return window.controladorPermissoes.temPermissao(pilar);
+      }
+      // Senão, mostra tudo (modo demo)
+      return true;
+    }
+
+    function filtrarPilar(pilar) {
+      filtroAtual = pilar;
+      const filtrados = cursos.filter(c => c.pilar === pilar);
+      renderizarCursos(filtrados);
+    }
+
+    function mostrarTodos() {
+      filtroAtual = null;
+      renderizarCursos();
+    }
+
+    function abrirCadastro() {
+      window.location.href = 'ARTBLEND_CADASTRO_CLIENTE_V2.html';
+    }
+
+    function abrirPainelConsultor() {
+      window.location.href = 'ARTBLEND_PAINEL_CONSULTOR.html';
+    }
+
+    function logout() {
+      localStorage.removeItem('cliente_logado');
+      window.location.href = window.location.pathname;
+    }
+
+    // Inicializar
+    renderizarCursos();
+  </script>
+</body>
+</html>

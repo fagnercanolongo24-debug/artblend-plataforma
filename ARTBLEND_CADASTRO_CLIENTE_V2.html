@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro Cliente · ArtBlend Consultoria</title>
+  <link rel="stylesheet" href="ARTBLEND_DESIGN_SYSTEM.css">
+  <style>
+    body { padding: 40px 20px; background: var(--bg-light); }
+    .container { max-width: 700px; margin: 0 auto; }
+    .header { background: linear-gradient(135deg, #1C93A8, #2EC4D6); color: white; padding: 40px; border-radius: 12px; margin-bottom: 40px; text-align: center; }
+    .header h1 { margin: 0; font-size: 32px; }
+    .header p { margin: 10px 0 0 0; opacity: 0.9; }
+    .form-group { margin-bottom: 25px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--text-primary); }
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="tel"],
+    .form-group select { 
+      width: 100%; 
+      padding: 12px; 
+      border: 1px solid var(--border); 
+      border-radius: 8px; 
+      font-size: 14px;
+      font-family: inherit;
+    }
+    .form-group input:focus,
+    .form-group select:focus { 
+      outline: none; 
+      border-color: var(--accent); 
+      box-shadow: 0 0 0 3px rgba(46, 196, 214, 0.1);
+    }
+    .modulos-section { background: white; padding: 25px; border-radius: 12px; border: 2px solid var(--border); margin-bottom: 25px; }
+    .modulos-section h3 { margin: 0 0 20px 0; color: var(--primary); font-size: 18px; }
+    .modulos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .modulo-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px; background: var(--bg-light); border-radius: 8px; }
+    .modulo-item input[type="checkbox"] { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--accent); cursor: pointer; }
+    .modulo-item label { cursor: pointer; margin: 0; flex: 1; }
+    .modulo-item label strong { display: block; color: var(--text-primary); }
+    .modulo-item label small { display: block; color: var(--text-secondary); font-size: 12px; margin-top: 3px; }
+    .resumo { background: rgba(46, 204, 113, 0.05); padding: 20px; border-radius: 8px; border-left: 4px solid var(--success); margin-bottom: 25px; }
+    .resumo h4 { margin: 0 0 10px 0; color: var(--success); }
+    .resumo p { margin: 0; color: var(--text-secondary); font-size: 14px; }
+    .resumo-modulos { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .resumo-modulos span { background: var(--success); color: white; padding: 4px 12px; border-radius: 16px; font-size: 12px; font-weight: 600; }
+    .button-group { display: flex; gap: 12px; }
+    .btn { flex: 1; padding: 15px; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: #165d71; transform: translateY(-2px); box-shadow: 0 8px 16px rgba(28, 147, 168, 0.3); }
+    .btn-secondary { background: var(--border); color: var(--text-primary); }
+    .btn-secondary:hover { background: var(--border-dark); }
+    .alert-info { background: rgba(52, 152, 219, 0.1); border-left: 4px solid #3498DB; padding: 15px; border-radius: 8px; margin-bottom: 25px; color: #1a5276; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- HEADER -->
+    <div class="header">
+      <h1>📝 Cadastro Cliente</h1>
+      <p>Selecione seus módulos de consultoria</p>
+    </div>
+
+    <!-- ALERTA -->
+    <div class="alert-info">
+      <strong>ℹ️ Como funciona:</strong> Preencha os dados e selecione os módulos que deseja. Você terá acesso somente aos serviços contratados. Consulte a disponibilidade de cada módulo com o gerente da ArtBlend.
+    </div>
+
+    <!-- FORMULÁRIO -->
+    <form id="formCadastro">
+      <!-- DADOS BÁSICOS -->
+      <h2 style="color: var(--primary); margin: 0 0 20px 0; font-size: 20px;">📋 Dados da Empresa</h2>
+
+      <div class="form-group">
+        <label for="nomeEmpresa">Nome da Empresa *</label>
+        <input type="text" id="nomeEmpresa" name="nomeEmpresa" placeholder="Ex: Restaurante XYZ" required>
+      </div>
+
+      <div class="form-group">
+        <label for="ramo">Ramo de Negócio *</label>
+        <select id="ramo" name="ramo" required>
+          <option value="">Selecione...</option>
+          <option value="restaurante">🍽️ Restaurante</option>
+          <option value="lanchonete">🍔 Lanchonete</option>
+          <option value="pizzaria">🍕 Pizzaria</option>
+          <option value="churrascaria">🥩 Churrascaria</option>
+          <option value="sorvete">🍦 Sorveteria</option>
+          <option value="cafe">☕ Café/Confeitaria</option>
+          <option value="outro">📍 Outro</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="cidade">Cidade *</label>
+        <input type="text" id="cidade" name="cidade" placeholder="Ex: São Paulo" required>
+      </div>
+
+      <!-- DADOS CONTATO -->
+      <h2 style="color: var(--primary); margin: 30px 0 20px 0; font-size: 20px;">👤 Dados do Responsável</h2>
+
+      <div class="form-group">
+        <label for="nomeContato">Nome Completo *</label>
+        <input type="text" id="nomeContato" name="nomeContato" placeholder="Ex: João Silva" required>
+      </div>
+
+      <div class="form-group">
+        <label for="emailContato">Email *</label>
+        <input type="email" id="emailContato" name="emailContato" placeholder="Ex: joao@email.com" required>
+      </div>
+
+      <div class="form-group">
+        <label for="telefonContato">Telefone WhatsApp *</label>
+        <input type="tel" id="telefonContato" name="telefonContato" placeholder="Ex: +55 11 99999-9999" required>
+      </div>
+
+      <!-- SELEÇÃO DE MÓDULOS -->
+      <h2 style="color: var(--primary); margin: 30px 0 20px 0; font-size: 20px;">🎓 Módulos de Consultoria</h2>
+
+      <div class="modulos-section">
+        <h3>Selecione quais módulos você deseja contartar:</h3>
+        
+        <div class="modulos-grid">
+          <!-- PILAR A: FINANCEIRO -->
+          <div class="modulo-item">
+            <input type="checkbox" id="mod_financeiro" name="modulos" value="financeiro">
+            <label for="mod_financeiro">
+              <strong>💰 Pilar Financeiro</strong>
+              <small>Gestão Financeira, Prime Cost, Indicadores, Fluxo de Caixa</small>
+            </label>
+          </div>
+
+          <!-- PILAR B: OPERAÇÃO -->
+          <div class="modulo-item">
+            <input type="checkbox" id="mod_operacao" name="modulos" value="operacao">
+            <label for="mod_operacao">
+              <strong>⚙️ Pilar Operação</strong>
+              <small>Cardápio, Receitas, Higiene, Estoque</small>
+            </label>
+          </div>
+
+          <!-- PILAR C: PESSOAS -->
+          <div class="modulo-item">
+            <input type="checkbox" id="mod_pessoas" name="modulos" value="pessoas">
+            <label for="mod_pessoas">
+              <strong>👥 Pilar Pessoas</strong>
+              <small>RH, Reforço Psicossocial</small>
+            </label>
+          </div>
+
+          <!-- PILAR D: MERCADO -->
+          <div class="modulo-item">
+            <input type="checkbox" id="mod_mercado" name="modulos" value="mercado">
+            <label for="mod_mercado">
+              <strong>🎯 Pilar Mercado</strong>
+              <small>Análise de Concorrência</small>
+            </label>
+          </div>
+
+          <!-- PILAR E: SANITÁRIO -->
+          <div class="modulo-item">
+            <input type="checkbox" id="mod_sanitario" name="modulos" value="sanitario">
+            <label for="mod_sanitario">
+              <strong>🧼 Pilar Sanitário</strong>
+              <small>Consultoria Sanitária, APPCC</small>
+            </label>
+          </div>
+
+          <!-- FERRAMENTAS IA -->
+          <div class="modulo-item">
+            <input type="checkbox" id="mod_inteligencia" name="modulos" value="inteligencia">
+            <label for="mod_inteligencia">
+              <strong>🧠 Inteligência Automática</strong>
+              <small>Hub, Recomendador, Dashboard Real-Time</small>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESUMO -->
+      <div class="resumo" id="resumo" style="display: none;">
+        <h4>✅ Módulos Selecionados:</h4>
+        <div class="resumo-modulos" id="resumo-modulos"></div>
+        <p style="margin-top: 10px;">Você terá acesso apenas aos módulos listados acima.</p>
+      </div>
+
+      <!-- BOTÕES -->
+      <div class="button-group">
+        <button type="submit" class="btn btn-primary">Cadastrar Cliente</button>
+        <button type="reset" class="btn btn-secondary">Limpar Formulário</button>
+      </div>
+    </form>
+
+    <div style="text-align: center; margin-top: 40px; color: var(--text-secondary); font-size: 12px;">
+      <p>© 2026 ArtBlend Consultoria Gourmet | Plataforma de Consultoria para Restaurantes</p>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('formCadastro');
+    const resumo = document.getElementById('resumo');
+    const resumoModulos = document.getElementById('resumo-modulos');
+    const checkboxes = document.querySelectorAll('input[name="modulos"]');
+
+    // Atualizar resumo quando muda seleção
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', atualizarResumo);
+    });
+
+    function atualizarResumo() {
+      const selecionados = Array.from(checkboxes)
+        .filter(cb => cb.checked)
+        .map(cb => {
+          const label = document.querySelector(`label[for="${cb.id}"] strong`).textContent;
+          return label;
+        });
+
+      if (selecionados.length > 0) {
+        resumo.style.display = 'block';
+        resumoModulos.innerHTML = selecionados
+          .map(mod => `<span>${mod}</span>`)
+          .join('');
+      } else {
+        resumo.style.display = 'none';
+      }
+    }
+
+    // Submeter formulário
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Verificar se selecionou pelo menos um módulo
+      const temSelecionados = Array.from(checkboxes).some(cb => cb.checked);
+      if (!temSelecionados) {
+        alert('⚠️ Selecione pelo menos um módulo!');
+        return;
+      }
+
+      // Coletar dados
+      const dados = {
+        nomeEmpresa: document.getElementById('nomeEmpresa').value,
+        ramo: document.getElementById('ramo').value,
+        cidade: document.getElementById('cidade').value,
+        nomeContato: document.getElementById('nomeContato').value,
+        emailContato: document.getElementById('emailContato').value,
+        telefone: document.getElementById('telefonContato').value,
+        modulos: Array.from(checkboxes)
+          .filter(cb => cb.checked)
+          .map(cb => cb.value),
+        dataCadastro: new Date().toISOString(),
+        status: 'ativo',
+        senha: Math.random().toString(36).substr(2, 10) // Gerar senha temporária
+      };
+
+      console.log('📊 Dados do Cliente:', dados);
+
+      // Salvar no Supabase (aqui seria integração real)
+      // Para teste, mostra sucesso
+      alert(`✅ Cliente ${dados.nomeEmpresa} cadastrado com sucesso!
+
+Módulos contratados: ${dados.modulos.join(', ')}
+
+Login de acesso será enviado no email: ${dados.emailContato}
+
+WhatsApp: ${dados.telefone}`);
+
+      // Limpar formulário
+      form.reset();
+      resumo.style.display = 'none';
+    });
+  </script>
+</body>
+</html>
