@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificações - ArtBlend</title>
+    <style>
+        :root {
+            --bg: #F5F7FA;
+            --card: #FFFFFF;
+            --accent: #2EC4D6;
+            --text: #16294A;
+            --blue: #1C93A8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        .header {
+            background: linear-gradient(135deg, var(--accent), var(--blue));
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 { font-size: 32px; margin-bottom: 10px; }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+            overflow-x: auto;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            color: #999;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .notification-item {
+            background: var(--card);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .notification-item.unread {
+            background: #f0f8ff;
+            border-left-color: var(--accent);
+        }
+
+        .notification-item.info {
+            border-left-color: #0284c7;
+        }
+
+        .notification-item.success {
+            border-left-color: #22c55e;
+        }
+
+        .notification-item.warning {
+            border-left-color: #f59e0b;
+        }
+
+        .notification-item.error {
+            border-left-color: #ef4444;
+        }
+
+        .notification-icon {
+            font-size: 24px;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .notification-message {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .notification-time {
+            font-size: 11px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .notification-actions {
+            display: flex;
+            gap: 8px;
+            margin-left: auto;
+            flex-wrap: wrap;
+        }
+
+        .btn-small {
+            padding: 6px 10px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .btn-small:hover {
+            background: var(--blue);
+        }
+
+        .btn-close {
+            padding: 6px 10px;
+            background: transparent;
+            color: #999;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-close:hover {
+            color: var(--text);
+        }
+
+        .section {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .section h2 { font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid var(--accent); padding-bottom: 10px; }
+
+        .notification-type-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .type-card {
+            background: var(--bg);
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid transparent;
+        }
+
+        .type-card.info { border-color: #0284c7; background: #f0f9ff; }
+        .type-card.success { border-color: #22c55e; background: #f0fdf4; }
+        .type-card.warning { border-color: #f59e0b; background: #fffbeb; }
+        .type-card.error { border-color: #ef4444; background: #fef2f2; }
+
+        .type-icon { font-size: 32px; margin-bottom: 10px; }
+        .type-title { font-weight: 600; margin-bottom: 5px; }
+        .type-description { font-size: 12px; color: #666; }
+
+        .toggle-group {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: var(--bg);
+            border-radius: 6px;
+        }
+
+        .toggle-group label {
+            font-weight: 500;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-card {
+            background: var(--bg);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-card .number { font-size: 28px; font-weight: bold; color: var(--accent); margin-bottom: 5px; }
+        .stat-card .label { font-size: 12px; color: #999; }
+
+        .bell-icon-demo {
+            position: relative;
+            display: inline-block;
+            font-size: 32px;
+            margin-right: 20px;
+        }
+
+        .bell-badge {
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .notification-bell {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .notification-bell:hover {
+            transform: rotate(-15deg);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            background: var(--blue);
+        }
+
+        .btn-secondary {
+            background: #666;
+        }
+
+        .btn-secondary:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔔 Centro de Notificações</h1>
+            <p>Gerencie todas as notificações da plataforma</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('notificacoes')">📬 Notificações</button>
+            <button class="tab" onclick="switchTab('tipos')">📋 Tipos de Notificação</button>
+            <button class="tab" onclick="switchTab('configuracoes')">⚙️ Configurações</button>
+            <button class="tab" onclick="switchTab('historico')">📊 Histórico</button>
+        </div>
+
+        <!-- NOTIFICAÇÕES TAB -->
+        <div id="notificacoes" class="tab-content active">
+            <div style="margin-bottom: 20px;">
+                <div class="bell-icon-demo">
+                    <span class="notification-bell">🔔</span>
+                    <div class="bell-badge">5</div>
+                </div>
+                <h2 style="display: inline-block;">Você tem 5 notificações não lidas</h2>
+            </div>
+
+            <div class="filter-group">
+                <input type="text" placeholder="Buscar notificação..." onkeyup="filterNotifications()">
+                <select onchange="filterNotifications()">
+                    <option value="">Todos os tipos</option>
+                    <option value="info">ℹ️ Informação</option>
+                    <option value="success">✅ Sucesso</option>
+                    <option value="warning">⚠️ Aviso</option>
+                    <option value="error">❌ Erro</option>
+                </select>
+            </div>
+
+            <!-- NOTIFICAÇÕES REAIS -->
+            <div id="notificationList">
+                <!-- Nova Cliente -->
+                <div class="notification-item unread info" data-type="info">
+                    <div class="notification-icon">ℹ️</div>
+                    <div class="notification-content">
+                        <div class="notification-title">Novo cliente se cadastrou</div>
+                        <div class="notification-message">Restaurante Premium entrou na plataforma</div>
+                        <div class="notification-time">Há 2 minutos</div>
+                    </div>
+                    <div class="notification-actions">
+                        <button class="btn-small" onclick="viewClient('Premium')">Ver</button>
+                        <button class="btn-close" onclick="deleteNotification(event)">×</button>
+                    </div>
+                </div>
+
+                <!-- Curso Concluído -->
+                <div class="notification-item success" data-type="success">
+                    <div class="notification-icon">✅</div>
+                    <div class="notification-content">
+                        <div class="notification-title">Curso completado!</div>
+                        <div class="notification-message">Sabor & Arte completou "Gestão Financeira"</div>
+                        <div class="notification-time">Há 1 hora</div>
+                    </div>
+                    <div class="notification-actions">
+                        <button class="btn-small" onclick="sendCongrats()">Parabéns</button>
+                        <button class="btn-close" onclick="deleteNotification(event)">×</button>
+                    </div>
+                </div>
+
+                <!-- Cliente Inativo -->
+                <div class="notification-item warning" data-type="warning">
+                    <div class="notification-icon">⚠️</div>
+                    <div class="notification-content">
+                        <div class="notification-title">Cliente sem atividade</div>
+                        <div class="notification-message">Bistrô Aroma não acessa há 7 dias</div>
+                        <div class="notification-time">Há 3 horas</div>
+                    </div>
+                    <div class="notification-actions">
+                        <button class="btn-small" onclick="sendReminder()">Lembrete</button>
+                        <button class="btn-close" onclick="deleteNotification(event)">×</button>
+                    </div>
+                </div>
+
+                <!-- Progresso 50% -->
+                <div class="notification-item unread success" data-type="success">
+                    <div class="notification-icon">📊</div>
+                    <div class="notification-content">
+                        <div class="notification-title">Progresso atingido!</div>
+                        <div class="notification-message">Pizzaria João atingiu 50% no curso de Prime Cost</div>
+                        <div class="notification-time">Há 4 horas</div>
+                    </div>
+                    <div class="notification-actions">
+                        <button class="btn-small" onclick="viewProgress()">Ver</button>
+                        <button class="btn-close" onclick="deleteNotification(event)">×</button>
+                    </div>
+                </div>
+
+                <!-- Erro Supabase -->
+                <div class="notification-item error" data-type="error">
+                    <div class="notification-icon">❌</div>
+                    <div class="notification-content">
+                        <div class="notification-title">Erro na sincronização</div>
+                        <div class="notification-message">Falha ao sincronizar dados com Supabase</div>
+                        <div class="notification-time">Há 6 horas</div>
+                    </div>
+                    <div class="notification-actions">
+                        <button class="btn-small" onclick="retrySync()">Tentar Novamente</button>
+                        <button class="btn-close" onclick="deleteNotification(event)">×</button>
+                    </div>
+                </div>
+
+                <!-- Badge Conquistada -->
+                <div class="notification-item unread success" data-type="success">
+                    <div class="notification-icon">🎖️</div>
+                    <div class="notification-content">
+                        <div class="notification-title">Badge conquistada!</div>
+                        <div class="notification-message">Café Literário desbloqueou badge "100% Foco"</div>
+                        <div class="notification-time">Há 8 horas</div>
+                    </div>
+                    <div class="notification-actions">
+                        <button class="btn-close" onclick="deleteNotification(event)">×</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn btn-secondary" onclick="markAllRead()">✅ Marcar Tudo Como Lido</button>
+                <button class="btn btn-secondary" onclick="clearAll()">🗑️ Limpar Todas</button>
+            </div>
+        </div>
+
+        <!-- TIPOS TAB -->
+        <div id="tipos" class="tab-content">
+            <h2>📋 Tipos de Notificação</h2>
+            <div class="notification-type-grid">
+                <div class="type-card info">
+                    <div class="type-icon">ℹ️</div>
+                    <div class="type-title">Informação</div>
+                    <div class="type-description">Atualizações gerais, novo cliente, evento importante</div>
+                </div>
+
+                <div class="type-card success">
+                    <div class="type-icon">✅</div>
+                    <div class="type-title">Sucesso</div>
+                    <div class="type-description">Curso concluído, meta atingida, badge conquistada</div>
+                </div>
+
+                <div class="type-card warning">
+                    <div class="type-icon">⚠️</div>
+                    <div class="type-title">Aviso</div>
+                    <div class="type-description">Cliente inativo, baixa taxa conclusão, atenção necessária</div>
+                </div>
+
+                <div class="type-card error">
+                    <div class="type-icon">❌</div>
+                    <div class="type-title">Erro</div>
+                    <div class="type-description">Falha na sincronização, erro técnico, conexão perdida</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONFIGURAÇÕES TAB -->
+        <div id="configuracoes" class="tab-content">
+            <div class="section">
+                <h2>🔔 Ativar/Desativar Notificações</h2>
+                
+                <div class="toggle-group">
+                    <label>Notificações de Informação</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="toggle-group">
+                    <label>Notificações de Sucesso</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="toggle-group">
+                    <label>Notificações de Aviso</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="toggle-group">
+                    <label>Notificações de Erro</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📧 Canais de Entrega</h2>
+                
+                <div class="toggle-group">
+                    <label>In-app (na plataforma)</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="toggle-group">
+                    <label>Email</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="toggle-group">
+                    <label>WhatsApp</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="toggle-group">
+                    <label>Notificação Push (App Mobile)</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>⏰ Frequência</h2>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600;">Quando devo receber notificações?</label>
+                    <select style="padding: 10px; border: 1px solid #ddd; border-radius: 6px; width: 100%;">
+                        <option>Imediatamente (tempo real)</option>
+                        <option>A cada 1 hora</option>
+                        <option>Resumo diário (8h da manhã)</option>
+                        <option>Resumo semanal (segunda de manhã)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn" onclick="saveSettings()">💾 Salvar Configurações</button>
+        </div>
+
+        <!-- HISTÓRICO TAB -->
+        <div id="historico" class="tab-content">
+            <h2>📊 Estatísticas de Notificações</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="number">124</div>
+                    <div class="label">Total Recebidas</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="number">98</div>
+                    <div class="label">Lidas</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="number">26</div>
+                    <div class="label">Não Lidas</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="number">32</div>
+                    <div class="label">Este Mês</div>
+                </div>
+            </div>
+
+            <div class="section" style="margin-top: 20px;">
+                <h2>📈 Notificações por Tipo (Últimos 30 dias)</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div style="padding: 15px; background: #f0f9ff; border-radius: 8px; border-left: 4px solid #0284c7;">
+                        <div style="font-weight: 600; margin-bottom: 5px;">ℹ️ Informação</div>
+                        <div style="font-size: 24px; color: #0284c7; font-weight: bold;">32</div>
+                        <div style="font-size: 11px; color: #666;">25.8%</div>
+                    </div>
+
+                    <div style="padding: 15px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #22c55e;">
+                        <div style="font-weight: 600; margin-bottom: 5px;">✅ Sucesso</div>
+                        <div style="font-size: 24px; color: #22c55e; font-weight: bold;">48</div>
+                        <div style="font-size: 11px; color: #666;">38.7%</div>
+                    </div>
+
+                    <div style="padding: 15px; background: #fffbeb; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                        <div style="font-weight: 600; margin-bottom: 5px;">⚠️ Aviso</div>
+                        <div style="font-size: 24px; color: #f59e0b; font-weight: bold;">28</div>
+                        <div style="font-size: 11px; color: #666;">22.6%</div>
+                    </div>
+
+                    <div style="padding: 15px; background: #fef2f2; border-radius: 8px; border-left: 4px solid #ef4444;">
+                        <div style="font-weight: 600; margin-bottom: 5px;">❌ Erro</div>
+                        <div style="font-size: 24px; color: #ef4444; font-weight: bold;">16</div>
+                        <div style="font-size: 11px; color: #666;">12.9%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // SWITCH TABS
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // FILTER NOTIFICATIONS
+        function filterNotifications() {
+            const search = document.querySelector('input[placeholder="Buscar notificação..."]').value.toLowerCase();
+            const type = document.querySelector('select').value;
+            document.querySelectorAll('.notification-item').forEach(item => {
+                const matches = item.textContent.toLowerCase().includes(search) && (!type || item.dataset.type === type);
+                item.style.display = matches ? '' : 'none';
+            });
+        }
+
+        // DELETE NOTIFICATION
+        function deleteNotification(e) {
+            e.target.closest('.notification-item').remove();
+        }
+
+        // ACTIONS
+        function viewClient(name) { alert(`👤 Abrindo ${name}...`); }
+        function sendCongrats() { alert('🎉 Parabéns enviado!'); }
+        function sendReminder() { alert('💬 Lembrete enviado no WhatsApp'); }
+        function viewProgress() { alert('📊 Abrindo progresso...'); }
+        function retrySync() { alert('⚡ Tentando sincronizar...'); }
+        function markAllRead() { document.querySelectorAll('.unread').forEach(el => el.classList.remove('unread')); }
+        function clearAll() { if (confirm('Limpar todas?')) document.getElementById('notificationList').innerHTML = ''; }
+        function saveSettings() { alert('✅ Configurações salvas!'); }
+    </script>
+</body>
+</html>

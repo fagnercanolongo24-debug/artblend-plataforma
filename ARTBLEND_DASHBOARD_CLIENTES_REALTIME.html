@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Tempo Real - ArtBlend</title>
+    <style>
+        :root {
+            --bg: #F5F7FA;
+            --card: #FFFFFF;
+            --accent: #2EC4D6;
+            --text: #16294A;
+            --blue: #1C93A8;
+            --online: #22C55E;
+            --offline: #9CA3AF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); }
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: var(--card);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .header h1 { font-size: 24px; }
+        .status-indicator {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .live-badge {
+            display: inline-block;
+            background: var(--online);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 12px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--accent);
+        }
+
+        .stat-card h3 { font-size: 12px; color: #999; margin-bottom: 10px; text-transform: uppercase; }
+        .stat-card .number { font-size: 32px; font-weight: bold; color: var(--text); }
+        .stat-card .subtitle { font-size: 12px; color: #999; margin-top: 5px; }
+
+        .grid-main {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 1024px) {
+            .grid-main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .section h2 { font-size: 18px; margin-bottom: 20px; color: var(--text); border-bottom: 2px solid var(--accent); padding-bottom: 10px; }
+
+        .client-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .client-card {
+            background: var(--bg);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--online);
+            position: relative;
+        }
+
+        .client-card.offline {
+            border-left-color: var(--offline);
+            opacity: 0.6;
+        }
+
+        .online-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 12px;
+            height: 12px;
+            background: var(--online);
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .client-card.offline .online-indicator {
+            background: var(--offline);
+        }
+
+        .client-name { font-weight: 600; margin-bottom: 5px; }
+        .client-activity { font-size: 12px; color: #666; margin-bottom: 8px; }
+        .client-progress { font-size: 11px; color: #999; }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--accent);
+        }
+
+        .heatmap-container {
+            margin-top: 20px;
+            background: var(--bg);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .heatmap-title { font-weight: 600; margin-bottom: 10px; font-size: 14px; }
+
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: repeat(24, 1fr);
+            gap: 2px;
+            margin-top: 10px;
+        }
+
+        .heatmap-cell {
+            aspect-ratio: 1;
+            background: #eee;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid #ddd;
+        }
+
+        .heatmap-cell:hover {
+            transform: scale(1.2);
+            z-index: 1;
+        }
+
+        .heatmap-cell.cold { background: #dcfce7; }
+        .heatmap-cell.warm { background: #86efac; }
+        .heatmap-cell.hot { background: #22c55e; }
+        .heatmap-cell.very-hot { background: #16a34a; }
+
+        .heatmap-legend {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            font-size: 11px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .funnel-container {
+            margin-top: 20px;
+        }
+
+        .funnel-step {
+            background: var(--accent);
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .funnel-step .label { font-weight: 600; }
+        .funnel-step .percentage { font-size: 12px; opacity: 0.9; }
+
+        .funnel-step.step2 {
+            background: #4dd0e1;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .funnel-step.step3 {
+            background: #26c6da;
+            max-width: 75%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .funnel-step.step4 {
+            background: #00bcd4;
+            max-width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .alerts-container {
+            margin-top: 20px;
+        }
+
+        .alert-item {
+            background: #fee2e2;
+            border-left: 4px solid #ef4444;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .alert-item.warning {
+            background: #fef3c7;
+            border-left-color: #f59e0b;
+        }
+
+        .alert-item.success {
+            background: #dcfce7;
+            border-left-color: #22c55e;
+        }
+
+        .alert-icon { font-size: 18px; margin-right: 10px; }
+        .alert-text { flex: 1; }
+        .alert-text .title { font-weight: 600; font-size: 13px; }
+        .alert-text .desc { font-size: 11px; color: #666; margin-top: 2px; }
+        .alert-close { cursor: pointer; color: #999; }
+
+        .auto-refresh {
+            text-align: right;
+            font-size: 12px;
+            color: #999;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .btn:hover {
+            background: var(--blue);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>📊 Dashboard Tempo Real</h1>
+                <p style="color: #666; font-size: 12px;">Atividade dos clientes agora</p>
+            </div>
+            <div style="text-align: right;">
+                <div class="live-badge">🔴 TEMPO REAL</div>
+                <div class="status-indicator" style="margin-top: 5px;">Atualizado há 2 segundos</div>
+            </div>
+        </div>
+
+        <!-- STATS CARDS -->
+        <div class="grid-2">
+            <div class="stat-card">
+                <h3>Clientes Ativos AGORA</h3>
+                <div class="number">8</div>
+                <div class="subtitle">↑ 2 mais que ontem</div>
+            </div>
+            <div class="stat-card">
+                <h3>Aulas em Andamento</h3>
+                <div class="number">12</div>
+                <div class="subtitle">em 8 clientes</div>
+            </div>
+            <div class="stat-card">
+                <h3>Progresso Médio</h3>
+                <div class="number">62%</div>
+                <div class="subtitle">de todos os cursos</div>
+            </div>
+            <div class="stat-card">
+                <h3>Taxa Conclusão Hoje</h3>
+                <div class="number">3</div>
+                <div class="subtitle">cursos completados</div>
+            </div>
+        </div>
+
+        <!-- MAIN GRID -->
+        <div class="grid-main">
+            <!-- LEFT: CLIENTES ATIVOS + HEATMAP -->
+            <div>
+                <!-- CLIENTES ONLINE -->
+                <div class="section">
+                    <h2>👥 Clientes Online Agora</h2>
+                    <div class="client-grid">
+                        <div class="client-card">
+                            <div class="online-indicator"></div>
+                            <div class="client-name">Sabor & Arte</div>
+                            <div class="client-activity">📖 Curso: Gestão Financeira</div>
+                            <div class="client-progress">Aula 8 de 10</div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 80%;"></div></div>
+                        </div>
+
+                        <div class="client-card">
+                            <div class="online-indicator"></div>
+                            <div class="client-name">Bistrô Aroma</div>
+                            <div class="client-activity">🎯 Quiz: Prime Cost</div>
+                            <div class="client-progress">Respondendo...</div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 100%;"></div></div>
+                        </div>
+
+                        <div class="client-card">
+                            <div class="online-indicator"></div>
+                            <div class="client-name">Pizzaria João</div>
+                            <div class="client-activity">📖 Curso: Engenharia Cardápio</div>
+                            <div class="client-progress">Aula 3 de 12</div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 25%;"></div></div>
+                        </div>
+
+                        <div class="client-card">
+                            <div class="online-indicator"></div>
+                            <div class="client-name">Churrascaria</div>
+                            <div class="client-activity">📊 Vendo Dashboard</div>
+                            <div class="client-progress">Navegando...</div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 45%;"></div></div>
+                        </div>
+
+                        <div class="client-card">
+                            <div class="online-indicator"></div>
+                            <div class="client-name">Café Literário</div>
+                            <div class="client-activity">📖 Curso: RH Gestor</div>
+                            <div class="client-progress">Aula 5 de 8</div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 62%;"></div></div>
+                        </div>
+
+                        <div class="client-card">
+                            <div class="online-indicator"></div>
+                            <div class="client-name">Restaurante Premium</div>
+                            <div class="client-activity">✅ Completou Curso!</div>
+                            <div class="client-progress">Operação & Checklist</div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 100%;"></div></div>
+                        </div>
+
+                        <div class="client-card">
+                            <div class="online-indicator"></div>
+                            <div class="client-name">Grill & Cia</div>
+                            <div class="client-activity">📺 Assistindo aula</div>
+                            <div class="client-progress">Consultoria Sanitária</div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 55%;"></div></div>
+                        </div>
+
+                        <div class="client-card">
+                            <div class="online-indicator"></div>
+                            <div class="client-name">Sabores Paulistas</div>
+                            <div class="client-activity">📖 Revisando aulas</div>
+                            <div class="client-progress">Gestão Financeira</div>
+                            <div class="progress-bar"><div class="progress-bar-fill" style="width: 90%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HEATMAP -->
+                <div class="section" style="margin-top: 20px;">
+                    <h2>🔥 Heatmap: Atividade por Hora</h2>
+                    <div class="heatmap-container">
+                        <div class="heatmap-title">Qual hora clientes mais acessam? (Últimas 24h)</div>
+                        <div class="heatmap-grid">
+                            <div class="heatmap-cell cold" title="00h: 2"></div>
+                            <div class="heatmap-cell cold" title="01h: 1"></div>
+                            <div class="heatmap-cell cold" title="02h: 0"></div>
+                            <div class="heatmap-cell cold" title="03h: 0"></div>
+                            <div class="heatmap-cell cold" title="04h: 0"></div>
+                            <div class="heatmap-cell cold" title="05h: 1"></div>
+                            <div class="heatmap-cell warm" title="06h: 5"></div>
+                            <div class="heatmap-cell hot" title="07h: 12"></div>
+                            <div class="heatmap-cell very-hot" title="08h: 24"></div>
+                            <div class="heatmap-cell very-hot" title="09h: 28"></div>
+                            <div class="heatmap-cell hot" title="10h: 15"></div>
+                            <div class="heatmap-cell warm" title="11h: 8"></div>
+                            <div class="heatmap-cell warm" title="12h: 6"></div>
+                            <div class="heatmap-cell warm" title="13h: 9"></div>
+                            <div class="heatmap-cell hot" title="14h: 18"></div>
+                            <div class="heatmap-cell very-hot" title="15h: 32"></div>
+                            <div class="heatmap-cell very-hot" title="16h: 35"></div>
+                            <div class="heatmap-cell hot" title="17h: 22"></div>
+                            <div class="heatmap-cell warm" title="18h: 11"></div>
+                            <div class="heatmap-cell warm" title="19h: 7"></div>
+                            <div class="heatmap-cell cold" title="20h: 4"></div>
+                            <div class="heatmap-cell cold" title="21h: 2"></div>
+                            <div class="heatmap-cell cold" title="22h: 1"></div>
+                            <div class="heatmap-cell cold" title="23h: 0"></div>
+                        </div>
+                        <div class="heatmap-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #dcfce7;"></div>
+                                <span>Baixo</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #86efac;"></div>
+                                <span>Médio</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #22c55e;"></div>
+                                <span>Alto</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #16a34a;"></div>
+                                <span>Muito Alto</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: FUNNEL + ALERTS -->
+            <div>
+                <!-- FUNNEL -->
+                <div class="section">
+                    <h2>📊 Funnel Conversão</h2>
+                    <div class="funnel-container">
+                        <div class="funnel-step">
+                            <div class="label">👥 Visitantes</div>
+                            <div class="percentage">300 (100%)</div>
+                        </div>
+                        <div class="funnel-step step2">
+                            <div class="label">📝 Cadastrados</div>
+                            <div class="percentage">180 (60%)</div>
+                        </div>
+                        <div class="funnel-step step3">
+                            <div class="label">🎬 Iniciaram 1º Curso</div>
+                            <div class="percentage">135 (45%)</div>
+                        </div>
+                        <div class="funnel-step step4">
+                            <div class="label">✅ Completaram 1º Curso</div>
+                            <div class="percentage">81 (27%)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ALERTS -->
+                <div class="section" style="margin-top: 20px;">
+                    <h2>⚠️ Alertas & Notificações</h2>
+                    <div class="alerts-container">
+                        <div class="alert-item success">
+                            <div class="alert-icon">✅</div>
+                            <div class="alert-text">
+                                <div class="title">Cliente Online Agora!</div>
+                                <div class="desc">Sabor & Arte entrou há 1 minuto</div>
+                            </div>
+                            <div class="alert-close">×</div>
+                        </div>
+
+                        <div class="alert-item success">
+                            <div class="alert-icon">🏆</div>
+                            <div class="alert-text">
+                                <div class="title">Curso Completado!</div>
+                                <div class="desc">Restaurante Premium terminou Operação</div>
+                            </div>
+                            <div class="alert-close">×</div>
+                        </div>
+
+                        <div class="alert-item warning">
+                            <div class="alert-icon">⏰</div>
+                            <div class="alert-text">
+                                <div class="title">Cliente Inativo</div>
+                                <div class="desc">Bistrô sem acesso há 5 dias</div>
+                            </div>
+                            <div class="alert-close">×</div>
+                        </div>
+
+                        <div class="alert-item">
+                            <div class="alert-icon">💬</div>
+                            <div class="alert-text">
+                                <div class="title">Novo Cadastro</div>
+                                <div class="desc">Restaurante XYZ se cadastrou</div>
+                            </div>
+                            <div class="alert-close">×</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="auto-refresh">
+                    <span id="timer">⚡ Próxima atualização em 3s</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // AUTO REFRESH TIMER
+        let seconds = 3;
+        setInterval(() => {
+            seconds--;
+            if (seconds <= 0) {
+                seconds = 30;
+                refreshData();
+            }
+            document.getElementById('timer').textContent = `⚡ Próxima atualização em ${seconds}s`;
+        }, 1000);
+
+        // REFRESH DATA FROM SUPABASE
+        function refreshData() {
+            console.log('Atualizando dados do Supabase...');
+            // Integra com Supabase real-time
+        }
+
+        // ALERT CLOSE
+        document.querySelectorAll('.alert-close').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.closest('.alert-item').remove();
+            });
+        });
+    </script>
+</body>
+</html>
