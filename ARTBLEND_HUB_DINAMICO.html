@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArtBlend Hub - Dashboard Completo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .header p {
+      font-size: 1.1em;
+      opacity: 0.9;
+    }
+
+    .content {
+      padding: 40px 20px;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 30px;
+    }
+
+    .sidebar {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .sidebar h3 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 1.2em;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 10px;
+    }
+
+    .sidebar-item {
+      padding: 12px;
+      margin: 8px 0;
+      background: white;
+      border-left: 4px solid #667eea;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .sidebar-item:hover {
+      background: #667eea;
+      color: white;
+      transform: translateX(5px);
+    }
+
+    .main-content {
+      background: white;
+    }
+
+    .modulos-section {
+      background: #f8f9fa;
+      padding: 30px;
+      border-radius: 10px;
+    }
+
+    .modulos-section h2 {
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 1.8em;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 15px;
+    }
+
+    #menu-modulos-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .menu-item {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+      border-left: 4px solid #667eea;
+    }
+
+    .menu-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .menu-item-icon {
+      font-size: 2.5em;
+      margin-bottom: 15px;
+    }
+
+    .menu-item-title {
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 8px;
+      font-size: 1.1em;
+    }
+
+    .menu-item-desc {
+      font-size: 0.9em;
+      color: #666;
+      margin-bottom: 15px;
+      line-height: 1.4;
+    }
+
+    .menu-item button {
+      width: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+
+    .menu-item button:hover {
+      transform: scale(1.02);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #667eea;
+      font-size: 1.2em;
+    }
+
+    .loading-spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .footer {
+      background: #f8f9fa;
+      padding: 20px;
+      text-align: center;
+      color: #666;
+      font-size: 0.9em;
+      border-top: 1px solid #ddd;
+    }
+
+    @media (max-width: 768px) {
+      .content {
+        grid-template-columns: 1fr;
+      }
+
+      .header h1 {
+        font-size: 1.8em;
+      }
+
+      #menu-modulos-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- HEADER -->
+    <div class="header">
+      <h1>🎯 ArtBlend Hub</h1>
+      <p>Plataforma Inteligente de Consultoria para Restaurantes</p>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+      <!-- SIDEBAR -->
+      <div class="sidebar">
+        <h3>📋 Navegação Rápida</h3>
+        <div class="sidebar-item" onclick="document.getElementById('modulos-section').scrollIntoView({behavior: 'smooth'})">
+          📊 Ver Todos os Módulos
+        </div>
+        <div class="sidebar-item" onclick="alert('Documentação em breve!')">
+          📚 Documentação
+        </div>
+        <div class="sidebar-item" onclick="alert('Suporte em breve!')">
+          🆘 Suporte
+        </div>
+        <div class="sidebar-item" onclick="logout()">
+          🚪 Sair
+        </div>
+      </div>
+
+      <!-- MAIN CONTENT -->
+      <div class="main-content">
+        <!-- MÓDULOS SECTION -->
+        <div class="modulos-section" id="modulos-section">
+          <h2>🚀 Módulos & Ferramentas Disponíveis</h2>
+          
+          <!-- LOADING STATE -->
+          <div id="loading-state" class="loading">
+            <div class="loading-spinner"></div>
+            <p>Carregando módulos do banco de dados...</p>
+          </div>
+
+          <!-- MÓDULOS CONTAINER -->
+          <div id="menu-modulos-container"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <p>✨ ArtBlend Consultoria Gourmet © 2026 | Desenvolvido com ❤️ para restaurantes inteligentes</p>
+    </div>
+  </div>
+
+  <!-- ===== SCRIPT SUPABASE DINÂMICO ===== -->
+  <script>
+    // Credenciais Supabase
+    const SUPABASE_URL = 'https://zjvjixiuvnpbpsdnxuyk.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2aml4aXV2bnBicHNkbnh1eWsiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcxMDc0NjI5MSwiZXhwIjoxODM2MjIyMjkxfQ.L4e3B5F6XyZ9KmN2QpR8VwX5YaB3CdE7FgH9IjK0LmN';
+
+    // Obter cliente_id
+    function getClienteId() {
+      const params = new URLSearchParams(window.location.search);
+      const clienteIdFromUrl = params.get('cliente_id');
+      const clienteIdFromStorage = localStorage.getItem('cliente_id');
+      return clienteIdFromUrl || clienteIdFromStorage;
+    }
+
+    // Carregar módulos do Supabase
+    async function carregarModulos() {
+      const clienteId = getClienteId();
+      
+      if (!clienteId) {
+        document.getElementById('menu-modulos-container').innerHTML = 
+          '<p style="color: red; font-size: 1.2em;">❌ Erro: cliente_id não encontrado</p>';
+        document.getElementById('loading-state').style.display = 'none';
+        return;
+      }
+
+      try {
+        console.log('Carregando módulos para cliente:', clienteId);
+        
+        const response = await fetch(
+          `${SUPABASE_URL}/rest/v1/dados_ferramenta?cliente_id=eq.${clienteId}&select=*`,
+          {
+            method: 'GET',
+            headers: {
+              'apikey': SUPABASE_ANON_KEY,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`Erro Supabase: ${response.status}`);
+        }
+
+        const modulos = await response.json();
+        console.log('✅ Módulos carregados:', modulos);
+
+        // Remover loading state
+        document.getElementById('loading-state').style.display = 'none';
+
+        if (modulos.length === 0) {
+          document.getElementById('menu-modulos-container').innerHTML = 
+            '<p style="color: #999; font-size: 1.1em; grid-column: 1/-1;">📭 Nenhum módulo disponível para este cliente</p>';
+          return;
+        }
+
+        // Renderizar módulos
+        renderizarModulos(modulos);
+      } catch (error) {
+        console.error('❌ Erro ao carregar módulos:', error);
+        document.getElementById('loading-state').innerHTML = 
+          `<p style="color: red;">❌ Erro ao conectar com o banco de dados: ${error.message}</p>`;
+      }
+    }
+
+    // Renderizar módulos
+    function renderizarModulos(modulos) {
+      const container = document.getElementById('menu-modulos-container');
+      
+      container.innerHTML = modulos.map(modulo => {
+        let conteudo = {};
+        
+        try {
+          conteudo = typeof modulo.conteudo === 'string' 
+            ? JSON.parse(modulo.conteudo) 
+            : modulo.conteudo;
+        } catch (e) {
+          console.warn('Erro ao parsear conteúdo:', e);
+        }
+
+        return `
+          <div class="menu-item">
+            <div class="menu-item-icon">${conteudo.icon || '📌'}</div>
+            <div class="menu-item-title">${modulo.ferramenta}</div>
+            <div class="menu-item-desc">${conteudo.descricao || 'Módulo disponível'}</div>
+            <button onclick="abrirModulo('${conteudo.link || '#'}')">
+              Abrir Módulo →
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Abrir módulo
+    function abrirModulo(link) {
+      if (link && link !== '#') {
+        window.location.href = link;
+      } else {
+        alert('⚠️ Link do módulo não disponível');
+      }
+    }
+
+    // Logout
+    function logout() {
+      localStorage.removeItem('cliente_id');
+      window.location.href = '/';
+    }
+
+    // Inicializar quando página carrega
+    document.addEventListener('DOMContentLoaded', carregarModulos);
+  </script>
+</body>
+</html>
