@@ -3,515 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- ANTI-CACHE HEADERS v5.0-ULTRA -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, no-cache">
-    <meta name="theme-color" content="#667eea">
-    <!-- Versão v5.0-ULTRA-POTENCIALIZADA 2026-08-04 -->
-    <meta name="version" content="5.0-ultra-20260804-143000">
-    <title>ArtBlend Hub - Plataforma Inteligente</title>
+    <title>🎯 ArtBlend Hub - Plataforma v5.0-FINAL</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        .user-info {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 10px 15px;
-            border-radius: 20px;
-            color: white;
-            font-size: 0.9em;
-        }
-
-        .user-info button {
-            background: rgba(255, 255, 255, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 15px;
-            cursor: pointer;
-            margin-left: 10px;
-            transition: all 0.3s;
-        }
-
-        .user-info button:hover {
-            background: rgba(255, 255, 255, 0.5);
-        }
-
-        .content {
-            padding: 40px 20px;
-        }
-
-        .status-message {
-            padding: 20px;
-            margin-bottom: 30px;
-            border-radius: 10px;
-            font-size: 1.1em;
-            border-left: 4px solid;
-        }
-
-        .status-message.info {
-            background: #e3f2fd;
-            border-color: #2196F3;
-            color: #1976D2;
-        }
-
-        .status-message.error {
-            background: #ffebee;
-            border-color: #f44336;
-            color: #c62828;
-        }
-
-        .status-message.success {
-            background: #e8f5e9;
-            border-color: #4CAF50;
-            color: #2e7d32;
-        }
-
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .module-card {
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s;
-            border-left: 5px solid #667eea;
-            cursor: pointer;
-        }
-
-        .module-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-            border-left-color: #764ba2;
-        }
-
-        .module-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
-        }
-
-        .module-title {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .module-description {
-            font-size: 0.95em;
-            color: #666;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-
-        .module-button {
-            width: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .module-button:hover {
-            transform: scale(1.02);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .loading {
-            text-align: center;
-            padding: 60px 20px;
-            color: #667eea;
-        }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .footer {
-            background: #f8f9fa;
-            padding: 20px;
-            text-align: center;
-            color: #999;
-            border-top: 1px solid #ddd;
-            font-size: 0.9em;
-        }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8em;
-            }
-
-            .modules-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .content {
-                padding: 20px 10px;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 40px 20px; border-radius: 10px; text-align: center; margin-bottom: 30px; }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .user-box { background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 20px; display: inline-block; margin-top: 15px; }
+        .user-box button { background: rgba(255,255,255,0.3); border: none; color: white; padding: 8px 15px; border-radius: 15px; cursor: pointer; margin-left: 10px; transition: all 0.3s; }
+        .user-box button:hover { background: rgba(255,255,255,0.5); }
+        .status { padding: 15px; margin-bottom: 20px; border-radius: 5px; font-size: 1.1em; border-left: 4px solid; }
+        .status.loading { background: #e3f2fd; color: #1976D2; border-color: #1976D2; }
+        .status.success { background: #e8f5e9; color: #2e7d32; border-color: #4CAF50; }
+        .status.error { background: #ffebee; color: #c62828; border-color: #f44336; }
+        .modules { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .module { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-left: 5px solid #667eea; transition: all 0.3s; cursor: pointer; }
+        .module:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.2); border-left-color: #764ba2; }
+        .module-icon { font-size: 3em; margin-bottom: 15px; }
+        .module-title { font-size: 1.3em; font-weight: bold; margin-bottom: 10px; color: #333; }
+        .module-desc { font-size: 0.95em; color: #666; margin-bottom: 15px; line-height: 1.5; }
+        .module-btn { width: 100%; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+        .module-btn:hover { transform: scale(1.02); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #667eea; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @media (max-width: 768px) { .modules { grid-template-columns: 1fr; } .header h1 { font-size: 1.8em; } }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- HEADER -->
         <div class="header">
             <h1>🎯 ArtBlend Hub</h1>
             <p>Plataforma Inteligente de Consultoria para Restaurantes</p>
-            <div class="user-info">
-                <span id="userEmail">Usuário</span>
+            <div class="user-box">
+                <span id="userEmail">Carregando...</span>
                 <button onclick="logout()">Sair</button>
             </div>
         </div>
 
-        <!-- CONTENT -->
-        <div class="content">
-            <div id="statusArea"></div>
-            <div id="modulesContainer"></div>
-        </div>
-
-        <!-- FOOTER -->
-        <div class="footer">
-            <p>✨ ArtBlend Consultoria Gourmet © 2026 | v5.0 Módulos Dinâmicos</p>
-        </div>
+        <div id="statusArea"></div>
+        <div id="modulesArea"></div>
     </div>
 
     <script>
-        // ═════════════════════════════════════════════════════════════════
-        // CONSTANTES DE CONFIGURAÇÃO
-        // ═════════════════════════════════════════════════════════════════
-
         const SUPABASE_URL = 'https://zjvjixiuvnpbpsdnxuyk.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2aml4aXV2bnBicHNkbnh1eWsiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcxMDc0NjI5MSwiZXhwIjoxODM2MjIyMjkxfQ.L4e3B5F6XyZ9KmN2QpR8VwX5YaB3CdE7FgH9IjK0LmN';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2aml4aXV2bnBicHNkbnh1eWsiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcxMDc0NjI5MSwiZXhwIjoxODM2MjIyMjkxfQ.L4e3B5F6XyZ9KmN2QpR8VwX5YaB3CdE7FgH9IjK0LmN';
 
-        // 8 módulos que DEVEM aparecer
         const MODULOS_PADRAO = [
-            {
-                nome: 'Dashboard Consultor Completo',
-                icon: '📊',
-                descricao: 'Visão 360° do seu negócio com gráficos e KPIs em tempo real',
-                arquivo: 'ARTBLEND_DASHBOARD_CONSULTOR_COMPLETO.html'
-            },
-            {
-                nome: 'Gamificação Sistema Completa',
-                icon: '🎮',
-                descricao: '30 badges, pontos, ranking e motivação para sua equipe',
-                arquivo: 'ARTBLEND_GAMIFICACAO_SISTEMA_COMPLETA.html'
-            },
-            {
-                nome: 'WhatsApp Automação Completa',
-                icon: '💬',
-                descricao: '6 templates de mensagem automática com triggers inteligentes',
-                arquivo: 'ARTBLEND_WHATSAPP_AUTOMACAO_COMPLETA.html'
-            },
-            {
-                nome: 'Dashboard Clientes Realtime',
-                icon: '🌐',
-                descricao: 'Status online, heatmap 24h, funnel de conversão em tempo real',
-                arquivo: 'ARTBLEND_DASHBOARD_CLIENTES_REALTIME.html'
-            },
-            {
-                nome: 'Temas Personalização Completa',
-                icon: '🎨',
-                descricao: 'Dark Mode, cores customizadas, múltiplos temas profissionais',
-                arquivo: 'ARTBLEND_TEMAS_PERSONALIZACAO_COMPLETA.html'
-            },
-            {
-                nome: 'Notificações Sistema Completa',
-                icon: '🔔',
-                descricao: '4 tipos de notificações, bell icon, alertas em tempo real',
-                arquivo: 'ARTBLEND_NOTIFICACOES_SISTEMA_COMPLETA.html'
-            },
-            {
-                nome: 'Relatório Cliente V2 Final',
-                icon: '📄',
-                descricao: 'KPIs, progresso do cliente, recomendações personalizadas',
-                arquivo: 'ARTBLEND_RELATORIO_CLIENTE_V2_FINAL.html'
-            },
-            {
-                nome: 'Analytics BI Dashboard Completo',
-                icon: '📈',
-                descricao: 'Receita, funnel, ROI, cursos mais populares, análise profunda',
-                arquivo: 'ARTBLEND_ANALYTICS_BI_DASHBOARD_COMPLETO.html'
-            }
+            { nome: 'Dashboard Consultor Completo', icon: '📊', desc: 'Visão 360° do seu negócio com gráficos e KPIs em tempo real', arquivo: 'ARTBLEND_DASHBOARD_CONSULTOR_COMPLETO.html' },
+            { nome: 'Gamificação Sistema Completa', icon: '🎮', desc: '30 badges, pontos, ranking e motivação para sua equipe', arquivo: 'ARTBLEND_GAMIFICACAO_SISTEMA_COMPLETA.html' },
+            { nome: 'WhatsApp Automação Completa', icon: '💬', desc: '6 templates de mensagem automática com triggers inteligentes', arquivo: 'ARTBLEND_WHATSAPP_AUTOMACAO_COMPLETA.html' },
+            { nome: 'Dashboard Clientes Realtime', icon: '🌐', desc: 'Status online, heatmap 24h, funnel de conversão em tempo real', arquivo: 'ARTBLEND_DASHBOARD_CLIENTES_REALTIME.html' },
+            { nome: 'Temas Personalização Completa', icon: '🎨', desc: 'Dark Mode, cores customizadas, múltiplos temas profissionais', arquivo: 'ARTBLEND_TEMAS_PERSONALIZACAO_COMPLETA.html' },
+            { nome: 'Notificações Sistema Completa', icon: '🔔', desc: '4 tipos de notificações, bell icon, alertas em tempo real', arquivo: 'ARTBLEND_NOTIFICACOES_SISTEMA_COMPLETA.html' },
+            { nome: 'Relatório Cliente V2 Final', icon: '📄', desc: 'KPIs, progresso do cliente, recomendações personalizadas', arquivo: 'ARTBLEND_RELATORIO_CLIENTE_V2_FINAL.html' },
+            { nome: 'Analytics BI Dashboard Completo', icon: '📈', desc: 'Receita, funnel, ROI, cursos mais populares, análise profunda', arquivo: 'ARTBLEND_ANALYTICS_BI_DASHBOARD_COMPLETO.html' }
         ];
 
-        // ═════════════════════════════════════════════════════════════════
-        // FUNÇÕES PRINCIPAIS
-        // ═════════════════════════════════════════════════════════════════
+        localStorage.clear();
+        sessionStorage.clear();
+        if ('caches' in window) caches.keys().then(n => n.forEach(x => caches.delete(x)));
 
-        function log(tipo, mensagem) {
-            console.log(`🎯 [ARTBLEND v5.0] ${tipo}: ${mensagem}`);
-        }
-
-        function mostrarStatus(tipo, mensagem) {
-            const statusArea = document.getElementById('statusArea');
-            const className = tipo === 'erro' ? 'error' : (tipo === 'ok' ? 'success' : 'info');
-            statusArea.innerHTML = `<div class="status-message ${className}">${mensagem}</div>`;
-        }
-
-        function getClienteId() {
-            const clienteId = localStorage.getItem('cliente_id');
-            log('INFO', `Cliente ID: ${clienteId || 'NÃO ENCONTRADO'}`);
-            return clienteId;
-        }
-
-        function getUserEmail() {
-            const email = localStorage.getItem('user_email');
-            document.getElementById('userEmail').textContent = email || 'Usuário';
-            return email;
-        }
-
-        function logout() {
-            log('AÇÃO', 'Usuário clicou em Sair');
-            localStorage.clear();
-            sessionStorage.clear();
-            window.location.href = '/';
-        }
-
-        // ═════════════════════════════════════════════════════════════════
-        // CARREGAR MÓDULOS DO SUPABASE
-        // ═════════════════════════════════════════════════════════════════
+        function log(m) { console.log('🎯 [ARTBLEND v5.0-FINAL] ' + m); }
+        function status(t, m) { document.getElementById('statusArea').innerHTML = '<div class="status ' + (t === 'erro' ? 'error' : t === 'ok' ? 'success' : 'loading') + '">' + m + '</div>'; }
+        function getClienteId() { const id = localStorage.getItem('cliente_id'); if (id) document.getElementById('userEmail').textContent = localStorage.getItem('user_email') || 'Usuário'; return id; }
+        function logout() { localStorage.clear(); window.location.href = '/'; }
+        function abrirModulo(a) { window.location.href = '/' + a; }
 
         async function carregarModulos() {
+            const id = getClienteId();
+            if (!id) { status('erro', '❌ Erro: Login necessário'); setTimeout(() => window.location.href = '/', 2000); return; }
+            status('loading', '⏳ Carregando módulos...<div class="spinner"></div>');
             try {
-                log('INIT', 'Iniciando carregamento de módulos...');
-
-                const clienteId = getClienteId();
-                if (!clienteId) {
-                    mostrarStatus('erro', '❌ Erro: cliente_id não encontrado no localStorage. Faça login novamente.');
-                    log('ERRO', 'cliente_id vazio');
-                    return;
-                }
-
-                getUserEmail();
-
-                mostrarStatus('info', '⏳ Carregando módulos do banco de dados...');
-
-                log('FETCH', `Consultando Supabase: /rest/v1/dados_ferramenta?cliente_id=eq.${clienteId}`);
-
-                const response = await fetch(
-                    `${SUPABASE_URL}/rest/v1/dados_ferramenta?cliente_id=eq.${clienteId}&select=*&t=${Date.now()}`,
-                    {
-                        method: 'GET',
-                        cache: 'no-store',
-                        headers: {
-                            'apikey': SUPABASE_ANON_KEY,
-                            'Content-Type': 'application/json',
-                            'Cache-Control': 'no-cache, no-store, must-revalidate',
-                            'Pragma': 'no-cache',
-                        }
-                    }
-                );
-
-                if (!response.ok) {
-                    throw new Error(`Status ${response.status}`);
-                }
-
-                const modulos = await response.json();
-                log('FETCH', `Supabase retornou ${modulos.length} módulos`);
-
-                if (Array.isArray(modulos) && modulos.length > 0) {
-                    log('OK', `${modulos.length} módulos carregados do Supabase`);
-                    renderizarModulos(modulos);
-                } else {
-                    log('INFO', 'Nenhum módulo no Supabase, usando módulos padrão');
-                    renderizarModulos(MODULOS_PADRAO);
-                }
-            } catch (error) {
-                log('ERRO', `Erro ao carregar Supabase: ${error.message}`);
-                log('INFO', 'Usando módulos padrão como fallback');
-                mostrarStatus('info', '⚠️ Usando módulos padrão (Supabase indisponível)');
-                renderizarModulos(MODULOS_PADRAO);
-            }
+                const r = await fetch(`${SUPABASE_URL}/rest/v1/dados_ferramenta?cliente_id=eq.${id}&select=*&t=${Date.now()}`, { method: 'GET', cache: 'no-store', headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json', 'Cache-Control': 'no-cache, no-store, must-revalidate' } });
+                if (r.ok) { const m = await r.json(); renderizar(m.length > 0 ? m : MODULOS_PADRAO); } else { renderizar(MODULOS_PADRAO); }
+            } catch (e) { log('ERRO: ' + e.message); renderizar(MODULOS_PADRAO); }
         }
 
-        // ═════════════════════════════════════════════════════════════════
-        // RENDERIZAR MÓDULOS NA PÁGINA
-        // ═════════════════════════════════════════════════════════════════
-
-        function renderizarModulos(modulos) {
-            const container = document.getElementById('modulesContainer');
-            
-            if (!Array.isArray(modulos) || modulos.length === 0) {
-                mostrarStatus('erro', '❌ Nenhum módulo disponível');
-                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #999;">📭 Nenhum módulo encontrado</p>';
-                return;
-            }
-
-            log('RENDER', `Renderizando ${modulos.length} módulos`);
-            mostrarStatus('ok', `✅ ${modulos.length} módulos carregados com sucesso!`);
-
-            // Mapear módulos Supabase para ícones corretos
-            const iconesPadrao = {
-                'dashboard consultor': '📊',
-                'gamificacao': '🎮',
-                'whatsapp automacao': '💬',
-                'dashboard clientes realtime': '🌐',
-                'temas personalizacao': '🎨',
-                'notificacoes sistema': '🔔',
-                'relatorio cliente': '📄',
-                'analytics bi': '📈'
-            };
-
-            const html = modulos.map(mod => {
-                const titulo = mod.nome || mod.name || 'Módulo';
-                
-                // Procurar ícone baseado no nome
-                let icone = mod.icon || '📦';
-                const nomeMinusculo = titulo.toLowerCase().replace(/\s+/g, '').replace(/[àáäâãèéëêìíïîòóöôõùúüûç]/g, c => 'aaaaaeeeeiiiioooooauuc'.indexOf(c));
-                
-                for (let key in iconesPadrao) {
-                    if (nomeMinusculo.includes(key.replace(/\s+/g, '').replace(/[àáäâãèéëêìíïîòóöôõùúüûç]/g, c => 'aaaaaeeeeiiiioooooauuc'))) {
-                        icone = iconesPadrao[key];
-                        break;
-                    }
-                }
-
-                const descricao = mod.descricao || mod.description || `Módulo: ${titulo}`;
-                const arquivo = mod.arquivo || mod.arquivo || mod.url || '#';
-
-                return `
-                    <div class="module-card" style="cursor: pointer;" onclick="abrirModulo('${arquivo}')">
-                        <div class="module-icon">${icone}</div>
-                        <div class="module-title">${titulo}</div>
-                        <div class="module-description">${descricao}</div>
-                        <button class="module-button" onclick="abrirModulo('${arquivo}'); event.stopPropagation();">
-                            ▶️ Abrir Módulo
-                        </button>
-                    </div>
-                `;
-            }).join('');
-
-            container.innerHTML = `<div class="modules-grid">${html}</div>`;
-            log('RENDER', `✅ ${modulos.length} módulos renderizados com sucesso`);
+        function renderizar(m) {
+            status('ok', '✅ ' + m.length + ' módulos carregados!');
+            document.getElementById('modulesArea').innerHTML = '<div class="modules">' + m.map(x => `<div class="module" onclick="abrirModulo('${x.arquivo || '#'}')"><div class="module-icon">${x.icon || '📦'}</div><div class="module-title">${x.nome || 'Módulo'}</div><div class="module-desc">${x.desc || x.descricao || 'Módulo'}</div><button class="module-btn" onclick="abrirModulo('${x.arquivo || '#'}'); event.stopPropagation();">▶️ Abrir</button></div>`).join('') + '</div>';
         }
 
-        function abrirModulo(arquivo) {
-            log('AÇÃO', `Abrindo módulo: ${arquivo}`);
-            window.location.href = `/${arquivo}`;
-        }
-
-        // ═════════════════════════════════════════════════════════════════
-        // INICIALIZAR
-        // ═════════════════════════════════════════════════════════════════
-
-        document.addEventListener('DOMContentLoaded', () => {
-            log('DOM', 'Página carregada');
-
-            // Verificar autenticação
-            if (!getClienteId()) {
-                log('AUTH', 'Não autenticado, redirecionando para login');
-                mostrarStatus('erro', '❌ Você precisa fazer login primeiro');
-                setTimeout(() => {
-                    window.location.href = '/';
-                }, 2000);
-                return;
-            }
-
-            // Carregar módulos
-            carregarModulos();
-        });
-
-        // Limpeza AGRESSIVA de cache
-        (function() {
-            // Limpar localStorage
-            if (localStorage.getItem('artblend_cache_version') !== 'v5.0-ultra') {
-                localStorage.removeItem('artblend_modulos');
-                localStorage.setItem('artblend_cache_version', 'v5.0-ultra');
-                log('CACHE', 'LocalStorage limpo - versão atualizada');
-            }
-
-            // Limpar Service Workers
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.getRegistrations().then(registrations => {
-                    registrations.forEach(reg => reg.unregister());
-                });
-            }
-
-            // Limpar caches
-            if ('caches' in window) {
-                caches.keys().then(names => {
-                    names.forEach(name => {
-                        caches.delete(name);
-                        log('CACHE', `Cache '${name}' deletado`);
-                    });
-                });
-            }
-        })();
-
-        // Forçar reload se necessário
-        window.addEventListener('load', () => {
-            log('LOAD', 'Página carregada, cache limpo');
-            
-            // Se for primeira carga, força reload para pegar versão nova
-            if (!sessionStorage.getItem('artblend_loaded')) {
-                sessionStorage.setItem('artblend_loaded', 'true');
-                log('INIT', 'Primeira carga - versão v5.0-ultra ativa');
-            }
-        });
+        document.addEventListener('DOMContentLoaded', carregarModulos);
     </script>
 </body>
 </html>
-<!-- FORCE REBUILD v5.0-ULTRA-FINAL-20260804-1417 -->
