@@ -1,14 +1,15 @@
-# Redirecionamentos ArtBlend v6.0 - ARQUITETURA DE 2 CAMADAS
-# Camada 1: Landing Page em index.html (site informativo)
-# Camada 2: Plataforma com login em ARTBLEND_LOGIN.html + HUB_MESCLADO.html
+# ArtBlend PLATAFORMA SUPREMA v7.0 - MEGA INTEGRAÇÃO
+# Uma única plataforma que integra: landing page + dashboard + módulos + gamificação
 
-# URLs do HUB (principal - versão mesclada)
-/artblend_hub /ARTBLEND_HUB_MESCLADO.html 200
-/hub /ARTBLEND_HUB_MESCLADO.html 200
-
-# URLs de LOGIN
+# Login
 /login /ARTBLEND_LOGIN.html 200
 /auth /ARTBLEND_LOGIN.html 200
+
+# Plataforma Suprema (HOME)
+/artblend_hub /ARTBLEND_PLATAFORMA_SUPREMA_V7.html 200
+/hub /ARTBLEND_PLATAFORMA_SUPREMA_V7.html 200
+/plataforma /ARTBLEND_PLATAFORMA_SUPREMA_V7.html 200
+/inicio /ARTBLEND_PLATAFORMA_SUPREMA_V7.html 200
 
 # URLs dos 8 MÓDULOS (importante!)
 /ARTBLEND_DASHBOARD_CONSULTOR_COMPLETO.html /ARTBLEND_DASHBOARD_CONSULTOR_COMPLETO.html 200
@@ -25,5 +26,5 @@
 /ARTBLEND_CADASTRO_CLIENTE_V2.html /ARTBLEND_CADASTRO_CLIENTE_V2.html 200
 /ARTBLEND_LOGIN.html /ARTBLEND_LOGIN.html 200
 
-# Root vai para landing page (index.html com site informativo)
-/ /index.html 200
+# Root vai para login (que redireciona para plataforma suprema)
+/ /ARTBLEND_LOGIN.html 200

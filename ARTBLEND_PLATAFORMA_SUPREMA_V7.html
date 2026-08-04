@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 ArtBlend - Plataforma Suprema</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #f0f2f7 100%);
+            color: #2c3e50;
+        }
+
+        /* HEADER - Sticky e Gamificado */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .header-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo { font-size: 1.8em; font-weight: bold; }
+
+        .nav-tabs {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-tabs li a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-tabs li a:hover,
+        .nav-tabs li a.active {
+            color: white;
+            background: rgba(255,255,255,0.2);
+        }
+
+        .header-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .gamification-score {
+            background: rgba(255,255,255,0.15);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: flex;
+            gap: 15px;
+        }
+
+        .score-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .score-number {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* SEÇÕES */
+        section {
+            margin-bottom: 60px;
+            display: none;
+        }
+
+        section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========== LANDING PAGE ========== */
+        .hero-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .hero-section h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero-section p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid #667eea;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+            border-left-color: #764ba2;
+        }
+
+        .course-card.locked {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .course-card.locked::after {
+            content: '🔒 Bloqueado';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #FF6B6B;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .course-icon { font-size: 3em; margin-bottom: 15px; }
+
+        .course-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .course-desc {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .course-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .course-btn:hover:not(:disabled) {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+        }
+
+        .course-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* ========== DASHBOARD PRINCIPAL ========== */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.3s;
+            border-top: 4px solid #667eea;
+            position: relative;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+
+        .dashboard-card-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .dashboard-card-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .dashboard-card-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-card-subtitle {
+            font-size: 0.85em;
+            color: #999;
+        }
+
+        .dashboard-card-tip {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #FFD93D;
+            color: #333;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: help;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            white-space: nowrap;
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 10px;
+        }
+
+        .dashboard-card-tip:hover + .tooltip,
+        .tooltip:hover {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* ========== MÓDULOS COM GAMIFICAÇÃO ========== */
+        .modules-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .module-card:hover:not(.locked) {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+
+        .module-card.locked {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .module-header {
+            background: linear-gradient(135deg, #667eea15, #764ba215);
+            padding: 25px;
+            text-align: center;
+        }
+
+        .module-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .module-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .module-status {
+            font-size: 0.85em;
+            color: #999;
+        }
+
+        .module-status.unlocked {
+            color: #4CAF50;
+            font-weight: 600;
+        }
+
+        .module-body {
+            padding: 20px;
+        }
+
+        .module-desc {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            min-height: 60px;
+        }
+
+        .module-requirements {
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .module-requirements strong {
+            display: block;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .module-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .module-btn:hover:not(:disabled) {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+        }
+
+        .module-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .unlock-badge {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-top: 10px;
+        }
+
+        /* ========== MODAL DE DETALHES ========== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-close {
+            font-size: 2em;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .modal-close:hover {
+            opacity: 1;
+        }
+
+        .modal-body {
+            padding: 40px;
+        }
+
+        .modal-body h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .modal-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .modal-tab-btn {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #999;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .modal-tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-content h3 {
+            color: #2c3e50;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+
+        .tab-content p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .checklist {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .checklist-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checklist-check {
+            color: #4CAF50;
+            font-weight: bold;
+            min-width: 30px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .nav-tabs { display: none; }
+            .hero-section h1 { font-size: 1.8em; }
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .courses-grid { grid-template-columns: 1fr; }
+            .modules-container { grid-template-columns: 1fr; }
+            .modal-body { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER COM NAVEGAÇÃO -->
+    <header>
+        <div class="header-wrapper">
+            <div class="logo-section">
+                <div class="logo">🎯 ArtBlend</div>
+            </div>
+
+            <ul class="nav-tabs">
+                <li><a class="nav-link active" onclick="showSection('home')">🏠 Home</a></li>
+                <li><a class="nav-link" onclick="showSection('dashboard')">📊 Dashboard</a></li>
+                <li><a class="nav-link" onclick="showSection('modules')">📚 Módulos</a></li>
+                <li><a class="nav-link" onclick="showSection('settings')">⚙️ Configurações</a></li>
+            </ul>
+
+            <div class="header-right">
+                <div class="gamification-score">
+                    <div class="score-item">
+                        <span>⭐</span>
+                        <div class="score-number" id="userLevel">1</div>
+                    </div>
+                    <div class="score-item">
+                        <span>🎯</span>
+                        <div class="score-number" id="userPoints">250</div>
+                    </div>
+                    <div class="score-item">
+                        <span>🏆</span>
+                        <div class="score-number" id="userBadges">8</div>
+                    </div>
+                </div>
+                <button onclick="logout()" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Sair</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <!-- SEÇÃO 1: HOME (Landing + Cursos) -->
+        <section id="home" class="active">
+            <div class="hero-section">
+                <h1>🍽️ Bem-vindo à ArtBlend Suprema</h1>
+                <p>A melhor plataforma de consultoria gourmet da América Latina</p>
+            </div>
+
+            <h2 style="margin-bottom: 30px; color: #2c3e50; font-size: 2em;">📚 Cursos & Treinamentos</h2>
+
+            <div class="courses-grid">
+                <div class="course-card">
+                    <div class="course-icon">💰</div>
+                    <div class="course-title">Prime Cost Avançado</div>
+                    <div class="course-desc">Aprenda a reduzir custos e aumentar margem de lucro até 30%</div>
+                    <button class="course-btn">Acessar Curso</button>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">📋</div>
+                    <div class="course-title">Engenharia de Cardápio</div>
+                    <div class="course-desc">Estratégias para maximizar lucros e satisfação dos clientes</div>
+                    <button class="course-btn">Acessar Curso</button>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🏥</div>
+                    <div class="course-title">APPCC & Higiene</div>
+                    <div class="course-desc">Certificações e boas práticas para segurança alimentar</div>
+                    <button class="course-btn">Acessar Curso</button>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">💼</div>
+                    <div class="course-title">RH & Gestão de Pessoas</div>
+                    <div class="course-desc">Recrutamento, treinamento e retenção de talentos</div>
+                    <button class="course-btn">Acessar Curso</button>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">📊</div>
+                    <div class="course-title">KPIs & Indicadores</div>
+                    <div class="course-desc">Dominar métricas para decisões estratégicas baseadas em dados</div>
+                    <button class="course-btn">Acessar Curso</button>
+                </div>
+
+                <div class="course-card locked">
+                    <div class="course-icon">💡</div>
+                    <div class="course-title">Inovação em Operações</div>
+                    <div class="course-desc">Implementar processos automatizados e metodologias modernas</div>
+                    <button class="course-btn" disabled>🔒 Bloqueado</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: DASHBOARD -->
+        <section id="dashboard">
+            <h2 style="margin-bottom: 30px; color: #2c3e50; font-size: 2em;">📊 Dashboard Principal</h2>
+
+            <div class="dashboard-grid">
+                <!-- CLIENTES -->
+                <div class="dashboard-card" onclick="openModal('clientes')">
+                    <div class="dashboard-card-tip" title="Clique para ver detalhes">ℹ️</div>
+                    <div class="tooltip">Visualize todos seus clientes e estatísticas</div>
+                    <div class="dashboard-card-icon">👥</div>
+                    <div class="dashboard-card-title">Meus Clientes</div>
+                    <div class="dashboard-card-number">42</div>
+                    <div class="dashboard-card-subtitle">6 ativos este mês</div>
+                </div>
+
+                <!-- ESTOQUE -->
+                <div class="dashboard-card" onclick="openModal('estoque')">
+                    <div class="dashboard-card-tip" title="Clique para gerenciar">ℹ️</div>
+                    <div class="tooltip">Controle de estoque em tempo real</div>
+                    <div class="dashboard-card-icon">📦</div>
+                    <div class="dashboard-card-title">Estoque</div>
+                    <div class="dashboard-card-number">185</div>
+                    <div class="dashboard-card-subtitle">12 produtos em alerta</div>
+                </div>
+
+                <!-- IMPRESSORA COMANDA -->
+                <div class="dashboard-card" onclick="openModal('impressora')">
+                    <div class="dashboard-card-tip" title="Status da impressora">ℹ️</div>
+                    <div class="tooltip">Impressora conectada e ativa</div>
+                    <div class="dashboard-card-icon">🖨️</div>
+                    <div class="dashboard-card-title">Comanda Cozinha</div>
+                    <div class="dashboard-card-number">🟢</div>
+                    <div class="dashboard-card-subtitle">Online e funcionando</div>
+                </div>
+
+                <!-- RECEITA -->
+                <div class="dashboard-card" onclick="openModal('receita')">
+                    <div class="dashboard-card-tip" title="Clique para análise">ℹ️</div>
+                    <div class="tooltip">Análise de receita do mês</div>
+                    <div class="dashboard-card-icon">💵</div>
+                    <div class="dashboard-card-title">Receita Mês</div>
+                    <div class="dashboard-card-number">R$ 52.5K</div>
+                    <div class="dashboard-card-subtitle">+12% vs mês anterior</div>
+                </div>
+
+                <!-- AUTOMAÇÃO WHATSAPP -->
+                <div class="dashboard-card" onclick="openModal('whatsapp')">
+                    <div class="dashboard-card-tip" title="WhatsApp integrado">ℹ️</div>
+                    <div class="tooltip">Automação de mensagens ativa</div>
+                    <div class="dashboard-card-icon">💬</div>
+                    <div class="dashboard-card-title">WhatsApp Bot</div>
+                    <div class="dashboard-card-number">318</div>
+                    <div class="dashboard-card-subtitle">Mensagens enviadas</div>
+                </div>
+
+                <!-- PERFORMANCE -->
+                <div class="dashboard-card" onclick="openModal('performance')">
+                    <div class="dashboard-card-tip" title="Métricas de performance">ℹ️</div>
+                    <div class="tooltip">Sua performance no mês</div>
+                    <div class="dashboard-card-icon">📈</div>
+                    <div class="dashboard-card-title">Performance</div>
+                    <div class="dashboard-card-number">8.5/10</div>
+                    <div class="dashboard-card-subtitle">Muito bom!</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: MÓDULOS -->
+        <section id="modules">
+            <h2 style="margin-bottom: 30px; color: #2c3e50; font-size: 2em;">📚 Seus Módulos</h2>
+
+            <div class="modules-container">
+                <!-- DASHBOARD CONSULTOR -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">📊</div>
+                        <div class="module-title">Dashboard Consultor</div>
+                        <div class="module-status unlocked">✅ Desbloqueado</div>
+                    </div>
+                    <div class="module-body">
+                        <div class="module-desc">Visão 360° do seu negócio com gráficos, KPIs e métricas em tempo real</div>
+                        <div class="module-requirements">
+                            <strong>Dicas:</strong>
+                            💡 Use para monitorar saúde do negócio<br>
+                            💡 Identifique tendências e oportunidades
+                        </div>
+                        <button class="module-btn" onclick="abrirModulo('ARTBLEND_DASHBOARD_CONSULTOR_COMPLETO.html')">
+                            Abrir Módulo →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- GAMIFICAÇÃO -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">🎮</div>
+                        <div class="module-title">Gamificação Sistema</div>
+                        <div class="module-status unlocked">✅ Desbloqueado</div>
+                    </div>
+                    <div class="module-body">
+                        <div class="module-desc">30+ badges, pontos, ranking e motivação para sua equipe</div>
+                        <div class="module-requirements">
+                            <strong>Dicas:</strong>
+                            💡 Motive sua equipe com badges<br>
+                            💡 Crie competição saudável
+                        </div>
+                        <button class="module-btn" onclick="abrirModulo('ARTBLEND_GAMIFICACAO_SISTEMA_COMPLETA.html')">
+                            Abrir Módulo →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- WHATSAPP -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">💬</div>
+                        <div class="module-title">WhatsApp Automação</div>
+                        <div class="module-status unlocked">✅ Desbloqueado</div>
+                    </div>
+                    <div class="module-body">
+                        <div class="module-desc">6 templates de mensagem automática com triggers inteligentes</div>
+                        <div class="module-requirements">
+                            <strong>Dicas:</strong>
+                            💡 Configure templates para diferentes situações<br>
+                            💡 Aumente engajamento com clientes
+                        </div>
+                        <button class="module-btn" onclick="abrirModulo('ARTBLEND_WHATSAPP_AUTOMACAO_COMPLETA.html')">
+                            Abrir Módulo →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- DASHBOARD CLIENTES -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">🌐</div>
+                        <div class="module-title">Dashboard Clientes</div>
+                        <div class="module-status unlocked">✅ Desbloqueado</div>
+                    </div>
+                    <div class="module-body">
+                        <div class="module-desc">Status online, heatmap 24h, funnel de conversão em tempo real</div>
+                        <div class="module-requirements">
+                            <strong>Dicas:</strong>
+                            💡 Analise comportamento em tempo real<br>
+                            💡 Identifique pontos de abandono
+                        </div>
+                        <button class="module-btn" onclick="abrirModulo('ARTBLEND_DASHBOARD_CLIENTES_REALTIME.html')">
+                            Abrir Módulo →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TEMAS -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">🎨</div>
+                        <div class="module-title">Temas Personalização</div>
+                        <div class="module-status unlocked">✅ Desbloqueado</div>
+                    </div>
+                    <div class="module-body">
+                        <div class="module-desc">Dark Mode, cores customizadas, múltiplos temas profissionais</div>
+                        <div class="module-requirements">
+                            <strong>Dicas:</strong>
+                            💡 Personalize conforme sua marca<br>
+                            💡 Use Dark Mode para reduzir fadiga ocular
+                        </div>
+                        <button class="module-btn" onclick="abrirModulo('ARTBLEND_TEMAS_PERSONALIZACAO_COMPLETA.html')">
+                            Abrir Módulo →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- NOTIFICAÇÕES -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">🔔</div>
+                        <div class="module-title">Notificações Sistema</div>
+                        <div class="module-status unlocked">✅ Desbloqueado</div>
+                    </div>
+                    <div class="module-body">
+                        <div class="module-desc">4 tipos de notificações, bell icon, alertas em tempo real</div>
+                        <div class="module-requirements">
+                            <strong>Dicas:</strong>
+                            💡 Fique sempre atualizado<br>
+                            💡 Configure prioridades de alertas
+                        </div>
+                        <button class="module-btn" onclick="abrirModulo('ARTBLEND_NOTIFICACOES_SISTEMA_COMPLETA.html')">
+                            Abrir Módulo →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- RELATÓRIO -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">📄</div>
+                        <div class="module-title">Relatório Cliente</div>
+                        <div class="module-status unlocked">✅ Desbloqueado</div>
+                    </div>
+                    <div class="module-body">
+                        <div class="module-desc">KPIs, progresso do cliente, recomendações personalizadas</div>
+                        <div class="module-requirements">
+                            <strong>Dicas:</strong>
+                            💡 Gere relatórios profissionais<br>
+                            💡 Demonstre ROI para seus clientes
+                        </div>
+                        <button class="module-btn" onclick="abrirModulo('ARTBLEND_RELATORIO_CLIENTE_V2_FINAL.html')">
+                            Abrir Módulo →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ANALYTICS BI -->
+                <div class="module-card">
+                    <div class="module-header">
+                        <div class="module-icon">📈</div>
+                        <div class="module-title">Analytics BI Dashboard</div>
+                        <div class="module-status unlocked">✅ Desbloqueado</div>
+                    </div>
+                    <div class="module-body">
+                        <div class="module-desc">Receita, funnel, ROI, cursos populares, análise profunda</div>
+                        <div class="module-requirements">
+                            <strong>Dicas:</strong>
+                            💡 Analise dados com profundidade<br>
+                            💡 Tome decisões data-driven
+                        </div>
+                        <button class="module-btn" onclick="abrirModulo('ARTBLEND_ANALYTICS_BI_DASHBOARD_COMPLETO.html')">
+                            Abrir Módulo →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- MÓDULO BLOQUEADO -->
+                <div class="module-card locked">
+                    <div class="module-header">
+                        <div class="module-icon">🤖</div>
+                        <div class="module-title">IA Assistente Avançada</div>
+                        <div class="module-status">🔒 Próximo nível</div>
+                    </div>
+                    <div class="module-body">
+                        <div class="module-desc">Assistente IA para análise preditiva e recomendações automáticas</div>
+                        <div class="module-requirements">
+                            <strong>Requisitos para desbloquear:</strong>
+                            ⭐ Alcance nível 5<br>
+                            🎯 Obtenha 1000+ pontos<br>
+                            🏆 Desbloqueie 10+ badges
+                        </div>
+                        <button class="module-btn" disabled>
+                            🔒 Bloqueado - Próximo nível
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 4: CONFIGURAÇÕES -->
+        <section id="settings">
+            <h2 style="margin-bottom: 30px; color: #2c3e50; font-size: 2em;">⚙️ Configurações</h2>
+            <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                <h3>Suas Informações</h3>
+                <p style="margin: 20px 0; color: #666;">
+                    <strong>Email:</strong> <span id="userEmail">usuario@email.com</span><br>
+                    <strong>Nível:</strong> <span id="levelDisplay">1</span><br>
+                    <strong>Pontos Totais:</strong> <span id="pointsDisplay">250</span><br>
+                    <strong>Badges Conquistados:</strong> <span id="badgesDisplay">8</span>
+                </p>
+                <button onclick="logout()" style="background: #FF6B6B; color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                    Sair da Conta
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <!-- MODAL DE DETALHES -->
+    <div class="modal" id="detailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Detalhes</h2>
+                <span class="modal-close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="modalBody"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p><strong>ArtBlend Consultoria Gourmet</strong></p>
+        <p>A melhor plataforma de consultoria para restaurantes da América Latina</p>
+        <p style="margin-top: 15px; opacity: 0.8;">© 2026 ArtBlend. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        const SUPABASE_URL = 'https://zjvjixiuvnpbpsdnxuyk.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2aml4aXV2bnBicHNkbnh1eWsiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcxMDc0NjI5MSwiZXhwIjoxODM2MjIyMjkxfQ.L4e3B5F6XyZ9KmN2QpR8VwX5YaB3CdE7FgH9IjK0LmN';
+
+        // Verificar autenticação
+        window.addEventListener('load', () => {
+            const clienteId = localStorage.getItem('cliente_id');
+            if (!clienteId) {
+                window.location.href = '/ARTBLEND_LOGIN.html';
+                return;
+            }
+
+            // Carregar dados do usuário
+            const email = localStorage.getItem('user_email') || 'usuario@email.com';
+            document.getElementById('userEmail').textContent = email;
+        });
+
+        function showSection(sectionId) {
+            // Remove active de todas as seções
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+
+            // Adiciona active à seção desejada
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+
+            // Scroll para o topo
+            window.scrollTo(0, 0);
+        }
+
+        function openModal(type) {
+            const modal = document.getElementById('detailsModal');
+            const title = document.getElementById('modalTitle');
+            const body = document.getElementById('modalBody');
+
+            const data = {
+                clientes: {
+                    title: '👥 Meus Clientes',
+                    content: `
+                        <div class="modal-tabs">
+                            <button class="modal-tab-btn active" onclick="switchTab(event, 'lista')">📋 Lista</button>
+                            <button class="modal-tab-btn" onclick="switchTab(event, 'stats')">📊 Estatísticas</button>
+                        </div>
+                        <div id="lista" class="tab-content active">
+                            <h3>Clientes Ativos</h3>
+                            <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                                <p><strong>🔴 Cliente 1:</strong> Restaurante Premium - Ativo há 2 meses</p>
+                                <p><strong>🔴 Cliente 2:</strong> Pizzaria Central - Ativo há 1 mês</p>
+                                <p><strong>🟡 Cliente 3:</strong> Churrascaria Sul - Inativo há 2 semanas</p>
+                                <p><strong>🔴 Cliente 4:</strong> Comida Caseira - Ativo há 3 meses</p>
+                                <p>...e mais 38 clientes no sistema</p>
+                            </div>
+                        </div>
+                        <div id="stats" class="tab-content">
+                            <h3>Estatísticas dos Clientes</h3>
+                            <p>📌 Total: 42 clientes cadastrados</p>
+                            <p>✅ Ativos: 32 (76%)</p>
+                            <p>⏸️ Inativos: 10 (24%)</p>
+                            <p>⭐ Média de satisfação: 4.7/5</p>
+                        </div>
+                    `
+                },
+                estoque: {
+                    title: '📦 Controle de Estoque',
+                    content: `
+                        <div class="modal-tabs">
+                            <button class="modal-tab-btn active" onclick="switchTab(event, 'alert')">⚠️ Alertas</button>
+                            <button class="modal-tab-btn" onclick="switchTab(event, 'produtos')">📦 Produtos</button>
+                        </div>
+                        <div id="alert" class="tab-content active">
+                            <h3>Produtos em Alerta</h3>
+                            <div class="checklist">
+                                <div class="checklist-item">
+                                    <span class="checklist-check">⚠️</span>
+                                    <span>Tomate - 5 unidades (min: 20)</span>
+                                </div>
+                                <div class="checklist-item">
+                                    <span class="checklist-check">⚠️</span>
+                                    <span>Cebola - 8 unidades (min: 30)</span>
+                                </div>
+                                <div class="checklist-item">
+                                    <span class="checklist-check">⚠️</span>
+                                    <span>Alho - 3 unidades (min: 15)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="produtos" class="tab-content">
+                            <h3>Todos os Produtos</h3>
+                            <p>Total em estoque: 185 itens</p>
+                            <p>Valor total: R$ 12.500</p>
+                        </div>
+                    `
+                },
+                impressora: {
+                    title: '🖨️ Comanda Cozinha',
+                    content: `
+                        <h3>Status da Impressora</h3>
+                        <p style="color: #4CAF50; font-weight: bold; margin: 15px 0;">🟢 ONLINE E FUNCIONANDO</p>
+                        <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                            <p><strong>Modelo:</strong> Zebra ZM400</p>
+                            <p><strong>IP:</strong> 192.168.1.100</p>
+                            <p><strong>Status:</strong> Pronta para uso</p>
+                            <p><strong>Documentos hoje:</strong> 42</p>
+                        </div>
+                        <h3 style="margin-top: 20px;">Integração com Sistema</h3>
+                        <p>✅ Conectada ao sistema de estoque</p>
+                        <p>✅ Recebe comandas da plataforma</p>
+                        <p>✅ Sincroniza com automação</p>
+                    `
+                },
+                receita: {
+                    title: '💵 Receita do Mês',
+                    content: `
+                        <h3>Análise de Receita</h3>
+                        <div style="background: linear-gradient(135deg, #667eea15, #764ba215); padding: 20px; border-radius: 8px; margin: 15px 0;">
+                            <p style="font-size: 1.5em; color: #667eea; font-weight: bold;">R$ 52.500</p>
+                            <p style="color: #4CAF50; font-weight: bold;">+12% vs mês anterior</p>
+                        </div>
+                        <h3>Breakdown</h3>
+                        <p>💵 Alimentação: R$ 32.000 (61%)</p>
+                        <p>🍷 Bebidas: R$ 15.000 (29%)</p>
+                        <p>🎁 Extras: R$ 5.500 (10%)</p>
+                    `
+                },
+                whatsapp: {
+                    title: '💬 WhatsApp Bot',
+                    content: `
+                        <h3>Automação de Mensagens</h3>
+                        <p style="color: #4CAF50; font-weight: bold; margin: 15px 0;">✅ Ativa e funcionando</p>
+                        <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                            <p><strong>Mensagens enviadas:</strong> 318</p>
+                            <p><strong>Taxa de entrega:</strong> 99%</p>
+                            <p><strong>Respostas recebidas:</strong> 215</p>
+                            <p><strong>Taxa de engajamento:</strong> 68%</p>
+                        </div>
+                        <h3 style="margin-top: 20px;">Templates Configurados</h3>
+                        <p>✅ Boas-vindas</p>
+                        <p>✅ Confirmação de pedido</p>
+                        <p>✅ Feedback</p>
+                        <p>✅ Promoções</p>
+                        <p>✅ Reativação</p>
+                    `
+                },
+                performance: {
+                    title: '📈 Performance',
+                    content: `
+                        <h3>Suas Métricas</h3>
+                        <div style="background: linear-gradient(135deg, #667eea15, #764ba215); padding: 20px; border-radius: 8px; margin: 15px 0;">
+                            <p style="font-size: 1.5em; color: #667eea; font-weight: bold;">8.5/10</p>
+                            <p style="color: #2c3e50;">Desempenho Excelente</p>
+                        </div>
+                        <h3>Detalhes</h3>
+                        <p>🎯 Uso da plataforma: 9/10</p>
+                        <p>📊 Análise de dados: 8/10</p>
+                        <p>💼 Gestão de clientes: 8/10</p>
+                        <p>🎓 Cursos completados: 7/10</p>
+                    `
+                }
+            };
+
+            if (data[type]) {
+                title.textContent = data[type].title;
+                body.innerHTML = data[type].content;
+                modal.classList.add('active');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('detailsModal').classList.remove('active');
+        }
+
+        function switchTab(event, tabId) {
+            // Remove active de todos
+            document.querySelectorAll('.modal-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+
+            // Adiciona active ao selecionado
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function abrirModulo(arquivo) {
+            const clienteId = localStorage.getItem('cliente_id');
+            if (!clienteId) {
+                window.location.href = '/ARTBLEND_LOGIN.html';
+                return;
+            }
+            window.location.href = '/' + arquivo;
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = '/ARTBLEND_LOGIN.html';
+        }
+
+        // Fechar modal ao clicar fora
+        document.getElementById('detailsModal').addEventListener('click', (e) => {
+            if (e.target.id === 'detailsModal') closeModal();
+        });
+    </script>
+</body>
+</html>
