@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Consultoria Gourmet</title>
+    <link rel="folha de estilo" href="ARTBLEND_DESIGN_SYSTEM.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px 20px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        .grid-cursos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .curso-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            border-left: 4px solid #667eea;
+        }
+
+        .curso-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .curso-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .curso-titulo {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .curso-pilar {
+            font-size: 0.9em;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .curso-descricao {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .curso-botao {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .curso-botao:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+            font-size: 1.2em;
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            border-top: 1px solid #ddd;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .grid-cursos {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>🎯 ArtBlend Hub</h1>
+            <p>Plataforma Inteligente de Consultoria para Restaurantes</p>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+            <!-- SEÇÃO DE CURSOS -->
+            <div class="section">
+                <h2>📚 Cursos & Módulos Disponíveis</h2>
+                
+                <div id="loading-state" class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Carregando módulos...</p>
+                </div>
+
+                <div id="grid-cursos" class="grid-cursos" style="display: none;">
+                    <!-- Os cursos serão inseridos aqui dinamicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p>✨ ArtBlend Consultoria Gourmet © 2026 | Desenvolvido com ❤️ para restaurantes inteligentes</p>
+        </div>
+    </div>
+
+    <!-- ===== SCRIPT PRINCIPAL - CARREGA DO SUPABASE ===== -->
+    <script>
+        // CONFIGURAÇÕES SUPABASE
+        const SUPABASE_URL = 'https://zjvjixiuvnpbpsdnxuyk.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2aml4aXV2bnBicHNkbnh1eWsiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcxMDc0NjI5MSwiZXhwIjoxODM2MjIyMjkxfQ.L4e3B5F6XyZ9KmN2QpR8VwX5YaB3CdE7FgH9IjK0LmN';
+
+        // Obter cliente_id
+        function getClienteId() {
+            const params = new URLSearchParams(window.location.search);
+            const clienteIdFromUrl = params.get('cliente_id');
+            const clienteIdFromStorage = localStorage.getItem('cliente_id');
+            return clienteIdFromUrl || clienteIdFromStorage || 'b7db146d-7310-489f-ab1c-0b8acafeb6';
+        }
+
+        // Carregar módulos do Supabase
+        async function carregarModulos() {
+            try {
+                const clienteId = getClienteId();
+                console.log('📡 Buscando módulos do Supabase com cliente_id:', clienteId);
+                
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/dados_ferramenta?cliente_id=eq.${clienteId}&select=*`,
+                    {
+                        headers: {
+                            'apikey': SUPABASE_ANON_KEY,
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error(`Erro Supabase: ${response.status}`);
+                }
+
+                const modulos = await response.json();
+                console.log('✅ Módulos carregados:', modulos.length);
+
+                // Renderizar módulos
+                renderizarModulos(modulos);
+                
+            } catch (error) {
+                console.error('❌ Erro ao carregar módulos:', error);
+                document.getElementById('loading-state').innerHTML = 
+                    '<p style="color: red;">❌ Erro ao carregar módulos. Tente recarregar a página.</p>';
+            }
+        }
+
+        // Renderizar módulos
+        function renderizarModulos(modulos) {
+            const gridContainer = document.getElementById('grid-cursos');
+            const loadingState = document.getElementById('loading-state');
+
+            if (modulos.length === 0) {
+                loadingState.innerHTML = '<p style="color: #999;">📭 Nenhum módulo disponível</p>';
+                return;
+            }
+
+            loadingState.style.display = 'none';
+            gridContainer.style.display = 'grid';
+
+            gridContainer.innerHTML = modulos.map(modulo => {
+                let conteudo = {};
+                try {
+                    conteudo = typeof modulo.conteudo === 'string' 
+                        ? JSON.parse(modulo.conteudo) 
+                        : modulo.conteudo;
+                } catch (e) {
+                    console.warn('Erro ao parsear conteúdo:', e);
+                }
+
+                return `
+                    <div class="curso-card">
+                        <div class="curso-icon">${conteudo.icon || '📌'}</div>
+                        <div class="curso-titulo">${modulo.ferramenta}</div>
+                        <div class="curso-pilar">${conteudo.categoria || 'Módulo'}</div>
+                        <div class="curso-descricao">${conteudo.descricao || 'Módulo disponível'}</div>
+                        <button class="curso-botao" onclick="abrirModulo('${conteudo.link || '#'}')">
+                            Acessar →
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Abrir módulo
+        function abrirModulo(link) {
+            if (link && link !== '#') {
+                window.location.href = link;
+            } else {
+                alert('⚠️ Link do módulo não disponível');
+            }
+        }
+
+        // INICIALIZAR quando a página carrega
+        document.addEventListener('DOMContentLoaded', carregarModulos);
+    </script>
+</body>
+</html>
