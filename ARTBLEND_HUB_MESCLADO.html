@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>🎯 ArtBlend - Plataforma Inteligente</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; }
+        
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo { font-size: 1.8em; font-weight: bold; }
+        
+        .header-info {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .gamification-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .badge-item {
+            text-align: center;
+        }
+        
+        .badge-number {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .user-menu {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        /* MAIN CONTENT */
+        .container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; }
+        
+        .welcome-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .welcome-section h1 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .welcome-section p {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        /* STATUS AREA */
+        .status-bar {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4CAF50;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .status-bar.loading {
+            border-left-color: #1976D2;
+            background: #f0f7ff;
+        }
+        
+        /* MODULES GRID */
+        .modules-section h2 {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .module-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+        
+        .module-header {
+            background: linear-gradient(135deg, #667eea15, #764ba215);
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .module-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .module-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .module-desc {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.6;
+            padding: 15px 25px;
+            min-height: 70px;
+        }
+        
+        .module-footer {
+            padding: 15px 25px;
+            background: #f9f9f9;
+        }
+        
+        .btn-open {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.95em;
+        }
+        
+        .btn-open:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+        }
+        
+        /* FOOTER */
+        footer {
+            background: #333;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .footer-content { max-width: 1400px; margin: 0 auto; }
+        
+        /* LOADING SPINNER */
+        .spinner {
+            display: inline-block;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
+        
+        @media (max-width: 768px) {
+            .modules-grid { grid-template-columns: 1fr; }
+            .header-info { flex-direction: column; gap: 15px; }
+            .gamification-badge { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER COM GAMIFICAÇÃO -->
+    <header>
+        <div class="header-content">
+            <div class="logo">🎯 ArtBlend Plataforma</div>
+            
+            <div class="header-info">
+                <!-- GAMIFICAÇÃO: Badges e Pontos -->
+                <div class="gamification-badge">
+                    <div class="badge-item">
+                        <div>⭐</div>
+                        <div class="badge-number" id="userLevel">1</div>
+                        <div style="font-size: 0.8em;">Nível</div>
+                    </div>
+                    <div style="width: 1px; background: rgba(255,255,255,0.3);"></div>
+                    <div class="badge-item">
+                        <div>🎯</div>
+                        <div class="badge-number" id="userPoints">0</div>
+                        <div style="font-size: 0.8em;">Pontos</div>
+                    </div>
+                    <div style="width: 1px; background: rgba(255,255,255,0.3);"></div>
+                    <div class="badge-item">
+                        <div>🏆</div>
+                        <div class="badge-number" id="userBadges">0</div>
+                        <div style="font-size: 0.8em;">Badges</div>
+                    </div>
+                </div>
+                
+                <!-- USER MENU -->
+                <div class="user-menu">
+                    <span id="userEmail" style="font-size: 0.95em;">Carregando...</span>
+                    <button class="logout-btn" onclick="logout()">Sair</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <!-- WELCOME -->
+        <div class="welcome-section">
+            <h1>Bem-vindo à sua Plataforma!</h1>
+            <p>Acesso a todos os módulos de consultoria, cursos e ferramentas de gestão</p>
+        </div>
+
+        <!-- STATUS -->
+        <div class="status-bar loading" id="statusBar">
+            <span class="spinner"></span>
+            Carregando seus módulos...
+        </div>
+
+        <!-- MODULES -->
+        <div class="modules-section">
+            <h2>📚 Seus Módulos Disponíveis</h2>
+            <div class="modules-grid" id="modulesGrid"></div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <p><strong>ArtBlend Consultoria Gourmet</strong></p>
+            <p>Transformando restaurantes em negócios de sucesso</p>
+            <p style="margin-top: 15px; opacity: 0.8;">© 2026 ArtBlend. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        const SUPABASE_URL = 'https://zjvjixiuvnpbpsdnxuyk.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2aml4aXV2bnBicHNkbnh1eWsiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcxMDc0NjI5MSwiZXhwIjoxODM2MjIyMjkxfQ.L4e3B5F6XyZ9KmN2QpR8VwX5YaB3CdE7FgH9IjK0LmN';
+
+        // Módulos padrão
+        const MODULOS = [
+            { nome: 'Dashboard Consultor', icon: '📊', desc: 'Visão 360° do seu negócio com gráficos, KPIs e métricas em tempo real', arquivo: 'ARTBLEND_DASHBOARD_CONSULTOR_COMPLETO.html', cor: '#667eea' },
+            { nome: 'Gamificação Sistema', icon: '🎮', desc: '30+ badges, pontos, ranking e motivação para sua equipe', arquivo: 'ARTBLEND_GAMIFICACAO_SISTEMA_COMPLETA.html', cor: '#764ba2' },
+            { nome: 'WhatsApp Automação', icon: '💬', desc: '6 templates de mensagem automática com triggers inteligentes', arquivo: 'ARTBLEND_WHATSAPP_AUTOMACAO_COMPLETA.html', cor: '#25D366' },
+            { nome: 'Dashboard Clientes', icon: '🌐', desc: 'Status online, heatmap 24h, funnel de conversão em tempo real', arquivo: 'ARTBLEND_DASHBOARD_CLIENTES_REALTIME.html', cor: '#FF6B6B' },
+            { nome: 'Temas Personalização', icon: '🎨', desc: 'Dark Mode, cores customizadas, múltiplos temas profissionais', arquivo: 'ARTBLEND_TEMAS_PERSONALIZACAO_COMPLETA.html', cor: '#FFD93D' },
+            { nome: 'Notificações Sistema', icon: '🔔', desc: '4 tipos de notificações, bell icon, alertas em tempo real', arquivo: 'ARTBLEND_NOTIFICACOES_SISTEMA_COMPLETA.html', cor: '#6BCB77' },
+            { nome: 'Relatório Cliente', icon: '📄', desc: 'KPIs, progresso do cliente, recomendações personalizadas', arquivo: 'ARTBLEND_RELATORIO_CLIENTE_V2_FINAL.html', cor: '#4D96FF' },
+            { nome: 'Analytics BI Dashboard', icon: '📈', desc: 'Receita, funnel, ROI, cursos populares, análise profunda', arquivo: 'ARTBLEND_ANALYTICS_BI_DASHBOARD_COMPLETO.html', cor: '#9D4EDD' }
+        ];
+
+        // Verificar autenticação
+        window.addEventListener('load', () => {
+            const clienteId = localStorage.getItem('cliente_id');
+            if (!clienteId) {
+                console.log('❌ Não autenticado');
+                window.location.href = '/ARTBLEND_LOGIN.html';
+                return;
+            }
+
+            // Carregar dados do usuário
+            const email = localStorage.getItem('user_email') || 'Usuário';
+            document.getElementById('userEmail').textContent = email;
+
+            // Simular pontuação (em produção, viria do banco)
+            document.getElementById('userLevel').textContent = Math.floor(Math.random() * 5) + 1;
+            document.getElementById('userPoints').textContent = Math.floor(Math.random() * 500) + 100;
+            document.getElementById('userBadges').textContent = Math.floor(Math.random() * 30) + 5;
+
+            // Carregar módulos
+            carregarModulos();
+        });
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = '/ARTBLEND_LOGIN.html';
+        }
+
+        function abrirModulo(arquivo) {
+            const clienteId = localStorage.getItem('cliente_id');
+            if (!clienteId) {
+                alert('Sessão expirou');
+                window.location.href = '/ARTBLEND_LOGIN.html';
+                return;
+            }
+            window.location.href = '/' + arquivo;
+        }
+
+        async function carregarModulos() {
+            const statusBar = document.getElementById('statusBar');
+            
+            try {
+                // Simular carregamento
+                setTimeout(() => {
+                    statusBar.textContent = '✅ Módulos carregados com sucesso!';
+                    statusBar.classList.remove('loading');
+                    statusBar.style.borderLeftColor = '#4CAF50';
+                    statusBar.style.background = '#f1f8e9';
+                    
+                    renderizarModulos();
+                }, 800);
+            } catch (err) {
+                console.error('Erro:', err);
+                statusBar.textContent = '⚠️ Erro ao carregar módulos';
+                statusBar.classList.remove('loading');
+                statusBar.style.borderLeftColor = '#FF9800';
+                renderizarModulos();
+            }
+        }
+
+        function renderizarModulos() {
+            const grid = document.getElementById('modulesGrid');
+            
+            grid.innerHTML = MODULOS.map(m => `
+                <div class="module-card" onclick="abrirModulo('${m.arquivo}')">
+                    <div class="module-header">
+                        <div class="module-icon">${m.icon}</div>
+                        <div class="module-title">${m.nome}</div>
+                    </div>
+                    <div class="module-desc">${m.desc}</div>
+                    <div class="module-footer">
+                        <button class="btn-open" onclick="event.stopPropagation(); abrirModulo('${m.arquivo}');">
+                            Abrir Módulo →
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>

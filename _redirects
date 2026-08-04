@@ -1,11 +1,14 @@
-# Redirecionamentos Netlify - ArtBlend v5.0-CONSERTADO
+# Redirecionamentos ArtBlend v6.0 - ARQUITETURA DE 2 CAMADAS
+# Camada 1: Landing Page em index.html (site informativo)
+# Camada 2: Plataforma com login em ARTBLEND_LOGIN.html + HUB_MESCLADO.html
 
-# Redirecionar domínio customizado para Netlify
-https://artblendconsultoria.com.br/* https://artblendconsultoriagourmet.netlify.app/:splat 301
+# URLs do HUB (principal - versão mesclada)
+/artblend_hub /ARTBLEND_HUB_MESCLADO.html 200
+/hub /ARTBLEND_HUB_MESCLADO.html 200
 
-# URLs do HUB (principal)
-/artblend_hub /ARTBLEND_HUB.html 200
-/hub /ARTBLEND_HUB.html 200
+# URLs de LOGIN
+/login /ARTBLEND_LOGIN.html 200
+/auth /ARTBLEND_LOGIN.html 200
 
 # URLs dos 8 MÓDULOS (importante!)
 /ARTBLEND_DASHBOARD_CONSULTOR_COMPLETO.html /ARTBLEND_DASHBOARD_CONSULTOR_COMPLETO.html 200
@@ -20,6 +23,7 @@ https://artblendconsultoria.com.br/* https://artblendconsultoriagourmet.netlify.
 # URLs dos outros arquivos
 /ARTBLEND_PAINEL_CONSULTOR.html /ARTBLEND_PAINEL_CONSULTOR.html 200
 /ARTBLEND_CADASTRO_CLIENTE_V2.html /ARTBLEND_CADASTRO_CLIENTE_V2.html 200
+/ARTBLEND_LOGIN.html /ARTBLEND_LOGIN.html 200
 
-# Root vai para login
+# Root vai para landing page (index.html com site informativo)
 / /index.html 200

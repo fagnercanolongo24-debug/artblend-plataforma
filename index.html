@@ -6,46 +6,255 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>🔐 ArtBlend - Login</title>
+    <title>ArtBlend - Consultoria Gourmet para Restaurantes</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #667eea, #764ba2); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .login-box { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); width: 100%; max-width: 400px; }
-        .login-box h1 { text-align: center; color: #667eea; margin-bottom: 30px; font-size: 2em; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; }
+        
+        /* HEADER/NAV */
+        header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header-content { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8em; font-weight: bold; }
+        .nav-btn { background: rgba(255,255,255,0.2); color: white; border: 1px solid white; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: all 0.3s; }
+        .nav-btn:hover { background: rgba(255,255,255,0.3); }
+        
+        /* HERO */
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 20px; text-align: center; }
+        .hero-content { max-width: 1000px; margin: 0 auto; }
+        .hero h1 { font-size: 3em; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .hero p { font-size: 1.3em; margin-bottom: 30px; opacity: 0.95; }
+        .cta-btn { background: white; color: #667eea; border: none; padding: 15px 40px; font-size: 1.1em; font-weight: bold; border-radius: 5px; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .cta-btn:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        
+        /* SECTIONS */
+        .container { max-width: 1200px; margin: 0 auto; padding: 60px 20px; }
+        section { margin-bottom: 80px; }
+        section h2 { font-size: 2.5em; margin-bottom: 40px; text-align: center; color: #667eea; }
+        
+        /* CARDS GRID */
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border-left: 5px solid #667eea; transition: all 0.3s; }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.15); }
+        .card-icon { font-size: 3em; margin-bottom: 15px; }
+        .card h3 { margin-bottom: 15px; font-size: 1.3em; }
+        .card p { color: #666; line-height: 1.8; }
+        
+        /* FEATURES */
+        .features-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; background: #f9f9f9; padding: 40px; border-radius: 10px; }
+        .feature-item { display: flex; gap: 15px; }
+        .feature-icon { font-size: 2em; min-width: 50px; }
+        .feature-text h3 { margin-bottom: 5px; }
+        .feature-text p { color: #666; font-size: 0.95em; }
+        
+        /* STATS */
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; text-align: center; }
+        .stat-box { padding: 30px; background: linear-gradient(135deg, #667eea15, #764ba215); border-radius: 10px; }
+        .stat-number { font-size: 2.5em; font-weight: bold; color: #667eea; }
+        .stat-label { color: #666; margin-top: 10px; }
+        
+        /* FOOTER */
+        footer { background: #333; color: white; padding: 40px 20px; text-align: center; }
+        .footer-content { max-width: 1200px; margin: 0 auto; }
+        
+        /* MODAL PARA LOGIN */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; padding: 40px; border-radius: 10px; width: 100%; max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
+        .modal-close { float: right; cursor: pointer; font-size: 1.5em; }
         .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; color: #333; font-weight: bold; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; }
         .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1em; }
-        .form-group input:focus { outline: none; border-color: #667eea; box-shadow: 0 0 5px rgba(102,126,234,0.3); }
-        .btn { width: 100%; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 1em; margin-top: 10px; }
-        .btn:hover { transform: scale(1.02); }
-        .error { background: #ffebee; color: #c62828; padding: 12px; border-radius: 5px; margin-bottom: 20px; display: none; }
-        .loading { display: none; text-align: center; color: #667eea; }
-        .spinner { display: inline-block; border: 3px solid #f3f3f3; border-top: 3px solid #667eea; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; margin-right: 10px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .info { text-align: center; color: #999; margin-top: 20px; font-size: 0.9em; }
+        .btn-submit { width: 100%; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .btn-submit:hover { transform: scale(1.02); }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2em; }
+            .stats { grid-template-columns: 1fr; }
+            .features-list { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-    <div class="login-box">
-        <h1>🎯 ArtBlend</h1>
-        <div class="error" id="error"></div>
-        <div class="loading" id="loading"><span class="spinner"></span>Autenticando...</div>
-        
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" placeholder="seu@email.com" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Senha:</label>
-                <input type="password" id="password" placeholder="sua senha" required>
-            </div>
-            <button type="submit" class="btn">Entrar</button>
-        </form>
+    <!-- HEADER -->
+    <header>
+        <div class="header-content">
+            <div class="logo">🎯 ArtBlend</div>
+            <button class="nav-btn" onclick="abrirLogin()">Acessar Plataforma</button>
+        </div>
+    </header>
 
-        <div class="info">
-            <strong>Acesso de Teste:</strong><br>
-            Use qualquer email/senha
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Transforme seu Restaurante em um Negócio de Sucesso</h1>
+            <p>Consultoria estratégica + Plataforma inteligente + Suporte especializado</p>
+            <button class="cta-btn" onclick="abrirLogin()">Entrar na Plataforma →</button>
+        </div>
+    </div>
+
+    <!-- SOBRE -->
+    <div class="container">
+        <section id="sobre">
+            <h2>🎯 Sobre a ArtBlend</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">🍽️</div>
+                    <h3>Consultoria Especializada</h3>
+                    <p>Mais de 10 anos de experiência em gestão de restaurantes, otimização de processos e aumento de rentabilidade.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <h3>Plataforma Inteligente</h3>
+                    <p>Dashboard em tempo real, analytics avançado, relatórios automáticos e integrações com seu negócio.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">👥</div>
+                    <h3>Suporte 24/7</h3>
+                    <p>Equipe dedicada para ajudar no crescimento do seu restaurante e responder dúvidas sempre que precisar.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- BENEFÍCIOS DOS CURSOS -->
+        <section id="cursos">
+            <h2>📚 Cursos & Treinamentos</h2>
+            <div class="features-list">
+                <div class="feature-item">
+                    <div class="feature-icon">💰</div>
+                    <div class="feature-text">
+                        <h3>Prime Cost</h3>
+                        <p>Aprenda a reduzir custos e aumentar a margem de lucro do seu restaurante em até 30%</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📋</div>
+                    <div class="feature-text">
+                        <h3>Gestão de Cardápio</h3>
+                        <p>Estratégias de engenharia de cardápio para maximizar lucros e satisfação dos clientes</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🏥</div>
+                    <div class="feature-text">
+                        <h3>Higiene e Sanidade</h3>
+                        <p>Certificações APPCC e boas práticas para garantir segurança alimentar e conformidade legal</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">💼</div>
+                    <div class="feature-text">
+                        <h3>RH e Gestão de Pessoas</h3>
+                        <p>Recrutamento, treinamento e retenção de talentos para uma equipe de alta performance</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-text">
+                        <h3>KPIs e Indicadores</h3>
+                        <p>Dominar métricas essenciais para tomar decisões estratégicas baseadas em dados</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">💡</div>
+                    <div class="feature-text">
+                        <h3>Inovação em Operações</h3>
+                        <p>Implementar processos automatizados e metodologias modernas para mais eficiência</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESULTADOS -->
+        <section id="resultados">
+            <h2>✨ Resultados dos Nossos Clientes</h2>
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-number">+150</div>
+                    <div class="stat-label">Restaurantes Transformados</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">+30%</div>
+                    <div class="stat-label">Aumento Médio de Lucro</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">4.8/5</div>
+                    <div class="stat-label">Satisfação dos Clientes</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- O QUE ESTÁ INCLUÍDO -->
+        <section id="plataforma">
+            <h2>🚀 O Que Você Ganha com a Plataforma</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <h3>Dashboard Consultor</h3>
+                    <p>Visão 360° do seu restaurante com gráficos, KPIs e métricas em tempo real.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎮</div>
+                    <h3>Gamificação</h3>
+                    <p>30+ badges, sistema de pontos e ranking para motivar sua equipe.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">💬</div>
+                    <h3>WhatsApp Automação</h3>
+                    <p>6 templates de mensagem automática para engajar clientes e aumentar retorno.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🌐</div>
+                    <h3>Dashboard de Clientes</h3>
+                    <p>Status online, heatmap de 24h, funnel de conversão em tempo real.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎨</div>
+                    <h3>Personalizações</h3>
+                    <p>Dark Mode, cores customizadas, múltiplos temas profissionais para sua marca.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📈</div>
+                    <h3>Analytics BI</h3>
+                    <p>Análise profunda de receita, ROI, cursos populares e muito mais.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA FINAL -->
+        <section style="text-align: center; padding: 60px 20px; background: linear-gradient(135deg, #667eea15, #764ba215); border-radius: 10px;">
+            <h2>Pronto para Transformar Seu Restaurante?</h2>
+            <p style="font-size: 1.1em; margin: 20px 0; color: #666;">Acesse a plataforma agora e comece sua jornada de sucesso</p>
+            <button class="cta-btn" onclick="abrirLogin()" style="margin-top: 20px;">Acessar Plataforma →</button>
+        </section>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <p><strong>ArtBlend Consultoria Gourmet</strong></p>
+            <p>Transformando restaurantes em negócios de sucesso desde 2015</p>
+            <p style="margin-top: 20px; opacity: 0.8;">© 2026 ArtBlend. Todos os direitos reservados.</p>
+            <p><a href="mailto:contato@artblendconsultoria.com.br" style="color: white; text-decoration: underline;">📧 contato@artblendconsultoria.com.br</a></p>
+        </div>
+    </footer>
+
+    <!-- MODAL DE LOGIN -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="fecharLogin()">&times;</span>
+            <h2 style="margin-bottom: 20px;">🔐 Acessar Plataforma</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" placeholder="seu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" placeholder="sua senha" required>
+                </div>
+                <button type="submit" class="btn-submit">Entrar</button>
+                <p style="text-align: center; margin-top: 15px; font-size: 0.9em; color: #999;">Use qualquer email/senha para teste</p>
+            </form>
         </div>
     </div>
 
@@ -53,66 +262,44 @@
         const SUPABASE_URL = 'https://zjvjixiuvnpbpsdnxuyk.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2aml4aXV2bnBicHNkbnh1eWsiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcxMDc0NjI5MSwiZXhwIjoxODM2MjIyMjkxfQ.L4e3B5F6XyZ9KmN2QpR8VwX5YaB3CdE7FgH9IjK0LmN';
 
-        // 1. PRIMEIRO: Verificar se JÁ está logado (antes de limpar cache!)
+        // Check se já está logado
         window.addEventListener('load', () => {
             const clienteId = localStorage.getItem('cliente_id');
             if (clienteId) {
-                console.log('✅ Já autenticado, redirecionando para HUB...');
-                window.location.href = '/artblend_hub';
-                return;
+                window.location.href = 'https://artblendconsultoriagourmet.netlify.app/artblend_hub';
             }
-            
-            // Só limpar cache se NÃO está logado
-            sessionStorage.clear();
-            if ('caches' in window) caches.keys().then(n => n.forEach(x => caches.delete(x)));
         });
 
-        // 3. Form de login
+        function abrirLogin() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+
+        function fecharLogin() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const errorDiv = document.getElementById('error');
-            const loadingDiv = document.getElementById('loading');
-
-            errorDiv.style.display = 'none';
-            loadingDiv.style.display = 'block';
 
             try {
-                // Buscar cliente na tabela
-                const resp = await fetch(
-                    `${SUPABASE_URL}/rest/v1/clientes?email=eq.${encodeURIComponent(email)}&select=*&t=${Date.now()}`,
-                    { method: 'GET', cache: 'no-store', headers: { 'apikey': SUPABASE_KEY } }
-                );
-
-                const clientes = await resp.json();
-
-                if (Array.isArray(clientes) && clientes.length > 0) {
-                    // Cliente encontrado
-                    const cliente = clientes[0];
-                    localStorage.setItem('cliente_id', cliente.id);
-                    localStorage.setItem('user_email', cliente.email);
-                    localStorage.setItem('user_nome', cliente.nome || 'Usuário');
-                    
-                    console.log('✅ Login bem-sucedido:', cliente.id);
-                    setTimeout(() => window.location.href = '/artblend_hub', 300);
-                } else {
-                    // Criar novo cliente
-                    const novoId = 'cliente_' + Date.now();
-                    localStorage.setItem('cliente_id', novoId);
-                    localStorage.setItem('user_email', email);
-                    localStorage.setItem('user_nome', 'Usuário');
-                    
-                    console.log('✅ Novo cliente:', novoId);
-                    setTimeout(() => window.location.href = '/artblend_hub', 300);
-                }
+                localStorage.setItem('cliente_id', 'cliente_' + Date.now());
+                localStorage.setItem('user_email', email);
+                localStorage.setItem('user_nome', 'Usuário');
+                
+                // Redirect para a plataforma no Netlify
+                setTimeout(() => {
+                    window.location.href = 'https://artblendconsultoriagourmet.netlify.app/artblend_hub';
+                }, 500);
             } catch (err) {
-                console.error('❌ Erro:', err);
-                errorDiv.textContent = '❌ Erro na autenticação. Tente novamente.';
-                errorDiv.style.display = 'block';
-                loadingDiv.style.display = 'none';
+                alert('Erro na autenticação. Tente novamente.');
             }
+        });
+
+        // Fechar modal ao clicar fora
+        document.getElementById('loginModal').addEventListener('click', (e) => {
+            if (e.target.id === 'loginModal') fecharLogin();
         });
     </script>
 </body>
