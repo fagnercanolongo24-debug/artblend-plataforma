@@ -1,0 +1,54 @@
+# ArtBlend v4.0 - Configuração Netlify
+
+[build]
+  command = "echo 'ArtBlend - Plataforma de Consultoria'"
+  publish = "."
+
+# Headers globais para anti-cache
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate, max-age=0"
+    Pragma = "no-cache"
+    Expires = "0"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+
+# Headers específicos para HTML
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Content-Type = "text/html; charset=utf-8"
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+# Headers para assets estáticos (CSS, JS podem ter cache mais longo)
+[[headers]]
+  for = "/ARTBLEND_DESIGN_SYSTEM.css"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+# Redirecionar HTTP para HTTPS
+[[redirects]]
+  from = "http://artblendconsultoria.com.br/*"
+  to = "https://artblendconsultoriagourmet.netlify.app/:splat"
+  status = 301
+  force = true
+
+# Redirecionar root para index.html
+[[redirects]]
+  from = "/"
+  to = "/index.html"
+  status = 200
+
+# Redirecionar /artblend_hub para arquivo correto
+[[redirects]]
+  from = "/artblend_hub"
+  to = "/ARTBLEND_HUB.html"
+  status = 200
+
+# Redirecionar /painel para dashboard
+[[redirects]]
+  from = "/painel"
+  to = "/ARTBLEND_PAINEL_CONSULTOR.html"
+  status = 200

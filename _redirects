@@ -1,0 +1,16 @@
+# Redirecionamentos Netlify para ArtBlend v4.0
+
+# Redirecionar domínio customizado para Netlify
+https://artblendconsultoria.com.br/* https://artblendconsultoriagourmet.netlify.app/:splat 301
+
+# URLs internas
+/artblend_hub /ARTBLEND_HUB.html 200
+/hub /ARTBLEND_HUB.html 200
+/dashboard /ARTBLEND_PAINEL_CONSULTOR.html 200
+/painel /ARTBLEND_PAINEL_CONSULTOR.html 200
+
+# Redirecionar root para index.html (login)
+/ /index.html 200
+
+# Tratamento de erros
+/* /index.html 200
