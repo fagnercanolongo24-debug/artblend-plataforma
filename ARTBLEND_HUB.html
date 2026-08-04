@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- ANTI-CACHE HEADERS v5.0 -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <!-- ANTI-CACHE HEADERS v5.0-ULTRA -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, no-cache">
+    <meta name="theme-color" content="#667eea">
+    <!-- Versão v5.0-ULTRA-POTENCIALIZADA 2026-08-04 -->
+    <meta name="version" content="5.0-ultra-20260804-143000">
     <title>ArtBlend Hub - Plataforma Inteligente</title>
     <style>
         * {
@@ -399,26 +403,49 @@
             log('RENDER', `Renderizando ${modulos.length} módulos`);
             mostrarStatus('ok', `✅ ${modulos.length} módulos carregados com sucesso!`);
 
+            // Mapear módulos Supabase para ícones corretos
+            const iconesPadrao = {
+                'dashboard consultor': '📊',
+                'gamificacao': '🎮',
+                'whatsapp automacao': '💬',
+                'dashboard clientes realtime': '🌐',
+                'temas personalizacao': '🎨',
+                'notificacoes sistema': '🔔',
+                'relatorio cliente': '📄',
+                'analytics bi': '📈'
+            };
+
             const html = modulos.map(mod => {
-                const titulo = mod.nome || 'Módulo';
-                const icone = mod.icon || '📦';
-                const descricao = mod.descricao || 'Módulo da plataforma ArtBlend';
-                const arquivo = mod.arquivo || '#';
+                const titulo = mod.nome || mod.name || 'Módulo';
+                
+                // Procurar ícone baseado no nome
+                let icone = mod.icon || '📦';
+                const nomeMinusculo = titulo.toLowerCase().replace(/\s+/g, '').replace(/[àáäâãèéëêìíïîòóöôõùúüûç]/g, c => 'aaaaaeeeeiiiioooooauuc'.indexOf(c));
+                
+                for (let key in iconesPadrao) {
+                    if (nomeMinusculo.includes(key.replace(/\s+/g, '').replace(/[àáäâãèéëêìíïîòóöôõùúüûç]/g, c => 'aaaaaeeeeiiiioooooauuc'))) {
+                        icone = iconesPadrao[key];
+                        break;
+                    }
+                }
+
+                const descricao = mod.descricao || mod.description || `Módulo: ${titulo}`;
+                const arquivo = mod.arquivo || mod.arquivo || mod.url || '#';
 
                 return `
-                    <div class="module-card" onclick="abrirModulo('${arquivo}')">
+                    <div class="module-card" style="cursor: pointer;" onclick="abrirModulo('${arquivo}')">
                         <div class="module-icon">${icone}</div>
                         <div class="module-title">${titulo}</div>
                         <div class="module-description">${descricao}</div>
                         <button class="module-button" onclick="abrirModulo('${arquivo}'); event.stopPropagation();">
-                            Abrir →
+                            ▶️ Abrir Módulo
                         </button>
                     </div>
                 `;
             }).join('');
 
             container.innerHTML = `<div class="modules-grid">${html}</div>`;
-            log('RENDER', 'Módulos renderizados com sucesso');
+            log('RENDER', `✅ ${modulos.length} módulos renderizados com sucesso`);
         }
 
         function abrirModulo(arquivo) {
@@ -447,12 +474,41 @@
             carregarModulos();
         });
 
-        // Limpar cache ao carregar a página
-        window.addEventListener('load', () => {
+        // Limpeza AGRESSIVA de cache
+        (function() {
+            // Limpar localStorage
+            if (localStorage.getItem('artblend_cache_version') !== 'v5.0-ultra') {
+                localStorage.removeItem('artblend_modulos');
+                localStorage.setItem('artblend_cache_version', 'v5.0-ultra');
+                log('CACHE', 'LocalStorage limpo - versão atualizada');
+            }
+
+            // Limpar Service Workers
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(registrations => {
+                    registrations.forEach(reg => reg.unregister());
+                });
+            }
+
+            // Limpar caches
             if ('caches' in window) {
                 caches.keys().then(names => {
-                    names.forEach(name => caches.delete(name));
+                    names.forEach(name => {
+                        caches.delete(name);
+                        log('CACHE', `Cache '${name}' deletado`);
+                    });
                 });
+            }
+        })();
+
+        // Forçar reload se necessário
+        window.addEventListener('load', () => {
+            log('LOAD', 'Página carregada, cache limpo');
+            
+            // Se for primeira carga, força reload para pegar versão nova
+            if (!sessionStorage.getItem('artblend_loaded')) {
+                sessionStorage.setItem('artblend_loaded', 'true');
+                log('INIT', 'Primeira carga - versão v5.0-ultra ativa');
             }
         });
     </script>
