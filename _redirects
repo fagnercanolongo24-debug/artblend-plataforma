@@ -1,17 +1,16 @@
-# ArtBlend PLATAFORMA SUPREMA v7.0 - MEGA INTEGRAÇÃO
-# Uma única plataforma que integra: landing page + dashboard + módulos + gamificação
+# ArtBlend PLATAFORMA SUPREMA - UMA URL ÚNICA E DEFINITIVA
 
-# Login
+# PLATAFORMA SUPREMA - ARQUIVO PRINCIPAL
+/artblend_hub /artblend_hub.html 200
+/hub /artblend_hub.html 200
+/plataforma /artblend_hub.html 200
+/app /artblend_hub.html 200
+
+# LOGIN
 /login /ARTBLEND_LOGIN.html 200
 /auth /ARTBLEND_LOGIN.html 200
 
-# Plataforma Suprema (HOME)
-/artblend_hub /ARTBLEND_PLATAFORMA_SUPREMA_V7.html 200
-/hub /ARTBLEND_PLATAFORMA_SUPREMA_V7.html 200
-/plataforma /ARTBLEND_PLATAFORMA_SUPREMA_V7.html 200
-/inicio /ARTBLEND_PLATAFORMA_SUPREMA_V7.html 200
-
-# URLs dos 8 MÓDULOS (importante!)
+# Módulos (sem redirect - servem direto)
 /ARTBLEND_DASHBOARD_CONSULTOR_COMPLETO.html /ARTBLEND_DASHBOARD_CONSULTOR_COMPLETO.html 200
 /ARTBLEND_GAMIFICACAO_SISTEMA_COMPLETA.html /ARTBLEND_GAMIFICACAO_SISTEMA_COMPLETA.html 200
 /ARTBLEND_WHATSAPP_AUTOMACAO_COMPLETA.html /ARTBLEND_WHATSAPP_AUTOMACAO_COMPLETA.html 200
@@ -21,10 +20,5 @@
 /ARTBLEND_RELATORIO_CLIENTE_V2_FINAL.html /ARTBLEND_RELATORIO_CLIENTE_V2_FINAL.html 200
 /ARTBLEND_ANALYTICS_BI_DASHBOARD_COMPLETO.html /ARTBLEND_ANALYTICS_BI_DASHBOARD_COMPLETO.html 200
 
-# URLs dos outros arquivos
-/ARTBLEND_PAINEL_CONSULTOR.html /ARTBLEND_PAINEL_CONSULTOR.html 200
-/ARTBLEND_CADASTRO_CLIENTE_V2.html /ARTBLEND_CADASTRO_CLIENTE_V2.html 200
-/ARTBLEND_LOGIN.html /ARTBLEND_LOGIN.html 200
-
-# Root vai para login (que redireciona para plataforma suprema)
+# Root → Login (que redireciona para plataforma)
 / /ARTBLEND_LOGIN.html 200
