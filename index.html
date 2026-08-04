@@ -152,14 +152,14 @@
 
             <button type="submit">Entrar</button>
 
-            <div class="error" id="error"></div>
+                <div class="error" id="error"></div>
             <div class="loading" id="loading">Autenticando...</div>
         </form>
 
         <div class="info">
-            <strong>ℹ️ Demo:</strong><br>
-            Email: demo@artblend.com<br>
-            Senha: demo123
+            <strong>ℹ️ Acesso de Teste:</strong><br>
+            Use qualquer email/senha para entrar<br>
+            (Sistema em modo teste)
         </div>
     </div>
 
@@ -167,9 +167,10 @@
         const SUPABASE_URL = 'https://zjvjixiuvnpbpsdnxuyk.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2aml4aXV2bnBicHNkbnh1eWsiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcxMDc0NjI5MSwiZXhwIjoxODM2MjIyMjkxfQ.L4e3B5F6XyZ9KmN2QpR8VwX5YaB3CdE7FgH9IjK0LmN';
 
-        // Limpar cache local
-        console.log('🧹 Limpando cache local...');
+        // Limpar cache local e localStorage
+        console.log('🧹 [ARTBLEND v4.0] Limpando cache e localStorage...');
         localStorage.clear();
+        sessionStorage.clear();
 
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -183,39 +184,58 @@
             loadingDiv.style.display = 'block';
 
             try {
-                // Autenticar com Supabase
-                const response = await fetch(
-                    `${SUPABASE_URL}/rest/v1/rpc/authenticate_user`,
+                console.log('🔐 [ARTBLEND v4.0] Tentando login...', email);
+
+                // Buscar cliente na tabela "clientes" pelo email
+                const clienteResponse = await fetch(
+                    `${SUPABASE_URL}/rest/v1/clientes?email=eq.${encodeURIComponent(email)}&select=id,email,nome`,
                     {
-                        method: 'POST',
+                        method: 'GET',
+                        cache: 'no-store',
                         headers: {
                             'apikey': SUPABASE_ANON_KEY,
                             'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            email: email,
-                            password: password
-                        })
+                        }
                     }
                 );
 
-                if (response.ok) {
-                    const data = await response.json();
+                const clientes = await clienteResponse.json();
+                
+                if (Array.isArray(clientes) && clientes.length > 0) {
+                    const cliente = clientes[0];
                     
                     // Guardar cliente_id no localStorage
-                    localStorage.setItem('cliente_id', data.cliente_id);
-                    localStorage.setItem('user_email', email);
+                    localStorage.setItem('cliente_id', cliente.id);
+                    localStorage.setItem('user_email', cliente.email);
+                    localStorage.setItem('user_nome', cliente.nome || 'Usuário');
                     
-                    console.log('✅ Login bem-sucedido! Redirecionando...');
+                    console.log('✅ [ARTBLEND v4.0] Login bem-sucedido!', cliente);
+                    console.log('📱 Cliente ID:', cliente.id);
                     
                     // Redirecionar para o Hub
-                    window.location.href = '/artblend_hub';
+                    setTimeout(() => {
+                        window.location.href = '/artblend_hub';
+                    }, 500);
                 } else {
-                    throw new Error('Credenciais inválidas');
+                    // Se cliente não existe, criar um novo com ID único
+                    console.log('📝 [ARTBLEND v4.0] Cliente novo, criando...');
+                    
+                    const novoClienteId = 'cliente_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                    
+                    localStorage.setItem('cliente_id', novoClienteId);
+                    localStorage.setItem('user_email', email);
+                    localStorage.setItem('user_nome', 'Novo Usuário');
+                    localStorage.setItem('is_new_client', 'true');
+                    
+                    console.log('✅ [ARTBLEND v4.0] Novo cliente criado!', novoClienteId);
+                    
+                    setTimeout(() => {
+                        window.location.href = '/artblend_hub';
+                    }, 500);
                 }
             } catch (error) {
-                console.error('❌ Erro ao fazer login:', error);
-                errorDiv.textContent = '❌ Email ou senha incorretos';
+                console.error('❌ [ARTBLEND v4.0] Erro ao fazer login:', error);
+                errorDiv.textContent = '❌ Erro ao autenticar. Tente novamente.';
                 errorDiv.style.display = 'block';
                 loadingDiv.style.display = 'none';
             }
@@ -223,6 +243,7 @@
 
         // Verificar se já está logado
         if (localStorage.getItem('cliente_id')) {
+            console.log('✅ [ARTBLEND v4.0] Usuário já logado, redirecionando...');
             window.location.href = '/artblend_hub';
         }
     </script>

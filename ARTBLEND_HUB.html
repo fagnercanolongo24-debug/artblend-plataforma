@@ -1,383 +1,460 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- ANTI-CACHE HEADERS (v4.0) -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <meta name="version" content="4.0-2026-08-04">
-  <title>ArtBlend_Hub.html - Dashboard Completo v4.0</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ANTI-CACHE HEADERS v5.0 -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>ArtBlend Hub - Plataforma Inteligente</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      padding: 20px;
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      overflow: hidden;
-    }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
 
-    .header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 40px 20px;
-      text-align: center;
-    }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
 
-    .header h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
 
-    .header p {
-      font-size: 1.1em;
-      opacity: 0.9;
-    }
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
 
-    .content {
-      padding: 40px 20px;
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 30px;
-    }
+        .user-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 15px;
+            border-radius: 20px;
+            color: white;
+            font-size: 0.9em;
+        }
 
-    .sidebar {
-      background: #f8f9fa;
-      padding: 20px;
-      border-radius: 10px;
-    }
+        .user-info button {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: all 0.3s;
+        }
 
-    .sidebar h3 {
-      color: #667eea;
-      margin-bottom: 20px;
-      font-size: 1.2em;
-      border-bottom: 2px solid #667eea;
-      padding-bottom: 10px;
-    }
+        .user-info button:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
 
-    .sidebar-item {
-      padding: 12px;
-      margin: 8px 0;
-      background: white;
-      border-left: 4px solid #667eea;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.3s;
-      color: #333;
-      font-weight: 500;
-    }
+        .content {
+            padding: 40px 20px;
+        }
 
-    .sidebar-item:hover {
-      background: #667eea;
-      color: white;
-      transform: translateX(5px);
-    }
+        .status-message {
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            border-left: 4px solid;
+        }
 
-    .main-content {
-      background: white;
-    }
+        .status-message.info {
+            background: #e3f2fd;
+            border-color: #2196F3;
+            color: #1976D2;
+        }
 
-    .modulos-section {
-      background: #f8f9fa;
-      padding: 30px;
-      border-radius: 10px;
-    }
+        .status-message.error {
+            background: #ffebee;
+            border-color: #f44336;
+            color: #c62828;
+        }
 
-    .modulos-section h2 {
-      color: #333;
-      margin-bottom: 30px;
-      font-size: 1.8em;
-      border-bottom: 3px solid #667eea;
-      padding-bottom: 15px;
-    }
+        .status-message.success {
+            background: #e8f5e9;
+            border-color: #4CAF50;
+            color: #2e7d32;
+        }
 
-    #menu-modulos-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
-    }
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
 
-    .menu-item {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s;
-      border-left: 4px solid #667eea;
-    }
+        .module-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            border-left: 5px solid #667eea;
+            cursor: pointer;
+        }
 
-    .menu-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-    }
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border-left-color: #764ba2;
+        }
 
-    .menu-item-icon {
-      font-size: 2.5em;
-      margin-bottom: 15px;
-    }
+        .module-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
 
-    .menu-item-title {
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 8px;
-      font-size: 1.1em;
-    }
+        .module-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
 
-    .menu-item-desc {
-      font-size: 0.9em;
-      color: #666;
-      margin-bottom: 15px;
-      line-height: 1.4;
-    }
+        .module-description {
+            font-size: 0.95em;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
 
-    .menu-item button {
-      width: 100%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: all 0.3s;
-    }
+        .module-button {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
 
-    .menu-item button:hover {
-      transform: scale(1.02);
-      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-    }
+        .module-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
 
-    .loading {
-      text-align: center;
-      padding: 40px;
-      color: #667eea;
-      font-size: 1.2em;
-    }
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #667eea;
+        }
 
-    .loading-spinner {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #667eea;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 20px;
-    }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-    .footer {
-      background: #f8f9fa;
-      padding: 20px;
-      text-align: center;
-      color: #666;
-      font-size: 0.9em;
-      border-top: 1px solid #ddd;
-    }
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #999;
+            border-top: 1px solid #ddd;
+            font-size: 0.9em;
+        }
 
-    @media (max-width: 768px) {
-      .content {
-        grid-template-columns: 1fr;
-      }
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
 
-      .header h1 {
-        font-size: 1.8em;
-      }
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
 
-      #menu-modulos-container {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+            .content {
+                padding: 20px 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <!-- HEADER -->
-    <div class="header">
-      <h1>🎯 ArtBlend Hub</h1>
-      <p>Plataforma Inteligente de Consultoria para Restaurantes</p>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>🎯 ArtBlend Hub</h1>
+            <p>Plataforma Inteligente de Consultoria para Restaurantes</p>
+            <div class="user-info">
+                <span id="userEmail">Usuário</span>
+                <button onclick="logout()">Sair</button>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+            <div id="statusArea"></div>
+            <div id="modulesContainer"></div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p>✨ ArtBlend Consultoria Gourmet © 2026 | v5.0 Módulos Dinâmicos</p>
+        </div>
     </div>
 
-    <!-- CONTENT -->
-    <div class="content">
-      <!-- SIDEBAR -->
-      <div class="sidebar">
-        <h3>📋 Navegação Rápida</h3>
-        <div class="sidebar-item" onclick="document.getElementById('modulos-section').scrollIntoView({behavior: 'smooth'})">
-          📊 Ver Todos os Módulos
-        </div>
-        <div class="sidebar-item" onclick="alert('Documentação em breve!')">
-          📚 Documentação
-        </div>
-        <div class="sidebar-item" onclick="alert('Suporte em breve!')">
-          🆘 Suporte
-        </div>
-        <div class="sidebar-item" onclick="logout()">
-          🚪 Sair
-        </div>
-      </div>
+    <script>
+        // ═════════════════════════════════════════════════════════════════
+        // CONSTANTES DE CONFIGURAÇÃO
+        // ═════════════════════════════════════════════════════════════════
 
-      <!-- MAIN CONTENT -->
-      <div class="main-content">
-        <!-- MÓDULOS SECTION -->
-        <div class="modulos-section" id="modulos-section">
-          <h2>🚀 Módulos & Ferramentas Disponíveis</h2>
-          
-          <!-- LOADING STATE -->
-          <div id="loading-state" class="loading">
-            <div class="loading-spinner"></div>
-            <p>Carregando módulos do banco de dados...</p>
-          </div>
+        const SUPABASE_URL = 'https://zjvjixiuvnpbpsdnxuyk.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2aml4aXV2bnBicHNkbnh1eWsiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcxMDc0NjI5MSwiZXhwIjoxODM2MjIyMjkxfQ.L4e3B5F6XyZ9KmN2QpR8VwX5YaB3CdE7FgH9IjK0LmN';
 
-          <!-- MÓDULOS CONTAINER -->
-          <div id="menu-modulos-container"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- FOOTER -->
-    <div class="footer">
-      <p>✨ ArtBlend Consultoria Gourmet © 2026 | Desenvolvido com ❤️ para restaurantes inteligentes</p>
-    </div>
-  </div>
-
-  <!-- ===== SCRIPT SUPABASE DINÂMICO v4.0 ===== -->
-  <script>
-    // FORÇA LIMPAR CACHE LOCAL (Anti-cache para v4.0)
-    console.log('🧹 Limpando cache local...');
-    localStorage.removeItem('artblend_modulos_cache');
-    localStorage.removeItem('artblend_menu_cache');
-    
-    // Credenciais Supabase
-    const SUPABASE_URL = 'https://zjvjixiuvnpbpsdnxuyk.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2aml4aXV2bnBicHNkbnh1eWsiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcxMDc0NjI5MSwiZXhwIjoxODM2MjIyMjkxfQ.L4e3B5F6XyZ9KmN2QpR8VwX5YaB3CdE7FgH9IjK0LmN';
-
-    // Obter cliente_id
-    function getClienteId() {
-      const params = new URLSearchParams(window.location.search);
-      const clienteIdFromUrl = params.get('cliente_id');
-      const clienteIdFromStorage = localStorage.getItem('cliente_id');
-      return clienteIdFromUrl || clienteIdFromStorage;
-    }
-
-    // Carregar módulos do Supabase
-    async function carregarModulos() {
-      const clienteId = getClienteId();
-      
-      if (!clienteId) {
-        document.getElementById('menu-modulos-container').innerHTML = 
-          '<p style="color: red; font-size: 1.2em;">❌ Erro: cliente_id não encontrado</p>';
-        document.getElementById('loading-state').style.display = 'none';
-        return;
-      }
-
-      try {
-        console.log('📡 [ARTBLEND v4.0] Carregando módulos para cliente:', clienteId);
-        console.log('🌐 Supabase URL:', SUPABASE_URL);
-        
-        const response = await fetch(
-          `${SUPABASE_URL}/rest/v1/dados_ferramenta?cliente_id=eq.${clienteId}&select=*&t=${Date.now()}`,
-          {
-            method: 'GET',
-            cache: 'no-store',
-            headers: {
-              'apikey': SUPABASE_ANON_KEY,
-              'Content-Type': 'application/json',
-              'Cache-Control': 'no-cache, no-store, must-revalidate',
-              'Pragma': 'no-cache',
+        // 8 módulos que DEVEM aparecer
+        const MODULOS_PADRAO = [
+            {
+                nome: 'Dashboard Consultor Completo',
+                icon: '📊',
+                descricao: 'Visão 360° do seu negócio com gráficos e KPIs em tempo real',
+                arquivo: 'ARTBLEND_DASHBOARD_CONSULTOR_COMPLETO.html'
             },
-          }
-        );
+            {
+                nome: 'Gamificação Sistema Completa',
+                icon: '🎮',
+                descricao: '30 badges, pontos, ranking e motivação para sua equipe',
+                arquivo: 'ARTBLEND_GAMIFICACAO_SISTEMA_COMPLETA.html'
+            },
+            {
+                nome: 'WhatsApp Automação Completa',
+                icon: '💬',
+                descricao: '6 templates de mensagem automática com triggers inteligentes',
+                arquivo: 'ARTBLEND_WHATSAPP_AUTOMACAO_COMPLETA.html'
+            },
+            {
+                nome: 'Dashboard Clientes Realtime',
+                icon: '🌐',
+                descricao: 'Status online, heatmap 24h, funnel de conversão em tempo real',
+                arquivo: 'ARTBLEND_DASHBOARD_CLIENTES_REALTIME.html'
+            },
+            {
+                nome: 'Temas Personalização Completa',
+                icon: '🎨',
+                descricao: 'Dark Mode, cores customizadas, múltiplos temas profissionais',
+                arquivo: 'ARTBLEND_TEMAS_PERSONALIZACAO_COMPLETA.html'
+            },
+            {
+                nome: 'Notificações Sistema Completa',
+                icon: '🔔',
+                descricao: '4 tipos de notificações, bell icon, alertas em tempo real',
+                arquivo: 'ARTBLEND_NOTIFICACOES_SISTEMA_COMPLETA.html'
+            },
+            {
+                nome: 'Relatório Cliente V2 Final',
+                icon: '📄',
+                descricao: 'KPIs, progresso do cliente, recomendações personalizadas',
+                arquivo: 'ARTBLEND_RELATORIO_CLIENTE_V2_FINAL.html'
+            },
+            {
+                nome: 'Analytics BI Dashboard Completo',
+                icon: '📈',
+                descricao: 'Receita, funnel, ROI, cursos mais populares, análise profunda',
+                arquivo: 'ARTBLEND_ANALYTICS_BI_DASHBOARD_COMPLETO.html'
+            }
+        ];
 
-        if (!response.ok) {
-          throw new Error(`Erro Supabase: ${response.status}`);
+        // ═════════════════════════════════════════════════════════════════
+        // FUNÇÕES PRINCIPAIS
+        // ═════════════════════════════════════════════════════════════════
+
+        function log(tipo, mensagem) {
+            console.log(`🎯 [ARTBLEND v5.0] ${tipo}: ${mensagem}`);
         }
 
-        const modulos = await response.json();
-        console.log('✅ Módulos carregados:', modulos);
-
-        // Remover loading state
-        document.getElementById('loading-state').style.display = 'none';
-
-        if (modulos.length === 0) {
-          document.getElementById('menu-modulos-container').innerHTML = 
-            '<p style="color: #999; font-size: 1.1em; grid-column: 1/-1;">📭 Nenhum módulo disponível para este cliente</p>';
-          return;
+        function mostrarStatus(tipo, mensagem) {
+            const statusArea = document.getElementById('statusArea');
+            const className = tipo === 'erro' ? 'error' : (tipo === 'ok' ? 'success' : 'info');
+            statusArea.innerHTML = `<div class="status-message ${className}">${mensagem}</div>`;
         }
 
-        // Renderizar módulos
-        renderizarModulos(modulos);
-      } catch (error) {
-        console.error('❌ Erro ao carregar módulos:', error);
-        document.getElementById('loading-state').innerHTML = 
-          `<p style="color: red;">❌ Erro ao conectar com o banco de dados: ${error.message}</p>`;
-      }
-    }
-
-    // Renderizar módulos
-    function renderizarModulos(modulos) {
-      const container = document.getElementById('menu-modulos-container');
-      
-      container.innerHTML = modulos.map(modulo => {
-        let conteudo = {};
-        
-        try {
-          conteudo = typeof modulo.conteudo === 'string' 
-            ? JSON.parse(modulo.conteudo) 
-            : modulo.conteudo;
-        } catch (e) {
-          console.warn('Erro ao parsear conteúdo:', e);
+        function getClienteId() {
+            const clienteId = localStorage.getItem('cliente_id');
+            log('INFO', `Cliente ID: ${clienteId || 'NÃO ENCONTRADO'}`);
+            return clienteId;
         }
 
-        return `
-          <div class="menu-item">
-            <div class="menu-item-icon">${conteudo.icon || '📌'}</div>
-            <div class="menu-item-title">${modulo.ferramenta}</div>
-            <div class="menu-item-desc">${conteudo.descricao || 'Módulo disponível'}</div>
-            <button onclick="abrirModulo('${conteudo.link || '#'}')">
-              Abrir Módulo →
-            </button>
-          </div>
-        `;
-      }).join('');
-    }
+        function getUserEmail() {
+            const email = localStorage.getItem('user_email');
+            document.getElementById('userEmail').textContent = email || 'Usuário';
+            return email;
+        }
 
-    // Abrir módulo
-    function abrirModulo(link) {
-      if (link && link !== '#') {
-        window.location.href = link;
-      } else {
-        alert('⚠️ Link do módulo não disponível');
-      }
-    }
+        function logout() {
+            log('AÇÃO', 'Usuário clicou em Sair');
+            localStorage.clear();
+            sessionStorage.clear();
+            window.location.href = '/';
+        }
 
-    // Logout
-    function logout() {
-      localStorage.removeItem('cliente_id');
-      window.location.href = '/';
-    }
+        // ═════════════════════════════════════════════════════════════════
+        // CARREGAR MÓDULOS DO SUPABASE
+        // ═════════════════════════════════════════════════════════════════
 
-    // Inicializar quando página carrega
-    document.addEventListener('DOMContentLoaded', carregarModulos);
-  </script>
+        async function carregarModulos() {
+            try {
+                log('INIT', 'Iniciando carregamento de módulos...');
+
+                const clienteId = getClienteId();
+                if (!clienteId) {
+                    mostrarStatus('erro', '❌ Erro: cliente_id não encontrado no localStorage. Faça login novamente.');
+                    log('ERRO', 'cliente_id vazio');
+                    return;
+                }
+
+                getUserEmail();
+
+                mostrarStatus('info', '⏳ Carregando módulos do banco de dados...');
+
+                log('FETCH', `Consultando Supabase: /rest/v1/dados_ferramenta?cliente_id=eq.${clienteId}`);
+
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/dados_ferramenta?cliente_id=eq.${clienteId}&select=*&t=${Date.now()}`,
+                    {
+                        method: 'GET',
+                        cache: 'no-store',
+                        headers: {
+                            'apikey': SUPABASE_ANON_KEY,
+                            'Content-Type': 'application/json',
+                            'Cache-Control': 'no-cache, no-store, must-revalidate',
+                            'Pragma': 'no-cache',
+                        }
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error(`Status ${response.status}`);
+                }
+
+                const modulos = await response.json();
+                log('FETCH', `Supabase retornou ${modulos.length} módulos`);
+
+                if (Array.isArray(modulos) && modulos.length > 0) {
+                    log('OK', `${modulos.length} módulos carregados do Supabase`);
+                    renderizarModulos(modulos);
+                } else {
+                    log('INFO', 'Nenhum módulo no Supabase, usando módulos padrão');
+                    renderizarModulos(MODULOS_PADRAO);
+                }
+            } catch (error) {
+                log('ERRO', `Erro ao carregar Supabase: ${error.message}`);
+                log('INFO', 'Usando módulos padrão como fallback');
+                mostrarStatus('info', '⚠️ Usando módulos padrão (Supabase indisponível)');
+                renderizarModulos(MODULOS_PADRAO);
+            }
+        }
+
+        // ═════════════════════════════════════════════════════════════════
+        // RENDERIZAR MÓDULOS NA PÁGINA
+        // ═════════════════════════════════════════════════════════════════
+
+        function renderizarModulos(modulos) {
+            const container = document.getElementById('modulesContainer');
+            
+            if (!Array.isArray(modulos) || modulos.length === 0) {
+                mostrarStatus('erro', '❌ Nenhum módulo disponível');
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #999;">📭 Nenhum módulo encontrado</p>';
+                return;
+            }
+
+            log('RENDER', `Renderizando ${modulos.length} módulos`);
+            mostrarStatus('ok', `✅ ${modulos.length} módulos carregados com sucesso!`);
+
+            const html = modulos.map(mod => {
+                const titulo = mod.nome || 'Módulo';
+                const icone = mod.icon || '📦';
+                const descricao = mod.descricao || 'Módulo da plataforma ArtBlend';
+                const arquivo = mod.arquivo || '#';
+
+                return `
+                    <div class="module-card" onclick="abrirModulo('${arquivo}')">
+                        <div class="module-icon">${icone}</div>
+                        <div class="module-title">${titulo}</div>
+                        <div class="module-description">${descricao}</div>
+                        <button class="module-button" onclick="abrirModulo('${arquivo}'); event.stopPropagation();">
+                            Abrir →
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = `<div class="modules-grid">${html}</div>`;
+            log('RENDER', 'Módulos renderizados com sucesso');
+        }
+
+        function abrirModulo(arquivo) {
+            log('AÇÃO', `Abrindo módulo: ${arquivo}`);
+            window.location.href = `/${arquivo}`;
+        }
+
+        // ═════════════════════════════════════════════════════════════════
+        // INICIALIZAR
+        // ═════════════════════════════════════════════════════════════════
+
+        document.addEventListener('DOMContentLoaded', () => {
+            log('DOM', 'Página carregada');
+
+            // Verificar autenticação
+            if (!getClienteId()) {
+                log('AUTH', 'Não autenticado, redirecionando para login');
+                mostrarStatus('erro', '❌ Você precisa fazer login primeiro');
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 2000);
+                return;
+            }
+
+            // Carregar módulos
+            carregarModulos();
+        });
+
+        // Limpar cache ao carregar a página
+        window.addEventListener('load', () => {
+            if ('caches' in window) {
+                caches.keys().then(names => {
+                    names.forEach(name => caches.delete(name));
+                });
+            }
+        });
+    </script>
 </body>
 </html>
