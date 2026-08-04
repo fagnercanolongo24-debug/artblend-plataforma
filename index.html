@@ -53,12 +53,7 @@
         const SUPABASE_URL = 'https://zjvjixiuvnpbpsdnxuyk.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2aml4aXV2bnBicHNkbnh1eWsiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcxMDc0NjI5MSwiZXhwIjoxODM2MjIyMjkxfQ.L4e3B5F6XyZ9KmN2QpR8VwX5YaB3CdE7FgH9IjK0LmN';
 
-        // 1. Limpar cache AGRESSIVAMENTE
-        localStorage.clear();
-        sessionStorage.clear();
-        if ('caches' in window) caches.keys().then(n => n.forEach(x => caches.delete(x)));
-
-        // 2. Se JÁ está logado, redirecionar IMEDIATAMENTE
+        // 1. PRIMEIRO: Verificar se JÁ está logado (antes de limpar cache!)
         window.addEventListener('load', () => {
             const clienteId = localStorage.getItem('cliente_id');
             if (clienteId) {
@@ -66,6 +61,10 @@
                 window.location.href = '/artblend_hub';
                 return;
             }
+            
+            // Só limpar cache se NÃO está logado
+            sessionStorage.clear();
+            if ('caches' in window) caches.keys().then(n => n.forEach(x => caches.delete(x)));
         });
 
         // 3. Form de login

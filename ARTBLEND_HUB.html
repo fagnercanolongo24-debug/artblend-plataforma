@@ -63,15 +63,30 @@
             { nome: 'Analytics BI Dashboard Completo', icon: '📈', desc: 'Receita, funnel, ROI, cursos mais populares, análise profunda', arquivo: 'ARTBLEND_ANALYTICS_BI_DASHBOARD_COMPLETO.html' }
         ];
 
-        localStorage.clear();
-        sessionStorage.clear();
+        // NÃO deletar localStorage aqui! Precisa preservar cliente_id
+        // Só limpar cache do browser (não dados do usuário)
         if ('caches' in window) caches.keys().then(n => n.forEach(x => caches.delete(x)));
+
+        // CHECK CRÍTICO: Se não está logado, volta para login
+        window.addEventListener('load', () => {
+            const clienteId = localStorage.getItem('cliente_id');
+            if (!clienteId) {
+                console.log('❌ Não autenticado, redirecionando para login...');
+                window.location.href = '/';
+                return;
+            }
+        });
 
         function log(m) { console.log('🎯 [ARTBLEND v5.0-FINAL] ' + m); }
         function status(t, m) { document.getElementById('statusArea').innerHTML = '<div class="status ' + (t === 'erro' ? 'error' : t === 'ok' ? 'success' : 'loading') + '">' + m + '</div>'; }
         function getClienteId() { const id = localStorage.getItem('cliente_id'); if (id) document.getElementById('userEmail').textContent = localStorage.getItem('user_email') || 'Usuário'; return id; }
         function logout() { localStorage.clear(); window.location.href = '/'; }
-        function abrirModulo(a) { window.location.href = '/' + a; }
+        function abrirModulo(a) { 
+            const id = localStorage.getItem('cliente_id');
+            if (!id) { alert('Erro: Sessão expirou'); window.location.href = '/'; return; }
+            // Abre o módulo - Netlify vai servir via _redirects
+            window.location.href = '/' + a;
+        }
 
         async function carregarModulos() {
             const id = getClienteId();
