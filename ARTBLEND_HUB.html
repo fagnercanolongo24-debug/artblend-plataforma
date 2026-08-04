@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ArtBlend_Hub.html - Dashboard Completo</title>
+  <!-- ANTI-CACHE HEADERS (v4.0) -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="version" content="4.0-2026-08-04">
+  <title>ArtBlend_Hub.html - Dashboard Completo v4.0</title>
   <style>
     * {
       margin: 0;
@@ -255,8 +260,13 @@
     </div>
   </div>
 
-  <!-- ===== SCRIPT SUPABASE DINÂMICO ===== -->
+  <!-- ===== SCRIPT SUPABASE DINÂMICO v4.0 ===== -->
   <script>
+    // FORÇA LIMPAR CACHE LOCAL (Anti-cache para v4.0)
+    console.log('🧹 Limpando cache local...');
+    localStorage.removeItem('artblend_modulos_cache');
+    localStorage.removeItem('artblend_menu_cache');
+    
     // Credenciais Supabase
     const SUPABASE_URL = 'https://zjvjixiuvnpbpsdnxuyk.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2aml4aXV2bnBicHNkbnh1eWsiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcxMDc0NjI5MSwiZXhwIjoxODM2MjIyMjkxfQ.L4e3B5F6XyZ9KmN2QpR8VwX5YaB3CdE7FgH9IjK0LmN';
@@ -281,15 +291,19 @@
       }
 
       try {
-        console.log('Carregando módulos para cliente:', clienteId);
+        console.log('📡 [ARTBLEND v4.0] Carregando módulos para cliente:', clienteId);
+        console.log('🌐 Supabase URL:', SUPABASE_URL);
         
         const response = await fetch(
-          `${SUPABASE_URL}/rest/v1/dados_ferramenta?cliente_id=eq.${clienteId}&select=*`,
+          `${SUPABASE_URL}/rest/v1/dados_ferramenta?cliente_id=eq.${clienteId}&select=*&t=${Date.now()}`,
           {
             method: 'GET',
+            cache: 'no-store',
             headers: {
               'apikey': SUPABASE_ANON_KEY,
               'Content-Type': 'application/json',
+              'Cache-Control': 'no-cache, no-store, must-revalidate',
+              'Pragma': 'no-cache',
             },
           }
         );
