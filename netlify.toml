@@ -1,54 +1,45 @@
-# ArtBlend v4.0 - Configuração Netlify
+# ArtBlend v7.0 - Configuração Netlify COM CACHE-BUSTING AGRESSIVO
 
 [build]
-  command = "echo 'ArtBlend - Plataforma de Consultoria'"
+  command = "echo 'ArtBlend Suprema v7.0 - $(date)'"
   publish = "."
 
-# Headers globais para anti-cache
+# Headers GLOBAIS - SEM CACHE PARA NADA
 [[headers]]
   for = "/*"
   [headers.values]
-    Cache-Control = "no-cache, no-store, must-revalidate, max-age=0"
+    Cache-Control = "no-cache, no-store, must-revalidate, max-age=0, s-maxage=0"
     Pragma = "no-cache"
     Expires = "0"
     X-Content-Type-Options = "nosniff"
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
+    X-UA-Compatible = "ie=edge"
 
-# Headers específicos para HTML
+# Headers para HTML - FORÇA RECARREGAMENTO
 [[headers]]
   for = "/*.html"
   [headers.values]
     Content-Type = "text/html; charset=utf-8"
-    Cache-Control = "no-cache, no-store, must-revalidate"
+    Cache-Control = "no-cache, no-store, must-revalidate, max-age=0, s-maxage=0, public"
+    ETag = "$(date +%s)"
+    Last-Modified = "$(date -u)"
 
-# Headers para assets estáticos (CSS, JS podem ter cache mais longo)
+# Headers para CSS - Pode cachear mas com versioning
 [[headers]]
-  for = "/ARTBLEND_DESIGN_SYSTEM.css"
+  for = "/*.css"
   [headers.values]
-    Cache-Control = "public, max-age=3600"
+    Cache-Control = "public, max-age=3600, immutable"
 
-# Redirecionar HTTP para HTTPS
+# Headers para JS - Pode cachear mas com versioning
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, immutable"
+
+# Redirecionar HTTP para HTTPS (força recarregamento)
 [[redirects]]
-  from = "http://artblendconsultoria.com.br/*"
+  from = "http://artblendconsultoriagourmet.netlify.app/*"
   to = "https://artblendconsultoriagourmet.netlify.app/:splat"
   status = 301
   force = true
-
-# Redirecionar root para index.html
-[[redirects]]
-  from = "/"
-  to = "/index.html"
-  status = 200
-
-# Redirecionar /artblend_hub para arquivo correto
-[[redirects]]
-  from = "/artblend_hub"
-  to = "/ARTBLEND_HUB.html"
-  status = 200
-
-# Redirecionar /painel para dashboard
-[[redirects]]
-  from = "/painel"
-  to = "/ARTBLEND_PAINEL_CONSULTOR.html"
-  status = 200
