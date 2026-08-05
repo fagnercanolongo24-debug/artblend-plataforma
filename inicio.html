@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtBlend - Plataforma de Consultoria para Restaurantes</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; scroll-behavior: smooth; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #16A5A5 0%, #0F7D7D 100%);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .header .logo { font-size: 24px; font-weight: 800; }
+        .header .buttons a { 
+            color: white; 
+            text-decoration: none; 
+            margin: 0 10px; 
+            padding: 10px 20px;
+            border: 2px solid white;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        .header .buttons a:hover { background: white; color: #16A5A5; }
+        .header .buttons a.btn-login { background: white; color: #16A5A5; }
+        
+        /* CONTAINER */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+        
+        /* HERO SECTION */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 100px;
+        }
+        
+        .hero-section h1 {
+            font-size: 48px;
+            color: #16A5A5;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        
+        .hero-section p {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .btn {
+            background: #16A5A5;
+            color: white;
+            padding: 16px 40px;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(22, 165, 165, 0.3);
+        }
+        
+        .btn:hover {
+            background: #0F7D7D;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(22, 165, 165, 0.5);
+        }
+        
+        /* FEATURES GRID */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            border-top: 4px solid #16A5A5;
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
+        .feature-card i {
+            font-size: 50px;
+            color: #16A5A5;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            color: #16A5A5;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.8;
+            font-size: 14px;
+        }
+        
+        /* SHOWCASE */
+        .showcase {
+            background: white;
+            padding: 60px 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            margin-bottom: 60px;
+        }
+        
+        .showcase h2 {
+            color: #16A5A5;
+            font-size: 36px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .showcase-item {
+            background: linear-gradient(135deg, #16A5A5, #0F7D7D);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .showcase-item .value {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        
+        .showcase-item .label {
+            font-size: 14px;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+        
+        /* CTA BOX */
+        .cta-box {
+            background: linear-gradient(135deg, #16A5A5, #0F7D7D);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .cta-box h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .cta-box p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+        
+        .cta-box .btn {
+            background: white;
+            color: #16A5A5;
+            font-size: 18px;
+            padding: 18px 50px;
+        }
+        
+        .cta-box .btn:hover {
+            background: #f5f5f5;
+        }
+        
+        /* FOOTER */
+        footer {
+            background: #222;
+            color: white;
+            text-align: center;
+            padding: 40px;
+            margin-top: 40px;
+        }
+        
+        footer p {
+            opacity: 0.8;
+            margin: 10px 0;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .container { padding: 40px 20px; }
+            .hero-section h1 { font-size: 32px; }
+            .hero-section p { font-size: 16px; }
+            .header { flex-direction: column; gap: 15px; }
+            .showcase { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="logo">🎯 ArtBlend Plataforma</div>
+    <div class="buttons">
+        <a href="landing-artblendconsultoria.html" class="btn-voltar"><i class="fas fa-arrow-left"></i> Voltar</a>
+        <a href="login.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Fazer Login</a>
+    </div>
+</div>
+
+<!-- CONTEÚDO -->
+<div class="container">
+    
+    <!-- HERO -->
+    <div class="hero-section">
+        <h1>Bem-vindo à ArtBlend</h1>
+        <p>Conheça a plataforma que está transformando restaurantes, bares e empreendimentos de alimentação em todo Brasil</p>
+        <a href="login.html" class="btn"><i class="fas fa-sign-in-alt"></i> Fazer Login Agora</a>
+        <a href="landing-artblendconsultoria.html" class="btn" style="background: white; color: #16A5A5; border: 2px solid #16A5A5;">📖 Voltar ao Site</a>
+    </div>
+
+    <!-- FEATURES TEASER -->
+    <div class="features-grid">
+        <div class="feature-card">
+            <i class="fas fa-chart-bar"></i>
+            <h3>Dashboard Completo</h3>
+            <p>Acompanhe seus indicadores em tempo real: faturamento, CMV, refeições, clientes, lucro e muito mais.</p>
+        </div>
+        
+        <div class="feature-card">
+            <i class="fas fa-star"></i>
+            <h3>Gamificação</h3>
+            <p>Motiva sua equipe com 30 badges, pontos, ranking e 5 níveis de reconhecimento.</p>
+        </div>
+        
+        <div class="feature-card">
+            <i class="fas fa-bell"></i>
+            <h3>Notificações Inteligentes</h3>
+            <p>Receba alertas automáticos sobre estoque, pedidos, tempo de espera e muito mais.</p>
+        </div>
+        
+        <div class="feature-card">
+            <i class="fas fa-whatsapp"></i>
+            <h3>WhatsApp Integrado</h3>
+            <p>Automação com templates prontos e agendamentos de mensagens para sua equipe.</p>
+        </div>
+        
+        <div class="feature-card">
+            <i class="fas fa-book"></i>
+            <h3>14 Cursos Profissionais</h3>
+            <p>Capacite sua equipe com cursos de Financeiro, Operação, Pessoas, Mercado e Sanitário.</p>
+        </div>
+        
+        <div class="feature-card">
+            <i class="fas fa-chart-pie"></i>
+            <h3>Analytics e Relatórios</h3>
+            <p>Gere relatórios PDF automáticos com análises profundas e recomendações personalizadas.</p>
+        </div>
+    </div>
+
+    <!-- SHOWCASE -->
+    <div class="showcase">
+        <h2>Por Que Escolher ArtBlend?</h2>
+        <div class="showcase-grid">
+            <div class="showcase-item">
+                <div class="value">-3%</div>
+                <div class="label">CMV Reduzido</div>
+            </div>
+            <div class="showcase-item">
+                <div class="value">-2%</div>
+                <div class="label">Folha Otimizada</div>
+            </div>
+            <div class="showcase-item">
+                <div class="value">-5%</div>
+                <div class="label">Prime Cost</div>
+            </div>
+            <div class="showcase-item">
+                <div class="value">+R$ 5K</div>
+                <div class="label">Lucro/Mês</div>
+            </div>
+            <div class="showcase-item">
+                <div class="value">300%+</div>
+                <div class="label">ROI em 90 Dias</div>
+            </div>
+            <div class="showcase-item">
+                <div class="value">50+</div>
+                <div class="label">Clientes Ativos</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-box">
+        <h2>Pronto para Começar?</h2>
+        <p>Faça login e acesse toda a plataforma com suas funcionalidades completas</p>
+        <a href="login.html" class="btn"><i class="fas fa-sign-in-alt"></i> FAZER LOGIN</a>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <p><strong>ArtBlend Consultoria Gourmet</strong></p>
+    <p>Transformando a gestão de restaurantes desde 2020</p>
+    <p style="margin-top: 20px; font-size: 12px;">
+        <i class="fas fa-phone"></i> +55 (81) 99137-4054
+        <span style="margin: 0 15px;">•</span>
+        <i class="fas fa-map-marker-alt"></i> Recife, PE
+    </p>
+</footer>
+
+</body>
+</html>

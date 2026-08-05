@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtBlend - Login</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #16A5A5 0%, #0F7D7D 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 400px;
+            width: 100%;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .login-container h1 {
+            color: #16A5A5;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        
+        .login-container p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #16A5A5;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #16A5A5;
+        }
+        
+        .btn-login {
+            width: 100%;
+            background: linear-gradient(135deg, #16A5A5, #0F7D7D);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(22, 165, 165, 0.4);
+        }
+        
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .demo-users {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            text-align: left;
+        }
+        
+        .demo-users h3 {
+            color: #16A5A5;
+            font-size: 14px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .demo-user {
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 4px solid #16A5A5;
+        }
+        
+        .demo-user:hover {
+            background: #e8f5f5;
+        }
+        
+        .demo-user strong { color: #16A5A5; }
+        .demo-user small { color: #999; }
+        
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .message.error {
+            background: #ffebee;
+            color: #c62828;
+            border-left: 4px solid #c62828;
+            display: block;
+        }
+        
+        .message.success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-left: 4px solid #2e7d32;
+            display: block;
+        }
+        
+        .back-link {
+            margin-top: 20px;
+        }
+        
+        .back-link a {
+            color: #16A5A5;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .back-link a:hover {
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <div class="logo">🎯</div>
+    <h1>ArtBlend</h1>
+    <p>Acesse a plataforma de consultoria</p>
+    
+    <div id="message" class="message"></div>
+    
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="email"><i class="fas fa-envelope"></i> Email</label>
+            <input type="email" id="email" placeholder="seu@email.com" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password"><i class="fas fa-lock"></i> Senha</label>
+            <input type="password" id="password" placeholder="Sua senha" required>
+        </div>
+        
+        <button type="submit" class="btn-login" id="btnLogin">
+            <i class="fas fa-sign-in-alt"></i> FAZER LOGIN
+        </button>
+    </form>
+    
+    <!-- USUÁRIOS DE DEMONSTRAÇÃO -->
+    <div class="demo-users">
+        <h3>👥 Usuários de Teste (Clique para Preencher)</h3>
+        
+        <div class="demo-user" onclick="preencherUser('proprietario@artblend.com', 'senha123')">
+            <strong>👑 Proprietário</strong><br>
+            <small>proprietario@artblend.com</small>
+        </div>
+        
+        <div class="demo-user" onclick="preencherUser('desenvolvedor@artblend.com', 'senha123')">
+            <strong>💻 Desenvolvedor</strong><br>
+            <small>desenvolvedor@artblend.com</small>
+        </div>
+        
+        <div class="demo-user" onclick="preencherUser('consultor@artblend.com', 'senha123')">
+            <strong>📊 Consultor</strong><br>
+            <small>consultor@artblend.com</small>
+        </div>
+        
+        <div class="demo-user" onclick="preencherUser('colaborador@artblend.com', 'senha123')">
+            <strong>👨‍💼 Colaborador</strong><br>
+            <small>colaborador@artblend.com</small>
+        </div>
+    </div>
+    
+    <div class="back-link">
+        <a href="inicio.html"><i class="fas fa-arrow-left"></i> Voltar</a>
+    </div>
+</div>
+
+<script>
+// Inicializar Supabase
+const SUPABASE_URL = 'https://zjvjixiuvnpbpsdnxuyk.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqdmppeGl1dm5wYnBzZG54dXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTk3MTk3NzAsImV4cCI6MTk3NTI5NTc3MH0.i2pQvL2jHF_Y4q9fQ7qJ5XpK3zL4mN5oP6qR7sT8uV9';
+
+const { createClient } = window.supabase;
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Preencher formulário com usuário de teste
+function preencherUser(email, password) {
+    document.getElementById('email').value = email;
+    document.getElementById('password').value = password;
+    document.getElementById('email').focus();
+}
+
+// Mostrar mensagem
+function showMessage(msg, type) {
+    const msgDiv = document.getElementById('message');
+    msgDiv.textContent = msg;
+    msgDiv.className = `message ${type}`;
+    setTimeout(() => {
+        msgDiv.className = 'message';
+    }, 5000);
+}
+
+// Fazer login
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const btnLogin = document.getElementById('btnLogin');
+    
+    btnLogin.disabled = true;
+    btnLogin.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Validando...';
+    
+    try {
+        // Simular validação (em produção seria contra Supabase Auth)
+        // Para demo: aceitar usuários de teste
+        const users = {
+            'proprietario@artblend.com': { role: 'proprietario', name: 'Fagner - Proprietário' },
+            'desenvolvedor@artblend.com': { role: 'desenvolvedor', name: 'Desenvolvedor' },
+            'consultor@artblend.com': { role: 'consultor', name: 'Consultor' },
+            'colaborador@artblend.com': { role: 'colaborador', name: 'Colaborador' }
+        };
+        
+        if (users[email] && password === 'senha123') {
+            const userData = users[email];
+            
+            // Salvar no localStorage
+            localStorage.setItem('artblend_user', JSON.stringify({
+                email: email,
+                name: userData.name,
+                role: userData.role,
+                loginTime: new Date().toISOString()
+            }));
+            
+            showMessage('✅ Login realizado com sucesso!', 'success');
+            
+            // Redirecionar para plataforma (TIER 4)
+            setTimeout(() => {
+                window.location.href = 'plataforma.html?role=' + userData.role;
+            }, 1000);
+            
+        } else {
+            showMessage('❌ Email ou senha incorretos!', 'error');
+            btnLogin.disabled = false;
+            btnLogin.innerHTML = '<i class="fas fa-sign-in-alt"></i> FAZER LOGIN';
+        }
+        
+    } catch (error) {
+        console.error('Erro:', error);
+        showMessage('❌ Erro ao fazer login. Tente novamente.', 'error');
+        btnLogin.disabled = false;
+        btnLogin.innerHTML = '<i class="fas fa-sign-in-alt"></i> FAZER LOGIN';
+    }
+});
+</script>
+
+</body>
+</html>
