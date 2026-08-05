@@ -314,9 +314,26 @@
             
             <!-- FUNCIONALIDADES PRINCIPAIS (por role) -->
             <li class="menu-group">
-                <div class="group-label">📋 OPERAÇÃO</div>
+                <div class="group-label">💰 FINANCEIRO</div>
+                <button onclick="showSection('custos')" class="menu-btn">
+                    <i class="fas fa-calculator"></i> Custos & Preço
+                </button>
                 <button onclick="showSection('indicadores')" class="menu-btn">
                     <i class="fas fa-chart-line"></i> Indicadores
+                </button>
+            </li>
+            
+            <!-- OPERAÇÃO -->
+            <li class="menu-group">
+                <div class="group-label">📋 OPERAÇÃO</div>
+                <button onclick="showSection('comanda')" class="menu-btn">
+                    <i class="fas fa-utensils"></i> Comanda
+                </button>
+                <button onclick="showSection('estoque')" class="menu-btn">
+                    <i class="fas fa-box"></i> Estoque
+                </button>
+                <button onclick="showSection('agenda')" class="menu-btn">
+                    <i class="fas fa-calendar"></i> Agenda
                 </button>
                 <button onclick="showSection('clientes')" class="menu-btn" id="btn-clientes">
                     <i class="fas fa-users"></i> Clientes
@@ -683,6 +700,269 @@
             </table>
         </div>
         
+        <!-- CUSTOS & PRECIFICADOR -->
+        <div id="custos" class="section">
+            <h2>Custos & Precificador</h2>
+            <p style="color: #666; margin-bottom: 30px;">Calcule o preço de venda baseado em custo, CMV e margem desejada</p>
+            
+            <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 30px;">
+                <h3 style="margin-bottom: 20px;">Nova Precificação</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px;">
+                    <div class="form-group">
+                        <label><i class="fas fa-box"></i> Nome do Prato</label>
+                        <input type="text" id="nomePrato" placeholder="Ex: Peixe à Meunière" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-dollar-sign"></i> Custo da Matéria-Prima</label>
+                        <input type="number" id="custoPrima" placeholder="R$ 0,00" step="0.01" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-percent"></i> Desperdício (%)</label>
+                        <input type="number" id="desperdicio" value="10" placeholder="10" step="0.1" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-hand-holding-usd"></i> Mão-de-Obra</label>
+                        <input type="number" id="maoObra" placeholder="R$ 0,00" step="0.01" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-target"></i> CMV% Desejado</label>
+                        <input type="number" id="cmvDesejado" value="30" placeholder="30" step="0.1" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-receipt"></i> Impostos (%)</label>
+                        <input type="number" id="impostos" value="3" placeholder="3" step="0.1" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="calcularPrecificacao()" style="font-size: 14px; width: 100%; padding: 12px;">
+                    <i class="fas fa-calculator"></i> CALCULAR PREÇO
+                </button>
+            </div>
+            
+            <div id="resultadoPreco" style="display: none; background: linear-gradient(135deg, #16A5A5, #0F7D7D); color: white; padding: 30px; border-radius: 10px; margin-bottom: 30px;">
+                <h3 style="color: white; margin-bottom: 20px;">Resultado da Precificação</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 24px; font-weight: 800; margin-bottom: 5px;" id="resultCusto">R$ 0,00</div>
+                        <div style="font-size: 12px; opacity: 0.9;">Custo Total</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 24px; font-weight: 800; margin-bottom: 5px;" id="resultMargemBruta">R$ 0,00</div>
+                        <div style="font-size: 12px; opacity: 0.9;">Margem Bruta</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 32px; font-weight: 800; margin-bottom: 5px;" id="resultPreco">R$ 0,00</div>
+                        <div style="font-size: 12px; opacity: 0.9;">💰 PREÇO FINAL</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 24px; font-weight: 800; margin-bottom: 5px;" id="resultLucro">R$ 0,00</div>
+                        <div style="font-size: 12px; opacity: 0.9;">Lucro Líquido</div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Histórico de Precificações</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Prato</th>
+                        <th>Custo</th>
+                        <th>Preço Final</th>
+                        <th>Margem %</th>
+                        <th>Lucro</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaPrecificacoes">
+                    <tr>
+                        <td>Peixe à Meunière</td>
+                        <td>R$ 18,50</td>
+                        <td>R$ 60,00</td>
+                        <td>69,2%</td>
+                        <td>R$ 41,50</td>
+                    </tr>
+                    <tr>
+                        <td>Costela ao Molho</td>
+                        <td>R$ 24,80</td>
+                        <td>R$ 80,00</td>
+                        <td>69,0%</td>
+                        <td>R$ 55,20</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- COMANDA DE COZINHA -->
+        <div id="comanda" class="section">
+            <h2>Comanda de Cozinha</h2>
+            <p style="color: #666; margin-bottom: 20px;">Gerenciamento de pedidos e tempo de preparo</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 30px;">
+                <div class="kpi-card">
+                    <div class="kpi-value">3</div>
+                    <div class="kpi-label">Pedidos Ativos</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">8:42</div>
+                    <div class="kpi-label">Tempo Médio</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">2</div>
+                    <div class="kpi-label">Em Preparo</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">1</div>
+                    <div class="kpi-label">Aguardando Saída</div>
+                </div>
+            </div>
+            
+            <h3>Pedidos Ativos</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Comanda</th>
+                        <th>Pratos</th>
+                        <th>Hora</th>
+                        <th>Tempo</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>#142</strong></td>
+                        <td>Peixe à Meunière, Agua Fresca</td>
+                        <td>13:45</td>
+                        <td><strong>12:30</strong> (⚠️)</td>
+                        <td><span class="badge badge-warning">🔪 Em Preparo</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>#143</strong></td>
+                        <td>Costela, Batata Frita</td>
+                        <td>13:52</td>
+                        <td>8:15</td>
+                        <td><span class="badge badge-warning">⏳ Aguardando Saída</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>#144</strong></td>
+                        <td>Prato do Chef</td>
+                        <td>14:01</td>
+                        <td>4:20</td>
+                        <td><span class="badge badge-success">🔥 Na Chapinha</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- ESTOQUE -->
+        <div id="estoque" class="section">
+            <h2>Controle de Estoque</h2>
+            <p style="color: #666; margin-bottom: 20px;">Gerenciar inventário e alertas de itens críticos</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 30px;">
+                <div class="kpi-card">
+                    <div class="kpi-value">127</div>
+                    <div class="kpi-label">Total Itens</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">R$ 8.5K</div>
+                    <div class="kpi-label">Valor Total</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">5</div>
+                    <div class="kpi-label">Críticos</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">2</div>
+                    <div class="kpi-label">Vencendo</div>
+                </div>
+            </div>
+            
+            <h3>Items em Estoque</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Quantidade</th>
+                        <th>Mínimo</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>🐟 Peixe Branco (kg)</td>
+                        <td><strong>3,5 kg</strong></td>
+                        <td>5 kg</td>
+                        <td><span class="badge badge-warning">⚠️ CRÍTICO</span></td>
+                        <td><button class="btn" style="font-size: 11px; padding: 6px 10px;">+ Adicionar</button></td>
+                    </tr>
+                    <tr>
+                        <td>🌶️ Sal Fino (5kg)</td>
+                        <td><strong>0 kg</strong></td>
+                        <td>2 kg</td>
+                        <td><span class="badge" style="background: #ffcdd2; color: #c62828;">🔴 FORA</span></td>
+                        <td><button class="btn" style="font-size: 11px; padding: 6px 10px; background: #c62828;">URGENTE</button></td>
+                    </tr>
+                    <tr>
+                        <td>🥔 Batata (kg)</td>
+                        <td><strong>45 kg</strong></td>
+                        <td>20 kg</td>
+                        <td><span class="badge badge-success">✓ OK</span></td>
+                        <td><button class="btn" style="font-size: 11px; padding: 6px 10px;">+ Adicionar</button></td>
+                    </tr>
+                    <tr>
+                        <td>🧈 Manteiga (kg)</td>
+                        <td><strong>8 kg</strong></td>
+                        <td>5 kg</td>
+                        <td><span class="badge badge-success">✓ OK</span></td>
+                        <td><button class="btn" style="font-size: 11px; padding: 6px 10px;">+ Adicionar</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- AGENDA -->
+        <div id="agenda" class="section">
+            <h2>Agenda</h2>
+            <p style="color: #666; margin-bottom: 20px;">Agendamentos, lembretes e eventos importantes</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                    <h3 style="color: #16A5A5; margin-bottom: 15px;">Hoje - 05/08/2026</h3>
+                    <div style="font-size: 13px; line-height: 2;">
+                        <div><strong>14:00</strong> - Entrega de insumos 📦</div>
+                        <div><strong>16:30</strong> - Reunião com consultor 👤</div>
+                        <div><strong>18:00</strong> - Limpeza profunda 🧹</div>
+                    </div>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                    <h3 style="color: #16A5A5; margin-bottom: 15px;">Próximos 7 Dias</h3>
+                    <div style="font-size: 13px; line-height: 2;">
+                        <div><strong>06/08</strong> - Manutenção geladeira 🔧</div>
+                        <div><strong>07/08</strong> - Treinamento equipe 📚</div>
+                        <div><strong>10/08</strong> - Auditoria fiscal 📋</div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Novo Evento</h3>
+            <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <input type="date" placeholder="Data" style="padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                    <input type="time" placeholder="Hora" style="padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                    <input type="text" placeholder="Descrição" style="padding: 10px; border: 1px solid #ddd; border-radius: 6px; grid-column: span 2;">
+                    <select style="padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                        <option>Tipo: Reunião</option>
+                        <option>Entrega</option>
+                        <option>Limpeza</option>
+                        <option>Manutenção</option>
+                    </select>
+                    <button class="btn" style="padding: 10px; font-size: 13px;">Adicionar</button>
+                </div>
+            </div>
+        </div>
+
         <!-- CONFIGURAÇÕES -->
         <div id="config" class="section">
             <h2>Configurações</h2>
@@ -768,6 +1048,56 @@ function logout() {
         localStorage.removeItem('artblend_user');
         window.location.href = 'login.html';
     }
+}
+
+// CALCULAR PRECIFICAÇÃO
+function calcularPrecificacao() {
+    const custoPrima = parseFloat(document.getElementById('custoPrima').value) || 0;
+    const desperdicio = parseFloat(document.getElementById('desperdicio').value) || 0;
+    const maoObra = parseFloat(document.getElementById('maoObra').value) || 0;
+    const cmvDesejado = parseFloat(document.getElementById('cmvDesejado').value) || 30;
+    const impostos = parseFloat(document.getElementById('impostos').value) || 3;
+    
+    if (custoPrima === 0) {
+        alert('Preencha o custo da matéria-prima!');
+        return;
+    }
+    
+    // Calcular custo com desperdício
+    const custoComDesperdicio = custoPrima + (custoPrima * desperdicio / 100);
+    const custoTotal = custoComDesperdicio + maoObra;
+    
+    // Calcular preço de venda (CMV = Custo / Preço)
+    const precoVenda = custoTotal / (cmvDesejado / 100);
+    
+    // Calcular margem bruta
+    const margemBruta = precoVenda - custoTotal;
+    
+    // Calcular impostos
+    const valorImpostos = precoVenda * (impostos / 100);
+    const lucroLiquido = margemBruta - valorImpostos;
+    
+    // Mostrar resultado
+    document.getElementById('resultCusto').textContent = 'R$ ' + custoTotal.toFixed(2).replace('.', ',');
+    document.getElementById('resultMargemBruta').textContent = 'R$ ' + margemBruta.toFixed(2).replace('.', ',');
+    document.getElementById('resultPreco').textContent = 'R$ ' + precoVenda.toFixed(2).replace('.', ',');
+    document.getElementById('resultLucro').textContent = 'R$ ' + lucroLiquido.toFixed(2).replace('.', ',');
+    
+    document.getElementById('resultadoPreco').style.display = 'block';
+    
+    // Adicionar histórico
+    const tabelaBody = document.getElementById('tabelaPrecificacoes');
+    const nomePrato = document.getElementById('nomePrato').value || 'Novo prato';
+    const margemPercent = ((margemBruta / precoVenda) * 100).toFixed(1);
+    
+    const novaLinha = tabelaBody.insertRow(0);
+    novaLinha.innerHTML = `
+        <td>${nomePrato}</td>
+        <td>R$ ${custoTotal.toFixed(2).replace('.', ',')}</td>
+        <td>R$ ${precoVenda.toFixed(2).replace('.', ',')}</td>
+        <td>${margemPercent}%</td>
+        <td>R$ ${lucroLiquido.toFixed(2).replace('.', ',')}</td>
+    `;
 }
 
 // INICIALIZAR
