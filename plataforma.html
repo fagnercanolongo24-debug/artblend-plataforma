@@ -384,6 +384,14 @@
             <h2 id="header-title">Dashboard</h2>
             <p id="header-subtitle">Bom dia, Fagner Canolongo! 👋</p>
         </div>
+        <div style="flex: 1; margin: 0 40px;">
+            <div style="position: relative;">
+                <input type="text" id="buscador" placeholder="🔍 Pesquisar ferramenta... (ex: custos, comanda, estoque)" 
+                    style="width: 100%; padding: 10px 15px; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; background: rgba(255,255,255,0.1); color: white; font-size: 13px;"
+                    onkeyup="buscarFerramenta(this.value)">
+                <div id="sugestoes" style="position: absolute; top: 100%; left: 0; right: 0; background: white; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); max-height: 300px; overflow-y: auto; display: none; z-index: 1000; margin-top: 5px;"></div>
+            </div>
+        </div>
         <div class="header-right">
             <p id="user-email">proprietario@artblend.com</p>
             <div class="user-badge" id="user-role">👑 Proprietário</div>
@@ -1188,6 +1196,73 @@ function logout() {
         window.location.href = 'login.html';
     }
 }
+
+// BUSCADOR DE FERRAMENTAS
+const ferramentas = [
+    { nome: 'Dashboard', id: 'dashboard', icon: '📊', descricao: 'Indicadores em tempo real' },
+    { nome: 'Custos & Precificador', id: 'custos', icon: '💰', descricao: 'Calcular preços' },
+    { nome: 'Indicadores Mensais', id: 'indicadores', icon: '📈', descricao: 'Histórico de KPIs' },
+    { nome: 'Comanda de Cozinha', id: 'comanda', icon: '🍽️', descricao: 'Gerenciar pedidos' },
+    { nome: 'Estoque', id: 'estoque', icon: '📦', descricao: 'Controlar insumos' },
+    { nome: 'Agenda', id: 'agenda', icon: '📅', descricao: 'Agendamentos' },
+    { nome: 'Gestão de Clientes', id: 'clientes', icon: '👥', descricao: 'CRM' },
+    { nome: 'Cursos EEG', id: 'cursos', icon: '📚', descricao: '16 cursos profissionais' },
+    { nome: 'Gamificação', id: 'gamificacao', icon: '⭐', descricao: 'Badges e pontos' },
+    { nome: 'Notificações', id: 'notificacoes', icon: '🔔', descricao: 'Alertas automáticos' },
+    { nome: 'WhatsApp', id: 'whatsapp', icon: '💬', descricao: 'Automação' },
+    { nome: 'Relatórios', id: 'relatorios', icon: '📄', descricao: 'PDFs com dados' },
+    { nome: 'Configurações', id: 'config', icon: '⚙️', descricao: 'Perfil e segurança' }
+];
+
+function buscarFerramenta(termo) {
+    const sugestoesDiv = document.getElementById('sugestoes');
+    
+    if (!termo || termo.length < 1) {
+        sugestoesDiv.style.display = 'none';
+        return;
+    }
+    
+    const resultados = ferramentas.filter(f => 
+        f.nome.toLowerCase().includes(termo.toLowerCase()) ||
+        f.descricao.toLowerCase().includes(termo.toLowerCase())
+    );
+    
+    if (resultados.length === 0) {
+        sugestoesDiv.innerHTML = '<div style="padding: 15px; color: #999; text-align: center;">Nenhuma ferramenta encontrada</div>';
+        sugestoesDiv.style.display = 'block';
+        return;
+    }
+    
+    sugestoesDiv.innerHTML = resultados.map(r => `
+        <div onclick="goToSection('${r.id}')" style="padding: 12px 15px; border-bottom: 1px solid #eee; cursor: pointer; transition: background 0.2s;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 20px;">${r.icon}</span>
+                <div>
+                    <strong style="color: #16A5A5;">${r.nome}</strong><br>
+                    <small style="color: #999;">${r.descricao}</small>
+                </div>
+            </div>
+        </div>
+    `).join('');
+    
+    sugestoesDiv.style.display = 'block';
+}
+
+function goToSection(sectionId) {
+    const btn = document.querySelector(`button[onclick="showSection('${sectionId}')"]`);
+    if (btn) {
+        btn.click();
+    }
+    document.getElementById('buscador').value = '';
+    document.getElementById('sugestoes').style.display = 'none';
+}
+
+// Fechar sugestões ao clicar fora
+document.addEventListener('click', function(event) {
+    if (!event.target.closest('[id="buscador"], [id="sugestoes"]')) {
+        document.getElementById('sugestoes').style.display = 'none';
+    }
+});
 
 // CALCULAR PRECIFICAÇÃO
 function calcularPrecificacao() {
