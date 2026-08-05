@@ -1,45 +1,24 @@
-# ArtBlend v7.0 - Configuração Netlify COM CACHE-BUSTING AGRESSIVO
-
 [build]
-  command = "echo 'ArtBlend Suprema v7.0 - $(date)'"
+  command = "echo 'No build needed'"
   publish = "."
 
-# Headers GLOBAIS - SEM CACHE PARA NADA
-[[headers]]
-  for = "/*"
-  [headers.values]
-    Cache-Control = "no-cache, no-store, must-revalidate, max-age=0, s-maxage=0"
-    Pragma = "no-cache"
-    Expires = "0"
-    X-Content-Type-Options = "nosniff"
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    X-UA-Compatible = "ie=edge"
-
-# Headers para HTML - FORÇA RECARREGAMENTO
-[[headers]]
-  for = "/*.html"
-  [headers.values]
-    Content-Type = "text/html; charset=utf-8"
-    Cache-Control = "no-cache, no-store, must-revalidate, max-age=0, s-maxage=0, public"
-    ETag = "$(date +%s)"
-    Last-Modified = "$(date -u)"
-
-# Headers para CSS - Pode cachear mas com versioning
-[[headers]]
-  for = "/*.css"
-  [headers.values]
-    Cache-Control = "public, max-age=3600, immutable"
-
-# Headers para JS - Pode cachear mas com versioning
-[[headers]]
-  for = "/*.js"
-  [headers.values]
-    Cache-Control = "public, max-age=3600, immutable"
-
-# Redirecionar HTTP para HTTPS (força recarregamento)
 [[redirects]]
-  from = "http://artblendconsultoriagourmet.netlify.app/*"
-  to = "https://artblendconsultoriagourmet.netlify.app/:splat"
-  status = 301
-  force = true
+  from = "/"
+  to = "/index.html"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/plataforma"
+  to = "/ARTBLEND_PLATAFORMA_COMPLETA.html"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/precificador"
+  to = "/PRECIFICADOR_INTERATIVO_BAR21_V1.html"
+  status = 200
+  force = false
+
+[context.production]
+  command = "echo 'Production build'"
