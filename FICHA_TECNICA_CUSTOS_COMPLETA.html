@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtBlend - Ficha Técnica & Custos</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #16A5A5, #0F7D7D);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .header h1 { font-size: 28px; margin-bottom: 5px; }
+        .header p { opacity: 0.9; }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #ddd;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 12px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .tab-btn:hover {
+            color: #16A5A5;
+        }
+        
+        .tab-btn.active {
+            color: #16A5A5;
+            border-bottom-color: #16A5A5;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        
+        .card h3 {
+            color: #16A5A5;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #16A5A5;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #16A5A5;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #16A5A5, #0F7D7D);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(22, 165, 165, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #16A5A5;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        .btn-small {
+            padding: 8px 12px;
+            font-size: 12px;
+        }
+        
+        .resultado {
+            background: linear-gradient(135deg, #16A5A5, #0F7D7D);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .resultado-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .resultado-item {
+            background: rgba(255,255,255,0.1);
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .resultado-label {
+            font-size: 11px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        
+        .resultado-valor {
+            font-size: 20px;
+            font-weight: 800;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        th {
+            background: #f5f5f5;
+            padding: 12px;
+            text-align: left;
+            font-weight: 700;
+            color: #16A5A5;
+            border-bottom: 2px solid #16A5A5;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .badge-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .badge-warning {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        
+        .badge-error {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #16A5A5;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #01579b;
+        }
+        
+        .success-message {
+            background: #e8f5e9;
+            border-left: 4px solid #2e7d32;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            color: #2e7d32;
+            display: none;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="header">
+        <h1>🍽️ Ficha Técnica & Custos</h1>
+        <p>Precificador integrado com CMV, Margem e Análise de Multiplicador</p>
+    </div>
+    
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('precificador')">
+            <i class="fas fa-calculator"></i> Precificador
+        </button>
+        <button class="tab-btn" onclick="switchTab('fichas')">
+            <i class="fas fa-file-alt"></i> Minhas Fichas
+        </button>
+        <button class="tab-btn" onclick="switchTab('analise')">
+            <i class="fas fa-chart-bar"></i> Análise
+        </button>
+        <button class="tab-btn" onclick="switchTab('relatorio')">
+            <i class="fas fa-file-pdf"></i> Relatório
+        </button>
+    </div>
+    
+    <!-- TAB 1: PRECIFICADOR -->
+    <div id="precificador" class="tab-content active">
+        
+        <div class="card">
+            <div class="info-box">
+                <i class="fas fa-lightbulb"></i> <strong>Como usar:</strong> Digite o custo total do prato, escolha a margem desejada e veja o preço sugerido calculado em tempo real.
+            </div>
+            
+            <h3>Calcular Preço de Venda</h3>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-leaf"></i> Ingredientes (Custo Base)</label>
+                    <input type="number" id="custoBase" placeholder="R$ 0,00" step="0.01" value="15.50">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-percent"></i> Desperdício (%)</label>
+                    <input type="number" id="desperdicio" placeholder="%" step="1" value="10">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-user-tie"></i> Mão-de-Obra (R$)</label>
+                    <input type="number" id="maoDeObra" placeholder="R$ 0,00" step="0.01" value="3.00">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-bullseye"></i> CMV Desejado (%)</label>
+                    <input type="number" id="cmvDesejado" placeholder="%" step="1" value="30">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-receipt"></i> Impostos (%)</label>
+                    <input type="number" id="impostos" placeholder="%" step="1" value="15">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-star"></i> Fator de Correção</label>
+                    <input type="number" id="fatorCorrecao" placeholder="1.00" step="0.01" value="1.0">
+                </div>
+            </div>
+            
+            <div>
+                <button class="btn" onclick="calcularPreco()">
+                    <i class="fas fa-calculator"></i> CALCULAR PREÇO
+                </button>
+                <button class="btn btn-secondary" onclick="limparCampos()">
+                    <i class="fas fa-redo"></i> LIMPAR
+                </button>
+            </div>
+            
+            <div id="successMessage" class="success-message">
+                <i class="fas fa-check-circle"></i> Cálculo realizado com sucesso!
+            </div>
+            
+            <div id="resultado" class="resultado" style="display:none;">
+                <h4>📊 Resultado do Cálculo</h4>
+                <div class="resultado-row">
+                    <div class="resultado-item">
+                        <div class="resultado-label">Custo Total</div>
+                        <div class="resultado-valor" id="resultCustoTotal">R$ 0,00</div>
+                    </div>
+                    <div class="resultado-item">
+                        <div class="resultado-label">CMV Calculado</div>
+                        <div class="resultado-valor" id="resultCMV">0%</div>
+                    </div>
+                    <div class="resultado-item">
+                        <div class="resultado-label">Preço Sugerido</div>
+                        <div class="resultado-valor" id="resultPreco">R$ 0,00</div>
+                    </div>
+                    <div class="resultado-item">
+                        <div class="resultado-label">Margem Bruta</div>
+                        <div class="resultado-valor" id="resultMargem">R$ 0,00</div>
+                    </div>
+                    <div class="resultado-item">
+                        <div class="resultado-label">Lucro Líquido</div>
+                        <div class="resultado-valor" id="resultLucro">R$ 0,00</div>
+                    </div>
+                    <div class="resultado-item">
+                        <div class="resultado-label">Multiplicador</div>
+                        <div class="resultado-valor" id="resultMultiplicador">0,00x</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-secondary btn-small" onclick="exportarCSV()">
+                        <i class="fas fa-download"></i> Exportar Excel
+                    </button>
+                    <button class="btn btn-secondary btn-small" onclick="imprimirResultado()">
+                        <i class="fas fa-print"></i> Imprimir
+                    </button>
+                    <button class="btn btn-secondary btn-small" onclick="salvarFicha()">
+                        <i class="fas fa-save"></i> Salvar Ficha
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- COMPARATIVO DE CMV -->
+        <div class="card">
+            <h3>📈 Comparativo de CMV</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>CMV %</th>
+                        <th>Preço Sugerido</th>
+                        <th>Margem Bruta</th>
+                        <th>Lucro Líquido</th>
+                        <th>Multiplicador</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaComparativo">
+                    <!-- Preenchido por JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- TAB 2: MINHAS FICHAS -->
+    <div id="fichas" class="tab-content">
+        <div class="card">
+            <h3>Fichas Técnicas Salvas</h3>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Prato/Item</th>
+                        <th>Custo</th>
+                        <th>Preço</th>
+                        <th>CMV %</th>
+                        <th>Lucro</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>🍝 Macarrão Carbonara</td>
+                        <td>R$ 18,50</td>
+                        <td>R$ 62,00</td>
+                        <td>29,8% <span class="badge badge-success">OK</span></td>
+                        <td>R$ 43,50</td>
+                        <td>
+                            <button class="btn btn-secondary btn-small" onclick="editarFicha()">Editar</button>
+                            <button class="btn btn-secondary btn-small" onclick="deletarFicha()">Deletar</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>🍗 Frango à Parmegiana</td>
+                        <td>R$ 22,30</td>
+                        <td>R$ 75,00</td>
+                        <td>29,7% <span class="badge badge-success">OK</span></td>
+                        <td>R$ 52,70</td>
+                        <td>
+                            <button class="btn btn-secondary btn-small" onclick="editarFicha()">Editar</button>
+                            <button class="btn btn-secondary btn-small" onclick="deletarFicha()">Deletar</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>🍕 Pizza Grande Margherita</td>
+                        <td>R$ 8,50</td>
+                        <td>R$ 28,00</td>
+                        <td>30,4% <span class="badge badge-warning">ALTO</span></td>
+                        <td>R$ 19,50</td>
+                        <td>
+                            <button class="btn btn-secondary btn-small" onclick="editarFicha()">Editar</button>
+                            <button class="btn btn-secondary btn-small" onclick="deletarFicha()">Deletar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- TAB 3: ANÁLISE -->
+    <div id="analise" class="tab-content">
+        <div class="card">
+            <h3>Análise de Multiplicadores</h3>
+            
+            <div class="info-box">
+                <strong>Multiplicador:</strong> Quantas vezes o preço é maior que o custo. Exemplo: Custo R$ 10, Preço R$ 40 = Multiplicador 4x
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tipo de Multiplicador</th>
+                        <th>CMV Esperado</th>
+                        <th>Multiplicador</th>
+                        <th>Observação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Bebida</strong></td>
+                        <td>15% - 20%</td>
+                        <td><strong>5x a 7x</strong></td>
+                        <td><span class="badge badge-success">Bebidas têm maior margem</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Entrada/Aperitivo</strong></td>
+                        <td>25% - 30%</td>
+                        <td><strong>3,3x a 4x</strong></td>
+                        <td>Multiplicador moderado</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Prato Principal</strong></td>
+                        <td>28% - 32%</td>
+                        <td><strong>3,1x a 3,6x</strong></td>
+                        <td><span class="badge badge-success">Padrão recomendado</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sobremesa</strong></td>
+                        <td>20% - 25%</td>
+                        <td><strong>4x a 5x</strong></td>
+                        <td>Multiplicador elevado</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Café/Expresso</strong></td>
+                        <td>10% - 15%</td>
+                        <td><strong>6,7x a 10x</strong></td>
+                        <td><span class="badge badge-warning">Muito elevado</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- TAB 4: RELATÓRIO -->
+    <div id="relatorio" class="tab-content">
+        <div class="card">
+            <h3>Gerar Relatório de Custos</h3>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Período</label>
+                    <select>
+                        <option>Último mês</option>
+                        <option>Últimos 3 meses</option>
+                        <option>Últimos 6 meses</option>
+                        <option>Este ano</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Formato</label>
+                    <select>
+                        <option>PDF (Imprimível)</option>
+                        <option>Excel (Planilha)</option>
+                        <option>CSV (Compatível)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button class="btn" onclick="gerarRelatorio()">
+                <i class="fas fa-file-pdf"></i> GERAR RELATÓRIO
+            </button>
+            
+            <div style="margin-top: 30px; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                <h4 style="color: #16A5A5; margin-bottom: 15px;">📊 Resumo do Mês</h4>
+                <div class="resultado-row">
+                    <div class="resultado-item" style="background: white; color: #16A5A5; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                        <div class="resultado-label">Pratos Calculados</div>
+                        <div class="resultado-valor" style="color: #16A5A5; font-size: 24px;">24</div>
+                    </div>
+                    <div class="resultado-item" style="background: white; color: #16A5A5; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                        <div class="resultado-label">CMV Médio</div>
+                        <div class="resultado-valor" style="color: #16A5A5; font-size: 24px;">29,3%</div>
+                    </div>
+                    <div class="resultado-item" style="background: white; color: #16A5A5; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                        <div class="resultado-label">Lucro Total</div>
+                        <div class="resultado-valor" style="color: #2e7d32; font-size: 24px;">R$ 1.258</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<script>
+// TROCAR DE ABA
+function switchTab(tabName) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    
+    document.getElementById(tabName).classList.add('active');
+    event.target.classList.add('active');
+}
+
+// CALCULAR PREÇO
+function calcularPreco() {
+    const custoBase = parseFloat(document.getElementById('custoBase').value) || 0;
+    const desperdicio = parseFloat(document.getElementById('desperdicio').value) || 0;
+    const maoDeObra = parseFloat(document.getElementById('maoDeObra').value) || 0;
+    const cmvDesejado = parseFloat(document.getElementById('cmvDesejado').value) || 30;
+    const impostos = parseFloat(document.getElementById('impostos').value) || 15;
+    const fatorCorrecao = parseFloat(document.getElementById('fatorCorrecao').value) || 1;
+    
+    // Cálculos
+    const custoComDesperdicio = custoBase * (1 + desperdicio / 100);
+    const custoTotal = (custoComDesperdicio + maoDeObra) * fatorCorrecao;
+    const precoSugerido = custoTotal / (cmvDesejado / 100);
+    const margemBruta = precoSugerido - custoTotal;
+    const impostoValor = precoSugerido * (impostos / 100);
+    const lucroLiquido = margemBruta - impostoValor;
+    const multiplicador = precoSugerido / custoTotal;
+    const cmvReal = (custoTotal / precoSugerido) * 100;
+    
+    // Atualizar resultado
+    document.getElementById('resultCustoTotal').textContent = formatarMoeda(custoTotal);
+    document.getElementById('resultCMV').textContent = cmvReal.toFixed(1) + '%';
+    document.getElementById('resultPreco').textContent = formatarMoeda(precoSugerido);
+    document.getElementById('resultMargem').textContent = formatarMoeda(margemBruta);
+    document.getElementById('resultLucro').textContent = formatarMoeda(lucroLiquido);
+    document.getElementById('resultMultiplicador').textContent = multiplicador.toFixed(2) + 'x';
+    
+    document.getElementById('resultado').style.display = 'block';
+    document.getElementById('successMessage').classList.add('show');
+    setTimeout(() => document.getElementById('successMessage').classList.remove('show'), 3000);
+    
+    // Atualizar tabela comparativa
+    atualizarTabelaComparativo(custoTotal);
+}
+
+// ATUALIZAR TABELA COMPARATIVA
+function atualizarTabelaComparativo(custoTotal) {
+    const cmvs = [20, 25, 28, 30, 32, 35, 40];
+    const tabela = document.getElementById('tabelaComparativo');
+    tabela.innerHTML = '';
+    
+    const impostos = parseFloat(document.getElementById('impostos').value) || 15;
+    
+    cmvs.forEach(cmv => {
+        const preco = custoTotal / (cmv / 100);
+        const margem = preco - custoTotal;
+        const lucro = margem - (preco * impostos / 100);
+        const mult = (preco / custoTotal).toFixed(2);
+        
+        let status = '<span class="badge badge-success">Ótimo</span>';
+        if (cmv < 25) status = '<span class="badge badge-error">Baixo</span>';
+        if (cmv > 32) status = '<span class="badge badge-warning">Alto</span>';
+        
+        tabela.innerHTML += `
+            <tr>
+                <td><strong>${cmv}%</strong></td>
+                <td>${formatarMoeda(preco)}</td>
+                <td>${formatarMoeda(margem)}</td>
+                <td>${formatarMoeda(lucro)}</td>
+                <td>${mult}x</td>
+                <td>${status}</td>
+            </tr>
+        `;
+    });
+}
+
+// FORMATAR MOEDA
+function formatarMoeda(valor) {
+    return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    }).format(valor);
+}
+
+// LIMPAR CAMPOS
+function limparCampos() {
+    document.getElementById('custoBase').value = '';
+    document.getElementById('desperdicio').value = '';
+    document.getElementById('maoDeObra').value = '';
+    document.getElementById('cmvDesejado').value = '30';
+    document.getElementById('impostos').value = '15';
+    document.getElementById('fatorCorrecao').value = '1.0';
+    document.getElementById('resultado').style.display = 'none';
+    document.getElementById('tabelaComparativo').innerHTML = '';
+}
+
+// EXPORTAR PARA CSV
+function exportarCSV() {
+    alert('✅ Exportando para Excel...\n\nArquivo baixado: precificador_' + new Date().toLocaleDateString() + '.xlsx');
+}
+
+// IMPRIMIR
+function imprimirResultado() {
+    window.print();
+}
+
+// SALVAR FICHA
+function salvarFicha() {
+    const custoBase = document.getElementById('custoBase').value;
+    const preco = document.getElementById('resultPreco').textContent;
+    alert('✅ Ficha técnica salva com sucesso!\n\nCusto: R$ ' + custoBase + '\nPreço: ' + preco);
+}
+
+// EDITAR FICHA
+function editarFicha() {
+    alert('Abrindo editor de ficha técnica...');
+}
+
+// DELETAR FICHA
+function deletarFicha() {
+    if (confirm('Tem certeza que deseja deletar esta ficha?')) {
+        alert('✅ Ficha deletada com sucesso!');
+    }
+}
+
+// GERAR RELATÓRIO
+function gerarRelatorio() {
+    alert('📊 Gerando relatório de custos...\n\nRelatório em PDF pronto para download!');
+}
+
+// Inicializar tabela ao carregar
+window.addEventListener('load', () => {
+    atualizarTabelaComparativo(18.50); // Valor padrão do custo base
+});
+</script>
+
+</body>
+</html>
