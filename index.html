@@ -3,108 +3,601 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ArtBlend - Consultoria para Restaurantes</title>
+    <title>ArtBlend Consultoria Gourmet - Consultoria para Restaurantes</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
             --turquesa: #16A5A5;
             --turquesa-escuro: #0F7D7D;
+            --turquesa-claro: #2EC4C4;
             --branco: #FFFFFF;
+            --cinza-claro: #F5F5F5;
+            --cinza-medio: #EEEEEE;
             --cinza-escuro: #333333;
+            --font: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
         }
-        body { font-family: 'Segoe UI', Roboto, sans-serif; color: var(--cinza-escuro); }
-        
-        nav { background: var(--turquesa); padding: 15px 40px; position: sticky; top: 0; z-index: 1000; }
-        nav .logo { font-size: 24px; font-weight: 800; color: var(--branco); }
-        
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            color: var(--cinza-escuro);
+            line-height: 1.6;
+            background-color: var(--branco);
+        }
+
+        /* NAVBAR */
+        nav {
+            background: var(--turquesa);
+            padding: 15px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--branco);
+            letter-spacing: 1px;
+        }
+
+        nav .logo span {
+            color: var(--cinza-claro);
+            font-size: 18px;
+            display: block;
+            line-height: 1;
+            margin-top: 2px;
+        }
+
+        /* HERO SECTION */
         .hero {
             background: linear-gradient(135deg, var(--turquesa), var(--turquesa-escuro));
             color: var(--branco);
             padding: 100px 40px;
             text-align: center;
-            min-height: 600px;
+            min-height: 700px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            position: relative;
+            overflow: hidden;
         }
-        
-        .hero h1 { font-size: 52px; font-weight: 800; margin: 20px 0; }
-        .hero .tagline { font-size: 20px; margin: 15px 0; }
-        
-        .btn { 
-            background: var(--branco); 
-            color: var(--turquesa); 
-            padding: 18px 50px; 
-            font-size: 16px; 
-            font-weight: 700; 
-            border: none; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            text-decoration: none; 
-            display: inline-block; 
-            margin-top: 20px;
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(20px); }
+        }
+
+        .hero .container {
+            max-width: 800px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-abc {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            animation: dropLetters 1.2s ease-out;
+        }
+
+        @keyframes dropLetters {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 800;
+            margin: 20px 0;
+            letter-spacing: -1px;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero .tagline {
+            font-size: 20px;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 15px auto;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .hero .description {
+            font-size: 16px;
+            opacity: 0.85;
+            max-width: 700px;
+            margin: 25px auto 40px;
+            line-height: 1.8;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn-cta {
+            background: var(--branco);
+            color: var(--turquesa);
+            padding: 18px 50px;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
             transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            letter-spacing: 0.5px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.8s ease-out 0.8s both;
         }
-        
-        .btn:hover { transform: translateY(-3px); background: #F5F5F5; }
-        
-        .sobre { padding: 80px 40px; text-align: center; }
-        .sobre h2 { font-size: 42px; color: var(--turquesa); margin-bottom: 30px; }
-        .sobre p { font-size: 16px; line-height: 1.8; color: #555; margin: 15px 0; }
-        
-        .diferenciais { background: #EEEEEE; padding: 80px 40px; }
-        .diferenciais h2 { font-size: 42px; color: var(--turquesa); text-align: center; margin-bottom: 60px; }
-        
-        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 60px; }
-        .card { background: var(--branco); padding: 40px 30px; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-top: 4px solid var(--turquesa); transition: all 0.3s ease; }
-        .card:hover { transform: translateY(-8px); box-shadow: 0 8px 20px rgba(22, 165, 165, 0.15); }
-        .card i { font-size: 48px; color: var(--turquesa); margin-bottom: 20px; }
-        .card h3 { font-size: 20px; color: var(--turquesa); margin-bottom: 12px; font-weight: 700; }
-        .card p { font-size: 14px; color: #666; margin-bottom: 15px; }
-        .card .valor { font-size: 28px; font-weight: 800; color: var(--turquesa); }
-        
-        footer { background: var(--cinza-escuro); color: var(--branco); padding: 40px; text-align: center; font-size: 14px; }
-        
+
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            background: var(--cinza-claro);
+        }
+
+        .btn-cta:active {
+            transform: translateY(-1px);
+        }
+
+        /* SOBRE */
+        .sobre {
+            padding: 80px 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .sobre h2 {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--turquesa);
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .sobre h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--turquesa-claro);
+            border-radius: 2px;
+        }
+
+        .sobre p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #555;
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+
+        /* DIFERENCIAIS */
+        .diferenciais {
+            background: var(--cinza-medio);
+            padding: 80px 40px;
+        }
+
+        .diferenciais .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .diferenciais h2 {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--turquesa);
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .diferenciais h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--turquesa-claro);
+            border-radius: 2px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .card {
+            background: var(--branco);
+            padding: 40px 30px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--turquesa);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(22, 165, 165, 0.15);
+        }
+
+        .card i {
+            font-size: 48px;
+            color: var(--turquesa);
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--turquesa);
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .card .valor {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--turquesa);
+            margin-top: 15px;
+        }
+
+        /* METODOLOGIA */
+        .metodologia {
+            padding: 80px 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--branco);
+        }
+
+        .metodologia h2 {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--turquesa);
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .metodologia h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--turquesa-claro);
+            border-radius: 2px;
+        }
+
+        .metodos-list {
+            margin-top: 50px;
+        }
+
+        .metodo-item {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 30px;
+            align-items: flex-start;
+        }
+
+        .metodo-item i {
+            font-size: 32px;
+            color: var(--turquesa);
+            min-width: 50px;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        .metodo-item h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--cinza-escuro);
+            margin-bottom: 8px;
+        }
+
+        .metodo-item p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* RESULTADOS */
+        .resultados {
+            background: linear-gradient(135deg, var(--turquesa), var(--turquesa-escuro));
+            color: var(--branco);
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .resultados .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .resultados h2 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 50px;
+        }
+
+        .resultados-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .resultado-box {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .resultado-box:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-5px);
+        }
+
+        .resultado-box .numero {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .resultado-box .label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* CTA SECTION */
+        .cta-final {
+            padding: 80px 40px;
+            text-align: center;
+            background: var(--cinza-claro);
+        }
+
+        .cta-final .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-final h2 {
+            font-size: 38px;
+            font-weight: 800;
+            color: var(--turquesa);
+            margin-bottom: 25px;
+        }
+
+        .cta-final p {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .btn-cta-final {
+            background: var(--turquesa);
+            color: var(--branco);
+            padding: 18px 50px;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(22, 165, 165, 0.3);
+        }
+
+        .btn-cta-final:hover {
+            background: var(--turquesa-escuro);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(22, 165, 165, 0.4);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--cinza-escuro);
+            color: var(--branco);
+            padding: 40px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: var(--turquesa-claro);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        footer a:hover {
+            opacity: 0.8;
+        }
+
+        /* RESPONSIVO */
         @media (max-width: 768px) {
-            .hero { padding: 60px 20px; }
-            .hero h1 { font-size: 36px; }
-            .sobre, .diferenciais { padding: 50px 20px; }
-            .cards-grid { grid-template-columns: 1fr; }
+            .hero {
+                padding: 60px 20px;
+                min-height: 500px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero .tagline {
+                font-size: 16px;
+            }
+
+            .sobre,
+            .metodologia,
+            .resultados,
+            .cta-final {
+                padding: 50px 20px;
+            }
+
+            .sobre h2,
+            .diferenciais h2,
+            .metodologia h2,
+            .resultados h2,
+            .cta-final h2 {
+                font-size: 28px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .metodo-item {
+                gap: 15px;
+            }
+
+            .metodo-item i {
+                min-width: 40px;
+                font-size: 28px;
+            }
         }
     </style>
 </head>
 <body>
 
+<!-- NAVBAR -->
 <nav>
-    <div style="max-width: 1200px; margin: 0 auto;">
-        <div class="logo">ArtBlend Consultoria Gourmet</div>
+    <div class="container">
+        <div class="logo">
+            ArtBlend
+            <span>Consultoria Gourmet</span>
+        </div>
     </div>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
-    <div style="max-width: 800px;">
+    <div class="container">
+        <svg class="logo-abc" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <style>
+                    @keyframes letterDrop {
+                        0% { transform: translateY(-100px); opacity: 0; }
+                        100% { transform: translateY(0); opacity: 1; }
+                    }
+                    .letter { animation: letterDrop 0.8s ease-out forwards; font-weight: 800; font-size: 72px; }
+                    .a { animation-delay: 0s; }
+                    .b { animation-delay: 0.2s; }
+                    .c { animation-delay: 0.4s; }
+                </style>
+            </defs>
+            <text x="10" y="70" class="letter a" fill="#FFFFFF">A</text>
+            <text x="95" y="70" class="letter b" fill="#FFFFFF">B</text>
+            <text x="180" y="70" class="letter c" fill="#FFFFFF">C</text>
+        </svg>
+
         <h1>ArtBlend Consultoria Gourmet</h1>
         <p class="tagline">Transformando a gestão de restaurantes</p>
-        <p style="font-size: 16px; opacity: 0.85; margin: 25px 0; line-height: 1.8;">
-            Consultoria estratégica focada em redução de custos, otimização de processos e desenvolvimento de equipes.
+        <p class="description">
+            Consultoria estratégica focada em redução de custos, otimização de processos e desenvolvimento de equipes. 
+            Metodologia própria, resultados comprovados. De pequenos bares a grandes restaurantes.
         </p>
-        <a href="ARTBLEND_PLATAFORMA_COMPLETA.html" class="btn">🚀 ENTRAR NA PLATAFORMA →</a>
+        <a href="ARTBLEND_PLATAFORMA_COMPLETA.html" class="btn-cta">ENTRAR NA PLATAFORMA →</a>
     </div>
 </section>
 
+<!-- SOBRE -->
 <section class="sobre">
-    <div style="max-width: 1000px; margin: 0 auto;">
+    <div class="container">
         <h2>O Que Fazemos</h2>
-        <p>A ArtBlend Consultoria Gourmet atua transformando restaurantes, bares e empreendimentos de alimentação através de metodologia própria e ferramentas comprovadas.</p>
-        <p>Não é consultoria genérica. É consultoria especializada em gastronomia, para quem quer crescer com excelência.</p>
+        <p>
+            A ArtBlend Consultoria Gourmet atua há anos transformando a realidade de restaurantes, bares e empreendimentos de alimentação. 
+            Através de uma metodologia própria e ferramentas comprovadas, reduzimos custos operacionais, otimizamos processos 
+            e capacitamos equipes para entregarem resultados excepcionais.
+        </p>
+        <p>
+            Não é consultoria genérica. É consultoria especializada em gastronomia, para quem quer crescer com excelência.
+        </p>
     </div>
 </section>
 
+<!-- DIFERENCIAIS -->
 <section class="diferenciais">
-    <div style="max-width: 1200px; margin: 0 auto;">
+    <div class="container">
         <h2>Nossos Diferenciais</h2>
         <div class="cards-grid">
             <div class="card">
@@ -135,12 +628,99 @@
     </div>
 </section>
 
+<!-- METODOLOGIA -->
+<section class="metodologia">
+    <div class="container">
+        <h2>Nossa Abordagem</h2>
+        <div class="metodos-list">
+            <div class="metodo-item">
+                <i class="fas fa-search"></i>
+                <div>
+                    <h3>Diagnóstico Profundo</h3>
+                    <p>Análise completa da operação, financeiro, processos e pessoas. Identificamos oportunidades e gargalos reais.</p>
+                </div>
+            </div>
+            <div class="metodo-item">
+                <i class="fas fa-drafting-compass"></i>
+                <div>
+                    <h3>Plano Customizado</h3>
+                    <p>Sem moldes genéricos. Estratégia feita sob medida para o seu restaurante, considerando realidade local e objetivos.</p>
+                </div>
+            </div>
+            <div class="metodo-item">
+                <i class="fas fa-rocket"></i>
+                <div>
+                    <h3>Implementação Ágil</h3>
+                    <p>Execução rápida com suporte direto. Resultados visíveis nas primeiras semanas, não em meses.</p>
+                </div>
+            </div>
+            <div class="metodo-item">
+                <i class="fas fa-microscope"></i>
+                <div>
+                    <h3>Monitoramento Contínuo</h3>
+                    <p>Acompanhamento real-time dos indicadores. Ajustes constantes para manter performance no topo.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- RESULTADOS -->
+<section class="resultados">
+    <div class="container">
+        <h2>Resultados Que Entregamos</h2>
+        <div class="resultados-grid">
+            <div class="resultado-box">
+                <div class="numero">-3%</div>
+                <div class="label">Redução de CMV</div>
+            </div>
+            <div class="resultado-box">
+                <div class="numero">-2%</div>
+                <div class="label">Redução de Folha</div>
+            </div>
+            <div class="resultado-box">
+                <div class="numero">-5%</div>
+                <div class="label">Prime Cost</div>
+            </div>
+            <div class="resultado-box">
+                <div class="numero">+5%</div>
+                <div class="label">Margem Líquida</div>
+            </div>
+            <div class="resultado-box">
+                <div class="numero">+R$ 5K</div>
+                <div class="label">Lucro Extra/Mês</div>
+            </div>
+            <div class="resultado-box">
+                <div class="numero">300%+</div>
+                <div class="label">ROI em 90 dias</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final">
+    <div class="container">
+        <h2>Pronto para Transformar seu Restaurante?</h2>
+        <p>
+            A plataforma ArtBlend reúne todas as ferramentas, processos e metodologia necessária para você gerenciar 
+            sua operação com excelência. Acesso imediato a cursos, templates, análises e suporte direto.
+        </p>
+        <a href="ARTBLEND_PLATAFORMA_COMPLETA.html" class="btn-cta-final">ENTRAR NA PLATAFORMA AGORA →</a>
+    </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
     <p>&copy; 2026 ArtBlend Consultoria Gourmet. Todos os direitos reservados.</p>
+    <p style="margin-top: 15px; opacity: 0.7;">
+        Transformando a gestão de restaurantes através de consultoria estratégica e tecnologia.
+    </p>
 </footer>
 
 <script>
-    console.log('✅ Landing Page carregada com sucesso!');
+    // Links funcionais - abre plataforma completa
+    console.log('✅ Landing Page carregada - Botões conectados à plataforma');
 </script>
 
 </body>
