@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtBlend - Menu Completo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a4d6d 0%, #0d2a3d 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #1abc9c;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            color: #ecf0f1;
+        }
+        
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .module-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            background: #f8f9fa;
+        }
+        
+        .module-card h3 {
+            color: #1a4d6d;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .module-card p {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .module-card a {
+            display: inline-block;
+            background: #1abc9c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        
+        .module-card a:hover {
+            background: #16a085;
+        }
+        
+        .section-title {
+            color: white;
+            font-size: 1.8em;
+            margin: 30px 0 20px 0;
+            border-bottom: 2px solid #1abc9c;
+            padding-bottom: 10px;
+        }
+        
+        .badge-new {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 ArtBlend Consultoria Gourmet</h1>
+            <p>Plataforma Completa de Gestão para Restaurantes</p>
+        </div>
+        
+        <h2 class="section-title">✨ Módulos Novos (v4.0)</h2>
+        <div class="modules-grid">
+            <div class="module-card">
+                <h3>📊 Dashboard Consultor <span class="badge-new">NOVO</span></h3>
+                <p>Visão completa com gráficos de cursos, clientes, alertas e relatórios</p>
+                <a href="ARTBLEND_DASHBOARD_CONSULTOR_COMPLETO.html">Abrir →</a>
+            </div>
+            
+            <div class="module-card">
+                <h3>🎮 Gamificação <span class="badge-new">NOVO</span></h3>
+                <p>30 badges, pontos, ranking top 10 e 5 níveis (Bronze até Diamante)</p>
+                <a href="ARTBLEND_GAMIFICACAO_SISTEMA_COMPLETO.html">Abrir →</a>
+            </div>
+            
+            <div class="module-card">
+                <h3>💬 WhatsApp Automação <span class="badge-new">NOVO</span></h3>
+                <p>6 templates, triggers automáticos, agendamentos e histórico</p>
+                <a href="ARTBLEND_WHATSAPP_AUTOMACAO_COMPLETA.html">Abrir →</a>
+            </div>
+            
+            <div class="module-card">
+                <h3>🌐 Dashboard Clientes Realtime <span class="badge-new">NOVO</span></h3>
+                <p>8 clientes online, heatmap 24h, funnel 4 etapas, atualização realtime</p>
+                <a href="ARTBLEND_DASHBOARD_CLIENTES_REALTIME.html">Abrir →</a>
+            </div>
+            
+            <div class="module-card">
+                <h3>🎨 Temas Personalização <span class="badge-new">NOVO</span></h3>
+                <p>Dark Mode, customização de cores, 6 presets e export/import</p>
+                <a href="ARTBLEND_TEMAS_PERSONALIZACAO_COMPLETA.html">Abrir →</a>
+            </div>
+            
+            <div class="module-card">
+                <h3>🔔 Notificações Sistema <span class="badge-new">NOVO</span></h3>
+                <p>Bell icon, 4 tipos de notificações, painel com 20 itens</p>
+                <a href="ARTBLEND_NOTIFICACOES_SISTEMA_COMPLETO.html">Abrir →</a>
+            </div>
+            
+            <div class="module-card">
+                <h3>📄 Relatório Cliente V2 <span class="badge-new">NOVO</span></h3>
+                <p>KPIs, progresso de cursos, análise, recomendações e assinatura digital</p>
+                <a href="ARTBLEND_RELATORIO_CLIENTE_V2_FINAL.html">Abrir →</a>
+            </div>
+            
+            <div class="module-card">
+                <h3>📈 Analytics BI Dashboard <span class="badge-new">NOVO</span></h3>
+                <p>Receita 6 meses, funnel vendas, ROI 280%, top 5 cursos</p>
+                <a href="ARTBLEND_ANALYTICS_BI_DASHBOARD_COMPLETO.html">Abrir →</a>
+            </div>
+        </div>
+        
+        <h2 class="section-title">👥 Módulos de Clientes</h2>
+        <div class="modules-grid">
+            <div class="module-card">
+                <h3>🗂️ CRM do Consultor</h3>
+                <p>Gerenciamento completo de clientes</p>
+                <a href="ARTBLEND_PAINEL_CONSULTOR.html">Abrir →</a>
+            </div>
+            
+            <div class="module-card">
+                <h3>📅 Agenda</h3>
+                <p>Agendamentos e cronograma</p>
+                <a href="ARTBLEND_AGENDA.html">Abrir →</a>
+            </div>
+            
+            <div class="module-card">
+                <h3>📊 Painel de Indicadores</h3>
+                <p>Indicadores e resultados mensais</p>
+                <a href="ARTBLEND_PAINEL_INDICADORES.html">Abrir →</a>
+            </div>
+            
+            <div class="module-card">
+                <h3>📋 Relatório do Cliente</h3>
+                <p>Relatório completo e customizado</p>
+                <a href="ARTBLEND_RELATORIO_CLIENTE.html">Abrir →</a>
+            </div>
+        </div>
+        
+        <h2 class="section-title">🎯 Consultoria Estratégica</h2>
+        <div class="modules-grid">
+            <div class="module-card">
+                <h3>🔍 Diagnóstico & Estratégia</h3>
+                <p>Entrevista guiada que gera SWOT, GUT e plano de ação</p>
+                <a href="ARTBLEND_RAIO_X.html">Abrir →</a>
+            </div>
+            
+            <div class="module-card">
+                <h3>💰 Gestão Financeira</h3>
+                <p>Controle financeiro completo</p>
+                <a href="ARTBLEND_GESTAO_FINANCEIRA.html">Abrir →</a>
+            </div>
+        </div>
+        
+        <h2 class="section-title">⚙️ Operação</h2>
+        <div class="modules-grid">
+            <div class="module-card">
+                <h3>🏷️ Etiquetas & Validades</h3>
+                <p>Controle de validade com etiquetagem</p>
+                <a href="ARTBLEND_ETIQUETAS.html">Abrir →</a>
+            </div>
+            
+            <div class="module-card">
+                <h3>📦 Requisições & Almoxarifado</h3>
+                <p>Controle de estoque e requisições</p>
+                <a href="ARTBLEND_ALMOXARIFADO.html">Abrir →</a>
+            </div>
+            
+            <div class="module-card">
+                <h3>🎉 Eventos & Buffet</h3>
+                <p>Orçamento e gestão de eventos</p>
+                <a href="ARTBLEND_EVENTOS.html">Abrir →</a>
+            </div>
+        </div>
+        
+        <h2 class="section-title">👨‍💼 Pessoas & Equipe</h2>
+        <div class="modules-grid">
+            <div class="module-card">
+                <h3>💼 RH Gestor</h3>
+                <p>Cargos, perfis, regimento, retenção e custos CLT</p>
+                <a href="ARTBLEND_RH_GESTOR.html">Abrir →</a>
+            </div>
+        </div>
+        
+        <h2 class="section-title">📚 Cursos & Manuais</h2>
+        <div class="modules-grid">
+            <div class="module-card">
+                <h3>🎓 Plataforma de Cursos</h3>
+                <p>14 cursos profissionais em 5 pilares</p>
+                <a href="ARTBLEND_PLATAFORMA_CURSOS.html">Abrir →</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

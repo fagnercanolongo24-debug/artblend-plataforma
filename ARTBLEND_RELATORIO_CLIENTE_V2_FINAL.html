@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório Cliente - ArtBlend</title>
+    <style>
+        :root {
+            --bg: #F5F7FA;
+            --card: #FFFFFF;
+            --accent: #2EC4D6;
+            --text: #16294A;
+            --blue: #1C93A8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+        .report-header {
+            background: linear-gradient(135deg, var(--accent), var(--blue));
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: var(--blue);
+        }
+
+        .report-container {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--blue);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 8px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            padding: 10px;
+            background: var(--bg);
+            border-radius: 6px;
+        }
+
+        .info-label {
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 5px 0;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--accent);
+        }
+
+        .course-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .course-table th {
+            background: var(--accent);
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .course-table td {
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-completed { background: #dcfce7; color: #22c55e; }
+        .badge-inprogress { background: #fef3c7; color: #f59e0b; }
+
+        .highlights {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .highlight-card {
+            background: linear-gradient(135deg, var(--accent), var(--blue));
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .highlight-number { font-size: 24px; font-weight: bold; }
+        .highlight-label { font-size: 11px; }
+
+        .signature-section {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .signature-box {
+            text-align: center;
+        }
+
+        .signature-line {
+            border-top: 1px solid #333;
+            margin-bottom: 5px;
+            padding-top: 20px;
+        }
+
+        @media print {
+            .action-buttons { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="report-header">
+            <h1>📊 Relatório Completo do Cliente</h1>
+            <p>ArtBlend Consultoria Gourmet</p>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn" onclick="exportPDF()">📥 PDF</button>
+            <button class="btn" onclick="exportExcel()">📊 Excel</button>
+            <button class="btn" onclick="sendEmail()">📧 Email</button>
+            <button class="btn" onclick="sendWhatsApp()">💬 WhatsApp</button>
+            <button class="btn" onclick="window.print()">🖨️ Imprimir</button>
+        </div>
+
+        <div class="report-container">
+            <div class="section">
+                <div class="section-title">👤 Dados do Cliente</div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Nome</div>
+                        <div class="info-value">Restaurante Sabor & Arte</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">CNPJ</div>
+                        <div class="info-value">12.345.678/0001-90</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Contato</div>
+                        <div class="info-value">João Silva</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Telefone</div>
+                        <div class="info-value">(81) 99137-4054</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">📈 Resumo Executivo</div>
+                <div class="highlights">
+                    <div class="highlight-card">
+                        <div class="highlight-number">8/14</div>
+                        <div class="highlight-label">Cursos Concluídos</div>
+                    </div>
+                    <div class="highlight-card">
+                        <div class="highlight-number">85%</div>
+                        <div class="highlight-label">Progresso</div>
+                    </div>
+                    <div class="highlight-card">
+                        <div class="highlight-number">92%</div>
+                        <div class="highlight-label">Aprovação</div>
+                    </div>
+                    <div class="highlight-card">
+                        <div class="highlight-number">48h</div>
+                        <div class="highlight-label">Tempo Total</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">📚 Detalhes por Curso</div>
+                <table class="course-table">
+                    <thead>
+                        <tr>
+                            <th>Curso</th>
+                            <th>Status</th>
+                            <th>Nota</th>
+                            <th>Tempo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Gestão Financeira</td>
+                            <td><span class="badge badge-completed">✅ Concluído</span></td>
+                            <td>92%</td>
+                            <td>6h 24m</td>
+                        </tr>
+                        <tr>
+                            <td>Prime Cost</td>
+                            <td><span class="badge badge-completed">✅ Concluído</span></td>
+                            <td>88%</td>
+                            <td>4h 15m</td>
+                        </tr>
+                        <tr>
+                            <td>Indicadores e KPIs</td>
+                            <td><span class="badge badge-inprogress">⏳ Em Andamento</span></td>
+                            <td>85%</td>
+                            <td>6h 20m</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="signature-section">
+                <div class="signature-box">
+                    <div class="signature-line"></div>
+                    <div><strong>Fagner Augusto</strong></div>
+                    <div style="font-size: 11px; color: #666;">Consultor ArtBlend</div>
+                </div>
+                <div class="signature-box">
+                    <div style="text-align: center;">📊 Documento Oficial</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function exportPDF() { alert('📥 Exportando PDF...'); }
+        function exportExcel() { alert('📊 Exportando Excel...'); }
+        function sendEmail() { alert('📧 Enviando por email...'); }
+        function sendWhatsApp() { alert('💬 Enviando por WhatsApp...'); }
+    </script>
+</body>
+</html>

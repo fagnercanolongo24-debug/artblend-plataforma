@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Consultor · ArtBlend</title>
+  <link rel="stylesheet" href="ARTBLEND_DESIGN_SYSTEM.css">
+  <style>
+    body { padding: 20px; background: var(--bg-light); }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .header { background: linear-gradient(135deg, #1C93A8, #2EC4D6); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; }
+    .header h1 { margin: 0; font-size: 28px; }
+    .header p { margin: 5px 0 0 0; opacity: 0.9; }
+    .toolbar { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+    .btn-new { padding: 12px 20px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    .btn-new:hover { background: #20a0b0; }
+    .search { flex: 1; min-width: 250px; }
+    .search input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; }
+    .clientes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+    .cliente-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: all 0.3s ease; }
+    .cliente-card:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.12); border-color: var(--accent); }
+    .cliente-card h3 { margin: 0 0 5px 0; color: var(--primary); font-size: 18px; }
+    .cliente-card .info { font-size: 12px; color: var(--text-secondary); margin: 0; }
+    .cliente-card .badge { display: inline-block; background: var(--success); color: white; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-top: 8px; }
+    .modulos-list { margin: 12px 0; padding-top: 12px; border-top: 1px solid var(--border); }
+    .modulos-list strong { display: block; font-size: 12px; color: var(--text-primary); margin-bottom: 6px; }
+    .modulos-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .modulos-tags span { background: rgba(46, 196, 214, 0.1); color: var(--primary); padding: 4px 8px; border-radius: 6px; font-size: 11px; }
+    .acoes { display: flex; gap: 8px; margin-top: 15px; }
+    .acoes button { flex: 1; padding: 8px; border: 1px solid var(--border); background: white; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.2s; }
+    .acoes button:hover { background: var(--bg-light); }
+    .acoes .btn-editar { border-color: var(--primary); color: var(--primary); }
+    .acoes .btn-deletar { border-color: var(--error); color: var(--error); }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
+    .modal.active { display: flex; }
+    .modal-content { background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 500px; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .modal-header h2 { margin: 0; color: var(--primary); }
+    .modal-header .close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-secondary); }
+    .modal-body label { display: block; font-weight: 600; margin-bottom: 8px; margin-top: 15px; }
+    .modal-body input, .modal-body select { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; }
+    .modal-body .checkbox-group { display: grid; gap: 10px; margin-top: 15px; }
+    .modal-body .checkbox-item { display: flex; gap: 10px; align-items: center; }
+    .modal-body .checkbox-item input { width: auto; }
+    .modal-footer { display: flex; gap: 10px; margin-top: 25px; }
+    .modal-footer button { flex: 1; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+    .modal-footer .btn-salvar { background: var(--primary); color: white; }
+    .modal-footer .btn-cancelar { background: var(--border); color: var(--text-primary); }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
+    .stat-card { background: white; padding: 20px; border-radius: 12px; border-left: 4px solid var(--accent); }
+    .stat-card .numero { font-size: 32px; font-weight: 700; color: var(--primary); }
+    .stat-card .label { font-size: 14px; color: var(--text-secondary); margin-top: 5px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- HEADER -->
+    <div class="header">
+      <h1>🎯 Painel do Consultor</h1>
+      <p>Gerenciar clientes e módulos de consultoria</p>
+    </div>
+
+    <!-- ESTATÍSTICAS -->
+    <div class="stats">
+      <div class="stat-card">
+        <div class="numero" id="totalClientes">0</div>
+        <div class="label">Clientes Cadastrados</div>
+      </div>
+      <div class="stat-card">
+        <div class="numero" id="totalFinanceiro">0</div>
+        <div class="label">Com Pilar Financeiro</div>
+      </div>
+      <div class="stat-card">
+        <div class="numero" id="totalSanitario">0</div>
+        <div class="label">Com Pilar Sanitário</div>
+      </div>
+      <div class="stat-card">
+        <div class="numero" id="clientesAtivos">0</div>
+        <div class="label">Clientes Ativos</div>
+      </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <button class="btn-new" onclick="abrirModalNovo()">➕ Novo Cliente</button>
+      <div class="search">
+        <input type="text" id="searchInput" placeholder="🔍 Buscar cliente..." onkeyup="filtrarClientes()">
+      </div>
+    </div>
+
+    <!-- GRID DE CLIENTES -->
+    <div class="clientes-grid" id="clientesGrid">
+      <!-- Preenchido por JavaScript -->
+    </div>
+  </div>
+
+  <!-- MODAL EDITAR/NOVO CLIENTE -->
+  <div class="modal" id="modalCliente">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitulo">Novo Cliente</h2>
+        <button class="close" onclick="fecharModal()">&times;</button>
+      </div>
+      
+      <div class="modal-body">
+        <label>Nome da Empresa</label>
+        <input type="text" id="modalNomeEmpresa" placeholder="Ex: Restaurante XYZ">
+        
+        <label>Responsável</label>
+        <input type="text" id="modalNomeContato" placeholder="Ex: João Silva">
+        
+        <label>Email</label>
+        <input type="email" id="modalEmail" placeholder="Ex: joao@email.com">
+        
+        <label>Telefone</label>
+        <input type="tel" id="modalTelefone" placeholder="Ex: +55 11 99999-9999">
+        
+        <label>Cidade</label>
+        <input type="text" id="modalCidade" placeholder="Ex: São Paulo">
+        
+        <label style="margin-top: 20px; font-size: 14px; color: var(--primary);">📦 Módulos Contratados</label>
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <input type="checkbox" id="check_financeiro" name="modulos" value="financeiro">
+            <label for="check_financeiro">💰 Pilar Financeiro</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="check_operacao" name="modulos" value="operacao">
+            <label for="check_operacao">⚙️ Pilar Operação</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="check_pessoas" name="modulos" value="pessoas">
+            <label for="check_pessoas">👥 Pilar Pessoas</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="check_mercado" name="modulos" value="mercado">
+            <label for="check_mercado">🎯 Pilar Mercado</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="check_sanitario" name="modulos" value="sanitario">
+            <label for="check_sanitario">🧼 Pilar Sanitário</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="check_inteligencia" name="modulos" value="inteligencia">
+            <label for="check_inteligencia">🧠 Inteligência Automática</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-salvar" onclick="salvarCliente()">✅ Salvar</button>
+        <button class="btn-cancelar" onclick="fecharModal()">❌ Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Dados simulados (depois vem do Supabase)
+    let clientes = JSON.parse(localStorage.getItem('clientes')) || [
+      {
+        id: 1,
+        nome: 'Restaurante do João',
+        responsavel: 'João Silva',
+        email: 'joao@email.com',
+        telefone: '+55 11 98765-4321',
+        cidade: 'São Paulo',
+        modulos: ['financeiro', 'operacao', 'sanitario'],
+        status: 'ativo',
+        dataCadastro: '2026-08-01'
+      }
+    ];
+
+    function renderizarClientes(lista = clientes) {
+      const grid = document.getElementById('clientesGrid');
+      grid.innerHTML = '';
+
+      lista.forEach(cliente => {
+        const modulosHtml = cliente.modulos
+          .map(mod => {
+            const nomes = {
+              financeiro: '💰 Financeiro',
+              operacao: '⚙️ Operação',
+              pessoas: '👥 Pessoas',
+              mercado: '🎯 Mercado',
+              sanitario: '🧼 Sanitário',
+              inteligencia: '🧠 IA'
+            };
+            return `<span>${nomes[mod]}</span>`;
+          })
+          .join('');
+
+        const linkCustomizado = `https://artblend.app/cliente/${cliente.id}`;
+
+        const card = document.createElement('div');
+        card.className = 'cliente-card';
+        card.innerHTML = `
+          <h3>${cliente.nome}</h3>
+          <p class="info">👤 ${cliente.responsavel}</p>
+          <p class="info">📧 ${cliente.email}</p>
+          <p class="info">📱 ${cliente.telefone}</p>
+          <p class="info">🏙️ ${cliente.cidade}</p>
+          <span class="badge">${cliente.status.toUpperCase()}</span>
+          
+          <div class="modulos-list">
+            <strong>Módulos (${cliente.modulos.length}):</strong>
+            <div class="modulos-tags">${modulosHtml}</div>
+          </div>
+
+          <div class="acoes">
+            <button class="btn-editar" onclick="editarCliente(${cliente.id})">✏️ Editar</button>
+            <button class="btn-deletar" onclick="deletarCliente(${cliente.id})">🗑️ Deletar</button>
+          </div>
+
+          <div style="margin-top: 12px; padding: 10px; background: var(--bg-light); border-radius: 6px; font-size: 11px;">
+            <strong>Link Customizado:</strong>
+            <div style="word-break: break-all; margin-top: 4px; color: var(--accent);">${linkCustomizado}</div>
+            <button onclick="copiarLink('${linkCustomizado}')" style="margin-top: 6px; width: 100%; padding: 6px; background: var(--accent); color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">📋 Copiar Link</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      atualizarEstatisticas();
+    }
+
+    function atualizarEstatisticas() {
+      document.getElementById('totalClientes').textContent = clientes.length;
+      document.getElementById('totalFinanceiro').textContent = clientes.filter(c => c.modulos.includes('financeiro')).length;
+      document.getElementById('totalSanitario').textContent = clientes.filter(c => c.modulos.includes('sanitario')).length;
+      document.getElementById('clientesAtivos').textContent = clientes.filter(c => c.status === 'ativo').length;
+    }
+
+    function filtrarClientes() {
+      const busca = document.getElementById('searchInput').value.toLowerCase();
+      const filtrados = clientes.filter(c => 
+        c.nome.toLowerCase().includes(busca) || 
+        c.responsavel.toLowerCase().includes(busca) ||
+        c.email.toLowerCase().includes(busca)
+      );
+      renderizarClientes(filtrados);
+    }
+
+    function abrirModalNovo() {
+      document.getElementById('modalTitulo').textContent = 'Novo Cliente';
+      document.getElementById('modalNomeEmpresa').value = '';
+      document.getElementById('modalNomeContato').value = '';
+      document.getElementById('modalEmail').value = '';
+      document.getElementById('modalTelefone').value = '';
+      document.getElementById('modalCidade').value = '';
+      document.querySelectorAll('input[name="modulos"]').forEach(cb => cb.checked = false);
+      document.getElementById('modalCliente').classList.add('active');
+    }
+
+    function editarCliente(id) {
+      const cliente = clientes.find(c => c.id === id);
+      if (!cliente) return;
+
+      document.getElementById('modalTitulo').textContent = `Editar: ${cliente.nome}`;
+      document.getElementById('modalNomeEmpresa').value = cliente.nome;
+      document.getElementById('modalNomeContato').value = cliente.responsavel;
+      document.getElementById('modalEmail').value = cliente.email;
+      document.getElementById('modalTelefone').value = cliente.telefone;
+      document.getElementById('modalCidade').value = cliente.cidade;
+
+      document.querySelectorAll('input[name="modulos"]').forEach(cb => {
+        cb.checked = cliente.modulos.includes(cb.value);
+      });
+
+      document.getElementById('modalCliente').classList.add('active');
+      document.getElementById('modalCliente').dataset.editandoId = id;
+    }
+
+    function fecharModal() {
+      document.getElementById('modalCliente').classList.remove('active');
+      delete document.getElementById('modalCliente').dataset.editandoId;
+    }
+
+    function salvarCliente() {
+      const id = document.getElementById('modalCliente').dataset.editandoId;
+      const modulos = Array.from(document.querySelectorAll('input[name="modulos"]:checked')).map(cb => cb.value);
+
+      if (modulos.length === 0) {
+        alert('⚠️ Selecione pelo menos um módulo!');
+        return;
+      }
+
+      const dados = {
+        nome: document.getElementById('modalNomeEmpresa').value,
+        responsavel: document.getElementById('modalNomeContato').value,
+        email: document.getElementById('modalEmail').value,
+        telefone: document.getElementById('modalTelefone').value,
+        cidade: document.getElementById('modalCidade').value,
+        modulos: modulos
+      };
+
+      if (id) {
+        const cliente = clientes.find(c => c.id === parseInt(id));
+        Object.assign(cliente, dados);
+      } else {
+        clientes.push({
+          id: Math.max(...clientes.map(c => c.id), 0) + 1,
+          ...dados,
+          status: 'ativo',
+          dataCadastro: new Date().toISOString().split('T')[0]
+        });
+      }
+
+      localStorage.setItem('clientes', JSON.stringify(clientes));
+      renderizarClientes();
+      fecharModal();
+      alert('✅ Cliente salvo com sucesso!');
+    }
+
+    function deletarCliente(id) {
+      if (confirm('Tem certeza que quer deletar este cliente?')) {
+        clientes = clientes.filter(c => c.id !== id);
+        localStorage.setItem('clientes', JSON.stringify(clientes));
+        renderizarClientes();
+        alert('✅ Cliente deletado!');
+      }
+    }
+
+    function copiarLink(link) {
+      navigator.clipboard.writeText(link);
+      alert('📋 Link copiado para a área de transferência!');
+    }
+
+    // Inicializar
+    renderizarClientes();
+  </script>
+</body>
+</html>

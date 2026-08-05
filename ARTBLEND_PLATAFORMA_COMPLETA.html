@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtBlend Consultoria Gourmet - Plataforma</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --turquesa: #16A5A5;
+            --turquesa-escuro: #0F7D7D;
+            --turquesa-claro: #2EC4C4;
+            --branco: #FFFFFF;
+            --cinza-claro: #F5F5F5;
+            --cinza-médio: #E8E8E8;
+            --cinza-escuro: #333333;
+            --sucesso: #2EC4D6;
+            --aviso: #FF9800;
+            --erro: #F44336;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #F5F7FA;
+            color: var(--cinza-escuro);
+            overflow-x: hidden;
+        }
+
+        /* ═══════════════════════════════════════════════════════════ */
+        /* MENU LATERAL                                               */
+        /* ═══════════════════════════════════════════════════════════ */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, var(--turquesa) 0%, var(--turquesa-escuro) 100%);
+            color: var(--branco);
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-header {
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar-logo {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .sidebar-subtitle {
+            font-size: 11px;
+            opacity: 0.9;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .sidebar-user {
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.1);
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar-user .name {
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-user .role {
+            opacity: 0.8;
+            font-size: 11px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .sidebar-menu li {
+            margin: 0;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 20px;
+            color: var(--branco);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .sidebar-menu a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            padding-left: 25px;
+        }
+
+        .sidebar-menu a.active {
+            background: rgba(0, 0, 0, 0.2);
+            border-left: 4px solid var(--branco);
+            padding-left: 16px;
+            font-weight: 700;
+        }
+
+        .sidebar-menu i {
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .sidebar-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 15px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--branco);
+            text-decoration: none;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .sidebar-footer a:hover {
+            opacity: 1;
+        }
+
+        /* ═══════════════════════════════════════════════════════════ */
+        /* MAIN CONTENT                                               */
+        /* ═══════════════════════════════════════════════════════════ */
+
+        .main-content {
+            margin-left: 280px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .header-bar {
+            background: var(--branco);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--turquesa);
+            cursor: pointer;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--turquesa);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn-logout {
+            background: var(--erro);
+            color: var(--branco);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background: #D32F2F;
+            transform: translateY(-2px);
+        }
+
+        /* ═══════════════════════════════════════════════════════════ */
+        /* CONTENT AREA                                               */
+        /* ═══════════════════════════════════════════════════════════ */
+
+        .content {
+            padding: 30px;
+            min-height: calc(100vh - 70px);
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--turquesa);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════ */
+        /* DASHBOARD CARDS                                            */
+        /* ═══════════════════════════════════════════════════════════ */
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--branco);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border-left: 4px solid var(--turquesa);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 20px rgba(22, 165, 165, 0.12);
+            transform: translateY(-4px);
+        }
+
+        .card-icon {
+            font-size: 28px;
+            color: var(--turquesa);
+            margin-bottom: 12px;
+        }
+
+        .card-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .card-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--turquesa);
+        }
+
+        .card-change {
+            font-size: 11px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .card-change.positive {
+            color: var(--sucesso);
+        }
+
+        .card-change.negative {
+            color: var(--erro);
+        }
+
+        /* ═══════════════════════════════════════════════════════════ */
+        /* TABELAS                                                    */
+        /* ═══════════════════════════════════════════════════════════ */
+
+        .table-section {
+            background: var(--branco);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            margin-bottom: 30px;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .table-header h3 {
+            font-size: 16px;
+            color: var(--turquesa);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: var(--turquesa);
+            color: var(--branco);
+        }
+
+        .btn-primary:hover {
+            background: var(--turquesa-escuro);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(22, 165, 165, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--cinza-médio);
+            color: var(--turquesa);
+        }
+
+        .btn-secondary:hover {
+            background: #D8D8D8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead {
+            background: var(--cinza-claro);
+            border-bottom: 2px solid var(--turquesa);
+        }
+
+        th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 700;
+            color: var(--turquesa);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 11px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid var(--cinza-médio);
+        }
+
+        tr:hover td {
+            background: var(--cinza-claro);
+        }
+
+        /* ═══════════════════════════════════════════════════════════ */
+        /* RESPONSIVE                                                 */
+        /* ═══════════════════════════════════════════════════════════ */
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                transform: translateX(-100%);
+            }
+
+            .sidebar.visible {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-bar {
+                padding: 15px 15px;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .table-section {
+                padding: 15px;
+            }
+
+            .btn-group {
+                width: 100%;
+            }
+
+            .btn {
+                flex: 1;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SIDEBAR (Menu Lateral) -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-logo">🎯 AB</div>
+        <div class="sidebar-subtitle">ArtBlend</div>
+        <div style="font-size: 11px; margin-top: 8px; opacity: 0.9;">Consultoria Gourmet</div>
+    </div>
+
+    <div class="sidebar-user">
+        <div class="name">👤 Fagner Canolongo</div>
+        <div class="role">Proprietário Integral</div>
+    </div>
+
+    <ul class="sidebar-menu">
+        <li><a href="#" onclick="showSection('geral')" class="menu-item active"><i class="fas fa-home"></i> Geral</a></li>
+        <li><a href="#" onclick="showSection('cursos')" class="menu-item"><i class="fas fa-graduation-cap"></i> Cursos & Treinamentos</a></li>
+        <li><a href="#" onclick="showSection('modulos')" class="menu-item"><i class="fas fa-cubes"></i> Módulos</a></li>
+        <li><a href="#" onclick="showSection('dashboard')" class="menu-item"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+        <li><a href="#" onclick="showSection('config')" class="menu-item"><i class="fas fa-cog"></i> Configurações</a></li>
+    </ul>
+
+    <div class="sidebar-footer">
+        <a href="#" onclick="alert('Saindo...')"><i class="fas fa-sign-out-alt"></i> Sair</a>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+    
+    <!-- HEADER -->
+    <div class="header-bar">
+        <div class="header-left">
+            <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+            <div class="header-title">🎯 ArtBlend Consultoria Gourmet</div>
+        </div>
+        <div class="header-right">
+            <button class="btn-logout" onclick="alert('Logout realizado!')">SAIR</button>
+        </div>
+    </div>
+
+    <!-- CONTENT AREA -->
+    <div class="content">
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SEÇÃO: GERAL (Dashboard Principal)                         -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+
+        <div id="geral" class="section active">
+            <div class="section-title">
+                <i class="fas fa-home"></i> Dashboard Principal
+            </div>
+
+            <p style="color: #666; margin-bottom: 25px;">Bom dia, Fagner! Aqui está o resumo de hoje (04/08/2026)</p>
+
+            <!-- KPIs Principais -->
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-icon">💰</div>
+                    <div class="card-label">Faturamento (Mês)</div>
+                    <div class="card-value">R$ 45.200</div>
+                    <div class="card-change positive">↑ 8.5% vs mês anterior</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <div class="card-label">CMV% (Média)</div>
+                    <div class="card-value">28,3%</div>
+                    <div class="card-change positive">↓ -2.1% (Bom!)</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🍽️</div>
+                    <div class="card-label">Refeições (Hoje)</div>
+                    <div class="card-value">342</div>
+                    <div class="card-change">+15 vs ontem</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">👥</div>
+                    <div class="card-label">Clientes Ativos</div>
+                    <div class="card-value">12</div>
+                    <div class="card-change">+2 novos este mês</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">💵</div>
+                    <div class="card-label">Lucro Líquido</div>
+                    <div class="card-value">R$ 9.800</div>
+                    <div class="card-change positive">↑ Margem 21.7%</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">📈</div>
+                    <div class="card-label">Ticket Médio</div>
+                    <div class="card-value">R$ 132</div>
+                    <div class="card-change positive">↑ +R$ 12</div>
+                </div>
+            </div>
+
+            <!-- Tabela de Clientes -->
+            <div class="table-section">
+                <div class="table-header">
+                    <h3>📋 Clientes em Acompanhamento</h3>
+                    <div class="btn-group">
+                        <button class="btn btn-primary"><i class="fas fa-download"></i> Excel</button>
+                        <button class="btn btn-secondary"><i class="fas fa-print"></i> Imprimir</button>
+                        <button class="btn btn-secondary"><i class="fas fa-envelope"></i> Email</button>
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Status</th>
+                            <th>CMV%</th>
+                            <th>Faturamento</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🍽️ Bar21 Jenipabu</td>
+                            <td><span style="color: var(--sucesso); font-weight: bold;">✓ Ativo</span></td>
+                            <td>29,2%</td>
+                            <td>R$ 8.500</td>
+                            <td><button class="btn btn-secondary" style="font-size: 11px;">Ver</button></td>
+                        </tr>
+                        <tr>
+                            <td>🍗 Restaurante Silva</td>
+                            <td><span style="color: var(--sucesso); font-weight: bold;">✓ Ativo</span></td>
+                            <td>31,5%</td>
+                            <td>R$ 6.200</td>
+                            <td><button class="btn btn-secondary" style="font-size: 11px;">Ver</button></td>
+                        </tr>
+                        <tr>
+                            <td>🍕 Pizzaria Centro</td>
+                            <td><span style="color: var(--aviso); font-weight: bold;">⏳ Aguardando</span></td>
+                            <td>—</td>
+                            <td>R$ 0</td>
+                            <td><button class="btn btn-primary" style="font-size: 11px;">Retomar</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SEÇÃO: CURSOS                                              -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+
+        <div id="cursos" class="section">
+            <div class="section-title">
+                <i class="fas fa-graduation-cap"></i> Cursos & Treinamentos
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-icon">📚</div>
+                    <div class="card-label">Módulo 1: Financeiro</div>
+                    <div style="font-size: 14px; margin: 10px 0;">
+                        <div style="background: #E8E8E8; height: 6px; border-radius: 3px; margin-bottom: 8px; overflow: hidden;">
+                            <div style="background: var(--turquesa); height: 100%; width: 100%;"></div>
+                        </div>
+                        Completo ✓
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">📚</div>
+                    <div class="card-label">Módulo 2: Operação</div>
+                    <div style="font-size: 14px; margin: 10px 0;">
+                        <div style="background: #E8E8E8; height: 6px; border-radius: 3px; margin-bottom: 8px; overflow: hidden;">
+                            <div style="background: var(--turquesa); height: 100%; width: 75%;"></div>
+                        </div>
+                        75% Completo
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">📚</div>
+                    <div class="card-label">Módulo 3: Pessoas</div>
+                    <div style="font-size: 14px; margin: 10px 0;">
+                        <div style="background: #E8E8E8; height: 6px; border-radius: 3px; margin-bottom: 8px; overflow: hidden;">
+                            <div style="background: var(--turquesa); height: 100%; width: 40%;"></div>
+                        </div>
+                        40% Completo
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🔒</div>
+                    <div class="card-label">Módulo 4: Mercado</div>
+                    <div style="font-size: 14px; color: #999; margin-top: 10px;">
+                        🔒 Bloqueado (Conclua Módulo 3)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SEÇÃO: MÓDULOS                                             -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+
+        <div id="modulos" class="section">
+            <div class="section-title">
+                <i class="fas fa-cubes"></i> Módulos Disponíveis
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card" style="cursor: pointer; border-left-color: var(--sucesso);">
+                    <div class="card-icon">🧮</div>
+                    <div class="card-label">Precificador Interativo</div>
+                    <div style="font-size: 13px; color: #666; margin-top: 10px;">Calcule preços automaticamente</div>
+                </div>
+
+                <div class="card" style="cursor: pointer;">
+                    <div class="card-icon">📊</div>
+                    <div class="card-label">Dashboard Indicadores</div>
+                    <div style="font-size: 13px; color: #666; margin-top: 10px;">CMV, Prime Cost, Margem</div>
+                </div>
+
+                <div class="card" style="cursor: pointer;">
+                    <div class="card-icon">📝</div>
+                    <div class="card-label">Fichas Técnicas</div>
+                    <div style="font-size: 13px; color: #666; margin-top: 10px;">Gerenciar receitas</div>
+                </div>
+
+                <div class="card" style="cursor: pointer;">
+                    <div class="card-icon">🍽️</div>
+                    <div class="card-label">Comanda de Cozinha</div>
+                    <div style="font-size: 13px; color: #666; margin-top: 10px;">Fluxo de pedidos real-time</div>
+                </div>
+
+                <div class="card" style="cursor: pointer;">
+                    <div class="card-icon">📦</div>
+                    <div class="card-label">Estoque & Validades</div>
+                    <div style="font-size: 13px; color: #666; margin-top: 10px;">Sincronização automática</div>
+                </div>
+
+                <div class="card" style="cursor: pointer;">
+                    <div class="card-icon">💬</div>
+                    <div class="card-label">WhatsApp Automático</div>
+                    <div style="font-size: 13px; color: #666; margin-top: 10px;">Notificações + Templates</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SEÇÃO: DASHBOARD                                           -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+
+        <div id="dashboard" class="section">
+            <div class="section-title">
+                <i class="fas fa-chart-line"></i> Dashboard Profundo
+            </div>
+
+            <div class="table-section">
+                <div class="table-header">
+                    <h3>📊 Indicadores Mensais (Agosto 2026)</h3>
+                    <div class="btn-group">
+                        <button class="btn btn-primary"><i class="fas fa-download"></i> PDF</button>
+                        <button class="btn btn-primary"><i class="fas fa-file-excel"></i> Excel</button>
+                        <button class="btn btn-secondary"><i class="fas fa-share"></i> Compartilhar</button>
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dia</th>
+                            <th>Faturamento</th>
+                            <th>CMV%</th>
+                            <th>Refeições</th>
+                            <th>Ticket Médio</th>
+                            <th>Lucro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01/08</td>
+                            <td>R$ 1.200</td>
+                            <td>28,5%</td>
+                            <td>42</td>
+                            <td>R$ 128</td>
+                            <td>R$ 260</td>
+                        </tr>
+                        <tr>
+                            <td>02/08</td>
+                            <td>R$ 1.580</td>
+                            <td>27,8%</td>
+                            <td>58</td>
+                            <td>R$ 134</td>
+                            <td>R$ 385</td>
+                        </tr>
+                        <tr>
+                            <td>03/08</td>
+                            <td>R$ 1.420</td>
+                            <td>29,2%</td>
+                            <td>51</td>
+                            <td>R$ 131</td>
+                            <td>R$ 315</td>
+                        </tr>
+                        <tr>
+                            <td>04/08 (Hoje)</td>
+                            <td>R$ 1.680</td>
+                            <td>27,5%</td>
+                            <td>64</td>
+                            <td>R$ 138</td>
+                            <td>R$ 445</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SEÇÃO: CONFIGURAÇÕES                                       -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+
+        <div id="config" class="section">
+            <div class="section-title">
+                <i class="fas fa-cog"></i> Configurações
+            </div>
+
+            <div class="table-section">
+                <h3 style="color: var(--turquesa); margin-bottom: 15px;">⚙️ Perfil do Usuário</h3>
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <td style="font-weight: 600; width: 200px;">Nome Completo:</td>
+                            <td>Fagner Canolongo</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600;">Email:</td>
+                            <td>fagnercanolongo24@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600;">Telefone:</td>
+                            <td>+55 (81) 9 9137-4054</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600;">Perfil de Acesso:</td>
+                            <td><span style="background: var(--turquesa); color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600;">👑 Proprietário Integral</span></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600;">Acesso desde:</td>
+                            <td>01/06/2026</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="margin-top: 25px; padding-top: 25px; border-top: 1px solid var(--cinza-médio);">
+                    <h3 style="color: var(--turquesa); margin-bottom: 15px;">🔐 Segurança</h3>
+                    <button class="btn btn-primary" onclick="alert('Alterando senha...')"><i class="fas fa-key"></i> Alterar Senha</button>
+                    <button class="btn btn-secondary" onclick="alert('Ativando 2FA...')"><i class="fas fa-shield-alt"></i> Autenticação 2 Fatores</button>
+                </div>
+
+                <div style="margin-top: 25px; padding-top: 25px; border-top: 1px solid var(--cinza-médio);">
+                    <button class="btn-logout" onclick="alert('Saindo...')"><i class="fas fa-sign-out-alt"></i> Fazer Logout</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function showSection(sectionId) {
+        // Esconder todas as seções
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(section => {
+            section.classList.remove('active');
+        });
+
+        // Mostrar seção selecionada
+        const selectedSection = document.getElementById(sectionId);
+        if (selectedSection) {
+            selectedSection.classList.add('active');
+        }
+
+        // Atualizar menu ativo
+        const menuItems = document.querySelectorAll('.menu-item');
+        menuItems.forEach(item => {
+            item.classList.remove('active');
+        });
+
+        event.target.closest('.menu-item').classList.add('active');
+
+        // Fechar sidebar no mobile
+        if (window.innerWidth < 768) {
+            document.getElementById('sidebar').classList.remove('visible');
+        }
+
+        event.preventDefault();
+    }
+
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('visible');
+    }
+
+    // Fechar sidebar ao clicar fora (mobile)
+    document.addEventListener('click', function(event) {
+        const sidebar = document.getElementById('sidebar');
+        const toggle = document.querySelector('.menu-toggle');
+        
+        if (window.innerWidth < 768 && 
+            !sidebar.contains(event.target) && 
+            !toggle.contains(event.target) &&
+            sidebar.classList.contains('visible')) {
+            sidebar.classList.remove('visible');
+        }
+    });
+</script>
+
+</body>
+</html>

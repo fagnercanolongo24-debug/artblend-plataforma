@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestão Financeira · ArtBlend</title>
+  <link rel="stylesheet" href="ARTBLEND_DESIGN_SYSTEM.css">
+  <style>
+    body { padding: 20px; }
+    .container { max-width: 900px; margin: 0 auto; }
+    .tabs { display: flex; gap: 10px; margin: 20px 0; border-bottom: 2px solid var(--border); }
+    .tab-btn { padding: 12px 20px; background: none; border: none; cursor: pointer; font-weight: 600; color: var(--text-secondary); border-bottom: 3px solid transparent; }
+    .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- HEADER VISUAL -->
+    <div class="header-visual">
+      <h1>💰 Gestão Financeira</h1>
+      <p>Implementação Profissional em 30 Dias</p>
+    </div>
+
+    <!-- NAVEGAÇÃO ABAS -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="mudarAba('conceito')">📖 Conceito</button>
+      <button class="tab-btn" onclick="mudarAba('implementacao')">🔧 Implementação</button>
+      <button class="tab-btn" onclick="mudarAba('checklist')">✅ Checklist</button>
+    </div>
+
+    <!-- ═════════════════════════════════════════════════════════════ -->
+    <!-- ABA 1: CONCEITO -->
+    <!-- ═════════════════════════════════════════════════════════════ -->
+    <div id="conceito" class="tab-content active">
+      <div class="card primary">
+        <h2>O que é Gestão Financeira?</h2>
+        <p>É <strong>controlar entradas e saídas de dinheiro</strong> para que seu restaurante ganhe mais lucro e não quebrar. É tipo dar um <strong>orçamento doméstico</strong> para um restaurante.</p>
+      </div>
+
+      <!-- DIAGRAMA: Receita vs Custos -->
+      <h3>O Equilíbrio Financeiro</h3>
+      <div class="balance-scale">
+        <div class="balance-side">
+          <div class="balance-fulcrum">📈</div>
+          <div class="balance-bar">
+            <div class="balance-fill" style="width: 65%;"></div>
+          </div>
+          <p class="balance-label">RECEITA</p>
+          <p class="balance-value">100%</p>
+        </div>
+
+        <div style="font-size: 24px; color: var(--primary); align-self: flex-end; margin-bottom: 20px;">⚖️</div>
+
+        <div class="balance-side">
+          <div class="balance-fulcrum">📉</div>
+          <div class="balance-bar">
+            <div class="balance-fill" style="width: 60%; background: linear-gradient(90deg, var(--error), var(--warning));"></div>
+          </div>
+          <p class="balance-label">CUSTOS</p>
+          <p class="balance-value">60%</p>
+        </div>
+      </div>
+
+      <div class="alert alert-success">
+        <strong>✅ Objetivo:</strong> Manter Custos < 60% da Receita = Lucro > 40%
+      </div>
+
+      <!-- ESTRUTURA 3 COLUNAS -->
+      <h3>3 Pilares da Gestão Financeira</h3>
+      <div class="grid-3">
+        <div class="column">
+          <h3>💵 Receita</h3>
+          <p>Quanto entra no caixa por vendas de comida e bebida</p>
+        </div>
+        <div class="column">
+          <h3>💸 Custos</h3>
+          <p>Matéria-prima, aluguel, funcionários, contas</p>
+        </div>
+        <div class="column">
+          <h3>📊 Lucro</h3>
+          <p>O que sobra depois de pagar tudo</p>
+        </div>
+      </div>
+
+      <!-- FLUXO 5 PASSOS -->
+      <h3>5 Componentes-Chave</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <p><strong>Faturamento</strong><br>Total vendido no mês</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <p><strong>CMV (Custo MP)</strong><br>Comida que você gastou</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <p><strong>Folha RH</strong><br>Salários da equipe</p>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <p><strong>Despesas</strong><br>Tudo que precisa pagar</p>
+        </div>
+        <div class="step">
+          <div class="step-number">5</div>
+          <p><strong>Lucro Líquido</strong><br>O que sobra no bolso</p>
+        </div>
+      </div>
+
+      <!-- FÓRMULAS -->
+      <div class="card accent">
+        <h3>Fórmulas Essenciais</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Métrica</th>
+              <th>Fórmula</th>
+              <th>Meta</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>CMV %</strong></td>
+              <td>(Custo MP ÷ Faturamento) × 100</td>
+              <td>25-30%</td>
+            </tr>
+            <tr>
+              <td><strong>Folha %</strong></td>
+              <td>(Folha Total ÷ Faturamento) × 100</td>
+              <td>28-32%</td>
+            </tr>
+            <tr>
+              <td><strong>Prime Cost</strong></td>
+              <td>CMV % + Folha %</td>
+              <td>&lt; 60%</td>
+            </tr>
+            <tr>
+              <td><strong>Lucro Líquido</strong></td>
+              <td>Faturamento - Custos Totais</td>
+              <td>&gt; 8%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CASO REAL -->
+      <div class="card success">
+        <h3>📍 Caso Real: Restaurante SP (Zona Sul)</h3>
+        <p><strong>Situação Inicial (Caótica):</strong></p>
+        <div class="balance-scale" style="margin: 20px 0;">
+          <div class="balance-side">
+            <div class="balance-bar" style="width: 80px;">
+              <div class="balance-fill" style="width: 100%; background: var(--success);"></div>
+            </div>
+            <p class="balance-label">Faturamento</p>
+            <p class="balance-value">R$ 100k</p>
+          </div>
+          <div style="font-size: 20px; color: var(--error); align-self: flex-end; margin-bottom: 15px;">❌</div>
+          <div class="balance-side">
+            <div class="balance-bar" style="width: 80px;">
+              <div class="balance-fill" style="width: 70%; background: var(--error);"></div>
+            </div>
+            <p class="balance-label">Custos</p>
+            <p class="balance-value">R$ 70k</p>
+          </div>
+        </div>
+        <p><strong>Resultado:</strong> CMV 35%, Folha 30%, Prime Cost 65% (alerta!), Lucro apenas 5k (5%)</p>
+        <p><strong>Implementação (30 dias depois):</strong> CMV 28% (-7%), Folha 28%, Prime Cost 56%, Lucro R$ 7.500 (+50%)</p>
+      </div>
+    </div>
+
+    <!-- ═════════════════════════════════════════════════════════════ -->
+    <!-- ABA 2: IMPLEMENTAÇÃO -->
+    <!-- ═════════════════════════════════════════════════════════════ -->
+    <div id="implementacao" class="tab-content">
+      <div class="card primary">
+        <h2>Como Implementar (30 Dias)</h2>
+      </div>
+
+      <!-- SEMANA 1 -->
+      <div class="card">
+        <h3 class="text-primary">📅 SEMANA 1: DIAGNÓSTICO</h3>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <p><strong>Dia 1-2:</strong><br>Junta recibos, notas, planilhas</p>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <p><strong>Dia 3-4:</strong><br>Calcula CMV% e Folha%</p>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <p><strong>Dia 5-7:</strong><br>Identifica 3 maiores problemas</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEMANA 2 -->
+      <div class="card">
+        <h3 class="text-accent">📅 SEMANA 2-3: PLANEJAMENTO</h3>
+        <ol class="checklist">
+          <li><input type="checkbox"> Listar todos os custos variáveis (MP, embalagem)</li>
+          <li><input type="checkbox"> Listar todos os custos fixos (aluguel, contas)</li>
+          <li><input type="checkbox"> Criar tabela com por</li>
+          <li><input type="checkbox"> Definir meta de CMV realista para seu negócio</li>
+          <li><input type="checkbox"> Comunicar metas ao time</li>
+        </ol>
+      </div>
+
+      <!-- SEMANA 4 -->
+      <div class="card">
+        <h3 class="text-secondary">📅 SEMANA 4: AÇÃO</h3>
+        <p><strong>Implementar 3 mudanças principais:</strong></p>
+        <div class="grid-3">
+          <div class="column">
+            <h4>🍽️ Cardápio</h4>
+            <p>Aumentar margens em pratos com custo alto</p>
+          </div>
+          <div class="column">
+            <h4>🛒 Compras</h4>
+            <p>Negociar com fornecedores, comparar preços</p>
+          </div>
+          <div class="column">
+            <h4>👥 Operação</h4>
+            <p>Reduzir desperdício (lixo, evaporação)</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-warning">
+        <strong>⚠️ Atenção:</strong> Mudanças financeiras levam 30 dias pra aparecer. Não desista na semana 2!
+      </div>
+    </div>
+
+    <!-- ═════════════════════════════════════════════════════════════ -->
+    <!-- ABA 3: CHECKLIST -->
+    <!-- ═════════════════════════════════════════════════════════════ -->
+    <div id="checklist" class="tab-content">
+      <div class="card primary">
+        <h2>Checklist de Implementação</h2>
+        <p>Conclua 100% para ganhar seu certificado!</p>
+      </div>
+
+      <div style="background: var(--bg-white); padding: 20px; border-radius: 12px;">
+        <h3>MÊS 1</h3>
+        <ol class="checklist">
+          <li><input type="checkbox"> Coleti todos os extratos bancários dos últimos 3 meses</li>
+          <li><input type="checkbox"> Calculei CMV% atual do meu negócio</li>
+          <li><input type="checkbox"> Calculei Folha% atual</li>
+          <li><input type="checkbox"> Calculei Prime Cost (CMV + Folha)</li>
+          <li><input type="checkbox"> Identifiquei 3 maiores problemas financeiros</li>
+        </ol>
+
+        <h3 class="mt-lg">MÊS 2</h3>
+        <ol class="checklist" start="6">
+          <li><input type="checkbox"> Criei tabela de preços por prato com margem</li>
+          <li><input type="checkbox"> Negociei com pelo menos 3 fornecedores</li>
+          <li><input type="checkbox"> Eliminei pratos com margem < 60%</li>
+          <li><input type="checkbox"> Treinei equipe sobre objetivos financeiros</li>
+          <li><input type="checkbox"> Registrei 30 dias de controle de custos</li>
+        </ol>
+
+        <h3 class="mt-lg">MÊS 3</h3>
+        <ol class="checklist" start="11">
+          <li><input type="checkbox"> Recalculei CMV% (deve estar &lt; 30%)</li>
+          <li><input type="checkbox"> Recalculei Prime Cost (deve estar &lt; 60%)</li>
+          <li><input type="checkbox"> Comparei lucro mês 1 vs mês 3</li>
+          <li><input type="checkbox"> Criei sistema mensal de controle</li>
+          <li><input type="checkbox"> Apresentei resultados ao time</li>
+        </ol>
+
+        <div class="alert alert-success mt-lg">
+          <strong>✅ Parabéns!</strong> Você completou o curso de Gestão Financeira. Seu certificado está pronto!
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function mudarAba(abaId) {
+      // Ocultar todas as abas
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+      // Mostrar aba selecionada
+      document.getElementById(abaId).classList.add('active');
+      event.target.classList.add('active');
+    }
+  </script>
+</body>
+</html>

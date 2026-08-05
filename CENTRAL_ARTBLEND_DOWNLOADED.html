@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Central Artblend</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{ --teal:#19c6ad; --teal-d:#0e6b61; --clay:#e8843a; --ink:#e8f3f0; --muted:#8fb3ac; }
+html,body{height:100%;}
+body{
+font-family:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;color:var(--ink);
+background:#05100e;
+background-image:
+radial-gradient(900px 500px at 12% -10%, rgba(25,198,173,.18), transparent 60%),
+radial-gradient(900px 600px at 90% 0%, rgba(232,132,58,.14), transparent 55%),
+radial-gradient(1200px 800px at 50% 120%, rgba(14,107,97,.30), transparent 60%),
+linear-gradient(180deg,#06120f 0%,#040b0a 100%);
+min-height:100vh; overflow-x:hidden;
+}
+.floor{position:fixed;left:0;right:0;bottom:0;height:46vh;pointer-events:none;z-index:0;
+background-image:linear-gradient(rgba(25,198,173,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(25,198,173,.10) 1px,transparent 1px);
+background-size:46px 46px;transform:perspective(420px) rotateX(62deg);transform-origin:bottom;
+mask-image:linear-gradient(transparent,#000 70%);-webkit-mask-image:linear-gradient(transparent,#000 70%);opacity:.6;}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:48px 30px 70px;}
+header{text-align:center;margin-bottom:14px;}
+.logo{font-size:46px;font-weight:800;letter-spacing:-1.5px;
+background:linear-gradient(90deg,#bff6ec,#19c6ad 55%,#e8843a);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.logo small{display:block;font-size:12px;letter-spacing:5px;text-transform:uppercase;color:var(--teal);font-weight:700;margin-top:4px;-webkit-text-fill-color:var(--teal);}
+.tag{color:var(--muted);font-size:14px;margin-top:10px;}
+a.hero{display:flex;gap:18px;align-items:center;text-decoration:none;color:var(--ink);
+background:linear-gradient(120deg,rgba(25,198,173,.16),rgba(232,132,58,.10));
+border:1px solid rgba(25,198,173,.30);border-radius:20px;padding:22px 26px;margin:30px 0 22px;
+box-shadow:0 24px 60px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06);transition:.18s;}
+a.hero:hover{transform:translateY(-3px);border-color:rgba(25,198,173,.6);box-shadow:0 30px 70px rgba(0,0,0,.55);}
+.hero .ic{font-size:34px;width:66px;height:66px;border-radius:18px;display:flex;align-items:center;justify-content:center;
+background:radial-gradient(circle at 30% 25%,#1d8c80,#0a463f);box-shadow:0 8px 24px rgba(25,198,173,.35),inset 0 1px 0 rgba(255,255,255,.15);flex-shrink:0;}
+.hero h2{font-size:21px;font-weight:800;}
+.hero p{color:var(--muted);font-size:13.5px;margin-top:3px;}
+.grouplbl{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);font-weight:700;margin:30px 0 12px;display:flex;align-items:center;gap:10px;}
+.grouplbl::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(25,198,173,.4),transparent);}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;}
+a.tile{position:relative;text-decoration:none;color:var(--ink);
+background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:18px 18px 16px;
+backdrop-filter:blur(6px);transition:.16s;overflow:hidden;}
+a.tile:hover{transform:translateY(-4px);border-color:rgba(25,198,173,.45);background:rgba(25,198,173,.07);box-shadow:0 18px 40px rgba(0,0,0,.45);}
+a.tile .ic{font-size:24px;width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;
+background:radial-gradient(circle at 30% 25%,rgba(25,198,173,.32),rgba(10,70,63,.5));box-shadow:inset 0 1px 0 rgba(255,255,255,.12);}
+a.tile.clay .ic{background:radial-gradient(circle at 30% 25%,rgba(232,132,58,.4),rgba(120,60,20,.5));}
+a.tile h3{font-size:15px;font-weight:750;}
+a.tile p{color:var(--muted);font-size:12.5px;margin-top:4px;line-height:1.4;}
+a.tile .go{position:absolute;top:16px;right:16px;color:var(--teal);font-size:15px;opacity:.5;transition:.16s;}
+a.tile:hover .go{opacity:1;transform:translateX(2px);}
+footer{text-align:center;color:var(--muted);font-size:12px;margin-top:42px;}
+.hintbar{text-align:center;color:var(--muted);font-size:12.5px;margin-top:8px;}
+@media(max-width:560px){.logo{font-size:36px;}.grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div class="floor"></div>
+<div class="wrap">
+<header>
+<div class="logo">artblend<small>Central de Comando</small></div>
+<div class="tag">Todo o seu ecossistema num só lugar. Clique para abrir.</div>
+</header>
+
+<a class="hero" href="#sistema-global">
+<div class="ic">📘</div>
+<div><h2>Documento Mestre — Sistema Global</h2><p>O cérebro do projeto: método, inteligência competitiva, software, NR-1 e roadmap. Comece por aqui.</p></div>
+</a>
+
+<div class="grouplbl">Ferramentas & Software</div>
+<div class="grid">
+<a class="tile" href="#sistema">
+<span class="go">↗</span>
+<div class="ic">🗄️</div>
+<h3>ArtBlend Sistema</h3>
+<p>Planilhas unificadas: gestão, estoque, POPs, RH, consultoria e NR-1.</p>
+</a>
+<a class="tile clay" href="#nr1">
+<span class="go">↗</span>
+<div class="ic">🧠</div>
+<h3>Ferramenta NR-1 (DRPS)</h3>
+<p>Diagnóstico de riscos psicossociais: gravidade × probabilidade → matriz → plano.</p>
+</a>
+<a class="tile" href="#os">
+<span class="go">↗</span>
+<div class="ic">🧰</div>
+<h3>ArtBlend OS</h3>
+<p>Protótipo do consultor: CRM, diagnóstico e proposta.</p>
+</a>
+<a class="tile" href="#painel">
+<span class="go">↗</span>
+<div class="ic">📈</div>
+<h3>Painel Demo</h3>
+<p>Cockpit com health score, alertas e simulador ao vivo.</p>
+</a>
+</div>
+
+<div class="grouplbl">Cursos & Formação</div>
+<div class="grid">
+<a class="tile clay" href="#curso-nr1">
+<span class="go">↗</span>
+<div class="ic">🧩</div>
+<h3>Curso NR-1</h3>
+<p>Riscos psicossociais do zero à execução, com o "pulo do gato".</p>
+</a>
+<a class="tile" href="#curso-cep">
+<span class="go">↗</span>
+<div class="ic">👥</div>
+<h3>Curso CEP</h3>
+<p>Consultor Estratégico de Pessoas — 40h, food service.</p>
+</a>
+<a class="tile" href="#curso-td">
+<span class="go">↗</span>
+<div class="ic">🎓</div>
+<h3>Curso T&D</h3>
+<p>Treinamento & Desenvolvimento aplicado.</p>
+</a>
+<a class="tile clay" href="#consultoria-cardapio">
+<span class="go">↗</span>
+<div class="ic">🍽️</div>
+<h3>Consultoria de Cardápio</h3>
+<p>Método P.R.A.T.O. e engenharia de cardápio.</p>
+</a>
+</div>
+
+<div class="grouplbl">Estratégia & Inteligência</div>
+<div class="grid">
+<a class="tile" href="#blueprint">
+<span class="go">↗</span>
+<div class="ic">🧭</div>
+<h3>Blueprint do Ecossistema</h3>
+<p>Arquitetura do produto: Core, OS, Restaurant, Academy, IA.</p>
+</a>
+<a class="tile" href="#avaliacao">
+<span class="go">↗</span>
+<div class="ic">⭐</div>
+<h3>Avaliação Executiva</h3>
+<p>Crítica honesta + blueprint v2.</p>
+</a>
+<a class="tile" href="#analise">
+<span class="go">↗</span>
+<div class="ic">🗺️</div>
+<h3>Análise & Caminho</h3>
+<p>Concorrentes, como construir, licenças e custos.</p>
+</a>
+<a class="tile" href="#dossie">
+<span class="go">↗</span>
+<div class="ic">📍</div>
+<h3>Dossiê Competitivo</h3>
+<p>V-Core, ProApp, Suflex, Politi, Maiara, EGG...</p>
+</a>
+<a class="tile clay" href="#nr1-frameworks">
+<span class="go">↗</span>
+<div class="ic">⚖️</div>
+<h3>NR-1 & Frameworks</h3>
+<p>Maronesi (saúde mental) + Charles França (OIKOS).</p>
+</a>
+</div>
+
+<footer>Central ArtBlend · © ArtBlend Consultoria — 2026 · TUDO INTEGRADO AQUI!</footer>
+<div class="hintbar">Dica: salve este arquivo e organize seus documentos ao lado.</div>
+</body>
+</html>

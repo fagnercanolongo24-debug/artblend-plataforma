@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precificador Interativo BAR21</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --turquesa: #16A5A5;
+            --turquesa-escuro: #0F7D7D;
+            --turquesa-claro: #2EC4C4;
+            --branco: #FFFFFF;
+            --cinza-claro: #F5F5F5;
+            --cinza-escuro: #333333;
+            --sucesso: #2EC4D6;
+            --aviso: #FF9800;
+            --erro: #F44336;
+            --font: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+            color: var(--cinza-escuro);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, var(--turquesa), var(--turquesa-escuro));
+            color: var(--branco);
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(22, 165, 165, 0.2);
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+            margin-bottom: 5px;
+        }
+
+        .header .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+
+        /* CARDS */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--branco);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid var(--turquesa);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 24px rgba(22, 165, 165, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .card h2 {
+            font-size: 18px;
+            color: var(--turquesa);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h2 i {
+            font-size: 22px;
+        }
+
+        /* INPUT GROUPS */
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--turquesa);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group input {
+            padding: 12px 14px;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: var(--font);
+            transition: all 0.2s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--turquesa);
+            background: rgba(22, 165, 165, 0.05);
+            box-shadow: 0 0 0 3px rgba(22, 165, 165, 0.1);
+        }
+
+        .input-helper {
+            font-size: 12px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        /* BUTTONS */
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        button {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .btn-calcular {
+            background: var(--turquesa);
+            color: var(--branco);
+            grid-column: 1 / -1;
+            font-size: 16px;
+            padding: 16px;
+        }
+
+        .btn-calcular:hover {
+            background: var(--turquesa-escuro);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(22, 165, 165, 0.3);
+        }
+
+        .btn-limpar {
+            background: var(--cinza-claro);
+            color: var(--turquesa);
+        }
+
+        .btn-limpar:hover {
+            background: #E8E8E8;
+        }
+
+        .btn-copiar {
+            background: var(--aviso);
+            color: var(--branco);
+            font-size: 12px;
+            padding: 10px 14px;
+        }
+
+        .btn-copiar:hover {
+            background: #F57C00;
+        }
+
+        /* RESULTADO */
+        .resultado {
+            background: var(--branco);
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            display: none;
+            border-top: 6px solid var(--sucesso);
+        }
+
+        .resultado.show {
+            display: block;
+            animation: slideInUp 0.4s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .resultado h3 {
+            font-size: 16px;
+            color: var(--turquesa);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .resultado-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .resultado-item {
+            background: var(--cinza-claro);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--turquesa);
+        }
+
+        .resultado-item .label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .resultado-item .valor {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--turquesa);
+        }
+
+        .resultado-item.destaque {
+            background: linear-gradient(135deg, rgba(22, 165, 165, 0.1), rgba(46, 196, 212, 0.1));
+            border-left-color: var(--sucesso);
+            grid-column: 1 / -1;
+        }
+
+        .resultado-item.destaque .valor {
+            color: var(--sucesso);
+            font-size: 36px;
+        }
+
+        /* TABELA */
+        .tabela-secao {
+            margin-top: 30px;
+            background: var(--branco);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            display: none;
+        }
+
+        .tabela-secao.show {
+            display: block;
+        }
+
+        .tabela-secao h3 {
+            font-size: 16px;
+            color: var(--turquesa);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--cinza-claro);
+            border-bottom: 2px solid var(--turquesa);
+        }
+
+        th {
+            padding: 12px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--turquesa);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #E8E8E8;
+            font-size: 14px;
+        }
+
+        tr:hover td {
+            background: var(--cinza-claro);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .resultado-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* NOTIFICAÇÃO */
+        .notificacao {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--sucesso);
+            color: var(--branco);
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(46, 196, 212, 0.3);
+            font-size: 14px;
+            font-weight: 600;
+            animation: slideInRight 0.3s ease-out;
+            display: none;
+        }
+
+        .notificacao.show {
+            display: block;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>🧮 Precificador Interativo</h1>
+        <p>Cálculo automático de preço de venda baseado no custo</p>
+        <div class="badge">BAR21 · Prato | Fichas Técnicas</div>
+    </div>
+
+    <!-- INPUTS -->
+    <div class="cards-grid">
+
+        <!-- CARD 1: CUSTO -->
+        <div class="card">
+            <h2><i class="fas fa-coins"></i> Custo da Matéria-Prima</h2>
+            
+            <div class="input-group">
+                <label for="custo">Custo Total (R$)</label>
+                <input type="number" id="custo" placeholder="Ex: 15.50" min="0" step="0.01">
+                <span class="input-helper">Valor total de ingredientes</span>
+            </div>
+
+            <div class="input-group">
+                <label for="desperdicio">Fator de Perda (%)</label>
+                <input type="number" id="desperdicio" placeholder="Ex: 10" min="0" value="0" step="0.1">
+                <span class="input-helper">Percentual de perda/desperdício</span>
+            </div>
+
+            <div class="input-group">
+                <label for="preparo">Custo Mão-de-Obra (R$)</label>
+                <input type="number" id="preparo" placeholder="Ex: 2.50" min="0" step="0.01" value="0">
+                <span class="input-helper">Custo de preparo do prato</span>
+            </div>
+        </div>
+
+        <!-- CARD 2: MARGENS -->
+        <div class="card">
+            <h2><i class="fas fa-chart-pie"></i> Margens e Markup</h2>
+            
+            <div class="input-group">
+                <label for="cmv-desejado">CMV Desejado (%)</label>
+                <input type="number" id="cmv-desejado" placeholder="Ex: 30" min="5" value="30" max="60" step="0.5">
+                <span class="input-helper">Percentual ideal (30% = melhor padrão)</span>
+            </div>
+
+            <div class="input-group">
+                <label for="margem">Margem de Lucro (%)</label>
+                <input type="number" id="margem" placeholder="Ex: 40" min="10" value="40" max="80" step="1">
+                <span class="input-helper">Lucro que você quer no prato</span>
+            </div>
+
+            <div class="input-group">
+                <label for="imposto">Impostos/Taxas (%)</label>
+                <input type="number" id="imposto" placeholder="Ex: 10" min="0" value="10" step="0.5">
+                <span class="input-helper">Impostos, comissão, etc</span>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-limpar" onclick="limparCampos()">
+                    <i class="fas fa-eraser"></i> Limpar
+                </button>
+                <button class="btn-calcular" onclick="calcularPreco()">
+                    <i class="fas fa-calculator"></i> CALCULAR PREÇO
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RESULTADO -->
+    <div class="resultado" id="resultado">
+        <h3><i class="fas fa-check-circle"></i> Resultado do Cálculo</h3>
+        
+        <div class="resultado-grid">
+            <div class="resultado-item">
+                <div class="label">Custo Total</div>
+                <div class="valor" id="resultado-custo">R$ 0,00</div>
+            </div>
+
+            <div class="resultado-item">
+                <div class="label">CMV Final</div>
+                <div class="valor" id="resultado-cmv">0%</div>
+            </div>
+
+            <div class="resultado-item">
+                <div class="label">Margem Bruta</div>
+                <div class="valor" id="resultado-margem">0%</div>
+            </div>
+
+            <div class="resultado-item destaque">
+                <div class="label">💰 Preço Sugerido</div>
+                <div class="valor" id="resultado-preco">R$ 0,00</div>
+            </div>
+
+            <div class="resultado-item">
+                <div class="label">Lucro por Prato</div>
+                <div class="valor" id="resultado-lucro">R$ 0,00</div>
+            </div>
+
+            <div class="resultado-item">
+                <div class="label">Impostos/Taxas</div>
+                <div class="valor" id="resultado-impostos">R$ 0,00</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABELA COMPARATIVA -->
+    <div class="tabela-secao" id="tabela-comparativa">
+        <h3><i class="fas fa-table"></i> Projeção por CMV</h3>
+        <p style="color: #999; font-size: 13px; margin-bottom: 15px;">Veja como o preço varia de acordo com diferentes CMVs</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>CMV (%)</th>
+                    <th>Preço de Venda</th>
+                    <th>CMV (R$)</th>
+                    <th>Margem Bruta</th>
+                    <th>Lucro Líquido</th>
+                </tr>
+            </thead>
+            <tbody id="tabela-corpo">
+                <!-- Preenchido por JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- NOTIFICAÇÃO -->
+<div class="notificacao" id="notificacao"></div>
+
+<script>
+    function calcularPreco() {
+        // Pegar valores
+        const custo = parseFloat(document.getElementById('custo').value) || 0;
+        const desperdicio = parseFloat(document.getElementById('desperdicio').value) || 0;
+        const preparo = parseFloat(document.getElementById('preparo').value) || 0;
+        const cmvDesejado = parseFloat(document.getElementById('cmv-desejado').value) || 30;
+        const margem = parseFloat(document.getElementById('margem').value) || 40;
+        const imposto = parseFloat(document.getElementById('imposto').value) || 10;
+
+        // Validação
+        if (custo <= 0) {
+            mostrarNotificacao("⚠️ Por favor, insira o custo da matéria-prima", 'aviso');
+            return;
+        }
+
+        // CÁLCULOS
+        // 1. Custo total com desperdício
+        const custoComDesperdicio = custo + (custo * desperdicio / 100);
+        
+        // 2. Custo total com mão-de-obra
+        const custoTotal = custoComDesperdicio + preparo;
+
+        // 3. Preço de venda baseado em CMV
+        // CMV = Custo / Preço * 100
+        // Logo: Preço = Custo / (CMV/100)
+        const precoVenda = custoTotal / (cmvDesejado / 100);
+
+        // 4. CMV real
+        const cmvReal = (custoTotal / precoVenda) * 100;
+
+        // 5. Margem bruta
+        const margemBruta = precoVenda - custoTotal;
+        const percentualMargemBruta = (margemBruta / precoVenda) * 100;
+
+        // 6. Impostos/Taxas
+        const valorImpostos = precoVenda * (imposto / 100);
+
+        // 7. Lucro líquido
+        const lucroLiquido = margemBruta - valorImpostos;
+
+        // Exibir resultado
+        document.getElementById('resultado-custo').textContent = `R$ ${custoTotal.toFixed(2)}`.replace('.', ',');
+        document.getElementById('resultado-cmv').textContent = `${cmvReal.toFixed(1).replace('.', ',')}%`;
+        document.getElementById('resultado-margem').textContent = `${percentualMargemBruta.toFixed(1).replace('.', ',')}%`;
+        document.getElementById('resultado-preco').textContent = `R$ ${precoVenda.toFixed(2)}`.replace('.', ',');
+        document.getElementById('resultado-lucro').textContent = `R$ ${lucroLiquido.toFixed(2)}`.replace('.', ',');
+        document.getElementById('resultado-impostos').textContent = `R$ ${valorImpostos.toFixed(2)}`.replace('.', ',');
+
+        // Mostrar resultado
+        document.getElementById('resultado').classList.add('show');
+
+        // Gerar tabela comparativa
+        gerarTabelaComparativa(custoTotal, preparo, imposto);
+
+        mostrarNotificacao("✅ Cálculo realizado com sucesso!", 'sucesso');
+    }
+
+    function gerarTabelaComparativa(custo, preparo, imposto) {
+        const cmvOpcoes = [20, 25, 30, 35, 40, 45, 50];
+        const tbody = document.getElementById('tabela-corpo');
+        tbody.innerHTML = '';
+
+        cmvOpcoes.forEach(cmv => {
+            const preco = custo / (cmv / 100);
+            const margemBruta = preco - custo;
+            const valorImposto = preco * (imposto / 100);
+            const lucro = margemBruta - valorImposto;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><strong>${cmv}%</strong></td>
+                <td>R$ ${preco.toFixed(2).replace('.', ',')}</td>
+                <td>R$ ${custo.toFixed(2).replace('.', ',')}</td>
+                <td>${((margemBruta / preco) * 100).toFixed(1).replace('.', ',')}%</td>
+                <td style="color: ${lucro > 0 ? '#2EC4D6' : '#F44336'}; font-weight: bold;">R$ ${lucro.toFixed(2).replace('.', ',')}</td>
+            `;
+            tbody.appendChild(row);
+        });
+
+        document.getElementById('tabela-comparativa').classList.add('show');
+    }
+
+    function limparCampos() {
+        document.getElementById('custo').value = '';
+        document.getElementById('desperdicio').value = '0';
+        document.getElementById('preparo').value = '0';
+        document.getElementById('cmv-desejado').value = '30';
+        document.getElementById('margem').value = '40';
+        document.getElementById('imposto').value = '10';
+        document.getElementById('resultado').classList.remove('show');
+        document.getElementById('tabela-comparativa').classList.remove('show');
+    }
+
+    function mostrarNotificacao(mensagem, tipo = 'sucesso') {
+        const notif = document.getElementById('notificacao');
+        notif.textContent = mensagem;
+        notif.classList.add('show');
+        
+        setTimeout(() => {
+            notif.classList.remove('show');
+        }, 3000);
+    }
+
+    // Enter para calcular
+    document.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            calcularPreco();
+        }
+    });
+</script>
+
+</body>
+</html>

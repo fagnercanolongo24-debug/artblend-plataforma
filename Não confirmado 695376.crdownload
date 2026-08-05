@@ -1,0 +1,342 @@
+/**
+ * ARTBLEND - CONTROLE DE PERMISSÕES POR CLIENTE
+ * 
+ * O que faz:
+ * - Identifica qual cliente está logado
+ * - Lê quais módulos o cliente tem permissão
+ * - Esconde módulos não contratados
+ * - Bloqueia acesso direto a módulos não permitidos
+ * - Personaliza a plataforma por cliente
+ */
+
+class ControladorPermissoes {
+  constructor() {
+    this.clienteId = null;
+    this.clienteNome = null;
+    this.modulosPermitidos = [];
+    this.inicializar();
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // INICIALIZAR: Detectar cliente logado
+  // ─────────────────────────────────────────────────────────────────────────
+
+  async inicializar() {
+    try {
+      // Opção 1: Pegar ID da URL (quando Supabase redireciona)
+      const url = new URL(window.location.href);
+      const clienteId = url.searchParams.get('cliente_id');
+
+      if (clienteId) {
+        await this.carregarPermissoes(clienteId);
+        return;
+      }
+
+      // Opção 2: Pegar do localStorage (quando salvo localmente)
+      const clienteSalvo = localStorage.getItem('cliente_logado');
+      if (clienteSalvo) {
+        const cliente = JSON.parse(clienteSalvo);
+        await this.carregarPermissoes(cliente.id);
+        return;
+      }
+
+      // Opção 3: Pedir login
+      console.warn('⚠️ Cliente não identificado. Redirecionando para login...');
+      this.mostrarTelaLogin();
+    } catch (erro) {
+      console.error('❌ Erro ao inicializar:', erro);
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // CARREGAR PERMISSÕES DO CLIENTE
+  // ─────────────────────────────────────────────────────────────────────────
+
+  async carregarPermissoes(clienteId) {
+    try {
+      console.log(`🔐 Carregando permissões para cliente: ${clienteId}`);
+
+      // Simular busca no Supabase (depois será real)
+      const cliente = await this.buscarClienteSupabase(clienteId);
+
+      if (!cliente) {
+        console.error('❌ Cliente não encontrado');
+        this.mostrarTelaLogin();
+        return;
+      }
+
+      this.clienteId = cliente.id;
+      this.clienteNome = cliente.nome;
+      this.modulosPermitidos = cliente.modulos;
+
+      console.log(`✅ Cliente identificado: ${this.clienteNome}`);
+      console.log(`📦 Módulos permitidos: ${this.modulosPermitidos.join(', ')}`);
+
+      // Aplicar controle de acesso
+      this.aplicarControleAcesso();
+
+      // Personalizar interface
+      this.personalizarInterface();
+    } catch (erro) {
+      console.error('❌ Erro ao carregar permissões:', erro);
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // BUSCAR CLIENTE NO SUPABASE (Simulado)
+  // ─────────────────────────────────────────────────────────────────────────
+
+  async buscarClienteSupabase(clienteId) {
+    // Simular dados do cliente (depois vem do Supabase real)
+    const clientesExemplo = {
+      '1': {
+        id: 1,
+        nome: 'João Silva - Restaurante do João',
+        email: 'joao@email.com',
+        modulos: ['financeiro', 'operacao', 'sanitario'],
+        status: 'ativo'
+      },
+      '2': {
+        id: 2,
+        nome: 'Maria Santos - Churrascaria XYZ',
+        email: 'maria@email.com',
+        modulos: ['financeiro', 'sanitario'],
+        status: 'ativo'
+      },
+      '3': {
+        id: 3,
+        nome: 'Carlos Oliveira - Pizzaria Bella',
+        email: 'carlos@email.com',
+        modulos: ['operacao', 'pessoas'],
+        status: 'ativo'
+      }
+    };
+
+    return clientesExemplo[clienteId] || null;
+
+    // Em produção, seria:
+    // const resposta = await fetch(`${SUPABASE_URL}/rest/v1/clientes?id=eq.${clienteId}`, {
+    //   headers: {
+    //     'Authorization': `Bearer ${SUPABASE_KEY}`,
+    //     'Content-Type': 'application/json'
+    //   }
+    // });
+    // return resposta.json()[0];
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // APLICAR CONTROLE DE ACESSO (Esconde módulos não permitidos)
+  // ─────────────────────────────────────────────────────────────────────────
+
+  aplicarControleAcesso() {
+    // Mapeamento: classe/ID do HTML → módulo requerido
+    const modulosMapping = {
+      // Pilar Financeiro
+      '.financeiro': 'financeiro',
+      '[data-modulo="financeiro"]': 'financeiro',
+      '#mod-gestao-financeira': 'financeiro',
+      '#mod-prime-cost': 'financeiro',
+      '#mod-indicadores': 'financeiro',
+      '#mod-fluxo-caixa': 'financeiro',
+
+      // Pilar Operação
+      '.operacao': 'operacao',
+      '[data-modulo="operacao"]': 'operacao',
+      '#mod-cardapio': 'operacao',
+      '#mod-receitas': 'operacao',
+      '#mod-higiene': 'operacao',
+      '#mod-estoque': 'operacao',
+
+      // Pilar Pessoas
+      '.pessoas': 'pessoas',
+      '[data-modulo="pessoas"]': 'pessoas',
+      '#mod-rh': 'pessoas',
+      '#mod-psicossocial': 'pessoas',
+
+      // Pilar Mercado
+      '.mercado': 'mercado',
+      '[data-modulo="mercado"]': 'mercado',
+      '#mod-concorrencia': 'mercado',
+
+      // Pilar Sanitário
+      '.sanitario': 'sanitario',
+      '[data-modulo="sanitario"]': 'sanitario',
+      '#mod-sanitaria': 'sanitario',
+      '#mod-appcc': 'sanitario',
+
+      // Inteligência
+      '.inteligencia': 'inteligencia',
+      '[data-modulo="inteligencia"]': 'inteligencia',
+      '#mod-ia': 'inteligencia'
+    };
+
+    // Iterar por cada elemento e verificar permissão
+    Object.entries(modulosMapping).forEach(([seletor, modulo]) => {
+      const elementos = document.querySelectorAll(seletor);
+      elementos.forEach(el => {
+        if (!this.temPermissao(modulo)) {
+          // Esconder elemento
+          el.style.display = 'none';
+          // Ou mostrar badge de "não contratado"
+          el.setAttribute('data-bloqueado', 'true');
+        } else {
+          // Mostrar elemento
+          el.style.display = 'block';
+        }
+      });
+    });
+
+    console.log('✅ Controle de acesso aplicado');
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // VERIFICAR PERMISSÃO (Cliente tem acesso a este módulo?)
+  // ─────────────────────────────────────────────────────────────────────────
+
+  temPermissao(modulo) {
+    return this.modulosPermitidos.includes(modulo);
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // BLOQUEAR ACESSO DIRETO (Se tentar acessar URL de módulo não permitido)
+  // ─────────────────────────────────────────────────────────────────────────
+
+  bloquearAcessoNaoPermitido(moduloRequerido) {
+    if (!this.temPermissao(moduloRequerido)) {
+      alert('❌ Você não tem permissão para acessar este módulo.\n\nContrate este serviço com a ArtBlend.');
+      window.location.href = 'index.html';
+      return false;
+    }
+    return true;
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // PERSONALIZAR INTERFACE (Mostrar apenas módulos permitidos)
+  // ─────────────────────────────────────────────────────────────────────────
+
+  personalizarInterface() {
+    // Atualizar cabeçalho com nome do cliente
+    const headers = document.querySelectorAll('header, .header, h1');
+    headers.forEach(h => {
+      if (h.textContent.includes('ArtBlend')) {
+        h.innerHTML = `🎯 ${this.clienteNome} - ArtBlend Consultoria`;
+      }
+    });
+
+    // Criar menu customizado com apenas módulos permitidos
+    this.criarMenuCustomizado();
+
+    // Mostrar aviso se cliente tem poucos módulos
+    if (this.modulosPermitidos.length < 3) {
+      this.mostrarBannerUpgrade();
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // CRIAR MENU CUSTOMIZADO
+  // ─────────────────────────────────────────────────────────────────────────
+
+  criarMenuCustomizado() {
+    const nomesPilares = {
+      financeiro: '💰 Pilar Financeiro',
+      operacao: '⚙️ Pilar Operação',
+      pessoas: '👥 Pilar Pessoas',
+      mercado: '🎯 Pilar Mercado',
+      sanitario: '🧼 Pilar Sanitário',
+      inteligencia: '🧠 Inteligência'
+    };
+
+    let menuHtml = '<div style="background: white; padding: 20px; border-radius: 12px; margin: 20px 0;">';
+    menuHtml += `<h3>📚 Seus Módulos Contratados (${this.modulosPermitidos.length}):</h3>`;
+    menuHtml += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">';
+
+    this.modulosPermitidos.forEach(modulo => {
+      menuHtml += `<a href="#${modulo}" style="padding: 12px; background: var(--primary); color: white; text-decoration: none; border-radius: 8px; text-align: center; font-weight: 600;">${nomesPilares[modulo]}</a>`;
+    });
+
+    menuHtml += '</div></div>';
+
+    // Inserir no início da página
+    const container = document.querySelector('.container') || document.body;
+    container.insertAdjacentHTML('afterbegin', menuHtml);
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // BANNER DE UPGRADE
+  // ─────────────────────────────────────────────────────────────────────────
+
+  mostrarBannerUpgrade() {
+    const banner = document.createElement('div');
+    banner.style.cssText = `
+      background: linear-gradient(135deg, #f39c12, #e74c3c);
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+      text-align: center;
+      font-weight: 600;
+    `;
+    banner.innerHTML = `
+      💡 Deseja acessar mais módulos de consultoria?
+      <br><button onclick="alert('Contate: consultoria@artblend.com.br')" style="margin-top: 10px; padding: 10px 20px; background: white; color: #e74c3c; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
+        Conversar com Consultor
+      </button>
+    `;
+
+    const container = document.querySelector('.container') || document.body;
+    container.insertAdjacentElement('afterbegin', banner);
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // TELA DE LOGIN
+  // ─────────────────────────────────────────────────────────────────────────
+
+  mostrarTelaLogin() {
+    document.body.innerHTML = `
+      <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: linear-gradient(135deg, #1C93A8, #2EC4D6);">
+        <div style="background: white; padding: 40px; border-radius: 12px; width: 90%; max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
+          <h1 style="margin: 0 0 30px 0; color: #1C93A8; text-align: center;">🎓 ArtBlend</h1>
+          <p style="text-align: center; color: #666; margin-bottom: 30px;">Acesso à Plataforma de Consultoria</p>
+          
+          <div style="display: grid; gap: 20px;">
+            <button onclick="acessarComoCliente1()" style="padding: 12px; background: #1C93A8; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+              👤 Acessar como João Silva (Financeiro + Operação)
+            </button>
+            <button onclick="acessarComoCliente2()" style="padding: 12px; background: #2EC4D6; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+              👤 Acessar como Maria Santos (Financeiro + Sanitário)
+            </button>
+            <button onclick="acessarComoCliente3()" style="padding: 12px; background: #9a5420; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+              👤 Acessar como Carlos Oliveira (Operação + Pessoas)
+            </button>
+          </div>
+          
+          <p style="text-align: center; margin-top: 20px; color: #999; font-size: 12px;">
+            Versão Demo - Selecione um cliente para testar as permissões
+          </p>
+        </div>
+      </div>
+    `;
+
+    // Funções de login simuladas
+    window.acessarComoCliente1 = () => this.logarCliente(1);
+    window.acessarComoCliente2 = () => this.logarCliente(2);
+    window.acessarComoCliente3 = () => this.logarCliente(3);
+  }
+
+  logarCliente(clienteId) {
+    localStorage.setItem('cliente_logado_id', clienteId);
+    window.location.href = `?cliente_id=${clienteId}`;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// INICIALIZAR QUANDO PÁGINA CARREGA
+// ═══════════════════════════════════════════════════════════════════════════
+
+document.addEventListener('DOMContentLoaded', () => {
+  window.controladorPermissoes = new ControladorPermissoes();
+});
+
+console.log('✅ Controlador de Permissões Carregado!');
+console.log('🔐 Controle de Acesso: Cliente vê APENAS seus módulos');
+console.log('📦 Módulos não contratados: ESCONDIDOS automaticamente');

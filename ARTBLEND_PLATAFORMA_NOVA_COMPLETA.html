@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtBlend Consultoria Gourmet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        /* CORES PRINCIPAIS */
+        :root {
+            --turquesa: #16A5A5;
+            --turquesa-light: #17B9B9;
+            --turquesa-dark: #0d8585;
+            --verde-escuro: #1F4D3D;
+            --cinza-light: #f9f9f9;
+            --cinza: #e8e8e8;
+            --cinza-dark: #555;
+        }
+
+        /* HEADER */
+        .header {
+            background: white;
+            border-bottom: 1px solid #ddd;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .header-logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--turquesa);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .header-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-user-email {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .btn-sair {
+            background: #fff3cd;
+            color: #856404;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .btn-sair:hover {
+            background: #ffeaa7;
+        }
+
+        /* CONTAINER PRINCIPAL */
+        .container-main {
+            display: flex;
+            height: calc(100vh - 56px);
+        }
+
+        /* MENU LATERAL */
+        .sidebar {
+            width: 80px;
+            background: white;
+            border-right: 1px solid #ddd;
+            padding: 12px 0;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: sticky;
+            top: 56px;
+            height: calc(100vh - 56px);
+        }
+
+        .sidebar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            color: var(--cinza-dark);
+            font-size: 11px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .sidebar-item:hover {
+            background: #f0f0f0;
+            color: var(--turquesa);
+        }
+
+        .sidebar-item.active {
+            background: #e8f4f4;
+            color: var(--turquesa);
+            border-left-color: var(--turquesa);
+        }
+
+        .sidebar-icon {
+            font-size: 24px;
+        }
+
+        /* CONTEÚDO PRINCIPAL */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        /* SAUDAÇÃO */
+        .saudacao {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+        }
+
+        /* GRID CARDS */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--turquesa);
+        }
+
+        .card-title {
+            font-size: 12px;
+            color: var(--turquesa);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .card-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        .card-subtitle {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .card-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-card {
+            background: #f0f0f0;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .btn-card:hover {
+            background: var(--turquesa);
+            color: white;
+        }
+
+        /* SEÇÕES */
+        .secao {
+            display: none;
+        }
+
+        .secao.ativa {
+            display: block;
+        }
+
+        .secao-titulo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--turquesa);
+            padding-bottom: 12px;
+        }
+
+        /* LISTA DE CURSOS */
+        .cursos-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .curso-item {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border-left: 4px solid var(--turquesa);
+        }
+
+        .curso-nome {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+
+        .curso-status {
+            font-size: 11px;
+            color: #999;
+            margin-bottom: 12px;
+        }
+
+        .curso-progresso {
+            width: 100%;
+            height: 6px;
+            background: #e8e8e8;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .curso-progresso-bar {
+            height: 100%;
+            background: var(--turquesa);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .btn-acessar {
+            background: var(--turquesa);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .btn-acessar:hover {
+            background: var(--turquesa-dark);
+        }
+
+        .btn-bloqueado {
+            background: #ddd;
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        .btn-bloqueado:hover {
+            background: #ddd;
+        }
+
+        /* MÓDULOS */
+        .modulos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .modulo-item {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--turquesa);
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .modulo-item:hover {
+            box-shadow: 0 4px 12px rgba(22, 165, 165, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .modulo-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .modulo-nome {
+            font-weight: 600;
+            font-size: 13px;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .modulo-bloqueado {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #ffc107;
+            color: #333;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        /* DASHBOARD */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .dash-card {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+
+        .dash-card-title {
+            font-size: 13px;
+            color: var(--turquesa);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .dash-card-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .dash-card-detail {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        /* TABELA */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            margin-top: 16px;
+        }
+
+        th {
+            background: #f9f9f9;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--turquesa);
+            border-bottom: 2px solid #e8e8e8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 12px;
+        }
+
+        tr:hover {
+            background: #f9f9f9;
+        }
+
+        /* RESPOSTA */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .container-main {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+                overflow-x: auto;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modulos-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-logo">
+            <div class="header-logo-icon">A</div>
+            <span>ArtBlend Consultoria</span>
+        </div>
+        <div class="header-user">
+            <div class="header-user-email" id="userEmail">fagnercanolongo24@gmail.com</div>
+            <button class="btn-sair" onclick="sair()">Sair</button>
+        </div>
+    </div>
+
+    <!-- CONTAINER PRINCIPAL -->
+    <div class="container-main">
+        <!-- SIDEBAR -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-item active" onclick="mostrarSecao('geral')" title="Geral">
+                <span class="sidebar-icon">🏠</span>
+                <span>Geral</span>
+            </div>
+            <div class="sidebar-item" onclick="mostrarSecao('cursos')" title="Cursos">
+                <span class="sidebar-icon">📚</span>
+                <span>Cursos</span>
+            </div>
+            <div class="sidebar-item" onclick="mostrarSecao('modulos')" title="Módulos">
+                <span class="sidebar-icon">📦</span>
+                <span>Módulos</span>
+            </div>
+            <div class="sidebar-item" onclick="mostrarSecao('dashboard')" title="Dashboard">
+                <span class="sidebar-icon">📊</span>
+                <span>Dashboard</span>
+            </div>
+            <div class="sidebar-item" onclick="mostrarSecao('configuracoes')" title="Configurações">
+                <span class="sidebar-icon">⚙️</span>
+                <span>Config</span>
+            </div>
+        </div>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="main-content">
+            <!-- SEÇÃO GERAL -->
+            <div id="geral" class="secao ativa">
+                <div class="saudacao" id="saudacao">Bom dia, Fagnercanolongo!</div>
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-title">👥 Clientes Ativos</div>
+                        <div class="card-value">2</div>
+                        <div class="card-subtitle">Cliente padrão ativo</div>
+                        <div class="card-buttons">
+                            <button class="btn-card" onclick="exportarExcel('clientes')">📊 Excel</button>
+                            <button class="btn-card" onclick="imprimir('clientes')">🖨️ Imprimir</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">📋 Pendências na Agenda</div>
+                        <div class="card-value">0</div>
+                        <div class="card-subtitle">Sem compromissos agendados</div>
+                        <div class="card-buttons">
+                            <button class="btn-card" onclick="enviarEmail('pendencias')">📧 Email</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">💵 Receita Recorrente Estimada</div>
+                        <div class="card-value">R$ 3.200</div>
+                        <div class="card-subtitle">2 cliente(s) ativo(s) por modalidade</div>
+                        <div class="card-buttons">
+                            <button class="btn-card" onclick="exportarExcel('receita')">📊 Excel</button>
+                            <button class="btn-card" onclick="enviarWhatsapp('receita')">💬 WhatsApp</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="secao-titulo">Clientes Interligados</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome do Cliente</th>
+                            <th>CMV %</th>
+                            <th>Estoque</th>
+                            <th>Últimas Ações</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clientesTable">
+                        <tr>
+                            <td>Cliente Padrão</td>
+                            <td>18,3%</td>
+                            <td>185 produtos</td>
+                            <td>CMV análise, Ficha técnica</td>
+                            <td><button class="btn-card" onclick="abrirClientePerfil('cliente-1')">Abrir</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- SEÇÃO CURSOS -->
+            <div id="cursos" class="secao">
+                <div class="secao-titulo">📚 Cursos e Treinamentos</div>
+                <div class="cursos-list" id="cursosList">
+                    <div class="curso-item">
+                        <div class="curso-nome">💰 Prime Cost</div>
+                        <div class="curso-status">Progresso: 45%</div>
+                        <div class="curso-progresso"><div class="curso-progresso-bar" style="width: 45%"></div></div>
+                        <button class="btn-acessar" onclick="acessarCurso('prime-cost')">Continuar</button>
+                    </div>
+                    <div class="curso-item">
+                        <div class="curso-nome">📋 Engenharia Cardápio</div>
+                        <div class="curso-status">Progresso: 60%</div>
+                        <div class="curso-progresso"><div class="curso-progresso-bar" style="width: 60%"></div></div>
+                        <button class="btn-acessar" onclick="acessarCurso('engenharia-cardapio')">Continuar</button>
+                    </div>
+                    <div class="curso-item">
+                        <div class="curso-nome">🏥 APPCC</div>
+                        <div class="curso-status">Progresso: 30%</div>
+                        <div class="curso-progresso"><div class="curso-progresso-bar" style="width: 30%"></div></div>
+                        <button class="btn-acessar" onclick="acessarCurso('appcc')">Continuar</button>
+                    </div>
+                    <div class="curso-item">
+                        <div class="curso-nome">💼 RH e Gestão</div>
+                        <div class="curso-status">Bloqueado</div>
+                        <div class="curso-progresso"><div class="curso-progresso-bar" style="width: 0%"></div></div>
+                        <button class="btn-acessar btn-bloqueado" disabled>🔒 Bloqueado</button>
+                    </div>
+                    <div class="curso-item">
+                        <div class="curso-nome">📊 KPIs</div>
+                        <div class="curso-status">Bloqueado</div>
+                        <div class="curso-progresso"><div class="curso-progresso-bar" style="width: 0%"></div></div>
+                        <button class="btn-acessar btn-bloqueado" disabled>🔒 Bloqueado</button>
+                    </div>
+                    <div class="curso-item">
+                        <div class="curso-nome">💡 Inovação</div>
+                        <div class="curso-status">Bloqueado</div>
+                        <div class="curso-progresso"><div class="curso-progresso-bar" style="width: 0%"></div></div>
+                        <button class="btn-acessar btn-bloqueado" disabled>🔒 Bloqueado</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEÇÃO MÓDULOS -->
+            <div id="modulos" class="secao">
+                <div class="secao-titulo">📦 Módulos da Plataforma</div>
+                <div class="modulos-grid">
+                    <div class="modulo-item" onclick="abrirModulo('cargos-perfis')">
+                        <div class="modulo-icon">👥</div>
+                        <div class="modulo-nome">Cargos e Perfis</div>
+                    </div>
+                    <div class="modulo-item" onclick="abrirModulo('regimento')">
+                        <div class="modulo-icon">📋</div>
+                        <div class="modulo-nome">Regimento Normas</div>
+                    </div>
+                    <div class="modulo-item" onclick="abrirModulo('ficha-tecnica')">
+                        <div class="modulo-icon">📊</div>
+                        <div class="modulo-nome">Ficha Técnica CMV</div>
+                    </div>
+                    <div class="modulo-item" onclick="abrirModulo('fichas-operacionais')">
+                        <div class="modulo-icon">📄</div>
+                        <div class="modulo-nome">Fichas Operacionais</div>
+                    </div>
+                    <div class="modulo-item" onclick="abrirModulo('mapeamento-praca')">
+                        <div class="modulo-icon">🗺️</div>
+                        <div class="modulo-nome">Mapeamento Praça</div>
+                    </div>
+                    <div class="modulo-item" onclick="abrirModulo('praca-diaria')">
+                        <div class="modulo-icon">📅</div>
+                        <div class="modulo-nome">Praça Diária</div>
+                    </div>
+                    <div class="modulo-item" onclick="abrirModulo('checklists')">
+                        <div class="modulo-icon">✅</div>
+                        <div class="modulo-nome">Checklists</div>
+                    </div>
+                    <div class="modulo-item" onclick="abrirModulo('pop')">
+                        <div class="modulo-icon">📐</div>
+                        <div class="modulo-nome">POP</div>
+                    </div>
+                    <div class="modulo-item" onclick="abrirModulo('plano-ataque')">
+                        <div class="modulo-icon">🎯</div>
+                        <div class="modulo-nome">Plano de Ataque</div>
+                    </div>
+                    <div class="modulo-item" onclick="abrirModulo('producao')">
+                        <div class="modulo-icon">🍽️</div>
+                        <div class="modulo-nome">Produção & Porcionamento</div>
+                    </div>
+                    <div class="modulo-item" onclick="abrirModulo('ia-assistente')">
+                        <div class="modulo-icon">🤖</div>
+                        <div class="modulo-nome">IA Assistente</div>
+                        <div class="modulo-bloqueado">🔒 Bloqueado</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEÇÃO DASHBOARD -->
+            <div id="dashboard" class="secao">
+                <div class="secao-titulo">📊 Dashboard - Dados Profundos</div>
+                <div class="dashboard-grid">
+                    <div class="dash-card">
+                        <div class="dash-card-title">CMV & Resultado</div>
+                        <div class="dash-card-value">18,3%</div>
+                        <div class="dash-card-detail">
+                            <strong>CMV Médio:</strong> 18,3% (alvo: 28%)<br/>
+                            <strong>Status:</strong> ✅ Dentro do alvo<br/>
+                            <strong>Fichas:</strong> 1 cadastrada<br/>
+                            <strong>Acima CMV:</strong> 0 itens<br/>
+                            <strong>Em prejuízo:</strong> 0 itens
+                        </div>
+                        <div class="card-buttons">
+                            <button class="btn-card" onclick="detalheCMV()">Detalhar</button>
+                            <button class="btn-card" onclick="exportarExcel('cmv')">Excel</button>
+                        </div>
+                    </div>
+
+                    <div class="dash-card">
+                        <div class="dash-card-title">Estoque</div>
+                        <div class="dash-card-value">185</div>
+                        <div class="dash-card-detail">
+                            <strong>Produtos cadastrados:</strong> 185<br/>
+                            <strong>Em alerta:</strong> 12 insumos<br/>
+                            <strong>Abaixo do mínimo:</strong> 0 itens<br/>
+                            <strong>Últimas 24h:</strong> +5 entradas
+                        </div>
+                        <div class="card-buttons">
+                            <button class="btn-card" onclick="detalheEstoque()">Detalhar</button>
+                            <button class="btn-card" onclick="exportarExcel('estoque')">Excel</button>
+                        </div>
+                    </div>
+
+                    <div class="dash-card">
+                        <div class="dash-card-title">💬 WhatsApp Bot</div>
+                        <div class="dash-card-value">318</div>
+                        <div class="dash-card-detail">
+                            <strong>Mensagens este mês:</strong> 318<br/>
+                            <strong>Taxa de engajamento:</strong> 68%<br/>
+                            <strong>Templates ativos:</strong> 8<br/>
+                            <strong>Clientes respondendo:</strong> 24
+                        </div>
+                        <div class="card-buttons">
+                            <button class="btn-card" onclick="gerenciarWhatsapp()">Gerenciar</button>
+                            <button class="btn-card" onclick="novoTemplate()">+ Template</button>
+                        </div>
+                    </div>
+
+                    <div class="dash-card">
+                        <div class="dash-card-title">🖨️ Comanda Cozinha</div>
+                        <div class="dash-card-value">Online</div>
+                        <div class="dash-card-detail">
+                            <strong>Status:</strong> ✅ Conectada<br/>
+                            <strong>IP:</strong> 192.168.1.50<br/>
+                            <strong>Tempo resposta:</strong> 120ms<br/>
+                            <strong>Pedidos hoje:</strong> 42
+                        </div>
+                        <div class="card-buttons">
+                            <button class="btn-card" onclick="testeComanda()">Teste</button>
+                            <button class="btn-card" onclick="configComanda()">Config</button>
+                        </div>
+                    </div>
+
+                    <div class="dash-card">
+                        <div class="dash-card-title">📈 Receita</div>
+                        <div class="dash-card-value">R$ 52.5K</div>
+                        <div class="dash-card-detail">
+                            <strong>Este mês:</strong> R$ 52.5K<br/>
+                            <strong>Crescimento:</strong> +12% vs mês anterior<br/>
+                            <strong>Ticket médio:</strong> R$ 125<br/>
+                            <strong>Clientes:</strong> 42 ativos
+                        </div>
+                        <div class="card-buttons">
+                            <button class="btn-card" onclick="detalheReceita()">Detalhar</button>
+                            <button class="btn-card" onclick="exportarExcel('receita')">Excel</button>
+                        </div>
+                    </div>
+
+                    <div class="dash-card">
+                        <div class="dash-card-title">⚡ Performance</div>
+                        <div class="dash-card-value">8.5/10</div>
+                        <div class="dash-card-detail">
+                            <strong>Score geral:</strong> 8.5/10<br/>
+                            <strong>Eficiência:</strong> 92% ✅<br/>
+                            <strong>Qualidade:</strong> 88% ✅<br/>
+                            <strong>Satisfação:</strong> 85% ✅
+                        </div>
+                        <div class="card-buttons">
+                            <button class="btn-card" onclick="detalhePerformance()">Detalhar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="secao-titulo">Histórico de Ações por Cliente</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Última Ação</th>
+                            <th>Tipo</th>
+                            <th>Data</th>
+                            <th>Detalhes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="acoeTable">
+                        <tr>
+                            <td>Cliente Padrão</td>
+                            <td>Ficha Técnica atualizada</td>
+                            <td>Engenharia</td>
+                            <td>04/08/2026</td>
+                            <td><button class="btn-card" onclick="detalheAcao('acao-1')">Ver</button></td>
+                        </tr>
+                        <tr>
+                            <td>Cliente Padrão</td>
+                            <td>CMV recalculado</td>
+                            <td>Análise</td>
+                            <td>02/08/2026</td>
+                            <td><button class="btn-card" onclick="detalheAcao('acao-2')">Ver</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- SEÇÃO CONFIGURAÇÕES -->
+            <div id="configuracoes" class="secao">
+                <div class="secao-titulo">⚙️ Configurações Pessoais</div>
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-title">👤 Perfil</div>
+                        <div class="card-subtitle">Fagnercanolongo</div>
+                        <div class="card-subtitle">fagnercanolongo24@gmail.com</div>
+                        <div class="card-buttons" style="margin-top: 16px;">
+                            <button class="btn-card" onclick="editarPerfil()">Editar</button>
+                            <button class="btn-card" onclick="altearSenha()">Alterar Senha</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">🔐 Tipo de Acesso</div>
+                        <div class="card-subtitle" style="font-weight: 600; color: var(--turquesa); font-size: 14px;">DESENVOLVEDOR</div>
+                        <div class="card-subtitle">Você escolhe o acesso de cada usuário</div>
+                        <div class="card-buttons" style="margin-top: 16px;">
+                            <button class="btn-card" onclick="gerenciarAcessos()">Gerenciar Acessos</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">🔔 Notificações</div>
+                        <div class="card-subtitle">Receba alertas de estoque, pedidos e performance</div>
+                        <div class="card-buttons" style="margin-top: 16px;">
+                            <button class="btn-card" onclick="configNotificacoes()">Configurar</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">📱 Integração WhatsApp</div>
+                        <div class="card-subtitle">Conectado ✅ +55 81 9 9137-4054</div>
+                        <div class="card-buttons" style="margin-top: 16px;">
+                            <button class="btn-card" onclick="testWhatsapp()">Teste</button>
+                            <button class="btn-card" onclick="reconectarWhatsapp()">Reconectar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // SISTEMA DE ROLES
+        const userRole = 'desenvolvedor'; // proprietario, desenvolvedor, consultor, colaborador
+
+        // MOSTRAR SEÇÃO
+        function mostrarSecao(secao) {
+            // Ocultar todas
+            document.querySelectorAll('.secao').forEach(s => s.classList.remove('ativa'));
+            // Mostrar selecionada
+            document.getElementById(secao).classList.add('ativa');
+            
+            // Atualizar sidebar
+            document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
+            event.target.closest('.sidebar-item').classList.add('active');
+        }
+
+        // SAUDAÇÃO PERSONALIZADA
+        function atualizarSaudacao() {
+            const hora = new Date().getHours();
+            let saudacao = '';
+            if (hora < 12) saudacao = 'Bom dia';
+            else if (hora < 18) saudacao = 'Boa tarde';
+            else saudacao = 'Boa noite';
+            document.getElementById('saudacao').innerText = `${saudacao}, Fagnercanolongo!`;
+        }
+        atualizarSaudacao();
+
+        // BOTÕES FUNCIONAIS
+        function exportarExcel(tipo) {
+            alert(`📊 Exportando ${tipo} para Excel...`);
+            // Implementar exportação real via XLSX
+        }
+
+        function imprimir(tipo) {
+            alert(`🖨️ Abrindo impressora para ${tipo}...`);
+            window.print();
+        }
+
+        function enviarEmail(tipo) {
+            alert(`📧 Abrindo template de email para ${tipo}...`);
+            // Implementar envio real
+        }
+
+        function enviarWhatsapp(tipo) {
+            alert(`💬 Abrindo WhatsApp para ${tipo}...`);
+            const numeroWhatsapp = '558199137405';
+            const mensagem = encodeURIComponent(`Olá! Informações sobre ${tipo}`);
+            window.open(`https://wa.me/${numeroWhatsapp}?text=${mensagem}`, '_blank');
+        }
+
+        // ABRIR CLIENTE PERFIL
+        function abrirClientePerfil(clienteId) {
+            alert(`📋 Abrindo perfil completo do cliente ${clienteId}...`);
+            // Implementar modal/página com dados interligados
+        }
+
+        // MÓDULOS E CURSOS
+        function acessarCurso(cursoId) {
+            alert(`📚 Acessando curso: ${cursoId}...`);
+        }
+
+        function abrirModulo(moduloId) {
+            alert(`📦 Abrindo módulo: ${moduloId}...`);
+        }
+
+        // DASHBOARD DETALHES
+        function detalheCMV() {
+            alert('📊 Abrindo análise profunda de CMV...');
+        }
+
+        function detalheEstoque() {
+            alert('📦 Abrindo detalhes de estoque...');
+        }
+
+        function gerenciarWhatsapp() {
+            alert('💬 Gerenciador WhatsApp...');
+        }
+
+        function novoTemplate() {
+            alert('➕ Criando novo template WhatsApp...');
+        }
+
+        function testeComanda() {
+            alert('✅ Enviando teste para comanda...');
+        }
+
+        function configComanda() {
+            alert('⚙️ Configurações da comanda...');
+        }
+
+        function detalheReceita() {
+            alert('💵 Análise detalhada de receita...');
+        }
+
+        function detalhePerformance() {
+            alert('⚡ Detalhes de performance...');
+        }
+
+        function detalheAcao(acaoId) {
+            alert(`📋 Detalhes da ação ${acaoId}...`);
+        }
+
+        // CONFIGURAÇÕES
+        function editarPerfil() {
+            alert('👤 Editar perfil...');
+        }
+
+        function altearSenha() {
+            alert('🔐 Alterar senha...');
+        }
+
+        function gerenciarAcessos() {
+            alert('🔑 Gerenciador de acessos por role...');
+        }
+
+        function configNotificacoes() {
+            alert('🔔 Configurar notificações...');
+        }
+
+        function testWhatsapp() {
+            alert('✅ Enviando mensagem de teste WhatsApp...');
+        }
+
+        function reconectarWhatsapp() {
+            alert('🔄 Reconectando WhatsApp...');
+        }
+
+        function sair() {
+            if (confirm('Deseja sair?')) {
+                alert('Saindo...');
+                // Implementar logout real
+            }
+        }
+
+        // INICIALIZAR
+        console.log('ArtBlend Consultoria Gourmet - Plataforma Operacional');
+        console.log('Role:', userRole);
+    </script>
+</body>
+</html>
