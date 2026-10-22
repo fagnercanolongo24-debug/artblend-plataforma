@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teste de Conexão — Supabase · ArtBlend</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.5"></script>
+<style>
+  :root{
+    --bg:#F5F7FA; --card:#FFFFFF; --border:#E2E6ED; --text:#16294A; --muted:#6E7A8C;
+    --accent:#2EC4D6; --accent-soft:#E4F8FB; --blue:#1C93A8; --good:#2ECC71; --good-bg:#E3FBEF;
+    --bad:#B3411F; --bad-bg:#FBEAE3; --amber:#9a5420; --amber-bg:#FDF3E0;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);padding:40px 20px 70px;}
+  .wrap{max-width:600px;margin:0 auto;}
+  .top{text-align:center;margin-bottom:28px;}
+  .top .kick{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);font-weight:800;}
+  .top h1{font-size:22px;font-weight:800;margin:6px 0 8px;}
+  .top p{color:var(--muted);font-size:13.5px;line-height:1.6;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin:14px 0;}
+  .card h2{font-size:14px;margin-bottom:12px;}
+  label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin:8px 0 4px;}
+  input{width:100%;padding:9px 10px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:13.5px;}
+  .row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+  button{background:var(--accent);color:#08343B;border:none;padding:10px 16px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;}
+  button.sec{background:var(--accent-soft);color:var(--blue);}
+  button.bad{background:var(--bad-bg);color:var(--bad);}
+  button:hover{opacity:.88;}
+  .status{margin-top:14px;padding:12px 14px;border-radius:8px;font-size:13px;line-height:1.6;white-space:pre-wrap;word-break:break-word;}
+  .status.ok{background:var(--good-bg);color:#1C9A57;}
+  .status.err{background:var(--bad-bg);color:var(--bad);}
+  .status.info{background:var(--accent-soft);color:var(--blue);}
+  .pill{display:inline-block;font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px;background:var(--amber-bg);color:var(--amber);}
+  .pill.on{background:var(--good-bg);color:#1C9A57;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:10px;}
+  th{background:var(--accent-soft);color:var(--blue);text-align:left;padding:6px 8px;}
+  td{border-bottom:1px solid var(--border);padding:6px 8px;}
+  .backlink{display:block;text-align:center;margin-top:30px;font-size:13px;}
+  .backlink a{color:var(--blue);font-weight:700;text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="kick">Página de teste · não é uma ferramenta real</div>
+    <h1>Teste de conexão com o banco de dados</h1>
+    <p>Serve só pra confirmar que login e segurança (RLS) estão funcionando antes de eu conectar as ferramentas de verdade. Pode apagar essa página depois.</p>
+  </div>
+
+  <div class="card">
+    <h2>1. Status da conexão <span id="pillConn" class="pill">verificando...</span></h2>
+    <div id="statusConn" class="status info">Carregando...</div>
+  </div>
+
+  <div class="card" id="loginCard">
+    <h2>2. Criar conta / Entrar</h2>
+    <label>E-mail</label>
+    <input id="email" type="email" placeholder="seu@email.com">
+    <label>Senha (mínimo 6 caracteres)</label>
+    <input id="senha" type="password" placeholder="crie uma senha só sua, diferente do e-mail">
+    <div class="row">
+      <button onclick="cadastrar()">Criar conta</button>
+      <button class="sec" onclick="entrar()">Entrar</button>
+      <button class="bad" onclick="sair()">Sair</button>
+    </div>
+    <div id="statusAuth" class="status info" style="display:none;"></div>
+  </div>
+
+  <div class="card">
+    <h2>3. Testar leitura/escrita (só funciona logado)</h2>
+    <div class="row">
+      <button onclick="criarClienteTeste()">Criar cliente teste</button>
+      <button class="sec" onclick="listarClientes()">Listar meus clientes</button>
+    </div>
+    <div id="statusDados" class="status info" style="display:none;"></div>
+    <table id="tabelaClientes" style="display:none;"><thead><tr><th>Nome</th><th>Criado em</th></tr></thead><tbody id="tbodyClientes"></tbody></table>
+  </div>
+
+  <p class="backlink"><a href="ARTBLEND_HUB.html">← Voltar para o Hub</a></p>
+</div>
+
+<script>
+const SUPA_URL = 'https://zjvjixiuvnpbpsdnxuyk.supabase.co';
+const SUPA_KEY = 'sb_publishable_f5DJRgs2w0z3_g50QqDmNQ_0btPNSgV';
+const sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+
+function setStatus(id, text, type){
+  const el = document.getElementById(id);
+  el.style.display = 'block';
+  el.className = 'status ' + type;
+  el.textContent = text;
+}
+
+async function checarConexao(){
+  try{
+    const { data, error } = await sb.auth.getSession();
+    if(error) throw error;
+    if(data.session){
+      setStatus('statusConn', 'Conectado ao Supabase. Sessão ativa: ' + data.session.user.email, 'ok');
+      document.getElementById('pillConn').textContent = 'logado';
+      document.getElementById('pillConn').className = 'pill on';
+    } else {
+      setStatus('statusConn', 'Conexão com o Supabase OK. Ninguém logado ainda — use o passo 2.', 'ok');
+      document.getElementById('pillConn').textContent = 'conectado';
+      document.getElementById('pillConn').className = 'pill on';
+    }
+  } catch(e){
+    setStatus('statusConn', 'ERRO ao conectar: ' + (e.message||e), 'err');
+    document.getElementById('pillConn').textContent = 'erro';
+  }
+}
+
+async function cadastrar(){
+  const email = document.getElementById('email').value.trim();
+  const senha = document.getElementById('senha').value;
+  if(!email || senha.length < 6){ setStatus('statusAuth','Preencha e-mail e uma senha com pelo menos 6 caracteres.','err'); return; }
+  const { data, error } = await sb.auth.signUp({ email, password: senha });
+  if(error){ setStatus('statusAuth', 'ERRO ao criar conta: ' + error.message, 'err'); return; }
+  if(data.session){
+    setStatus('statusAuth', 'Conta criada e já logada! Pode ir pro passo 3.', 'ok');
+  } else {
+    setStatus('statusAuth', 'Conta criada. O Supabase pode pedir confirmação por e-mail antes do login funcionar — confira sua caixa de entrada (e o spam) se o "Entrar" não funcionar ainda.', 'ok');
+  }
+  checarConexao();
+}
+
+async function entrar(){
+  const email = document.getElementById('email').value.trim();
+  const senha = document.getElementById('senha').value;
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: senha });
+  if(error){ setStatus('statusAuth', 'ERRO ao entrar: ' + error.message, 'err'); return; }
+  setStatus('statusAuth', 'Login OK: ' + data.user.email, 'ok');
+  checarConexao();
+}
+
+async function sair(){
+  await sb.auth.signOut();
+  setStatus('statusAuth', 'Você saiu.', 'info');
+  checarConexao();
+}
+
+async function criarClienteTeste(){
+  const { data: sess } = await sb.auth.getSession();
+  if(!sess.session){ setStatus('statusDados','Você precisa entrar (passo 2) antes de testar isso.','err'); return; }
+  const nome = 'Cliente Teste ' + new Date().toLocaleTimeString('pt-BR');
+  const { data, error } = await sb.from('clientes').insert({ nome, owner_id: sess.session.user.id }).select();
+  if(error){ setStatus('statusDados', 'ERRO ao criar: ' + error.message, 'err'); return; }
+  setStatus('statusDados', 'Cliente criado com sucesso: ' + data[0].nome, 'ok');
+}
+
+async function listarClientes(){
+  const { data: sess } = await sb.auth.getSession();
+  if(!sess.session){ setStatus('statusDados','Você precisa entrar (passo 2) antes de testar isso.','err'); return; }
+  const { data, error } = await sb.from('clientes').select('nome, created_at').order('created_at', { ascending:false });
+  if(error){ setStatus('statusDados', 'ERRO ao listar: ' + error.message, 'err'); return; }
+  setStatus('statusDados', 'Encontrados ' + data.length + ' cliente(s) — só devem aparecer os que VOCÊ criou, nunca de outra conta.', 'ok');
+  const tbody = document.getElementById('tbodyClientes');
+  tbody.innerHTML = data.map(c => '<tr><td>'+c.nome+'</td><td>'+new Date(c.created_at).toLocaleString('pt-BR')+'</td></tr>').join('');
+  document.getElementById('tabelaClientes').style.display = data.length ? 'table' : 'none';
+}
+
+checarConexao();
+</script>
+</body>
+</html>

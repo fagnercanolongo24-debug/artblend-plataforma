@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artblend Ficha Técnica + CMV</title>
+<style>
+  :root{color-scheme:light;
+    --ink:#1E2521; --muted:#5B655E; --line:#E4DED4; --warm:#FBF7F1;
+    --primary:#0E5E55; --primary-d:#0A463F; --soft:#E5F0EE; --accent:#D9772F; --accent-d:#B65E1C;
+    --green:#1E7A4B; --green-bg:#E6F3EC; --amber:#B07A12; --amber-bg:#FBF0D8; --red:#B23B2E; --red-bg:#FBE9E6;}
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--warm);font-size:14px;}
+  .app{display:flex;min-height:100vh;}
+  .nav{width:215px;background:linear-gradient(168deg,var(--primary-d),var(--primary));color:#fff;padding:20px 14px;flex-shrink:0;position:sticky;top:0;height:100vh;}
+  .brand{font-size:20px;font-weight:800;letter-spacing:-.4px;}
+  .brand small{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9BE3D6;margin-top:2px;}
+  .navitem{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:9px;cursor:pointer;margin-top:5px;font-weight:600;font-size:13.5px;color:#CDEDE7;}
+  .navitem:hover{background:rgba(255,255,255,.08);} .navitem.active{background:#fff;color:var(--primary-d);}
+  .navfoot{position:absolute;bottom:14px;left:14px;right:14px;}
+  .navfoot button{width:100%;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:7px;font-size:11.5px;font-weight:700;cursor:pointer;margin-top:5px;}
+  .main{flex:1;padding:24px 30px;max-width:1080px;}
+  h1{font-size:22px;margin:0;font-weight:800;color:var(--primary-d);}
+  .sub{color:var(--muted);font-size:13px;margin:3px 0 16px;}
+  .bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+  select,input{padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:13px;font-family:inherit;background:#fff;}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:16px;overflow:auto;}
+  .panel h3{margin:0 0 12px;font-size:15px;color:var(--primary-d);}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{background:var(--soft);color:var(--primary-d);text-align:left;padding:7px 8px;font-weight:700;font-size:12px;white-space:nowrap;}
+  td{border-bottom:1px solid var(--line);padding:5px 7px;vertical-align:middle;}
+  td input,td select{width:100%;min-width:70px;}
+  .calc{font-weight:700;color:var(--primary-d);white-space:nowrap;}
+  .btn{background:var(--primary);color:#fff;border:0;border-radius:9px;padding:9px 15px;font-weight:700;font-size:13px;cursor:pointer;}
+  .btn.alt{background:var(--accent);} .btn.sm{padding:6px 11px;font-size:12px;}
+  .del{background:transparent;border:1px solid var(--red);color:var(--red);border-radius:7px;padding:4px 8px;font-size:12px;cursor:pointer;font-weight:700;}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:14px;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:13px;padding:14px 16px;}
+  .card .v{font-size:23px;font-weight:800;color:var(--primary-d);} .card .l{font-size:11.5px;color:var(--muted);font-weight:600;}
+  .card.accent{background:linear-gradient(135deg,var(--accent),var(--accent-d));color:#fff;border:0;} .card.accent .v,.card.accent .l{color:#fff;}
+  .badge{display:inline-block;padding:3px 9px;border-radius:14px;font-size:11.5px;font-weight:800;}
+  .b-ok{background:var(--green-bg);color:var(--green);} .b-warn{background:var(--amber-bg);color:var(--amber);} .b-bad{background:var(--red-bg);color:var(--red);}
+  .fichalist{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;}
+  .chip{background:#fff;border:1px solid var(--line);border-radius:20px;padding:6px 13px;font-size:12.5px;font-weight:600;cursor:pointer;}
+  .chip.on{background:var(--primary);color:#fff;border-color:var(--primary);}
+  label{font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:8px;}
+  .hint{font-size:12px;color:var(--muted);font-style:italic;}
+  .save{position:fixed;bottom:14px;right:16px;background:var(--primary-d);color:#fff;padding:7px 14px;border-radius:30px;font-size:12px;opacity:0;transition:.3s;}
+  .save.on{opacity:1;}
+  @media(max-width:780px){.nav{display:none;}.grid4{grid-template-columns:1fr 1fr;}.main{padding:16px;}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="nav">
+    <div class="brand">artblend<small>Ficha Técnica · CMV</small></div>
+    <div class="navitem active" data-s="insumos">🧂 Insumos</div>
+    <div class="navitem" data-s="fichas">🍽️ Fichas Técnicas</div>
+    <div class="navitem" data-s="result">📊 Resultado / CMV</div>
+    <div class="navitem" data-s="config">⚙️ Configuração</div>
+    <div class="navitem" data-s="guia">📖 Como usar</div>
+    <div class="navfoot">
+      <button onclick="exportJSON()">⬇ Exportar dados</button>
+      <button onclick="importJSON()">⬆ Importar</button>
+      <button onclick="window.print()">🖨 Imprimir</button>
+    </div>
+  </aside>
+  <main class="main" id="main"></main>
+</div>
+<div class="save" id="save">✓ salvo</div>
+<input type="file" id="fileIn" accept="application/json" style="display:none">
+
+<script>
+function num(v){var n=parseFloat(String(v).replace(',','.'));return isNaN(n)?0:n;}
+function money(n){return 'R$ '+num(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function pct(n){return num(n).toLocaleString('pt-BR',{maximumFractionDigits:1})+'%';}
+function esc(s){return (s==null?'':String(s)).replace(/"/g,'&quot;');}
+function uid(){return Date.now()+''+Math.floor(Math.random()*999);}
+
+function seed(){return {
+ config:{cmvAlvo:30, nomeNeg:'Meu restaurante'},
+ insumos:[
+  {id:'i1',nome:'Cocada mole (base)',unid:'g',preco:0.012,fc:1},
+  {id:'i2',nome:'Calda de maracujá (base)',unid:'g',preco:0.018,fc:1},
+  {id:'i3',nome:'Sorvete de creme',unid:'g',preco:0.022,fc:1},
+  {id:'i4',nome:'Alecrim',unid:'un',preco:0.50,fc:1},
+  {id:'i5',nome:'Carne hambúrguer',unid:'g',preco:0.038,fc:1.05},
+  {id:'i6',nome:'Queijo',unid:'g',preco:0.042,fc:1}
+ ],
+ fichas:[
+  {id:'f1',nome:'Petit Cocada',cat:'Sobremesas',rend:1,preco:24,ings:[
+    {iid:'i1',qtd:100},{iid:'i2',qtd:40},{iid:'i3',qtd:90},{iid:'i4',qtd:1}]}
+ ]
+};}
+var S=load(); var fSel = (S.fichas[0]||{}).id;
+function load(){try{var d=localStorage.getItem('artblend_ficha');if(d)return JSON.parse(d);}catch(e){}return seed();}
+function save(){try{localStorage.setItem('artblend_ficha',JSON.stringify(S));toast();}catch(e){}}
+function toast(){var b=document.getElementById('save');b.classList.add('on');clearTimeout(window._t);window._t=setTimeout(function(){b.classList.remove('on');},900);}
+
+function insumoById(id){for(var i=0;i<S.insumos.length;i++)if(S.insumos[i].id==id)return S.insumos[i];return null;}
+function custoUnit(ins){return ins?num(ins.preco)*num(ins.fc||1):0;} // custo corrigido por unidade
+function cmvFicha(f){var t=0;(f.ings||[]).forEach(function(g){var ins=insumoById(g.iid);t+=custoUnit(ins)*num(g.qtd);});return t;}
+function cmvPorcao(f){var r=num(f.rend)||1;return cmvFicha(f)/r;}
+function cmvPct(f){var p=num(f.preco);return p?cmvFicha(f)/p*100:0;}
+function precoSugerido(f){var alvo=num(S.config.cmvAlvo)||30;return cmvFicha(f)/(alvo/100);}
+function margem(f){return num(f.preco)-cmvFicha(f);}
+function margemPct(f){var p=num(f.preco);return p?margem(f)/p*100:0;}
+function cmvBadge(f){var c=cmvPct(f);if(!num(f.preco))return '<span class="badge b-warn">defina preço</span>';var cls=c<=num(S.config.cmvAlvo)?'b-ok':c<=num(S.config.cmvAlvo)+8?'b-warn':'b-bad';return '<span class="badge '+cls+'">'+pct(c)+'</span>';}
+
+/* nav */
+document.querySelectorAll('.navitem').forEach(function(n){n.onclick=function(){
+ document.querySelectorAll('.navitem').forEach(function(x){x.classList.remove('active');});
+ n.classList.add('active');render(n.dataset.s);};});
+var cur='insumos';
+function render(s){cur=s||cur;var m=document.getElementById('main');
+ if(cur=='insumos')m.innerHTML=vIns();
+ else if(cur=='fichas')m.innerHTML=vFichas();
+ else if(cur=='result')m.innerHTML=vResult();
+ else if(cur=='config')m.innerHTML=vConfig();
+ else m.innerHTML=vGuia();}
+
+/* INSUMOS */
+function vIns(){
+ var rows=S.insumos.map(function(ins,i){
+  return '<tr><td><input value="'+esc(ins.nome)+'" oninput="updIns('+i+',\'nome\',this.value)"></td>'+
+   '<td><input style="min-width:55px" value="'+esc(ins.unid)+'" oninput="updIns('+i+',\'unid\',this.value)"></td>'+
+   '<td><input type="number" step="0.0001" value="'+esc(ins.preco)+'" oninput="updIns('+i+',\'preco\',this.value)"></td>'+
+   '<td><input type="number" step="0.01" value="'+esc(ins.fc)+'" oninput="updIns('+i+',\'fc\',this.value)"></td>'+
+   '<td class="calc">'+money(custoUnit(ins))+'</td>'+
+   '<td><input type="number" step="0.01" style="min-width:60px" value="'+esc(ins.est)+'" oninput="updIns('+i+',\'est\',this.value)"></td>'+
+   '<td><input type="number" step="0.01" style="min-width:60px" value="'+esc(ins.min)+'" oninput="updIns('+i+',\'min\',this.value)"></td>'+
+   '<td>'+estoqueBadge(ins)+'</td>'+
+   '<td><button class="del" onclick="delIns('+i+')">✕</button></td></tr>';
+ }).join('');
+ return '<h1>Insumos &amp; Estoque</h1><p class="sub">Preço por unidade + fator de correção (FC) → custo corrigido automático. E controle de estoque: quantidade atual, mínimo e alerta de reposição.</p>'+
+ '<div class="panel"><div class="bar"><span class="hint">'+S.insumos.length+' insumos</span><button class="btn alt sm" onclick="addIns()">+ Insumo</button></div>'+
+ '<table><thead><tr><th>Insumo / base</th><th>Unidade</th><th>Preço (por unidade)</th><th>FC</th><th>Custo corrigido</th><th>Estoque atual</th><th>Mínimo</th><th>Status</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>'+
+ '<p class="hint">Dica: cadastre suas "fichas bases" (molhos, calda, sorvete) como insumos com o custo já por grama — assim os pratos finais puxam delas.</p></div>';
+}
+function estoqueBadge(ins){var e=num(ins.est),mn=num(ins.min);if(!ins.min)return '<span class="badge b-warn" style="background:#eee;color:#888">—</span>';if(e<mn)return '<span class="badge b-bad">repor</span>';if(e<mn*1.2)return '<span class="badge b-warn">baixo</span>';return '<span class="badge b-ok">ok</span>';}
+function updIns(i,k,v){S.insumos[i][k]=v;save();var tr=document.querySelectorAll('tbody tr')[i];if(tr){if(k=='preco'||k=='fc')tr.children[4].textContent=money(custoUnit(S.insumos[i]));if(k=='est'||k=='min'){if(tr.children[7])tr.children[7].innerHTML=estoqueBadge(S.insumos[i]);}}}
+function addIns(){S.insumos.push({id:'i'+uid(),nome:'',unid:'g',preco:'',fc:1,est:'',min:''});save();render('insumos');}
+function delIns(i){if(confirm('Excluir insumo?')){S.insumos.splice(i,1);save();render('insumos');}}
+
+/* FICHAS */
+function vFichas(){
+ var cats=[];S.fichas.forEach(function(f){if(cats.indexOf(f.cat)<0)cats.push(f.cat||'Sem categoria');});
+ var chips=S.fichas.map(function(f){return '<span class="chip '+(f.id==fSel?'on':'')+'" onclick="selFicha(\''+f.id+'\')">'+(f.nome||'(sem nome)')+'</span>';}).join('');
+ var f=S.fichas.filter(function(x){return x.id==fSel;})[0];
+ var editor = f?fichaEditor(f):'<div class="panel"><p class="hint">Crie uma ficha para começar.</p></div>';
+ return '<h1>Fichas Técnicas</h1><p class="sub">Monte cada prato com seus insumos. CMV, custo por porção, preço sugerido e margem são automáticos.</p>'+
+ '<div class="bar"><button class="btn alt sm" onclick="addFicha()">+ Nova ficha</button></div>'+
+ '<div class="fichalist">'+chips+'</div>'+editor;
+}
+function selFicha(id){fSel=id;render('fichas');}
+function addFicha(){var nf={id:'f'+uid(),nome:'Nova ficha',cat:'Geral',rend:1,preco:'',ings:[]};S.fichas.push(nf);fSel=nf.id;save();render('fichas');}
+function fichaEditor(f){
+ var fi=S.fichas.indexOf(f);
+ var insOpts=S.insumos.map(function(ins){return '<option value="'+ins.id+'">'+esc(ins.nome)+' ('+ins.unid+')</option>';}).join('');
+ var rows=(f.ings||[]).map(function(g,gi){
+  var ins=insumoById(g.iid);
+  return '<tr><td><select onchange="updIng('+gi+',\'iid\',this.value)">'+S.insumos.map(function(x){return '<option value="'+x.id+'" '+(x.id==g.iid?'selected':'')+'>'+esc(x.nome)+'</option>';}).join('')+'</select></td>'+
+   '<td>'+(ins?ins.unid:'')+'</td>'+
+   '<td><input type="number" step="0.01" style="min-width:70px" value="'+esc(g.qtd)+'" oninput="updIng('+gi+',\'qtd\',this.value)"></td>'+
+   '<td class="calc">'+money(custoUnit(ins)*num(g.qtd))+'</td>'+
+   '<td><button class="del" onclick="delIng('+gi+')">✕</button></td></tr>';
+ }).join('');
+ return '<div class="panel"><div class="grid4">'+
+   '<div><label>Nome do prato</label><input value="'+esc(f.nome)+'" oninput="updF('+fi+',\'nome\',this.value)"></div>'+
+   '<div><label>Categoria</label><input value="'+esc(f.cat)+'" oninput="updF('+fi+',\'cat\',this.value)"></div>'+
+   '<div><label>Rendimento (porções)</label><input type="number" step="1" value="'+esc(f.rend)+'" oninput="updF('+fi+',\'rend\',this.value)"></div>'+
+   '<div><label>Preço de venda (R$)</label><input type="number" step="0.01" value="'+esc(f.preco)+'" oninput="updF('+fi+',\'preco\',this.value)"></div>'+
+   '</div>'+
+   '<table><thead><tr><th>Insumo</th><th>Un</th><th>Qtd</th><th>Custo</th><th></th></tr></thead><tbody>'+(rows||'<tr><td colspan=5 class=hint>Adicione insumos.</td></tr>')+'</tbody></table>'+
+   '<div class="bar"><button class="btn sm" onclick="addIng()">+ Insumo na ficha</button><button class="del" onclick="delFicha(\''+f.id+'\')">excluir ficha</button></div>'+
+ '</div>'+
+ '<div class="cards">'+
+   '<div class="card accent"><div class="v">'+money(cmvFicha(f))+'</div><div class="l">CMV da ficha</div></div>'+
+   '<div class="card"><div class="v">'+money(cmvPorcao(f))+'</div><div class="l">Custo por porção</div></div>'+
+   '<div class="card"><div class="v">'+cmvBadge(f)+'</div><div class="l">CMV % (alvo '+S.config.cmvAlvo+'%)</div></div>'+
+   '<div class="card"><div class="v">'+money(precoSugerido(f))+'</div><div class="l">Preço sugerido (CMV '+S.config.cmvAlvo+'%)</div></div>'+
+   '<div class="card"><div class="v">'+money(margem(f))+'</div><div class="l">Margem ('+pct(margemPct(f))+')</div></div>'+
+ '</div>';
+}
+function updF(i,k,v){S.fichas[i][k]=v;save();render('fichas');}
+function curFichaIdx(){for(var i=0;i<S.fichas.length;i++)if(S.fichas[i].id==fSel)return i;return -1;}
+function updIng(gi,k,v){var i=curFichaIdx();S.fichas[i].ings[gi][k]=v;save();render('fichas');}
+function addIng(){var i=curFichaIdx();if(!S.insumos.length){alert('Cadastre um insumo antes.');return;}S.fichas[i].ings.push({iid:S.insumos[0].id,qtd:''});save();render('fichas');}
+function delIng(gi){var i=curFichaIdx();S.fichas[i].ings.splice(gi,1);save();render('fichas');}
+function delFicha(id){if(confirm('Excluir ficha?')){S.fichas=S.fichas.filter(function(x){return x.id!=id;});fSel=(S.fichas[0]||{}).id;save();render('fichas');}}
+
+/* RESULTADO */
+function vResult(){
+ var rows=S.fichas.map(function(f){return '<tr><td><b>'+esc(f.nome)+'</b><br><span class="hint">'+esc(f.cat)+'</span></td>'+
+  '<td class="calc">'+money(cmvFicha(f))+'</td><td>'+money(f.preco)+'</td><td>'+cmvBadge(f)+'</td><td>'+money(margem(f))+'</td><td>'+pct(margemPct(f))+'</td><td>'+money(precoSugerido(f))+'</td></tr>';}).join('');
+ var prejuizo=S.fichas.filter(function(f){return num(f.preco)&&margem(f)<0;}).length;
+ var repor=S.insumos.filter(function(x){return x.min&&num(x.est)<num(x.min);}).length;
+ var acimaAlvo=S.fichas.filter(function(f){return num(f.preco)&&cmvPct(f)>num(S.config.cmvAlvo);}).length;
+ var cmvMed=0,n=0;S.fichas.forEach(function(f){if(num(f.preco)){cmvMed+=cmvPct(f);n++;}});cmvMed=n?cmvMed/n:0;
+ return '<h1>Resultado / CMV</h1><p class="sub">Visão de todas as fichas: quem dá lucro, quem está com CMV alto e o preço ideal.</p>'+
+ '<div class="cards"><div class="card accent"><div class="v">'+pct(cmvMed)+'</div><div class="l">CMV médio</div></div>'+
+ '<div class="card"><div class="v">'+S.fichas.length+'</div><div class="l">Fichas</div></div>'+
+ '<div class="card"><div class="v">'+acimaAlvo+'</div><div class="l">Acima do CMV alvo</div></div>'+
+ '<div class="card"><div class="v">'+prejuizo+'</div><div class="l">Em prejuízo</div></div>'+
+ '<div class="card"><div class="v">'+repor+'</div><div class="l">Insumos a repor</div></div></div>'+
+ '<div class="panel"><table><thead><tr><th>Ficha</th><th>CMV R$</th><th>Preço</th><th>CMV %</th><th>Margem R$</th><th>Margem %</th><th>Preço sugerido</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+}
+
+/* CONFIG */
+function vConfig(){return '<h1>Configuração</h1><div class="panel"><div class="grid4">'+
+ '<div><label>Nome do negócio</label><input value="'+esc(S.config.nomeNeg)+'" oninput="S.config.nomeNeg=this.value;save()"></div>'+
+ '<div><label>CMV alvo (%)</label><input type="number" value="'+esc(S.config.cmvAlvo)+'" oninput="S.config.cmvAlvo=this.value;save()"></div></div>'+
+ '<p class="hint">O preço sugerido é calculado por: CMV ÷ (CMV alvo / 100). Ex.: CMV R$ 9 e alvo 30% → preço R$ 30.</p></div>';}
+
+/* GUIA */
+function vGuia(){return '<h1>Como usar</h1><div class="panel"><ol>'+
+ '<li><b>Insumos:</b> cadastre cada insumo/base com preço por unidade e fator de correção (FC). Cadastre molhos/caldas/bases como insumos com o custo já por grama.</li>'+
+ '<li><b>Fichas:</b> crie o prato, defina rendimento e preço de venda, e adicione os insumos com a quantidade.</li>'+
+ '<li><b>Leitura:</b> veja o CMV, o custo por porção, o CMV%, o preço sugerido (pelo CMV alvo) e a margem.</li>'+
+ '<li><b>Resultado:</b> compare todas as fichas — quem está acima do alvo ou em prejuízo.</li>'+
+ '<li><b>Exportar:</b> salve o JSON como backup; importe para continuar. Pronto para receber dezenas de fichas.</li>'+
+ '</ol></div>';}
+
+function exportJSON(){var b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='artblend_fichas.json';a.click();}
+function importJSON(){document.getElementById('fileIn').click();}
+document.getElementById('fileIn').onchange=function(e){var f=e.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){try{S=JSON.parse(rd.result);fSel=(S.fichas[0]||{}).id;save();render(cur);alert('Importado.');}catch(err){alert('Arquivo inválido.');}};rd.readAsText(f);};
+render('insumos');
+</script>
+</body>
+</html>

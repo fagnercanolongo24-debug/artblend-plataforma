@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema Global Artblend — Documento Mestre</title>
+<style>
+  :root{
+    --ink:#1E2521; --muted:#5B655E; --line:#E4DED4; --paper:#FFFFFF; --warm:#FBF7F1;
+    --primary:#0E5E55; --primary-d:#0A463F; --soft:#E5F0EE; --accent:#D9772F;
+    --ok:#1E7A4B; --ok-bg:#E6F3EC; --warn:#B23B2E; --warn-bg:#FBE9E6; --t-bg:#FBF0D8; --b-bg:#E8EFF6; --x-bg:#EFEAF6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{margin:0;font-family:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;color:var(--ink);line-height:1.6;background:#fff;font-size:14.5px;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 50px;}
+  .cover{background:linear-gradient(150deg,var(--primary-d),var(--primary) 58%,#13766B);color:#fff;padding:80px 50px;position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;}
+  .cover .kick{letter-spacing:3px;text-transform:uppercase;font-size:13px;font-weight:600;color:#9BE3D6;margin-bottom:14px;}
+  .cover h1{font-size:46px;line-height:1.04;margin:0 0 12px;font-weight:800;}
+  .cover h2{font-size:19px;font-weight:500;margin:0 0 26px;color:#CDEDE7;}
+  .cover .bar{width:90px;height:6px;background:var(--accent);border-radius:6px;margin-bottom:24px;}
+  .cover .foot{position:absolute;bottom:38px;left:50px;right:50px;font-size:13px;color:#9BE3D6;border-top:1px solid rgba(255,255,255,.2);padding-top:13px;display:flex;justify-content:space-between;}
+  .sec{background:var(--primary);color:#fff;border-radius:14px;padding:18px 24px;margin:40px 0 16px;page-break-before:always;}
+  .sec .k{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#A7E0D6;font-weight:700;}
+  .sec h2{font-size:22px;margin:5px 0;font-weight:800;}
+  .sec .m{font-size:13px;color:#CFEAE5;}
+  h3{font-size:17px;color:var(--primary-d);margin:22px 0 6px;font-weight:750;border-left:5px solid var(--accent);padding-left:11px;}
+  h4{font-size:15px;margin:14px 0 5px;font-weight:700;color:var(--primary-d);}
+  p{margin:7px 0;} strong{color:var(--primary-d);}
+  ul,ol{margin:7px 0;padding-left:20px;} li{margin:3px 0;}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px;page-break-inside:avoid;}
+  th{background:var(--primary);color:#fff;text-align:left;padding:7px 9px;font-weight:600;}
+  td{border:1px solid var(--line);padding:7px 9px;vertical-align:top;}
+  tr:nth-child(even) td{background:var(--warm);}
+  .box{border-radius:11px;padding:14px 18px;margin:14px 0;border:1px solid var(--line);page-break-inside:avoid;}
+  .box .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:13px;color:#fff;margin-bottom:7px;background:var(--accent);}
+  .box.ok{background:var(--ok-bg);border-color:#BEE0CC;} .box.ok .tag{background:var(--ok);}
+  .box.warn{background:var(--warn-bg);border-color:#EEC4BD;} .box.warn .tag{background:var(--warn);}
+  .box.t{background:var(--t-bg);border-color:#EAD7A6;} .box.t .tag{background:#B07A12;}
+  .box.b{background:var(--b-bg);border-color:#C5D6E8;} .box.b .tag{background:#2F5D8C;}
+  .lead{font-size:16px;color:var(--muted);}
+  .note{font-size:12px;color:var(--muted);font-style:italic;}
+  .toc li{margin:4px 0;font-weight:600;}
+  .divider{height:1px;background:var(--line);margin:22px 0;}
+  .pill{display:inline-block;background:var(--soft);color:var(--primary-d);border-radius:14px;padding:2px 9px;font-size:11px;font-weight:700;margin:2px;}
+  code{background:var(--warm);border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:12.5px;}
+  @page{margin:16mm 12mm;}
+  @media print{.cover{min-height:auto;height:100vh;}}
+</style>
+</head>
+<body>
+<section class="cover">
+  <div class="kick">Artblend Consultoria Gourmet · Documento Mestre</div>
+  <h1>Sistema Global Artblend</h1>
+  <h2>Memória completa do projeto — método, inteligência competitiva, software e roadmap. Cole este documento para retomar de onde paramos.</h2>
+  <div class="bar"></div>
+  <div class="foot"><span>Fagner Augusto · Artblend</span><span>Versão 1 · Junho 2026</span></div>
+</section>
+<div class="wrap">
+
+<!-- 0 -->
+<div class="sec"><div class="k">Comece aqui</div><h2>Como usar este documento para continuar</h2></div>
+<p class="lead">Este é o <strong>cérebro do projeto em texto</strong>. Você pode apagar o histórico e os arquivos do PC — desde que guarde este documento. Para retomar, abra um chat com o Claude e diga, por exemplo:</p>
+<div class="box b"><span class="tag">Como retomar</span><p><em>"Este é o Sistema Global Artblend, a memória do meu projeto. Leia tudo e vamos continuar de [assunto]. Quero que você [tarefa]."</em> — e cole/anexe este arquivo.</p></div>
+<p>Índice do documento:</p>
+<ol class="toc">
+<li>Identidade e padrão visual da Artblend</li>
+<li>O Método Artblend (CEP · T&amp;D · Consultoria de Cardápio · NR-1 · Frameworks)</li>
+<li>Inteligência competitiva (todos os concorrentes mapeados)</li>
+<li>Arquitetura do software (ecossistema)</li>
+<li>Arquitetura de IA — os 4 agentes</li>
+<li>Roadmap, licenças e custos</li>
+<li>Inventário do Google Drive (a ingerir)</li>
+<li>Índice dos arquivos criados</li>
+<li>Decisões em aberto e próximos passos</li>
+</ol>
+
+<!-- 1 -->
+<div class="sec"><div class="k">Parte 1</div><h2>Identidade e padrão visual</h2></div>
+<p><strong>Marca:</strong> Artblend Consultoria Gourmet. <strong>Dono/consultor:</strong> Fagner Augusto. <strong>Nicho:</strong> consultoria gastronômica / food service (restaurantes, padarias, bares, lanchonetes).</p>
+<p><strong>Paleta visual (usar em todos os materiais):</strong> <span class="pill">Verde-petróleo #0E5E55</span> <span class="pill">Verde escuro #0A463F</span> <span class="pill">Clay/laranja #D9772F</span> <span class="pill">Fundo creme #FBF7F1</span>. Blocos coloridos: Caso (verde), Script (azul), Template (âmbar), Exercício (roxo), Método Artblend (verde escuro), Alerta (vermelho). Fonte Segoe UI; capa com gradiente verde; cabeçalhos de módulo arredondados.</p>
+<p class="note">Regra editorial: remover qualquer menção a "Jeff Simão" e a "metodologia mundial"; tudo é "Método Artblend". Tom didático, exemplos do food service, números reais.</p>
+
+<!-- 2 -->
+<div class="sec"><div class="k">Parte 2</div><h2>O Método Artblend</h2><div class="m">Pessoas + Treinamento + Cardápio/Lucro + Conformidade (NR-1) + Frameworks de consultoria.</div></div>
+
+<h3>2.1 CEP — Consultor Estratégico de Pessoas (40h, 10 módulos)</h3>
+<p>Serviço de RH por assinatura para food service. Cadeia de valor: <strong>META → BOA ESCALA → LIDERANÇA → CULTURA</strong>. 4 pilares: RH Estratégico, Treinamentos, Integração, Processos Seletivos. Modalidades: Presencial R$2.000 / Híbrido R$1.600 / Remoto R$1.200 (contrato 3–6 meses, 1º mês antecipado).</p>
+<table>
+<tr><th>Mód.</th><th>Tema</th><th>Conteúdo-chave</th></tr>
+<tr><td>1</td><td>Fundamentos e modelo de negócio</td><td>O que é CEP, 4 pilares, precificação, equação de renda, postura</td></tr>
+<tr><td>2</td><td>Diagnóstico financeiro + People Analytics</td><td>Benchmarks (folha ≤15%, CMV 25–30%, pró-labore 10–15%); turnover, absenteísmo, eNPS, ticket</td></tr>
+<tr><td>3</td><td>Escutas estratégicas (6h)</td><td>5 categorias, 3G, mapa de colaboradores/líderes, CNV, Q12, regra dos 40%, +40% para promover supervisor</td></tr>
+<tr><td>4</td><td>RH estratégico / HRBP</td><td>4 papéis do HRBP, OKR, Balanced Scorecard de pessoas, 9 competências, EVP, Employer Branding</td></tr>
+<tr><td>5</td><td>Treinamento e Desenvolvimento</td><td>3 elementos (visual/dinâmica/item afetivo), regra 45min, dinâmica dos animais, Kirkpatrick, ADDIE</td></tr>
+<tr><td>6</td><td>Processos seletivos + descrição de cargo</td><td>4 blocos da descrição, funil de seleção, triagem 70%, STAR, garantia de 60%</td></tr>
+<tr><td>7</td><td>Integração, onboarding e cultura</td><td>Onboarding 5 dias (+82% retenção), regimento, manual, DPR, Buddy System</td></tr>
+<tr><td>8</td><td>Liderança e motivação</td><td>3 eixos do líder, "pessoas procuram segurança", Maslow, Herzberg, ADKAR</td></tr>
+<tr><td>9</td><td>Jornada, escalas e processos</td><td>Tipos de jornada, fluxo por pico, P1/P2/P3, DPR</td></tr>
+<tr><td>10</td><td>Avaliação, KPIs e relatório</td><td>Sucessão, PDI, 9-Box, feedback SBI, calibragem, relatório mensal + ROI</td></tr>
+</table>
+
+<h3>2.2 T&amp;D — Treinamento &amp; Desenvolvimento (curso próprio)</h3>
+<p>Processo: <strong>LNT → Design → Desenvolvimento → Aplicação → Avaliação</strong>. Pergunta-chave do LNT: "é problema de <strong>saber, poder ou querer</strong>?". Design por público (70% até fundamental → visual). Regra dos 45min. Facilitador (não professor); os 7 primeiros minutos. Kirkpatrick (Reação, Aprendizagem, Comportamento, Resultado). 6 treinos comuns: Vendas, Atendimento, Liderança/CNV, Processos/CMV, Higiene, Onboarding. Templates: LNT, plano de treino, avaliação N1, relatório.</p>
+
+<h3>2.3 CCP — Consultoria de Cardápio (base Ro Gonzaga, em ingestão)</h3>
+<p>Metodologia <strong>P.R.A.T.O.</strong>: <strong>P</strong>lanejamento estratégico · <strong>R</strong>esultados visíveis · <strong>A</strong>linhamento operacional · <strong>T</strong>écnicas de venda (cardápio = "garçom silencioso") · <strong>O</strong>timização de carreira. Consultor = resolvedor de problemas. 5 problemas comuns: cardápio confuso, desalinhado com público, preços inadequados, falta de identidade, excesso de opções. Etapas: Diagnóstico → Planejamento → Implementação → Monitoramento → Capacitação. <span class="note">Faltam ~53 das 63 páginas a transcrever (engenharia de cardápio, precificação/CMV, descrição persuasiva, design, prospecção).</span></p>
+
+<h3>2.4 NR-1 — Riscos psicossociais (nova peça)</h3>
+<p>NR-1 atualizada exige gestão de <strong>riscos psicossociais</strong> no PGR — obrigatório por lei. <strong>Correção do usuário:</strong> não é exclusivo de psicólogo; pessoa capacitada pode conduzir a gestão (segundo orientação de órgão citado por Felipe Maronesi). Módulo Artblend: planilha de avaliação psicossocial, mapeamento no PGR, plano de ação, indicadores antes/depois (casa com Q12/eNPS), trilha de liderança em saúde mental.</p>
+
+<h3>2.5 Frameworks de consultoria (Charles França / OIKOS)</h3>
+<p>Adotar: Diagnóstico/análise de ambiente, Business Model Canvas, 5W2H, PDCA, regimento interno, e a lógica do método OIKOS (consultor operacional → estratégico: medir, maestrar o time, acelerar resultado). Lição: formar/credenciar consultores no método é um negócio em si.</p>
+
+<!-- 3 -->
+<div class="sec"><div class="k">Parte 3</div><h2>Inteligência competitiva</h2><div class="m">Mapa completo de quem é quem. Nenhum integra tudo — esse é o espaço da Artblend.</div></div>
+<table>
+<tr><th>Quem</th><th>Categoria</th><th>O que é</th><th>O que aproveitar</th></tr>
+<tr><td><strong>V-Core</strong> (Vinícius Meyer + ValiTag)</td><td>Operação + IA</td><td>Núcleo operacional: <strong>missões + checklist por estação</strong> (frente de loja/cozinha), abertura/fechamento, contagem de estoque, "Chef Inteligente" (IA), mapa visual, CMV automático. UI vista: abas Tudo/Missões/Checklist, botões "Executar agora"/"Aceitar missão". Lema: "Não é controle. É comando." Concorrente mais sério na visão de integrar.</td><td>UX de missões/checklist por estação + IA — adaptar p/ missões de PESSOAS</td></tr>
+<tr><td><strong>ValiTag</strong></td><td>Etiqueta/ANVISA</td><td>Etiqueta inteligente, validade, QR rastreabilidade, segurança alimentar</td><td>Integrar (não recriar)</td></tr>
+<tr><td><strong>Suflex</strong></td><td>Operação</td><td>Etiqueta, validade, contagem, produção, recebimento; mensal sem fidelidade</td><td>Integrar</td></tr>
+<tr><td><strong>ProApp</strong> (Produz Soluções)</td><td>App do consultor</td><td>App offline p/ consultor: checklists personalizados + modelos, rótulos nutricionais, ficha técnica com custo automático. R$20/usuário extra, 7 dias grátis</td><td>Ficha técnica c/ custo + checklist offline + preço simples</td></tr>
+<tr><td><strong>Consumer</strong></td><td>ERP/PDV</td><td>+30 mil clientes, +100 funções: mesas, delivery, iFood, estoque, NF, caixa, relatórios; freemium até 200 pedidos/mês</td><td>Integrar como fonte de dados</td></tr>
+<tr><td><strong>iFood</strong></td><td>ERP/PDV</td><td>Painel: cardápio, pedidos, dashboard de vendas/ticket/ranking, avaliações</td><td>Integrar</td></tr>
+<tr><td><strong>Politi Academy</strong></td><td>Educação</td><td>Escola food service + app de treino de funcionário + arsenal de processos; +3.000 empresários; ~R$9,2mi</td><td>Base do Artblend Academy</td></tr>
+<tr><td><strong>EGG</strong></td><td>Educação</td><td>Escola de Gestão em Negócios da Gastronomia (Ivan Achcar); cursos, mentoria, consultoria, +100 professores</td><td>Profundidade de conteúdo de negócios</td></tr>
+<tr><td><strong>Matheus Lessa</strong> (Domine Seu Restaurante)</td><td>Educação</td><td>Treinamentos de gestão, liderança, marketing, vendas; mentoria; parceria PDV (Takeat)</td><td>Marketing e comunidade</td></tr>
+<tr><td><strong>Mayara Vale</strong></td><td>Educação</td><td>Maior canal de consultoria de alimentos no YT; forma consultores; POPs; +12.000 alunos; atendeu Coca-Cola, Petrobras</td><td>Como formar/credenciar consultores</td></tr>
+<tr><td><strong>Felipe Maronesi</strong></td><td>Saúde mental / NR-1</td><td>Psicólogo; NR-1 e riscos psicossociais; planilhas/sistema; +12 mil alunos</td><td>Módulo NR-1 (obrigatório por lei = receita recorrente)</td></tr>
+<tr><td><strong>Charles França</strong></td><td>Método de consultoria</td><td>Forma consultores (+4.000); método OIKOS; Canvas, 5W2H, PDCA</td><td>Frameworks + modelo de formar consultores</td></tr>
+<tr><td><strong>Ro Gonzaga</strong> (CCP)</td><td>Educação</td><td>Curso Consultoria de Cardápio na Prática (método P.R.A.T.O.)</td><td>Já virou módulo Artblend</td></tr>
+<tr><td><strong>McDonald's + redes</strong></td><td>Grandes redes</td><td>Pioneiro: manual de operações + SOC (checklist por estação) + Hamburger University. Subway, Starbucks, BK, Domino's, Outback, Madero, Habib's</td><td>POP auditável + universidade corporativa</td></tr>
+</table>
+<div class="box ok"><span class="tag">A brecha (posicionamento Artblend)</span><p>Educação ensina · operação controla · ERP vende · ProApp organiza o consultor. <strong>Ninguém entrega num só lugar: consultoria 1:1 com dados + pessoas + treinamento + cardápio/lucro + NR-1, com IA de acompanhamento.</strong> A Artblend é a ponte entre "ensinar" e "operar".</p></div>
+
+<!-- 4 -->
+<div class="sec"><div class="k">Parte 4</div><h2>Arquitetura do software (ecossistema)</h2></div>
+<p><strong>2 produtos sobre 1 núcleo de dados:</strong></p>
+<ul>
+<li><strong>Artblend Core</strong> — banco de dados único (clientes, colaboradores, indicadores, conteúdo).</li>
+<li><strong>Artblend OS</strong> (interno do consultor) — Portfólio, CRM/prospecção, Escopo, Proposta, Contrato, Diagnóstico (financeiro + escutas + LNT), Biblioteca (scripts/templates/POPs), Relatórios/ROI, Dashboard.</li>
+<li><strong>Artblend Restaurant</strong> (assinatura) — POPs &amp; checklists (estilo SOC/V-Core: missões por estação), fichas técnicas/CMV, escalas, onboarding/treino, regimento, dashboard de pessoas e vendas, Q12/eNPS. Perfis: dono / líder / colaborador.</li>
+<li><strong>Artblend Academy</strong> — cursos, trilhas, certificações, gamificação (níveis Bronze→Platina).</li>
+<li><strong>Artblend Intelligence</strong> — agentes de IA, alertas proativos, plano de ação, memória operacional.</li>
+</ul>
+<p>Segmentação por público: Consultor (OS) · Dono (dashboard) · Líder (setor) · Colaborador (treino/checklist) · Lead (proposta). Integrações: PDV/iFood, estoque/compras, folha/ponto; planilhas como ponte no início.</p>
+
+<!-- 5 -->
+<div class="sec"><div class="k">Parte 5</div><h2>Arquitetura de IA — os 4 agentes</h2></div>
+<p>Conforme você pediu: 1 coordenador + 3 executores.</p>
+<table>
+<tr><th>Agente</th><th>Papel</th><th>Faz</th></tr>
+<tr><td><strong>Supervisor (Orquestrador)</strong></td><td>Comanda</td><td>Recebe o pedido, distribui tarefas, junta resultados, controla qualidade e consistência</td></tr>
+<tr><td><strong>Agente Diagnóstico</strong></td><td>Executa</td><td>LNT, escutas, diagnóstico financeiro, identifica causa raiz (saber/poder/querer)</td></tr>
+<tr><td><strong>Agente Conteúdo/T&amp;D + Cardápio</strong></td><td>Executa</td><td>Gera trilhas, materiais, POPs, fichas técnicas, descrição persuasiva de pratos, quizzes</td></tr>
+<tr><td><strong>Agente Dados/BI + Comercial</strong></td><td>Executa</td><td>Lê indicadores, monta dashboard, alerta desvios, gera proposta/contrato/ROI</td></tr>
+</table>
+<p class="note">Recomendação: agentes brilham sobre dados estruturados. Implementar por último (Fase 4), depois de padronizar formulários e dados.</p>
+
+<!-- 6 -->
+<div class="sec"><div class="k">Parte 6</div><h2>Roadmap, licenças e custos</h2></div>
+<table>
+<tr><th>Fase</th><th>Foco</th><th>Como</th></tr>
+<tr><td>0</td><td>Padronizar campos/formulários (com exemplos)</td><td>Google Sheets / Notion</td></tr>
+<tr><td>1</td><td>Artblend OS (consultor)</td><td>No-code (Softr/Glide) sobre planilhas · 2–6 sem · R$150–800/mês</td></tr>
+<tr><td>2</td><td>App do restaurante (assinatura)</td><td>Glide/AppSheet · mobile</td></tr>
+<tr><td>3</td><td>Integrações (PDV/iFood, estoque, folha)</td><td>APIs + planilhas</td></tr>
+<tr><td>4</td><td>Agentes de IA</td><td>Sobre dados estruturados</td></tr>
+</table>
+<p><strong>Licenças/legal (não existe "uma" licença):</strong> CNPJ, LGPD (política + termo de tratamento — dados sensíveis), gateway de pagamento (Pagar.me/Stripe/Asaas), domínio/hospedagem, registro de marca no INPI, contas de loja só se app nativo, e atenção a ANVISA se mexer com etiqueta. NR-1: laudo psicossocial com responsável técnico habilitado (parceria).</p>
+<p><strong>Custos (ordem de grandeza, BR):</strong> No-code R$150–800/mês · Low-code/freelancer R$8–40 mil · Sob medida R$60–300 mil+. Validar com 1 cliente-piloto pagante antes de desenvolver.</p>
+
+<!-- 7 -->
+<div class="sec"><div class="k">Parte 7</div><h2>Inventário do Google Drive (a ingerir)</h2><div class="m">Pastas localizadas. Conteúdo será lido e anexado nos próximos lotes.</div></div>
+<table>
+<tr><th>Pasta</th><th>ID / status</th></tr>
+<tr><td>chef</td><td>12OUIP8LzL9KyyEeJOkas33_WeQT50VH7 · a ler</td></tr>
+<tr><td>CHEF FAIXA PRETA</td><td>1fgnNPsinHVNDiosAJme-iVRZ3M3hRVqA · a ler</td></tr>
+<tr><td>Consultor estratégico RH (Jeff Simão)</td><td>13UVTHkc-zH0OVKlw3zn09oACJ9T3xvN3 · a ler</td></tr>
+<tr><td>Nr1</td><td>1MI2b03maTu4jh08TL6M1S3rLBMn8UeQu · a ler</td></tr>
+<tr><td>Padrão food</td><td>1OrPBtbJSSwwIVKRbr52HfhU6_ZGS_rAb · a ler</td></tr>
+<tr><td>Ro gonzaga</td><td>1vIcB5ev3A0Ne8pzF-_gsL9hoq53AKRKp · CCP (parcial)</td></tr>
+<tr><td>Egg</td><td>1MBR37iih5VkhZ73HPHgeuDTBMwNhCGar · a ler</td></tr>
+<tr><td>Naty Furquim / Ícaro Conceição</td><td>1eyq_c9p9K6SBAjZpnyZ0Nqv2VarMGr2p · a ler</td></tr>
+<tr><td>Conta Microsoft artblend</td><td>156fiU1FAURPwYq3QhdPfAvklwOZXGr7r · a ler</td></tr>
+<tr><td>Materiais Formação Consultor (Maiara Vale) → Documentos úteis de RH</td><td>a LOCALIZAR</td></tr>
+<tr><td>Artblend Consultoria</td><td>a LOCALIZAR</td></tr>
+<tr><td>Documentações → Gestão de Processos / Imersão Consultor de Alimentos</td><td>a LOCALIZAR</td></tr>
+<tr><td>EGG Mentoria Premium</td><td>a LOCALIZAR (pode estar dentro de "Egg")</td></tr>
+</table>
+
+<!-- 8 -->
+<div class="sec"><div class="k">Parte 8</div><h2>Arquivos já criados (na Área de Trabalho)</h2></div>
+<ul>
+<li><strong>CURSO_CEP_ARTBLEND.html</strong> — curso CEP 40h completo</li>
+<li><strong>CURSO_TD_ARTBLEND.html</strong> — curso T&amp;D completo</li>
+<li><strong>ARTBLEND_CONSULTORIA_CARDAPIO.html</strong> — curso completo de Consultoria de Cardápio (8 módulos + aulas + bônus)</li>
+<li><strong>CURSO_NR1_ARTBLEND.html</strong> — curso completo de NR-1 / riscos psicossociais</li>
+<li><strong>BLUEPRINT_ARTBLEND_ECOSSISTEMA.html</strong> — arquitetura do produto</li>
+<li><strong>ARTBLEND_AVALIACAO_EXECUTIVA.html</strong> — crítica + blueprint v2</li>
+<li><strong>ARTBLEND_ANALISE_E_CAMINHO.html</strong> — concorrentes + como construir + licenças</li>
+<li><strong>ARTBLEND_DOSSIE_CONCORRENTES.html</strong> — dossiê competitivo</li>
+<li><strong>ARTBLEND_NR1_E_FRAMEWORKS.html</strong> — NR-1 (Maronesi) + Charles França</li>
+<li><strong>ARTBLEND_OS_PROTOTIPO.html</strong> — protótipo funcional (CRM, diagnóstico, proposta)</li>
+<li><strong>ARTBLEND_DEMO_PAINEL.html</strong> — painel demo premium (health score, alertas, simulador)</li>
+<li><strong>ARTBLEND_SISTEMA.html</strong> — software de planilhas unificadas (Dados, Gestão, Estoque, Operação, POPs, Controle, RH, Consultoria, NR-1)</li>
+<li><strong>ARTBLEND_NR1_DRPS.html</strong> — ferramenta NR-1 (DRPS) funcional: diagnóstico → matriz → plano</li>
+<li><strong>QUESTIONARIO_DRPS_ARTBLEND.html</strong> — banco de perguntas do DRPS (9 tópicos) para o Google Forms</li>
+<li><strong>ARTBLEND_FICHA_TECNICA.html</strong> — ficha técnica + CMV + estoque</li>
+<li><strong>CATALOGO_FICHAS_BAR21.html</strong> — catálogo de fichas do BAR21 (bases + insumos; pratos servidos pendentes de export)</li>
+<li><strong>CENTRAL_ARTBLEND.html</strong> — hub escuro que abre todos os arquivos (no PC e no Drive)</li>
+<li><strong>SISTEMA_GLOBAL_ARTBLEND.html</strong> — este documento mestre</li>
+</ul>
+<p class="note">Se você apagar esses arquivos, este Documento Mestre permite reconstruir cada um sob demanda — é só pedir.</p>
+
+<!-- 9 -->
+<div class="sec"><div class="k">Parte 9</div><h2>Decisões em aberto e próximos passos</h2></div>
+<ol>
+<li>Terminar de ler as <strong>63 páginas do CCP</strong> e expandir o módulo de cardápio.</li>
+<li>Ingerir as pastas do Drive (lote a lote) e anexar tudo aqui.</li>
+<li>Localizar "Materiais Formação Consultor", "Artblend Consultoria" e "Documentações".</li>
+<li>Definir: começar pelo <strong>Artblend OS</strong> (no-code) ou já mirar o app do restaurante?</li>
+<li>Construir a <strong>planilha-software unificada</strong> (diagnóstico + CMV + ficha técnica + NR-1 + indicadores num arquivo só).</li>
+<li>Modelo de preço da assinatura + cliente-piloto.</li>
+</ol>
+<div class="box t"><span class="tag">Pergunta de continuidade</span><p>Da próxima vez, diga: <em>"Continua a ingestão do Drive a partir da pasta [X]"</em> ou <em>"Monta a planilha-software unificada"</em> ou <em>"Expande o módulo de cardápio"</em>. Eu retomo na hora com este documento.</p></div>
+
+<!-- 10 ALERTA -->
+<div class="sec" style="background:#B23B2E;"><div class="k" style="color:#FBD7D0;">Parte 10 · URGENTE</div><h2>⚠️ NÃO apague estes antes de baixar</h2><div class="m" style="color:#FBD7D0;">Itens valiosos que os agentes NÃO conseguiram capturar (atalhos, links externos ou PDFs escaneados). Se apagar, perde.</div></div>
+<div class="box warn"><span class="tag">Baixe os originais destes itens</span>
+<ul>
+<li><strong>Planilha de Indicadores (Rubens Oliveira)</strong> — ✅ <strong>CORRIGIDO:</strong> o arquivo real <em>existe</em> no Drive (xlsx, ID 1ZuIOEEhm1geZiKY5eb8PWlq0QUYKgKIs) e foi lido pela cópia em Google Planilhas. Estrutura registrada na Parte 11.1. O xlsx em si não abre no leitor (complexo) — mantenha o original.</li>
+<li><strong>3 atalhos em "Documentações → Gestão de Processos":</strong> POP (exemplo), SIPOC (exemplos), Apostila Gestão de Processos — são shortcuts que não abriram. São templates valiosos de processo. Baixe os arquivos-alvo.</li>
+<li><strong>fichas_bar21-3.xlsm</strong> (planilha com macros) — não foi lida.</li>
+<li><strong>PDFs escaneados (voltaram vazios):</strong> "Desenvolvendo novos pratos", "Apostila", "Apostila_Completa", "Estilos de apresentação", "manual quanto cobrar em consultoria". São imagens — precisam de OCR ou leitura manual.</li>
+<li><strong>Vídeo "Engenharia de cardápio — mentoria Jorge Lucena"</strong> (1,7 GB, em Mentoria Premium) — não transcrito.</li>
+<li><strong>Pastas não inspecionadas:</strong> Mei, Raros irmã bia, Rrg, PIN artblendconsultoria, Conta Microsoft artblend.</li>
+<li><strong>NR-1:</strong> a pasta "Nr1" só tem um PDF de divulgação do treinamento do Felipe Maronesi — <strong>não há ferramentas/planilhas de NR-1 no seu Drive</strong>. As planilhas dele estão no curso pago. (Eu já modelei uma avaliação NR-1 no Artblend Sistema.)</li>
+</ul></div>
+
+<!-- 11 ACERVO -->
+<div class="sec"><div class="k">Parte 11</div><h2>Acervo do Drive — ferramentas e planilhas</h2><div class="m">Tudo que os agentes capturaram, organizado pelas suas categorias.</div></div>
+<div class="box ok"><span class="tag">✅ Verificação concluída</span><p><strong>Tudo abaixo foi confirmado por leitura real dos arquivos</strong> (pastas: Consultor Estratégico RH, Maiara/Formação Consultor, Artblend Consultoria, Documentações, Mentoria Premium, chef, Chef Faixa Preta, Padrão Food, Naty/Ícaro + planilhas Rubens). Arquivos: a ferramenta-mãe Per Capita/FC/IC é o "Documento de ArtBlend Gourmet.xlsx" (ID 1VInz9hAC4k4LlupNSDn22khBDvtRlv3F) na pasta Padrão Food. Acréscimo confirmado: <strong>"PROCESSO DE COMPRA GL"</strong> (chef) — compras em 6 etapas: Seleção → Cadastro → Cotação (3 fornecedores) → Pedido (estoque mín.) → Recebimento (conferência + nota 0–10 do fornecedor) → Lançamento por centro de custo. <em>Ainda não lidos internamente:</em> alguns PDFs de receita/livros e o vídeo de engenharia de cardápio (Jorge Lucena).</p></div>
+
+<div class="box"><span class="tag" style="background:#2F5D8C">Planilha de Indicadores — Rubens Oliveira (DRE gerencial)</span>
+<p>Painel financeiro mensal (Orçado × Realizado × Variação %). Estrutura/benchmarks capturados:</p>
+<ul>
+<li><strong>Topo:</strong> Faturamento · Ponto de Equilíbrio · A/H (faturamento × PE) · Total de clientes · <strong>Ticket médio</strong> · Ideal de clientes para bater o equilíbrio.</li>
+<li><strong>Custos variáveis diretos:</strong> Impostos s/ vendas · <strong>CMV A&amp;B (meta 28%)</strong> · CMV embalagens (3%) · custos financeiros cartão/delivery (8%).</li>
+<li><strong>Prime Cost (CMV + Mão de Obra) — meta 56%</strong> (indicador-rei do restaurante).</li>
+<li><strong>Despesas operacionais:</strong> Pessoal/CMO (25%) · Ocupação e infraestrutura (9%) · Administrativas (6%) · Comerciais (3%) · Financeiras (0,3%).</li>
+<li><strong>Resultados:</strong> Margem de Contribuição % · Resultado Operacional.</li>
+</ul>
+<p class="note">→ Entra no Artblend Sistema como o módulo de <strong>Controle/Gestão</strong> avançado (DRE). Arquivo real: xlsx ID 1ZuIOEEhm1geZiKY5eb8PWlq0QUYKgKIs.</p></div>
+
+<h3>11.1 Custos, fichas técnicas e cardápio (Gestão / Controle / Estoque)</h3>
+<table>
+<tr><th>Ferramenta</th><th>Estrutura capturada</th><th>Origem</th></tr>
+<tr><td><strong>Per Capita + Fator de Correção + Índice de Cocção</strong> (a "ferramenta-mãe")</td><td>3 abas: (1) gramagem por pessoa de cada preparação; (2) FC = peso bruto/líquido (centenas de itens, ex. Picanha 1,27; Batata 1,16; Camarão 2,75); (3) IC = peso cozido/cru (ex. Arroz 2,5; Carne assada 0,6). Regra: compra = per capita × FC.</td><td>Padrão food ("Documento de ArtBlend Gourmet")</td></tr>
+<tr><td><strong>Ficha técnica com CMV</strong></td><td>Receituário padrão: Produto | UM | Qtd bruta | FC | Qtd líquida | Valor unit | Valor total → Peso total e <strong>CMV/receita e CMV/porção</strong>. Subfichas viram insumo de fichas (encadeamento). Base de insumos ~250 itens com preço e FC.</td><td>chef · Chef Faixa Preta · Artblend · Mentoria Premium (várias versões)</td></tr>
+<tr><td><strong>Engenharia de Cardápio</strong></td><td>Por prato: nº vendas, CMV item, preço, CMV%, margem de contribuição, popularidade Alta/Baixa → classifica em <strong>Estrela / Quebra-cabeça / Burro-de-carga / Abacaxi (Cão)</strong>. Dashboard com CMV total %, MC média.</td><td>chef ("engenharia cardápio planilha") · Artblend (case CE)</td></tr>
+<tr><td><strong>Motor de precificação</strong></td><td>Valor da conta | Serviço 10% | Taxa cartão | Imposto | Margem | Preço de venda | CMV% — sinaliza prato com prejuízo.</td><td>chef ("Fichas do Menu" — Sauz) · Mentoria Premium ("Papo com Sabores")</td></tr>
+<tr><td><strong>Formação de preço de serviço</strong></td><td>Despesas fixas + encargos % + variáveis (PIS/COFINS/ISS/SIMPLES) + lucro pretendido → preço ideal vs atual.</td><td>Mentoria Premium ("Escola atualizada")</td></tr>
+<tr><td><strong>Fluxo de caixa diário</strong></td><td>Saldos bancários, a receber cartão, caixa, contas a pagar, previsão de saldo.</td><td>Mentoria Premium</td></tr>
+<tr><td><strong>Aproveitamento de carnes</strong></td><td>Corte | Qtde bruta | preço/kg | perda limpeza % | perda água % | qtde líquida | preço/kg líquido.</td><td>Mentoria Premium</td></tr>
+<tr><td><strong>Produção e Porcionamento semanal</strong></td><td>Por produto: validade, armazenagem, e por dia Disponível/Necessário/Produzir.</td><td>chef</td></tr>
+</table>
+
+<h3>11.2 Operação e POPs</h3>
+<table>
+<tr><th>Ferramenta</th><th>Estrutura</th></tr>
+<tr><td><strong>Lista de compras / ponto de pedido</strong></td><td>Insumo | Código | Unidade | Praça | Estoque atual | Estoque alarme | <strong>Status = atual − alarme</strong> (negativo repõe) | Qtd solicitada</td></tr>
+<tr><td><strong>POP simplificado</strong></td><td>POP | Descrição | Responsável | Praça | Periodicidade | tabela Ordem | O que fazer | Itens | Tempo | Obs | Fotos</td></tr>
+<tr><td><strong>Checklist de tarefas</strong></td><td>Prioridade | Categoria | Tarefa | Feito ✅ — em horizontes Mensal/Semanal/Diário</td></tr>
+<tr><td><strong>5 OKs da praça</strong></td><td>Por prato: itens, equipamentos elétricos, utensílios, panelas, louças (5 slots) + foto da praça montada</td></tr>
+<tr><td><strong>Plano de ataque / Mise en place</strong></td><td>Prioridade | Produção | Qtd | Feito ✅ · e Mise en Place | Fonte (comprado/prep) | Alarme | Unidade</td></tr>
+<tr><td><strong>Lista de pratos por praça</strong></td><td>Planejamento de evento por categoria (couvert/entrada/principal/sobremesa) + praça de pré-preparo</td></tr>
+<tr><td><strong>Manual de Boas Práticas (MBP)</strong></td><td>Modelo completo RDC ANVISA: RH, resíduos, produção, validade, higiene, pragas, água + anexos de registro (temperaturas, validades, não-conformidade)</td></tr>
+</table>
+
+<h3>11.3 RH (Universo RH)</h3>
+<table>
+<tr><th>Ferramenta</th><th>Estrutura</th><th>Origem</th></tr>
+<tr><td><strong>Escala de trabalho mensal</strong></td><td>Aba por mês; colaboradores × dias do mês; status T/F/Férias/Licença/Afastamento/Atestado; horários e intervalos; ajuste 44h/30h</td><td>Maiara Vale (Documentos úteis de RH)</td></tr>
+<tr><td><strong>Cargos e perfis profissionais</strong></td><td>Por cargo: perfil (idade, escolaridade, experiência), características e atribuições + slots de candidatos. Cargos: Gerente, Comprador, Garçom, Caixa</td><td>Chef Faixa Preta</td></tr>
+<tr><td><strong>Avaliação de desempenho do colaborador</strong></td><td>Comportamento, interesse, rendimento (Alto/Médio/Baixo), boas práticas, treinamentos, uniforme, higiene + assinaturas</td><td>Imersão Consultor de Alimentos (Maiara)</td></tr>
+<tr><td><strong>Avaliação de reação a treinamento</strong></td><td>11 perguntas nota 0–5 (clareza, aplicabilidade, duração, domínio do treinador)</td><td>Imersão (Maiara)</td></tr>
+<tr><td><strong>Relatório de não conformidade</strong></td><td>Área | NC | consequências | ação imediata | ação corretiva/preventiva | eficácia (S/N)</td><td>Imersão (Maiara)</td></tr>
+<tr><td><strong>Pisos salariais por jornada + honorários</strong></td><td>Tabela SINEPE: pisos 24h/36h/44h; treinamento R$238/pessoa; MBP R$3.357–7.217</td><td>Imersão → Quanto cobrar</td></tr>
+<tr><td><strong>Checklists RDC 216</strong> (auditoria boas práticas)</td><td>10 checklists Sim/Não/NA: documentação, manipuladores (saúde/higiene/capacitação), preparação, matérias-primas, resíduos, higienização, exposição, edificação, água, pragas</td><td>Imersão (Maiara)</td></tr>
+</table>
+
+<h3>11.4 Dados da Consultoria (comercial)</h3>
+<table>
+<tr><th>Template</th><th>Conteúdo</th></tr>
+<tr><td><strong>Modelo de Proposta comercial</strong></td><td>Capa, dados do cliente, introdução, escopo, cronograma, benefícios, valores, condições, validade 10 dias, assinaturas</td></tr>
+<tr><td><strong>Modelo de Contrato de consultoria</strong></td><td>9 cláusulas: dados, descrição dos serviços, cronograma, benefícios, valores, pagamento, obrigações, referências, observações</td></tr>
+<tr><td><strong>Tabela de valores de serviços</strong></td><td>Auditoria R$1–3 mil; Fichas técnicas R$1,5–5 mil; Cardápios R$2–10 mil; Treinamento R$1–4 mil/turma; Conceito gastronômico R$5–20 mil</td></tr>
+<tr><td><strong>EBOOK 10 Erros (CCP – Ro Gonzaga)</strong></td><td>Playbook comercial: 10 erros de cardápio + roteiro Prospectar / Executar / Destacar serviço</td></tr>
+<tr><td><strong>Plano de negócios</strong></td><td>Sumário, empresa, produtos, SWOT, marketing, operacional, financeiro (DRE/Payback/TIR)</td></tr>
+</table>
+
+<!-- 12 MÉTODO/AULAS -->
+<div class="sec"><div class="k">Parte 12</div><h2>Acervo de método e aulas (conteúdo Academy)</h2></div>
+<p><strong>Empratamento (Naty Furquim / Ícaro):</strong> template de planejamento de prato; aula "empratamento rápido sem esfriar" (planejamento → cardápio inteligente → logística → linha de montagem); "a importância do visual" (visão = 1ª sensação, 70% dos receptores); "os 5 sentidos na gastronomia". Checklist de empratamento (equilíbrio, volume, cor, contraste, criatividade) + Guia de Cores por preparação.</p>
+<p><strong>Sabor e técnica:</strong> "Fundamentos Científicos do Sabor" (Ícaro — Árvore de Sabores + Diário de Experimentos); Guia dos Sabores (Prato Perfeito = ácido+amargo+salgado+doce+umami); Guia do Chef (mirepoix, bouquet garni, métodos de cocção); Guia de Temperos (12 especiarias); Fundamentos da Afiação (4 P's + 12 passos).</p>
+<p><strong>Marketing digital para cozinheiros (Ícaro):</strong> plataformas, frequência, vídeo em 3 atos (gancho/valor/CTA), fluxograma PAC, ferramentas (CapCut, Canva, Notion, GPT). "Mídias sociais = novo currículo".</p>
+<p><strong>Processos (Documentações → Gestão de Processos):</strong> Lean Six Sigma — 101 dúvidas pelo ciclo <strong>DMAIC</strong> (Definir, Medir, Analisar, Implementar, Controlar); SIPOC; apostila de gestão de processos (atalhos a baixar).</p>
+<p><strong>Gestão de A&amp;B (chef):</strong> biblioteca extensa — administração de bares/restaurantes, gestão de materiais/estoque, controle de A&amp;B, Politi (caixa/financeiro), Gestão de Alta Performance (Grove), Essencialismo; cartilhas ANVISA de boas práticas. <strong>"Cozinha Estratégica" (Vinicius Curtts):</strong> 10 capítulos — planejamento, pessoas, processos, insumos, financeiro, marketing, atendimento, inovação, crises, sustentabilidade.</p>
+<p><strong>Capacitação:</strong> "Dinâmicas para capacitação em estabelecimentos de alimentação" (Padrão Food); "Tabela de controle de validade de alimentos" (prazos pós-abertura por categoria) — virou base do módulo Estoque do Artblend Sistema.</p>
+
+<!-- 13 SWEEP FINAL -->
+<div class="sec"><div class="k">Parte 13</div><h2>Acervo adicional (varredura final do Drive + PC)</h2><div class="m">Itens novos confirmados por leitura. Itens pessoais/sensíveis foram excluídos por privacidade.</div></div>
+
+<h3>13.1 Ferramentas novas de alto valor</h3>
+<table>
+<tr><th>Ferramenta</th><th>Estrutura</th><th>Origem</th></tr>
+<tr><td><strong>Ferramenta de Curadoria Gastronômica</strong> (diagnóstico/auditoria de estabelecimento)</td><td>Avaliação nota <strong>1 a 5</strong> por ponto, com colunas Ponto | Nota | Observação/Evidência | Foto. Abas: Instruções, Identificação, <strong>Cardápio, Vitrine, Ambiente, Serviço, Presença Digital</strong>, Dashboard (agrega notas) e Insights (pontos fortes/fracos, comparação com concorrentes). É o melhor template de <strong>diagnóstico de cardápio/operação</strong> do acervo.</td><td>Ro Gonzaga (.xlsx)</td></tr>
+<tr><td><strong>EVENTOS FICHA TÉCNICA ARTBLEND</strong></td><td>3 abas: Ficha Técnica Individual (Ingrediente | Peso Bruto/Líquido | FC | Custo per capita | Custo individual → CMV, Preço, CMV%); Ficha de Cotação (~120 insumos com preço/kg real); Ficha de Definição (planejamento de compras).</td><td>chef → Le Cordon Bleu (Google Sheets)</td></tr>
+<tr><td><strong>Fluxo de Caixa diário (ENG)</strong></td><td>Datas 1–30; saldo inicial por conta; entrada por meio de pagamento com taxa embutida (Débito 1,5% · Crédito 2,7% · Vale Refeição 5,7%); bloco de eventos; receita mensal.</td><td>chef → Caixa Marcelo Politi (.xlsx)</td></tr>
+</table>
+
+<h3>13.2 Kit MBP / UAN no PC (pasta Downloads) — 14 planilhas de controle</h3>
+<p>Conjunto numerado, pronto para virar os módulos de <strong>Controle / Estoque / Operação / RH</strong> do Artblend Sistema:</p>
+<ul>
+<li>01 Inspeção geral da UAN · 02 Cronograma de higienização · 03 Controle de temperatura dos equipamentos · 04 Controle de açougue · 05 Controle diário de entrada/saída do estoque · 06 Controle geral dos custos · 07 Custo total por preparação · 09 Prova das preparações · 10 Previsão de treinamentos · 11 Registro de reuniões · 13 Temperatura de recebimento das proteínas · 14 Ficha técnica simplificada · 15 Coleta de amostras.</li>
+<li>+ Manual de Boas Práticas (MBPF .docx) · Fatores.pdf (fator de correção) · Manual de Treinamentos com IA.pdf.</li>
+</ul>
+
+<h3>13.3 Egg (slides de aula) e outros</h3>
+<p><strong>Egg:</strong> majoritariamente fotos de slides do curso Restaurateur/EGG. Conceitos: <strong>6 Ps do Restaurante</strong> (Praça, Preço, Processos, Público, Produto, Promoção — Alex Azarias); base do conhecimento (Técnica/Referência/Repertório); <strong>Retenção de talentos</strong> (Andrea Ceneviva); e a planilha de indicadores do <strong>Rubens (abas Road Map e Dashboard)</strong> — o editável é o link OneDrive externo (baixar). Contrato EGG (curso de fidelização) registrado.</p>
+<p><strong>Nr1:</strong> ✅ confirmado — só o PDF de divulgação do Felipe Maronesi (sem ferramentas). <strong>Ripp Cozella:</strong> vazia. <strong>Docência / Curso Meu Caderno de Cozinha / Le Cordon Bleu (livros):</strong> bibliotecas de receitas e didática (conteúdo de apoio).</p>
+
+<h3>13.4 Ferramenta NR-1 / DRP — estrutura real (Felipe Maronesi, capturada do vídeo)</h3>
+<div class="box"><span class="tag" style="background:#6B4E9E">Diagnóstico de Riscos Psicossociais (DRP)</span>
+<p><strong>Avaliação por Setor</strong> (ex.: cada cargo/área). Para cada tópico: <strong>Média Gravidade × Média Probabilidade → Classificação</strong> (Baixa/Média/Alta/Crítica).</p>
+<p><strong>Os 9 tópicos psicossociais:</strong> (1) Assédio Moral e Sexual; (2) Carga Excessiva de Trabalho; (3) Reconhecimento e Recompensas; (4) Clima Organizacional; (5) Autonomia e Controle sobre o Trabalho; (6) Pressão e Metas; (7) Insegurança e Ameaças; (8) Conflitos Interpessoais e Falta de Comunicação; (9) Alinhamento entre Vida Pessoal e Profissional.</p>
+<p><strong>Abas do arquivo (ciclo completo):</strong> Escala · Critérios de Probabilidade · Resumo por Tópico · Análise e Avaliação · Gráficos · Medidas de Controle · Monitoramento do Desempenho · Revisão e Melhoria Contínua.</p>
+<p><strong>Programas de saúde mental (12)</strong> que ele estrutura: Apoio Psicológico · Gestão do Estresse/Burnout · Inteligência Emocional para Líderes · Prevenção ao Assédio · Avaliação Psicológica · Psicologia Positiva · Saúde Mental e Clima · Manejo da Ansiedade · Equilíbrio Vida-Trabalho · Comunicação Assertiva/Não Agressiva · Formação de Multiplicadores da Cultura do Cuidado · Treinamento da equipe de RH para a NR-01. (+70 ideias de programas/treinamentos.)</p>
+<p><strong>Catálogo comercial dos programas (nomes "vendáveis", referência de naming):</strong> Gestão do Estresse e Prevenção da Síndrome de Burnout · Jornada do Manejo da Ansiedade · Saúde Mental e Clima Organizacional · Inteligência Emocional para Líderes · Carreira no Positivo (Psicologia Positiva Corporativa) · Programa Life Balance · Prevenção ao Assédio Moral e Psicológico · Plantão Emocional nas empresas · Avaliação de perfil admissional e em promoções. Bordão: "Esqueça palestrinhas, levaremos programas de saúde mental preventivo".</p>
+<p><strong>3 tipos de prática:</strong> <em>Preventivas</em> (antes da crise — oficinas, rodas, campanhas, escuta empática); <em>Interventivas</em> (durante/após — plantão psicológico, triagem, grupos terapêuticos); e Promocionais. <span class="note">→ Vira o módulo NR-1 do Artblend Sistema (substitui o modelo provisório).</span></p>
+<p><strong>Aba "Análise e Avaliação" (matriz central):</strong> cabeçalho do laudo: Responsável Técnico (psicólogo) + CRP; Identificação — CNPJ, Data da Elaboração, Setor, Funções (lista de cargos), Qtd de trabalhadores na função com divisão Homens/Mulheres, Possíveis agravos à saúde mental (ex.: Burnout, Fadiga, Stress, Transtornos Mentais), Medidas de Controle Existentes (ex.: Pesquisa de Clima). Matriz: <strong>Fator de Risco | Fonte Geradora do Risco | Gravidade | Probabilidade | Matriz de Risco</strong> (Crítico/Alto/Médio/Baixo, com cor). Exemplos de fonte geradora: Assédio ← relações abusivas/comunicação violenta (Alta/Alta=Crítico); Carga excessiva ← metas irrealistas/jornadas prolongadas (Alta/Média=Alto); Clima ← autoritarismo/gestão centralizada; Pressão e metas ← propósitos financeiros desalinhados (Crítico); Conflitos ← falta de treinamento (Baixo).</p>
+<p><strong>Aba "Medidas de Controle" — Plano Anual de Implementação da NR-01:</strong> cronograma (Gantt) que distribui as ações em ~12 meses: DRPS (mês 1) → Inteligência Emocional p/ Líderes → Gestão do Estresse/Burnout → Prevenção ao Assédio → Saúde Mental e Clima → Psicologia Positiva → Equilíbrio Vida-Trabalho → Apoio Psicológico → Avaliação Psicológica em R&amp;S → Avaliação Psicossocial p/ Atividades de Risco → Revisão e Melhoria Contínua. <span class="note">Modelo de roteiro de implantação anual para o cliente.</span></p>
+<p><strong>Aba "Monitoramento do Desempenho":</strong> regra de decisão (aplicável a partir de 5 meses após o DRPS): <strong>Risco Baixo/Moderado → Programas Prevencionistas; Risco Alto/Crítico → Programas Interventivos.</strong> A cada ciclo de programas, <strong>reavaliar o Diagnóstico de Risco (DRPS)</strong>. (Há ainda abas "Escala", "Critérios de Probabilidade", "Gráficos" e "Revisão e Melhoria Contínua" — não capturadas em detalhe.)</p>
+<p><strong>Preventivo × Interventivo (resumo):</strong> <em>Quando</em> — antes do problema × com o problema presente; <em>Foco</em> — promoção de bem-estar × acolhimento ao sofrimento; <em>Ação</em> — educativa/cultural/reflexiva × clínica/emocional/emergencial; <em>Símbolo</em> — "cuidar antes de adoecer" × "socorrer quem já sofre"; <em>Público</em> — todos os colaboradores × grupos específicos. E: a palestra é preventiva, mas sozinha não gera a transformação cultural exigida pela NR-01 — por isso um <strong>programa</strong> (personalizado, prático, com práticas preventivas + interventivas).</p>
+<p><strong>Formato de cada programa:</strong> duração 1 mês · frequência 1×/mês (personalizável) · cada encontro 60–90 min · presencial ou online (roda de conversa, oficina, mini palestra interativa, vivência, dinâmica ou escuta em grupo). <strong>Padrão do programa mensal:</strong> (1) Nome + subtítulo impactante; (2) Objetivo geral; (3) Público-alvo; + a estrutura das práticas. <strong>Cadência:</strong> ou todas as práticas num único dia (1×/mês), ou uma prática por vez (até 4×/mês na empresa).</p>
+<p><strong>Plano de Implementação de cada programa (molde de 4 encontros):</strong> (1) <em>Abertura e Engajamento</em> — gerar conexão/consciência · roda de conversa + dinâmicas leves → participantes abertos; (2) <em>Intervenção 1</em> — explorar causas/dores/alternativas · oficina reflexiva → insights; (3) <em>Intervenção 2 (se houver)</em> — enfrentamento e soluções · técnica psicoeducativa/escuta → compromisso com a mudança; (4) <em>Encerramento</em> — consolidar e projetar ações · fechamento simbólico + mini plano de ação → aplicabilidade na rotina. Colunas do molde: Encontro | Nome | Objetivo Específico | Método | Resultado Esperado.</p>
+<p><strong>Arsenal de ferramentas/estratégias (mesclam preventivo + interventivo):</strong> roda de conversa com perguntas-gatilho · relaxamento/mindfulness · linha do tempo/mapas mentais · psicoeducação (conceitos rápidos, linguagem acessível) · caixas de pergunta anônima · dinâmicas simbólicas/expressivas · materiais visuais/impressos para reflexão. Cada ferramenta é avaliada por <strong>Custo · Benefício · Acessibilidade</strong>.</p>
+<p><strong>Comunicação e engajamento interno (adesão):</strong> teaser visual 1 semana antes (storytelling/chamada provocativa) · divulgar com apoio de lideranças e RH · criar expectativa com "spoilers" · distribuir frases/cards de impacto no mural/intranet durante o mês · mini brindes simbólicos no encerramento (marcadores, cartões com frases).</p>
+<p><strong>Inscrições e evidência documental (compliance):</strong> defina datas com a empresa; RH/gestão incentiva e realiza as inscrições; use lista no Excel ou Formulário (Forms). <strong>As listas de inscrição/presença são a evidência legal</strong> das ações de promoção/prevenção. Presencial → lista de presença impressa; online → a avaliação do programa serve como evidência de presença.</p>
+<p><strong>Orientações para o implementador/facilitador:</strong> inicie com escuta (10–15 min com RH/líder para entender clima e necessidades do setor) · personalize exemplos com a realidade da empresa · linguagem acessível (evite termos técnicos) · valide emoções e incentive a troca sem forçar a fala · encerre com algo simbólico (frase, objeto, gesto coletivo) · faça follow-up com o RH (breve relato de 1 página com percepções e recomendações).</p>
+<p><strong>Avaliação e feedback do programa:</strong> mini formulário anônimo após o último encontro — "O que mais te impactou? · Que nota dá ao programa? · O que colocaria em prática?". Em empresas abertas ao diálogo, devolutiva ao RH com recomendações de continuidade. (Há um questionário-modelo pronto por programa.)</p>
+<p><strong>Entregável "Frases para cards de impacto"</strong> (mural/intranet, engajamento): ex. "Sentir também é parte do trabalho" · "Produzir não pode custar a sua saúde" · "Cuidar da mente é estratégia, não luxo" · "Antes de ser colaborador, você é humano" · "Não existe alta performance com baixa saúde emocional" · "Respirar fundo já é uma forma de recomeçar" · "O corpo fala o que a boca silencia" · "A pausa não é perda de tempo — é reinício" · "A vulnerabilidade é o que nos conecta" · "Pedir ajuda é um ato de coragem, não de fraqueza" · "Quem escuta com atenção, cuida com intenção".</p>
+<p><strong>Template "Lista de Inscrições e Presença"</strong> (planilha de evidência): cabeçalho Empresa · Programa (dropdown) · Ação; colunas <strong>Nome | Setor | Data | Horário | Local</strong>; duas abas — "Inscrições" e "Lista de Presença (para imprimir)".</p>
+<p><strong>Estrutura da formação (modelo de currículo Academy):</strong> técnica (aulas DPRS/DRPS – o diagnóstico) + comercial (estratégias de posicionamento, aula com advogada/contrato, aula com contador, fluxo de caixa PF/PJ) + demandas contínuas em empresas + portfólio de apresentações + material complementar (Kit do Aluno, Roteiro de Apresentação, apresentações em 4 cores). Plataforma de membros estilo Netflix com cada programa como módulo liberável.</p>
+<p><strong>Instrumento de coleta — DRPS em Google Forms ("Inventário de Diagnóstico de Risco Psicossocial"):</strong> 11 seções (uma por tópico psicossocial). <strong>Escala 0–4:</strong> 0=Nunca · 1=Raramente · 2=Ocasionalmente · 3=Frequentemente · 4=Sempre. Cada seção avalia severidade/gravidade e probabilidade do risco. Ex. de perguntas (Assédio): "Já presenciou/sofreu comentários ofensivos, piadas ou insinuações inadequadas?"; "Sente-se à vontade para relatar assédio moral/sexual sem medo de represálias?"; "Existe canal seguro e sigiloso para denunciar?"; "Recebeu tratamento desrespeitoso?"; "Há favoritismo ou perseguição?"; "A empresa realiza treinamentos/campanhas de conscientização sobre assédio?"; "RH e gestores demonstram comprometimento real com a prevenção?". São ~10 perguntas por tópico; a aba "Respostas" gera gráficos com a % de cada nota (0–4). Abre com boas-vindas (explica que mede riscos psicossociais ligados ao adoecimento — referência ao MTE; 9 tópicos; apelo à sinceridade; vídeo de introdução). O formulário começa com identificação (cargo/função + setor, múltipla escolha) e depois as seções por tópico. As respostas alimentam a planilha (Resumo por Tópico → Matriz de Risco).</p>
+<div class="box ok"><span class="tag">Como o método funciona por dentro (aba Explicação do dashboard)</span>
+<ul>
+<li><strong>Gravidade = quantitativa</strong> (vem do Forms). <strong>Probabilidade = qualitativa</strong>: o psicólogo define por setor (1 Baixa / 2 Média / 3 Alta) via entrevista e observação, avaliando frequência, histórico de risco e recursos.</li>
+<li><strong>Lógica direta:</strong> quanto maior a resposta, maior o risco ("Você sofre pressão excessiva?"). <strong>Lógica invertida:</strong> quanto maior, menor o risco ("Você sente apoio da liderança?"). O sistema gera a <strong>Pontuação Corrigida</strong> conforme a lógica.</li>
+<li><strong>Gravidade:</strong> Alta (≥3) · Média (≤2) · Baixa (≤1). Conversão p/ número: Alta=3, Média=2, Baixa=1.</li>
+<li><strong>Resumo por Tópico:</strong> média da gravidade de cada bloco de 10 perguntas por tema (= fator de risco psicossocial).</li>
+<li><strong>Análise e Avaliação:</strong> cruza Gravidade × Probabilidade conforme a matriz da NR-01 → classifica o risco do tópico e do setor em baixo/médio/alto/crítico (ajustável pelo psicólogo). A Matriz de Risco é gerada automaticamente por fórmula ÍNDICE/CORRESP (cruzamento Gravidade × Probabilidade numa tabela de referência).</li>
+<li><strong>Matriz de Risco NR-01 (3×3, exata) — Probabilidade × Gravidade (Baixa=1, Média=2, Alta=3):</strong> Baixa×Baixa=Baixo · Baixa×Média=Baixo · Baixa×Alta=Médio · Média×Baixa=Baixo · Média×Média=Médio · Média×Alta=Alto · Alta×Baixa=Médio · Alta×Média=Alto · Alta×Alta=Crítico.</li>
+<li><strong>Fatores de risco (lista ampliada, +de 9):</strong> Assédio · Carga Excessiva · Falta de Reconhecimento · Clima Organizacional · Falta de Autonomia · Pressão e Metas Irrealistas · Insegurança e Ameaças · Conflitos Interpessoais · Alinhamento Vida-Trabalho · <strong>Trabalho em condições de difícil comunicação</strong> · <strong>Trabalho Remoto Isolado</strong> · <strong>Subcarga no trabalho</strong> · <strong>Catástrofes/eventos de grande impacto</strong> · Relações interpessoais impactadas pelo ambiente. Cada um traz a <strong>Fonte Geradora do Risco</strong>.</li>
+<li><strong>Fluxo completo do serviço NR-1:</strong> aplicar o DRPS (coleta no Forms) → colar no Dashboard → <strong>diagnóstico por área/setor com risco e prioridade</strong> → <strong>entregar o Laudo</strong> (com responsável técnico + CRP, por setor, em PDF) → apresentação ao cliente → <strong>entrega dos programas contínuos</strong> (Plano Anual = 1 DRPS + 12 programas distribuídos nos 12 meses, preventivos/interventivos) → reavaliação do DRPS a cada ciclo.</li>
+<li><strong>Filtro por setor:</strong> ao selecionar um setor, todas as abas regeneram com os dados daquele setor; desmarcar mostra os dados gerais da empresa. Resumo por Tópico = Média Gravidade (decimal do Forms) + Média Probabilidade (1/2/3 do psicólogo) + Classificação de cada.</li>
+<li><strong>Abas do arquivo:</strong> Explicação · Critérios de Probabilidade · Dados do Forms · Gráficos (matriz por setor, gravidade por setor, gravidade geral) · Escala · Resumo por Tópico · Análise e Avaliação · Monitoramento · Revisão.</li>
+<li><strong>Responsável técnico:</strong> nome completo + CRP; preencher dados da empresa/setor; salvar o quadro por setor em PDF/imagem (ex.: "DRPS – [setor]").</li>
+<li><strong>Estrutura do Laudo/Relatório DRPS:</strong> Capa (Empresa, Nome, Mês/Ano, Psicólogo Elaborador + CRP) → 1. Introdução (contexto NR-01, prevenção, absenteísmo/rotatividade) → 2. Objetivo (identificar/classificar riscos nos 9 tópicos; sugerir ações corretivas e preventivas; adaptado por empresa/setor/cultura) → 3. Metodologia (coleta via Forms anônimo/confidencial, escalas validadas, análise, classificação de gravidade e probabilidade, recomendações) → 4. Análises e Resultados (por setor — espaço em branco para o psicólogo inserir os dados e a análise específica da empresa) → Matriz de Risco por setor → Medidas de Controle/Plano anual.</li>
+</ul></div>
+</div>
+
+<div class="box warn"><span class="tag">Privacidade — itens pessoais NÃO incluídos no projeto</span><p>As pastas <strong>"Mei"</strong> (CCMEI, dossiê de empréstimo, extrato bancário) e <strong>"Raros irmã bia"</strong> (planilha de finanças pessoais/familiares, contratos) contêm <strong>dados pessoais e financeiros sensíveis</strong>. Registrei apenas que existem; <strong>não copiei os valores</strong> para este documento. Mantenha-os separados do material do projeto.</p></div>
+
+<!-- 14 FICHA TÉCNICA -->
+<div class="sec"><div class="k">Parte 14</div><h2>Sistema de Fichas Técnicas (BAR21) + ferramenta Artblend</h2><div class="m">Estrutura capturada do .xlsm do BAR21 (convertido em Google Sheets) e a ferramenta interativa criada.</div></div>
+<h3>14.1 Estrutura do sistema de fichas (BAR21 Jenipabu)</h3>
+<p>Arquivo <em>fichas_bar21-3</em> (Erika Consultoria Gastronômica). Fluxo: <strong>INÍCIO</strong> (capa/menu navegável com logo) → <strong>CADASTRO – INSUMOS</strong> (preços-base) → <strong>INSUMOS E BASES</strong> → <strong>FICHAS BASES</strong> (sub-receitas/preparos) → uma aba por categoria do cardápio: <strong>ENTRADINHAS · PETISCOS · PRATOS 1/2/4 PESSOAS · SOBREMESAS</strong>.</p>
+<p><strong>Colunas da ficha:</strong> Insumos e Bases · Especificações · Peso Líquido · Und de Medida · Gramatura Bruta · Custo Kg/Produção · <strong>Fator de Perda</strong> · KG/UND · <strong>Preço Total</strong>. Calcula o custo/CMV de cada prato a partir do fator de perda e dos preços-base; as fichas bases viram insumo das fichas finais (encadeamento). Ex.: Sobremesa "Petit Cocada" = Cocada Mole 100g + Calda de Maracujá 40g + Sorvete de Creme 90g + Alecrim.</p>
+<h3>14.2 Ferramenta Artblend Ficha Técnica + CMV (criada)</h3>
+<p>Arquivo <strong>ARTBLEND_FICHA_TECNICA.html</strong> — app interativo: cadastro de insumos (preço + fator de correção → custo corrigido automático), montagem de fichas por categoria, e cálculo automático de <strong>CMV, custo por porção, CMV%, preço de venda sugerido (pelo CMV alvo) e margem</strong>; aba Resultado mostra fichas em prejuízo / acima do alvo. Exporta/importa JSON. Pronto para receber dezenas de fichas. <span class="note">Próximo passo: importar as ~50 fichas adicionais do usuário.</span></p>
+
+<div class="divider"></div>
+<p class="note" style="text-align:center;">Sistema Global Artblend · Documento Mestre v1 · © Artblend Consultoria Gourmet — Junho 2026. Construído por Fagner Augusto com apoio de IA. Fontes públicas citadas nos documentos de origem.</p>
+</div>
+</body>
+</html>

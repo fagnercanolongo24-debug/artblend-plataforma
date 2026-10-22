@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formação ArtBlend — Fundamentos de Gestão</title>
+<style>
+:root{
+  --ink:#16294A; --muted:#6E7A8C; --line:#E2E6ED; --paper:#FFFFFF; --paper-warm:#F5F7FA;
+  --primary:#2EC4D6; --primary-d:#1C93A8; --primary-soft:#E4F8FB;
+  --accent:#2ECC71; --accent-soft:#E3FBEF;
+  --a:#1C93A8; --a-bg:#E4F8FB; --b:#16294A; --b-bg:#E9ECF3;
+}
+*{box-sizing:border-box;}
+body{
+  font-family:"Segoe UI",-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  color:var(--ink);
+  background:var(--paper-warm);
+  margin:0;
+  line-height:1.65;
+}
+.wrap{max-width:900px;margin:0 auto;padding:0 24px 80px;}
+
+/* CAPA */
+.cover{
+  background:linear-gradient(135deg,var(--ink) 0%, var(--primary-d) 55%, var(--primary) 100%);
+  color:#fff;
+  padding:72px 48px 56px;
+  border-radius:0 0 28px 28px;
+  margin-bottom:48px;
+}
+.cover .eyebrow{
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  font-size:12.5px;
+  font-weight:600;
+  color:#CFE8E3;
+  margin-bottom:18px;
+}
+.cover h1{
+  font-size:40px;
+  line-height:1.15;
+  margin:0 0 14px;
+  font-weight:700;
+  letter-spacing:-0.01em;
+}
+.cover .subtitle{
+  font-size:18px;
+  color:#E7F3F0;
+  max-width:640px;
+  margin:0 0 28px;
+  font-weight:400;
+}
+.cover .meta{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  font-size:13.5px;
+  color:#CFE8E3;
+  border-top:1px solid rgba(255,255,255,.25);
+  padding-top:18px;
+  margin-top:8px;
+  flex-wrap:wrap;
+}
+.cover .meta .dot{width:4px;height:4px;border-radius:50%;background:#CFE8E3;}
+.cover .badge{
+  display:inline-block;
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.3);
+  padding:4px 12px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:600;
+  margin-right:8px;
+}
+
+/* SUMÁRIO */
+.toc{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:28px 32px;
+  margin-bottom:48px;
+}
+.toc h2{
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:var(--muted);
+  margin:0 0 16px;
+  font-weight:700;
+}
+.toc ol{margin:0;padding-left:20px;columns:1;}
+.toc li{margin-bottom:8px;font-size:15px;}
+.toc a{color:var(--primary-d);text-decoration:none;font-weight:600;}
+.toc a:hover{text-decoration:underline;}
+.toc .sub{color:var(--muted);font-weight:400;font-size:13.5px;}
+
+/* MÓDULOS */
+.module{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:40px 44px;
+  margin-bottom:32px;
+}
+.module-header{
+  display:flex;
+  align-items:flex-start;
+  gap:16px;
+  margin-bottom:24px;
+  padding-bottom:20px;
+  border-bottom:2px solid var(--primary-soft);
+}
+.module-num{
+  background:var(--primary);
+  color:#fff;
+  width:46px;height:46px;
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;
+  font-size:20px;
+  flex-shrink:0;
+}
+.module-header h2{
+  margin:0;
+  font-size:24px;
+  color:var(--primary-d);
+  font-weight:700;
+  line-height:1.3;
+}
+.module-header .tag{
+  display:block;
+  font-size:12.5px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--accent);
+  font-weight:700;
+  margin-top:4px;
+}
+.module h3{
+  font-size:17px;
+  color:var(--ink);
+  margin:28px 0 10px;
+  font-weight:700;
+}
+.module h3:first-of-type{margin-top:8px;}
+.module h4{
+  font-size:14.5px;
+  color:var(--primary-d);
+  margin:18px 0 8px;
+  font-weight:700;
+}
+.module p{margin:0 0 14px;font-size:15.5px;color:var(--ink);}
+.module ul, .module ol{margin:0 0 16px;padding-left:22px;}
+.module li{margin-bottom:6px;font-size:15.5px;}
+.callout{
+  background:var(--a-bg);
+  border-left:4px solid var(--a);
+  padding:16px 20px;
+  border-radius:8px;
+  margin:18px 0;
+  font-size:15px;
+}
+.callout.accent{
+  background:var(--accent-soft);
+  border-left-color:var(--accent);
+}
+.callout.blue{
+  background:var(--b-bg);
+  border-left-color:var(--b);
+}
+.callout strong{display:block;margin-bottom:4px;color:var(--primary-d);}
+.callout.accent strong{color:#1C9A57;}
+.callout.blue strong{color:var(--b);}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin:16px 0 24px;
+  font-size:14.5px;
+}
+th{
+  background:var(--primary-soft);
+  color:var(--primary-d);
+  text-align:left;
+  padding:10px 14px;
+  font-weight:700;
+  border-bottom:2px solid var(--primary);
+}
+td{
+  padding:10px 14px;
+  border-bottom:1px solid var(--line);
+}
+tr:last-child td{border-bottom:none;}
+td.num, th.num{text-align:right;}
+tr.total-row td{background:var(--primary-soft); font-weight:700; color:var(--primary-d);}
+tr.neg-row td.num{color:#B3411F;}
+tr.pos-row td.num{color:#3C7A2A;}
+
+.pyramid{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin:18px 0 24px;
+}
+.pyramid .row{
+  background:var(--primary-soft);
+  border:1px solid var(--primary);
+  border-radius:8px;
+  padding:10px 16px;
+  font-size:14.5px;
+  color:var(--primary-d);
+  font-weight:600;
+}
+
+.six-p-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin:18px 0 24px;
+}
+.six-p-card{
+  background:var(--paper-warm);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:14px 16px;
+}
+.six-p-card .p-name{
+  font-weight:700;
+  color:var(--accent);
+  font-size:14.5px;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+  margin-bottom:4px;
+}
+.six-p-card p{font-size:14px;margin:0;color:var(--muted);}
+
+.quote{
+  font-style:italic;
+  color:var(--muted);
+  border-left:3px solid var(--line);
+  padding-left:16px;
+  margin:16px 0;
+  font-size:15px;
+}
+
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 20px;}
+.chip{
+  background:var(--b-bg);
+  color:var(--b);
+  padding:5px 12px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:600;
+}
+
+.step-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin:16px 0 22px;
+}
+.step-list .step{
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  background:var(--paper-warm);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:14px 16px;
+}
+.step-list .step .sn{
+  flex-shrink:0;
+  background:var(--primary);
+  color:#fff;
+  width:26px;height:26px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12.5px;
+  font-weight:700;
+}
+.step-list .step .st{font-size:14.5px;}
+.step-list .step .st strong{color:var(--primary-d);}
+
+.check-list{margin:14px 0 22px; padding:0; list-style:none;}
+.check-list li{
+  position:relative;
+  padding:8px 8px 8px 30px;
+  font-size:14.5px;
+  border-bottom:1px dashed var(--line);
+}
+.check-list li:last-child{border-bottom:none;}
+.check-list li::before{
+  content:"✓";
+  position:absolute;
+  left:4px;
+  top:8px;
+  color:var(--primary);
+  font-weight:700;
+}
+
+/* RODAPÉ FINAL */
+.source-block{
+  background:var(--primary-d);
+  color:#fff;
+  border-radius:16px;
+  padding:28px 36px;
+  margin-top:40px;
+  font-size:14.5px;
+  text-align:center;
+}
+.source-block strong{display:block;font-size:15.5px;margin-bottom:6px;}
+
+@media (max-width:640px){
+  .cover{padding:48px 24px 36px;border-radius:0 0 20px 20px;}
+  .cover h1{font-size:28px;}
+  .module{padding:28px 22px;}
+  .six-p-grid{grid-template-columns:1fr;}
+  table{font-size:13px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="cover">
+    <div class="eyebrow">Metodologia ArtBlend · Material de Estudo do Consultor</div>
+    <h1>Fundamentos de Gestão para Restaurantes</h1>
+    <p class="subtitle">Do conceito ao ponto de equilíbrio: como nascem os restaurantes, a matemática do negócio, a precificação, a gestão de pessoas e o domínio completo do dashboard de indicadores — com exercícios numéricos guiados em cada módulo.</p>
+    <div class="meta">
+      <span class="badge">Curso Artblend</span>
+      <span class="badge">Metodologia Própria</span>
+      <span class="badge">8 Módulos</span>
+      <span>Artblend Consultoria Gourmet</span>
+      <span class="dot"></span>
+      <span>2026</span>
+    </div>
+  </div>
+
+  <div class="toc">
+    <h2>Sumário do curso</h2>
+    <ol>
+      <li><a href="#m1">Módulo 1 — Como nascem os conceitos e as oportunidades</a> <span class="sub">— os 6 Ps, a base do conhecimento, as forças de mercado e a modelagem de negócios</span></li>
+      <li><a href="#m2">Módulo 2 — Primeiros passos para se tornar um Restaurateur</a> <span class="sub">— matemática básica, ficha técnica, CMV, precificação, engenharia de cardápio e mix de vendas</span></li>
+      <li><a href="#m3">Módulo 3 — Retenção de talentos e liderança</a> <span class="sub">— o custo real do turnover, a Pirâmide Artblend de Retenção, feedback estruturado e ciclo de vida do colaborador</span></li>
+      <li><a href="#m4">Módulo 4 — Planejamento financeiro: a estrutura do dashboard de indicadores</a> <span class="sub">— orçado x realizado, CMV, prime cost, margem de contribuição e ponto de equilíbrio</span></li>
+      <li><a href="#m5">Módulo 5 — Dashboard na prática: ponto de equilíbrio passo a passo</a> <span class="sub">— exercício guiado completo, com todas as contas calculadas de ponta a ponta</span></li>
+      <li><a href="#m6">Módulo 6 — Marketing e Vendas para Restaurantes</a> <span class="sub">— posicionamento, conteúdo e redes sociais, fidelização, venda sugestiva, CAC/LTV e delivery x salão</span></li>
+      <li><a href="#m7">Módulo 7 — Compras e Fornecedores: Negociação, Homologação e Curva ABC</a> <span class="sub">— seleção e homologação de fornecedor, negociação, contratos, curva ABC e redução de dependência única</span></li>
+      <li><a href="#m8">Módulo 8 — Legislação e Processos Legais de Abertura</a> <span class="sub">— CNPJ, alvarás, AVCB, licença ambiental, formalização trabalhista e documentação de segurança de alimentos</span></li>
+    </ol>
+  </div>
+
+  <!-- MÓDULO 1 -->
+  <div class="module" id="m1">
+    <div class="module-header">
+      <div class="module-num">1</div>
+      <div>
+        <h2>Como nascem os conceitos e as oportunidades</h2>
+        <span class="tag">Tema da aula #1</span>
+      </div>
+    </div>
+
+    <p>Todo restaurante nasce de uma combinação entre conhecimento acumulado e leitura do mercado. Antes de pensar em cardápio, ponto ou decoração, o Restaurateur precisa entender de onde vêm os conceitos que sustentam um negócio de sucesso e como transformar uma ideia em oportunidade real.</p>
+
+    <h3>Qual é a base do conhecimento?</h3>
+    <p>A metodologia Artblend apresenta três camadas que formam a base de qualquer profissional de gastronomia:</p>
+    <div class="pyramid">
+      <div class="row">TÉCNICA — aprender a "língua" do setor: os procederes, os processos, a habilidade prática do fazer.</div>
+      <div class="row">REFERÊNCIA — entender a relação entre as coisas, conhecer e aplicar parâmetros, desenvolver capacidade analítica.</div>
+      <div class="row">REPERTÓRIO — o conjunto de referências, habilidades e competências adquirido através da experiência prática do dia a dia.</div>
+    </div>
+    <p>Técnica, referência e repertório se combinam para formar o <strong>conhecimento</strong> do Restaurateur — e é esse conhecimento que permite enxergar oportunidades onde outros só veem dificuldades. Um consultor Artblend deve, na prática, treinar essas três camadas simultaneamente: não adianta dominar a técnica sem repertório de mercado, nem ter repertório sem referência analítica para transformar observação em diagnóstico.</p>
+
+    <h3>Modelagem de negócios da gastronomia</h3>
+    <p>Todo modelo de negócio gastronômico pode ser lido em duas dimensões que se cruzam:</p>
+    <ul>
+      <li><strong>Síncrono</strong> — o momento do consumo acontece em tempo real (salão, atendimento ao vivo).</li>
+      <li><strong>Assíncrono</strong> — o consumo pode ser desacoplado do momento da produção (delivery, apps, marketplaces).</li>
+    </ul>
+    <p>Sobre essas duas camadas se apoiam os elementos centrais do modelo: <strong>Produto</strong> (o que vende), <strong>Função</strong> (para que serve), <strong>Formato</strong> (o meio, como é entregue) e <strong>Serviço</strong> (como entrega). Juntos, eles determinam o posicionamento — ou seja, o preço e o ambiente que o negócio vai ocupar na cabeça do cliente.</p>
+
+    <h3>Produto: o que vende</h3>
+    <p>O produto de um restaurante se define por sua <strong>tipologia</strong> — que pode ser temática, clássica, étnica ou de especialidades. Mapeamos dezenas de formatos possíveis: bistrô, osteria, pizzaria, brasserie, churrascaria, cervejaria, izakaya, wine bar, hamburgueria, boteco, cantina, café, sorveteria, cachaçaria, entre muitos outros. A mensagem central: existe um universo amplo de tipologias, e escolher a certa é o primeiro passo da modelagem do conceito.</p>
+    <table>
+      <thead><tr><th>Eixo da tipologia</th><th>O que define</th><th>Exemplos de aplicação</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Temática</strong></td><td>Um universo narrativo específico organiza cardápio, ambiente e comunicação.</td><td>Restaurante de vinhos, casa temática regional, conceito autoral.</td></tr>
+        <tr><td><strong>Clássica</strong></td><td>Repertório consolidado, sem grande ruptura de formato.</td><td>Cantina, boteco tradicional, café de bairro.</td></tr>
+        <tr><td><strong>Étnica</strong></td><td>A cozinha de uma cultura/país é o eixo central do conceito.</td><td>Izakaya, cantina italiana, casa árabe.</td></tr>
+        <tr><td><strong>De especialidade</strong></td><td>Um produto ou técnica específica vira a razão de existir da casa.</td><td>Hamburgueria, pizzaria, cachaçaria, sorveteria.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Função: para que existe o restaurante</h3>
+    <p>Todo negócio gastronômico atende a uma função na vida do cliente — que pode ser:</p>
+    <div class="chip-row">
+      <span class="chip">Subsistência</span>
+      <span class="chip">Entretenimento</span>
+      <span class="chip">Hedonismo</span>
+      <span class="chip">Distinção</span>
+      <span class="chip">Propósito</span>
+    </div>
+    <p>Essas funções são as <strong>alavancas</strong> que conectam o produto à necessidade do público — e é a partir delas que se define o posicionamento de marketing. Um mesmo prato pode ser vendido como subsistência (refeição rápida e prática) ou como distinção (experiência gastronômica de ocasião) dependendo de como praça, preço, processos e promoção são desenhados ao redor dele — por isso a função nunca deve ser definida isoladamente do restante dos 6 Ps.</p>
+
+    <h3>Formato: o meio de entrega</h3>
+    <p>O "meio" (formato físico ou digital) também molda o modelo de negócio. Entre os exemplos citados: food bike, food truck, kombini, mini mercados, pop-up, quiosque, cloud kitchen, dark kitchen, metaverso, restaurantes de empresa, de estrada, de rua, de shopping, de supermercado, dentro de loja, "secreto", sem paredes, e marketplace/app.</p>
+
+    <h3>Serviço: como entrega</h3>
+    <p>Por fim, o serviço define a experiência de consumo: à la carte, banquete (festival/sequência), delivery, drive-thru, esteira, fast food, menu confiança, menu fechado, a quilo, rodízio, self-service, buffet, serviço completo ou auto atendimento.</p>
+
+    <h3>Como tudo se amarra: os 6 Ps do restaurante</h3>
+    <p>A síntese de todo o conceito é organizada no framework dos <strong>6 Ps do Restaurante</strong>, que cobre praça, preço, processos, público, produto e promoção:</p>
+    <div class="six-p-grid">
+      <div class="six-p-card">
+        <div class="p-name">Praça</div>
+        <p>Onde está: espaço físico, capacidade, estrutura e proximidade do público.</p>
+      </div>
+      <div class="six-p-card">
+        <div class="p-name">Preço</div>
+        <p>Preço de venda, posicionamento de mercado, estrutura de custos e lucro.</p>
+      </div>
+      <div class="six-p-card">
+        <div class="p-name">Processos</div>
+        <p>Controles, produção, técnicas, diferenciais, ESG, procederes e compliance.</p>
+      </div>
+      <div class="six-p-card">
+        <div class="p-name">Público</div>
+        <p>Cliente ideal, personas, público-alvo, segmentação e estratégia de marketing.</p>
+      </div>
+      <div class="six-p-card">
+        <div class="p-name">Produto</div>
+        <p>O que é, qual a diferenciação, qual a qualidade, o valor entregue e o problema que resolve.</p>
+      </div>
+      <div class="six-p-card">
+        <div class="p-name">Promoção</div>
+        <p>Marketing, storytelling, tom de voz e a "pegada" da marca.</p>
+      </div>
+    </div>
+    <p class="callout"><strong>Ideia-chave do módulo</strong>Um conceito de restaurante só está pronto quando os 6 Ps estão amarrados entre si: praça, preço, processos, público, produto e promoção precisam contar a mesma história.</p>
+
+    <h3>As quatro forças que empurram o mercado</h3>
+    <p>Nenhum conceito nasce no vácuo. Toda oportunidade — e todo risco — de um novo restaurante está ligado a uma combinação de quatro forças de mercado. Reconhecer em qual delas o conceito se apoia ajuda o consultor a prever o ciclo de vida do negócio e a ajustar expectativas com o cliente:</p>
+    <table>
+      <thead><tr><th>Força</th><th>O que representa</th><th>Risco típico</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Inovação</strong></td><td>Um formato, produto ou tecnologia genuinamente nova no mercado local.</td><td>Educar o público consome tempo e capital de marketing; ciclo de maturação mais longo.</td></tr>
+        <tr><td><strong>Tendência</strong></td><td>Um movimento de consumo em ascensão, ainda não saturado.</td><td>Janela de oportunidade estreita — quem chega tarde compete em preço.</td></tr>
+        <tr><td><strong>Moda</strong></td><td>Um pico de demanda de curta duração, fortemente ligado a redes sociais.</td><td>Alto risco de queda abrupta de faturamento após o pico; exige caixa para o "vale".</td></tr>
+        <tr><td><strong>Necessidade</strong></td><td>Uma demanda estrutural e recorrente da praça (ex: almoço executivo em região comercial).</td><td>Menor risco de oscilação, porém maior pressão competitiva de preço.</td></tr>
+      </tbody>
+    </table>
+    <p class="callout blue"><strong>Aplicação prática</strong>Ao avaliar um novo conceito com o cliente, pergunte: "se essa força de mercado enfraquecer em 18 meses, o que sustenta o negócio?". Conceitos apoiados exclusivamente em moda precisam de um plano de transição para necessidade ou tendência — caso contrário, o crescimento inicial mascara um problema estrutural de sustentação.</p>
+
+    <h3>Roteiro de 5 perguntas para modelar um conceito novo</h3>
+    <div class="step-list">
+      <div class="step"><span class="sn">1</span><span class="st"><strong>Qual é o produto e por que ele é relevante agora?</strong> Defina tipologia e diferenciação central.</span></div>
+      <div class="step"><span class="sn">2</span><span class="st"><strong>Qual função da vida do cliente esse produto resolve?</strong> Subsistência, entretenimento, hedonismo, distinção ou propósito — escolha a alavanca principal.</span></div>
+      <div class="step"><span class="sn">3</span><span class="st"><strong>Qual formato entrega esse produto com menor custo fixo possível?</strong> Avalie se o modelo precisa mesmo de salão completo ou se um formato híbrido/assíncrono reduz risco.</span></div>
+      <div class="step"><span class="sn">4</span><span class="st"><strong>Qual serviço traduz a experiência prometida?</strong> O serviço escolhido precisa ser coerente com o ticket médio pretendido.</span></div>
+      <div class="step"><span class="sn">5</span><span class="st"><strong>Os 6 Ps contam a mesma história?</strong> Releia praça, preço, processos, público, produto e promoção lado a lado e marque qualquer contradição entre eles.</span></div>
+    </div>
+
+    <h3>Mini-caso guiado: aplicando o funil na prática</h3>
+    <p>Imagine um consultor avaliando um novo ponto de 40m² em uma região comercial de alto fluxo no horário de almoço e praticamente vazia à noite. Aplicando o funil:</p>
+    <ul>
+      <li><strong>Produto:</strong> cozinha rápida de especialidade (marmita/bowl saudável), tipologia de especialidade.</li>
+      <li><strong>Função:</strong> subsistência com um verniz de distinção (comer bem e rápido, sem abrir mão de qualidade).</li>
+      <li><strong>Formato:</strong> quiosque compacto + operação assíncrona forte via delivery/apps para cobrir o horário noturno ocioso.</li>
+      <li><strong>Serviço:</strong> self-service ou menu fechado no almoço; delivery/esteira à noite.</li>
+    </ul>
+    <p>Note como o formato (quiosque + assíncrono) nasce diretamente de uma limitação física (40m², fluxo concentrado) — esse é o tipo de leitura cruzada que o funil Produto → Função → Formato → Serviço obriga o consultor a fazer antes de validar qualquer conceito com o cliente.</p>
+
+    <h3>Checklist de modelagem de conceito</h3>
+    <ul class="check-list">
+      <li>A tipologia do produto está claramente definida (temática, clássica, étnica ou de especialidade)?</li>
+      <li>A função dominante (subsistência, entretenimento, hedonismo, distinção, propósito) foi escolhida conscientemente?</li>
+      <li>O formato é compatível com a estrutura física e o orçamento de investimento disponível?</li>
+      <li>O serviço escolhido é coerente com o ticket médio pretendido?</li>
+      <li>O conceito se apoia predominantemente em inovação, tendência, moda ou necessidade — e essa escolha foi discutida com o cliente?</li>
+      <li>Os 6 Ps foram revisados em conjunto, sem contradição entre eles?</li>
+      <li>Existe uma pesquisa preliminar de mercado e posicionamento frente à concorrência direta?</li>
+    </ul>
+  </div>
+
+  <!-- MÓDULO 2 -->
+  <div class="module" id="m2">
+    <div class="module-header">
+      <div class="module-num">2</div>
+      <div>
+        <h2>Primeiros passos para se tornar um Restaurateur</h2>
+        <span class="tag">Tema da aula #2</span>
+      </div>
+    </div>
+
+    <p>Depois de entender de onde vêm os conceitos, o segundo módulo desce para o operacional: o que efetivamente diferencia quem só administra um restaurante de quem o gerencia como Restaurateur — profissional que combina visão de produto, marca e conceito com controle rígido de processos e custos.</p>
+
+    <h3>A importância do Restaurateur</h3>
+    <p>O papel do Restaurateur se apoia em três pilares que precisam funcionar de forma integrada:</p>
+    <ul>
+      <li><strong>Produto / marca / conceito</strong> — a essência do negócio.</li>
+      <li><strong>Processos / custos</strong> — a engenharia que sustenta a operação.</li>
+      <li><strong>Pessoas / operação</strong> — quem executa e entrega a experiência.</li>
+    </ul>
+    <p>O Restaurateur é o gestor que conecta essas três frentes — sem isso, o negócio vira "apenas" um restaurante, sem direção estratégica.</p>
+
+    <h3>Habilidades e competências</h3>
+    <p>A metodologia Artblend diferencia dois conceitos frequentemente confundidos:</p>
+    <div class="callout blue">
+      <strong>Habilidades</strong>
+      São qualidades que o profissional já tem para realizar determinada atividade — a matéria-prima para desenvolver competências.
+    </div>
+    <div class="callout blue">
+      <strong>Competências</strong>
+      São o conjunto de habilidades e conhecimentos relacionados, desenvolvidos por meio de treinamento e experiência acumulada.
+    </div>
+
+    <p>Organizamos as competências do Restaurateur de sucesso em três categorias:</p>
+    <table>
+      <thead><tr><th>Categoria</th><th>O que envolve</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Habilidades humanas</strong></td><td>Observar, ouvir, dialogar, estimular, facilitar, coordenar, liderar, comunicar e resolver problemas com a equipe para alcançar os melhores resultados.</td></tr>
+        <tr><td><strong>Habilidades técnicas</strong></td><td>Capacitar a equipe para realizar tarefas desde as mais operacionais até as mais elaboradas, com padronização e coerência.</td></tr>
+        <tr><td><strong>Habilidades conceituais</strong></td><td>Identificar potenciais oportunidades e ameaças, encontrando os melhores caminhos estratégicos para o negócio.</td></tr>
+      </tbody>
+    </table>
+
+    <p>Entre as habilidades mais citadas como decisivas para o sucesso do negócio estão: <strong>equilibrar custo baixo sem comprometer a experiência</strong> do cliente e <strong>saber precificar a experiência</strong> (não apenas o prato).</p>
+
+    <h3>Nesse ramo, ganhar dinheiro é economizar dinheiro</h3>
+    <p>Essa é uma das frases-chave do módulo. A metodologia Artblend propõe três perguntas de checagem constante para qualquer operação:</p>
+    <ol>
+      <li>Tudo é pesado no recebimento?</li>
+      <li>O prato foi feito respeitando a ficha técnica?</li>
+      <li>O consumo de insumos é coerente com a venda realizada?</li>
+    </ol>
+    <p>Essas três perguntas resumem o controle básico de CMV (Custo de Mercadoria Vendida): pesagem no recebimento, padronização via ficha técnica e reconciliação entre consumo de insumos e vendas realizadas.</p>
+
+    <h3>Matemática básica do restaurante</h3>
+    <p>Apresentamos uma distribuição de referência de como o faturamento de um restaurante deve se dividir entre custos, despesas e lucro:</p>
+    <table>
+      <thead><tr><th>Item</th><th class="num">% sobre o faturamento</th></tr></thead>
+      <tbody>
+        <tr><td>CMV (Custo de Mercadoria Vendida)</td><td class="num">30%</td></tr>
+        <tr><td>CMO (Custo de Mão de Obra / Produção)</td><td class="num">20%</td></tr>
+        <tr><td>Aluguel</td><td class="num">10%</td></tr>
+        <tr><td>ADM (Despesas Administrativas)</td><td class="num">10%</td></tr>
+        <tr><td>IPTU</td><td class="num">6%</td></tr>
+        <tr><td>Impostos</td><td class="num">5%</td></tr>
+        <tr><td><strong>Lucro</strong></td><td class="num"><strong>10% a 20%</strong></td></tr>
+      </tbody>
+    </table>
+    <p class="callout accent"><strong>Por que essa referência importa</strong>Essa é a "matemática básica" que todo Restaurateur precisa ter na cabeça antes de abrir a casa: se CMV, CMO, aluguel, ADM, IPTU e impostos já somam entre 80% e 90% do faturamento, a margem de manobra para o lucro fica entre 10% e 20% — e qualquer descontrole em uma dessas linhas compromete diretamente o resultado final.</p>
+
+    <h3>Ficha técnica: o documento que sustenta o CMV</h3>
+    <p>Nenhum controle de custo sobrevive sem uma ficha técnica bem construída para cada item do cardápio. A ficha técnica lista, por prato, cada ingrediente, sua quantidade padronizada, o custo unitário e o custo total — e é a partir dela que se calcula o CMV teórico de cada item e se define o preço de venda.</p>
+    <table>
+      <thead><tr><th>Ingrediente</th><th class="num">Qtd. padrão</th><th class="num">Custo unitário</th><th class="num">Custo no prato</th></tr></thead>
+      <tbody>
+        <tr><td>Proteína principal</td><td class="num">180 g</td><td class="num">R$ 42,00 / kg</td><td class="num">R$ 7,56</td></tr>
+        <tr><td>Guarnição / base</td><td class="num">150 g</td><td class="num">R$ 8,00 / kg</td><td class="num">R$ 1,20</td></tr>
+        <tr><td>Molho / tempero</td><td class="num">40 g</td><td class="num">R$ 18,00 / kg</td><td class="num">R$ 0,72</td></tr>
+        <tr><td>Guarnição secundária</td><td class="num">100 g</td><td class="num">R$ 6,50 / kg</td><td class="num">R$ 0,65</td></tr>
+        <tr><td>Embalagem / descartável</td><td class="num">1 un.</td><td class="num">R$ 1,20</td><td class="num">R$ 1,20</td></tr>
+        <tr class="total-row"><td><strong>Custo total do prato</strong></td><td></td><td></td><td class="num"><strong>R$ 11,33</strong></td></tr>
+      </tbody>
+    </table>
+    <p>Com o custo total do prato em mãos (R$ 11,33 no exemplo), o Restaurateur já tem o dado central para aplicar as fórmulas de precificação descritas a seguir e para acompanhar, prato a prato, se o consumo real bate com o padrão da ficha técnica.</p>
+
+    <h3>Como calcular o CMV real do período</h3>
+    <p>Além do CMV teórico (o que a ficha técnica prevê), todo restaurante precisa apurar o <strong>CMV real</strong> — o que de fato foi consumido em estoque no período, independentemente do que as fichas técnicas previam. A fórmula de referência é:</p>
+    <div class="callout blue">
+      <strong>CMV real (%)</strong>
+      (Estoque inicial + Compras do período − Estoque final) ÷ Faturamento do período
+    </div>
+    <p><strong>Exemplo numérico:</strong> um restaurante inicia o mês com R$ 18.000 em estoque, compra R$ 96.000 em insumos ao longo do mês e fecha com R$ 22.000 em estoque. O faturamento de alimentos e bebidas do período foi de R$ 320.000.</p>
+    <table>
+      <thead><tr><th>Componente</th><th class="num">Valor</th></tr></thead>
+      <tbody>
+        <tr><td>Estoque inicial</td><td class="num">R$ 18.000</td></tr>
+        <tr><td>(+) Compras do período</td><td class="num">R$ 96.000</td></tr>
+        <tr><td>(−) Estoque final</td><td class="num">R$ 22.000</td></tr>
+        <tr class="total-row"><td><strong>Consumo real (CMV em R$)</strong></td><td class="num"><strong>R$ 92.000</strong></td></tr>
+        <tr class="total-row"><td><strong>CMV real (%) = 92.000 ÷ 320.000</strong></td><td class="num"><strong>28,75%</strong></td></tr>
+      </tbody>
+    </table>
+    <p>Comparar o CMV real apurado (28,75%) com o CMV teórico das fichas técnicas revela perdas invisíveis: quebra, porcionamento fora do padrão, desperdício, furto ou erro de recebimento. É esse comparativo — teórico x real — que transforma a ficha técnica de documento burocrático em ferramenta viva de gestão.</p>
+
+    <h3>Fórmulas de precificação</h3>
+    <p>A meta de venda precisa ser sempre compatível com o lucro pretendido — não é possível definir preços "no feeling" e esperar que o resultado apareça sozinho. A fórmula de referência para precificar a partir de um CMV-alvo é:</p>
+    <div class="callout blue">
+      <strong>Preço de venda</strong>
+      Custo do prato ÷ CMV-alvo (%)
+    </div>
+    <p><strong>Exemplo numérico:</strong> retomando o prato da ficha técnica acima (custo R$ 11,33), se a meta de CMV para essa categoria é 28%:</p>
+    <table>
+      <thead><tr><th>Cálculo</th><th class="num">Resultado</th></tr></thead>
+      <tbody>
+        <tr><td>Preço de venda = 11,33 ÷ 0,28</td><td class="num">R$ 40,46</td></tr>
+        <tr><td>Preço sugerido ao cardápio (arredondado)</td><td class="num">R$ 42,00</td></tr>
+        <tr><td>CMV real ao preço arredondado = 11,33 ÷ 42,00</td><td class="num">26,98%</td></tr>
+      </tbody>
+    </table>
+    <p>O arredondamento para cima de R$ 40,46 para R$ 42,00 é uma prática comum e saudável: além de facilitar a operação de caixa, cria uma pequena folga de margem (o CMV real cai para 26,98%, abaixo da meta de 28%) que ajuda a absorver oscilações de preço de insumos ao longo do mês.</p>
+
+    <h3>Precificação e mix de vendas</h3>
+    <p>Para além do preço de cada prato individualmente, a metodologia ensina a lógica de margens por categoria:</p>
+    <ul>
+      <li><strong>Margens três vezes maiores que os custos</strong> costumam aparecer em categorias como carnes/peixes, saladas/massas e entradas/sobremesas — dependendo da estrutura de custo de cada casa.</li>
+      <li><strong>Altas margens</strong>: normalmente entradas e sobremesas.</li>
+      <li><strong>Baixas margens</strong>: normalmente proteínas (carnes e peixes nobres).</li>
+    </ul>
+    <p class="callout"><strong>Dica prática</strong>Balancear o mix de vendas entre itens de alta e baixa margem é o que permite manter um ticket médio atrativo para o cliente sem sacrificar a rentabilidade da casa como um todo.</p>
+
+    <h3>Engenharia de cardápio: para além do CMV isolado</h3>
+    <p>Olhar cada prato apenas pelo seu CMV individual é insuficiente — um prato pode ter CMV alto e ainda assim ser altamente lucrativo se vende em grande volume, e um prato de CMV baixo pode ser um problema se ninguém pede. A engenharia de cardápio cruza duas variáveis — <strong>popularidade</strong> (quanto vende) e <strong>rentabilidade</strong> (margem de contribuição em R$ por unidade) — em uma matriz de quatro quadrantes:</p>
+    <table>
+      <thead><tr><th>Quadrante</th><th>Popularidade</th><th>Rentabilidade</th><th>Ação recomendada</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Estrelas</strong></td><td>Alta</td><td>Alta</td><td>Proteger: manter qualidade e visibilidade no cardápio, não mexer no preço sem necessidade.</td></tr>
+        <tr><td><strong>Queridinhos de baixa margem</strong></td><td>Alta</td><td>Baixa</td><td>Reengenharia de custo ou reposicionamento de preço gradual — são pratos que sustentam volume mas drenam margem.</td></tr>
+        <tr><td><strong>Enigmas</strong></td><td>Baixa</td><td>Alta</td><td>Investir em visibilidade (posição no cardápio, sugestão do garçom) antes de cortar — o problema costuma ser exposição, não o prato em si.</td></tr>
+        <tr><td><strong>Abacaxis</strong></td><td>Baixa</td><td>Baixa</td><td>Candidatos naturais a sair do cardápio ou serem substituídos.</td></tr>
+      </tbody>
+    </table>
+    <p class="callout accent"><strong>Aplicação prática</strong>Rode essa matriz a cada revisão de cardápio (idealmente trimestral). Um cardápio saudável tende a ter poucos "abacaxis" e uma base sólida de "estrelas" — se a maioria dos itens estiver nos quadrantes de baixa rentabilidade, o problema não é de vendas, é de precificação estrutural.</p>
+
+    <h3>Pesquisa de mercado e posicionamento</h3>
+    <p>Antes de abrir as portas, dois exercícios são indispensáveis:</p>
+    <ul>
+      <li><strong>Entender o mercado</strong> — qual a necessidade do mercado, da praça e do público, desenvolvendo uma pesquisa de viabilidade do negócio.</li>
+      <li><strong>Encontrar o posicionamento</strong> — pesquisar a visão e a percepção da marca (branding, tom de voz) em relação aos concorrentes, para se posicionar com vantagem estratégica.</li>
+    </ul>
+    <p>O módulo também reforça que oportunidades e desafios de mercado estão sempre ligados às quatro forças descritas no Módulo 1 — <strong>inovação, tendência, moda e necessidade</strong> — e que um negócio bem posicionado sabe identificar em qual dessas forças está apoiado.</p>
+
+    <h3>Checklist de precificação e mix de vendas</h3>
+    <ul class="check-list">
+      <li>Todo item do cardápio tem ficha técnica atualizada com custo por porção?</li>
+      <li>O CMV teórico (ficha técnica) foi comparado ao CMV real do estoque no último fechamento?</li>
+      <li>Os preços foram calculados a partir de um CMV-alvo por categoria, não "no feeling"?</li>
+      <li>O cardápio foi classificado na matriz de engenharia (estrelas, queridinhos, enigmas, abacaxis) no último trimestre?</li>
+      <li>Existem itens de alta e baixa margem balanceados no mix, sustentando um ticket médio atrativo?</li>
+      <li>A pesquisa de posicionamento frente à concorrência direta está atualizada?</li>
+    </ul>
+  </div>
+
+  <!-- MÓDULO 3 -->
+  <div class="module" id="m3">
+    <div class="module-header">
+      <div class="module-num">3</div>
+      <div>
+        <h2>Retenção de talentos e liderança</h2>
+        <span class="tag">Tema da aula #3</span>
+      </div>
+    </div>
+
+    <p>Depois de tratar do conceito e da matemática do negócio, o curso muda de eixo: sem uma equipe engajada, nenhum plano de negócio se sustenta. Este módulo tem como pergunta motriz: <em>"o que faz o colaborador permanecer no seu restaurante?"</em></p>
+
+    <h3>O cenário: por que a retenção mudou</h3>
+    <p>A relação entre colaborador e Restaurateur vem se transformando nos últimos anos. Vivemos na era da informação, em que a tecnologia e a globalização mudaram tanto a forma como vivemos quanto a nossa relação com o trabalho. Entre os fatores motivacionais que hoje pesam mais na decisão de um colaborador permanecer (ou não) em um restaurante, destacamos:</p>
+    <ul>
+      <li>Diversidade de grupos geracionais trabalhando juntos;</li>
+      <li>Desejo maior por um senso de propósito;</li>
+      <li>Condições de trabalho favoráveis;</li>
+      <li>Senso de responsabilidade;</li>
+      <li>Senso de pertencimento no trabalho;</li>
+      <li>Relações saudáveis com chefias e lideranças.</li>
+    </ul>
+
+    <h3>Três perguntas de autodiagnóstico</h3>
+    <p>Antes de qualquer plano de retenção, propomos que o gestor se avalie com três perguntas:</p>
+    <ol>
+      <li>Será que seu restaurante está tomando as decisões certas?</li>
+      <li>Quais estratégias e metodologias você adotou para manter seus colaboradores motivados com os objetivos da equipe?</li>
+      <li>Qual foi a última vez que você deu um feedback ou agradeceu seu colaborador por ter executado um belo trabalho?</li>
+    </ol>
+    <div class="quote">"Não é o dinheiro que importa. São as pessoas que você tem, e como você as lidera." — Steve Jobs</div>
+
+    <h3>O verdadeiro custo de perder um talento</h3>
+    <p>A retenção costuma ser tratada como "tema de RH", mas é, antes de tudo, um tema financeiro. Quando um colaborador operacional pede desligamento, o custo real vai muito além do aviso prévio — ele inclui recrutamento, tempo de treinamento, perda de produtividade durante a curva de aprendizado do substituto e, com frequência, horas extras da equipe remanescente para cobrir a vaga aberta.</p>
+    <table>
+      <thead><tr><th>Componente do custo de turnover</th><th class="num">Estimativa ilustrativa</th></tr></thead>
+      <tbody>
+        <tr><td>Custo total mensal do posto (salário + encargos)</td><td class="num">R$ 3.080</td></tr>
+        <tr><td>Recrutamento e seleção (divulgação, triagem, entrevistas)</td><td class="num">R$ 300</td></tr>
+        <tr><td>Treinamento e integração (horas de líderes e colegas dedicadas)</td><td class="num">R$ 600</td></tr>
+        <tr><td>Perda de produtividade na curva de aprendizado (≈ 30% por 60 dias)</td><td class="num">R$ 1.100</td></tr>
+        <tr><td>Cobertura da vaga aberta (horas extras da equipe)</td><td class="num">R$ 400</td></tr>
+        <tr class="total-row"><td><strong>Custo estimado total do turnover de um único posto</strong></td><td class="num"><strong>R$ 2.400</strong></td></tr>
+      </tbody>
+    </table>
+    <p class="callout accent"><strong>Por que esse número importa</strong>Nesse exemplo ilustrativo, substituir um único colaborador custa quase o equivalente a um mês inteiro do posto de trabalho — sem contar o risco de queda de qualidade de atendimento no período de adaptação. É esse cálculo que justifica, financeiramente, investir em ações de retenção antes que a saída aconteça.</p>
+
+    <h3>Por que investir em retenção compensa</h3>
+    <p>Investir em um programa de retenção de talentos traz vantagens de curto, médio e longo prazo, organizadas em dois eixos:</p>
+    <div class="six-p-grid">
+      <div class="six-p-card">
+        <div class="p-name">Aumentar o engajamento</div>
+        <p>O papel do gestor é manter o engajamento e a produtividade do time, investindo na retenção para manter a equipe unida e motivada.</p>
+      </div>
+      <div class="six-p-card">
+        <div class="p-name">Reduzir os gastos</div>
+        <p>A saída de um colaborador aumenta custos com demissão, atração e recrutamento de um substituto, além do tempo de adaptação — e nem sempre o novo profissional atinge o mesmo nível do talento perdido.</p>
+      </div>
+    </div>
+
+    <h3>A Pirâmide Artblend de Retenção</h3>
+    <p>Organizamos os fatores que sustentam a permanência de um colaborador em cinco níveis, do mais básico ao mais elevado. A lógica é sequencial: é difícil um colaborador se engajar com propósito se as condições básicas de segurança e estrutura de trabalho ainda estão desorganizadas.</p>
+    <div class="pyramid">
+      <div class="row">1. SEGURANÇA E ESTRUTURA — escala justa, equipamentos adequados, ambiente físico seguro e salário em dia.</div>
+      <div class="row">2. PERTENCIMENTO — sentir-se parte de um time, relações saudáveis com colegas e lideranças.</div>
+      <div class="row">3. RECONHECIMENTO — ter o trabalho entregue visto e validado com regularidade.</div>
+      <div class="row">4. DESENVOLVIMENTO E AUTONOMIA — espaço para aprender, crescer e tomar decisões dentro da função.</div>
+      <div class="row">5. PROPÓSITO — entender como o próprio trabalho contribui para algo maior que a tarefa do dia a dia.</div>
+    </div>
+    <p class="callout blue"><strong>Uso diagnóstico</strong>Ao investigar por que um restaurante tem alto turnover, comece pela base da pirâmide, não pelo topo. É comum um gestor tentar resolver problemas de propósito (nível 5) com discursos motivacionais, quando o problema real está em segurança e estrutura (nível 1) — escalas injustas, equipamentos quebrados, atrasos de pagamento.</p>
+
+    <h3>Investimento em liderança</h3>
+    <p>Investir em lideranças capazes de construir relacionamentos humanos com seus liderados — enquanto trabalham para gerar resultados organizacionais de alto desempenho — é fundamental. Líderes e gestores carregam grande responsabilidade sobre o engajamento profissional e, consequentemente, sobre a permanência dos talentos.</p>
+
+    <h3>Gestão do conhecimento e capital intelectual</h3>
+    <p>Todo conhecimento que a equipe agrega compõe o chamado <strong>capital intelectual</strong> — o maior bem de uma organização, responsável pela sua evolução e perpetuação no mercado. A recomendação da metodologia é direta: qualificar o capital humano é a forma de reter talentos de verdade.</p>
+
+    <h3>Reconhecimento, valorização e feedback</h3>
+    <p>A metodologia Artblend separa dois conceitos que costumam ser tratados como sinônimos:</p>
+    <div class="callout">
+      <strong>Reconhecimento</strong>
+      Refere-se ao que as pessoas fazem — o resultado do trabalho entregue.
+    </div>
+    <div class="callout">
+      <strong>Valorização</strong>
+      Refere-se a quem as pessoas são — a pessoa por trás da entrega.
+    </div>
+    <p>Muitas vezes o reconhecimento não exige grandes investimentos: um gesto simples, como um abraço, um aperto de mãos, um sorriso ou um "muito obrigado" sincero, já produz impacto real na equipe.</p>
+
+    <h3>Feedback estruturado: o modelo Situação — Comportamento — Impacto</h3>
+    <p>Feedback contínuo é uma das ferramentas de reconhecimento mais citadas — mas costuma falhar quando é vago demais ("você foi bem esse mês") ou genérico demais para gerar mudança de comportamento. Um modelo simples e eficaz para estruturar qualquer conversa de feedback, positiva ou corretiva, é o SCI:</p>
+    <table>
+      <thead><tr><th>Etapa</th><th>O que descrever</th><th>Exemplo</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Situação</strong></td><td>Quando e onde aconteceu, de forma específica.</td><td>"Na sexta-feira, durante o rush do jantar,"</td></tr>
+        <tr><td><strong>Comportamento</strong></td><td>O que a pessoa fez, de forma observável (não uma interpretação de caráter).</td><td>"você reorganizou a fila de pedidos sem que ninguém pedisse,"</td></tr>
+        <tr><td><strong>Impacto</strong></td><td>O efeito real gerado, para o time, o cliente ou o resultado.</td><td>"e isso evitou que dois pedidos saíssem atrasados — o cliente da mesa 12 elogiou o tempo de espera."</td></tr>
+      </tbody>
+    </table>
+    <p>O mesmo modelo funciona para feedback corretivo, sempre descrevendo comportamento observável (o que a pessoa fez) em vez de traço de personalidade (o que a pessoa "é") — isso reduz a resistência natural de quem recebe a devolutiva e aumenta a chance real de mudança de comportamento.</p>
+
+    <p>Sobre a frequência, reforçamos que o feedback deve ser contínuo: quando recebem retorno com frequência, os colaboradores sentem-se mais seguros para saber se estão no caminho certo ou se precisam ajustar algo ao longo da jornada. Por isso, reuniões frequentes — individuais ou em grupo — são recomendadas, pois nelas a equipe toda tem a chance de entender onde está indo bem e onde precisa melhorar.</p>
+
+    <h3>Ciclo de vida do colaborador na operação</h3>
+    <p>Retenção não é uma ação isolada — é um cuidado contínuo ao longo de todo o tempo de casa do colaborador. Mapeamos esse ciclo em seis etapas:</p>
+    <table>
+      <thead><tr><th>Etapa</th><th>Foco da gestão</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1. Atração</strong></td><td>Comunicar de forma honesta o que a vaga oferece — cultura, escala, remuneração — para evitar expectativa desalinhada.</td></tr>
+        <tr><td><strong>2. Seleção</strong></td><td>Avaliar fit cultural além da técnica: como a pessoa se comporta sob pressão de operação.</td></tr>
+        <tr><td><strong>3. Onboarding</strong></td><td>Estruturar os primeiros dias com acompanhamento próximo — os primeiros 30 dias concentram a maior parte dos desligamentos precoces.</td></tr>
+        <tr><td><strong>4. Desenvolvimento</strong></td><td>Oferecer trilhas claras de capacitação e crescimento dentro da operação.</td></tr>
+        <tr><td><strong>5. Retenção ativa</strong></td><td>Reconhecimento, feedback contínuo e revisão periódica de condições de trabalho.</td></tr>
+        <tr><td><strong>6. Desligamento</strong></td><td>Quando a saída acontece, conduzir com respeito e extrair aprendizado (entrevista de desligamento) para reduzir o próximo turnover.</td></tr>
+      </tbody>
+    </table>
+
+    <p class="callout accent"><strong>Frase-síntese do módulo</strong>Mais do que dinheiro, o que os colaboradores buscam é se sentir valorizados no ambiente profissional — sentir que o que fazem está contribuindo de verdade para o crescimento do restaurante. É preciso valorizar quem está ao seu lado todos os dias.</p>
+
+    <h3>Checklist de retenção para os primeiros 90 dias</h3>
+    <ul class="check-list">
+      <li>O colaborador recebeu um roteiro claro de onboarding nos primeiros 5 dias?</li>
+      <li>Houve um check-in individual estruturado ao final da primeira semana?</li>
+      <li>Um feedback formal (modelo SCI) foi aplicado até o 30º dia?</li>
+      <li>A escala e as condições prometidas na contratação foram cumpridas nos primeiros 30 dias?</li>
+      <li>O colaborador sabe a quem recorrer em caso de dúvida ou conflito?</li>
+      <li>Houve algum gesto de reconhecimento (verbal ou simbólico) antes do 90º dia?</li>
+      <li>O gestor aplicou as três perguntas de autodiagnóstico neste trimestre?</li>
+    </ul>
+  </div>
+
+  <!-- MÓDULO 4 -->
+  <div class="module" id="m4">
+    <div class="module-header">
+      <div class="module-num">4</div>
+      <div>
+        <h2>Planejamento financeiro: a estrutura do dashboard de indicadores</h2>
+        <span class="tag">Tema da aula #4</span>
+      </div>
+    </div>
+
+    <p>O módulo final da parte conceitual do curso prepara o dashboard financeiro mais importante da rotina do consultor Artblend: o acompanhamento orçado x realizado, a leitura da margem de contribuição e a identificação do ponto de equilíbrio do restaurante — transformando os conceitos das aulas anteriores em números de acompanhamento mensal. O Módulo 5 retoma cada uma dessas contas em um exercício numérico completo, do zero ao resultado final.</p>
+
+    <h3>O dashboard de indicadores</h3>
+    <p>A planilha (Road Map / Dashboard) da metodologia Artblend organiza os indicadores em quatro colunas fixas, comparando o planejado com a realidade da operação:</p>
+    <table>
+      <thead><tr><th>Coluna</th><th>O que mostra</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Orçado</strong></td><td>O valor planejado para o período.</td></tr>
+        <tr><td><strong>Realizado</strong></td><td>O valor efetivamente apurado na operação.</td></tr>
+        <tr><td><strong>Diferença</strong></td><td>O desvio absoluto entre orçado e realizado.</td></tr>
+        <tr><td><strong>Variação %</strong></td><td>O desvio percentual entre orçado e realizado.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Estrutura completa de contas do dashboard</h3>
+    <p>O modelo de indicadores segue uma sequência lógica fixa, sempre expressando cada conta também como <strong>% sobre o faturamento</strong> sempre que aplicável. Esta é a ordem completa usada pela metodologia Artblend:</p>
+    <ol>
+      <li><strong>Faturamento total</strong> — ponto de partida de toda a análise.</li>
+      <li><strong>Ponto de equilíbrio</strong> — faturamento mínimo necessário no período para cobrir todos os custos e despesas.</li>
+      <li><strong>A/H — Faturamento real x Ponto de equilíbrio</strong> — variação percentual entre o que a casa faturou e o mínimo necessário.</li>
+      <li><strong>Total de clientes</strong> — número de clientes atendidos no período.</li>
+      <li><strong>Ticket médio</strong> — faturamento dividido pelo total de clientes.</li>
+      <li><strong>Ideal de clientes para bater o ponto de equilíbrio</strong> — quantos clientes, no ticket médio praticado, seriam necessários para atingir o ponto de equilíbrio.</li>
+      <li><strong>A/H — Clientes real x Clientes ponto de equilíbrio</strong> — variação percentual entre clientes atendidos e clientes necessários.</li>
+      <li><strong>Impostos sobre vendas</strong> (% sobre faturamento).</li>
+      <li><strong>CMV — Alimentos e Bebidas</strong> (% sobre faturamento).</li>
+      <li><strong>CMV — Embalagens e Descartáveis</strong> (% sobre faturamento).</li>
+      <li><strong>Custos financeiros</strong> (taxas de cartão e taxas de delivery).</li>
+      <li><strong>Custos Variáveis Diretos — Total</strong> (soma dos quatro itens acima).</li>
+      <li><strong>Prime Cost (CMV + CMO)</strong>.</li>
+      <li><strong>Margem de Contribuição</strong> (Faturamento − Custos Variáveis Diretos).</li>
+      <li><strong>Despesas Operacionais</strong> — Pessoal (CMO), Ocupação e Infraestrutura, Despesas Administrativas, Despesas Comerciais e Despesas Financeiras, mais o Total de Despesas Operacionais.</li>
+      <li><strong>Resultado Financeiro Operacional</strong> — a linha final (Margem de Contribuição − Total de Despesas Operacionais).</li>
+    </ol>
+
+    <h3>Como cada indicador-chave é calculado</h3>
+    <table>
+      <thead><tr><th>Indicador</th><th>Fórmula</th></tr></thead>
+      <tbody>
+        <tr><td>Custos Variáveis Diretos — Total</td><td>Impostos + CMV Alimentos + CMV Embalagens + Custos Financeiros</td></tr>
+        <tr><td>Margem de Contribuição</td><td>Faturamento Total − Custos Variáveis Diretos — Total</td></tr>
+        <tr><td>Prime Cost</td><td>CMV Alimentos + CMV Embalagens + CMO (Pessoal)</td></tr>
+        <tr><td>Total de Despesas Operacionais</td><td>Pessoal (CMO) + Ocupação/Infraestrutura + Adm. + Comerciais + Financeiras</td></tr>
+        <tr><td>Resultado Financeiro Operacional</td><td>Margem de Contribuição − Total de Despesas Operacionais</td></tr>
+        <tr><td>Ponto de Equilíbrio</td><td>Total de Despesas Operacionais ÷ (Margem de Contribuição ÷ Faturamento)</td></tr>
+        <tr><td>Ideal de Clientes para bater o Ponto de Equilíbrio</td><td>Ponto de Equilíbrio ÷ Ticket Médio</td></tr>
+        <tr><td>A/H — Faturamento real x Ponto de Equilíbrio</td><td>(Faturamento Real − Ponto de Equilíbrio) ÷ Ponto de Equilíbrio</td></tr>
+        <tr><td>A/H — Clientes real x Clientes Ponto de Equilíbrio</td><td>(Clientes Real − Ideal de Clientes) ÷ Ideal de Clientes</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Prime Cost e Margem de Contribuição</h3>
+    <p>A partir dos custos variáveis diretos, o dashboard calcula dois indicadores centrais de gestão financeira:</p>
+    <div class="callout blue">
+      <strong>Prime Cost (CMV + CMO)</strong>
+      Soma do Custo de Mercadoria Vendida (alimentos + embalagens) com o Custo de Mão de Obra. É o indicador mais acompanhado do setor porque concentra os dois maiores blocos de custo variável do restaurante — em geral, entre 55% e 65% do faturamento é considerado uma faixa saudável, dependendo do formato de serviço.
+    </div>
+    <div class="callout blue">
+      <strong>Margem de Contribuição</strong>
+      O que sobra do faturamento depois de descontados os custos variáveis diretos — é o valor disponível para cobrir despesas fixas (pessoal administrativo, ocupação, despesas comerciais) e, no final, gerar lucro.
+    </div>
+
+    <h3>Despesas operacionais</h3>
+    <p>Depois da margem de contribuição, o dashboard desconta as despesas operacionais fixas, também acompanhadas em valor e % sobre faturamento:</p>
+    <table>
+      <thead><tr><th>Despesa</th><th>Observação</th></tr></thead>
+      <tbody>
+        <tr><td>Pessoal (CMO)</td><td>Folha de pagamento e encargos da operação.</td></tr>
+        <tr><td>Ocupação e Infraestrutura</td><td>Aluguel, condomínio, manutenção do espaço.</td></tr>
+        <tr><td>Despesas Administrativas</td><td>Estrutura de retaguarda (ADM).</td></tr>
+        <tr><td>Despesas Comerciais</td><td>Marketing, comissões e ações comerciais.</td></tr>
+        <tr><td>Despesas Financeiras</td><td>Juros, taxas bancárias e encargos financeiros.</td></tr>
+      </tbody>
+    </table>
+    <p>A soma dessas linhas compõe o <strong>Total de Despesas Operacionais</strong>, cujo confronto final com a Margem de Contribuição resulta no <strong>Resultado Financeiro Operacional</strong> — a linha de fundo que mostra se o restaurante, no período avaliado, deu lucro ou prejuízo.</p>
+
+    <p class="callout accent"><strong>Por que esse dashboard importa</strong>O valor do exercício não está em preencher a planilha uma vez, mas em repetir o ciclo orçado → realizado → variação todos os meses. É esse hábito que transforma "achismo" em gestão financeira de verdade — e é isso que fecha o círculo do curso: do conceito (módulo 1), passando pela matemática básica e precificação (módulo 2) e pela equipe que sustenta a operação (módulo 3), até o controle numérico que garante o crescimento sustentável do negócio (módulos 4 e 5).</p>
+  </div>
+
+  <!-- MÓDULO 5 -->
+  <div class="module" id="m5">
+    <div class="module-header">
+      <div class="module-num">5</div>
+      <div>
+        <h2>Dashboard na prática: ponto de equilíbrio passo a passo</h2>
+        <span class="tag">Exercício guiado</span>
+      </div>
+    </div>
+
+    <p>Este módulo pega a estrutura de contas apresentada no Módulo 4 e calcula, do início ao fim, um mês completo de dashboard orçado x realizado. O objetivo é que o consultor consiga replicar exatamente o mesmo raciocínio com os números reais de qualquer cliente. Todos os valores abaixo são fictícios, construídos apenas para ilustrar a mecânica dos cálculos.</p>
+
+    <h3>Passo 1 — Faturamento, ticket médio e total de clientes</h3>
+    <p>O ponto de partida é sempre o faturamento do período — orçado (meta definida no planejamento) e realizado (o que de fato entrou em caixa):</p>
+    <table>
+      <thead><tr><th>Indicador</th><th class="num">Orçado</th><th class="num">Realizado</th></tr></thead>
+      <tbody>
+        <tr><td>Faturamento Total</td><td class="num">R$ 280.000,00</td><td class="num">R$ 300.000,00</td></tr>
+        <tr><td>Ticket Médio</td><td class="num">R$ 70,00</td><td class="num">R$ 75,00</td></tr>
+        <tr><td>Total de Clientes (Faturamento ÷ Ticket Médio)</td><td class="num">4.000</td><td class="num">4.000</td></tr>
+      </tbody>
+    </table>
+    <p>Repare que o faturamento realizado superou o orçado (+7,1%) puxado por um ticket médio mais alto (R$ 75,00 em vez de R$ 70,00) — o número de clientes atendidos, nesse exemplo, ficou igual em ambos os cenários. Esse tipo de leitura já é um primeiro diagnóstico valioso: o crescimento veio de ticket, não de fluxo.</p>
+
+    <h3>Passo 2 — Custos variáveis diretos</h3>
+    <p>Em seguida, calculamos as quatro contas que compõem os Custos Variáveis Diretos, cada uma como percentual do faturamento do próprio cenário (orçado sobre faturamento orçado; realizado sobre faturamento realizado):</p>
+    <table>
+      <thead><tr><th>Conta</th><th class="num">Orçado</th><th class="num">Realizado</th></tr></thead>
+      <tbody>
+        <tr><td>Impostos sobre Vendas (8,0% em ambos os cenários)</td><td class="num">R$ 22.400,00</td><td class="num">R$ 24.000,00</td></tr>
+        <tr><td>CMV — Alimentos e Bebidas (28,0% orçado / 29,0% realizado)</td><td class="num">R$ 78.400,00</td><td class="num">R$ 87.000,00</td></tr>
+        <tr><td>CMV — Embalagens e Descartáveis (3,0% em ambos)</td><td class="num">R$ 8.400,00</td><td class="num">R$ 9.000,00</td></tr>
+        <tr><td>Custos Financeiros — cartão/delivery (6,0% em ambos)</td><td class="num">R$ 16.800,00</td><td class="num">R$ 18.000,00</td></tr>
+        <tr class="total-row"><td><strong>Custos Variáveis Diretos — Total</strong></td><td class="num"><strong>R$ 126.000,00 (45,0%)</strong></td><td class="num"><strong>R$ 138.000,00 (46,0%)</strong></td></tr>
+      </tbody>
+    </table>
+    <p>O CMV de Alimentos e Bebidas foi a única conta cujo percentual realmente piorou (de 28,0% orçado para 29,0% realizado) — é essa linha que deve virar o primeiro ponto de investigação do consultor: houve aumento de preço de insumo, quebra fora do padrão, ou erro de ficha técnica?</p>
+
+    <h3>Passo 3 — Margem de Contribuição</h3>
+    <table>
+      <thead><tr><th>Cálculo</th><th class="num">Orçado</th><th class="num">Realizado</th></tr></thead>
+      <tbody>
+        <tr><td>Faturamento Total</td><td class="num">R$ 280.000,00</td><td class="num">R$ 300.000,00</td></tr>
+        <tr><td>(−) Custos Variáveis Diretos — Total</td><td class="num">R$ 126.000,00</td><td class="num">R$ 138.000,00</td></tr>
+        <tr class="total-row"><td><strong>Margem de Contribuição</strong></td><td class="num"><strong>R$ 154.000,00 (55,0%)</strong></td><td class="num"><strong>R$ 162.000,00 (54,0%)</strong></td></tr>
+      </tbody>
+    </table>
+
+    <h3>Passo 4 — CMO e Prime Cost</h3>
+    <p>O CMO (custo de pessoal ligado à operação) alimenta duas linhas ao mesmo tempo: entra no Prime Cost (junto com o CMV) e também abre a lista de Despesas Operacionais do Passo 5.</p>
+    <table>
+      <thead><tr><th>Conta</th><th class="num">Orçado</th><th class="num">Realizado</th></tr></thead>
+      <tbody>
+        <tr><td>CMO — Pessoal (23,0% orçado / 24,0% realizado)</td><td class="num">R$ 64.400,00</td><td class="num">R$ 72.000,00</td></tr>
+        <tr class="total-row"><td><strong>Prime Cost = CMV Alimentos + CMV Embalagens + CMO</strong></td><td class="num"><strong>R$ 151.200,00 (54,0%)</strong></td><td class="num"><strong>R$ 168.000,00 (56,0%)</strong></td></tr>
+      </tbody>
+    </table>
+    <p>O Prime Cost saiu de 54,0% (orçado) para 56,0% (realizado) — uma variação de +11,1%. Como esse indicador concentra os dois maiores blocos de custo do restaurante, qualquer alta de 2 pontos percentuais já é motivo de atenção imediata do consultor.</p>
+
+    <h3>Passo 5 — Despesas Operacionais fixas</h3>
+    <table>
+      <thead><tr><th>Conta</th><th class="num">Orçado</th><th class="num">Realizado</th></tr></thead>
+      <tbody>
+        <tr><td>Pessoal (CMO)</td><td class="num">R$ 64.400,00</td><td class="num">R$ 72.000,00</td></tr>
+        <tr><td>Ocupação e Infraestrutura (7,0%)</td><td class="num">R$ 19.600,00</td><td class="num">R$ 21.000,00</td></tr>
+        <tr><td>Despesas Administrativas (5,0%)</td><td class="num">R$ 14.000,00</td><td class="num">R$ 15.000,00</td></tr>
+        <tr><td>Despesas Comerciais (3,0%)</td><td class="num">R$ 8.400,00</td><td class="num">R$ 9.000,00</td></tr>
+        <tr><td>Despesas Financeiras (1,0%)</td><td class="num">R$ 2.800,00</td><td class="num">R$ 3.000,00</td></tr>
+        <tr class="total-row"><td><strong>Total de Despesas Operacionais</strong></td><td class="num"><strong>R$ 109.200,00 (39,0%)</strong></td><td class="num"><strong>R$ 120.000,00 (40,0%)</strong></td></tr>
+      </tbody>
+    </table>
+
+    <h3>Passo 6 — Ponto de Equilíbrio</h3>
+    <p>Com o Total de Despesas Operacionais e a Margem de Contribuição (%) do cenário realizado em mãos, aplicamos a fórmula do ponto de equilíbrio:</p>
+    <div class="callout blue">
+      <strong>Ponto de Equilíbrio = Total de Despesas Operacionais ÷ (Margem de Contribuição ÷ Faturamento)</strong>
+      Ponto de Equilíbrio = R$ 120.000,00 ÷ (R$ 162.000,00 ÷ R$ 300.000,00) = R$ 120.000,00 ÷ 0,54 = <strong>R$ 222.222,22</strong>
+    </div>
+    <p>Isso significa que, com a estrutura de custos realizada nesse mês, o restaurante precisaria faturar pelo menos R$ 222.222,22 apenas para cobrir todos os seus custos e despesas — qualquer faturamento acima disso já é lucro operacional.</p>
+
+    <h3>Passo 7 — A/H de faturamento, ideal de clientes e A/H de clientes</h3>
+    <table>
+      <thead><tr><th>Indicador</th><th>Cálculo</th><th class="num">Resultado</th></tr></thead>
+      <tbody>
+        <tr><td>A/H — Faturamento Real x Ponto de Equilíbrio</td><td>(300.000,00 − 222.222,22) ÷ 222.222,22</td><td class="num">+35,0%</td></tr>
+        <tr><td>Ideal de Clientes para bater o Ponto de Equilíbrio</td><td>222.222,22 ÷ 75,00 (ticket médio realizado)</td><td class="num">2.963 clientes</td></tr>
+        <tr><td>A/H — Clientes Real x Clientes Ponto de Equilíbrio</td><td>(4.000 − 2.963) ÷ 2.963</td><td class="num">+35,0%</td></tr>
+      </tbody>
+    </table>
+    <p>Como o ticket médio não muda entre a leitura de faturamento e a leitura de clientes, os dois indicadores de A/H convergem para o mesmo percentual (+35,0%) — o restaurante faturou 35% acima do mínimo necessário e atendeu 35% mais clientes do que o mínimo necessário para cobrir seus custos naquele mês.</p>
+
+    <h3>Passo 8 — Resultado Financeiro Operacional</h3>
+    <table>
+      <thead><tr><th>Cálculo</th><th class="num">Orçado</th><th class="num">Realizado</th></tr></thead>
+      <tbody>
+        <tr><td>Margem de Contribuição</td><td class="num">R$ 154.000,00</td><td class="num">R$ 162.000,00</td></tr>
+        <tr><td>(−) Total de Despesas Operacionais</td><td class="num">R$ 109.200,00</td><td class="num">R$ 120.000,00</td></tr>
+        <tr class="total-row neg-row"><td><strong>Resultado Financeiro Operacional</strong></td><td class="num"><strong>R$ 44.800,00 (16,0%)</strong></td><td class="num"><strong>R$ 42.000,00 (14,0%)</strong></td></tr>
+      </tbody>
+    </table>
+    <p class="callout accent"><strong>A lição central do exercício</strong>Embora o faturamento tenha superado a meta em 7,1%, o Resultado Financeiro Operacional realizado ficou <strong>abaixo</strong> do orçado (R$ 42.000,00 contra R$ 44.800,00 — uma queda de 6,3%). O motivo: CMV de Alimentos e CMO cresceram proporcionalmente mais do que o faturamento, empurrando o Prime Cost de 54,0% para 56,0%. Isso é exatamente o tipo de diagnóstico que só o dashboard completo revela — olhar apenas o faturamento (que "bateu meta") esconderia essa deterioração de margem.</p>
+
+    <h3>Tabela consolidada do mês</h3>
+    <table>
+      <thead><tr><th>Conta</th><th class="num">Orçado</th><th class="num">Realizado</th><th class="num">Diferença</th><th class="num">Variação %</th></tr></thead>
+      <tbody>
+        <tr><td>Faturamento Total</td><td class="num">R$ 280.000,00</td><td class="num">R$ 300.000,00</td><td class="num">R$ 20.000,00</td><td class="num">+7,1%</td></tr>
+        <tr><td>Ponto de Equilíbrio</td><td class="num">—</td><td class="num">R$ 222.222,22</td><td class="num">—</td><td class="num">—</td></tr>
+        <tr><td>A/H — Faturamento x Ponto de Equilíbrio</td><td class="num">—</td><td class="num">+35,0%</td><td class="num">—</td><td class="num">—</td></tr>
+        <tr><td>Total de Clientes</td><td class="num">4.000</td><td class="num">4.000</td><td class="num">0</td><td class="num">0,0%</td></tr>
+        <tr><td>Ticket Médio</td><td class="num">R$ 70,00</td><td class="num">R$ 75,00</td><td class="num">R$ 5,00</td><td class="num">+7,1%</td></tr>
+        <tr><td>Ideal de Clientes p/ Ponto de Equilíbrio</td><td class="num">—</td><td class="num">2.963</td><td class="num">—</td><td class="num">—</td></tr>
+        <tr><td>A/H — Clientes x Clientes Ponto de Equilíbrio</td><td class="num">—</td><td class="num">+35,0%</td><td class="num">—</td><td class="num">—</td></tr>
+        <tr><td>Impostos sobre Vendas (8,0%)</td><td class="num">R$ 22.400,00</td><td class="num">R$ 24.000,00</td><td class="num">R$ 1.600,00</td><td class="num">+7,1%</td></tr>
+        <tr><td>CMV Alimentos e Bebidas</td><td class="num">R$ 78.400,00 (28,0%)</td><td class="num">R$ 87.000,00 (29,0%)</td><td class="num">R$ 8.600,00</td><td class="num">+11,0%</td></tr>
+        <tr><td>CMV Embalagens e Descartáveis (3,0%)</td><td class="num">R$ 8.400,00</td><td class="num">R$ 9.000,00</td><td class="num">R$ 600,00</td><td class="num">+7,1%</td></tr>
+        <tr><td>Custos Financeiros (cartão/delivery, 6,0%)</td><td class="num">R$ 16.800,00</td><td class="num">R$ 18.000,00</td><td class="num">R$ 1.200,00</td><td class="num">+7,1%</td></tr>
+        <tr class="total-row"><td><strong>Custos Variáveis Diretos — Total</strong></td><td class="num">R$ 126.000,00 (45,0%)</td><td class="num">R$ 138.000,00 (46,0%)</td><td class="num">R$ 12.000,00</td><td class="num">+9,5%</td></tr>
+        <tr class="total-row"><td><strong>Prime Cost (CMV + CMO)</strong></td><td class="num">R$ 151.200,00 (54,0%)</td><td class="num">R$ 168.000,00 (56,0%)</td><td class="num">R$ 16.800,00</td><td class="num">+11,1%</td></tr>
+        <tr class="total-row"><td><strong>Margem de Contribuição</strong></td><td class="num">R$ 154.000,00 (55,0%)</td><td class="num">R$ 162.000,00 (54,0%)</td><td class="num">R$ 8.000,00</td><td class="num">+5,2%</td></tr>
+        <tr><td>Pessoal (CMO)</td><td class="num">R$ 64.400,00 (23,0%)</td><td class="num">R$ 72.000,00 (24,0%)</td><td class="num">R$ 7.600,00</td><td class="num">+11,8%</td></tr>
+        <tr><td>Ocupação e Infraestrutura (7,0%)</td><td class="num">R$ 19.600,00</td><td class="num">R$ 21.000,00</td><td class="num">R$ 1.400,00</td><td class="num">+7,1%</td></tr>
+        <tr><td>Despesas Administrativas (5,0%)</td><td class="num">R$ 14.000,00</td><td class="num">R$ 15.000,00</td><td class="num">R$ 1.000,00</td><td class="num">+7,1%</td></tr>
+        <tr><td>Despesas Comerciais (3,0%)</td><td class="num">R$ 8.400,00</td><td class="num">R$ 9.000,00</td><td class="num">R$ 600,00</td><td class="num">+7,1%</td></tr>
+        <tr><td>Despesas Financeiras (1,0%)</td><td class="num">R$ 2.800,00</td><td class="num">R$ 3.000,00</td><td class="num">R$ 200,00</td><td class="num">+7,1%</td></tr>
+        <tr class="total-row"><td><strong>Total de Despesas Operacionais</strong></td><td class="num">R$ 109.200,00 (39,0%)</td><td class="num">R$ 120.000,00 (40,0%)</td><td class="num">R$ 10.800,00</td><td class="num">+9,9%</td></tr>
+        <tr class="total-row neg-row"><td><strong>Resultado Financeiro Operacional</strong></td><td class="num">R$ 44.800,00 (16,0%)</td><td class="num">R$ 42.000,00 (14,0%)</td><td class="num">−R$ 2.800,00</td><td class="num">−6,3%</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Como usar esse exercício com um cliente real</h3>
+    <ul class="check-list">
+      <li>Substitua o Faturamento Total, o Ticket Médio e o Total de Clientes pelos números reais do período do cliente.</li>
+      <li>Apure as quatro contas de Custos Variáveis Diretos a partir do fechamento fiscal e do controle de estoque real.</li>
+      <li>Calcule o Prime Cost e compare com a faixa saudável de referência (55% a 65% do faturamento).</li>
+      <li>Calcule o Ponto de Equilíbrio real usando a Margem de Contribuição do próprio mês — não use uma margem de outro período.</li>
+      <li>Compare o faturamento e o número de clientes reais contra o Ponto de Equilíbrio e o Ideal de Clientes para saber, em percentual, a folga (ou o risco) do mês.</li>
+      <li>Feche com o Resultado Financeiro Operacional e registre o ciclo orçado → realizado → variação todos os meses — é a repetição, não o preenchimento único, que transforma esse dashboard em gestão financeira de verdade.</li>
+    </ul>
+  </div>
+
+  <!-- MÓDULO 6 -->
+  <div class="module" id="m6">
+    <div class="module-header">
+      <div class="module-num">6</div>
+      <div>
+        <h2>Marketing e Vendas para Restaurantes</h2>
+        <span class="tag">Tema da aula #6</span>
+      </div>
+    </div>
+
+    <p>Depois de fechar o ciclo financeiro dos módulos 4 e 5, o curso volta ao "P" de Promoção apresentado no Módulo 1 — mas agora com profundidade prática: como transformar posicionamento em fluxo de clientes, como reter quem já veio, como vender mais para quem já está sentado à mesa e como decidir, com números, entre investir em salão ou em delivery.</p>
+
+    <h3>Do posicionamento ao ponto de venda</h3>
+    <p>Todo esforço de marketing de restaurante começa onde o Módulo 1 terminou: a função (subsistência, entretenimento, hedonismo, distinção ou propósito) e o público definidos na modelagem do conceito. Um erro comum é tratar marketing como uma camada solta, desconectada do conceito — quando, na prática, ele deveria ser a tradução, em linguagem e imagem, dos 6 Ps já definidos. Antes de qualquer ação de mídia, vale revisar três perguntas:</p>
+    <ul>
+      <li>Quem exatamente é o cliente que queremos atrair (não "todo mundo", mas uma persona com poder de compra, ocasião de consumo e frequência esperada)?</li>
+      <li>Qual promessa de marca esse cliente vai lembrar depois da primeira visita?</li>
+      <li>Essa promessa é sustentável operacionalmente — o salão e a cozinha conseguem entregá-la todos os dias, não só na inauguração?</li>
+    </ul>
+    <p class="callout blue"><strong>Ideia-chave</strong>Marketing de restaurante não vende "comida boa" — isso é pré-requisito, não diferencial. Vende uma ocasião, uma sensação ou um problema resolvido (o "para que serve" do Módulo 1). É esse recorte que orienta toda a comunicação.</p>
+
+    <h3>Marketing de conteúdo e redes sociais aplicado a food service</h3>
+    <p>Redes sociais funcionam, para um restaurante, como vitrine contínua — mas produzir conteúdo aleatório ("postar o prato do dia") tem retorno baixo se não estiver organizado em torno de pilares consistentes. Recomendamos estruturar o calendário de conteúdo em quatro pilares:</p>
+    <div class="six-p-grid">
+      <div class="six-p-card">
+        <div class="p-name">Produto</div>
+        <p>O prato em si: preparo, ingrediente de destaque, técnica usada — o conteúdo que gera desejo direto de compra.</p>
+      </div>
+      <div class="six-p-card">
+        <div class="p-name">Bastidores</div>
+        <p>Cozinha, equipe, processo de escolha de insumos — humaniza a marca e constrói confiança.</p>
+      </div>
+      <div class="six-p-card">
+        <div class="p-name">Prova social</div>
+        <p>Avaliações de clientes, conteúdo gerado pelo próprio cliente, reação espontânea à mesa.</p>
+      </div>
+      <div class="six-p-card">
+        <div class="p-name">Convite</div>
+        <p>Chamadas diretas para ação: reserva, promoção do dia, evento, horário de menor movimento a incentivar.</p>
+      </div>
+    </div>
+    <p>Esses quatro pilares devem se revezar ao longo da semana — um calendário saudável não é 100% "produto", porque isso cansa a audiência e reduz o alcance orgânico com o tempo. O ideal é equilibrar: conteúdo que gera desejo, conteúdo que gera confiança, conteúdo que gera prova e conteúdo que converte.</p>
+
+    <h4>Indicadores de marketing de conteúdo (o que realmente acompanhar)</h4>
+    <table>
+      <thead><tr><th>Indicador</th><th>O que mede</th><th>Por que importa</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Alcance</strong></td><td>Quantas contas únicas viram o conteúdo.</td><td>Mede exposição de marca — mas sozinho não indica retorno financeiro.</td></tr>
+        <tr><td><strong>Engajamento</strong></td><td>Curtidas, comentários, salvamentos e compartilhamentos sobre o alcance.</td><td>Indica se o conteúdo realmente conversou com quem viu.</td></tr>
+        <tr><td><strong>Tráfego qualificado</strong></td><td>Cliques em link de reserva, cardápio ou pedido.</td><td>É a ponte entre atenção e intenção de compra.</td></tr>
+        <tr><td><strong>Conversão</strong></td><td>Reservas, pedidos ou visitas atribuíveis à ação de marketing.</td><td>É o único indicador que se conecta diretamente ao CAC (adiante neste módulo).</td></tr>
+      </tbody>
+    </table>
+    <p class="callout accent"><strong>Armadilha comum</strong>Alcance e engajamento são indicadores de vaidade se olhados isoladamente. Um post pode "viralizar" e não gerar um único cliente novo. O consultor deve sempre puxar a régua até a conversão — reserva, pedido, cupom resgatado — antes de declarar uma campanha bem-sucedida.</p>
+
+    <h3>Fidelização de clientes</h3>
+    <p>Reter um cliente existente custa, em praticamente qualquer negócio de consumo recorrente, muito menos do que conquistar um cliente novo — e no restaurante isso se traduz diretamente em CMV e CAC diluídos por um número maior de visitas da mesma pessoa. A gestão de fidelização se apoia em três pilares operacionais:</p>
+    <div class="step-list">
+      <div class="step"><span class="sn">1</span><span class="st"><strong>Captura de dados de contato</strong> — telefone, e-mail ou cadastro em programa de fidelidade, coletado no momento do pagamento ou da reserva, sempre com consentimento claro do cliente.</span></div>
+      <div class="step"><span class="sn">2</span><span class="st"><strong>Segmentação por RFV</strong> — Recência (há quanto tempo não vem), Frequência (quantas vezes vem por período) e Valor (quanto gasta em média) — para tratar clientes diferentes com ações diferentes.</span></div>
+      <div class="step"><span class="sn">3</span><span class="st"><strong>Cadência de contato</strong> — um calendário de toques (mensagem de aniversário, convite de retorno após X dias de ausência, oferta de reativação) que não dependa da memória do gestor.</span></div>
+    </div>
+
+    <table>
+      <thead><tr><th>Segmento RFV</th><th>Perfil</th><th>Ação recomendada</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Campeões</strong></td><td>Vieram recentemente, com frequência alta e ticket alto.</td><td>Reconhecimento (mesa preferencial, brinde surpresa) — não descontos, que corroem a margem de quem já é fiel.</td></tr>
+        <tr><td><strong>Fiéis em risco</strong></td><td>Alta frequência histórica, mas recência caindo (sumiram há pouco tempo).</td><td>Contato direto e pessoal perguntando o motivo do afastamento — costuma revelar problemas operacionais antes que virem reputação negativa.</td></tr>
+        <tr><td><strong>Novos promissores</strong></td><td>Vieram recentemente, ainda sem histórico de frequência.</td><td>Convite de retorno com prazo curto (7 a 15 dias) para criar o hábito de segunda visita.</td></tr>
+        <tr><td><strong>Adormecidos</strong></td><td>Recência muito alta (sumiram há meses), frequência e valor historicamente baixos.</td><td>Campanha de reativação de baixo custo ou, se o custo de reconquista superar o LTV esperado, despriorizar.</td></tr>
+      </tbody>
+    </table>
+    <p>Um programa de fidelidade formal (cartão de pontos, clube de assinatura, cashback) é uma ferramenta poderosa, mas só funciona bem em cima dessa segmentação — sem ela, o programa vira custo de desconto para todo mundo, inclusive para quem já viria de qualquer forma.</p>
+
+    <h3>Venda sugestiva no salão: upselling e cross-selling</h3>
+    <p>A venda sugestiva não é "empurrar" produto — é ajudar o cliente a ter uma experiência melhor enquanto aumenta o ticket médio de forma orgânica. A diferença entre os dois movimentos:</p>
+    <div class="callout blue">
+      <strong>Upselling</strong>
+      Sugerir uma versão superior do que o cliente já ia pedir (porção maior, corte nobre, categoria acima).
+    </div>
+    <div class="callout blue">
+      <strong>Cross-selling</strong>
+      Sugerir um item complementar ao que o cliente já pediu (bebida, entrada, sobremesa, acompanhamento).
+    </div>
+
+    <table>
+      <thead><tr><th>Técnica</th><th>Momento ideal</th><th>Exemplo de abordagem</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Upsell de porção</strong></td><td>No momento do pedido do prato principal.</td><td>"Essa porção também sai numa versão para compartilhar, ótima se vocês quiserem provar mais de uma coisa."</td></tr>
+        <tr><td><strong>Upsell de categoria</strong></td><td>Na apresentação do cardápio, antes da decisão fechada.</td><td>"Temos também a versão com o corte nobre, por uma diferença pequena no valor."</td></tr>
+        <tr><td><strong>Cross-sell de bebida</strong></td><td>Logo após o pedido do prato principal.</td><td>"Esse prato combina muito bem com uma sugestão de harmonização — quer que eu traga?"</td></tr>
+        <tr><td><strong>Cross-sell de sobremesa</strong></td><td>Ao retirar os pratos principais da mesa.</td><td>"Vou trazer a sobremesa que é a mais pedida da casa, ou preferem ver o cardápio de novo?"</td></tr>
+        <tr><td><strong>Combo de abertura</strong></td><td>Logo na chegada, antes do pedido principal.</td><td>Oferecer entrada + prato + sobremesa como combinação fechada, com pequena vantagem percebida frente aos itens avulsos.</td></tr>
+      </tbody>
+    </table>
+    <p class="callout accent"><strong>Treino de equipe</strong>Venda sugestiva não é traço de personalidade do garçom ("ele é bom de venda") — é técnica treinável. O roteiro de frases deve ser escrito, ensaiado em treinamento e revisado a cada troca de cardápio, exatamente como qualquer outro procedimento operacional da casa.</p>
+
+    <h3>CAC e LTV aplicados a restaurante</h3>
+    <p>Duas métricas de aquisição, normalmente associadas a negócios digitais, se aplicam integralmente a um restaurante e deveriam constar do dashboard do consultor ao lado do CMV e do Prime Cost:</p>
+    <div class="callout blue">
+      <strong>CAC — Custo de Aquisição de Cliente</strong>
+      Investimento total em marketing e vendas no período ÷ Número de clientes novos conquistados no mesmo período.
+    </div>
+    <div class="callout blue">
+      <strong>LTV — Lifetime Value (valor do cliente ao longo do relacionamento)</strong>
+      Ticket médio × Frequência de visitas por ano × Tempo médio de relacionamento (em anos) × Margem de contribuição (%).
+    </div>
+
+    <p><strong>Exemplo numérico:</strong> um restaurante investiu R$ 8.000,00 em ações de marketing digital em um mês e atraiu 160 clientes novos identificáveis (via cupom, cadastro ou primeira visita rastreada). O ticket médio da casa é R$ 65,00, o cliente fidelizado volta em média 6 vezes por ano, permanece cliente ativo por 2 anos, e a margem de contribuição da casa é de 55%.</p>
+    <table>
+      <thead><tr><th>Cálculo</th><th class="num">Resultado</th></tr></thead>
+      <tbody>
+        <tr><td>CAC = 8.000,00 ÷ 160</td><td class="num">R$ 50,00</td></tr>
+        <tr><td>Receita anual por cliente = 65,00 × 6</td><td class="num">R$ 390,00</td></tr>
+        <tr><td>Receita ao longo do relacionamento = 390,00 × 2 anos</td><td class="num">R$ 780,00</td></tr>
+        <tr class="total-row"><td><strong>LTV = 780,00 × 55%</strong></td><td class="num"><strong>R$ 429,00</strong></td></tr>
+        <tr class="total-row"><td><strong>Relação LTV / CAC = 429,00 ÷ 50,00</strong></td><td class="num"><strong>8,6x</strong></td></tr>
+      </tbody>
+    </table>
+    <p class="callout accent"><strong>Como ler o resultado</strong>Uma relação LTV/CAC saudável costuma estar acima de 3x — abaixo disso, o negócio está gastando demais para conquistar clientes que não geram retorno suficiente ao longo do tempo. No exemplo acima, 8,6x indica folga real para investir mais em aquisição sem comprometer a rentabilidade, desde que a operação sustente esse volume adicional sem perder qualidade.</p>
+    <p>Vale registrar: se o cliente não voltar nenhuma vez (frequência = 1, relacionamento = 1 visita única), o LTV se aproxima do valor de uma única venda — e nesse cenário o CAC dificilmente se paga. É por isso que fidelização (seção anterior) e CAC/LTV são, na prática, o mesmo problema visto de dois ângulos.</p>
+
+    <h3>Canais: delivery x salão</h3>
+    <p>Delivery e salão não são apenas dois canais de venda — são duas estruturas de custo diferentes, com impacto direto na margem de contribuição calculada no Módulo 4. Decidir quanto investir em cada canal exige comparar não o faturamento bruto, mas o resultado líquido por pedido:</p>
+    <table>
+      <thead><tr><th>Fator</th><th>Salão</th><th>Delivery via aplicativo terceirizado</th><th>Delivery/encomenda por canal direto</th></tr></thead>
+      <tbody>
+        <tr><td>Ticket médio típico</td><td>Mais alto (bebidas, sobremesas, ocasião)</td><td>Mais baixo (pedido individual, menos indução de venda)</td><td>Intermediário</td></tr>
+        <tr><td>Taxas sobre a venda</td><td>Taxa de cartão (≈ 2% a 4%)</td><td>Comissão de plataforma (pode superar 20% a 30% do pedido)</td><td>Custo de motoboy/logística própria, sem comissão de plataforma</td></tr>
+        <tr><td>Custo extra por pedido</td><td>—</td><td>Embalagem descartável, possível perda de qualidade no transporte</td><td>Embalagem descartável</td></tr>
+        <tr><td>Alavanca de venda sugestiva</td><td>Alta (contato direto com o garçom)</td><td>Baixa (interface do aplicativo limita a sugestão)</td><td>Média (script de atendimento pode sugerir)</td></tr>
+        <tr><td>Margem de contribuição aproximada</td><td>Mais alta</td><td>Mais comprimida — a comissão pode consumir boa parte do que seria lucro</td><td>Intermediária, mas exige volume para diluir custo fixo de logística</td></tr>
+      </tbody>
+    </table>
+    <p class="callout blue"><strong>Aplicação prática</strong>Antes de aceitar crescer via aplicativo de entrega terceirizado, calcule a margem de contribuição real daquele canal — não o faturamento. É comum uma casa "faturar mais" pelo delivery e, ao final do mês, descobrir que o resultado financeiro operacional (Módulo 4) piorou, porque a comissão da plataforma corrói exatamente a margem que sustenta as despesas fixas.</p>
+    <p>Isso não significa evitar delivery — significa tratá-lo como canal com precificação própria (muitas casas praticam um cardápio de delivery com preços levemente ajustados para absorver a comissão) e como fonte de CAC mais barato para conquistar cliente novo, que depois deve ser convertido, via fidelização, em cliente de salão de maior margem.</p>
+
+    <h3>Checklist de marketing e vendas</h3>
+    <ul class="check-list">
+      <li>O posicionamento de marketing está conectado à função (subsistência, entretenimento, hedonismo, distinção, propósito) definida na modelagem do conceito?</li>
+      <li>O calendário de conteúdo equilibra produto, bastidores, prova social e convite à ação?</li>
+      <li>Existe indicador de conversão (não apenas alcance e engajamento) acompanhado mês a mês?</li>
+      <li>A base de clientes está segmentada por Recência, Frequência e Valor (RFV)?</li>
+      <li>A equipe de salão tem um roteiro escrito de venda sugestiva, treinado e revisado a cada troca de cardápio?</li>
+      <li>O CAC do período foi calculado e comparado à relação mínima saudável de 3x sobre o LTV?</li>
+      <li>A margem de contribuição de cada canal (salão, aplicativo de entrega, canal direto) foi calculada separadamente — não apenas o faturamento?</li>
+    </ul>
+  </div>
+
+  <!-- MÓDULO 7 -->
+  <div class="module" id="m7">
+    <div class="module-header">
+      <div class="module-num">7</div>
+      <div>
+        <h2>Compras e Fornecedores: Negociação, Homologação e Curva ABC</h2>
+        <span class="tag">Tema da aula #7</span>
+      </div>
+    </div>
+
+    <p>O Módulo 2 já mostrou que "ganhar dinheiro é economizar dinheiro" e que o CMV nasce, em parte, na qualidade do recebimento. Este módulo aprofunda o elo anterior a esse: como a casa escolhe, negocia e gerencia quem fornece os insumos — porque um CMV bem calculado ainda pode ser corroído por um fornecedor mal escolhido, um contrato mal desenhado ou uma dependência arriscada de uma única fonte de insumo crítico.</p>
+
+    <h3>Critérios de seleção de fornecedor</h3>
+    <p>Escolher fornecedor pelo menor preço isolado é o erro mais comum e mais caro do setor — o preço de tabela não captura risco de ruptura, variação de qualidade ou custo de urgência quando o fornecedor falha. Uma seleção estruturada avalia, no mínimo, sete critérios:</p>
+    <table>
+      <thead><tr><th>Critério</th><th>O que avaliar</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Qualidade e consistência</strong></td><td>O insumo entregue é sempre o mesmo padrão, lote a lote — ou varia de forma imprevisível?</td></tr>
+        <tr><td><strong>Preço competitivo</strong></td><td>Está dentro da faixa de mercado para o volume contratado, sem ser o critério único.</td></tr>
+        <tr><td><strong>Capacidade de entrega</strong></td><td>Consegue atender o volume e a frequência necessários, inclusive em picos de demanda (datas comemorativas, alta temporada)?</td></tr>
+        <tr><td><strong>Regularidade fiscal e documental</strong></td><td>CNPJ ativo, certidões negativas em dia, nota fiscal idônea — protege a casa de risco tributário e trabalhista indireto.</td></tr>
+        <tr><td><strong>Condições comerciais</strong></td><td>Prazo de pagamento, política de troca/devolução, mínimo de pedido.</td></tr>
+        <tr><td><strong>Certificações sanitárias aplicáveis</strong></td><td>Registros e licenças exigidos para o tipo de insumo (especialmente proteínas, laticínios e derivados).</td></tr>
+        <tr><td><strong>Localização e logística</strong></td><td>Proximidade reduz tempo de resposta em emergências e custo de frete.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Processo de homologação de fornecedor</h3>
+    <p>Homologar um fornecedor significa formalizar, antes da primeira compra recorrente, que ele atende aos critérios acima — evitando que a relação comece "no boca a boca" e só seja avaliada depois que um problema já aconteceu.</p>
+    <div class="step-list">
+      <div class="step"><span class="sn">1</span><span class="st"><strong>Cadastro documental</strong> — coleta de CNPJ, contrato social, certidões e, quando aplicável, licenças sanitárias do fornecedor.</span></div>
+      <div class="step"><span class="sn">2</span><span class="st"><strong>Avaliação de amostra</strong> — teste do insumo em condição real de uso na cozinha, comparando com o padrão da ficha técnica antes de aprovar o volume.</span></div>
+      <div class="step"><span class="sn">3</span><span class="st"><strong>Negociação de condições</strong> — preço, prazo de pagamento, frequência de entrega e política de substituição em caso de não conformidade.</span></div>
+      <div class="step"><span class="sn">4</span><span class="st"><strong>Formalização em contrato</strong> — mesmo com fornecedores pequenos, um contrato ou pedido de compra formal documenta o que foi combinado.</span></div>
+      <div class="step"><span class="sn">5</span><span class="st"><strong>Avaliação periódica de desempenho</strong> — um scorecard simples (pontualidade, qualidade, divergência de nota fiscal) revisado a cada trimestre, decidindo manter, renegociar ou substituir.</span></div>
+    </div>
+
+    <h3>Como negociar com fornecedores</h3>
+    <p>Negociação de compras não é um evento único — é um processo contínuo de revisão. Algumas alavancas práticas costumam gerar resultado real sem depender apenas de "pedir desconto":</p>
+    <table>
+      <thead><tr><th>Alavanca</th><th>Como aplicar</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Consolidação de volume</strong></td><td>Concentrar a compra de uma categoria em menos fornecedores (sem virar dependência única) aumenta o poder de barganha por volume.</td></tr>
+        <tr><td><strong>Prazo de pagamento</strong></td><td>Negociar prazo mais longo melhora o fluxo de caixa mesmo quando o preço unitário não muda — o ganho está no capital de giro, não no CMV.</td></tr>
+        <tr><td><strong>Tabela de preço fixa por período</strong></td><td>Travar preço por um trimestre (com cláusula de reajuste apenas por índice combinado) protege o CMV de oscilações repentinas de mercado.</td></tr>
+        <tr><td><strong>Cotação comparativa recorrente</strong></td><td>Manter no mínimo três cotações ativas por categoria crítica — mesmo sem trocar de fornecedor, isso mantém o fornecedor atual competitivo.</td></tr>
+        <tr><td><strong>Compra consorciada</strong></td><td>Unir volume com outras casas (quando não concorrentes diretos) para negociar condições de grande comprador.</td></tr>
+      </tbody>
+    </table>
+    <p class="callout"><strong>Postura de negociação</strong>A melhor negociação de longo prazo não é a que espreme o fornecedor até a última margem — é a que constrói previsibilidade para os dois lados. Um fornecedor que não tem margem para operar corta qualidade, atrasa entrega ou simplesmente some quando aparece um comprador melhor.</p>
+
+    <h3>Gestão de contratos de fornecimento</h3>
+    <p>Mesmo relações de confiança de longa data devem estar amparadas por um contrato ou pedido de compra formal, com cláusulas mínimas que protegem a operação:</p>
+    <table>
+      <thead><tr><th>Cláusula</th><th>Por que é essencial</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Objeto e especificação técnica</strong></td><td>Descreve exatamente o insumo (variedade, gramatura, padrão de qualidade) — evita divergência de interpretação no recebimento.</td></tr>
+        <tr><td><strong>Preço e regra de reajuste</strong></td><td>Define o índice ou a periodicidade de revisão de preço, evitando repasses unilaterais no meio do período contratado.</td></tr>
+        <tr><td><strong>Prazo e frequência de entrega (SLA)</strong></td><td>Estabelece janela de entrega aceitável e o que acontece em caso de atraso.</td></tr>
+        <tr><td><strong>Penalidades por não conformidade</strong></td><td>Define consequência objetiva para atraso, insumo fora do padrão ou quebra de contrato — sem isso, a penalidade vira "conversa".</td></tr>
+        <tr><td><strong>Forma de pagamento</strong></td><td>Prazo, meio de pagamento e condição de desconto por antecipação, se houver.</td></tr>
+        <tr><td><strong>Vigência e renovação</strong></td><td>Data de início/fim e regra clara de renovação automática ou não.</td></tr>
+        <tr><td><strong>Rescisão</strong></td><td>Condições e aviso prévio mínimo para encerrar a relação sem prejuízo operacional a nenhuma das partes.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Cadência de compras: a curva ABC de insumos</h3>
+    <p>Nem todo insumo merece o mesmo nível de atenção de compra. A curva ABC classifica os itens do estoque pelo seu peso financeiro no total de compras — permitindo concentrar esforço de negociação e controle onde ele realmente importa:</p>
+    <table>
+      <thead><tr><th>Classe</th><th>Perfil</th><th>Cadência de compra recomendada</th></tr></thead>
+      <tbody>
+        <tr><td><strong>A</strong></td><td>Poucos itens (tipicamente 15% a 20% dos SKUs), concentrando cerca de 70% a 80% do valor total comprado — normalmente proteínas nobres e insumos centrais do cardápio.</td><td>Compra frequente (semanal ou mais), com cotação comparativa ativa e monitoramento rígido de preço e qualidade.</td></tr>
+        <tr><td><strong>B</strong></td><td>Faixa intermediária de itens, respondendo por cerca de 15% do valor total.</td><td>Compra quinzenal, com revisão de preço mensal.</td></tr>
+        <tr><td><strong>C</strong></td><td>Grande número de itens de baixo valor unitário (temperos, descartáveis, itens de limpeza), somando cerca de 5% a 10% do valor total.</td><td>Compra mensal ou em lote maior, priorizando praticidade e menor esforço administrativo sobre negociação fina de preço.</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Exemplo ilustrativo:</strong> em um restaurante com 60 itens de insumo cadastrados, a proteína principal, o segundo corte mais usado e o queijo de maior consumo (apenas 3 itens, 5% dos SKUs) podem sozinhos representar 45% do valor total comprado no mês — esses três itens, e não os outros 57, são os que merecem cotação semanal e negociação ativa de contrato.</p>
+    <p class="callout accent"><strong>Por que isso importa</strong>Tratar um item de classe C (por exemplo, guardanapo de papel) com o mesmo rigor de negociação de um item de classe A desperdiça tempo do gestor de compras. Inverter a lógica — negociar pouco os itens A e gastar energia nos itens C — é um erro estrutural silencioso que infla o CMV sem que ninguém perceba de onde vem a perda.</p>
+
+    <h3>Como reduzir a dependência de fornecedor único</h3>
+    <p>Depender de um único fornecedor para um insumo crítico (classe A da curva ABC) é um risco operacional, não apenas comercial: qualquer ruptura — falta de produto, problema de qualidade, encerramento do negócio do fornecedor — pode parar o cardápio da casa de um dia para o outro. Estratégias práticas de mitigação:</p>
+    <ul class="check-list">
+      <li>Manter ao menos um fornecedor homologado "backup" para cada item de classe A, mesmo sem comprar dele regularmente.</li>
+      <li>Evitar que um único fornecedor concentre mais de 40% a 50% do volume de compra de uma categoria crítica.</li>
+      <li>Manter estoque de segurança proporcional ao risco de ruptura do item (maior para itens de fornecedor único ou de origem sazonal).</li>
+      <li>Mapear fornecedores locais/regionais alternativos antes de precisar deles, não durante uma crise de abastecimento.</li>
+      <li>Revisar a matriz de dependência por fornecedor a cada semestre, junto com o scorecard de desempenho.</li>
+    </ul>
+
+    <h3>Checklist de compras e fornecedores</h3>
+    <ul class="check-list">
+      <li>Todos os fornecedores ativos passaram por processo de homologação documentado?</li>
+      <li>Existe scorecard de desempenho revisado trimestralmente para os fornecedores de itens classe A?</li>
+      <li>Os contratos ou pedidos de compra formalizam preço, reajuste, prazo de entrega e penalidade por não conformidade?</li>
+      <li>A curva ABC de insumos foi calculada e revisada nos últimos seis meses?</li>
+      <li>Nenhum fornecedor único concentra mais de 40% a 50% do volume de uma categoria crítica?</li>
+      <li>Existe ao menos um fornecedor backup homologado para cada item de classe A?</li>
+    </ul>
+  </div>
+
+  <!-- MÓDULO 8 -->
+  <div class="module" id="m8">
+    <div class="module-header">
+      <div class="module-num">8</div>
+      <div>
+        <h2>Legislação e Processos Legais de Abertura</h2>
+        <span class="tag">Tema da aula #8</span>
+      </div>
+    </div>
+
+    <p>Antes de qualquer conceito, ficha técnica ou dashboard fazer sentido, o restaurante precisa existir legalmente. Este módulo organiza, em ordem prática, os documentos e licenças que um Restaurateur precisa ter resolvidos — ou pelo menos em andamento — antes de abrir as portas no Brasil. O objetivo não é substituir o acompanhamento de um contador ou advogado especializado, mas garantir que o consultor saiba nomear cada etapa e cobrar o andamento correto junto ao cliente.</p>
+
+    <h3>Passo a passo do processo legal de abertura</h3>
+    <div class="step-list">
+      <div class="step"><span class="sn">1</span><span class="st"><strong>Definição societária e CNPJ</strong> — escolha da natureza jurídica (MEI, ME, EPP, sociedade limitada etc.), elaboração do contrato social ou requerimento de empresário e registro na Junta Comercial, seguido da inscrição do CNPJ na Receita Federal.</span></div>
+      <div class="step"><span class="sn">2</span><span class="st"><strong>Consulta prévia de viabilidade e zoneamento</strong> — verificação junto à Prefeitura se o endereço escolhido permite a atividade de restaurante (uso do solo, zoneamento urbano) antes de assinar qualquer contrato de locação.</span></div>
+      <div class="step"><span class="sn">3</span><span class="st"><strong>Alvará de Funcionamento</strong> — licença municipal que autoriza a operação comercial no endereço, emitida pela Prefeitura após verificação de conformidade do imóvel.</span></div>
+      <div class="step"><span class="sn">4</span><span class="st"><strong>Alvará Sanitário (Vigilância Sanitária)</strong> — licença emitida pelo órgão de vigilância sanitária municipal ou estadual, que avalia as instalações, o layout da cozinha e o cumprimento das boas práticas de manipulação de alimentos.</span></div>
+      <div class="step"><span class="sn">5</span><span class="st"><strong>AVCB — Auto de Vistoria do Corpo de Bombeiros</strong> — atesta que o imóvel atende às normas de segurança contra incêndio (extintores, saídas de emergência, sinalização, capacidade máxima de pessoas), emitido após vistoria do Corpo de Bombeiros.</span></div>
+      <div class="step"><span class="sn">6</span><span class="st"><strong>Licença ambiental (quando aplicável)</strong> — exigida conforme o porte e o impacto da operação (sistema de exaustão, geração de resíduos, caixa de gordura), avaliada pelo órgão ambiental municipal ou estadual.</span></div>
+      <div class="step"><span class="sn">7</span><span class="st"><strong>Inscrições complementares</strong> — inscrição estadual (quando aplicável à atividade), cadastro em órgãos de classe ou sindicatos patronais, conforme a categoria do negócio.</span></div>
+    </div>
+
+    <h3>Documentos e licenças: visão consolidada</h3>
+    <table>
+      <thead><tr><th>Documento</th><th>Órgão emissor típico</th><th>O que avalia</th></tr></thead>
+      <tbody>
+        <tr><td><strong>CNPJ + Contrato Social</strong></td><td>Junta Comercial / Receita Federal</td><td>Existência legal da empresa e sua natureza jurídica.</td></tr>
+        <tr><td><strong>Alvará de Funcionamento</strong></td><td>Prefeitura Municipal</td><td>Adequação do imóvel e da atividade ao uso comercial permitido no local.</td></tr>
+        <tr><td><strong>Alvará Sanitário</strong></td><td>Vigilância Sanitária</td><td>Estrutura física da cozinha, fluxo de produção e boas práticas de manipulação de alimentos.</td></tr>
+        <tr><td><strong>AVCB</strong></td><td>Corpo de Bombeiros</td><td>Segurança contra incêndio: extintores, rotas de fuga, sinalização, capacidade máxima.</td></tr>
+        <tr><td><strong>Licença Ambiental</strong></td><td>Órgão ambiental municipal/estadual</td><td>Impacto ambiental da operação — exaustão, resíduos, efluentes (quando aplicável ao porte do negócio).</td></tr>
+      </tbody>
+    </table>
+    <p class="callout blue"><strong>Ordem importa</strong>Na prática, esses documentos raramente são independentes: o Alvará de Funcionamento costuma exigir o Alvará Sanitário e o AVCB (ou ao menos o protocolo de solicitação) já encaminhados. Por isso, tratar o processo como sequência — e não como lista solta de tarefas — evita que o cliente feche contrato de locação e monte a cozinha antes de confirmar que o endereço é viável.</p>
+
+    <h3>Formalização trabalhista básica</h3>
+    <p>Contratar a equipe corretamente desde o primeiro dia evita passivo trabalhista, que costuma ser um dos riscos financeiros mais subestimados por quem abre um restaurante pela primeira vez. Os pontos mínimos de formalização incluem:</p>
+    <ul>
+      <li>Registro do empregado via eSocial, com CTPS digital atualizada antes do início efetivo do trabalho.</li>
+      <li>Exame médico admissional, obrigatório antes do início das atividades.</li>
+      <li>Contrato de trabalho por escrito (mesmo quando a admissão é feita via sistema), definindo função, jornada e remuneração.</li>
+      <li>Cumprimento da convenção coletiva de trabalho da categoria (piso salarial, adicionais, benefícios mínimos da região).</li>
+      <li>Controle de jornada e de horas extras desde o primeiro mês — um dos itens mais fiscalizados em ações trabalhistas do setor.</li>
+    </ul>
+    <p class="callout"><strong>Sobre segurança do trabalho (NR-1)</strong>A gestão de riscos ocupacionais e psicossociais prevista na NR-1 tem módulo próprio e completo na plataforma. Aqui, o ponto é apenas de checklist de abertura: o programa de gerenciamento de riscos precisa existir e estar documentado antes do início da operação, não ser criado depois de uma fiscalização.</p>
+
+    <h3>Segurança de alimentos: o que precisa estar documentado antes de abrir a porta</h3>
+    <p>A legislação sanitária brasileira para serviços de alimentação se apoia principalmente em duas resoluções da Anvisa, que qualquer Restaurateur deveria reconhecer de cor:</p>
+    <div class="chip-row">
+      <span class="chip">RDC 216/2004 — Boas Práticas para Serviços de Alimentação</span>
+      <span class="chip">RDC 275/2002 — Procedimentos Operacionais Padronizados (POP)</span>
+    </div>
+    <p>Sem entrar no detalhamento operacional completo (tratado em módulo dedicado de compliance da plataforma), o resumo do que precisa estar <strong>documentado e disponível</strong> antes da abertura é:</p>
+    <table>
+      <thead><tr><th>Documento / registro</th><th>O que cobre</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Manual de Boas Práticas</strong></td><td>Descreve as condições higiênico-sanitárias do estabelecimento e os procedimentos gerais adotados pela casa.</td></tr>
+        <tr><td><strong>POPs (Procedimentos Operacionais Padronizados)</strong></td><td>Rotinas escritas de higienização de instalações e equipamentos, controle de água, controle integrado de pragas, higiene e saúde dos manipuladores e manejo de resíduos.</td></tr>
+        <tr><td><strong>Registro de capacitação dos manipuladores</strong></td><td>Comprovação de que a equipe recebeu treinamento em boas práticas antes de manipular alimentos.</td></tr>
+        <tr><td><strong>Controle de temperatura</strong></td><td>Registro periódico de temperatura de equipamentos de refrigeração e de exposição de alimentos.</td></tr>
+        <tr><td><strong>Responsável técnico (quando exigido)</strong></td><td>Indicação formal do responsável pelas boas práticas perante a vigilância sanitária local.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Checklist: o que ter documentado antes de abrir a porta</h3>
+    <ul class="check-list">
+      <li>CNPJ ativo e contrato social registrado na Junta Comercial?</li>
+      <li>Viabilidade de endereço/zoneamento confirmada junto à Prefeitura antes da assinatura da locação?</li>
+      <li>Alvará de Funcionamento emitido ou protocolado?</li>
+      <li>Alvará Sanitário emitido ou protocolado junto à Vigilância Sanitária?</li>
+      <li>AVCB emitido junto ao Corpo de Bombeiros, com extintores e saídas de emergência conforme o projeto aprovado?</li>
+      <li>Licença ambiental avaliada e, se aplicável ao porte do negócio, protocolada?</li>
+      <li>Manual de Boas Práticas e POPs escritos e disponíveis para consulta da equipe?</li>
+      <li>Toda a equipe contratada tem registro formal via eSocial e exame admissional realizado?</li>
+      <li>O programa de gerenciamento de riscos ocupacionais (NR-1) está documentado, conforme o módulo dedicado da plataforma?</li>
+    </ul>
+  </div>
+
+  <div class="source-block">
+    <strong>Metodologia Artblend</strong>
+    Este material sintetiza a metodologia proprietária de gestão para restaurantes desenvolvida pela Artblend Consultoria Gourmet, para uso interno da equipe consultora.
+  </div>
+
+  <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:24px;">Artblend Consultoria Gourmet — Fagner Augusto</p>
+
+</div>
+</body>
+</html>

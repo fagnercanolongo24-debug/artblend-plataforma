@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artblend — Análise de Mercado e Caminho do Software</title>
+<style>
+  :root{
+    --ink:#1E2521; --muted:#5B655E; --line:#E4DED4; --paper:#FFFFFF; --warm:#FBF7F1;
+    --primary:#0E5E55; --primary-d:#0A463F; --soft:#E5F0EE; --accent:#D9772F;
+    --a-bg:#E8F1EF; --b-bg:#E8EFF6; --t-bg:#FBF0D8; --warn:#B23B2E; --warn-bg:#FBE9E6; --ok:#1E7A4B; --ok-bg:#E6F3EC;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{margin:0;font-family:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;color:var(--ink);line-height:1.62;background:#fff;font-size:15px;}
+  .wrap{max-width:900px;margin:0 auto;padding:0 54px;}
+  .cover{background:linear-gradient(150deg,var(--primary-d),var(--primary) 60%,#13766B);color:#fff;padding:84px 54px;position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;}
+  .cover .kick{letter-spacing:3px;text-transform:uppercase;font-size:13px;font-weight:600;color:#9BE3D6;margin-bottom:16px;}
+  .cover h1{font-size:42px;line-height:1.08;margin:0 0 12px;font-weight:800;}
+  .cover h2{font-size:19px;font-weight:500;margin:0 0 30px;color:#CDEDE7;}
+  .cover .bar{width:90px;height:6px;background:var(--accent);border-radius:6px;margin-bottom:28px;}
+  .cover .foot{position:absolute;bottom:40px;left:54px;right:54px;font-size:13px;color:#9BE3D6;border-top:1px solid rgba(255,255,255,.2);padding-top:14px;display:flex;justify-content:space-between;}
+  .sec{background:var(--primary);color:#fff;border-radius:14px;padding:20px 26px;margin:44px 0 20px;page-break-before:always;}
+  .sec .k{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#A7E0D6;font-weight:700;}
+  .sec h2{font-size:23px;margin:6px 0;font-weight:800;}
+  .sec .m{font-size:13.5px;color:#CFEAE5;}
+  h3{font-size:18px;color:var(--primary-d);margin:26px 0 8px;font-weight:750;border-left:5px solid var(--accent);padding-left:12px;}
+  p{margin:9px 0;} strong{color:var(--primary-d);}
+  ul,ol{margin:9px 0;padding-left:22px;} li{margin:5px 0;}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:12.5px;page-break-inside:avoid;}
+  th{background:var(--primary);color:#fff;text-align:left;padding:8px 10px;font-weight:600;}
+  td{border:1px solid var(--line);padding:8px 10px;vertical-align:top;}
+  tr:nth-child(even) td{background:var(--warm);}
+  .box{border-radius:12px;padding:16px 20px;margin:16px 0;border:1px solid var(--line);page-break-inside:avoid;}
+  .box .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:4px 11px;border-radius:20px;color:#fff;margin-bottom:9px;}
+  .box.ok{background:var(--ok-bg);border-color:#BEE0CC;} .box.ok .tag{background:var(--ok);}
+  .box.warn{background:var(--warn-bg);border-color:#EEC4BD;} .box.warn .tag{background:var(--warn);}
+  .box.t{background:var(--t-bg);border-color:#EAD7A6;} .box.t .tag{background:#B07A12;}
+  .lead{font-size:16.5px;color:var(--muted);}
+  .note{font-size:12.5px;color:var(--muted);font-style:italic;}
+  .divider{height:1px;background:var(--line);margin:26px 0;}
+  @page{margin:18mm 13mm;}
+  @media print{.cover{min-height:auto;height:100vh;}}
+</style>
+</head>
+<body>
+<section class="cover">
+  <div class="kick">Artblend Consultoria Gourmet · Documento de Direção</div>
+  <h1>Análise de Mercado e Caminho do Software</h1>
+  <h2>Concorrentes, o que é preciso para construir, licenças, custos e a rota recomendada</h2>
+  <div class="bar"></div>
+  <div class="foot"><span>Artblend Consultoria Gourmet</span><span>Junho 2026</span></div>
+</section>
+<div class="wrap">
+
+<div class="sec"><div class="k">Antes de tudo</div><h2>Transparência sobre as fontes</h2></div>
+<p class="lead">Eu <strong>não consigo assistir nem transcrever vídeos do Instagram</strong> — a plataforma é fechada (exige login e o conteúdo não fica acessível para leitura externa). Não vou fingir que assisti. O que segue vem de <strong>pesquisa nas páginas públicas e sites oficiais</strong> de cada produto. Para o conteúdo dos vídeos, o melhor caminho é você me mandar prints ou textos que eu analiso na hora.</p>
+
+<div class="sec"><div class="k">Parte 1</div><h2>Análise dos concorrentes</h2><div class="m">O que cada um é, sua força e o que a Artblend tira de lição.</div></div>
+<table>
+<tr><th>Produto</th><th>O que é (verificado)</th><th>Categoria</th><th>O que aproveitar</th></tr>
+<tr><td><strong>ProApp</strong> (Produz Soluções, Recife)</td><td>App para o <strong>consultor</strong> de food service: checklists personalizados <em>offline</em>, templates prontos, agenda de visitas compartilhada, rótulos nutricionais e <strong>fichas técnicas com cálculo de custo automático</strong>. Permite a equipe atender mais restaurantes.</td><td>App do consultor</td><td>É o espelho mais próximo do <strong>Artblend OS</strong>. Checklist offline + ficha técnica com custo é obrigatório.</td></tr>
+<tr><td><strong>Suflex</strong></td><td>Sistema de cozinha: etiquetas, <strong>controle de validade</strong>, contagem de insumos, produção, recebimento. Assinatura mensal sem fidelidade.</td><td>Operação / validade</td><td>Módulo de operação; ou <strong>integrar</strong> em vez de recriar.</td></tr>
+<tr><td><strong>Valitag</strong> (valitag.tech)</td><td>Etiquetas de validade no <strong>padrão ANVISA</strong> + tecnologia de etiquetagem para cozinha.</td><td>Etiqueta / compliance</td><td>Inspiração para o módulo de <strong>boas práticas/ANVISA</strong> (diferencial de compliance).</td></tr>
+<tr><td><strong>Consumer</strong> e ERPs (Saipos, Sischef, OPDV...)</td><td>ERP/PDV: comanda, estoque, financeiro, compras, ficha técnica, CMV, integração com iFood e relatórios.</td><td>ERP / PDV</td><td>É a <strong>fonte de dados</strong>. Não compete — integre para puxar vendas e estoque.</td></tr>
+<tr><td><strong>Nova Inteligência / IA gastronômica</strong> (Vinícius Meyer)</td><td>IA aplicada à gastronomia (fichas, cardápio). <span class="note">Detalhes específicos não confirmados publicamente.</span></td><td>IA gastronômica</td><td>Inspiração para o <strong>Agente Gastronômico</strong>.</td></tr>
+</table>
+<div class="box ok"><span class="tag">A leitura estratégica</span><p>Repare no padrão: <strong>ProApp</strong> cuida do consultor; <strong>Suflex/Valitag</strong> cuidam da validade; <strong>Consumer/ERPs</strong> cuidam de venda e estoque; as <strong>IAs</strong> respondem perguntas. Cada um faz uma fatia. <strong>Ninguém junta consultoria + pessoas + treinamento + operação + IA num ecossistema só.</strong> Esse é o lugar da Artblend.</p></div>
+
+<div class="sec"><div class="k">Parte 2</div><h2>Eu consigo fazer melhor, juntando tudo?</h2></div>
+<p>Resposta honesta, em duas partes:</p>
+<div class="box ok"><span class="tag">O que eu já faço — aqui</span><p>Eu <strong>projeto e construo</strong> as telas, a lógica, os cálculos e protótipos navegáveis (como o painel e o OS que você já tem). Consigo desenhar o ecossistema inteiro e entregar maquetes funcionais que provam a ideia e servem de "planta" para a obra. Para validar conceito e mostrar a investidor/sócio, isso já é ouro.</p></div>
+<div class="box warn"><span class="tag">O que exige mais do que este chat</span><p>Um software <strong>de produção</strong> — vários usuários, login, dados na nuvem, app na loja, cobrança recorrente — não roda dentro de um chat. Ele precisa ser <strong>hospedado e mantido</strong>. Eu te ajudo a montar isso numa plataforma (no-code) ou a especificar para uma equipe, mas o "ligar na tomada" acontece fora daqui. Resumo: <strong>design e MVP, sim; operar o SaaS 24/7, não dentro do chat.</strong></p></div>
+
+<div class="sec"><div class="k">Parte 3</div><h2>Anatomia de um software desses (o que é preciso)</h2></div>
+<table>
+<tr><th>Peça</th><th>Para que serve</th></tr>
+<tr><td><strong>Front-end</strong></td><td>As telas (web + app no celular)</td></tr>
+<tr><td><strong>Back-end + Banco de dados</strong></td><td>O "cérebro" que guarda clientes, indicadores, conteúdo (o Artblend Core)</td></tr>
+<tr><td><strong>Autenticação / permissões</strong></td><td>Login e níveis (consultor, dono, líder, colaborador)</td></tr>
+<tr><td><strong>Pagamento recorrente</strong></td><td>Cobrar a assinatura (gateway)</td></tr>
+<tr><td><strong>Integrações</strong></td><td>Puxar dados do PDV/iFood/estoque</td></tr>
+<tr><td><strong>Camada de IA</strong></td><td>Agentes, alertas e plano de ação</td></tr>
+<tr><td><strong>Hospedagem (nuvem)</strong></td><td>Manter tudo no ar, com backup e segurança</td></tr>
+</table>
+
+<div class="sec"><div class="k">Parte 4</div><h2>Três caminhos para construir (tempo e custo)</h2></div>
+<table>
+<tr><th>Caminho</th><th>Ferramentas</th><th>Tempo p/ MVP</th><th>Custo aprox.*</th><th>Para quem</th></tr>
+<tr><td><strong>No-code</strong> (recomendado p/ começar)</td><td>Softr, Glide, Bubble, FlutterFlow + planilha/Airtable</td><td>2–6 semanas</td><td>R$ 150–800/mês de assinaturas</td><td>Validar rápido e barato, você no controle</td></tr>
+<tr><td><strong>Low-code / freelancer</strong></td><td>No-code avançado + 1 dev pontual</td><td>2–4 meses</td><td>R$ 8 mil–40 mil + mensais</td><td>Quando já tem clientes pagando</td></tr>
+<tr><td><strong>Software sob medida</strong></td><td>Equipe (dev, design) ou software house</td><td>4–10 meses</td><td>R$ 60 mil–300 mil+</td><td>Escala grande, com investimento</td></tr>
+</table>
+<p class="note">*Faixas de ordem de grandeza para o mercado brasileiro — variam muito por escopo e fornecedor. Confirme orçamentos atualizados antes de decidir.</p>
+
+<div class="sec"><div class="k">Parte 5</div><h2>Licenças, contas e questões legais</h2><div class="m">Não existe "uma licença" — é um conjunto de contas e cuidados.</div></div>
+<ul>
+<li><strong>Empresa:</strong> CNPJ ativo (a Artblend) e contrato de prestação de serviço / termos de uso do software.</li>
+<li><strong>LGPD:</strong> política de privacidade + termo de tratamento de dados (você guarda dados de colaboradores e financeiros do cliente — isso é sensível).</li>
+<li><strong>Pagamento recorrente:</strong> conta em gateway (ex.: Pagar.me, Stripe, Asaas, Iugu) para cobrar a assinatura.</li>
+<li><strong>Lojas de app (se fizer app nativo):</strong> conta Apple Developer (anual) e Google Play (taxa única). Com no-code dá para começar como <em>web app</em> e pular isso no início.</li>
+<li><strong>Domínio + hospedagem</strong> (ex.: artblend.com.br) e e-mail profissional.</li>
+<li><strong>Assinaturas das ferramentas</strong> escolhidas (no-code, banco de dados, IA via API).</li>
+<li><strong>Marca:</strong> registro do nome/logo "Artblend" no INPI (protege o ativo).</li>
+<li><strong>Se mexer com etiqueta/validade</strong> como a Valitag: atenção às normas <strong>ANVISA</strong> (RDC de boas práticas).</li>
+</ul>
+
+<div class="sec"><div class="k">Parte 6</div><h2>Recomendação prática (o que eu faria no seu lugar)</h2></div>
+<ol>
+<li><strong>Não construa o ecossistema inteiro agora.</strong> Comece pelo Artblend OS no-code (estilo ProApp): clientes, diagnóstico, ficha técnica com custo, checklist, proposta.</li>
+<li><strong>Use os protótipos que já tem</strong> como planta e como material de venda/investidor.</li>
+<li><strong>Coloque 1 restaurante-piloto pagando</strong> uma assinatura simples antes de gastar com desenvolvimento.</li>
+<li><strong>Integre, não recrie:</strong> deixe o PDV/ERP cuidar de venda e estoque; o seu diferencial é pessoas + treinamento + IA.</li>
+<li><strong>Resolva LGPD e pagamento</strong> desde o primeiro cliente.</li>
+</ol>
+<div class="box t"><span class="tag">Onde eu entro</span><p>Eu te entrego as telas, a lógica e os protótipos navegáveis; estruturo os dados e os formulários; escrevo a especificação para o no-code ou para um dev; e desenho o passo a passo. O que fica com você (ou com um parceiro): publicar na nuvem e operar a assinatura.</p></div>
+
+<div class="divider"></div>
+<p class="note" style="text-align:center;">Análise de Mercado e Caminho do Software · © Artblend Consultoria Gourmet — Junho 2026. Fontes: páginas oficiais ProApp, Suflex, Valitag e sistemas ERP/PDV de food service (2025–2026).</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano de Migração — Backend Real (Supabase) · ArtBlend</title>
+<style>
+  :root{
+    --bg:#F5F7FA; --card:#FFFFFF; --border:#E2E6ED; --text:#16294A; --muted:#6E7A8C;
+    --accent:#2EC4D6; --accent-soft:#E4F8FB; --blue:#1C93A8; --good:#2ECC71; --good-bg:#E3FBEF;
+    --amber:#9a5420; --amber-bg:#FDF3E0;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);padding:44px 20px 70px;}
+  .wrap{max-width:860px;margin:0 auto;}
+  .top{text-align:center;margin-bottom:34px;}
+  .top .kick{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);font-weight:800;}
+  .top h1{font-size:26px;font-weight:800;margin:6px 0 8px;}
+  .top p{color:var(--muted);font-size:14px;max-width:620px;margin:0 auto;line-height:1.6;}
+  h2.mh{font-size:18px;color:var(--text);margin:32px 0 8px;font-weight:800;border-left:4px solid var(--accent);padding-left:12px;}
+  p{line-height:1.7;font-size:14px;margin:8px 0;}
+  ul,ol{padding-left:22px;line-height:1.8;font-size:14px;margin:8px 0;}
+  .step{display:flex;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin:10px 0;}
+  .step .n{font-weight:800;font-size:18px;color:var(--blue);flex-shrink:0;width:24px;}
+  .status{display:inline-block;font-size:10.5px;font-weight:800;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-left:8px;}
+  .status.pronto{background:var(--good-bg);color:#1C9A57;}
+  .status.falta{background:var(--amber-bg);color:var(--amber);}
+  pre{background:#0F1B2E;color:#BFF3EE;padding:16px 18px;border-radius:10px;overflow-x:auto;font-size:12.5px;line-height:1.6;margin:10px 0;}
+  code{font-family:Consolas,Menlo,monospace;}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0;}
+  th{background:var(--accent-soft);color:var(--blue);text-align:left;padding:8px 10px;font-weight:700;}
+  td{border-bottom:1px solid var(--border);padding:8px 10px;}
+  .blocker{background:var(--amber-bg);border:1px solid #E6C48A;border-radius:12px;padding:16px 20px;margin:20px 0;font-size:13.5px;}
+  .backlink{display:block;text-align:center;margin-top:36px;font-size:13px;}
+  .backlink a{color:var(--blue);font-weight:700;text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="kick">Plano técnico · pronto pra executar</div>
+    <h1>Migração para backend real (Supabase)</h1>
+    <p>O que já está pronto tecnicamente, o esquema de banco de dados desenhado pra todas as 9 ferramentas, e o único passo que falta de você pra eu ligar tudo.</p>
+  </div>
+
+  <div class="blocker" style="background:var(--good-bg);border-color:#9FE0BC;">
+    <b>✅ Conta criada e credenciais recebidas.</b> Project URL: <code>https://zjvjixiuvnpbpsdnxuyk.supabase.co</code>. Chave pública (anon/publishable) recebida e guardada. Falta um passo só: rodar o SQL abaixo no <b>SQL Editor</b> do Supabase (New query → colar → Run). Assim que isso for feito, eu conecto as ferramentas ao banco.
+  </div>
+
+  <h2 class="mh">O que já está pronto agora <span class="status pronto">Pronto</span></h2>
+  <p>Desenhei o banco de dados completo pra cobrir as 9 ferramentas que já existem, mantendo a mesma estrutura de "cliente ativo" que você já usa hoje — só troca de onde os dados são lidos/salvos, a tela continua igual.</p>
+
+  <h2 class="mh">Esquema de banco de dados (tabelas)</h2>
+  <table>
+    <tr><th>Tabela</th><th>Serve pra</th></tr>
+    <tr><td><code>clientes</code></td><td>Um registro por cliente/projeto — substitui a lista que hoje vive em cada ferramenta separadamente. Compartilhada por todas as ferramentas.</td></tr>
+    <tr><td><code>kit_operacional_dados</code></td><td>Cargos, fichas, receitas, praça, POP, compras — por cliente.</td></tr>
+    <tr><td><code>frameworks_dados</code></td><td>Diagnóstico e plano estratégico — por cliente.</td></tr>
+    <tr><td><code>financeira_dados</code></td><td>6 Ps, Prime Cost, orçado x realizado, retenção — por cliente.</td></tr>
+    <tr><td><code>compliance_dados</code></td><td>Riscos ocupacionais, RDC 216, HACCP, agenda regulatória — por cliente.</td></tr>
+    <tr><td><code>nr1_drps_dados</code></td><td>Setores, diagnóstico psicossocial, plano de ação — por cliente.</td></tr>
+    <tr><td><code>cep_dados</code></td><td>Todos os campos das 8 ferramentas de RH — por cliente.</td></tr>
+    <tr><td><code>cardapio_dados</code></td><td>Insumos e fichas técnicas — por cliente.</td></tr>
+    <tr><td><code>crm_clientes</code>, <code>crm_agenda</code>, <code>crm_biblioteca</code></td><td>Funil, compromissos e biblioteca do consultor — carteira inteira, não por cliente único.</td></tr>
+    <tr><td><code>usuarios</code></td><td>Login de você e futuros consultores (o Supabase já cuida da autenticação).</td></tr>
+  </table>
+
+  <h2 class="mh">SQL pronto pra criar tudo isso (é só colar no Supabase)</h2>
+  <pre>-- Clientes (compartilhado por todas as ferramentas)
+create table clientes (
+  id uuid primary key default gen_random_uuid(),
+  owner_id uuid references auth.users(id) not null,
+  nome text not null,
+  created_at timestamptz default now()
+);
+
+-- Uma tabela genérica por ferramenta (cada uma guarda o "estado" daquele cliente em JSON,
+-- do mesmo jeito que hoje fica salvo no localStorage — migração direta, sem redesenhar telas)
+create table dados_ferramenta (
+  id uuid primary key default gen_random_uuid(),
+  cliente_id uuid references clientes(id) on delete cascade,
+  ferramenta text not null, -- 'kit_operacional' | 'frameworks' | 'financeira' | 'compliance' | 'nr1' | 'cep' | 'cardapio'
+  conteudo jsonb not null default '{}',
+  updated_at timestamptz default now(),
+  unique(cliente_id, ferramenta)
+);
+
+-- CRM (carteira do consultor, não é por cliente único)
+create table crm_agenda (
+  id uuid primary key default gen_random_uuid(),
+  owner_id uuid references auth.users(id) not null,
+  cliente_id uuid references clientes(id),
+  data date, tipo text, nota text, status text default 'pendente',
+  created_at timestamptz default now()
+);
+
+-- Segurança: cada consultor só vê os próprios clientes
+alter table clientes enable row level security;
+create policy "cada um vê só o seu" on clientes
+  for all using (owner_id = auth.uid());
+
+alter table dados_ferramenta enable row level security;
+create policy "cada um vê só os dados dos próprios clientes" on dados_ferramenta
+  for all using (
+    exists (select 1 from clientes c where c.id = dados_ferramenta.cliente_id and c.owner_id = auth.uid())
+  );
+
+alter table crm_agenda enable row level security;
+create policy "cada um vê só a própria agenda" on crm_agenda
+  for all using (owner_id = auth.uid());</pre>
+
+  <h2 class="mh">Como a migração acontece na prática, ferramenta por ferramenta</h2>
+  <div class="step"><div class="n">1</div><div><b>Trocar só a "gaveta".</b> Cada ferramenta já tem as funções <code>load()</code> e <code>save()</code> centralizadas (é assim que foi construída desde o início, de propósito). Eu troco só o miolo dessas duas funções pra chamar o Supabase em vez do <code>localStorage</code> — o resto do código (telas, cálculos, botões) não muda nada.</div></div>
+  <div class="step"><div class="n">2</div><div><b>Login único.</b> Adiciono uma tela de entrada simples (e-mail/senha) na frente do Hub — depois de logado, tudo funciona igual a hoje.</div></div>
+  <div class="step"><div class="n">3</div><div><b>Testar com seus dados reais</b> — migro o que já está salvo no seu navegador hoje pro banco novo, pra não perder nada do que você já cadastrou.</div></div>
+  <div class="step"><div class="n">4</div><div><b>PWA instalável</b> — deixo o Hub instalável no celular direto do navegador, sem loja, pra você validar no dia a dia.</div></div>
+  <div class="step"><div class="n">5</div><div><b>Play Store</b> (só depois de validado) — embalar e publicar, com a conta de desenvolvedor Google (US$ 25 único).</div></div>
+
+  <h2 class="mh">Por que essa ordem</h2>
+  <p>O banco de dados é o "esqueleto" — só se faz uma vez e tudo o resto se apoia nele. Deixar a Play Store por último evita ter que redesenhar telas se algo mudar no meio do caminho, e o PWA permite validar com uso real (inclusive com clientes) sem gastar nada nem esperar aprovação de loja.</p>
+
+  <p class="backlink"><a href="ARTBLEND_HUB.html">← Voltar para o Hub principal</a></p>
+</div>
+</body>
+</html>

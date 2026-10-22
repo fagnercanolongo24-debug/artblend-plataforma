@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curso T&D — Artblend Consultoria Gourmet | Food Service</title>
+<style>
+  :root{
+    --ink:#1E2521; --muted:#5B655E; --line:#E4DED4; --paper:#FFFFFF; --paper-warm:#FBF7F1;
+    --primary:#0E5E55; --primary-d:#0A463F; --primary-soft:#E5F0EE;
+    --accent:#D9772F; --caso:#0E5E55; --caso-bg:#E8F1EF; --script:#2F5D8C; --script-bg:#E8EFF6;
+    --template:#B07A12; --template-bg:#FBF0D8; --metodo-bg:#0E5E55; --warn:#B23B2E; --warn-bg:#FBE9E6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.62;margin:0;background:#fff;font-size:15px;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 54px;}
+  .cover{background:linear-gradient(150deg,var(--primary-d) 0%,var(--primary) 55%,#13766B 100%);color:#fff;padding:90px 54px 70px;position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;}
+  .cover .kick{letter-spacing:3px;text-transform:uppercase;font-size:13px;font-weight:600;color:#9BE3D6;margin-bottom:18px;}
+  .cover h1{font-size:50px;line-height:1.05;margin:0 0 10px;font-weight:800;}
+  .cover h2{font-size:21px;font-weight:500;margin:0 0 34px;color:#CDEDE7;}
+  .cover .badges{display:flex;gap:12px;flex-wrap:wrap;}
+  .cover .badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:30px;padding:8px 18px;font-size:13px;font-weight:600;}
+  .cover .accentbar{width:90px;height:6px;background:var(--accent);border-radius:6px;margin:0 0 30px;}
+  .cover .foot{position:absolute;bottom:42px;left:54px;right:54px;font-size:13px;color:#9BE3D6;border-top:1px solid rgba(255,255,255,.2);padding-top:16px;display:flex;justify-content:space-between;}
+  .module-head{background:var(--primary);color:#fff;border-radius:14px;padding:24px 28px;margin:48px 0 24px;page-break-before:always;}
+  .module-head .m-kick{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#A7E0D6;font-weight:700;}
+  .module-head h2{font-size:26px;margin:6px 0;font-weight:800;}
+  .module-head .m-meta{font-size:13.5px;color:#CFEAE5;}
+  .part-banner{background:linear-gradient(135deg,var(--accent) 0%,#C25E1E 100%);color:#fff;border-radius:14px;padding:28px;margin:46px 0 10px;text-align:center;page-break-before:always;}
+  .part-banner .pk{letter-spacing:3px;text-transform:uppercase;font-size:12px;color:#FCE3CC;font-weight:700;}
+  .part-banner h2{font-size:28px;margin:8px 0 4px;font-weight:800;}
+  .part-banner p{margin:0;color:#FBEEE0;font-size:14px;}
+  h3{font-size:20px;color:var(--primary-d);margin:32px 0 8px;font-weight:750;border-left:5px solid var(--accent);padding-left:12px;}
+  h4{font-size:16px;margin:18px 0 6px;font-weight:700;}
+  p{margin:9px 0;} strong{color:var(--primary-d);}
+  ul,ol{margin:9px 0;padding-left:22px;} li{margin:5px 0;}
+  .box{border-radius:12px;padding:18px 22px 16px;margin:20px 0;border:1px solid var(--line);page-break-inside:avoid;}
+  .box .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:4px 11px;border-radius:20px;color:#fff;margin-bottom:10px;}
+  .box h4{margin-top:0;}
+  .box.caso{background:var(--caso-bg);border-color:#BFD9D3;} .box.caso .tag{background:var(--caso);}
+  .box.script{background:var(--script-bg);border-color:#C5D6E8;} .box.script .tag{background:var(--script);}
+  .box.template{background:var(--template-bg);border-color:#EAD7A6;} .box.template .tag{background:var(--template);}
+  .box.warn{background:var(--warn-bg);border-color:#EEC4BD;} .box.warn .tag{background:var(--warn);}
+  .metodo{background:var(--metodo-bg);color:#EAF6F3;border-radius:12px;padding:20px 24px;margin:22px 0;page-break-inside:avoid;}
+  .metodo .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;background:var(--accent);color:#fff;padding:4px 12px;border-radius:20px;margin-bottom:12px;}
+  .metodo h4{color:#fff;margin:0 0 8px;font-size:18px;} .metodo strong{color:#FFE3C7;}
+  .say{background:#fff;border-left:4px solid var(--script);border-radius:6px;padding:10px 14px;margin:9px 0;font-style:italic;}
+  .say::before{content:"🗣 ";font-style:normal;}
+  pre.form{background:#fff;border:1px dashed var(--template);border-radius:8px;padding:14px 16px;font-family:"Consolas",monospace;white-space:pre-wrap;font-size:12.5px;line-height:1.5;color:#3A2E12;margin:10px 0 0;}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px;page-break-inside:avoid;}
+  th{background:var(--primary);color:#fff;text-align:left;padding:9px 12px;font-weight:600;}
+  td{border:1px solid var(--line);padding:8px 12px;vertical-align:top;}
+  tr:nth-child(even) td{background:var(--paper-warm);}
+  .chain{text-align:center;font-weight:800;color:var(--primary);background:var(--primary-soft);border-radius:10px;padding:14px;margin:16px 0;font-size:15px;}
+  .lead{font-size:16px;color:var(--muted);} .note{font-size:13px;color:var(--muted);font-style:italic;}
+  .divider{height:1px;background:var(--line);margin:30px 0;}
+  @page{margin:18mm 14mm;}
+  @media print{.cover{min-height:auto;height:100vh;}}
+</style>
+</head>
+<body>
+<section class="cover">
+  <div class="kick">Artblend Consultoria Gourmet · Formação CEP</div>
+  <h1>Treinamento &amp; Desenvolvimento</h1>
+  <h2>Do zero à aplicação avançada com clientes de Food&nbsp;Service</h2>
+  <div class="accentbar"></div>
+  <div class="badges"><span class="badge">Método Artblend</span><span class="badge">LNT → Kirkpatrick</span><span class="badge">Casos Reais</span><span class="badge">Scripts &amp; Templates</span></div>
+  <div class="foot"><span>Artblend Consultoria Gourmet</span><span>Edição Completa · Junho 2026</span></div>
+</section>
+<div class="wrap">
+
+<h3 style="page-break-before:always;">Como usar este curso</h3>
+<p class="lead">Dividido em duas partes. A <strong>Parte 1</strong> ensina o que é T&amp;D e como funciona; a <strong>Parte 2</strong> mostra como aplicar com seus clientes como CEP. Leia a Parte 1 primeiro — entender o porquê muda a qualidade do que você entrega.</p>
+<div class="box caso"><span class="tag">Caso Real</span> Casos completos com números antes e depois.</div>
+<div class="box script"><span class="tag">Script Pronto</span> Falas para vender, facilitar e lidar com resistência.</div>
+<div class="box template"><span class="tag">Template</span> LNT, plano de treinamento, avaliação, relatório.</div>
+
+<div class="part-banner"><div class="pk">Parte 1</div><h2>Aprender: o que é T&D e como funciona</h2><p>Do diagnóstico à avaliação.</p></div>
+
+<div class="module-head"><div class="m-kick">Capítulo 1</div><h2>O que é Treinamento &amp; Desenvolvimento</h2><div class="m-meta">A diferença que muda tudo — e por que T&D é o pilar mais lucrativo do CEP.</div></div>
+<table><tr><th>Treinamento — presente</th><th>Desenvolvimento — futuro</th></tr>
+<tr><td>Resolve uma habilidade específica agora</td><td>Prepara para o que a pessoa ainda vai ser</td></tr>
+<tr><td>"Garçom não sabe sugerir" → treino de vendas</td><td>"Perfil de supervisora em 6 meses" → liderança</td></tr></table>
+<p><strong>No CEP você faz os dois.</strong> Treinamento resolve hoje; desenvolvimento constrói o time de amanhã. É o pilar que gera resultado rápido, renova contratos, diferencia você e justifica o preço.</p>
+<div class="box caso"><span class="tag">Caso Real</span><h4>O custo invisível de não treinar</h4>
+<p>15 funcionários, turnover 10%/mês = 18 contratações/ano × ~R$ 800 = <strong>R$ 14.400/ano desperdiçados</strong>. Um ciclo de T&amp;D de R$ 2.400 que corte o turnover pela metade economiza R$ 7.200 líquidos.</p></div>
+
+<div class="module-head"><div class="m-kick">Capítulo 2</div><h2>O processo completo de T&D</h2><div class="m-meta">Cinco etapas em sequência.</div></div>
+<div class="chain">1. LNT → 2. DESIGN → 3. DESENVOLVIMENTO → 4. APLICAÇÃO → 5. AVALIAÇÃO</div>
+
+<div class="module-head"><div class="m-kick">Capítulo 3</div><h2>Etapa 1 — LNT: Levantamento de Necessidades</h2><div class="m-meta">O diagnóstico de T&D. Sem ele, você cria treinamento no escuro.</div></div>
+<p><strong>3 fontes:</strong> <strong>Dados</strong> (vendas, CMV, turnover, Google); <strong>Observação</strong> (1h de pico sem intervir); <strong>Escuta</strong> (equipe + dono: "o que mais te incomoda no time?").</p>
+<div class="metodo"><span class="tag">Método Artblend</span><h4>A pergunta mais importante do LNT</h4><p>"Isso é problema de <strong>saber</strong>, de <strong>poder</strong> ou de <strong>querer</strong>?"</p></div>
+<table><tr><th>Causa</th><th>Solução</th></tr>
+<tr><td>NÃO SABE (nunca ensinado)</td><td>Treino de conhecimento</td></tr>
+<tr><td>NÃO CONSEGUE (sem condição de aplicar)</td><td>Treino de habilidade + prática</td></tr>
+<tr><td>NÃO QUER (sabe e não faz)</td><td>Não é T&D — é liderança</td></tr></table>
+<div class="box template"><span class="tag">Template — Formulário de LNT</span>
+<pre class="form">LNT — Empresa: ______  Data: ____  Consultor: Artblend
+DADOS: Faturamento R$___ Ticket R$___ CMV ___% Google __/5 Turnover __%
+Principal reclamação: ____________________
+OBSERVAÇÃO (pico __h-__h): bem:____ errado:____ liderança:____
+ESCUTA: equipe:____ dono:____
+CAUSA RAIZ: ( )Não sabe ( )Não consegue ( )Não quer
+PRIORIDADES: 1ª___ 2ª___ 3ª___</pre></div>
+
+<div class="module-head"><div class="m-kick">Capítulo 4</div><h2>Etapa 2 — Design Instrucional</h2><div class="m-meta">De "não sabe" a "sabe e aplica".</div></div>
+<p>Responde 5 perguntas: para quem, para quê, o quê, como, como avaliar.</p>
+<table><tr><th>Perfil</th><th>%</th><th>Aprende com</th></tr>
+<tr><td>Até Fundamental</td><td>~70%</td><td>VISUAL — imagem, demonstração, prática</td></tr>
+<tr><td>Médio+</td><td>~30%</td><td>TEXTUAL — dados, textos, análise</td></tr></table>
+<p><strong>Objetivo forte (verbo de ação):</strong> "sugerir 1 item adicional por atendimento", não "entender a importância do atendimento".</p>
+<div class="metodo"><span class="tag">Método Artblend</span><h4>Modelo ADDIE</h4><p>Análise (LNT) → Design → Desenvolvimento → Implementação → Avaliação.</p></div>
+<div class="box warn"><span class="tag">Regra dos 45 minutos</span><p>A atenção cai após 45–50 min. Máx. 45 min → pausa/dinâmica. Pós-almoço é a pior hora.</p></div>
+<div class="box template"><span class="tag">Template — Treino de 4h</span>
+<pre class="form">0:00 Abertura 20min | 0:20 Bloco 1 45min | 1:05 Dinâmica 15min
+1:20 Bloco 2 45min | 2:05 Pausa+item afetivo 15min
+2:20 Prática 50min | 3:10 Feedback 30min | 3:40 Encerramento 20min</pre></div>
+
+<div class="module-head"><div class="m-kick">Capítulo 5</div><h2>Etapa 3 — Desenvolvimento: materiais</h2><div class="m-meta">Os 3 elementos de um treino que fixa.</div></div>
+<div class="metodo"><span class="tag">Método Artblend</span><h4>Os 3 elementos</h4><p><strong>1. Material visual</strong> · <strong>2. Dinâmicas/role-playing</strong> · <strong>3. Item de marca afetivo.</strong></p></div>
+<p><strong>Visual:</strong> cartazes A3, infográficos, vídeo de 30–60s; Canva; regra dos 7 dias de exposição. <strong>Dinâmicas:</strong> Animais, roleplay de atendimento, torre de marshmallow, quiz, linha de plataforma. <strong>Item afetivo:</strong> café/brinde na pausa do intervalo.</p>
+<table><tr><th>Ferramenta</th><th>Quando usar</th></tr>
+<tr><td>Canva</td><td>Material visual impresso</td></tr>
+<tr><td>iSpring</td><td>Onboarding digital, turnos diferentes</td></tr>
+<tr><td>ChatGPT</td><td>Roteiros, quizzes, scripts</td></tr>
+<tr><td>Kahoot</td><td>Quiz interativo</td></tr></table>
+
+<div class="module-head"><div class="m-kick">Capítulo 6</div><h2>Etapa 4 — Aplicação: como facilitar</h2><div class="m-meta">Você é facilitador, não professor. E os 7 primeiros minutos são tudo.</div></div>
+<p><strong>Os 7 minutos:</strong> chegue antes; recepcione pelo nome; comece com pergunta ("já atenderam cliente bravo pelo tempo de espera?"); conecte ao objetivo; diga o que vão ganhar.</p>
+<p><strong>Técnicas:</strong> pergunta socrática, aprendizagem por pares, contrato de aprendizagem, celebração pública de acertos.</p>
+<div class="box script"><span class="tag">Script — Resistências</span>
+<p class="say">"Isso a gente já sabe." → "Ótimo! Me conta como vocês fazem."</p>
+<p class="say">"Não vai funcionar aqui." → "O que precisaria mudar pra funcionar?"</p>
+<p class="say">Silêncio → "Fala com o colega ao lado por 2 min e depois compartilha."</p></div>
+<p><strong>Encerramento (gera aplicação):</strong> recapitulação pelo grupo → compromisso público → post-it no mural → próximo passo → celebração.</p>
+
+<div class="module-head"><div class="m-kick">Capítulo 7</div><h2>Etapa 5 — Avaliação: Kirkpatrick</h2><div class="m-meta">O número que você apresenta ao dono.</div></div>
+<table><tr><th>Nível</th><th>Quando</th><th>Como medir</th><th>Meta</th></tr>
+<tr><td>1. Reação</td><td>Logo após</td><td>Formulário 1–5</td><td>&gt;4,0</td></tr>
+<tr><td>2. Aprendizagem</td><td>48–72h</td><td>Teste/demonstração</td><td>80%</td></tr>
+<tr><td>3. Comportamento</td><td>30 dias</td><td>Observação no pico</td><td>—</td></tr>
+<tr><td>4. Resultado</td><td>60–90 dias</td><td>Indicadores antes×depois</td><td>—</td></tr></table>
+<div class="box warn"><span class="tag">Cuidado</span><p>Nível 1 alto não garante aprendizagem. O Nível 3 é onde a maioria falha — o líder precisa reforçar diariamente.</p></div>
+<div class="box template"><span class="tag">Template — Relatório de avaliação</span>
+<pre class="form">RELATÓRIO — TREINAMENTO [NOME]  Consultor: Artblend
+N1 Nota: __/5  N2 Acerto: __%
+N3 (30d): comportamentos mudando: ____
+N4 (60-90d): Ticket R$__→R$__ (__%)  CMV __%→__%  Turnover __%→__%
+ROI: ____________</pre></div>
+
+<div class="module-head"><div class="m-kick">Capítulo 8</div><h2>Seu desenvolvimento como facilitador</h2><div class="m-meta">As 6 competências do CEP em T&D.</div></div>
+<p>Diagnóstico (LNT), design instrucional, facilitação, criação de materiais (Canva/iSpring), avaliação (Kirkpatrick) e storytelling. Cada treino vira um <strong>case</strong> do seu portfólio — em 6 meses, 6–10 cases fecham novos contratos.</p>
+
+<div class="part-banner"><div class="pk">Parte 2</div><h2>Aplicar: T&D como CEP</h2><p>Do encaixe no cronograma à venda e aos casos reais.</p></div>
+
+<div class="module-head"><div class="m-kick">Capítulo 9</div><h2>O T&D no fluxo do CEP</h2><div class="m-meta">Quando entra, como vender e quais treinos priorizar.</div></div>
+<div class="chain">P1 (sem. 1–3) LNT → P2 (sem. 4–8) Treinamento → P3 (sem. 9–12) 2º treino + Kirkpatrick</div>
+<div class="box warn"><span class="tag">Regra de ouro</span><p>Nunca faça treinamento sem diagnóstico. Sem saber o problema real, o treino resolve a coisa errada.</p></div>
+<div class="box script"><span class="tag">Script — Vendendo o treinamento</span>
+<p class="say">O maior impacto agora é um treino focado em [TEMA]. O custo atual desse problema é ~R$ [X]/mês. Se a gente mover esse número em 20%, já paga o CEP por 3 meses. Em 60 dias te apresento o resultado.</p></div>
+<table><tr><th>Treinamento</th><th>Formato</th><th>KPI</th></tr>
+<tr><td>Vendas</td><td>3h + roleplay</td><td>Ticket médio</td></tr>
+<tr><td>Atendimento</td><td>4h dramatizações</td><td>Google/NPS</td></tr>
+<tr><td>Liderança (CNV)</td><td>Workshop 4h + coaching</td><td>Q12, turnover</td></tr>
+<tr><td>Processos (CMV)</td><td>Hands-on 2h</td><td>CMV %</td></tr>
+<tr><td>Higiene</td><td>2h + teste</td><td>Conformidade</td></tr>
+<tr><td>Onboarding</td><td>5 dias</td><td>Retenção 90d</td></tr></table>
+
+<div class="module-head"><div class="m-kick">Capítulo 10</div><h2>Casos práticos</h2><div class="m-meta">Do diagnóstico ao resultado em números.</div></div>
+<div class="box caso"><span class="tag">Caso Real 1</span><h4>Restaurante de bairro — ticket baixo</h4>
+<p><strong>LNT:</strong> ticket R$ 28 (benchmark R$ 45); garçons com medo de sugerir; nunca treinados. Causa: <strong>não sabe</strong>.</p>
+<p><strong>Design:</strong> 3h + roleplay + café da casa + cartaz "sugestões do dia".</p>
+<p><strong>Resultado (60d):</strong> ticket R$ 28 → <strong>R$ 38 (+36%)</strong>; impacto ~R$ 21.000/mês.</p></div>
+<div class="box caso"><span class="tag">Caso Real 2</span><h4>Padaria — conflito de liderança</h4>
+<p><strong>LNT:</strong> 100% das escutas citaram o supervisor; nunca treinado. Causa: não sabe + não consegue sob pressão.</p>
+<p><strong>Design:</strong> coaching do supervisor + CNV para a equipe.</p>
+<p><strong>Resultado (60d):</strong> turnover 15% → <strong>4%/mês</strong>; Q12 31 → 47.</p></div>
+
+<div class="module-head" style="background:linear-gradient(135deg,var(--accent) 0%,#C25E1E 100%);"><div class="m-kick" style="color:#FCE3CC;">Apêndice</div><h2>Templates prontos</h2><div class="m-meta" style="color:#FBEEE0;">Copie, preencha e leve para o cliente.</div></div>
+<div class="box template"><span class="tag">Template — Plano de Treinamento</span>
+<pre class="form">PLANO DE TREINAMENTO — ARTBLEND CONSULTORIA GOURMET
+Cliente: ____ Data: ____  Treinamento: ____
+DIAGNÓSTICO: Problema ____ Causa: ( )Não sabe ( )Não consegue ( )Não quer
+PÚBLICO: Cargo ____ Nº ___ Escolaridade ____ Idade ____
+OBJETIVO: "Ao final, será capaz de: ____"
+DURAÇÃO: ____ LOCAL: ____
+DINÂMICA: ____ ITEM AFETIVO: ____
+AVALIAÇÃO: N1 form S/N | N2 teste S/N | N3 __dias | N4 indicador ____ meta ____</pre></div>
+<div class="box template"><span class="tag">Template — Avaliação de Reação (N1)</span>
+<pre class="form">AVALIAÇÃO — ARTBLEND CONSULTORIA GOURMET   Data: ____
+De 1 a 5: Relevância __ Clareza __ Dinâmicas __ Materiais __ Duração __
+Mais gostou: ____  Mudaria: ____  Vai aplicar amanhã: ____
+Obrigado! — artblend Consultoria Gourmet</pre></div>
+<div class="divider"></div>
+<p class="note" style="text-align:center;">Curso de Treinamento &amp; Desenvolvimento · Food Service · Método Artblend. © Artblend Consultoria Gourmet — Junho 2026.</p>
+</div>
+</body>
+</html>

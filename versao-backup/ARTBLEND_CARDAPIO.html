@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engenharia de Cardápio · Ficha Técnica &amp; CMV · ArtBlend</title>
+<style>
+  :root{
+    --bg:#F5F7FA; --sidebar:#FFFFFF; --card:#FFFFFF; --card-hover:#EEF6F8; --border:#E2E6ED;
+    --text:#16294A; --muted:#6E7A8C; --accent:#2EC4D6; --accent-soft:#E4F8FB;
+    --good:#2ECC71; --good-bg:#E3FBEF; --bad:#B3411F; --bad-bg:#FBEAE3; --amber:#9a5420; --amber-bg:#FDF3E0;
+    --blue:#1C93A8;
+    --caso:#1C93A8; --caso-bg:#E4F8FB; --script:#2F5D8C; --script-bg:#E8EFF6;
+    --template:#9a5420; --template-bg:#FDF3E0; --exerc:#6B4E9E; --exerc-bg:#EFEAF6;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex;min-height:100vh;}
+  .sidebar{width:250px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);padding:20px 14px;position:sticky;top:0;height:100vh;overflow-y:auto;}
+  .brand{font-size:19px;font-weight:800;letter-spacing:-.4px;color:var(--text);}
+  .brand small{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-top:2px;font-weight:700;}
+  .client-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px;margin:14px 0;}
+  .client-box label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:5px;}
+  .client-box select{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:6px 8px;font-size:12px;}
+  .client-box .add-client{margin-top:6px;display:flex;gap:5px;}
+  .client-box .add-client input{flex:1;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:5px 7px;font-size:11.5px;}
+  .client-box .add-client button{background:var(--accent);border:none;color:#fff;border-radius:6px;padding:0 9px;font-weight:700;cursor:pointer;font-size:13px;}
+  .navitem{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:9px;cursor:pointer;margin-top:4px;font-weight:600;font-size:13.5px;color:var(--text);}
+  .navitem:hover{background:var(--card-hover);}
+  .navitem.active{background:var(--accent);color:#fff;}
+  .navfoot{margin-top:16px;padding-top:12px;border-top:1px solid var(--border);}
+  .navfoot button{width:100%;background:var(--card-hover);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px;font-size:11.5px;font-weight:700;cursor:pointer;margin-top:5px;}
+  .navfoot button:hover{border-color:var(--accent);}
+  .main{flex:1;padding:26px 34px 60px;max-width:980px;}
+  h1{font-size:23px;margin:0;font-weight:800;color:var(--text);}
+  .sub{color:var(--muted);font-size:13.5px;margin:4px 0 18px;line-height:1.5;}
+  .bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:16px;}
+  select,input{padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;background:#fff;color:var(--text);}
+  textarea{padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;background:#fff;color:var(--text);width:100%;resize:vertical;margin-bottom:10px;display:block;}
+  .panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:16px;overflow:auto;}
+  .panel h3{margin:0 0 12px;font-size:15px;color:var(--text);}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{background:var(--accent-soft);color:var(--blue);text-align:left;padding:7px 8px;font-weight:700;font-size:12px;white-space:nowrap;}
+  td{border-bottom:1px solid var(--border);padding:5px 7px;vertical-align:middle;}
+  td input,td select{width:100%;min-width:70px;}
+  .calc{font-weight:700;color:var(--blue);white-space:nowrap;}
+  .btn{background:var(--accent);color:#fff;border:0;border-radius:9px;padding:9px 15px;font-weight:700;font-size:13px;cursor:pointer;}
+  .btn.alt{background:var(--blue);} .btn.sm{padding:6px 11px;font-size:12px;}
+  .del{background:transparent;border:1px solid var(--bad);color:var(--bad);border-radius:7px;padding:4px 8px;font-size:12px;cursor:pointer;font-weight:700;}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:14px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:14px 16px;}
+  .card .v{font-size:23px;font-weight:800;color:var(--text);} .card .l{font-size:11.5px;color:var(--muted);font-weight:600;}
+  .card.accent{background:linear-gradient(135deg,var(--accent),var(--blue));color:#fff;border:0;} .card.accent .v,.card.accent .l{color:#fff;}
+  .badge{display:inline-block;padding:3px 9px;border-radius:14px;font-size:11.5px;font-weight:800;}
+  .b-ok{background:var(--good-bg);color:#1C9A57;} .b-warn{background:var(--amber-bg);color:var(--amber);} .b-bad{background:var(--bad-bg);color:var(--bad);}
+  .b-info{background:var(--accent-soft);color:var(--blue);}
+  .eng-th{cursor:pointer;user-select:none;}
+  .fichalist{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px;}
+  .chip{background:#fff;border:1px solid var(--border);border-radius:20px;padding:6px 13px;font-size:12.5px;font-weight:600;cursor:pointer;}
+  .chip.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+  /* Diagnóstico Comparativo — controle de nota 1-5 por critério */
+  .score5{display:flex;gap:4px;}
+  .score5 button{width:27px;height:27px;border-radius:6px;border:1px solid var(--border);background:#fff;color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;}
+  .score5 button.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .diag-bar-track{background:var(--border);border-radius:5px;height:8px;overflow:hidden;min-width:70px;}
+  .diag-bar-fill{height:100%;background:var(--accent);}
+  label{font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:8px;}
+  .hint{font-size:12px;color:var(--muted);font-style:italic;}
+  .save{position:fixed;bottom:14px;right:16px;background:var(--text);color:#fff;padding:7px 14px;border-radius:30px;font-size:12px;opacity:0;transition:.3s;}
+  .save.on{opacity:1;}
+  /* registro rápido de perda (Estragou/Sobrou/Quebrou) */
+  .fab-perda{background:var(--accent);color:#fff;border:0;border-radius:11px;padding:11px 18px;font-weight:800;font-size:13.5px;cursor:pointer;min-height:44px;}
+  #quickPerdaOverlay{position:fixed;inset:0;background:rgba(22,41,74,.45);z-index:950;display:none;align-items:flex-end;justify-content:center;}
+  @media(min-width:640px){#quickPerdaOverlay{align-items:center;}}
+  .qp-box{background:#fff;border-radius:16px 16px 0 0;padding:20px 18px 24px;width:100%;max-width:420px;max-height:88vh;overflow-y:auto;}
+  @media(min-width:640px){.qp-box{border-radius:16px;}}
+  .qp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .qp-head h3{font-size:16px;color:var(--text);}
+  .qp-close{background:var(--card-hover);border:none;border-radius:50%;width:36px;height:36px;min-height:36px;font-size:15px;font-weight:700;color:var(--text);cursor:pointer;}
+  .qp-box label{display:block;margin:14px 0 6px;}
+  .qp-box select{width:100%;min-height:46px;font-size:14px;}
+  .qp-motivos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .qp-motivo-btn{min-height:56px;border-radius:12px;border:2px solid var(--border);background:#fff;color:var(--text);font-weight:700;font-size:12.5px;cursor:pointer;}
+  .qp-motivo-btn.on{border-color:var(--accent);background:var(--accent-soft);color:var(--blue);}
+  .qp-stepper{display:flex;align-items:center;gap:10px;}
+  .qp-stepper button{width:48px;height:48px;min-height:44px;border-radius:12px;border:1px solid var(--border);background:var(--card-hover);font-size:22px;font-weight:800;color:var(--text);cursor:pointer;flex-shrink:0;}
+  .qp-stepper input{flex:1;text-align:center;font-size:18px;font-weight:700;min-height:48px;}
+  .qp-submit{width:100%;margin-top:20px;min-height:50px;font-size:15px;}
+  /* alerta de queda de margem */
+  .margem-alerta{border:2px solid var(--bad);background:var(--bad-bg);}
+  .margem-alerta h3{color:var(--bad);}
+  /* curso */
+  .curso-wrap{max-width:880px;}
+  h2.mh{font-size:19px;color:var(--text);margin:26px 0 4px;font-weight:800;}
+  h2.mh:first-child{margin-top:0;}
+  .m-kick{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);font-weight:700;}
+  h3.ch{font-size:16px;color:var(--text);margin:18px 0 6px;font-weight:750;border-left:4px solid var(--accent);padding-left:10px;}
+  .cbox{border-radius:10px;padding:14px 17px;margin:12px 0;border:1px solid var(--border);}
+  .cbox .tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:20px;color:#fff;margin-bottom:8px;}
+  .cbox.caso{background:var(--caso-bg);} .cbox.caso .tag{background:var(--caso);}
+  .cbox.script{background:var(--script-bg);} .cbox.script .tag{background:var(--script);}
+  .cbox.template{background:var(--template-bg);} .cbox.template .tag{background:var(--template);}
+  .cbox.exerc{background:var(--exerc-bg);} .cbox.exerc .tag{background:var(--exerc);}
+  .metodo{background:linear-gradient(135deg,var(--text),var(--blue));color:#EAF6F3;border-radius:12px;padding:18px 20px;margin:16px 0;}
+  .metodo .tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;background:var(--accent);color:#fff;padding:4px 12px;border-radius:20px;margin-bottom:10px;}
+  .metodo h4{color:#fff;margin:0 0 8px;font-size:16px;} .metodo strong{color:#BFF3EE;}
+  .note{font-size:12.5px;color:var(--muted);font-style:italic;}
+  .lead{font-size:15px;color:var(--muted);}
+  /* dashboard */
+  .dash-section{margin-bottom:4px;}
+  /* engenharia / BAR21 — visual de planilha */
+  .eng-sheet .panel{max-height:70vh;overflow:auto;}
+  .eng-sheet table td,.eng-sheet table th{border-right:1px solid var(--border);}
+  .eng-sheet table td:last-child,.eng-sheet table th:last-child{border-right:none;}
+  .eng-sheet table th{position:sticky;top:0;z-index:2;}
+  .sheet-tabs{display:flex;gap:6px;margin-bottom:12px;border-bottom:2px solid var(--border);}
+  .sheet-tab{border-radius:8px 8px 0 0;margin-bottom:-2px;}
+  .sheet-tab.on{border-bottom:2px solid var(--accent);}
+  /* nav mobile */
+  .navbar-toggle{display:none;position:fixed;top:10px;left:10px;z-index:970;background:var(--text);color:#fff;border:none;border-radius:10px;width:40px;height:40px;font-size:18px;align-items:center;justify-content:center;cursor:pointer;}
+  #sidebarOverlay{display:none;position:fixed;inset:0;background:rgba(22,41,74,.4);z-index:955;}
+  #sidebarOverlay.on{display:block;}
+  @media(max-width:780px){
+    .sidebar{display:none;position:fixed;left:0;top:0;height:100vh;z-index:960;box-shadow:2px 0 18px rgba(0,0,0,.2);}
+    .sidebar.open{display:block;}
+    .navbar-toggle{display:flex;}
+    .grid4{grid-template-columns:1fr 1fr;}
+    .main{padding:16px;padding-top:58px;}
+  }
+  #loginGate{position:fixed;inset:0;background:#F5F7FA;z-index:1000;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  #loginGate .box{background:#fff;border:1px solid #E2E6ED;border-radius:14px;padding:32px 30px;max-width:360px;width:92%;}
+  #loginGate h1{font-size:18px;color:#16294A;margin-bottom:4px;}
+  #loginGate p{font-size:12.5px;color:#6E7A8C;margin-bottom:18px;line-height:1.5;}
+  #loginGate label{display:block;font-size:11.5px;font-weight:700;color:#6E7A8C;margin:10px 0 4px;}
+  #loginGate input{width:100%;padding:9px 10px;border:1px solid #E2E6ED;border-radius:8px;font-size:13.5px;font-family:inherit;}
+  #loginGate .row{display:flex;gap:8px;margin-top:16px;}
+  #loginGate button{flex:1;background:#2EC4D6;color:#08343B;border:none;padding:10px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;}
+  #loginGate button.sec{background:#E4F8FB;color:#1C93A8;}
+  #loginGate .msg{margin-top:12px;font-size:12px;padding:8px 10px;border-radius:7px;line-height:1.5;display:none;}
+  #loginGate .msg.ok{background:#E3FBEF;color:#1C9A57;display:block;}
+  #loginGate .msg.err{background:#FBEAE3;color:#B3411F;display:block;}
+  #userBar{position:fixed;top:10px;right:10px;z-index:900;background:#fff;border:1px solid #E2E6ED;font-size:11.5px;font-weight:700;color:#16294A;padding:6px 8px 6px 12px;border-radius:20px;display:none;align-items:center;gap:8px;}
+  #userBar button{background:#FBEAE3;color:#B3411F;border:none;padding:5px 10px;border-radius:14px;font-size:10.5px;font-weight:700;cursor:pointer;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.5"></script>
+</head>
+<body>
+
+<div id="loginGate">
+  <div class="box">
+    <h1>ArtBlend — Área do consultor</h1>
+    <p>Entre com seu login para acessar esta ferramenta.</p>
+    <label>E-mail</label>
+    <input id="lg_email" type="email" placeholder="seu@email.com">
+    <label>Senha</label>
+    <input id="lg_senha" type="password" placeholder="mínimo 6 caracteres">
+    <div class="row">
+      <button onclick="gateEntrar()">Entrar</button>
+      <button class="sec" onclick="gateCadastrar()">Criar conta</button>
+    </div>
+    <div id="lg_msg" class="msg"></div>
+  </div>
+</div>
+<div id="userBar"><span id="userBarEmail"></span><button onclick="gateSair()">Sair</button></div>
+
+<div id="appContent" style="display:none;">
+<div class="sidebar">
+  <div class="brand">ArtBlend<small>Cardápio · CMV</small></div>
+  <div class="client-box">
+    <label>Cliente / Projeto ativo</label>
+    <select id="clientSelect" onchange="switchClient(this.value)"></select>
+    <div class="add-client">
+      <input type="text" id="newClientName" placeholder="Novo cliente...">
+      <button onclick="addClient()">+</button>
+    </div>
+  </div>
+  <div class="navitem active" data-s="dashboard">📊 Dashboard</div>
+  <div class="navitem" data-s="diagnostico">🔍 Diagnóstico Comparativo</div>
+  <div class="navitem" data-s="curso">🎓 Curso CCP</div>
+  <div class="navitem" data-s="engenharia">📐 Engenharia de Cardápio</div>
+  <div class="navitem" data-s="insumos">🧂 Insumos</div>
+  <div class="navitem" data-s="estoque">📦 Estoque Mín/Máx</div>
+  <div class="navitem" data-s="fichas">🍽️ Fichas Técnicas</div>
+  <div class="navitem" data-s="carnes">🥩 Aproveitamento de Carnes</div>
+  <div class="navitem" data-s="result">📊 Resultado / CMV</div>
+  <div class="navitem" data-s="cmvreal">📈 CMV Teórico x Real</div>
+  <div class="navitem" data-s="perdas">🗑️ Perdas / Quebras</div>
+  <div class="navitem" data-s="abc">🔠 Curva ABC</div>
+  <div class="navitem" data-s="checklist">✅ Checklist Visual</div>
+  <div class="navitem" data-s="config">⚙️ Configuração</div>
+  <div class="navitem" data-s="guia">📖 Como usar</div>
+  <div class="navfoot">
+    <button onclick="exportJSON()">⬇ Exportar dados</button>
+    <button onclick="document.getElementById('fileIn').click()">⬆ Importar</button>
+    <button onclick="goBar21()">📄 BAR21 (precificação)</button>
+    <button onclick="window.print()">🖨 Imprimir</button>
+  </div>
+</div>
+<button class="navbar-toggle" id="navToggleBtn" onclick="toggleSidebar()">☰</button>
+<div id="sidebarOverlay" onclick="closeSidebar()"></div>
+<main class="main" id="main"></main>
+<div class="save" id="save">✓ salvo</div>
+<input type="file" id="fileIn" accept="application/json" style="display:none">
+</div>
+<div id="quickPerdaOverlay" onclick="if(event.target===this)closeQuickPerda()">
+  <div class="qp-box" id="quickPerdaBox"></div>
+</div>
+
+<script>
+/* ===== login / sessão ===== */
+const FERRAMENTA = 'cardapio';
+const sb = window.supabase.createClient('https://zjvjixiuvnpbpsdnxuyk.supabase.co', 'sb_publishable_f5DJRgs2w0z3_g50QqDmNQ_0btPNSgV');
+let sessaoAtual = null;
+
+function gateMsg(text, type){
+  var el = document.getElementById('lg_msg');
+  el.className = 'msg ' + type;
+  el.textContent = text;
+}
+async function gateEntrar(){
+  var email = document.getElementById('lg_email').value.trim();
+  var senha = document.getElementById('lg_senha').value;
+  var r = await sb.auth.signInWithPassword({ email: email, password: senha });
+  if(r.error){ gateMsg('Erro ao entrar: ' + r.error.message, 'err'); return; }
+  await iniciarApp(r.data.session);
+}
+async function gateCadastrar(){
+  var email = document.getElementById('lg_email').value.trim();
+  var senha = document.getElementById('lg_senha').value;
+  if(!email || senha.length < 6){ gateMsg('Preencha e-mail e uma senha com pelo menos 6 caracteres.', 'err'); return; }
+  var r = await sb.auth.signUp({ email: email, password: senha });
+  if(r.error){ gateMsg('Erro ao criar conta: ' + r.error.message, 'err'); return; }
+  if(r.data.session){ await iniciarApp(r.data.session); }
+  else { gateMsg('Conta criada. Se pedir confirmação por e-mail, confira sua caixa de entrada antes de entrar.', 'ok'); }
+}
+async function gateSair(){
+  saveFlush();
+  await sb.auth.signOut();
+  location.reload();
+}
+async function iniciarApp(session){
+  sessaoAtual = session;
+  document.getElementById('loginGate').style.display = 'none';
+  document.getElementById('appContent').style.display = 'flex';
+  var bar = document.getElementById('userBar');
+  bar.style.display = 'flex';
+  document.getElementById('userBarEmail').textContent = session.user.email;
+  await loadClients();
+  S = await load(); fSel = (S.fichas[0]||{}).id; pSel = (S.cmvPeriodos[0]||{}).id; dSel = (S.visitas[0]||{}).id;
+  render('dashboard');
+}
+
+/* ===== multi-cliente (Supabase) ===== */
+let clients = []; // [{id, nome}]
+let activeClient = ''; // id do cliente ativo
+async function loadClients(){
+  var r = await sb.from('clientes').select('id,nome').eq('owner_id', sessaoAtual.user.id).order('created_at', { ascending:true });
+  if(r.error){ alert('Não foi possível carregar a lista de clientes: ' + r.error.message); }
+  clients = (r.data || []).map(function(c){ return { id:c.id, nome:c.nome }; });
+  if(clients.length === 0){
+    var ins = await sb.from('clientes').insert({ nome:'Cliente padrão', owner_id: sessaoAtual.user.id }).select('id,nome');
+    if(ins.error){ alert('Não foi possível criar o cliente padrão: ' + ins.error.message); return; }
+    if(ins.data && ins.data[0]) clients = [{ id: ins.data[0].id, nome: ins.data[0].nome }];
+  }
+  var lembrado = localStorage.getItem('artblend_cardapio_v2__active_id');
+  activeClient = (lembrado && clients.some(function(c){return c.id===lembrado;})) ? lembrado : clients[0].id;
+  renderClientSelect();
+}
+function renderClientSelect(){
+  var sel = document.getElementById('clientSelect');
+  sel.innerHTML = clients.map(function(c){ return '<option value="'+c.id+'"'+(c.id===activeClient?' selected':'')+'>'+String(c.nome).replace(/"/g,'&quot;')+'</option>'; }).join('');
+}
+async function addClient(){
+  var input = document.getElementById('newClientName');
+  var nome = input.value.trim();
+  if(!nome) return;
+  var ins = await sb.from('clientes').insert({ nome:nome, owner_id: sessaoAtual.user.id }).select('id,nome');
+  if(ins.error){ alert('Erro ao criar cliente: ' + ins.error.message); return; }
+  clients.push({ id: ins.data[0].id, nome: ins.data[0].nome });
+  input.value = '';
+  await switchClient(ins.data[0].id);
+}
+async function switchClient(id){
+  saveFlush();
+  activeClient = id;
+  localStorage.setItem('artblend_cardapio_v2__active_id', id);
+  renderClientSelect();
+  S = await load(); fSel = (S.fichas[0]||{}).id; pSel = (S.cmvPeriodos[0]||{}).id; dSel = (S.visitas[0]||{}).id;
+  render(cur);
+  toast();
+}
+function nomeClienteAtivo(){var c=clients.find(function(x){return x.id===activeClient;});return c?c.nome:'—';}
+
+function num(v){var n=parseFloat(String(v).replace(',','.'));return isNaN(n)?0:n;}
+function money(n){return 'R$ '+num(n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function pct(n){return num(n).toLocaleString('pt-BR',{maximumFractionDigits:1})+'%';}
+function esc(s){return (s==null?'':String(s)).replace(/"/g,'&quot;');}
+function uid(){return Date.now()+''+Math.floor(Math.random()*999);}
+
+function seed(){return {
+ config:{cmvAlvo:30, nomeNeg:'Meu restaurante'},
+ insumos:[
+  {id:'i1',nome:'Cocada mole (base)',unid:'g',preco:0.012,fc:1},
+  {id:'i2',nome:'Calda de maracujá (base)',unid:'g',preco:0.018,fc:1},
+  {id:'i3',nome:'Sorvete de creme',unid:'g',preco:0.022,fc:1},
+  {id:'i4',nome:'Alecrim',unid:'un',preco:0.50,fc:1},
+  {id:'i5',nome:'Carne hambúrguer',unid:'g',preco:0.038,fc:1.05},
+  {id:'i6',nome:'Queijo',unid:'g',preco:0.042,fc:1}
+ ],
+ fichas:[
+  {id:'f1',nome:'Petit Cocada',cat:'Sobremesas',rend:1,preco:24,ings:[
+    {iid:'i1',qtd:100},{iid:'i2',qtd:40},{iid:'i3',qtd:90},{iid:'i4',qtd:1}]}
+ ],
+ carnes:[],
+ cmvPeriodos:[],
+ perdas:[],
+ checklist:{},
+ margemBaseline:{},
+ margemBaselineDate:{},
+ bar21:[],
+ visitas:[]
+};}
+function normalizeS(d){
+  d = d || {};
+  d.config = d.config || {cmvAlvo:30, nomeNeg:'Meu restaurante'};
+  d.insumos = d.insumos || [];
+  d.fichas = d.fichas || [];
+  d.carnes = d.carnes || [];
+  d.cmvPeriodos = d.cmvPeriodos || [];
+  d.perdas = d.perdas || [];
+  d.checklist = d.checklist || {};
+  d.margemBaseline = d.margemBaseline || {};
+  d.margemBaselineDate = d.margemBaselineDate || {};
+  d.bar21 = d.bar21 || [];
+  d.visitas = (d.visitas || []).map(normalizeDiagVisita);
+  return d;
+}
+/* garante o formato de uma visita do Diagnóstico Comparativo mesmo vinda de um JSON antigo/importado sem essa chave */
+function normalizeDiagVisita(v){
+ v = v || {};
+ v.id = v.id || ('v'+uid());
+ v.nome = v.nome || '';
+ v.tipo = v.tipo || 'concorrente';
+ v.data = v.data || '';
+ v.local = v.local || '';
+ v.avaliador = v.avaliador || '';
+ v.ocasiao = v.ocasiao || '';
+ v.diaSemana = v.diaSemana || '';
+ v.horario = v.horario || '';
+ v.tipoServico = v.tipoServico || '';
+ v.publicoAlvo = v.publicoAlvo || '';
+ v.instagram = v.instagram || '';
+ v.redes = v.redes || '';
+ v.obs = v.obs || '';
+ v.scores = v.scores || {};
+ v.insights = v.insights || {};
+ return v;
+}
+var S; var fSel; var pSel; var dSel;
+var engSortKey='pop', engSortDir=-1;
+var qp = {insumoId:'', motivo:'Estragou', qtd:1};
+var margemAlertas = [];
+var MARGEM_QUEDA_ALERTA_PCT = 15; // queda relativa mínima (%) frente ao último valor de margem registrado para disparar o alerta
+var MARGEM_BASELINE_REFRESH_DIAS = 30; // a base só é reajustada ao valor atual periodicamente (não a cada render), senão quedas graduais nunca disparam alerta
+var engPanelTab = 'eng'; // aba ativa dentro do painel Engenharia de Cardápio: eng | bar21 | resumo
+async function load(){
+  var r = await sb.from('dados_ferramenta').select('conteudo').eq('cliente_id', activeClient).eq('ferramenta', FERRAMENTA).maybeSingle();
+  if(r.error){ alert('Não foi possível carregar os dados do cliente: ' + r.error.message); return normalizeS(seed()); }
+  if(r.data && r.data.conteudo) return normalizeS(r.data.conteudo);
+  return normalizeS(seed());
+}
+async function save(){
+  try{
+    var r = await sb.from('dados_ferramenta').upsert({ cliente_id: activeClient, ferramenta: FERRAMENTA, conteudo: S, updated_at: new Date().toISOString() }, { onConflict: 'cliente_id,ferramenta' });
+    if(r.error){ alert('Não foi possível salvar: ' + r.error.message); return; }
+    toast();
+  }catch(e){ alert('Não foi possível salvar: ' + e.message); }
+}
+function toast(){var b=document.getElementById('save');b.classList.add('on');clearTimeout(window._t);window._t=setTimeout(function(){b.classList.remove('on');},900);}
+
+/* debounce de gravação — evita 1 upsert no Supabase por tecla digitada */
+var _saveTimer=null;
+function saveDebounced(){
+  clearTimeout(_saveTimer);
+  _saveTimer=setTimeout(function(){ _saveTimer=null; save(); },500);
+}
+function saveFlush(){
+  if(_saveTimer){ clearTimeout(_saveTimer); _saveTimer=null; save(); }
+}
+window.addEventListener('beforeunload', saveFlush);
+
+/* menu mobile (drawer) */
+function toggleSidebar(){
+  document.querySelector('.sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('on');
+}
+function closeSidebar(){
+  document.querySelector('.sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('on');
+}
+
+function insumoById(id){for(var i=0;i<S.insumos.length;i++)if(S.insumos[i].id==id)return S.insumos[i];return null;}
+function custoUnit(ins){return ins?num(ins.preco)*num(ins.fc||1):0;}
+function fcIngrediente(g){var pb=num(g.pb),pl=num(g.pl);return (pb>0&&pl>0)?(pb/pl):1;}
+function cmvFicha(f){var t=0;(f.ings||[]).forEach(function(g){var ins=insumoById(g.iid);t+=custoUnit(ins)*num(g.qtd)*fcIngrediente(g);});return t;}
+function cmvPorcao(f){var r=num(f.rend)||1;return cmvFicha(f)/r;}
+function cmvPct(f){var p=num(f.preco);return p?cmvFicha(f)/p*100:0;}
+function precoSugerido(f){var alvo=num(S.config.cmvAlvo)||30;return cmvFicha(f)/(alvo/100);}
+function margem(f){return num(f.preco)-cmvFicha(f);}
+function margemPct(f){var p=num(f.preco);return p?margem(f)/p*100:0;}
+function cmvBadge(f){var c=cmvPct(f);if(!num(f.preco))return '<span class="badge b-warn" style="background:#eee;color:#888">defina preço</span>';var cls=c<=num(S.config.cmvAlvo)?'b-ok':c<=num(S.config.cmvAlvo)+8?'b-warn':'b-bad';return '<span class="badge '+cls+'">'+pct(c)+'</span>';}
+
+/* nav */
+document.querySelectorAll('.navitem').forEach(function(n){n.onclick=function(){
+ document.querySelectorAll('.navitem').forEach(function(x){x.classList.remove('active');});
+ n.classList.add('active');render(n.dataset.s);closeSidebar();};});
+var cur='dashboard';
+function render(s){cur=s||cur;var m=document.getElementById('main');
+ if(cur=='dashboard')m.innerHTML=vDashboard();
+ else if(cur=='diagnostico')m.innerHTML=vDiagnostico();
+ else if(cur=='engenharia')m.innerHTML=vEngenhariaPanel();
+ else if(cur=='curso')m.innerHTML=vCurso();
+ else if(cur=='insumos')m.innerHTML=vIns();
+ else if(cur=='estoque')m.innerHTML=vEstoque();
+ else if(cur=='fichas')m.innerHTML=vFichas();
+ else if(cur=='carnes')m.innerHTML=vCarnes();
+ else if(cur=='result')m.innerHTML=vResult();
+ else if(cur=='cmvreal')m.innerHTML=vCmvReal();
+ else if(cur=='perdas')m.innerHTML=vPerdas();
+ else if(cur=='abc')m.innerHTML=vAbc();
+ else if(cur=='checklist')m.innerHTML=vChecklist();
+ else if(cur=='config')m.innerHTML=vConfig();
+ else m.innerHTML=vGuia();}
+function goBar21(){
+ engPanelTab='bar21';
+ document.querySelectorAll('.navitem').forEach(function(x){x.classList.remove('active');});
+ var nav=document.querySelector('.navitem[data-s="engenharia"]');
+ if(nav) nav.classList.add('active');
+ render('engenharia');
+ closeSidebar();
+}
+
+/* INSUMOS */
+function vIns(){
+ var rows=S.insumos.map(function(ins,i){
+  return '<tr><td><input value="'+esc(ins.nome)+'" oninput="updIns('+i+',\'nome\',this.value)"></td>'+
+   '<td><input style="min-width:55px" value="'+esc(ins.unid)+'" oninput="updIns('+i+',\'unid\',this.value)"></td>'+
+   '<td><input type="number" step="0.0001" value="'+esc(ins.preco)+'" oninput="updIns('+i+',\'preco\',this.value)"></td>'+
+   '<td><input type="number" step="0.01" value="'+esc(ins.fc)+'" oninput="updIns('+i+',\'fc\',this.value)"></td>'+
+   '<td class="calc">'+money(custoUnit(ins))+'</td>'+
+   '<td><input type="number" step="0.01" style="min-width:60px" value="'+esc(ins.est)+'" oninput="updIns('+i+',\'est\',this.value)"></td>'+
+   '<td><input type="number" step="0.01" style="min-width:60px" value="'+esc(ins.min)+'" oninput="updIns('+i+',\'min\',this.value)"></td>'+
+   '<td>'+estoqueBadge(ins)+'</td>'+
+   '<td><button class="del" onclick="delIns('+i+')">✕</button></td></tr>';
+ }).join('');
+ return '<h1>Insumos &amp; Estoque</h1><p class="sub">Preço por unidade + fator de correção (FC) → custo corrigido automático. E controle de estoque: quantidade atual, mínimo e alerta de reposição.</p>'+
+ '<div class="panel"><div class="bar"><span class="hint">'+S.insumos.length+' insumos</span><button class="btn alt sm" onclick="addIns()">+ Insumo</button></div>'+
+ '<table><thead><tr><th>Insumo / base</th><th>Unidade</th><th>Preço (por unidade)</th><th>FC</th><th>Custo corrigido</th><th>Estoque atual</th><th>Mínimo</th><th>Status</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>'+
+ '<p class="hint">Dica: cadastre suas "fichas bases" (molhos, calda, sorvete) como insumos com o custo já por grama — assim os pratos finais puxam delas.</p></div>';
+}
+/* estoque mínimo — fonte única da verdade: estMinCalc() (prazo de entrega × consumo médio).
+   ins.min só é usado como override manual explícito do consultor; se vazio, cai no cálculo. */
+function estoqueMinEfetivo(ins){
+ if(ins.min!==undefined && ins.min!==null && String(ins.min)!==''){ return num(ins.min); }
+ return estMinCalc(ins);
+}
+function estoqueBadge(ins){
+ var e=num(ins.est), mn=estoqueMinEfetivo(ins);
+ if(!(mn>0))return '<span class="badge b-warn" style="background:#eee;color:#888">defina prazo/consumo (aba Estoque) ou mínimo</span>';
+ if(e<mn)return '<span class="badge b-bad">repor</span>';
+ if(e<mn*1.2)return '<span class="badge b-warn">baixo</span>';
+ return '<span class="badge b-ok">ok</span>';
+}
+function updIns(i,k,v){S.insumos[i][k]=v;saveDebounced();var tr=document.querySelectorAll('tbody tr')[i];if(tr){if(k=='preco'||k=='fc')tr.children[4].textContent=money(custoUnit(S.insumos[i]));if(k=='est'||k=='min'){if(tr.children[7])tr.children[7].innerHTML=estoqueBadge(S.insumos[i]);}}}
+function addIns(){S.insumos.push({id:'i'+uid(),nome:'',unid:'g',preco:'',fc:1,est:'',min:''});save();render('insumos');}
+function delIns(i){if(confirm('Excluir insumo?')){S.insumos.splice(i,1);save();render('insumos');}}
+
+/* ESTOQUE MÍNIMO/MÁXIMO + SUGESTÃO DE COMPRA */
+function estMinCalc(ins){return num(ins.pe)*num(ins.cmd);}
+function estMaxCalc(ins){return num(ins.cmd)*num(ins.fp)+estMinCalc(ins);}
+function sugestaoCompra(ins){return Math.max(0, estMaxCalc(ins)-num(ins.est));}
+function estoqueAlertaCalc(ins){
+ var min=estoqueMinEfetivo(ins), est=num(ins.est);
+ if(!(min>0)) return '<span class="badge b-warn" style="background:#eee;color:#888">preencha prazo/consumo ou mínimo</span>';
+ if(est<min) return '<span class="badge b-bad">⚠ abaixo do mínimo</span>';
+ if(est<min*1.2) return '<span class="badge b-warn">atenção</span>';
+ return '<span class="badge b-ok">ok</span>';
+}
+function estoqueAlertaCount(){
+ return S.insumos.filter(function(ins){var min=estoqueMinEfetivo(ins);return min>0 && num(ins.est)<min;}).length;
+}
+function vEstoque(){
+ var rows=S.insumos.map(function(ins,i){
+  var min=estoqueMinEfetivo(ins);
+  var abaixo = min>0 && num(ins.est)<min;
+  return '<tr'+(abaixo?' style="background:var(--bad-bg)"':'')+'><td>'+esc(ins.nome)+'</td>'+
+   '<td><input type="number" step="1" style="min-width:60px" value="'+esc(ins.pe)+'" oninput="updInsEstq('+i+',\'pe\',this.value)"></td>'+
+   '<td><input type="number" step="0.01" style="min-width:70px" value="'+esc(ins.cmd)+'" oninput="updInsEstq('+i+',\'cmd\',this.value)"></td>'+
+   '<td><input type="number" step="1" style="min-width:60px" value="'+esc(ins.fp)+'" oninput="updInsEstq('+i+',\'fp\',this.value)"></td>'+
+   '<td class="calc">'+estMinCalc(ins).toLocaleString('pt-BR',{maximumFractionDigits:2})+(ins.min!==undefined&&ins.min!==null&&String(ins.min)!==''?' <span class="hint">(mín. manual: '+num(ins.min).toLocaleString('pt-BR',{maximumFractionDigits:2})+')</span>':'')+'</td>'+
+   '<td class="calc">'+estMaxCalc(ins).toLocaleString('pt-BR',{maximumFractionDigits:2})+'</td>'+
+   '<td><input type="number" step="0.01" style="min-width:60px" value="'+esc(ins.est)+'" oninput="updInsEstq('+i+',\'est\',this.value)"></td>'+
+   '<td>'+estoqueAlertaCalc(ins)+'</td>'+
+   '<td class="calc">'+sugestaoCompra(ins).toLocaleString('pt-BR',{maximumFractionDigits:2})+'</td></tr>';
+ }).join('');
+ var alertas=estoqueAlertaCount();
+ return '<h1>Estoque Mínimo/Máximo &amp; Sugestão de Compra</h1>'+
+ '<p class="sub">Informe o prazo de entrega, o consumo médio e a frequência de pedido de cada insumo para calcular automaticamente o estoque mínimo, o estoque máximo e quanto comprar agora. O estoque atual é debitado automaticamente pelas telas de Vendas (CMV Teórico x Real) e Perdas/Quebras.</p>'+
+ '<div class="cards"><div class="card '+(alertas>0?'accent':'')+'"><div class="v">'+alertas+'</div><div class="l">Insumos abaixo do estoque mínimo</div></div></div>'+
+ '<div class="panel"><table><thead><tr><th>Insumo</th><th>Prazo de entrega (dias)</th><th>Consumo médio (por dia)</th><th>Freq. de pedido (dias)</th><th>Estoque mínimo</th><th>Estoque máximo</th><th>Estoque atual</th><th>Status</th><th>Sugestão de compra</th></tr></thead><tbody>'+
+ (rows||'<tr><td colspan=9 class=hint>Cadastre insumos na aba Insumos primeiro.</td></tr>')+
+ '</tbody></table>'+
+ '<p class="hint">Fórmulas da metodologia ArtBlend: estoque mínimo = prazo de entrega × consumo médio (ou o valor manual definido em Insumos, se preenchido) · estoque máximo = (consumo médio × frequência de pedido) + estoque mínimo · sugestão de compra = estoque máximo − estoque atual. Linhas em vermelho indicam estoque atual abaixo do mínimo.</p></div>';
+}
+function updInsEstq(i,k,v){S.insumos[i][k]=v;saveDebounced();render('estoque');}
+
+/* FICHAS */
+function vFichas(){
+ var chips=S.fichas.map(function(f){return '<span class="chip '+(f.id==fSel?'on':'')+'" onclick="selFicha(\''+f.id+'\')">'+(f.nome||'(sem nome)')+'</span>';}).join('');
+ var f=S.fichas.filter(function(x){return x.id==fSel;})[0];
+ var editor = f?fichaEditor(f):'<div class="panel"><p class="hint">Crie uma ficha para começar.</p></div>';
+ return '<h1>Fichas Técnicas</h1><p class="sub">Monte cada prato com seus insumos. CMV, custo por porção, preço sugerido e margem são automáticos.</p>'+
+ '<div class="bar"><button class="btn alt sm" onclick="addFicha()">+ Nova ficha</button></div>'+
+ '<div class="fichalist">'+chips+'</div>'+editor;
+}
+function selFicha(id){fSel=id;render('fichas');}
+function addFicha(){var nf={id:'f'+uid(),nome:'Nova ficha',cat:'Geral',rend:1,preco:'',ings:[]};S.fichas.push(nf);fSel=nf.id;save();render('fichas');}
+function mediaPraca(f){var vals=[f.pc1,f.pc2,f.pc3].map(num).filter(function(v){return v>0;});if(!vals.length)return 0;return vals.reduce(function(a,b){return a+b;},0)/vals.length;}
+function fichaEditor(f){
+ var fi=S.fichas.indexOf(f);
+ var rows=(f.ings||[]).map(function(g,gi){
+  var ins=insumoById(g.iid);
+  var fcg=fcIngrediente(g);
+  return '<tr><td><select onchange="updIng('+gi+',\'iid\',this.value)">'+S.insumos.map(function(x){return '<option value="'+x.id+'" '+(x.id==g.iid?'selected':'')+'>'+esc(x.nome)+'</option>';}).join('')+'</select></td>'+
+   '<td>'+(ins?ins.unid:'')+'</td>'+
+   '<td><input type="number" step="0.01" style="min-width:70px" value="'+esc(g.qtd)+'" oninput="updIng('+gi+',\'qtd\',this.value)"></td>'+
+   '<td><input type="number" step="0.01" style="min-width:60px" placeholder="—" value="'+esc(g.pb)+'" oninput="updIng('+gi+',\'pb\',this.value)"></td>'+
+   '<td><input type="number" step="0.01" style="min-width:60px" placeholder="—" value="'+esc(g.pl)+'" oninput="updIng('+gi+',\'pl\',this.value)"></td>'+
+   '<td class="calc">'+fcg.toLocaleString('pt-BR',{maximumFractionDigits:2})+'</td>'+
+   '<td class="calc">'+money(custoUnit(ins)*num(g.qtd)*fcg)+'</td>'+
+   '<td><button class="del" onclick="delIng('+gi+')">✕</button></td></tr>';
+ }).join('');
+ return '<div class="panel"><div class="grid4">'+
+   '<div><label>Nome do prato</label><input value="'+esc(f.nome)+'" oninput="updF('+fi+',\'nome\',this.value)"></div>'+
+   '<div><label>Categoria</label><input value="'+esc(f.cat)+'" oninput="updF('+fi+',\'cat\',this.value)"></div>'+
+   '<div><label>Rendimento (porções)</label><input type="number" step="1" value="'+esc(f.rend)+'" oninput="updF('+fi+',\'rend\',this.value)"></div>'+
+   '<div><label>Preço de venda (R$)</label><input type="number" step="0.01" value="'+esc(f.preco)+'" oninput="updF('+fi+',\'preco\',this.value)"></div>'+
+   '</div>'+
+   '<table><thead><tr><th>Insumo</th><th>Un</th><th>Qtd (líquido usado)</th><th>Peso bruto (g)</th><th>Peso líquido (g)</th><th>FC</th><th>Custo corrigido</th><th></th></tr></thead><tbody>'+(rows||'<tr><td colspan=8 class=hint>Adicione insumos.</td></tr>')+'</tbody></table>'+
+   '<p class="hint">Preencha peso bruto e peso líquido do ingrediente (quando houver perda de limpeza/preparo) para calcular o Fator de Correção (FC = peso bruto ÷ peso líquido) e corrigir o custo real desse ingrediente na ficha. Deixe em branco se não houver perda.</p>'+
+   '<div class="bar"><button class="btn sm" onclick="addIng()">+ Insumo na ficha</button><button class="del" onclick="delFicha(\''+f.id+'\')">excluir ficha</button></div>'+
+ '</div>'+
+ '<div class="cards">'+
+   '<div class="card accent"><div class="v">'+money(cmvFicha(f))+'</div><div class="l">CMV da ficha</div></div>'+
+   '<div class="card"><div class="v">'+money(cmvPorcao(f))+'</div><div class="l">Custo por porção</div></div>'+
+   '<div class="card"><div class="v">'+cmvBadge(f)+'</div><div class="l">CMV % (alvo '+S.config.cmvAlvo+'%)</div></div>'+
+   '<div class="card"><div class="v">'+money(precoSugerido(f))+'</div><div class="l">Preço sugerido (CMV '+S.config.cmvAlvo+'%)</div></div>'+
+   '<div class="card"><div class="v">'+money(margem(f))+'</div><div class="l">Margem ('+pct(margemPct(f))+')</div></div>'+
+ '</div>'+
+ '<div class="panel"><h3>Comparativo de preços na praça</h3>'+
+ '<p class="hint">Registre até 3 preços observados no mercado para este mesmo prato (sem identificar o estabelecimento) e compare com o preço sugerido pela metodologia ArtBlend.</p>'+
+ '<div class="grid4">'+
+   '<div><label>Preço observado 1 (R$)</label><input type="number" step="0.01" value="'+esc(f.pc1)+'" oninput="updF('+fi+',\'pc1\',this.value)"></div>'+
+   '<div><label>Preço observado 2 (R$)</label><input type="number" step="0.01" value="'+esc(f.pc2)+'" oninput="updF('+fi+',\'pc2\',this.value)"></div>'+
+   '<div><label>Preço observado 3 (R$)</label><input type="number" step="0.01" value="'+esc(f.pc3)+'" oninput="updF('+fi+',\'pc3\',this.value)"></div>'+
+   '<div><label>Média da praça</label><div class="calc" style="padding-top:8px;font-size:16px">'+money(mediaPraca(f))+'</div></div>'+
+ '</div>'+
+ '<p class="hint">Preço sugerido (ArtBlend): '+money(precoSugerido(f))+' · Preço de venda atual: '+money(f.preco)+' · Média observada na praça: '+money(mediaPraca(f))+'</p>'+
+ '</div>';
+}
+function updF(i,k,v){S.fichas[i][k]=v;saveDebounced();render('fichas');}
+function curFichaIdx(){for(var i=0;i<S.fichas.length;i++)if(S.fichas[i].id==fSel)return i;return -1;}
+function updIng(gi,k,v){var i=curFichaIdx();S.fichas[i].ings[gi][k]=v;saveDebounced();render('fichas');}
+function addIng(){var i=curFichaIdx();if(!S.insumos.length){alert('Cadastre um insumo antes.');return;}S.fichas[i].ings.push({iid:S.insumos[0].id,qtd:'',pb:'',pl:''});save();render('fichas');}
+function delIng(gi){var i=curFichaIdx();S.fichas[i].ings.splice(gi,1);save();render('fichas');}
+function delFicha(id){if(confirm('Excluir ficha?')){S.fichas=S.fichas.filter(function(x){return x.id!=id;});fSel=(S.fichas[0]||{}).id;save();render('fichas');}}
+
+/* RESULTADO */
+/* resumo reaproveitado por vResult() e pelo Dashboard */
+function resultSummary(){
+ var prejuizo=S.fichas.filter(function(f){return num(f.preco)&&margem(f)<0;}).length;
+ var repor=estoqueAlertaCount();
+ var acimaAlvo=S.fichas.filter(function(f){return num(f.preco)&&cmvPct(f)>num(S.config.cmvAlvo);}).length;
+ var cmvMed=0,n=0;S.fichas.forEach(function(f){if(num(f.preco)){cmvMed+=cmvPct(f);n++;}});cmvMed=n?cmvMed/n:0;
+ return {prejuizo:prejuizo, repor:repor, acimaAlvo:acimaAlvo, cmvMed:cmvMed};
+}
+function vResult(){
+ var rows=S.fichas.map(function(f){return '<tr><td><b>'+esc(f.nome)+'</b><br><span class="hint">'+esc(f.cat)+'</span></td>'+
+  '<td class="calc">'+money(cmvFicha(f))+'</td><td>'+money(f.preco)+'</td><td>'+cmvBadge(f)+'</td><td>'+money(margem(f))+'</td><td>'+pct(margemPct(f))+'</td><td>'+money(precoSugerido(f))+'</td></tr>';}).join('');
+ var rs=resultSummary();
+ return '<h1>Resultado / CMV</h1><p class="sub">Visão de todas as fichas: quem dá lucro, quem está com CMV alto e o preço ideal.</p>'+
+ '<div class="cards"><div class="card accent"><div class="v">'+pct(rs.cmvMed)+'</div><div class="l">CMV médio</div></div>'+
+ '<div class="card"><div class="v">'+S.fichas.length+'</div><div class="l">Fichas</div></div>'+
+ '<div class="card"><div class="v">'+rs.acimaAlvo+'</div><div class="l">Acima do CMV alvo</div></div>'+
+ '<div class="card"><div class="v">'+rs.prejuizo+'</div><div class="l">Em prejuízo</div></div>'+
+ '<div class="card"><div class="v">'+rs.repor+'</div><div class="l">Insumos a repor</div></div></div>'+
+ '<div class="panel"><table><thead><tr><th>Ficha</th><th>CMV R$</th><th>Preço</th><th>CMV %</th><th>Margem R$</th><th>Margem %</th><th>Preço sugerido</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+}
+
+/* APROVEITAMENTO DE CARNES */
+function qtdLiquidaFinal(c){return Math.max(0, num(c.qtdBruta)-num(c.perdaLimpeza)-num(c.perdaAgua));}
+function precoKgLiquido(c){var q=qtdLiquidaFinal(c);return q>0?((num(c.qtdBruta)*num(c.precoCompra))/q):0;}
+function perdaPctCalc(v,total){return num(total)>0?(num(v)/num(total)*100):0;}
+function vCarnes(){
+ var rows=S.carnes.map(function(c,i){
+  return '<tr>'+
+   '<td><input type="date" value="'+esc(c.data)+'" oninput="updCarne('+i+',\'data\',this.value)"></td>'+
+   '<td><input value="'+esc(c.corte)+'" oninput="updCarne('+i+',\'corte\',this.value)"></td>'+
+   '<td><input style="min-width:100px" placeholder="ex: grelhado, assado" value="'+esc(c.tipoPreparo)+'" oninput="updCarne('+i+',\'tipoPreparo\',this.value)"></td>'+
+   '<td><input value="'+esc(c.fornecedor)+'" oninput="updCarne('+i+',\'fornecedor\',this.value)"></td>'+
+   '<td><input type="number" step="0.01" style="min-width:60px" value="'+esc(c.qtdBruta)+'" oninput="updCarne('+i+',\'qtdBruta\',this.value)"></td>'+
+   '<td><input type="number" step="0.01" style="min-width:60px" value="'+esc(c.precoCompra)+'" oninput="updCarne('+i+',\'precoCompra\',this.value)"></td>'+
+   '<td><input type="number" step="0.01" style="min-width:60px" value="'+esc(c.perdaLimpeza)+'" oninput="updCarne('+i+',\'perdaLimpeza\',this.value)"></td>'+
+   '<td class="calc">'+pct(perdaPctCalc(c.perdaLimpeza,c.qtdBruta))+'</td>'+
+   '<td><input type="number" step="0.01" style="min-width:60px" value="'+esc(c.perdaAgua)+'" oninput="updCarne('+i+',\'perdaAgua\',this.value)"></td>'+
+   '<td class="calc">'+pct(perdaPctCalc(c.perdaAgua,c.qtdBruta))+'</td>'+
+   '<td class="calc">'+qtdLiquidaFinal(c).toLocaleString('pt-BR',{maximumFractionDigits:2})+'</td>'+
+   '<td class="calc">'+money(precoKgLiquido(c))+'</td>'+
+   '<td><button class="del" onclick="delCarne('+i+')">✕</button></td></tr>';
+ }).join('');
+ return '<h1>Aproveitamento de Carnes</h1><p class="sub">Registre cada corte recebido para descobrir o preço real por kg líquido, já descontando a perda de limpeza e a perda de água/cocção.</p>'+
+ '<div class="panel"><div class="bar"><button class="btn alt sm" onclick="addCarne()">+ Registro</button></div>'+
+ '<table><thead><tr><th>Data</th><th>Corte</th><th>Tipo de preparo</th><th>Fornecedor</th><th>Qtd bruta (kg)</th><th>Preço compra (R$/kg)</th><th>Perda limpeza (kg)</th><th>Perda limpeza %</th><th>Perda água (kg)</th><th>Perda água %</th><th>Qtd líquida final (kg)</th><th>Preço kg líquido real</th><th></th></tr></thead><tbody>'+
+ (rows||'<tr><td colspan=13 class=hint>Nenhum registro ainda.</td></tr>')+
+ '</tbody></table></div>';
+}
+function addCarne(){S.carnes.push({id:'c'+uid(),data:'',corte:'',tipoPreparo:'',fornecedor:'',qtdBruta:'',precoCompra:'',perdaLimpeza:'',perdaAgua:''});save();render('carnes');}
+function delCarne(i){if(confirm('Excluir registro?')){S.carnes.splice(i,1);save();render('carnes');}}
+function updCarne(i,k,v){S.carnes[i][k]=v;saveDebounced();render('carnes');}
+
+/* CMV TEÓRICO x REAL */
+function cmvTeoricoPeriodo(p){var t=0;(p.vendas||[]).forEach(function(v){var f=S.fichas.filter(function(x){return x.id==v.fichaId;})[0];if(f)t+=cmvFicha(f)*num(v.qtd);});return t;}
+function cmvRealPeriodo(p){return num(p.estoqueInicial)+num(p.entradas)-num(p.estoqueFinal);}
+function variacaoPeriodo(p){var t=cmvTeoricoPeriodo(p),r=cmvRealPeriodo(p);return t>0?((r-t)/t*100):0;}
+function variacaoBadge(p){var v=variacaoPeriodo(p);var a=Math.abs(v);var cls=a<=5?'b-ok':(a<=10?'b-warn':'b-bad');var txt=(v>=0?'+':'')+pct(v);return '<span class="badge '+cls+'">'+txt+'</span>';}
+function vCmvReal(){
+ var chips=S.cmvPeriodos.map(function(p){return '<span class="chip '+(p.id==pSel?'on':'')+'" onclick="selPeriodo(\''+p.id+'\')">'+(p.periodo||'(sem nome)')+'</span>';}).join('');
+ var p=S.cmvPeriodos.filter(function(x){return x.id==pSel;})[0];
+ var editor = p?periodoEditor(p):'<div class="panel"><p class="hint">Crie um período para começar.</p></div>';
+ return '<h1>CMV Teórico × CMV Real</h1><p class="sub">Compare o CMV esperado pelas fichas técnicas vendidas no período com o CMV real apurado pelo estoque, para identificar possível desperdício ou furo de estoque.</p>'+
+ '<div class="bar"><button class="btn alt sm" onclick="addPeriodo()">+ Novo período</button></div>'+
+ '<div class="fichalist">'+chips+'</div>'+editor;
+}
+function selPeriodo(id){pSel=id;render('cmvreal');}
+function addPeriodo(){var np={id:'p'+uid(),periodo:'Novo período',estoqueInicial:'',entradas:'',estoqueFinal:'',vendas:[]};S.cmvPeriodos.push(np);pSel=np.id;save();render('cmvreal');}
+function curPeriodoIdx(){for(var i=0;i<S.cmvPeriodos.length;i++)if(S.cmvPeriodos[i].id==pSel)return i;return -1;}
+/* venda de uma ficha debita o estoque de cada insumo dela (qtd do ingrediente × fc × qtd vendida).
+   guarda em _estFichaId/_estQtd o que já foi debitado, para poder estornar antes de re-debitar
+   quando a ficha ou a quantidade vendida mudam (evita debitar em dobro a cada edição). */
+function aplicarDebitoVenda(v, novoFichaId, novoQtd){
+ if(v._estFichaId && v._estQtd){
+  var fAnt=S.fichas.filter(function(x){return x.id==v._estFichaId;})[0];
+  if(fAnt){
+   (fAnt.ings||[]).forEach(function(g){
+    var ins=insumoById(g.iid);
+    if(ins) ins.est = num(ins.est) + num(g.qtd)*fcIngrediente(g)*num(v._estQtd);
+   });
+  }
+ }
+ var fNovo = novoFichaId ? S.fichas.filter(function(x){return x.id==novoFichaId;})[0] : null;
+ if(fNovo && num(novoQtd)>0){
+  (fNovo.ings||[]).forEach(function(g){
+   var ins=insumoById(g.iid);
+   if(ins) ins.est = num(ins.est) - num(g.qtd)*fcIngrediente(g)*num(novoQtd);
+  });
+  v._estFichaId = novoFichaId;
+  v._estQtd = num(novoQtd);
+ } else {
+  v._estFichaId = '';
+  v._estQtd = 0;
+ }
+}
+function delPeriodo(id){
+ if(confirm('Excluir período?')){
+  var p=S.cmvPeriodos.filter(function(x){return x.id==id;})[0];
+  if(p) (p.vendas||[]).forEach(function(v){ aplicarDebitoVenda(v,'',0); });
+  S.cmvPeriodos=S.cmvPeriodos.filter(function(x){return x.id!=id;});pSel=(S.cmvPeriodos[0]||{}).id;save();render('cmvreal');
+ }
+}
+function updPeriodo(i,k,v){S.cmvPeriodos[i][k]=v;saveDebounced();render('cmvreal');}
+function addVenda(){var i=curPeriodoIdx();if(!S.fichas.length){alert('Cadastre uma ficha antes.');return;}S.cmvPeriodos[i].vendas.push({fichaId:S.fichas[0].id,qtd:'',_estFichaId:'',_estQtd:0});save();render('cmvreal');}
+function updVenda(vi,k,v){
+ var i=curPeriodoIdx();
+ var venda=S.cmvPeriodos[i].vendas[vi];
+ venda[k]=v;
+ if(k=='fichaId'||k=='qtd'){ aplicarDebitoVenda(venda, venda.fichaId, venda.qtd); }
+ saveDebounced();render('cmvreal');
+}
+function delVenda(vi){
+ var i=curPeriodoIdx();
+ var venda=S.cmvPeriodos[i].vendas[vi];
+ aplicarDebitoVenda(venda,'',0);
+ S.cmvPeriodos[i].vendas.splice(vi,1);save();render('cmvreal');
+}
+function periodoEditor(p){
+ var pi=S.cmvPeriodos.indexOf(p);
+ var vrows=(p.vendas||[]).map(function(v,vi){
+  var f=S.fichas.filter(function(x){return x.id==v.fichaId;})[0];
+  return '<tr><td><select onchange="updVenda('+vi+',\'fichaId\',this.value)">'+S.fichas.map(function(x){return '<option value="'+x.id+'" '+(x.id==v.fichaId?'selected':'')+'>'+esc(x.nome)+'</option>';}).join('')+'</select></td>'+
+   '<td><input type="number" step="1" style="min-width:60px" value="'+esc(v.qtd)+'" oninput="updVenda('+vi+',\'qtd\',this.value)"></td>'+
+   '<td class="calc">'+money(f?cmvFicha(f)*num(v.qtd):0)+'</td>'+
+   '<td><button class="del" onclick="delVenda('+vi+')">✕</button></td></tr>';
+ }).join('');
+ return '<div class="panel"><div class="grid4">'+
+   '<div><label>Nome do período</label><input value="'+esc(p.periodo)+'" oninput="updPeriodo('+pi+',\'periodo\',this.value)"></div>'+
+   '<div><label>Estoque inicial (R$)</label><input type="number" step="0.01" value="'+esc(p.estoqueInicial)+'" oninput="updPeriodo('+pi+',\'estoqueInicial\',this.value)"></div>'+
+   '<div><label>Entradas/compras (R$)</label><input type="number" step="0.01" value="'+esc(p.entradas)+'" oninput="updPeriodo('+pi+',\'entradas\',this.value)"></div>'+
+   '<div><label>Estoque final (R$)</label><input type="number" step="0.01" value="'+esc(p.estoqueFinal)+'" oninput="updPeriodo('+pi+',\'estoqueFinal\',this.value)"></div>'+
+   '</div>'+
+   '<h3>Vendas do período (por ficha técnica)</h3>'+
+   '<table><thead><tr><th>Ficha</th><th>Qtd vendida</th><th>CMV teórico</th><th></th></tr></thead><tbody>'+(vrows||'<tr><td colspan=4 class=hint>Adicione as fichas vendidas no período.</td></tr>')+'</tbody></table>'+
+   '<div class="bar"><button class="btn sm" onclick="addVenda()">+ Venda</button><button class="del" onclick="delPeriodo(\''+p.id+'\')">excluir período</button></div>'+
+ '</div>'+
+ '<div class="cards">'+
+   '<div class="card accent"><div class="v">'+money(cmvTeoricoPeriodo(p))+'</div><div class="l">CMV teórico (fichas vendidas)</div></div>'+
+   '<div class="card"><div class="v">'+money(cmvRealPeriodo(p))+'</div><div class="l">CMV real (estoque inicial + entradas − final)</div></div>'+
+   '<div class="card"><div class="v">'+variacaoBadge(p)+'</div><div class="l">Variação (alerta de desperdício/furo)</div></div>'+
+ '</div>';
+}
+
+/* CONTROLE DE PERDAS/QUEBRAS */
+function perdaValorCalc(p){
+ if(p.insumoId){ var ins=insumoById(p.insumoId); return ins?custoUnit(ins)*num(p.qtd):num(p.valor); }
+ if(p.fichaId){ var f=S.fichas.filter(function(x){return x.id==p.fichaId;})[0]; return f?cmvFicha(f)*num(p.qtd):num(p.valor); }
+ return num(p.valor);
+}
+function vPerdas(){
+ var motivos=['validade vencida','quebra/dano','erro de preparo','outro'];
+ var rows=S.perdas.map(function(p,i){
+  var vinculado = !!(p.insumoId||p.fichaId);
+  return '<tr>'+
+   '<td><input type="date" value="'+esc(p.data)+'" oninput="updPerda('+i+',\'data\',this.value)"></td>'+
+   '<td><select onchange="updPerdaVinculo('+i+',this.value)"><option value="">— item avulso —</option>'+
+    '<optgroup label="Insumos">'+S.insumos.map(function(x){return '<option value="i:'+x.id+'" '+(p.insumoId==x.id?'selected':'')+'>'+esc(x.nome)+'</option>';}).join('')+'</optgroup>'+
+    '<optgroup label="Fichas / pratos">'+S.fichas.map(function(x){return '<option value="f:'+x.id+'" '+(p.fichaId==x.id?'selected':'')+'>'+esc(x.nome)+'</option>';}).join('')+'</optgroup>'+
+   '</select></td>'+
+   '<td><input value="'+esc(p.item)+'" '+(vinculado?'disabled placeholder="nome do insumo/prato"':'')+' oninput="updPerda('+i+',\'item\',this.value)"></td>'+
+   '<td><input type="number" step="0.01" style="min-width:60px" value="'+esc(p.qtd)+'" oninput="updPerdaQtd('+i+',this.value)"></td>'+
+   '<td><select onchange="updPerda('+i+',\'motivo\',this.value)">'+motivos.map(function(m){return '<option value="'+m+'" '+(p.motivo==m?'selected':'')+'>'+m.charAt(0).toUpperCase()+m.slice(1)+'</option>';}).join('')+'</select></td>'+
+   '<td>'+(vinculado?('<span class="calc">'+money(perdaValorCalc(p))+'</span>'):('<input type="number" step="0.01" style="min-width:70px" value="'+esc(p.valor)+'" oninput="updPerda('+i+',\'valor\',this.value)">'))+'</td>'+
+   '<td><button class="del" onclick="delPerda('+i+')">✕</button></td></tr>';
+ }).join('');
+ var totalPerdas=S.perdas.reduce(function(a,p){return a+perdaValorCalc(p);},0);
+ return '<h1>Controle de Perdas &amp; Quebras</h1><p class="sub">Registre toda perda de insumo ou prato para enxergar onde o dinheiro está vazando. Ao vincular a um insumo cadastrado, o valor é calculado pelo preço desse insumo × quantidade perdida. Ao vincular a uma ficha/prato (ex.: um prato pronto que caiu ou estragou), o valor é calculado pelo CMV da ficha × quantidade de porções perdidas. Em ambos os casos, o estoque físico dos insumos correspondentes é debitado automaticamente — o mesmo estoque usado na aba Insumos/Estoque.</p>'+
+ '<div class="cards"><div class="card accent"><div class="v">'+money(totalPerdas)+'</div><div class="l">Total perdido no período</div></div>'+
+ '<div class="card"><div class="v">'+S.perdas.length+'</div><div class="l">Registros</div></div></div>'+
+ '<div class="bar"><button class="fab-perda" onclick="openQuickPerda()">⚡ Estragou / Sobrou — registro rápido</button></div>'+
+ '<div class="panel"><div class="bar"><button class="btn alt sm" onclick="addPerda()">+ Registro (detalhado)</button></div>'+
+ '<table><thead><tr><th>Data</th><th>Vincular insumo/prato</th><th>Item</th><th>Qtd</th><th>Motivo</th><th>Valor estimado (R$)</th><th></th></tr></thead><tbody>'+
+ (rows||'<tr><td colspan=7 class=hint>Nenhuma perda registrada.</td></tr>')+
+ '</tbody></table></div>';
+}
+/* toda perda vinculada a um insumo debita o estoque atual desse insumo (S.insumos[i].est).
+   guarda em _estInsumoId/_estQtd o que já foi debitado, para poder estornar antes de re-debitar
+   quando o insumo vinculado ou a quantidade mudam (evita debitar em dobro a cada edição). */
+function aplicarDebitoPerda(p, novoInsumoId, novoQtd){
+ if(p._estInsumoId && p._estQtd){
+  var insAnt=insumoById(p._estInsumoId);
+  if(insAnt) insAnt.est = num(insAnt.est) + num(p._estQtd);
+ }
+ var novoIns = novoInsumoId ? insumoById(novoInsumoId) : null;
+ if(novoIns && num(novoQtd)>0){
+  novoIns.est = num(novoIns.est) - num(novoQtd);
+  p._estInsumoId = novoInsumoId;
+  p._estQtd = num(novoQtd);
+ } else {
+  p._estInsumoId = '';
+  p._estQtd = 0;
+ }
+}
+/* perda vinculada a uma ficha/prato inteiro (ex.: um prato pronto derrubado/estragado) debita,
+   de cada insumo da ficha, a quantidade usada × FC do ingrediente × qtd de porções perdidas —
+   mesma lógica proporcional de aplicarDebitoVenda(). Rastreamento em campos próprios
+   (_estFichaPerdaId/_estFichaPerdaQtd), separados dos campos de perda por insumo acima, para
+   não colidir com registros de perda já salvos antes de existir a opção de vincular a uma ficha. */
+function aplicarDebitoPerdaFicha(p, novoFichaId, novoQtd){
+ if(p._estFichaPerdaId && p._estFichaPerdaQtd){
+  var fAnt=S.fichas.filter(function(x){return x.id==p._estFichaPerdaId;})[0];
+  if(fAnt){
+   (fAnt.ings||[]).forEach(function(g){
+    var ins=insumoById(g.iid);
+    if(ins) ins.est = num(ins.est) + num(g.qtd)*fcIngrediente(g)*num(p._estFichaPerdaQtd);
+   });
+  }
+ }
+ var novaFicha = novoFichaId ? S.fichas.filter(function(x){return x.id==novoFichaId;})[0] : null;
+ if(novaFicha && num(novoQtd)>0){
+  (novaFicha.ings||[]).forEach(function(g){
+   var ins=insumoById(g.iid);
+   if(ins) ins.est = num(ins.est) - num(g.qtd)*fcIngrediente(g)*num(novoQtd);
+  });
+  p._estFichaPerdaId = novoFichaId;
+  p._estFichaPerdaQtd = num(novoQtd);
+ } else {
+  p._estFichaPerdaId = '';
+  p._estFichaPerdaQtd = 0;
+ }
+}
+function addPerda(){S.perdas.push({id:'q'+uid(),data:'',item:'',insumoId:'',fichaId:'',qtd:'',motivo:'validade vencida',valor:'',_estInsumoId:'',_estQtd:0,_estFichaPerdaId:'',_estFichaPerdaQtd:0});save();render('perdas');}
+function delPerda(i){if(confirm('Excluir registro?')){aplicarDebitoPerda(S.perdas[i],'',0);aplicarDebitoPerdaFicha(S.perdas[i],'',0);S.perdas.splice(i,1);save();render('perdas');}}
+function updPerda(i,k,v){S.perdas[i][k]=v;saveDebounced();render('perdas');}
+/* troca o vínculo da perda entre "item avulso", um insumo (i:<id>) ou uma ficha/prato (f:<id>) —
+   estorna o débito de estoque anterior (seja qual for o tipo) antes de aplicar o novo. */
+function updPerdaVinculo(i,v){
+ var p=S.perdas[i];
+ var novoInsumoId = v.indexOf('i:')===0 ? v.slice(2) : '';
+ var novoFichaId = v.indexOf('f:')===0 ? v.slice(2) : '';
+ aplicarDebitoPerda(p, novoInsumoId, novoInsumoId ? p.qtd : 0);
+ aplicarDebitoPerdaFicha(p, novoFichaId, novoFichaId ? p.qtd : 0);
+ p.insumoId = novoInsumoId;
+ p.fichaId = novoFichaId;
+ if(novoInsumoId){ var ins=insumoById(novoInsumoId); if(ins) p.item=ins.nome; }
+ else if(novoFichaId){ var f=S.fichas.filter(function(x){return x.id==novoFichaId;})[0]; if(f) p.item=f.nome; }
+ p.valor = perdaValorCalc(p);
+ saveDebounced();render('perdas');
+}
+function updPerdaQtd(i,v){
+ var p=S.perdas[i];
+ p.qtd=v;
+ if(p.insumoId){ aplicarDebitoPerda(p, p.insumoId, v); }
+ if(p.fichaId){ aplicarDebitoPerdaFicha(p, p.fichaId, v); }
+ if(p.insumoId||p.fichaId){ p.valor=perdaValorCalc(p); }
+ saveDebounced();render('perdas');
+}
+
+/* REGISTRO RÁPIDO DE PERDA (Estragou/Sobrou/Quebrou) — mobile-first, mesma estrutura de dados de S.perdas */
+var QP_MOTIVOS = ['Estragou','Sobrou','Quebrou'];
+var QP_MOTIVO_MAP = {'Estragou':'validade vencida','Sobrou':'outro','Quebrou':'quebra/dano'};
+function openQuickPerda(){
+ if(!S.insumos.length){ alert('Cadastre pelo menos um insumo antes de usar o registro rápido.'); return; }
+ qp = {insumoId:S.insumos[0].id, motivo:'Estragou', qtd:1};
+ renderQuickPerda();
+ document.getElementById('quickPerdaOverlay').style.display='flex';
+}
+function closeQuickPerda(){
+ document.getElementById('quickPerdaOverlay').style.display='none';
+}
+function renderQuickPerda(){
+ var box=document.getElementById('quickPerdaBox');
+ box.innerHTML =
+  '<div class="qp-head"><h3>Registro rápido de perda</h3><button class="qp-close" onclick="closeQuickPerda()">✕</button></div>'+
+  '<label>Item</label>'+
+  '<select id="qp_insumo" onchange="qp.insumoId=this.value">'+
+   S.insumos.map(function(x){return '<option value="'+x.id+'" '+(x.id==qp.insumoId?'selected':'')+'>'+esc(x.nome)+'</option>';}).join('')+
+  '</select>'+
+  '<label>Motivo</label>'+
+  '<div class="qp-motivos">'+
+   QP_MOTIVOS.map(function(m){return '<button type="button" class="qp-motivo-btn '+(qp.motivo==m?'on':'')+'" onclick="setQpMotivo(\''+m+'\')">'+m+'</button>';}).join('')+
+  '</div>'+
+  '<label>Quantidade</label>'+
+  '<div class="qp-stepper">'+
+   '<button type="button" onclick="stepQp(-1)">−</button>'+
+   '<input type="number" id="qp_qtd" step="0.01" min="0" value="'+esc(qp.qtd)+'" oninput="qp.qtd=this.value">'+
+   '<button type="button" onclick="stepQp(1)">+</button>'+
+  '</div>'+
+  '<button class="btn qp-submit" onclick="submitQuickPerda()">Registrar</button>';
+}
+function setQpMotivo(m){ qp.motivo=m; renderQuickPerda(); }
+function stepQp(d){
+ var el=document.getElementById('qp_qtd');
+ var v=num(el.value)+d;
+ if(v<0) v=0;
+ qp.qtd=v; el.value=v;
+}
+function submitQuickPerda(){
+ var qtd=num(document.getElementById('qp_qtd').value);
+ if(!qp.insumoId){ alert('Selecione um item.'); return; }
+ if(!(qtd>0)){ alert('Informe uma quantidade maior que zero.'); return; }
+ var ins=insumoById(qp.insumoId);
+ var novo={id:'q'+uid(), data:new Date().toISOString().slice(0,10), item:ins?ins.nome:'', insumoId:qp.insumoId, fichaId:'', qtd:qtd, motivo:QP_MOTIVO_MAP[qp.motivo]||'outro', valor:'', _estInsumoId:'', _estQtd:0, _estFichaPerdaId:'', _estFichaPerdaQtd:0};
+ novo.valor=perdaValorCalc(novo);
+ aplicarDebitoPerda(novo, qp.insumoId, qtd);
+ S.perdas.push(novo);
+ save();
+ closeQuickPerda();
+ if(cur=='perdas'||cur=='estoque'||cur=='dashboard'||cur=='insumos') render(cur);
+}
+
+/* CURVA ABC DE INSUMOS */
+function participacaoInsumo(ins){
+ var t=0;
+ S.fichas.forEach(function(f){
+  (f.ings||[]).forEach(function(g){
+   if(g.iid==ins.id){ t += custoUnit(ins)*num(g.qtd)*fcIngrediente(g); }
+  });
+ });
+ return t;
+}
+/* classificação ABC reaproveitada por vAbc() e pelo Dashboard */
+function abcList(){
+ var lista=S.insumos.map(function(ins){return {ins:ins, valor:participacaoInsumo(ins)};});
+ var total=lista.reduce(function(a,x){return a+x.valor;},0);
+ lista.sort(function(a,b){return b.valor-a.valor;});
+ var acum=0;
+ lista.forEach(function(x){
+  var p = total>0 ? (x.valor/total*100) : 0;
+  acum += p;
+  x.p = p; x.acum = acum;
+  x.classe = acum<=80?'A':(acum<=95?'B':'C');
+ });
+ return lista;
+}
+function abcSummary(){
+ var lista=abcList();
+ var s={A:0,B:0,C:0};
+ lista.forEach(function(x){ s[x.classe]++; });
+ return s;
+}
+function vAbc(){
+ var lista=abcList();
+ var sum=abcSummary();
+ var rows=lista.map(function(x){
+  var cls = x.classe=='A'?'b-ok':(x.classe=='B'?'b-warn':'b-bad');
+  return '<tr><td>'+esc(x.ins.nome)+'</td><td class="calc">'+money(x.valor)+'</td><td>'+pct(x.p)+'</td><td>'+pct(x.acum)+'</td><td><span class="badge '+cls+'">'+x.classe+'</span></td></tr>';
+ }).join('');
+ return '<h1>Curva ABC de Insumos</h1><p class="sub">Insumos ordenados pelo peso no custo total das fichas técnicas (regra 80/20): a classe A concentra o maior impacto no custo, a classe C é a de menor impacto.</p>'+
+ '<div class="cards">'+
+  '<div class="card" style="border-left:4px solid var(--good)"><div class="v">'+sum.A+'</div><div class="l">Classe A</div></div>'+
+  '<div class="card" style="border-left:4px solid var(--amber)"><div class="v">'+sum.B+'</div><div class="l">Classe B</div></div>'+
+  '<div class="card" style="border-left:4px solid var(--bad)"><div class="v">'+sum.C+'</div><div class="l">Classe C</div></div>'+
+ '</div>'+
+ '<div class="panel"><table><thead><tr><th>Insumo</th><th>Custo total consumido</th><th>% participação</th><th>% acumulado</th><th>Classe</th></tr></thead><tbody>'+
+ (rows||'<tr><td colspan=5 class=hint>Cadastre insumos e fichas técnicas para calcular a curva ABC.</td></tr>')+
+ '</tbody></table>'+
+ '<p class="hint">Classe A = itens que juntos somam até 80% do custo (foco máximo de controle). Classe B = até 95%. Classe C = os últimos 5% (menor impacto, mas ainda merecem atenção contra desperdício).</p></div>';
+}
+
+/* CHECKLIST DE LAYOUT / ENGENHARIA VISUAL DO CARDÁPIO */
+var CHECKLIST_ITENS=[
+ {id:'c1',t:'O cardápio usa fotos apenas dos pratos mais lucrativos (Estrelas), evitando poluir o layout com fotos de todos os itens.'},
+ {id:'c2',t:'Os pratos com maior margem (Estrelas e Quebra-cabeças) recebem destaque visual — moldura, caixa, ícone ou posição de maior atenção do olhar.'},
+ {id:'c3',t:'O preço aparece sem o símbolo de moeda em destaque exagerado — evite deixar o "R$" grande ou em negrito, para não tornar o valor o foco principal da leitura.'},
+ {id:'c4',t:'Os preços não estão alinhados em coluna reta de cima a baixo — evite uma "lista de preços" vertical, que induz o cliente a escolher pelo menor valor.'},
+ {id:'c5',t:'Cada prato tem uma descrição sensorial curta (até 3-4 linhas), destacando um ingrediente-herói e uma textura, aroma ou técnica marcante.'},
+ {id:'c6',t:'O cardápio está dividido em categorias claras, numa ordem que faz sentido para o consumo (entradas, principais, sobremesas, bebidas).'},
+ {id:'c7',t:'Os itens de maior margem estão posicionados nos pontos de maior atenção visual da página (início e fim de cada bloco/coluna).'},
+ {id:'c8',t:'A tipografia tem hierarquia clara entre nome do prato, descrição e preço, sem excesso de fontes ou tamanhos diferentes.'},
+ {id:'c9',t:'O cardápio não é extenso demais — poucos itens bem escolhidos por categoria, evitando sobrecarga de decisão do cliente.'},
+ {id:'c10',t:'Existe algum elemento visual (ícone, selo, moldura) reservado só para os pratos que a casa realmente quer vender mais.'}
+];
+function vChecklist(){
+ var itens=CHECKLIST_ITENS.map(function(it){
+  var on=!!S.checklist[it.id];
+  return '<div class="panel" style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;">'+
+   '<input type="checkbox" style="margin-top:3px;width:18px;height:18px;flex-shrink:0" '+(on?'checked':'')+' onchange="toggleChecklist(\''+it.id+'\',this.checked)">'+
+   '<div style="font-weight:700;font-size:13.5px;line-height:1.5">'+it.t+'</div></div>';
+ }).join('');
+ var feitos=CHECKLIST_ITENS.filter(function(it){return !!S.checklist[it.id];}).length;
+ return '<h1>Checklist de Layout &amp; Engenharia Visual do Cardápio</h1><p class="sub">Boas práticas de engenharia de cardápio da metodologia ArtBlend para revisar com o cliente antes de fechar a arte final. Marque o que já foi verificado.</p>'+
+ '<div class="cards"><div class="card accent"><div class="v">'+feitos+'/'+CHECKLIST_ITENS.length+'</div><div class="l">Itens verificados</div></div></div>'+
+ itens;
+}
+function toggleChecklist(id,val){S.checklist[id]=val;save();render('checklist');}
+
+/* DIAGNÓSTICO COMPARATIVO — roteiro de visita (mystery-shopper) da metodologia ArtBlend.
+   Cada "visita" pode ser o próprio restaurante do cliente (autoavaliação) ou um concorrente
+   observado em campo. As 5 categorias e ~59 critérios abaixo seguem a estrutura da planilha
+   de curadoria gastronômica usada em campo pela ArtBlend, reescrita com vocabulário próprio. */
+var DIAG_CATS=[
+ {key:'cardapio', label:'Cardápio', criterios:[
+   {id:'cd1', t:'Formato do cardápio (impresso, digital ou os dois)'},
+   {id:'cd2', t:'Clareza da estrutura — fácil de entender e seguir?'},
+   {id:'cd3', t:'Preço e percepção de valor (parece justo, caro ou barato?)'},
+   {id:'cd4', t:'Qualidade e relevância das imagens dos pratos'},
+   {id:'cd5', t:'Descrições dos pratos — apetitosas, claras e completas?'},
+   {id:'cd6', t:'Variedade do cardápio e coerência com o conceito da casa'},
+   {id:'cd7', t:'Organização por categorias — lógica e fácil de navegar?'},
+   {id:'cd8', t:'Destaques estratégicos e promoções — claros e atrativos?'},
+   {id:'cd9', t:'Identidade visual do cardápio — alinhada à marca?'},
+   {id:'cd10', t:'Empratamento observado condiz com a descrição/foto?'},
+   {id:'cd11', t:'Opções para restrições alimentares indicadas com clareza'},
+   {id:'cd12', t:'Ortografia e gramática'}
+ ]},
+ {key:'vitrine', label:'Vitrine / Exposição', criterios:[
+   {id:'vt1', t:'Localização da vitrine/exposição — visível e estratégica?'},
+   {id:'vt2', t:'Qualidade e adequação dos materiais de exposição'},
+   {id:'vt3', t:'Organização e disposição dos itens expostos'},
+   {id:'vt4', t:'Identificação e precificação dos produtos expostos'},
+   {id:'vt5', t:'Apelo visual — os produtos parecem frescos e apetitosos?'},
+   {id:'vt6', t:'Relação entre vitrine e preço (comunica valor?)'},
+   {id:'vt7', t:'Interação com o cliente (vitrine viva, demonstração?)'},
+   {id:'vt8', t:'Iluminação da vitrine/exposição'},
+   {id:'vt9', t:'Limpeza e manutenção da área de exposição'},
+   {id:'vt10', t:'Rotatividade dos produtos — sensação de frescor?'}
+ ]},
+ {key:'ambiente', label:'Ambiente', criterios:[
+   {id:'am1', t:'Fachada e entrada — atrativas e bem sinalizadas?'},
+   {id:'am2', t:'Layout e fluxo operacional do salão'},
+   {id:'am3', t:'Visibilidade e organização aparente da cozinha'},
+   {id:'am4', t:'Decoração e identidade visual do ambiente'},
+   {id:'am5', t:'Conforto e estado de conservação do mobiliário'},
+   {id:'am6', t:'Climatização e conforto térmico'},
+   {id:'am7', t:'Iluminação do ambiente, adequada à proposta'},
+   {id:'am8', t:'Sons e ruídos do ambiente (música, volume)'},
+   {id:'am9', t:'Limpeza e manutenção dos banheiros'},
+   {id:'am10', t:'Organização e agilidade do caixa/formas de pagamento'},
+   {id:'am11', t:'Limpeza geral e manutenção do salão'},
+   {id:'am12', t:'Espaços com potencial de foto / pontos de destaque visual'}
+ ]},
+ {key:'servico', label:'Serviço', criterios:[
+   {id:'sv1', t:'Recepção e acolhimento inicial'},
+   {id:'sv2', t:'Número de colaboradores compatível com a demanda'},
+   {id:'sv3', t:'Postura e simpatia da equipe'},
+   {id:'sv4', t:'Uniforme e identificação dos colaboradores'},
+   {id:'sv5', t:'Conhecimento da equipe sobre produtos e cardápio'},
+   {id:'sv6', t:'Eficiência do formato de atendimento (mesa, balcão etc.)'},
+   {id:'sv7', t:'Agilidade para anotar e servir o pedido'},
+   {id:'sv8', t:'Tempo de entrega do pedido (cozinha/bar)'},
+   {id:'sv9', t:'Apresentação da louça / embalagem'},
+   {id:'sv10', t:'Qualidade do atendimento no delivery (se aplicável)'},
+   {id:'sv11', t:'Gerenciamento de fila / tempo de espera'},
+   {id:'sv12', t:'Postura da equipe diante de problemas ou reclamações'},
+   {id:'sv13', t:'Venda sugestiva / upselling — a equipe pratica?'},
+   {id:'sv14', t:'Despedida e fechamento da experiência'}
+ ]},
+ {key:'digital', label:'Presença Digital', criterios:[
+   {id:'dg1', t:'Website — existe, é fácil de usar e informativo?'},
+   {id:'dg2', t:'Instagram — ativo, com conteúdo relevante e engajamento?'},
+   {id:'dg3', t:'Outras redes sociais ativas'},
+   {id:'dg4', t:'Consistência visual e tom de voz da marca online'},
+   {id:'dg5', t:'Qualidade e constância da produção de conteúdo'},
+   {id:'dg6', t:'Informações claras na bio/perfil (horário, endereço, contato)'},
+   {id:'dg7', t:'Cardápio online acessível e atualizado'},
+   {id:'dg8', t:'Sistema de reservas online (se aplicável)'},
+   {id:'dg9', t:'Presença e avaliação em plataformas de delivery'},
+   {id:'dg10', t:'Nota e resposta às avaliações online (Google e afins)'},
+   {id:'dg11', t:'Interação com seguidores/clientes nos canais online'}
+ ]}
+];
+var DIAG_INSIGHTS=[
+ ['ideiasBoas','O que essa visita mostrou de simples e bem-feito, que vale copiar?'],
+ ['naoFuncionou','O que claramente não funcionou bem? Por quê?'],
+ ['inspiracoes','Que boas práticas você aplicaria em projetos futuros?'],
+ ['pontosFortes','Principais pontos fortes observados'],
+ ['pontosFracos','Principais pontos fracos / oportunidades de melhoria'],
+ ['comparacaoConcorrencia','Como este local se compara a outros do mesmo segmento que você conhece?'],
+ ['expectativa','A experiência bateu com a promessa de marca / expectativa do cliente?'],
+ ['outrasObs','Outras observações e conclusões importantes']
+];
+function diagMediaCategoria(v,cat){
+ var vals=cat.criterios.map(function(c){return num((v.scores||{})[c.id]);}).filter(function(x){return x>0;});
+ if(!vals.length) return 0;
+ return vals.reduce(function(a,b){return a+b;},0)/vals.length;
+}
+function diagMediaGeral(v){
+ var meds=DIAG_CATS.map(function(cat){return diagMediaCategoria(v,cat);}).filter(function(x){return x>0;});
+ if(!meds.length) return 0;
+ return meds.reduce(function(a,b){return a+b;},0)/meds.length;
+}
+function diagScoreBtns(v,critId){
+ var cur=(v.scores||{})[critId];
+ var btns='';
+ for(var n=1;n<=5;n++){
+  btns+='<button type="button" class="'+(cur==n?'on':'')+'" onclick="updDiagScore(\''+v.id+'\',\''+critId+'\','+n+')">'+n+'</button>';
+ }
+ return '<div class="score5">'+btns+'</div>';
+}
+function updDiagScore(vid,critId,val){
+ var v=S.visitas.filter(function(x){return x.id==vid;})[0];
+ if(!v) return;
+ v.scores=v.scores||{};
+ v.scores[critId]=val;
+ saveDebounced();
+ render('diagnostico');
+}
+function selDiagVisita(id){dSel=id;render('diagnostico');}
+function addDiagVisita(){
+ var nv={id:'v'+uid(), nome:S.visitas.length?'Novo concorrente':'Meu restaurante', tipo:S.visitas.length?'concorrente':'proprio',
+  data:new Date().toISOString().slice(0,10), local:'', avaliador:'', ocasiao:'', diaSemana:'', horario:'', tipoServico:'', publicoAlvo:'',
+  instagram:'', redes:'', obs:'', scores:{}, insights:{}};
+ S.visitas.push(nv); dSel=nv.id; save(); render('diagnostico');
+}
+function delDiagVisita(id){
+ if(confirm('Excluir esta visita?')){
+  S.visitas=S.visitas.filter(function(x){return x.id!=id;});
+  dSel=(S.visitas[0]||{}).id; save(); render('diagnostico');
+ }
+}
+function curDiagIdx(){for(var i=0;i<S.visitas.length;i++)if(S.visitas[i].id==dSel)return i;return -1;}
+function updDiagVisita(i,k,v){S.visitas[i][k]=v;saveDebounced();render('diagnostico');}
+function diagVisitaEditor(v){
+ var i=S.visitas.indexOf(v);
+ var idHead='<div class="panel"><h3>Identificação</h3><div class="grid4">'+
+  '<div><label>Nome (estabelecimento)</label><input value="'+esc(v.nome)+'" oninput="updDiagVisita('+i+',\'nome\',this.value)"></div>'+
+  '<div><label>Tipo de visita</label><select onchange="updDiagVisita('+i+',\'tipo\',this.value)">'+
+   '<option value="proprio" '+(v.tipo=='proprio'?'selected':'')+'>Seu restaurante (autoavaliação)</option>'+
+   '<option value="concorrente" '+(v.tipo=='concorrente'?'selected':'')+'>Concorrente / referência de mercado</option>'+
+  '</select></div>'+
+  '<div><label>Data da visita</label><input type="date" value="'+esc(v.data)+'" oninput="updDiagVisita('+i+',\'data\',this.value)"></div>'+
+  '<div><label>Dia da semana</label><input value="'+esc(v.diaSemana)+'" oninput="updDiagVisita('+i+',\'diaSemana\',this.value)"></div>'+
+  '<div><label>Horário da visita</label><input value="'+esc(v.horario)+'" oninput="updDiagVisita('+i+',\'horario\',this.value)"></div>'+
+  '<div><label>Local / endereço</label><input value="'+esc(v.local)+'" oninput="updDiagVisita('+i+',\'local\',this.value)"></div>'+
+  '<div><label>Instagram</label><input value="'+esc(v.instagram)+'" oninput="updDiagVisita('+i+',\'instagram\',this.value)"></div>'+
+  '<div><label>Outras redes / site</label><input value="'+esc(v.redes)+'" oninput="updDiagVisita('+i+',\'redes\',this.value)"></div>'+
+  '<div><label>Tipo de serviço principal</label><input value="'+esc(v.tipoServico)+'" oninput="updDiagVisita('+i+',\'tipoServico\',this.value)"></div>'+
+  '<div><label>Público-alvo percebido</label><input value="'+esc(v.publicoAlvo)+'" oninput="updDiagVisita('+i+',\'publicoAlvo\',this.value)"></div>'+
+  '<div><label>Avaliador</label><input value="'+esc(v.avaliador)+'" oninput="updDiagVisita('+i+',\'avaliador\',this.value)"></div>'+
+  '<div><label>Ocasião da visita</label><input value="'+esc(v.ocasiao)+'" oninput="updDiagVisita('+i+',\'ocasiao\',this.value)"></div>'+
+  '</div>'+
+  '<label>Observações gerais da visita</label><textarea rows="2" oninput="S.visitas['+i+'].obs=this.value;saveDebounced()">'+esc(v.obs)+'</textarea>'+
+  '<div class="bar" style="margin-top:6px"><button class="del" onclick="delDiagVisita(\''+v.id+'\')">excluir visita</button></div>'+
+ '</div>';
+ var cats=DIAG_CATS.map(function(cat){
+  var rows=cat.criterios.map(function(c){
+   return '<tr><td>'+c.t+'</td><td>'+diagScoreBtns(v,c.id)+'</td></tr>';
+  }).join('');
+  var media=diagMediaCategoria(v,cat);
+  return '<div class="panel"><h3>'+cat.label+' <span class="hint">— média '+(media?media.toFixed(1):'—')+' / 5</span></h3>'+
+   '<table><thead><tr><th>Ponto de análise</th><th>Avaliação (1-5)</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+ }).join('');
+ var geral=diagMediaGeral(v);
+ var cards='<div class="cards">'+
+  DIAG_CATS.map(function(cat){var m=diagMediaCategoria(v,cat);return '<div class="card"><div class="v">'+(m?m.toFixed(1):'—')+'</div><div class="l">'+cat.label+'</div></div>';}).join('')+
+  '<div class="card accent"><div class="v">'+(geral?geral.toFixed(1):'—')+'</div><div class="l">Pontuação geral</div></div>'+
+ '</div>';
+ var insightsHtml=DIAG_INSIGHTS.map(function(f){
+  var val=(v.insights||{})[f[0]]||'';
+  return '<label>'+f[1]+'</label><textarea rows="2" oninput="S.visitas['+i+'].insights=S.visitas['+i+'].insights||{};S.visitas['+i+'].insights.'+f[0]+'=this.value;saveDebounced()">'+esc(val)+'</textarea>';
+ }).join('');
+ return idHead+cats+
+  '<div class="panel"><h3>Síntese da visita</h3>'+cards+'</div>'+
+  '<div class="panel"><h3>Insights</h3>'+insightsHtml+'</div>';
+}
+function vDiagComparativo(){
+ if(S.visitas.length<2) return '<div class="panel"><p class="hint">Registre pelo menos 2 visitas (por exemplo, o próprio restaurante do cliente e um concorrente) para ver aqui o comparativo lado a lado por categoria.</p></div>';
+ var header=S.visitas.map(function(v){return '<th>'+esc(v.nome||'(sem nome)')+(v.tipo=='proprio'?' <span class="badge b-info">seu</span>':'')+'</th>';}).join('');
+ var rows=DIAG_CATS.map(function(cat){
+  var cells=S.visitas.map(function(v){
+   var m=diagMediaCategoria(v,cat);
+   return '<td><div class="hint" style="margin-bottom:3px">'+(m?m.toFixed(1):'—')+'</div><div class="diag-bar-track"><div class="diag-bar-fill" style="width:'+(m/5*100)+'%"></div></div></td>';
+  }).join('');
+  return '<tr><td><b>'+cat.label+'</b></td>'+cells+'</tr>';
+ }).join('');
+ var geralCells=S.visitas.map(function(v){var g=diagMediaGeral(v);return '<td class="calc">'+(g?g.toFixed(1):'—')+' / 5</td>';}).join('');
+ return '<div class="panel"><h3>Comparativo entre visitas</h3>'+
+  '<p class="hint">Média por categoria (escala 1-5) lado a lado — use para posicionar "'+esc(nomeClienteAtivo())+'" frente aos concorrentes visitados.</p>'+
+  '<table><thead><tr><th>Categoria</th>'+header+'</tr></thead><tbody>'+rows+
+  '<tr><td><b>Pontuação geral</b></td>'+geralCells+'</tr>'+
+  '</tbody></table></div>';
+}
+function vDiagnostico(){
+ if(!dSel || !S.visitas.some(function(x){return x.id==dSel;})) dSel=(S.visitas[0]||{}).id;
+ var chips=S.visitas.map(function(v){return '<span class="chip '+(v.id==dSel?'on':'')+'" onclick="selDiagVisita(\''+v.id+'\')">'+esc(v.nome||'(sem nome)')+(v.tipo=='proprio'?' ★':'')+'</span>';}).join('');
+ var v=S.visitas.filter(function(x){return x.id==dSel;})[0];
+ var editor=v?diagVisitaEditor(v):'<div class="panel"><p class="hint">Registre uma visita para começar — pode ser o próprio restaurante do cliente (autoavaliação) ou um concorrente observado em campo.</p></div>';
+ return '<h1>🔍 Diagnóstico Comparativo</h1><p class="sub">Roteiro de visita (mystery-shopper) da metodologia ArtBlend: avalie cardápio, vitrine/exposição, ambiente, serviço e presença digital nota 1 a 5 em cada visita, e compare o próprio restaurante do cliente com os concorrentes.</p>'+
+  '<div class="bar"><button class="btn alt sm" onclick="addDiagVisita()">+ Nova visita</button></div>'+
+  '<div class="fichalist">'+chips+'</div>'+
+  editor+
+  vDiagComparativo();
+}
+
+/* CONFIG */
+function vConfig(){return '<h1>Configuração</h1><div class="panel"><div class="grid4">'+
+ '<div><label>Nome do negócio</label><input value="'+esc(S.config.nomeNeg)+'" oninput="S.config.nomeNeg=this.value;saveDebounced()"></div>'+
+ '<div><label>CMV alvo (%)</label><input type="number" value="'+esc(S.config.cmvAlvo)+'" oninput="S.config.cmvAlvo=this.value;saveDebounced()"></div></div>'+
+ '<p class="hint">O preço sugerido é calculado por: CMV ÷ (CMV alvo / 100). Ex.: CMV R$ 9 e alvo 30% → preço R$ 30.</p></div>';}
+
+/* DASHBOARD — agrega, numa única tela, os principais indicadores já calculados em outras abas:
+   CMV/prejuízo (Resultado), estoque abaixo do mínimo (Estoque), Curva ABC, quadrantes de Engenharia
+   de Cardápio e o alerta de queda de margem. Não reimplementa nenhum cálculo — só reúne. */
+function vDashboard(){
+ var rs = resultSummary();
+ var estAlerta = estoqueAlertaCount();
+ var abc = abcSummary();
+ var items = engenhariaItens();
+ atualizarMargemBaseline(items);
+ var eng = engLinhas();
+ var counts = engCounts(eng.linhas);
+ return '<h1>📊 Dashboard</h1><p class="sub">Visão consolidada de <b>'+esc(nomeClienteAtivo())+'</b>: CMV, estoque, curva ABC e engenharia de cardápio numa única tela.</p>'+
+  margemAlertaBanner()+
+  '<div class="panel dash-section"><h3>CMV &amp; Resultado</h3><div class="cards">'+
+   '<div class="card accent"><div class="v">'+pct(rs.cmvMed)+'</div><div class="l">CMV médio</div></div>'+
+   '<div class="card"><div class="v">'+S.fichas.length+'</div><div class="l">Fichas cadastradas</div></div>'+
+   '<div class="card"><div class="v">'+rs.acimaAlvo+'</div><div class="l">Acima do CMV alvo</div></div>'+
+   '<div class="card"><div class="v">'+rs.prejuizo+'</div><div class="l">Itens em prejuízo</div></div>'+
+  '</div><p class="hint">Detalhes completos na aba "📊 Resultado / CMV".</p></div>'+
+  '<div class="panel dash-section"><h3>Estoque</h3><div class="cards">'+
+   '<div class="card '+(estAlerta>0?'accent':'')+'"><div class="v">'+estAlerta+'</div><div class="l">Insumos abaixo do estoque mínimo</div></div>'+
+   '<div class="card"><div class="v">'+S.insumos.length+'</div><div class="l">Insumos cadastrados</div></div>'+
+  '</div><p class="hint">Estoque mínimo calculado por prazo de entrega × consumo médio. Detalhes na aba "📦 Estoque Mín/Máx".</p></div>'+
+  '<div class="panel dash-section"><h3>Curva ABC de insumos</h3><div class="cards">'+
+   '<div class="card" style="border-left:4px solid var(--good)"><div class="v">'+abc.A+'</div><div class="l">Classe A</div></div>'+
+   '<div class="card" style="border-left:4px solid var(--amber)"><div class="v">'+abc.B+'</div><div class="l">Classe B</div></div>'+
+   '<div class="card" style="border-left:4px solid var(--bad)"><div class="v">'+abc.C+'</div><div class="l">Classe C</div></div>'+
+  '</div><p class="hint">Detalhes na aba "🔠 Curva ABC".</p></div>'+
+  '<div class="panel dash-section"><h3>Engenharia de Cardápio</h3><div class="cards">'+
+   '<div class="card" style="border-left:4px solid var(--good)"><div class="v">'+counts.estrela+'</div><div class="l">⭐ Estrela</div></div>'+
+   '<div class="card" style="border-left:4px solid var(--blue)"><div class="v">'+counts.quebra+'</div><div class="l">🧩 Quebra-cabeça</div></div>'+
+   '<div class="card" style="border-left:4px solid var(--amber)"><div class="v">'+counts.burro+'</div><div class="l">🐴 Burro-de-carga</div></div>'+
+   '<div class="card" style="border-left:4px solid var(--bad)"><div class="v">'+counts.abacaxi+'</div><div class="l">🍍 Abacaxi</div></div>'+
+  '</div><p class="hint">Veja o gráfico de dispersão e a tabela completa na aba "📐 Engenharia de Cardápio".</p></div>';
+}
+
+/* GUIA */
+function vGuia(){return '<h1>Como usar</h1><div class="panel"><ol style="padding-left:20px;line-height:1.9">'+
+ '<li><b>Dashboard:</b> visão geral do cliente ativo — CMV médio, estoque abaixo do mínimo, curva ABC e quadrantes de engenharia de cardápio numa tela só.</li>'+
+ '<li><b>Diagnóstico Comparativo:</b> roteiro de visita da metodologia ArtBlend (o mesmo usado em auditorias mystery-shopper) para avaliar cardápio, vitrine/exposição, ambiente, serviço e presença digital nota 1 a 5. Registre uma visita para o próprio restaurante do cliente e uma para cada concorrente visitado; a média por categoria, a pontuação geral e a comparação lado a lado são calculadas automaticamente assim que houver 2 ou mais visitas.</li>'+
+ '<li><b>Curso CCP:</b> siga o curso completo de consultoria de cardápio (método P.R.A.T.O.) antes de começar um cliente novo.</li>'+
+ '<li><b>Engenharia de Cardápio:</b> gráfico de dispersão popularidade × margem, classificação em Estrela/Quebra-cabeça/Burro-de-carga/Abacaxi e a tabela de precificação BAR21 — organizados como abas de uma planilha.</li>'+
+ '<li><b>Insumos:</b> cadastre cada insumo/base com preço por unidade e fator de correção (FC). Cadastre molhos/caldas/bases como insumos com o custo já por grama.</li>'+
+ '<li><b>Fichas:</b> crie o prato, defina rendimento e preço de venda, e adicione os insumos com a quantidade.</li>'+
+ '<li><b>Leitura:</b> veja o CMV, o custo por porção, o CMV%, o preço sugerido (pelo CMV alvo) e a margem.</li>'+
+ '<li><b>Resultado:</b> compare todas as fichas — quem está acima do alvo ou em prejuízo.</li>'+
+ '<li><b>Cliente/Projeto:</b> use o seletor no topo do menu para trocar entre clientes sem misturar dados.</li>'+
+ '<li><b>Exportar:</b> salve o JSON como backup; importe para continuar.</li>'+
+ '</ol></div>';}
+
+/* ENGENHARIA DE CARDÁPIO — cálculo real (popularidade × lucratividade) dos pratos do cliente ativo */
+var ENG_QUAD = {
+ estrela:{label:'⭐ Estrela', cls:'b-ok'},
+ quebra:{label:'🧩 Quebra-cabeça', cls:'b-info'},
+ burro:{label:'🐴 Burro-de-carga', cls:'b-warn'},
+ abacaxi:{label:'🍍 Abacaxi', cls:'b-bad'}
+};
+function vendasFicha(f){
+ // usa o valor manual (se o consultor sobrescreveu) — senão soma automaticamente
+ // as quantidades já registradas nas vendas por período (aba CMV Teórico x Real).
+ if(f.vendasEng!==undefined && f.vendasEng!==null && String(f.vendasEng)!==''){ return num(f.vendasEng); }
+ var t=0;
+ (S.cmvPeriodos||[]).forEach(function(p){
+  (p.vendas||[]).forEach(function(v){ if(v.fichaId==f.id) t+=num(v.qtd); });
+ });
+ return t;
+}
+function engenhariaItens(){
+ // só entram no cálculo os pratos com preço de venda definido (cardápio ativo)
+ return S.fichas.filter(function(f){ return num(f.preco)>0; });
+}
+function engMediaVendas(items){
+ if(!items.length) return 0;
+ var t=0; items.forEach(function(f){ t+=vendasFicha(f); });
+ return t/items.length;
+}
+function engMargemMediaSimples(items){
+ if(!items.length) return 0;
+ var t=0; items.forEach(function(f){ t+=margem(f); });
+ return t/items.length;
+}
+function engPopularidade(f, mediaVendas){
+ return mediaVendas>0 ? (vendasFicha(f)/mediaVendas*100) : 0;
+}
+function engQuadrante(f, mediaVendas, margemRef){
+ var altaPop = engPopularidade(f, mediaVendas) >= 70;
+ var altaMargem = margem(f) >= margemRef;
+ if(altaPop && altaMargem) return {key:'estrela'};
+ if(!altaPop && altaMargem) return {key:'quebra'};
+ if(altaPop && !altaMargem) return {key:'burro'};
+ return {key:'abacaxi'};
+}
+function engLinhas(){
+ var items = engenhariaItens();
+ var mediaVendas = engMediaVendas(items);
+ var margemRef = engMargemMediaSimples(items);
+ var linhas = items.map(function(f){
+  return { f:f, vendas:vendasFicha(f), pop:engPopularidade(f,mediaVendas), marg:margem(f), q:engQuadrante(f,mediaVendas,margemRef) };
+ });
+ return { linhas:linhas, mediaVendas:mediaVendas, margemRef:margemRef };
+}
+function engComparator(a,b){
+ var av,bv;
+ if(engSortKey=='nome'){ av=(a.f.nome||'').toLowerCase(); bv=(b.f.nome||'').toLowerCase(); }
+ else if(engSortKey=='vendas'){ av=a.vendas; bv=b.vendas; }
+ else if(engSortKey=='marg'){ av=a.marg; bv=b.marg; }
+ else if(engSortKey=='quad'){ av=a.q.key; bv=b.q.key; }
+ else { av=a.pop; bv=b.pop; }
+ if(av<bv) return -1*engSortDir;
+ if(av>bv) return 1*engSortDir;
+ return 0;
+}
+function setEngSort(key){
+ if(engSortKey===key){ engSortDir=-engSortDir; } else { engSortKey=key; engSortDir=1; }
+ render(cur=='engenharia'||cur=='dashboard'?cur:'engenharia');
+}
+function updEngVendas(fid,v){
+ var f = S.fichas.filter(function(x){ return x.id==fid; })[0];
+ if(!f) return;
+ f.vendasEng = v;
+ saveDebounced();
+ render(cur=='engenharia'||cur=='dashboard'?cur:'engenharia');
+}
+function engScatterSVG(linhas, margemRef){
+ if(!linhas.length) return '<p class="hint">Sem pratos suficientes para o gráfico.</p>';
+ var w=600,h=340,padL=54,padR=20,padT=18,padB=46;
+ var pops=linhas.map(function(l){return l.pop;});
+ var margs=linhas.map(function(l){return l.marg;});
+ var maxPop=Math.max.apply(null,[140].concat(pops))*1.1;
+ var minMarg=Math.min.apply(null,[0].concat(margs));
+ var maxMarg=Math.max.apply(null,[margemRef*1.4,1].concat(margs))*1.15;
+ if(maxMarg<=minMarg) maxMarg=minMarg+1;
+ function sx(p){ return padL + (Math.min(p,maxPop)/maxPop)*(w-padL-padR); }
+ function sy(m){ return (h-padB) - ((m-minMarg)/(maxMarg-minMarg))*(h-padT-padB); }
+ var xT=sx(70), yT=sy(margemRef);
+ var quads = ''
+  +'<rect x="'+xT+'" y="'+padT+'" width="'+(w-padR-xT)+'" height="'+(yT-padT)+'" fill="var(--good-bg)" opacity="0.55"/>'
+  +'<rect x="'+padL+'" y="'+padT+'" width="'+(xT-padL)+'" height="'+(yT-padT)+'" fill="var(--accent-soft)" opacity="0.55"/>'
+  +'<rect x="'+xT+'" y="'+yT+'" width="'+(w-padR-xT)+'" height="'+(h-padB-yT)+'" fill="var(--amber-bg)" opacity="0.55"/>'
+  +'<rect x="'+padL+'" y="'+yT+'" width="'+(xT-padL)+'" height="'+(h-padB-yT)+'" fill="var(--bad-bg)" opacity="0.55"/>';
+ var axis = '<line x1="'+padL+'" y1="'+padT+'" x2="'+padL+'" y2="'+(h-padB)+'" stroke="var(--border)" stroke-width="1.5"/>'
+  +'<line x1="'+padL+'" y1="'+(h-padB)+'" x2="'+(w-padR)+'" y2="'+(h-padB)+'" stroke="var(--border)" stroke-width="1.5"/>'
+  +'<line x1="'+xT+'" y1="'+padT+'" x2="'+xT+'" y2="'+(h-padB)+'" stroke="var(--muted)" stroke-width="1" stroke-dasharray="4,3"/>'
+  +'<line x1="'+padL+'" y1="'+yT+'" x2="'+(w-padR)+'" y2="'+yT+'" stroke="var(--muted)" stroke-width="1" stroke-dasharray="4,3"/>';
+ var pontos = linhas.map(function(l){
+  var color = l.q.key=='estrela'?'var(--good)':l.q.key=='quebra'?'var(--blue)':l.q.key=='burro'?'var(--amber)':'var(--bad)';
+  return '<circle cx="'+sx(l.pop).toFixed(1)+'" cy="'+sy(l.marg).toFixed(1)+'" r="7" fill="'+color+'" stroke="#fff" stroke-width="1.5"><title>'+esc(l.f.nome)+' — popularidade '+l.pop.toFixed(0)+'%, margem '+money(l.marg)+'</title></circle>';
+ }).join('');
+ var labels = '<text x="'+(w/2)+'" y="'+(h-12)+'" text-anchor="middle" font-size="11" fill="var(--muted)">Popularidade relativa (%) · linha tracejada = limite de 70%</text>'
+  +'<text x="16" y="'+(h/2)+'" text-anchor="middle" font-size="11" fill="var(--muted)" transform="rotate(-90 16 '+(h/2)+')">Margem de contribuição (R$)</text>';
+ return '<svg viewBox="0 0 '+w+' '+h+'" style="width:100%;max-width:600px;background:#fff;border:1px solid var(--border);border-radius:10px">'+quads+axis+pontos+labels+'</svg>';
+}
+/* ALERTA DE QUEDA DE MARGEM — compara a margem % atual de cada ficha com o último valor
+   realmente registrado em S.margemBaseline (rolling). Na primeira vez que uma ficha é vista,
+   apenas grava a base — não há alerta sem uma base histórica real. */
+function atualizarMargemBaseline(items){
+ margemAlertas = [];
+ var mudou = false;
+ var hoje = new Date();
+ items.forEach(function(f){
+  var atual = margemPct(f);
+  var base = S.margemBaseline[f.id];
+  var dataBase = S.margemBaselineDate[f.id];
+  if(base===undefined || base===null){
+   S.margemBaseline[f.id] = atual;
+   S.margemBaselineDate[f.id] = hoje.toISOString().slice(0,10);
+   mudou = true;
+   return;
+  }
+  if(base>0){
+   var variacao = (atual-base)/base*100;
+   if(variacao <= -MARGEM_QUEDA_ALERTA_PCT){
+    margemAlertas.push({nome:f.nome, anterior:base, atual:atual, variacao:variacao});
+   }
+  }
+  // a base só é reajustada ao valor atual periodicamente (não a cada render/visita),
+  // senão uma erosão gradual de margem ao longo de várias visitas espaçadas nunca acumularia o suficiente para disparar o alerta.
+  var diasDesdeBase = dataBase ? (hoje - new Date(dataBase))/86400000 : Infinity;
+  if(diasDesdeBase >= MARGEM_BASELINE_REFRESH_DIAS){
+   S.margemBaseline[f.id] = atual;
+   S.margemBaselineDate[f.id] = hoje.toISOString().slice(0,10);
+   mudou = true;
+  }
+ });
+ if(mudou) save();
+}
+function margemAlertaBanner(){
+ if(!margemAlertas.length) return '';
+ var rows = margemAlertas.map(function(a){
+  return '<tr><td>'+esc(a.nome)+'</td><td>'+pct(a.anterior)+'</td><td>'+pct(a.atual)+'</td><td><span class="badge b-bad">'+pct(a.variacao)+'</span></td></tr>';
+ }).join('');
+ return '<div class="panel margem-alerta"><h3>⚠ '+margemAlertas.length+' prato'+(margemAlertas.length>1?'s':'')+' com queda de margem</h3>'+
+  '<p class="hint">Comparação com o último valor de margem registrado para este cliente (queda ≥ '+MARGEM_QUEDA_ALERTA_PCT+'% em relação ao valor anterior).</p>'+
+  '<table><thead><tr><th>Prato</th><th>Margem anterior</th><th>Margem atual</th><th>Variação</th></tr></thead><tbody>'+rows+'</tbody></table>'+
+ '</div>';
+}
+function engCounts(linhas){
+ var counts={estrela:0,quebra:0,burro:0,abacaxi:0};
+ linhas.forEach(function(l){ counts[l.q.key]++; });
+ return counts;
+}
+function vEngenhariaReal(){
+ var items = engenhariaItens();
+ atualizarMargemBaseline(items);
+ if(!items.length){
+  return '<div class="panel" style="margin-top:14px"><p class="hint">Cadastre fichas técnicas com preço de venda definido (aba Fichas Técnicas) para calcular aqui a engenharia de cardápio real de <b>'+esc(nomeClienteAtivo())+'</b>.</p></div>';
+ }
+ var res = engLinhas();
+ var linhas = res.linhas.slice().sort(engComparator);
+ var counts = engCounts(linhas);
+ function th(key,label){
+  var arrow = engSortKey===key ? (engSortDir===1?' ▲':' ▼') : '';
+  return '<th class="eng-th" onclick="setEngSort(\''+key+'\')">'+label+arrow+'</th>';
+ }
+ var rows = linhas.map(function(l,idx){
+  var meta = ENG_QUAD[l.q.key];
+  var auto = (l.f.vendasEng===undefined||l.f.vendasEng===null||String(l.f.vendasEng)==='');
+  return '<tr><td>'+(idx+1)+'</td><td><b>'+esc(l.f.nome)+'</b><br><span class="hint">'+esc(l.f.cat)+'</span></td>'+
+   '<td><input type="number" step="1" style="min-width:70px" value="'+l.vendas+'" oninput="updEngVendas(\''+l.f.id+'\',this.value)" title="'+(auto?'Somado automaticamente das vendas já registradas em CMV Teórico x Real. Edite para sobrescrever manualmente.':'Valor definido manualmente pelo consultor.')+'">'+
+   (auto?'<div class="hint">auto (períodos)</div>':'<div class="hint">manual</div>')+'</td>'+
+   '<td class="calc">'+l.pop.toFixed(0)+'%</td>'+
+   '<td class="calc">'+money(l.marg)+'</td>'+
+   '<td><span class="badge '+meta.cls+'">'+meta.label+'</span></td></tr>';
+ }).join('');
+ return '<div style="margin-top:14px">'+
+  margemAlertaBanner()+
+  '<h3 class="ch">Engenharia de cardápio aplicada — '+esc(nomeClienteAtivo())+'</h3>'+
+  '<p class="hint">Cálculo real com os pratos desta ficha técnica: <b>popularidade relativa</b> = vendas do prato ÷ média de vendas do cardápio (alta = ≥ 70% da média). <b>Lucratividade</b> = margem de contribuição do prato (preço − CMV) vs. margem média do cardápio (alta = margem do prato ≥ margem média). Vendas no período: some manualmente ou registre em "CMV Teórico x Real" que este cálculo aproveita automaticamente. Média de vendas do cardápio: '+res.mediaVendas.toFixed(1)+' · Margem média: '+money(res.margemRef)+'.</p>'+
+  '<div class="cards">'+
+   '<div class="card" style="border-left:4px solid var(--good)"><div class="v">'+counts.estrela+'</div><div class="l">⭐ Estrela</div></div>'+
+   '<div class="card" style="border-left:4px solid var(--blue)"><div class="v">'+counts.quebra+'</div><div class="l">🧩 Quebra-cabeça</div></div>'+
+   '<div class="card" style="border-left:4px solid var(--amber)"><div class="v">'+counts.burro+'</div><div class="l">🐴 Burro-de-carga</div></div>'+
+   '<div class="card" style="border-left:4px solid var(--bad)"><div class="v">'+counts.abacaxi+'</div><div class="l">🍍 Abacaxi</div></div>'+
+  '</div>'+
+  '<div class="panel"><h3>Dispersão popularidade × lucratividade</h3>'+engScatterSVG(linhas, res.margemRef)+'</div>'+
+  '<div class="panel"><h3>Pratos classificados <span class="hint">(clique no cabeçalho para ordenar)</span></h3>'+
+   '<table><thead><tr><th>#</th>'+th('nome','Prato')+th('vendas','Vendas no período')+th('pop','Popularidade')+th('marg','Margem')+th('quad','Quadrante')+'</tr></thead><tbody>'+rows+'</tbody></table>'+
+  '</div>'+
+ '</div>';
+}
+/* precificação BAR21 — custo × mark-up → preço de venda (mesma lógica das planilhas de
+   precificação por categoria usadas na metodologia ArtBlend: preço = custo × (1 + mark-up/100),
+   CMV% = custo ÷ preço × 100). Persistido em S.bar21. */
+function bar21Preco(it){ var c=num(it.custo), mk=num(it.markup); return c*(1+mk/100); }
+function bar21Cmv(it){ var p=bar21Preco(it), c=num(it.custo); return p>0?(c/p*100):0; }
+function bar21Margem(it){ return bar21Preco(it)-num(it.custo); }
+function vBar21(){
+ var rows=(S.bar21||[]).map(function(it,i){
+  return '<tr><td>'+(i+1)+'</td>'+
+   '<td><input value="'+esc(it.nome)+'" oninput="updBar21('+i+',\'nome\',this.value)"></td>'+
+   '<td><input style="min-width:120px" value="'+esc(it.cat)+'" oninput="updBar21('+i+',\'cat\',this.value)"></td>'+
+   '<td><input type="number" step="0.01" style="min-width:70px" value="'+esc(it.custo)+'" oninput="updBar21('+i+',\'custo\',this.value)"></td>'+
+   '<td><input type="number" step="1" style="min-width:60px" value="'+esc(it.markup)+'" oninput="updBar21('+i+',\'markup\',this.value)"></td>'+
+   '<td class="calc">'+pct(bar21Cmv(it))+'</td>'+
+   '<td class="calc">'+money(bar21Preco(it))+'</td>'+
+   '<td class="calc">'+money(bar21Margem(it))+'</td>'+
+   '<td><button class="del" onclick="delBar21('+i+')">✕</button></td></tr>';
+ }).join('');
+ return '<div class="panel"><div class="bar"><span class="hint">Precificação por item/categoria (custo × mark-up) — a mesma lógica das planilhas de precificação e CMV da metodologia ArtBlend, agora integrada ao cardápio.</span><button class="btn alt sm" onclick="addBar21()">+ Item</button></div>'+
+ '<table><thead><tr><th>#</th><th>Item</th><th>Categoria</th><th>Custo (R$)</th><th>Mark-up (%)</th><th>CMV %</th><th>Preço de venda</th><th>Margem</th><th></th></tr></thead><tbody>'+
+ (rows||'<tr><td colspan=9 class=hint>Adicione itens para montar a tabela de precificação BAR21.</td></tr>')+
+ '</tbody></table>'+
+ '<p class="hint">Fórmulas: Preço de venda = Custo × (1 + Mark-up ÷ 100) · CMV % = Custo ÷ Preço de venda × 100. Ajuste o mark-up por categoria (entradas, petiscos, pizzas, refeições, sobremesas etc.) até atingir o CMV alvo desejado para cada uma.</p></div>';
+}
+function addBar21(){ (S.bar21=S.bar21||[]).push({id:'b'+uid(), nome:'', cat:'', custo:'', markup:200}); save(); render('engenharia'); }
+function delBar21(i){ if(confirm('Excluir item?')){ S.bar21.splice(i,1); save(); render('engenharia'); } }
+function updBar21(i,k,v){ S.bar21[i][k]=v; saveDebounced(); render('engenharia'); }
+/* Resumo — combina classificação de engenharia (quadrantes) com o CMV de cada prato,
+   como uma terceira aba da mesma planilha. */
+function vEngResumo(){
+ var res = engLinhas();
+ var linhas = res.linhas.slice().sort(engComparator);
+ var counts = engCounts(linhas);
+ var rs = resultSummary();
+ var rows = linhas.map(function(l,idx){
+  var meta = ENG_QUAD[l.q.key];
+  return '<tr><td>'+(idx+1)+'</td><td><b>'+esc(l.f.nome)+'</b></td><td>'+esc(l.f.cat)+'</td><td>'+cmvBadge(l.f)+'</td><td class="calc">'+money(l.marg)+'</td><td><span class="badge '+meta.cls+'">'+meta.label+'</span></td></tr>';
+ }).join('');
+ return '<div class="cards">'+
+  '<div class="card accent"><div class="v">'+pct(rs.cmvMed)+'</div><div class="l">CMV médio</div></div>'+
+  '<div class="card" style="border-left:4px solid var(--good)"><div class="v">'+counts.estrela+'</div><div class="l">⭐ Estrela</div></div>'+
+  '<div class="card" style="border-left:4px solid var(--blue)"><div class="v">'+counts.quebra+'</div><div class="l">🧩 Quebra-cabeça</div></div>'+
+  '<div class="card" style="border-left:4px solid var(--amber)"><div class="v">'+counts.burro+'</div><div class="l">🐴 Burro-de-carga</div></div>'+
+  '<div class="card" style="border-left:4px solid var(--bad)"><div class="v">'+counts.abacaxi+'</div><div class="l">🍍 Abacaxi</div></div>'+
+ '</div>'+
+ '<div class="panel"><h3>Resumo consolidado dos pratos</h3><table><thead><tr><th>#</th><th>Prato</th><th>Categoria</th><th>CMV%</th><th>Margem</th><th>Quadrante</th></tr></thead><tbody>'+
+ (rows||'<tr><td colspan=6 class=hint>Cadastre fichas técnicas com preço de venda definido.</td></tr>')+'</tbody></table></div>';
+}
+/* painel Engenharia de Cardápio / BAR21 — aba própria no menu, com "abas de planilha" internas */
+function setEngPanelTab(t){ engPanelTab=t; render('engenharia'); }
+function vEngenhariaPanel(){
+ var tabs=[{k:'eng',label:'Engenharia'},{k:'bar21',label:'BAR21'},{k:'resumo',label:'Resumo'}];
+ var strip='<div class="sheet-tabs">'+tabs.map(function(t){return '<span class="chip sheet-tab '+(engPanelTab==t.k?'on':'')+'" onclick="setEngPanelTab(\''+t.k+'\')">'+t.label+'</span>';}).join('')+'</div>';
+ var body = engPanelTab=='bar21' ? vBar21() : (engPanelTab=='resumo' ? vEngResumo() : vEngenhariaReal());
+ return '<h1>📐 Engenharia de Cardápio</h1><p class="sub">Popularidade × lucratividade dos pratos, precificação BAR21 e resumo consolidado — em um único painel, no formato de planilha.</p>'+
+  strip+'<div class="eng-sheet">'+body+'</div>';
+}
+
+/* CURSO CCP */
+function vCurso(){
+ return '<div class="curso-wrap">'+
+ '<h1>Curso CCP — Consultoria de Cardápio na Prática</h1>'+
+ '<p class="sub">Método ArtBlend · 8 módulos + Aulas ao Vivo + Bônus. Do diagnóstico à entrega: como se tornar um consultor gastronômico que gera resultado e fideliza clientes.</p>'+
+ '<div class="metodo"><span class="tag">Método ArtBlend</span><h4>A metodologia P.R.A.T.O.</h4>'+
+ '<p>Todo o curso gira em torno de cinco pilares:</p>'+
+ '<p><strong>P</strong> — Planejamento estratégico (diagnóstico e público-alvo).<br>'+
+ '<strong>R</strong> — Resultados visíveis (o cliente precisa enxergar valor).<br>'+
+ '<strong>A</strong> — Alinhamento operacional (cozinha e salão treinados).<br>'+
+ '<strong>T</strong> — Técnicas de vendas (o cardápio é o "garçom silencioso").<br>'+
+ '<strong>O</strong> — Otimização de carreira (portfólio, prospecção, precificação).</p></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Módulo 1 · Fundamentos</span><br>Os olhos de consultor</h2>'+
+ '<p>Consultoria de cardápio não é apenas fazer uma lista de pratos com preços — é um serviço estratégico que analisa, planeja e implementa melhorias para aumentar eficiência, lucratividade e satisfação do cliente.</p>'+
+ '<h3 class="ch">O que você vai aprender</h3>'+
+ '<ol style="padding-left:20px;line-height:1.8"><li>Diagnóstico estratégico — identificar problemas no cardápio.</li><li>Planejamento lucrativo — cardápios que aumentam vendas.</li><li>Descrição persuasiva de pratos.</li><li>Apresentação ao cliente.</li><li>Implementação e testes práticos.</li></ol>'+
+ '<h3 class="ch">Os 5 maiores erros de quem começa</h3>'+
+ '<ol style="padding-left:20px;line-height:1.8"><li>Achar que consultoria é só criar cardápios.</li><li>Não estruturar um processo claro.</li><li>Subestimar as necessidades do cliente e do mercado.</li><li>Propor soluções genéricas sem análise a fundo.</li><li>Focar no operacional e não no impacto estratégico.</li></ol>'+
+ '<div class="cbox template"><span class="tag">Template · Etapas de uma consultoria</span><ol style="padding-left:18px"><li>Diagnóstico inicial.</li><li>Planejamento intencional.</li><li>Implementação (o "piloto").</li><li>Monitoramento e ajuste.</li><li>Educação e capacitação.</li></ol></div>'+
+ '<h3 class="ch">Panorama do mercado</h3>'+
+ '<p>Uma consultoria de cardápio varia pelo tamanho do projeto — geralmente entre R$2.500 e R$10 mil, dependendo do escopo. Oportunidades: restaurantes, bares, cafeterias, food trucks, delivery, hotéis.</p>'+
+
+ '<h2 class="mh"><span class="m-kick">Módulo 2 · Processo Criativo</span><br>Diagnóstico, linha do tempo e apresentação do processo</h2>'+
+ '<p>A linha do tempo é essencial para o cliente ver tudo que a consultoria vai entregar e por qual etapa ele passará.</p>'+
+ '<table><tr><th>Etapa</th><th>O que é</th></tr>'+
+ '<tr><td>1</td><td>Diagnóstico / Briefing</td></tr><tr><td>2</td><td>Processo criativo / Apresentação de cardápio</td></tr>'+
+ '<tr><td>3</td><td>Estudo de equipamento</td></tr><tr><td>4</td><td>Elaboração de ficha técnica</td></tr>'+
+ '<tr><td>5</td><td>Treinamento de equipe</td></tr><tr><td>6</td><td>Implantação / "abre"</td></tr></table>'+
+ '<div class="cbox exerc"><span class="tag">Exercício</span><p>Monte sua linha do tempo de consultoria com as 6 etapas, com prazo estimado para cada uma e uma frase do que você entrega em cada momento.</p></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Módulo 3 · Engenharia de Cardápio</span><br>Estrela, Quebra-cabeça, Burro-de-carga e Abacaxi</h2>'+
+ '<p>Cruze <strong>Volume de vendas</strong> × <strong>Lucratividade</strong>. Cada prato cai em um quadrante:</p>'+
+ '<table><tr><th></th><th>Alta lucratividade</th><th>Baixa lucratividade</th></tr><tr><td><strong>Alto volume</strong></td><td>⭐ Estrela</td><td>🐴 Burro-de-carga</td></tr><tr><td><strong>Baixo volume</strong></td><td>🧩 Quebra-cabeça</td><td>🍍 Abacaxi</td></tr></table>'+
+ '<p><strong>⭐ Estrela</strong> — vende muito e dá muito lucro: destaque no cardápio. <strong>🧩 Quebra-cabeça</strong> — alto lucro, baixo giro: trabalhe apresentação/preço/descrição para virar Estrela. <strong>🐴 Burro-de-carga</strong> — vende muito, dá pouco lucro: use como âncora popular, revise ficha técnica. <strong>🍍 Abacaxi</strong> — vende pouco e dá pouco lucro: candidato natural a sair do cardápio.</p>'+
+ '<div class="panel" style="margin:14px 0"><p class="hint">Abra a aba <b>📐 Engenharia de Cardápio</b> no menu lateral para aplicar este cálculo com os pratos reais do cliente ativo — inclui gráfico de dispersão, classificação por quadrante, alerta de queda de margem e a tabela de precificação BAR21.</p></div>'+
+ '<div class="cbox template"><span class="tag">Template · Kit de ferramentas do consultor</span><p>Diagnóstico: formulário online + agenda. Comunicação: mensagens + videochamada. Documentos: editor de texto/PDF + armazenamento em nuvem. Organização: quadro de tarefas online.</p></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Módulo 4 · Descrição Persuasiva</span><br>SIMPLICIDADE + DESEJO</h2>'+
+ '<div class="metodo"><span class="tag">Método ArtBlend</span><h4>A fórmula fácil</h4><p style="font-size:20px;font-weight:800;color:#fff;">SIMPLICIDADE + DESEJO</p><p>MENOS é MAIS. Seja objetivo na hora de escrever o cardápio.</p></div>'+
+ '<ul style="padding-left:20px;line-height:1.8"><li><strong>Direção e clareza</strong> — 1 a 3 linhas, no máximo 4.</li><li><strong>Foco nos diferenciais</strong> — adjetivos na medida certa.</li><li><strong>Gere curiosidade</strong> — desperte vontade de pedir.</li></ul>'+
+ '<div class="cbox template"><span class="tag">Template · Guia de descrições persuasivas</span><ol style="padding-left:18px"><li>1 a 3 linhas (máx. 4).</li><li>Comece pelo ingrediente-herói ou técnica.</li><li>1 ou 2 adjetivos sensoriais, não mais.</li><li>Feche com gatilho de curiosidade/exclusividade.</li><li>Leia em voz alta — se não pediria o prato, reescreva.</li></ol></div>'+
+ '<div class="cbox exerc"><span class="tag">Exercício</span><p>Pegue 3 pratos "Quebra-cabeça" e reescreva as descrições com SIMPLICIDADE + DESEJO.</p></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Módulo 5 · Alinhamento e Implantação</span><br>Cozinha, salão, treinamento e a 1ª semana</h2>'+
+ '<div class="metodo"><span class="tag">Método ArtBlend</span><h4>O salão não pode ser esquecido</h4><p>É o salão quem faz a venda do produto e oferta ao cliente — o alinhamento operacional precisa chegar à cozinha e ao salão.</p></div>'+
+ '<div class="cbox template"><span class="tag">Template · Ficha de treinamento</span><p>Para o atendimento: o que é o prato, apresentação, diferenciais, pontos de venda — material escrito para quando não há degustação com a equipe.</p></div>'+
+ '<div class="cbox exerc"><span class="tag">Exercício</span><p>Monte um checklist de acompanhamento da 1ª semana: relatório de vendas por prato, feedback do salão, aceitação do público, ajustes necessários.</p></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Módulo 6 · Apresentação ao Cliente</span><br>Como apresentar seu serviço + Projeto Piloto</h2>'+
+ '<div class="cbox caso"><span class="tag">Alerta</span><p><strong>Nunca faça de graça.</strong> Pode fazer troca de serviço, mas documente cada etapa com fotos e vídeos.</p></div>'+
+ '<div class="cbox template"><span class="tag">Template · Projeto Piloto</span><p>Crie um projeto para um conhecido; documente cada etapa; monte uma lista de problemas observados e soluções propostas. O ideal é entregar um PDF de apresentação.</p></div>'+
+ '<div class="metodo"><span class="tag">Método ArtBlend</span><h4>Pilares para apresentar a consultoria</h4><p>Resultados que você gera · Atitude · Embasamento · Posicionamento.</p></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Módulo 7 · Consultoria é um Negócio</span><br>Precificação, pós-venda e fidelização</h2>'+
+ '<div class="metodo"><span class="tag">Método ArtBlend</span><h4>Valor inicial recomendado</h4><p>O valor inicial recomendado para uma consultoria de cardápio básica é <strong>R$ 2.000,00</strong>. Não se calcula por hora — calcula-se por projeto. Uma linha do tempo completa: 4 a 6 meses.</p></div>'+
+ '<div class="cbox template"><span class="tag">Template · Fidelização de clientes</span><p>Mimos · cordialidade e gentileza · overdelivery · interesse genuíno no negócio do cliente · entregar resultados.</p></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Módulo 8 · Bônus</span><br>E-book e ferramentas</h2>'+
+ '<div class="cbox template"><span class="tag">E-book — 10 erros que restaurantes cometem no cardápio</span><ol style="padding-left:18px"><li>Falta de alinhamento entre cardápio e conceito.</li><li>Cardápio extenso e confuso.</li><li>Não analisar dados reais.</li><li>Falta de análise do público-alvo.</li><li>Subestimar as fichas técnicas.</li><li>Incompatibilidade entre cardápio e operação.</li><li>Não treinar a equipe.</li><li>Falta de destaques estratégicos.</li><li>Ausência de persuasão nas descrições.</li><li>Falta de inclusividade no cardápio.</li></ol></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Aula ao vivo · Posicionamento</span><br>Clareza, confiança e diferencial do consultor</h2>'+
+ '<p>Posicionamento nasce de <strong>clareza e confiança</strong> — do que você quer e do que NÃO quer. Pergunte-se: qual é a minha competência? Qual é o meu diferencial? O que eu soluciono, além dos entregáveis?</p>'+
+ '<div class="cbox script"><span class="tag">Autônomo × CLT/Prestador</span><p><strong>Autônomo:</strong> organização, flexibilidade, maior escala. <strong>CLT/Prestador:</strong> crescimento corporativo, estabilidade, horários regrados.</p></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Aula ao vivo · Identidade Visual</span><br>Arquétipos de marca (Carl Jung)</h2>'+
+ '<div class="metodo"><span class="tag">Método ArtBlend</span><h4>Pense na identidade desde o início</h4><p>Não significa gastar rios de dinheiro — significa ter um estilo visual coerente que passe profissionalismo.</p></div>'+
+ '<div class="cbox template"><span class="tag">Template · Processo de identidade visual (4 semanas)</span><p>Semana 1: briefing. Semana 2: referências e concorrentes. Semana 3: 2 opções em 2 conceitos. Semana 4: manual de marca completo.</p></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Aula ao vivo · Prospecção</span><br>Como captar clientes</h2>'+
+ '<div class="box script cbox script"><span class="tag">Script · Clareza</span><p>Qual serviço você oferece? O que você resolve? Para quem? Como você resolve?</p></div>'+
+ '<div class="cbox template"><span class="tag">Template · Os 5 passos</span><ol style="padding-left:18px"><li>Escolha o caminho (ativa, indicação, parceria, conteúdo).</li><li>Refine o cliente.</li><li>Agende call de proposta.</li><li>Reunião de proposta.</li><li>Follow up.</li></ol></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Aula ao vivo · Social Selling</span><br>Relacionamento como vantagem competitiva</h2>'+
+ '<table><tr><th></th><th>Tradicional</th><th>Social Selling</th></tr><tr><td>Comunicação</td><td>Unidirecional</td><td>Bidirecional, interativa</td></tr><tr><td>Estratégia</td><td>Push</td><td>Pull (atrai com valor)</td></tr><tr><td>Métrica</td><td>Volume de vendas</td><td>Engajamento e relacionamento</td></tr></table>'+
+ '<div class="cbox template"><span class="tag">Template · Fluxo de prospecção ativa</span><ol style="padding-left:18px"><li>Saudação com nome.</li><li>Justificativa de contato.</li><li>Reconhecimento social/elogio genuíno.</li><li>Pergunta-gatilho ligada à sua solução.</li></ol></div>'+
+ '<div class="cbox caso"><span class="tag">Desafio · #ToqueOSino em 30 dias</span><p>Mude na primeira mensagem; trabalhe com clareza e responsabilidade sobre seu serviço todos os dias.</p></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Aula ao vivo · Planejamento</span><br>Meta mensal e estrutura do negócio</h2>'+
+ '<div class="metodo"><span class="tag">Método ArtBlend</span><h4>Meta mensal de faturamento — realista</h4><p>Não pense em metas irreais. Foco em executar bem uma consultoria antes de multiplicar.</p></div>'+
+ '<div class="cbox template"><span class="tag">Template · Planejamento para chefs consultores</span><ol style="padding-left:18px"><li>Definir o projeto de consultoria.</li><li>Projeção financeira.</li><li>Definir valor de faturamento.</li><li>Estruturar metas realistas.</li></ol></div>'+
+
+ '<p class="note" style="text-align:center;margin-top:24px;">Curso CCP — Consultoria de Cardápio na Prática · Método ArtBlend. Use as abas Insumos / Fichas Técnicas / Resultado ao lado para aplicar direto no cliente.</p>'+
+ '</div>';
+}
+
+function exportJSON(){var b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='artblend_cardapio_'+nomeClienteAtivo().replace(/[^a-z0-9]+/gi,'_')+'.json';a.click();}
+document.getElementById('fileIn').onchange=function(e){var f=e.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){try{S=normalizeS(JSON.parse(rd.result));fSel=(S.fichas[0]||{}).id;save();render(cur);alert('Importado.');}catch(err){alert('Arquivo inválido.');}};rd.readAsText(f);};
+
+(async function(){
+  var r = await sb.auth.getSession();
+  if(r.data.session){ await iniciarApp(r.data.session); }
+})();
+</script>
+</body>
+</html>

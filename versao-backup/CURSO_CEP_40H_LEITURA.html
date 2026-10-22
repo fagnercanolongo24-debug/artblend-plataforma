@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>artblend — Curso CEP 40H</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --bg3: #1c2128;
+    --border: #30363d;
+    --accent: #2563eb;
+    --accent2: #3b82f6;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --green: #3fb950;
+    --yellow: #d29922;
+    --purple: #a371f7;
+    --orange: #f0883e;
+    --red: #f85149;
+    --teal: #39d353;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: -apple-system, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 280px; min-height: 100vh; background: var(--bg2);
+    border-right: 1px solid var(--border); position: fixed; top: 0; left: 0;
+    overflow-y: auto; z-index: 100; display: flex; flex-direction: column;
+  }
+  .sidebar-brand {
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand-name { font-size: 22px; font-weight: 900; letter-spacing: -1px; color: #f0f6fc; }
+  .brand-sub { font-size: 11px; color: var(--muted); margin-top: 2px; font-weight: 400; }
+  .sidebar-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); padding: 16px 20px 6px; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 20px; cursor: pointer; font-size: 13px; color: var(--muted);
+    transition: all 0.15s; border-left: 3px solid transparent; text-decoration: none;
+  }
+  .nav-item:hover, .nav-item.active { color: var(--text); background: var(--bg3); border-left-color: var(--accent); }
+  .nav-item .num { font-size: 11px; font-weight: 700; color: var(--accent2); min-width: 22px; }
+  .nav-progress { padding: 16px 20px; border-top: 1px solid var(--border); margin-top: auto; }
+  .progress-label { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+  .progress-bar { height: 4px; background: var(--border); border-radius: 2px; }
+  .progress-fill { height: 4px; background: var(--accent); border-radius: 2px; width: 0%; transition: width 0.5s; }
+  .progress-pct { font-size: 11px; color: var(--accent2); margin-top: 4px; }
+
+  /* MAIN */
+  .main { margin-left: 280px; flex: 1; padding: 0; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0d1117 0%, #1a1f35 50%, #0d1117 100%);
+    padding: 60px 60px 48px; border-bottom: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -50%; left: -10%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag { display: inline-block; padding: 4px 12px; background: rgba(37,99,235,0.15); border: 1px solid rgba(37,99,235,0.3); border-radius: 20px; font-size: 12px; color: var(--accent2); margin-bottom: 16px; font-weight: 600; }
+  .hero h1 { font-size: 36px; font-weight: 900; line-height: 1.15; }
+  .hero h1 span { color: var(--accent2); }
+  .hero p { color: var(--muted); margin-top: 12px; font-size: 15px; max-width: 600px; line-height: 1.6; }
+  .hero-meta { display: flex; gap: 24px; margin-top: 28px; flex-wrap: wrap; }
+  .hero-badge { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .hero-badge strong { color: var(--text); }
+
+  /* MÓDULOS GRID */
+  .section { padding: 40px 60px; }
+  .section-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+
+  .modules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-bottom: 40px; }
+  .module-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px; cursor: pointer; transition: all 0.2s; text-decoration: none; display: block;
+  }
+  .module-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,99,235,0.15); }
+  .card-num { font-size: 11px; font-weight: 700; color: var(--accent2); margin-bottom: 8px; }
+  .card-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.3; }
+  .card-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .card-tag { display: inline-block; margin-top: 12px; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+
+  /* CONTENT */
+  .content-area { padding: 40px 60px; max-width: 900px; }
+  .content-section { margin-bottom: 56px; scroll-margin-top: 20px; }
+  .content-section h2 { font-size: 24px; font-weight: 800; color: var(--text); margin-bottom: 6px; display: flex; align-items: center; gap: 12px; }
+  .content-section h2 .tag { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 6px; vertical-align: middle; }
+  .content-section .lead { font-size: 15px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; border-left: 3px solid var(--accent); padding-left: 16px; }
+
+  h3 { font-size: 17px; font-weight: 700; color: var(--accent2); margin: 28px 0 12px; }
+  h4 { font-size: 14px; font-weight: 700; color: var(--orange); margin: 20px 0 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  p { font-size: 14px; color: #c9d1d9; line-height: 1.8; margin-bottom: 12px; }
+
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 13px; }
+  th { background: rgba(37,99,235,0.15); color: var(--accent2); padding: 10px 14px; text-align: left; font-weight: 700; border-bottom: 2px solid var(--accent); }
+  td { padding: 9px 14px; border-bottom: 1px solid var(--border); color: #c9d1d9; vertical-align: top; }
+  tr:hover td { background: var(--bg3); }
+
+  /* CALLOUT */
+  .callout { padding: 16px 20px; border-radius: 8px; margin: 16px 0; font-size: 13px; line-height: 1.7; }
+  .callout-info { background: rgba(37,99,235,0.1); border-left: 3px solid var(--accent); }
+  .callout-warn { background: rgba(210,153,34,0.1); border-left: 3px solid var(--yellow); color: #e3b341; }
+  .callout-success { background: rgba(63,185,80,0.1); border-left: 3px solid var(--green); }
+  .callout-tip { background: rgba(163,113,247,0.1); border-left: 3px solid var(--purple); }
+  .callout strong { color: inherit; }
+
+  /* CODE / TEMPLATE */
+  .template { background: #0d1117; border: 1px solid var(--border); border-radius: 8px; padding: 20px; font-family: 'Courier New', monospace; font-size: 12px; color: #8b949e; margin: 16px 0; line-height: 1.7; overflow-x: auto; }
+  .template .tl { color: var(--accent2); font-weight: 700; }
+
+  /* LIST */
+  ul, ol { padding-left: 20px; margin: 12px 0; }
+  li { font-size: 13px; color: #c9d1d9; line-height: 1.8; margin-bottom: 4px; }
+  li strong { color: var(--text); }
+
+  /* BADGE */
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+  .ok { background: rgba(63,185,80,0.15); color: var(--green); }
+  .warn { background: rgba(210,153,34,0.15); color: var(--yellow); }
+  .bad { background: rgba(248,81,73,0.15); color: var(--red); }
+  .info { background: rgba(37,99,235,0.15); color: var(--accent2); }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .sidebar { transform: translateX(-100%); }
+    .main { margin-left: 0; }
+    .hero, .section, .content-area { padding: 24px 20px; }
+    .hero h1 { font-size: 24px; }
+    .modules-grid { grid-template-columns: 1fr; }
+  }
+
+  /* SCROLL TO TOP */
+  .back-top { position: fixed; bottom: 24px; right: 24px; background: var(--accent); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(37,99,235,0.4); opacity: 0; transition: opacity 0.3s; z-index: 200; }
+  .back-top.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-name">artblend</div>
+    <div class="brand-sub">Consultoria Gourmet · CEP 40H</div>
+  </div>
+
+  <div class="sidebar-label">Módulos</div>
+  <a class="nav-item active" href="#m1"><span class="num">01</span> Fundamentos do CEP</a>
+  <a class="nav-item" href="#m2"><span class="num">02</span> Diagnóstico Financeiro</a>
+  <a class="nav-item" href="#m3"><span class="num">03</span> Escutas Estratégicas</a>
+  <a class="nav-item" href="#m4"><span class="num">04</span> RH Estratégico & HRBP</a>
+  <a class="nav-item" href="#m5"><span class="num">05</span> Treinamento & Desenvolvimento</a>
+  <a class="nav-item" href="#m6"><span class="num">06</span> Processos Seletivos</a>
+  <a class="nav-item" href="#m7"><span class="num">07</span> Integração & Cultura</a>
+  <a class="nav-item" href="#m8"><span class="num">08</span> Desenvolvimento de Liderança</a>
+  <a class="nav-item" href="#m9"><span class="num">09</span> Jornada & Escalas</a>
+  <a class="nav-item" href="#m10"><span class="num">10</span> People Analytics & KPIs</a>
+
+  <div class="sidebar-label">Referência</div>
+  <a class="nav-item" href="#templates"><span class="num">📋</span> Templates</a>
+  <a class="nav-item" href="#metodologias"><span class="num">🌎</span> 35 Metodologias</a>
+  <a class="nav-item" href="#glossario"><span class="num">📖</span> Glossário</a>
+
+  <div class="nav-progress">
+    <div class="progress-label">Progresso de leitura</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-pct" id="progressPct">0%</div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">📚 CURSO COMPLETO · 40 HORAS</div>
+    <h1>CEP — Consultor<br><span>Estratégico de Pessoas</span></h1>
+    <p>Metodologia completa para food service: das escutas estratégicas aos indicadores mundiais de RH. Tudo que você precisa para ser o melhor CEP do mercado.</p>
+    <div class="hero-meta">
+      <div class="hero-badge">⏱️ <strong>40 horas</strong> de conteúdo</div>
+      <div class="hero-badge">📦 <strong>10 módulos</strong></div>
+      <div class="hero-badge">🌎 <strong>35+ metodologias</strong> mundiais</div>
+      <div class="hero-badge">📋 <strong>5 templates</strong> prontos</div>
+      <div class="hero-badge">🍽️ Foco em <strong>food service</strong></div>
+    </div>
+  </div>
+
+  <!-- GRID DE MÓDULOS -->
+  <div class="section">
+    <div class="section-title">Visão Geral — Todos os Módulos</div>
+    <div class="modules-grid">
+      <a class="module-card" href="#m1"><div class="card-num">MÓDULO 01 · 4H</div><div class="card-title">Fundamentos do CEP</div><div class="card-desc">Modelo de negócio, 4 pilares, precificação, identidade, ferramentas e a cadeia META → ESCALA → LIDERANÇA → CULTURA</div><span class="card-tag ok">Base</span></a>
+      <a class="module-card" href="#m2"><div class="card-num">MÓDULO 02 · 4H</div><div class="card-title">Diagnóstico Financeiro</div><div class="card-desc">Benchmarks food service, folha, compras, pró labore, People Analytics, ticket médio e análise de dívidas</div><span class="card-tag info">Financeiro</span></a>
+      <a class="module-card" href="#m3"><div class="card-num">MÓDULO 03 · 6H</div><div class="card-title">Escutas Estratégicas</div><div class="card-desc">Técnica comportamental, 5 categorias, ferramenta 3G, mapeamento de colaboradores e CNV</div><span class="card-tag" style="background:rgba(163,113,247,0.15);color:#a371f7;">Diagnóstico</span></a>
+      <a class="module-card" href="#m4"><div class="card-num">MÓDULO 04 · 4H</div><div class="card-title">RH Estratégico & HRBP</div><div class="card-desc">Dave Ulrich 4 papéis, OKR, BSC de pessoas, SHRM Competency Model, EVP e Employer Branding</div><span class="card-tag warn">Estratégia</span></a>
+      <a class="module-card" href="#m5"><div class="card-num">MÓDULO 05 · 4H</div><div class="card-title">Treinamento & Desenvolvimento</div><div class="card-desc">Esqueleto do T&D, 70%/30% por escolaridade, 3 elementos, Dinâmica dos Animais, Kirkpatrick e iSpring</div><span class="card-tag" style="background:rgba(240,136,62,0.15);color:#f0883e;">T&D</span></a>
+      <a class="module-card" href="#m6"><div class="card-num">MÓDULO 06 · 4H</div><div class="card-title">Processos Seletivos</div><div class="card-desc">Descrição de cargo completa, processo seletivo estruturado, entrevista STAR e Employer Branding</div><span class="card-tag info">R&S</span></a>
+      <a class="module-card" href="#m7"><div class="card-num">MÓDULO 07 · 4H</div><div class="card-title">Integração & Cultura</div><div class="card-desc">Onboarding 5 dias, Regimento Interno, Manual da Empresa, canal de comunicação e cultura de resultados</div><span class="card-tag ok">Cultura</span></a>
+      <a class="module-card" href="#m8"><div class="card-num">MÓDULO 08 · 4H</div><div class="card-title">Desenvolvimento de Liderança</div><div class="card-desc">3 eixos do líder, Maslow, Herzberg, ADKAR, Kotter 8 etapas, Pipeline de Liderança e controle emocional</div><span class="card-tag" style="background:rgba(163,113,247,0.15);color:#a371f7;">Liderança</span></a>
+      <a class="module-card" href="#m9"><div class="card-num">MÓDULO 09 · 4H</div><div class="card-title">Jornada & Escalas</div><div class="card-desc">6×1, 12×36, 4×2, intermitente, análise de fluxo operacional, cronograma P1/P2/P3 e DPR</div><span class="card-tag warn">Operacional</span></a>
+      <a class="module-card" href="#m10"><div class="card-num">MÓDULO 10 · 4H</div><div class="card-title">People Analytics & KPIs</div><div class="card-desc">Plano de Sucessão, PDI, 9-Box, Avaliação 360°, Feedback SBI, Calibragem e Workforce Planning</div><span class="card-tag info">Dados</span></a>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO -->
+  <div class="content-area">
+
+    <!-- M1 -->
+    <div class="content-section" id="m1">
+      <h2>01 <span class="tag info">4H</span> Fundamentos do CEP</h2>
+      <p class="lead">O CEP é um serviço de RH por assinatura mensal para food service. Você não é funcionário — é parceiro estratégico externo que entrega resultados mensuráveis.</p>
+
+      <h3>A Cadeia de Valor</h3>
+      <div class="callout callout-info">
+        <strong>META → BOA ESCALA → LIDERANÇA → CULTURA</strong><br>
+        Sem meta clara não há escala. Sem escala não há liderança consistente. Sem liderança não há cultura. O CEP age em todos esses elos.
+      </div>
+
+      <h3>Os 4 Pilares do Serviço</h3>
+      <table>
+        <tr><th>Pilar</th><th>O que é</th><th>Entregável principal</th></tr>
+        <tr><td><strong>① RH Estratégico</strong></td><td>Escutas + diagnóstico de pessoas</td><td>Relatório D.L.O.L.</td></tr>
+        <tr><td><strong>② Treinamentos</strong></td><td>T&D técnico e comportamental</td><td>Treinamentos + Kirkpatrick</td></tr>
+        <tr><td><strong>③ Integração</strong></td><td>Onboarding + Regimento + Cultura</td><td>Manual da Empresa</td></tr>
+        <tr><td><strong>④ Processos Seletivos</strong></td><td>Atração, seleção, contratação</td><td>Descrição de Cargo + processo</td></tr>
+      </table>
+
+      <h3>Precificação</h3>
+      <table>
+        <tr><th>Modalidade</th><th>Valor Mensal</th><th>Formato</th></tr>
+        <tr><td><strong>Presencial</strong></td><td><span class="badge ok">R$ 2.000/mês</span></td><td>Visitas semanais ~3h</td></tr>
+        <tr><td><strong>Híbrido</strong></td><td><span class="badge info">R$ 1.600/mês</span></td><td>Quinzenal + remoto</td></tr>
+        <tr><td><strong>Remoto</strong></td><td><span class="badge warn">R$ 1.200/mês</span></td><td>100% online</td></tr>
+      </table>
+
+      <h3>Ferramentas Obrigatórias</h3>
+      <table>
+        <tr><th>Ferramenta</th><th>Uso</th><th>Custo</th></tr>
+        <tr><td>Google Docs / Meet</td><td>Documentos e reuniões</td><td>Grátis</td></tr>
+        <tr><td>Canva</td><td>Materiais visuais de T&D</td><td>~R$70/mês</td></tr>
+        <tr><td>ChatGPT</td><td>Criação de conteúdo e relatórios</td><td>~R$99/mês</td></tr>
+        <tr><td>iSpring</td><td>Cursos digitais e onboarding</td><td>Variável</td></tr>
+        <tr><td>Autentic / Gov.br</td><td>Contratos digitais</td><td>Variável</td></tr>
+        <tr><td>C6 Bank / Inter</td><td>Conta PJ para recebimentos</td><td>Grátis</td></tr>
+      </table>
+    </div>
+
+    <hr>
+
+    <!-- M2 -->
+    <div class="content-section" id="m2">
+      <h2>02 <span class="tag info">4H</span> Diagnóstico Financeiro</h2>
+      <p class="lead">Na primeira visita você levanta os números do cliente e compara com os benchmarks do setor. É aqui que o dono te vê como parceiro de negócio — não como "RH".</p>
+
+      <h3>Benchmarks do Food Service</h3>
+      <table>
+        <tr><th>Indicador</th><th>Benchmark Saudável</th><th>Alerta</th></tr>
+        <tr><td>Pró Labore do Dono</td><td><span class="badge ok">10% – 15%</span></td><td>&lt;8% ou &gt;20%</td></tr>
+        <tr><td>Folha de Pagamento</td><td><span class="badge ok">até 15%</span></td><td>&gt;20% = crítico</td></tr>
+        <tr><td>Compras / CMV</td><td><span class="badge ok">25% – 30%</span></td><td>&gt;35% = desperdício</td></tr>
+        <tr><td>Investimento</td><td><span class="badge ok">3% – 5%</span></td><td>&lt;2% = estagnação</td></tr>
+        <tr><td>Serviço (delivery/taxas)</td><td><span class="badge ok">3% – 5%</span></td><td>&gt;8% = custo alto</td></tr>
+      </table>
+
+      <div class="callout callout-warn">
+        <strong>Pergunta-chave na 1ª reunião:</strong> "Quanto você fatura? Quanto você gasta?" — Simples assim. Com esses dois números você já faz o diagnóstico.
+      </div>
+
+      <h3>Ticket Médio — O Indicador de Vendas</h3>
+      <div class="template">
+<span class="tl">Ticket Médio</span> = Faturamento Total ÷ Nº de Clientes Atendidos
+
+<span class="tl">Exemplo real (food service):</span>
+R$3,50 → ticket mínimo (cafezinho, salgado)
+R$13,50 → meta realista para padaria/lanchonete
+
+A missão do T&D: fazer a equipe vender mais por atendimento.
+      </div>
+
+      <h3>People Analytics — Indicadores Essenciais</h3>
+      <table>
+        <tr><th>Indicador</th><th>Fórmula</th><th>Meta</th></tr>
+        <tr><td>Turnover</td><td>(Saídas ÷ Headcount médio) × 100</td><td>&lt;5%/mês</td></tr>
+        <tr><td>Absenteísmo</td><td>(H. faltadas ÷ H. esperadas) × 100</td><td>&lt;3%</td></tr>
+        <tr><td>Produtividade/Colab.</td><td>Faturamento ÷ Nº colaboradores</td><td>↑ mês a mês</td></tr>
+        <tr><td>eNPS</td><td>% Promotores − % Detratores</td><td>&gt;50</td></tr>
+        <tr><td>Custo Folha/Fat.</td><td>Folha ÷ Faturamento × 100</td><td>&lt;15%</td></tr>
+      </table>
+    </div>
+
+    <hr>
+
+    <!-- M3 -->
+    <div class="content-section" id="m3">
+      <h2>03 <span class="tag" style="background:rgba(163,113,247,0.15);color:#a371f7;">6H</span> Escutas Estratégicas</h2>
+      <p class="lead">A escuta estratégica é a ferramenta mais poderosa do CEP. Ela revela o que os números não mostram. Feita corretamente, ela justifica tudo que vem depois.</p>
+
+      <h3>A Técnica Comportamental</h3>
+      <table>
+        <tr><th>Momento</th><th>Técnica</th><th>Por quê</th></tr>
+        <tr><td>Para <strong>abertura</strong></td><td>Tirar da zona de conforto</td><td>A pessoa sai do modo "performer" e fala a verdade</td></tr>
+        <tr><td>Para <strong>coleta</strong></td><td>Ir ao espaço do colaborador</td><td>No próprio ambiente ele se sente seguro e confia em você</td></tr>
+      </table>
+
+      <h3>As 5 Categorias da Escuta</h3>
+      <table>
+        <tr><th>Categoria</th><th>O que observar</th><th>Pergunta gatilho</th></tr>
+        <tr><td>🎯 <strong>Liderança</strong></td><td>Expressões faciais, relação, tratamento</td><td>"Como é sua relação com o supervisor?"</td></tr>
+        <tr><td>⚙️ <strong>Tarefas</strong></td><td>Acúmulo, sobrecarga, clareza de função</td><td>"Me conta um dia típico seu."</td></tr>
+        <tr><td>💬 <strong>Comunicação</strong></td><td>Informação chega? Despiste? Racismo?</td><td>"Como você fica sabendo das mudanças?"</td></tr>
+        <tr><td>💰 <strong>Financeiro</strong></td><td>Salário em dia? Benefícios recebidos?</td><td>"O pagamento é sempre no prazo?"</td></tr>
+        <tr><td>❤️ <strong>Vida Pessoal</strong></td><td>Problemas externos que impactam o trabalho</td><td>"Fora do trabalho, como você está?"</td></tr>
+      </table>
+
+      <div class="callout callout-success">
+        <strong>Regra dos 40%:</strong> Em qualquer equipe de restaurante, ~40% dos colaboradores têm algo relevante para dizer que nunca disseram para o chefe. A escuta libera isso.
+      </div>
+
+      <h3>Comportamento Obrigatório na Escuta</h3>
+      <table>
+        <tr><th>❌ NÃO faça</th><th>✅ FAÇA</th></tr>
+        <tr><td>Usar palavras negativas</td><td>Apertar a mão com calor</td></tr>
+        <tr><td>Interromper</td><td>Manter contato visual</td></tr>
+        <tr><td>Tom de voz que confronta</td><td>Anotar com caneta (não digitar)</td></tr>
+        <tr><td>Cruzar os braços</td><td>Perguntas abertas: "como", "me conta"</td></tr>
+      </table>
+
+      <h3>Ferramenta 3G</h3>
+      <p>Após as escutas, organize os achados no 3G:</p>
+      <table>
+        <tr><th colspan="3">DIMENSÃO TAREFAS</th><th colspan="2">DIMENSÃO COMPORTAMENTO</th></tr>
+        <tr><th>Tarefa</th><th>Responsável</th><th>Quando</th><th>Comportamento do Líder</th><th>Satisfação</th></tr>
+        <tr><td>O que precisa ser feito</td><td>Quem faz</td><td>Prazo/frequência</td><td>Como o líder age</td><td>Colaborador satisfeito?</td></tr>
+      </table>
+
+      <h3>CNV — Comunicação Não-Violenta</h3>
+      <div class="callout callout-tip">
+        <strong>Marshall Rosenberg — 4 etapas:</strong><br>
+        <strong>1. Observação:</strong> Descreva o fato sem julgamento → "Você chegou 20min atrasado 3x essa semana"<br>
+        <strong>2. Sentimento:</strong> Como você se sente → "Isso me preocupa porque..."<br>
+        <strong>3. Necessidade:</strong> O que você precisa → "...preciso que o horário seja cumprido"<br>
+        <strong>4. Pedido:</strong> Pedido claro → "Você confirma que vai estar aqui no horário amanhã?"
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- M4 -->
+    <div class="content-section" id="m4">
+      <h2>04 <span class="tag warn">4H</span> RH Estratégico & HRBP</h2>
+      <p class="lead">Aqui você aprende a se posicionar como parceiro estratégico — não como "o cara do RH". Isso muda como o dono te trata e quanto você cobra.</p>
+
+      <h3>Dave Ulrich — Os 4 Papéis do HRBP</h3>
+      <table>
+        <tr><th>Papel</th><th>Foco</th><th>No CEP</th><th>Quando</th></tr>
+        <tr><td>Parceiro Estratégico</td><td>Futuro/Processos</td><td>Alinha RH às metas do restaurante</td><td>Mês 5+</td></tr>
+        <tr><td>Especialista Administrativo</td><td>Presente/Processos</td><td>Regimento, contratos, DPR</td><td>Mês 2-4</td></tr>
+        <tr><td>Defensor dos Colaboradores</td><td>Presente/Pessoas</td><td>Escutas, mapeamento, CNV</td><td>Mês 1</td></tr>
+        <tr><td>Agente de Mudança</td><td>Futuro/Pessoas</td><td>Cultura, onboarding, liderança</td><td>Mês 2-6</td></tr>
+      </table>
+
+      <h3>OKR para Food Service</h3>
+      <div class="template">
+<span class="tl">OBJETIVO:</span> Reduzir rotatividade e melhorar clima em 3 meses
+
+<span class="tl">KR1:</span> Reduzir turnover de 12%/mês para menos de 5%/mês
+<span class="tl">KR2:</span> Aumentar score do Gallup Q12 de 32 para 45 pontos
+<span class="tl">KR3:</span> Implantar CNV para 100% dos supervisores até o mês 2
+      </div>
+
+      <h3>Gallup Q12 — As 12 Perguntas de Engajamento</h3>
+      <table>
+        <tr><th>#</th><th>Pergunta (escala 1-5)</th></tr>
+        <tr><td>Q1</td><td>Sei o que é esperado de mim no trabalho?</td></tr>
+        <tr><td>Q2</td><td>Tenho os materiais para fazer meu trabalho corretamente?</td></tr>
+        <tr><td>Q3</td><td>Tenho oportunidade de fazer o que faço de melhor todo dia?</td></tr>
+        <tr><td>Q4</td><td>Nos últimos 7 dias, recebi reconhecimento por um bom trabalho?</td></tr>
+        <tr><td>Q5</td><td>Meu supervisor parece se importar comigo como pessoa?</td></tr>
+        <tr><td>Q6</td><td>Há alguém que encoraja meu desenvolvimento?</td></tr>
+        <tr><td>Q7</td><td>No trabalho, minha opinião parece contar?</td></tr>
+        <tr><td>Q8</td><td>A missão da empresa faz meu trabalho parecer importante?</td></tr>
+        <tr><td>Q9</td><td>Meus colegas estão comprometidos com qualidade?</td></tr>
+        <tr><td>Q10</td><td>Tenho um bom amigo no trabalho?</td></tr>
+        <tr><td>Q11</td><td>Nos últimos 6 meses, alguém falou sobre meu progresso?</td></tr>
+        <tr><td>Q12</td><td>No último ano, tive oportunidade de aprender e crescer?</td></tr>
+      </table>
+      <div class="callout callout-info">Score total 12-60 pontos. <strong>Abaixo de 36 = urgência de intervenção.</strong> Aplique no mês 1 e no mês 6 — mostre a evolução.</div>
+
+      <h3>EVP — Employee Value Proposition</h3>
+      <table>
+        <tr><th>Pilar</th><th>O que oferece</th><th>Exemplo food service</th></tr>
+        <tr><td>Compensação</td><td>Salário + benefícios + bônus</td><td>R$1.800 + VT + VR</td></tr>
+        <tr><td>Benefícios</td><td>Além do salário</td><td>Refeição na casa, uniforme, convênio</td></tr>
+        <tr><td>Carreira</td><td>Crescimento possível</td><td>"Atendente → Supervisor em 1 ano"</td></tr>
+        <tr><td>Ambiente</td><td>Clima e relações</td><td>Equipe unida, liderança humana</td></tr>
+        <tr><td>Propósito</td><td>Missão da empresa</td><td>"Servimos felicidade em cada prato"</td></tr>
+      </table>
+    </div>
+
+    <hr>
+
+    <!-- M5 -->
+    <div class="content-section" id="m5">
+      <h2>05 <span class="tag" style="background:rgba(240,136,62,0.15);color:#f0883e;">4H</span> Treinamento & Desenvolvimento</h2>
+      <p class="lead">T&D é o pilar mais lucrativo do CEP. Resultado visível rápido, renova contratos e diferencia você de qualquer consultor que só organiza papelada.</p>
+
+      <h3>Perfil do Público e Formato Ideal</h3>
+      <table>
+        <tr><th>Perfil</th><th>% em Food Service</th><th>Aprende melhor com</th></tr>
+        <tr><td>Até Ensino Fundamental</td><td><strong>~70%</strong></td><td>Visual, demonstração, prática, cores, gestos</td></tr>
+        <tr><td>Ensino Médio ou acima</td><td><strong>~30%</strong></td><td>Dados, texto, sistemas, análise</td></tr>
+      </table>
+
+      <h3>Os 3 Elementos de Todo Treinamento Eficaz</h3>
+      <div class="callout callout-info">
+        <strong>Elemento 1 — Material Visual:</strong> Cartazes A3, infográficos, fichas técnicas ilustradas, vídeos curtos. Use Canva. Deixe exposto por 7 dias para fixar.
+      </div>
+      <div class="callout callout-tip">
+        <strong>Elemento 2 — Dinâmicas Sensoriais:</strong> Roleplay, Dinâmica dos Animais, jogos, linha de plataforma. Necessário após 45min de conteúdo — o cérebro precisa de pausa cognitiva.
+      </div>
+      <div class="callout callout-success">
+        <strong>Elemento 3 — Item Afetivo de Marca:</strong> Café especial, brinde, degustação. Cria memória emocional positiva que ancora o conteúdo aprendido.
+      </div>
+
+      <h3>Frase-Conceito CEP</h3>
+      <div class="callout callout-warn" style="font-size:16px; font-style:italic;">
+        "Liderança não é um cargo, é um comportamento."
+      </div>
+
+      <h3>Modelo Kirkpatrick — Avaliação em 4 Níveis</h3>
+      <table>
+        <tr><th>Nível</th><th>Avalia</th><th>Quando</th><th>Como medir</th><th>Meta</th></tr>
+        <tr><td><span class="badge info">N1 Reação</span></td><td>Gostou?</td><td>Imediato</td><td>Formulário nota 1-5</td><td>&gt;4,0/5,0</td></tr>
+        <tr><td><span class="badge ok">N2 Aprendizagem</span></td><td>Aprendeu?</td><td>Semana seguinte</td><td>Teste + demonstração</td><td>&gt;80% acerto</td></tr>
+        <tr><td><span class="badge warn">N3 Comportamento</span></td><td>Mudou o que faz?</td><td>30 dias depois</td><td>Observação + feedback</td><td>Comportamento novo visível</td></tr>
+        <tr><td><span class="badge bad">N4 Resultado</span></td><td>Impactou o negócio?</td><td>60-90 dias</td><td>Ticket, CMV, turnover</td><td>Número melhorou</td></tr>
+      </table>
+    </div>
+
+    <hr>
+
+    <!-- M6 a M10 resumidos para navegação -->
+    <div class="content-section" id="m6">
+      <h2>06 <span class="tag info">4H</span> Processos Seletivos & Descrição de Cargo</h2>
+      <p class="lead">A Descrição de Cargo é o documento que formaliza quem faz o quê. Sem ela, os conflitos de "isso não é minha função" nunca param.</p>
+
+      <h3>Estrutura da Descrição de Cargo</h3>
+      <table>
+        <tr><th>Bloco</th><th>Conteúdo</th></tr>
+        <tr><td><strong>Identificação</strong></td><td>Empresa, cargo, área, filial, carga horária, modalidade, missão</td></tr>
+        <tr><td><strong>Requisitos</strong></td><td>Escolaridade, experiência, habilidades técnicas e comportamentais</td></tr>
+        <tr><td><strong>Atividades</strong></td><td>Lista detalhada do que a pessoa faz, com frequência</td></tr>
+        <tr><td><strong>Indicadores</strong></td><td>Como o desempenho será medido</td></tr>
+      </table>
+
+      <h3>Por que Descrição de Cargo é crucial?</h3>
+      <ul>
+        <li>Organiza quem faz o quê — elimina conflitos de função</li>
+        <li>Alinha expectativas entre líder e colaborador</li>
+        <li>Orienta o recrutamento (você sabe exatamente quem buscar)</li>
+        <li>Orienta o T&D (você sabe o que treinar para cada cargo)</li>
+        <li>Orienta a avaliação de desempenho (critérios claros)</li>
+      </ul>
+
+      <h3>Entrevista por Competências — Método STAR</h3>
+      <table>
+        <tr><th>Letra</th><th>O que pedir</th><th>Exemplo</th></tr>
+        <tr><td><strong>S</strong>ituação</td><td>Qual era o contexto?</td><td>"Onde você estava trabalhando?"</td></tr>
+        <tr><td><strong>T</strong>arefa</td><td>Qual era sua responsabilidade?</td><td>"O que era esperado de você?"</td></tr>
+        <tr><td><strong>A</strong>ção</td><td>O que você exatamente fez?</td><td>"Me conta passo a passo."</td></tr>
+        <tr><td><strong>R</strong>esultado</td><td>Qual foi o resultado?</td><td>"O que aconteceu depois?"</td></tr>
+      </table>
+    </div>
+
+    <hr>
+
+    <div class="content-section" id="m7">
+      <h2>07 <span class="tag ok">4H</span> Integração, Onboarding & Cultura</h2>
+      <p class="lead">Um onboarding estruturado aumenta a retenção em até 82% no primeiro ano (Brandon Hall Group). No food service com alto turnover, isso é dinheiro direto.</p>
+
+      <h3>Onboarding 5 Dias</h3>
+      <table>
+        <tr><th>Dia</th><th>Foco</th><th>Conteúdo principal</th></tr>
+        <tr><td><span class="badge info">Dia 1</span></td><td>Administrativo</td><td>Docs, conta, uniforme, sistemas, regimento, manual</td></tr>
+        <tr><td><span class="badge" style="background:rgba(163,113,247,0.15);color:#a371f7;">Dia 2</span></td><td>Outras Áreas</td><td>Tour, apresentação de setores e equipe, MVV</td></tr>
+        <tr><td><span class="badge ok">Dia 3</span></td><td>Função (Técnico)</td><td>Descrição de cargo, fichas técnicas, metas do cargo</td></tr>
+        <tr><td><span class="badge warn">Dia 4</span></td><td>Prática supervisionada</td><td>Executa tarefas com supervisão + buddy</td></tr>
+        <tr><td><span class="badge bad">Dia 5</span></td><td>Alinhamento</td><td>Feedback, PDI inicial, check-ins 30/60/90 dias</td></tr>
+      </table>
+
+      <h3>Manual da Empresa — Estrutura</h3>
+      <ul>
+        <li>Nossa História — como a empresa nasceu</li>
+        <li>Missão — por que existimos</li>
+        <li>Visão — onde queremos chegar</li>
+        <li>Valores — o que guia nossas decisões</li>
+        <li>Nossos Produtos — o cardápio e seus diferenciais</li>
+        <li>Nossa Equipe — organograma e contatos</li>
+        <li>Benefícios — além do salário</li>
+        <li>Canal de Comunicação — como falar com a empresa</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <div class="content-section" id="m8">
+      <h2>08 <span class="tag" style="background:rgba(163,113,247,0.15);color:#a371f7;">4H</span> Desenvolvimento de Liderança</h2>
+      <p class="lead">"Pessoas procuram segurança." Antes de qualquer programa motivacional, resolva a segurança básica da equipe.</p>
+
+      <h3>Os 3 Eixos do Líder CEP</h3>
+      <table>
+        <tr><th>Eixo</th><th>O que desenvolve</th><th>Carga</th></tr>
+        <tr><td>① Comportamento Gerencial</td><td>Delegar, cobrar, reconhecer, resolver conflitos operacionais</td><td>1 dia ADM</td></tr>
+        <tr><td>② Sócio-Emocional</td><td>Autoconhecimento, controle emocional, empatia, CNV</td><td>1 dia + outras áreas</td></tr>
+        <tr><td>③ Administrativo</td><td>Planilhas, relatórios, indicadores, sistemas</td><td>3 dias de função</td></tr>
+      </table>
+
+      <h3>ADKAR — Gestão da Mudança (Prosci)</h3>
+      <table>
+        <tr><th>Letra</th><th>Significa</th><th>Se falta isso...</th><th>Ação</th></tr>
+        <tr><td><strong>A</strong></td><td>Awareness — Consciência</td><td>Não sabe por que mudar</td><td>Explique o problema e consequências</td></tr>
+        <tr><td><strong>D</strong></td><td>Desire — Desejo</td><td>Sabe mas não quer</td><td>Entenda os medos e resistências</td></tr>
+        <tr><td><strong>K</strong></td><td>Knowledge — Conhecimento</td><td>Quer mas não sabe como</td><td>Treine</td></tr>
+        <tr><td><strong>A</strong></td><td>Ability — Habilidade</td><td>Sabe mas não consegue</td><td>Pratique + suporte</td></tr>
+        <tr><td><strong>R</strong></td><td>Reinforcement — Reforço</td><td>Faz mas volta ao antigo</td><td>Reconheça e cobre consistentemente</td></tr>
+      </table>
+
+      <h3>Kotter — 8 Etapas da Mudança</h3>
+      <ol>
+        <li>Criar senso de urgência (mostrar os números ruins)</li>
+        <li>Formar coalizão (identificar o líder interno aliado)</li>
+        <li>Criar a visão ("como esse restaurante vai estar em 6 meses")</li>
+        <li>Comunicar a visão (apresentar para toda a equipe)</li>
+        <li>Remover obstáculos (líder tóxico? processo ruim?)</li>
+        <li>Criar vitórias de curto prazo (celebrar primeiros resultados)</li>
+        <li>Consolidar ganhos (usar resultados para ir mais fundo)</li>
+        <li>Ancorar na cultura (incorporar mudanças no DNA da empresa)</li>
+      </ol>
+    </div>
+
+    <hr>
+
+    <div class="content-section" id="m9">
+      <h2>09 <span class="tag warn">4H</span> Gestão de Jornada & Escalas</h2>
+      <p class="lead">O tipo de jornada impacta diretamente o absenteísmo, o turnover e o custo de folha. Escolher a escala certa pode economizar mais do que um treinamento.</p>
+
+      <h3>Tipos de Jornada</h3>
+      <table>
+        <tr><th>Jornada</th><th>Formato</th><th>H/Semana</th><th>Melhor para</th></tr>
+        <tr><td>6×1 Padrão</td><td>6 dias / 1 folga</td><td>44h</td><td>Operação contínua básica</td></tr>
+        <tr><td>6×1 Produção</td><td>6 dias / 1 folga</td><td>30h</td><td>Cargos de abertura/preparação</td></tr>
+        <tr><td>12×36</td><td>12h trabalhadas / 36h descanso</td><td>~42h</td><td>Cobertura longa, portaria</td></tr>
+        <tr><td>4×2 (9h/dia)</td><td>4 dias / 2 folgas</td><td>44h</td><td>Melhor satisfação → menos falta</td></tr>
+        <tr><td>Intermitente</td><td>Por hora/turno</td><td>Variável</td><td>Reforços fins de semana</td></tr>
+      </table>
+
+      <h3>Cronograma P1 / P2 / P3</h3>
+      <table>
+        <tr><th>Fase</th><th>Semanas</th><th>O que acontece</th></tr>
+        <tr><td><span class="badge info">P1</span></td><td>1-3</td><td>Diagnóstico completo → entrega do Relatório D.L.O.L.</td></tr>
+        <tr><td><span class="badge warn">P2</span></td><td>4-8</td><td>Implantação: Regimento, Cargos, T&D, Processo Seletivo</td></tr>
+        <tr><td><span class="badge ok">P3</span></td><td>9-12</td><td>Consolidação: 2º T&D, Kirkpatrick N4, Relatório de Resultados</td></tr>
+      </table>
+    </div>
+
+    <hr>
+
+    <div class="content-section" id="m10">
+      <h2>10 <span class="tag info">4H</span> People Analytics & KPIs</h2>
+      <p class="lead">Aqui você prova o valor do CEP com dados. Sem números, você é percebido como "o cara dos processos". Com números, você é parceiro estratégico.</p>
+
+      <h3>Matriz 9-Box (GE / McKinsey)</h3>
+      <table>
+        <tr><th></th><th>Potencial Baixo</th><th>Potencial Médio</th><th>Potencial Alto</th></tr>
+        <tr><td><strong>Alta Performance</strong></td><td>💪 Sólido — Reconheça</td><td>🌟 Estrela Futura — PDI</td><td>⭐ Estrela — Promova</td></tr>
+        <tr><td><strong>Média Performance</strong></td><td>⚙️ Eficiente</td><td>🗝️ Chave — Cuide</td><td>🔑 Alto Potencial — Acelere</td></tr>
+        <tr><td><strong>Baixa Performance</strong></td><td>🔴 Problema — Ação</td><td>⚖️ Dilema — Investigue</td><td>❓ Enigma — Descubra o bloqueio</td></tr>
+      </table>
+
+      <h3>Feedback Estruturado — Modelo SBI</h3>
+      <div class="callout callout-info">
+        <strong>S</strong>ituação: "Na reunião de segunda-feira..."<br>
+        <strong>B</strong>ehavior: "...quando você interrompeu o colaborador 3 vezes..."<br>
+        <strong>I</strong>mpacto: "...percebi que ele ficou retraído e não trouxe mais ideias."
+      </div>
+
+      <h3>Relatório Mensal CEP — Estrutura</h3>
+      <ol>
+        <li>Resumo Executivo (1 página) — o que foi feito, o que mudou</li>
+        <li>Indicadores de People Analytics — tabela com KPIs do mês</li>
+        <li>Ações Realizadas — nos 4 pilares</li>
+        <li>Resultados Alcançados — com dados comparativos</li>
+        <li>Próximos Passos — o que será feito no próximo mês</li>
+        <li>Recomendações — o que o dono deve fazer fora do escopo CEP</li>
+      </ol>
+    </div>
+
+    <hr>
+
+    <!-- TEMPLATES -->
+    <div class="content-section" id="templates">
+      <h2>📋 Templates Prontos para Usar</h2>
+      <p class="lead">Copie, imprima ou adapte. Esses templates são usados diretamente com seus clientes.</p>
+
+      <h3>Script da 1ª Reunião</h3>
+      <div class="template">
+<span class="tl">ABERTURA (5min):</span>
+"Olá [nome], antes de qualquer coisa, me fala:
+o que te fez buscar uma solução de RH agora?"
+
+<span class="tl">DIAGNÓSTICO RÁPIDO (20min):</span>
+• Quantos colaboradores?
+• Qual o faturamento médio?
+• O que mais consome seu tempo hoje?
+• Como está o clima da equipe?
+• Já teve problemas de turnover?
+
+<span class="tl">ENCERRAMENTO (5min):</span>
+"Vou elaborar uma proposta até amanhã às ___h.
+Posso te enviar por WhatsApp?"
+      </div>
+
+      <h3>Ficha de Escuta Estratégica</h3>
+      <div class="template">
+<span class="tl">FICHA DE ESCUTA — ARTBLEND CONSULTORIA GOURMET</span>
+
+Nome: _______________ Cargo: ___________ Data: ______
+
+LIDERANÇA: _________________________________________
+TAREFAS: ___________________________________________
+COMUNICAÇÃO: ______________________________________
+FINANCEIRO: ________________________________________
+VIDA PESSOAL: ______________________________________
+
+SCORE DE RISCO: ( ) Baixo  ( ) Médio  ( ) Alto
+ASSÉDIO/PROBLEMA GRAVE: ( ) Não  ( ) Suspeita  ( ) Confirmado
+      </div>
+
+      <h3>Avaliação Kirkpatrick N1</h3>
+      <div class="template">
+<span class="tl">AVALIAÇÃO DO TREINAMENTO — ARTBLEND CONSULTORIA GOURMET</span>
+
+Relevância do conteúdo:       1  2  3  4  5
+Clareza na explicação:         1  2  3  4  5
+Dinâmicas e práticas:          1  2  3  4  5
+Materiais utilizados:          1  2  3  4  5
+Duração adequada:              1  2  3  4  5
+
+O que mais gostou: ___________________________________
+Uma coisa que vai aplicar amanhã: ____________________
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- METODOLOGIAS -->
+    <div class="content-section" id="metodologias">
+      <h2>🌎 35+ Metodologias Mundiais — Referência Rápida</h2>
+      <table>
+        <tr><th>#</th><th>Metodologia</th><th>Origem</th><th>Uso no CEP</th></tr>
+        <tr><td>1</td><td>Dave Ulrich 4 Papéis</td><td>Dave Ulrich (1997)</td><td>Posicionamento estratégico</td></tr>
+        <tr><td>2</td><td>People Analytics</td><td>Google, IBM</td><td>KPIs e dados de RH</td></tr>
+        <tr><td>3</td><td>ADKAR</td><td>Prosci</td><td>Gestão de mudanças</td></tr>
+        <tr><td>4</td><td>Kotter 8 Etapas</td><td>Harvard</td><td>Transformação cultural</td></tr>
+        <tr><td>5</td><td>OKR</td><td>Intel / Google</td><td>Metas e resultados</td></tr>
+        <tr><td>6</td><td>Gallup Q12</td><td>Gallup Institute</td><td>Engajamento mensurável</td></tr>
+        <tr><td>7</td><td>Kirkpatrick 4 Níveis</td><td>Donald Kirkpatrick</td><td>ROI de treinamento</td></tr>
+        <tr><td>8</td><td>Matriz 9-Box</td><td>GE / McKinsey</td><td>Potencial × Performance</td></tr>
+        <tr><td>9</td><td>Avaliação 360°</td><td>Edwards (1950s)</td><td>Feedback multifonte</td></tr>
+        <tr><td>10</td><td>PDI</td><td>Best practices</td><td>Desenvolvimento individual</td></tr>
+        <tr><td>11</td><td>EVP</td><td>McKinsey</td><td>Proposta de valor ao colaborador</td></tr>
+        <tr><td>12</td><td>Employer Branding</td><td>Simon Barrow (1996)</td><td>Marca empregadora</td></tr>
+        <tr><td>13</td><td>BSC de RH</td><td>Kaplan & Norton</td><td>Dashboard de pessoas</td></tr>
+        <tr><td>14</td><td>SHRM Competency Model</td><td>SHRM</td><td>Competências do profissional RH</td></tr>
+        <tr><td>15</td><td>CNV</td><td>Marshall Rosenberg</td><td>Comunicação interna</td></tr>
+        <tr><td>16</td><td>DISC</td><td>William Marston</td><td>Perfil comportamental</td></tr>
+        <tr><td>17</td><td>Pirâmide de Maslow</td><td>Abraham Maslow</td><td>Necessidades dos colaboradores</td></tr>
+        <tr><td>18</td><td>Herzberg</td><td>Frederick Herzberg</td><td>Motivação vs. Higiene</td></tr>
+        <tr><td>19</td><td>McKinsey 7S</td><td>McKinsey</td><td>Diagnóstico organizacional</td></tr>
+        <tr><td>20</td><td>SWOT de Pessoas</td><td>Adaptação do SWOT</td><td>Análise de equipes</td></tr>
+        <tr><td>21</td><td>Pipeline de Liderança</td><td>Ram Charan</td><td>Desenvolvimento de líderes</td></tr>
+        <tr><td>22</td><td>Plano de Sucessão</td><td>Best practices</td><td>Continuidade do negócio</td></tr>
+        <tr><td>23</td><td>Feedback SBI</td><td>CCL</td><td>Feedback estruturado</td></tr>
+        <tr><td>24</td><td>Calibragem</td><td>GE</td><td>Consistência nas avaliações</td></tr>
+        <tr><td>25</td><td>Workforce Planning</td><td>SHRM</td><td>Planejamento de headcount</td></tr>
+        <tr><td>26</td><td>Design Thinking em RH</td><td>IDEO</td><td>Soluções criativas de pessoas</td></tr>
+        <tr><td>27</td><td>Agile HR</td><td>Movimento ágil</td><td>Iteração em processos de RH</td></tr>
+        <tr><td>28</td><td>Total Compensation</td><td>WorldatWork</td><td>Remuneração total</td></tr>
+        <tr><td>29</td><td>Entrevista STAR</td><td>Various</td><td>Seleção por competências</td></tr>
+        <tr><td>30</td><td>ADDIE</td><td>Universidades EUA</td><td>Design instrucional</td></tr>
+        <tr><td>31</td><td>eNPS</td><td>Fred Reichheld</td><td>Satisfação interna</td></tr>
+        <tr><td>32</td><td>Onboarding Estruturado</td><td>Brandon Hall Group</td><td>Retenção primeiros 90 dias</td></tr>
+        <tr><td>33</td><td>Buddy System</td><td>Best practices</td><td>Integração social</td></tr>
+        <tr><td>34</td><td>Kirkpatrick Nível 4</td><td>Kirkpatrick Partners</td><td>ROI financeiro do T&D</td></tr>
+        <tr><td>35</td><td>DPR</td><td>Adaptação brasileira</td><td>Foco em resultados</td></tr>
+      </table>
+    </div>
+
+    <hr>
+
+    <!-- GLOSSÁRIO -->
+    <div class="content-section" id="glossario">
+      <h2>📖 Glossário CEP</h2>
+      <table>
+        <tr><th>Termo</th><th>Definição</th></tr>
+        <tr><td><strong>CEP</strong></td><td>Consultor Estratégico de Pessoas — serviço de RH por assinatura</td></tr>
+        <tr><td><strong>T&D</strong></td><td>Treinamento e Desenvolvimento</td></tr>
+        <tr><td><strong>HRBP</strong></td><td>HR Business Partner — parceiro de negócio em RH</td></tr>
+        <tr><td><strong>CMV</strong></td><td>Custo da Mercadoria Vendida</td></tr>
+        <tr><td><strong>DPR</strong></td><td>Descrição de Prioridades e Resultados</td></tr>
+        <tr><td><strong>Turnover</strong></td><td>Taxa de rotatividade de pessoal</td></tr>
+        <tr><td><strong>Absenteísmo</strong></td><td>Taxa de ausências não programadas</td></tr>
+        <tr><td><strong>eNPS</strong></td><td>Employee Net Promoter Score</td></tr>
+        <tr><td><strong>OKR</strong></td><td>Objectives and Key Results</td></tr>
+        <tr><td><strong>PDI</strong></td><td>Plano de Desenvolvimento Individual</td></tr>
+        <tr><td><strong>EVP</strong></td><td>Employee Value Proposition</td></tr>
+        <tr><td><strong>CNV</strong></td><td>Comunicação Não-Violenta</td></tr>
+        <tr><td><strong>Onboarding</strong></td><td>Processo de integração de novos colaboradores</td></tr>
+        <tr><td><strong>LNT</strong></td><td>Levantamento de Necessidades de Treinamento</td></tr>
+        <tr><td><strong>People Analytics</strong></td><td>Uso de dados e métricas de pessoas para decisões</td></tr>
+        <tr><td><strong>3G</strong></td><td>Ferramenta de diagnóstico: Tarefas (quem, o quê, quando) + comportamento do líder</td></tr>
+        <tr><td><strong>ADKAR</strong></td><td>Modelo de mudança: Awareness, Desire, Knowledge, Ability, Reinforcement</td></tr>
+        <tr><td><strong>Escuta Estratégica</strong></td><td>Método de diagnóstico por conversas estruturadas com colaboradores</td></tr>
+        <tr><td><strong>Kirkpatrick</strong></td><td>Modelo de 4 níveis para avaliação de treinamento</td></tr>
+        <tr><td><strong>D.L.O.L.</strong></td><td>Framework artblend: Diagnóstico, Leitura, Oportunidades, Liderança</td></tr>
+      </table>
+    </div>
+
+    <div style="padding: 32px 0; text-align:center; color: var(--muted); font-size:13px; border-top: 1px solid var(--border); margin-top: 40px;">
+      <strong style="color: var(--text); font-size:16px; font-weight:900;">artblend</strong> Consultoria Gourmet · CEP 40H · Junho 2026<br>
+      <span style="font-size:11px;">Documento de uso interno — baseado nas melhores referências mundiais de RH Estratégico e Food Service</span>
+    </div>
+
+  </div>
+</main>
+
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// Progress bar
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = Math.round((el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('backTop').classList.toggle('show', el.scrollTop > 400);
+});
+
+// Active nav
+const sections = document.querySelectorAll('.content-section, .hero');
+const navItems = document.querySelectorAll('.nav-item');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      navItems.forEach(n => {
+        n.classList.toggle('active', n.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

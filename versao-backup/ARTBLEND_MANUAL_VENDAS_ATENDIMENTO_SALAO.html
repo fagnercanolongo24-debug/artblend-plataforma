@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vendas & Atendimento de Salão · Metodologia ArtBlend</title>
+<style>
+  :root{
+    --bg:#F5F7FA; --card:#FFFFFF; --border:#E2E6ED; --text:#16294A; --muted:#6E7A8C;
+    --accent:#2EC4D6; --accent-soft:#E4F8FB; --blue:#1C93A8;
+    --gato:#A6740B; --gato-bg:#FBF2D9; --script:#1C5FA8; --script-bg:#E7F0FA;
+    --template:#B5651D; --template-bg:#FCEEE0; --exerc:#6B4FA0; --exerc-bg:#EFEAF7;
+    --caso:#1B8A6B; --caso-bg:#E3F5EE; --warn:#B23B2E; --warn-bg:#FBE9E6;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.65;padding:0 0 60px;}
+  .cover{background:linear-gradient(135deg,var(--blue),var(--accent));color:#fff;padding:70px 40px;text-align:center;}
+  .cover .kick{font-size:12px;letter-spacing:3px;text-transform:uppercase;opacity:.85;font-weight:700;}
+  .cover h1{font-size:34px;font-weight:800;margin:14px 0 10px;}
+  .cover p{font-size:15px;opacity:.9;max-width:560px;margin:0 auto;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px;}
+  .sec{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px 30px;margin-top:22px;}
+  .sec .num{display:inline-block;background:var(--accent-soft);color:var(--blue);font-weight:800;font-size:12px;letter-spacing:1px;padding:4px 10px;border-radius:20px;margin-bottom:10px;}
+  .sec h2{font-size:20px;font-weight:800;margin-bottom:12px;color:var(--text);}
+  .sec h3{font-size:14px;font-weight:700;margin:18px 0 8px;color:var(--blue);}
+  .sec p{font-size:14px;color:var(--text);margin-bottom:8px;}
+  .sec ul, .sec ol{margin:8px 0 8px 20px;font-size:14px;}
+  .sec li{margin-bottom:5px;}
+  .muted{color:var(--muted);font-size:13px;}
+  .box{background:var(--accent-soft);border-radius:10px;padding:14px 16px;margin:12px 0;font-size:13.5px;page-break-inside:avoid;break-inside:avoid;}
+  .box.warn{background:var(--warn-bg);border:1px solid #EEC4BD;page-break-inside:avoid;break-inside:avoid;}
+  .box .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:20px;color:#fff;margin-bottom:8px;}
+  .box.gato{background:var(--gato-bg);border:1px solid #E9D48C;page-break-inside:avoid;} .box.gato .tag{background:var(--gato);}
+  .box.script{background:var(--script-bg);border:1px solid #C3D6EA;page-break-inside:avoid;} .box.script .tag{background:var(--script);}
+  .box.template{background:var(--template-bg);border:1px solid #ECC9A0;page-break-inside:avoid;} .box.template .tag{background:var(--template);}
+  .box.exerc{background:var(--exerc-bg);border:1px solid #D6C9EC;page-break-inside:avoid;} .box.exerc .tag{background:var(--exerc);}
+  .box.caso{background:var(--caso-bg);border:1px solid #B9E0D0;page-break-inside:avoid;} .box.caso .tag{background:var(--caso);}
+  .box.warn .tag{background:var(--warn);}
+  .say{background:#fff;border-left:3px solid var(--script);border-radius:6px;padding:10px 14px;margin:8px 0;font-style:italic;}
+  .say::before{content:"🗣️ ";font-style:normal;}
+  .chain{text-align:center;font-weight:800;color:var(--blue);background:var(--accent-soft);border-radius:10px;padding:12px;margin:14px 0;font-size:13px;letter-spacing:.2px;}
+  .script{background:var(--bg);border-left:3px solid var(--accent);border-radius:6px;padding:12px 16px;margin:10px 0;font-size:13.5px;font-style:italic;color:var(--text);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:10px 0;}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0;}
+  th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;}
+  th{background:var(--accent-soft);color:var(--blue);font-weight:700;}
+  .protocolo{border:1px dashed var(--border);border-radius:8px;padding:12px 14px;margin:8px 0;}
+  .protocolo b{color:var(--blue);}
+  .footer{text-align:center;margin-top:34px;font-size:12px;color:var(--muted);}
+  @media print{
+    body{padding:0;background:#fff;}
+    .cover{background:var(--blue) !important; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+    .sec{break-inside:avoid;border:1px solid #ddd;}
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="kick">Metodologia ArtBlend · Consultoria de Pessoas & Salão</div>
+  <h1>Vendas & Atendimento de Salão</h1>
+  <p>Manual de treinamento para garçom, cumim e recepção — do primeiro contato ao pós-venda, com padrão de excelência internacional adaptado à realidade do restaurante brasileiro.</p>
+</div>
+
+<div class="wrap">
+
+  <div class="sec">
+    <span class="num">MÓDULO 0</span>
+    <h2>Fundamentos do Atendimento ArtBlend</h2>
+    <p>Antes de qualquer técnica de venda, existe um padrão de apresentação e conduta que sustenta a credibilidade de toda a equipe de salão.</p>
+    <h3>Apresentação pessoal</h3>
+    <ul>
+      <li>Uniforme sempre limpo e passado; sapato fechado e antiderrapante.</li>
+      <li>Unhas curtas e limpas; cabelo preso ou aparado; sem barba/bigode desalinhado.</li>
+      <li>Joias discretas; sem perfume forte — o olfato do cliente não pode ser disputado pela comida.</li>
+      <li>Chegada ao turno com 10 minutos de antecedência, já pronto para o serviço.</li>
+    </ul>
+    <h3>Conduta em salão</h3>
+    <ul>
+      <li>Caminhar sem pressa aparente, mesmo em ritmo acelerado de cozinha.</li>
+      <li>Tom de voz baixo e constante; nunca conversar em voz alta com colegas dentro do salão.</li>
+      <li>Postura ereta, mãos visíveis, nunca apoiado em móveis ou paredes.</li>
+      <li>Não mascar goma, comer ou usar celular dentro do salão em horário de serviço.</li>
+    </ul>
+    <div class="box">
+      <b>Princípio ArtBlend:</b> o cliente é o protagonista da própria experiência — quem está à mesa vive uma história (encontro, comemoração, negócio, descanso). O papel do garçom é o de guia: alguém que conhece o caminho (o cardápio, a cozinha, os detalhes) e conduz o cliente às melhores escolhas sem tirar dele o protagonismo.
+    </div>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>A mesa decide se confia na equipe nos primeiros segundos, antes de qualquer palavra — só pela leitura de postura e ritmo. Ao se aproximar de uma mesa nova, ajuste o passo para chegar <b>alguns passos antes de falar</b>: cliente que vê o garçom surgir "do nada", rápido demais e já falando, sente-se abordado; cliente que vê a aproximação com folga sente-se atendido. Esse meio segundo de antecedência visual é o que faz a diferença entre "fui bem recebido" e "vieram em cima de mim".</p></div>
+    <div class="box exerc"><span class="tag">Exercício 0</span><p>Em dupla: um colega entra no ambiente e caminha até uma mesa sem dizer nada por 10 segundos. O outro observa e dá feedback só sobre postura, ritmo e mãos — nunca sobre o que foi dito, porque nada foi dito. Repita invertendo os papéis e anote 2 ajustes práticos para o próprio turno.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 1</span>
+    <h2>Recepção e Hostess</h2>
+    <h3>Checklist de chegada do cliente</h3>
+    <div class="box template"><span class="tag">Template — Checklist de chegada</span>
+    <ol>
+      <li>Cumprimentar com contato visual e sorriso em até 1 minuto da entrada.</li>
+      <li>Confirmar se há reserva.</li>
+      <li>Perguntar a preferência de mesa/ambiente, quando possível.</li>
+      <li>Confirmar número de pessoas e se falta alguém do grupo chegar.</li>
+      <li>Observar necessidades especiais: crianças, idosos, pessoas com deficiência.</li>
+      <li>Conduzir à mesa caminhando à frente do cliente, em ritmo compatível.</li>
+      <li>Acomodar: puxar cadeira, oferecer cadeirinha infantil, indicar onde deixar casacos/bolsas.</li>
+      <li>Informar rapidamente o estilo de serviço da casa, se for diferente do tradicional (rodízio, self-service, à la carte).</li>
+    </ol>
+    </div>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>Observe quem no grupo anda mais devagar ou meio passo à frente dos demais ao entrar — geralmente é quem fez a reserva ou quem decide onde sentar. Ao chegar à mesa, ofereça a essa pessoa (discretamente, sem anunciar) o lugar de costas para a parede e com visão do salão: é o lugar que a maioria das pessoas prefere sem saber pedir, e ela vai sentir que "foi entendida" mesmo sem trocar uma palavra sobre isso.</p></div>
+    <h3>Os 10 perfis de cliente ArtBlend</h3>
+    <p class="muted">Reconhecer o perfil nos primeiros segundos ajuda a calibrar o tom do atendimento sem alterar o padrão de qualidade.</p>
+    <table>
+      <tr><th>Perfil</th><th>Como atender</th></tr>
+      <tr><td>Sozinho</td><td>Oferecer leitura/atenção extra sem invadir; sugerir lugar com vista ou balcão.</td></tr>
+      <tr><td>Casal em ocasião especial</td><td>Discrição, ritmo mais lento, sugestões de harmonização e opção de sobremesa surpresa.</td></tr>
+      <tr><td>Executivo/reunião de negócio</td><td>Não interromper conversas; servir com o mínimo de intervenção; conta pronta ao primeiro sinal.</td></tr>
+      <tr><td>Família com criança</td><td>Sugerir opções infantis logo; agilizar entrega de algo para a criança "beliscar" primeiro.</td></tr>
+      <tr><td>Grupo grande</td><td>Confirmar se a conta será dividida ou única antes de anotar pedidos; alinhar tempo de prato entre todos.</td></tr>
+      <tr><td>Com pressa</td><td>Sugerir pratos de preparo rápido; agilizar sem parecer apressar o cliente.</td></tr>
+      <tr><td>Exigente/atento a detalhes</td><td>Revisar a conta antes de apresentar; explicar ingredientes com precisão.</td></tr>
+      <tr><td>Restrição alimentar</td><td>Confirmar com a cozinha antes de afirmar qualquer coisa sobre alérgenos.</td></tr>
+      <tr><td>Comemoração/aniversário</td><td>Sinalizar à equipe para um gesto especial (sobremesa com vela, cumprimento da casa).</td></tr>
+      <tr><td>Cliente recorrente</td><td>Reconhecer pelo nome quando possível, lembrar preferência anterior.</td></tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 2</span>
+    <h2>Abordagem e Apresentação do Cardápio</h2>
+    <h3>Sequência de abertura</h3>
+    <ol>
+      <li>Oferecer bebida antes de apresentar o cardápio de comidas — reduz ansiedade e já inicia o ticket.</li>
+      <li>Apresentar o cardápio, afastar-se e dar espaço para a decisão (sem sumir).</li>
+      <li>Retornar ao perceber sinais de decisão tomada (cardápio fechado, contato visual).</li>
+      <li>Anotar o pedido confirmando itens e eventuais substituições.</li>
+      <li>Recolher os cardápios e encaminhar o pedido à cozinha/bar.</li>
+      <li>Conferir visualmente o prato antes de levá-lo à mesa (apresentação e temperatura corretas).</li>
+    </ol>
+    <div class="box">
+      <b>Regra dos 2 minutos:</b> em até dois minutos (ou duas garfadas) após servir o prato principal, retornar à mesa para checar se está tudo certo — e agir imediatamente se não estiver. É o padrão que separa um atendimento comum de um atendimento de alto nível.
+    </div>
+    <div class="box script"><span class="tag">Script — Retorno dos 2 minutos</span><p class="say">Tá tudo certo por aqui? Posso trazer mais alguma coisa enquanto vocês aproveitam?</p><p>Frase curta, tom leve, sem parar ao lado da mesa esperando resposta longa — o objetivo é abrir a porta para uma correção rápida, não puxar conversa.</p></div>
+    <p><b>Ordem de serviço à mesa:</b> crianças → mulheres mais velhas → demais mulheres → homens → anfitrião. Servir sempre pelo lado direito do cliente e retirar pelo lado esquerdo.</p>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>O sinal mais confiável de que o cliente terminou de decidir <b>não é o cardápio fechado</b> — é o cliente apoiar as duas mãos sobre a mesa e recostar no encosto da cadeira. Esse gesto costuma aparecer alguns segundos antes de fechar o cardápio. Fique de olho nele pelo canto do olho enquanto circula perto da mesa: voltar exatamente nesse instante (em vez de esperar o cardápio fechado) tira segundos do tempo de espera percebido, que é o que o cliente realmente sente.</p></div>
+    <div class="box caso"><span class="tag">Caso prático</span><p>Mesa de 2 pessoas. Sem sugestão: 2 pratos principais (R$ 68 cada) + água = ticket R$ 136. Com a sequência de abertura completa (bebida na chegada + entrada compartilhada sugerida ao anotar o prato): 2 pratos (R$ 136) + 2 drinques (R$ 24 cada) + 1 entrada para dividir (R$ 42) = ticket R$ 226. O aumento não veio de "empurrar" nada — veio de oferecer no momento certo o que a mesa provavelmente pediria de qualquer forma, só que mais tarde ou em outro lugar.</p></div>
+    <div class="box exerc"><span class="tag">Exercício 2</span><p>Escolha 3 pratos do cardápio atual da casa. Para cada um, escreva a frase exata que você usaria para sugerir uma entrada complementar no momento de anotar o pedido — sem soar como pergunta isolada ("quer entrada?"), mas como parte natural do pedido.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 3</span>
+    <h2>Técnicas de Sugestão e Venda Consultiva</h2>
+    <p>A diferença entre um atendente que só anota o pedido e um vendedor consultivo é a sugestão. Quem só espera o pedido deixa o cliente comprar sozinho; quem sugere, vende — e vende melhor quando a sugestão nasce de conhecimento real do prato.</p>
+    <h3>Timing da sugestão</h3>
+    <ul>
+      <li>Bebida: logo na chegada, antes do cardápio de comida.</li>
+      <li>Entrada/petisco: ao anotar o prato principal, como complemento — não como pergunta isolada.</li>
+      <li>Sobremesa e café: só depois que o prato principal for retirado, nunca antes.</li>
+    </ul>
+    <h3>Venda suave, nunca empurrada</h3>
+    <div class="script">"Esse vinho combina bem com o prato que você escolheu — quer que eu traga uma taça pra experimentar?" — em vez de "Você não quer um vinho mais caro?"</div>
+    <p>Se o cliente sinalizar que não quer sugestão (respostas curtas, olhar impaciente), parar imediatamente. Insistir depois desse sinal quebra a confiança e derruba a gorjeta.</p>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>Quando for sugerir algo com preço em jogo (prato, vinho, corte), ofereça <b>sempre duas opções reais, citando primeiro a mais completa</b>: "temos a [opção maior/mais completa] ou a [opção menor]" — nessa ordem. Citar primeiro a opção de referência mais alta faz a segunda soar razoável por comparação, sem qualquer palavra a mais de venda e sem viés perceptível na sua voz. É a mesma sugestão de sempre, só na ordem que funciona.</p></div>
+    <h3>Argumento pela harmonização e pelo conhecimento técnico</h3>
+    <p>A sugestão convence quando vem acompanhada de um porquê: o corte da carne, o ponto, a combinação de sabores. Conhecimento técnico do cardápio é o que transforma uma sugestão em recomendação confiável.</p>
+    <div class="box script"><span class="tag">Script — Cliente indeciso entre dois pratos</span><p class="say">Os dois são ótimas pedidas. Se for pra ajudar a decidir: o [prato A] é mais leve e rápido; o [prato B] é mais encorpado, pra quem tá com fome de verdade hoje.</p></div>
+    <div class="box script"><span class="tag">Script — Cliente pede recomendação direta</span><p class="say">Eu, particularmente, sempre indico o [prato]. É o que mais sai da cozinha por aqui e o ponto costuma vir certinho.</p></div>
+    <h3>Personalização como gatilho de retorno</h3>
+    <div class="script">"Vou separar esse rótulo especial pra você, dona Marta — é o que mais combina com o que pediu hoje."</div>
+    <p>Chamar pelo nome (quando souber) e lembrar de uma preferência anterior aumenta a chance de retorno do cliente.</p>
+    <div class="box caso"><span class="tag">Caso prático</span><p>Mesa de 4 pessoas pede 4 pratos principais (R$ 79 cada = R$ 316) e nenhuma bebida além de água. Ao anotar o pedido, o garçom sugere vinho por taça harmonizando com os pratos escolhidos: 3 pessoas aceitam (R$ 34 a taça) = +R$ 102. Ticket sobe de R$ 316 para R$ 418 — um aumento de cerca de 32% só com uma sugestão feita no momento certo, sem descontos nem promoções.</p></div>
+    <div class="box template"><span class="tag">Template — Roteiro de venda consultiva</span>
+    <ol>
+      <li>Perguntar/observar a preferência antes de sugerir (não empurrar o mesmo item pra todo mundo).</li>
+      <li>Sugerir sempre com um porquê técnico curto (corte, ponto, harmonização, ingrediente).</li>
+      <li>Oferecer duas opções reais, citando primeiro a mais completa.</li>
+      <li>Checar o sinal de aceite ou recusa — respostas curtas e olhar impaciente = parar.</li>
+      <li>Se recusado, não insistir; tentar de novo só no próximo momento natural (ex.: sobremesa).</li>
+    </ol></div>
+    <div class="box exerc"><span class="tag">Exercício 3</span><p>Escolha 3 itens do cardápio da casa (uma entrada, uma sobremesa e um vinho por taça) e escreva a frase exata de sugestão para cada um, incluindo o porquê técnico — sem usar perguntas fechadas do tipo "quer sobremesa?".</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 4</span>
+    <h2>Cumim e Auxiliar de Salão</h2>
+    <h3>Responsabilidades centrais</h3>
+    <ul>
+      <li>Mise en place da mesa antes da abertura (talheres, guardanapos, sal/pimenta, condimentos).</li>
+      <li>Reposição contínua de pão, água, guardanapos e talheres durante o serviço.</li>
+      <li>Apoio direto ao garçom: retirar pratos vazios, repor gelo, auxiliar em mesas grandes.</li>
+    </ul>
+    <h3>Protocolos de imprevisto</h3>
+    <div class="protocolo"><b>Protocolo Talher Caído:</b> recolher imediatamente, nunca do chão para a mesa — sempre substituir por um novo, sem comentário que constranja o cliente.</div>
+    <div class="protocolo"><b>Protocolo Derramamento:</b> pedir desculpas com naturalidade, limpar rapidamente, oferecer substituição do item afetado (roupa, prato, bebida) sem esperar o cliente pedir.</div>
+    <div class="protocolo"><b>Protocolo Toalha/Guardanapo Sujo:</b> trocar discretamente sem interromper a conversa da mesa, sempre que possível entre um prato e outro.</div>
+    <div class="protocolo"><b>Protocolo Objeto Caído no Salão:</b> recolher com agilidade e verificar se não é pertence de algum cliente antes de descartar.</div>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>O melhor cumim não espera pedido — ele lê a mesa a cada passagem: cesta de pão com menos de 1/3, copo d'água abaixo da metade, guardanapo caído no chão. A regra prática é fazer uma "varredura visual" de 2 segundos em cada mesa do setor a cada vez que atravessa o salão, mesmo levando outra coisa nas mãos. Isso é o que faz o cliente sentir que "nunca precisou pedir nada" — que é exatamente a sensação que vende retorno.</p></div>
+    <div class="box exerc"><span class="tag">Exercício 4</span><p>Em dupla, simule os 4 protocolos de imprevisto (talher caído, derramamento, guardanapo sujo, objeto caído) com um colega fazendo o papel de cliente. Cronometre: o protocolo completo deve ser resolvido em poucos segundos, sem parecer apressado e sem constranger quem está sentado.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 5</span>
+    <h2>Objeções e Reclamações</h2>
+    <h3>Protocolo de resposta</h3>
+    <ol>
+      <li><b>Ouvir</b> sem interromper, mantendo a calma mesmo se o tom do cliente for alterado.</li>
+      <li><b>Reconhecer</b> o problema com sinceridade, sem inventar desculpas nem culpar a cozinha na frente do cliente.</li>
+      <li><b>Resolver</b> dentro da alçada (trocar o prato, ajustar a conta) ou <b>escalar</b> para a liderança já com o fato relatado com clareza.</li>
+      <li><b>Encerrar bem</b>: um gesto de cortesia (sobremesa, desconto pontual) fecha a experiência em tom positivo.</li>
+    </ol>
+    <h3>Causas mais comuns de reclamação</h3>
+    <p>Pedido errado, temperatura do prato fora do ponto, item em falta no cardápio, demora no atendimento, bebida fora do padrão, falha de higiene percebida, reserva não cumprida, demora na conta, erro no valor da nota.</p>
+    <div class="box warn"><span class="tag">Nunca</span><p>Discutir com o cliente, minimizar a reclamação ou prometer algo que não pode ser cumprido pela casa.</p></div>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>Diante de um cliente alterado, o detalhe que mais reduz a tensão não é o que você fala — é a <b>postura</b>. Abaixe-se ou incline-se até ficar próximo da altura dos olhos de quem está sentado, fale mais baixo (não mais alto) e mais devagar do que o cliente está falando. Ficar em pé, olhando de cima, empurra o tom para cima; abaixar o corpo e baixar o volume puxa o tom da conversa pra baixo — é fisiológico, funciona mesmo quando as palavras ainda não resolveram nada.</p></div>
+    <div class="box script"><span class="tag">Script — Reconhecimento sem culpar a cozinha</span><p class="say">Peço desculpas, isso não devia ter acontecido. Já vou resolver isso agora pra você — um minuto.</p></div>
+    <div class="box caso"><span class="tag">Caso prático</span><p>Prato principal (R$ 92) veio com o ponto da carne errado. O garçom reconhece o erro, leva o prato de volta imediatamente e, sem que o cliente peça, oferece uma sobremesa cortesia (R$ 24) ao final — sem desconto na conta, porque o prato foi refeito corretamente e consumido. Custo do gesto: R$ 24. Resultado: reclamação encerrada em tom positivo, sem desconto pedido pelo cliente e sem desgaste na avaliação da casa.</p></div>
+    <div class="box exerc"><span class="tag">Exercício 5</span><p>Escreva a resposta completa (fala + ação) para: um cliente reclama, em tom alterado, que esperou 25 minutos pelo prato principal em uma mesa cheia. Aplique as 4 etapas do protocolo (ouvir, reconhecer, resolver/escalar, encerrar bem).</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 6</span>
+    <h2>Fechamento e Pagamento</h2>
+    <ul>
+      <li>Nunca antecipar a conta — aguardar o cliente sinalizar.</li>
+      <li>Conferir todos os valores antes de levar a nota à mesa.</li>
+      <li>Apresentar a conta discretamente, preferencialmente por quem convidou ou pelo lado direito do anfitrião.</li>
+      <li>Processar o pagamento com agilidade, sem fazer o cliente esperar pela máquina.</li>
+    </ul>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>"Nunca antecipar a conta" não significa nunca se preparar para ela. Quando perceber os sinais de fim de refeição (pratos retirados, conversa mais lenta, olhar em volta procurando o garçom), já deixe a máquina e a nota conferida por perto, prontas para sair da mão em segundos. O cliente sente a agilidade como atenção, não como pressa — porque quem pediu a conta é ele, você só estava pronto.</p></div>
+    <div class="box script"><span class="tag">Script — Levando a máquina</span><p class="say">Aqui está, já confirmei os valores. Posso trazer a máquina com a opção de gorjeta, ou prefere que eu deixe em branco?</p></div>
+    <div class="box caso"><span class="tag">Caso prático</span><p>Conta de uma mesa de 6 pessoas soma 14 itens. Antes de levar à mesa, o garçom confere item a item contra o pedido anotado e encontra uma sobremesa lançada em duplicidade (R$ 26 a mais). Corrige antes de apresentar a conta — o cliente nunca percebe o erro, e a casa evita tanto o prejuízo de um desconto emergencial quanto o desgaste de discutir valor à mesa.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 7</span>
+    <h2>Pós-venda e Fidelização</h2>
+    <ul>
+      <li>Despedida padrão: agradecer, convidar para retornar, desejar boa continuação do dia/noite.</li>
+      <li>Pesquisa rápida de satisfação (verbal ou cartão), sem forçar a resposta.</li>
+      <li>Registrar preferências relevantes (vinho preferido, restrição, data especial) para o próximo atendimento, quando a casa tiver CRM.</li>
+    </ul>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>O detalhe que faz um cliente voltar não é a despedida — é o que você lembra dele na próxima vez. Registrar "vinho tinto, sem cebola, aniversário em outubro" custa 15 segundos depois do turno e vale mais que qualquer script de despedida. Quando não houver CRM, um caderno físico ou uma nota no celular já funciona; o ponto é não depender só da memória.</p></div>
+    <div class="box script"><span class="tag">Script — Despedida com gancho de retorno</span><p class="say">Foi um prazer receber vocês hoje. Da próxima vez me avisa que eu já separo aquela mesa/aquele vinho que vocês gostaram — um bom descanso/boa noite pra vocês!</p></div>
+    <div class="box exerc"><span class="tag">Exercício 7</span><p>Escreva 3 versões da despedida padrão adaptadas para: (1) um casal em data comemorativa, (2) um cliente que veio sozinho e ficou bastante tempo, (3) um grupo de amigos que claramente vai voltar em breve.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 8</span>
+    <h2>Fundamentos de Vinho para o Salão</h2>
+    <p class="muted">Conteúdo pensado para o garçom/recepção, não para o sommelier técnico — o objetivo é dar segurança para recomendar, não formar um especialista em enologia.</p>
+    <h3>Ler o rótulo em 15 segundos</h3>
+    <p>Produtor, região/país e casta (quando não vier escrita, costuma ser dedutível pela região) são suficientes para uma recomendação segura.</p>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>Ler o rótulo em 15 segundos é o mecanismo — mas antes de sugerir, vale ler a etiqueta invisível: a do cliente. Levante o volume da voz e a formalidade da fala 1 nível quando perceber vocabulário técnico ("esse é mais taninoso?") e desça 1 nível quando o cliente hesitar ou rir da própria dúvida ("não manjo nada disso"). Recomendar o mesmo vinho com o mesmo discurso técnico pros dois tipos de cliente é o erro mais comum — o segundo perfil se sente burro e não pede de novo.</p></div>
+    <h3>Régua de peso para harmonização</h3>
+    <ul>
+      <li>Prato leve → vinho leve; prato pesado/encorpado → vinho encorpado.</li>
+      <li>Molho manda mais que a proteína: molho de tomate pede vinho ácido; molho cremoso pede branco ácido; molho oleoso pede tinto de corpo médio.</li>
+      <li>Acidez do vinho "limpa" pratos gordurosos ou fritos.</li>
+      <li>Tanino combina com proteína grelhada; bate mal com peixe delicado ou amargor.</li>
+      <li>Prato apimentado pede tinto de teor alcoólico mais baixo.</li>
+    </ul>
+    <table>
+      <tr><th>Queijo</th><th>Combinação clássica</th></tr>
+      <tr><td>Frescos (ex.: cabra)</td><td>Brancos secos e frescos</td></tr>
+      <tr><td>Azuis (ex.: gorgonzola)</td><td>Vinhos doces/fortificados</td></tr>
+      <tr><td>Duros (ex.: parmesão)</td><td>Tintos frutados leves</td></tr>
+    </table>
+    <h3>Temperatura de serviço</h3>
+    <table>
+      <tr><th>Tipo</th><th>Faixa aproximada</th></tr>
+      <tr><td>Espumante</td><td>6–8°C</td></tr>
+      <tr><td>Branco leve</td><td>8–10°C</td></tr>
+      <tr><td>Branco encorpado</td><td>10–12°C</td></tr>
+      <tr><td>Tinto leve</td><td>13–14°C</td></tr>
+      <tr><td>Tinto encorpado</td><td>16–18°C</td></tr>
+    </table>
+    <h3>Taça certa</h3>
+    <p>Bojo largo (tipo Bordeaux) para tintos encorpados; bojo tipo "balão" (tipo Borgonha) para tintos aromáticos e brancos de guarda; bojo estreito para brancos jovens; taça alongada (flûte) para espumante. Nível de enchimento: 1/3 para tinto, 1/2 para branco, 2/3 para espumante. Sempre segurar pela haste.</p>
+    <h3>Decantação simplificada</h3>
+    <p>Decantar apenas vinhos tintos encorpados ou de guarda longa — nunca brancos, tintos leves ou espumantes. Verter devagar da garrafa para o decantador, sem pressa, evitando misturar eventual sedimento do fundo.</p>
+    <div class="box warn"><span class="tag">Atenção</span><p>Nunca abrir a garrafa antes de mostrar o rótulo a quem pediu, e nunca servir a primeira prova em outra taça que não a de quem escolheu o vinho. É protocolo básico de conferência — evita abrir a garrafa errada (custo integral da garrafa) e dá ao cliente a chance de recusar antes da abertura. Da mesma forma, nunca continuar servindo a um cliente visivelmente embriagado: oferecer água, sugerir uma pausa e, se necessário, acionar a liderança — é responsabilidade da casa, não só gentileza.</p></div>
+    <h3>Roteiro de recomendação ao cliente</h3>
+    <div class="box template"><span class="tag">Template — Roteiro de recomendação</span><p>1. Perguntar o prato escolhido (ou a preferência de sabor).<br>2. Perguntar se prefere algo mais leve ou mais encorpado.<br>3. Em vez de perguntar o valor diretamente, oferecer duas faixas por ocasião: "temos um rótulo mais do dia a dia e um mais especial — qual perfil combina mais com hoje?"<br>Sempre nessa ordem, sem parecer interrogatório.</p></div>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>Perguntar "qual sua faixa de preço?" direto costuma travar o cliente. A pergunta que funciona melhor na prática é indireta: oferecer duas opções já pré-calibradas em faixas diferentes, associadas à ocasião ("mais do dia a dia" vs. "mais especial") em vez de a um valor. O cliente se posiciona pela ocasião, não pelo bolso — e você descobre a faixa de preço sem nunca ter perguntado quanto ele quer gastar.</p></div>
+    <div class="box script"><span class="tag">Script — Cliente inseguro ("não entendo nada de vinho")</span><p class="say">Sem problema, não precisa entender — me conta só se você curte algo mais leve ou mais forte, e eu trago uma opção certeira pro que você pediu.</p></div>
+    <div class="box script"><span class="tag">Script — Possível problema na garrafa (rolha)</span><p class="say">Deixa eu confirmar rapidinho se está tudo certo com esse vinho — um segundo. (Se houver defeito) Você tem toda razão, esse rótulo não está no padrão. Já troco a garrafa sem custo nenhum pra vocês.</p></div>
+    <div class="box caso"><span class="tag">Caso prático</span><p>Mesa pede um peixe grelhado e pergunta "qual vinho combina?". Em vez de indicar só um rótulo, o garçom oferece dois brancos secos e frescos em faixas diferentes (R$ 89 e R$ 145), explicando a diferença em uma frase (o segundo é de uma região mais reconhecida pelo perfil, mais mineral). A mesa escolhe o de R$ 145. Resultado: recomendação tecnicamente correta (branco seco e fresco para peixe), decisão do cliente preservada, ticket da bebida quase 63% maior que se só a opção mais barata tivesse sido oferecida.</p></div>
+    <div class="box exerc"><span class="tag">Exercício 8</span><p>Um cliente pede uma carne vermelha grelhada e diz "não sei nada de vinho, me indica algo bom". Escreva a recomendação completa: a pergunta de calibragem, a explicação técnica em 1 frase e as duas opções de faixa de preço oferecidas.</p></div>
+
+    <h3>Abertura e apresentação da garrafa, passo a passo</h3>
+    <p class="muted">A recomendação certa perde metade do efeito se a abertura na mesa parecer insegura. O ritual abaixo é o que sustenta a confiança do cliente no momento em que a garrafa já foi escolhida.</p>
+    <div class="box template"><span class="tag">Template — Ritual de abertura à mesa</span>
+    <ol>
+      <li>Mostrar o rótulo a quem pediu o vinho — produtor, safra e eventual diferença para o que está no cardápio — sempre antes de cortar o lacre.</li>
+      <li>Cortar a cápsula abaixo do bojo da garrafa, não no meio, sem girar a garrafa com força.</li>
+      <li>Passar o guardanapo na boca da garrafa antes de extrair a rolha.</li>
+      <li>Extrair a rolha devagar, controlando a saída com a mão — o objetivo é um "suspiro", nunca um estouro.</li>
+      <li>Checar rapidamente o cheiro da rolha e o aspecto da ponta que ficou em contato com o vinho: é um checkpoint de poucos segundos, não uma encenação para a mesa.</li>
+      <li>Servir uma prova pequena a quem pediu o vinho e aguardar o aceite antes de servir os demais.</li>
+      <li>Servir os convidados primeiro, terminando por quem escolheu o vinho ou pelo anfitrião, sempre completando a taça pelo lado direito do cliente.</li>
+      <li>Tinto permanece à mesa; branco e espumante voltam ao balde de gelo, com o gargalo enxuto antes de repousar.</li>
+    </ol>
+    </div>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>Cheirar a rolha não serve para "cheirar o vinho" — serve para pegar em segundos um problema que, senão, só apareceria depois de já ter servido as seis taças da mesa. Cheiro de papelão molhado ou porão sinaliza contaminação; vinho com cheiro de vinagre ou maçã cozida já na boca da garrafa pede uma segunda prova antes de continuar. O cliente nunca precisa saber que esse checkpoint aconteceu — só precisa nunca receber a taça com problema.</p></div>
+
+    <h3>Ordem de serviço quando a mesa pede mais de um vinho</h3>
+    <p>Em refeições com mais de uma garrafa, a ordem em que os vinhos chegam muda a forma como cada um é percebido: um vinho leve servido logo depois de um encorpado tende a parecer "sem graça", mesmo sendo excelente.</p>
+    <ul>
+      <li>Do mais leve para o mais encorpado.</li>
+      <li>Do mais seco para o mais doce — vinho de sobremesa sempre por último.</li>
+      <li>Do mais jovem para o mais velho, quando a mesa pedir mais de uma safra do mesmo rótulo.</li>
+      <li>Espumante, quando entra como aperitivo, sempre abre a sequência — nunca aparece no meio ou no fim.</li>
+      <li>Branco antes de tinto é a referência mais conhecida, mas não é regra fixa: um branco encorpado e amadeirado pode perfeitamente vir depois de um tinto leve, se for o que a sequência de pratos pedir.</li>
+    </ul>
+    <div class="box caso"><span class="tag">Caso prático</span><p>Mesa fecha um menu degustação com harmonização: espumante como aperitivo, branco encorpado com o prato de peixe, tinto leve com a entrada de carne e tinto encorpado com o principal, fechando com um vinho de sobremesa. Nessa ordem, cada rótulo "brilha" no seu momento. Invertida — por exemplo, servindo o tinto encorpado antes do branco amadeirado — o branco chegaria apagado ao paladar da mesa, mesmo sendo um rótulo mais caro que o anterior.</p></div>
+
+    <h3>Espumante: abertura sem sustos</h3>
+    <p>A garrafa de espumante está sob pressão — o cuidado na abertura é tanto uma questão de segurança quanto de padrão de serviço.</p>
+    <ol>
+      <li>Manter a garrafa bem gelada antes de abrir; facilita o controle da pressão.</li>
+      <li>Retirar o gradil de arame mantendo a palma da mão sobre a rolha o tempo todo.</li>
+      <li>Inclinar a garrafa a cerca de 45°, nunca apontando para nenhuma pessoa.</li>
+      <li>Girar a base da garrafa — não a rolha — segurando-a com firmeza crescente até sentir a pressão empurrando.</li>
+      <li>Buscar o "suspiro", não o estouro: quanto mais silenciosa a abertura, mais controlada, e menos vinho se perde em espuma pela borda.</li>
+      <li>Servir em duas etapas: um dedo de vinho, esperar a espuma baixar, completar até 2/3 da taça.</li>
+    </ol>
+
+    <h3>Vinhos de sobremesa e fortificados</h3>
+    <p>Além do vinho de mesa, existe uma família pensada para o fim da refeição: os fortificados, que recebem adição de aguardente vínica durante ou logo após a fermentação — elevando o teor alcoólico e preservando açúcar residual — e os vinhos doces naturais, feitos de uvas com concentração extra de açúcar por secagem ou por ação de um fungo benéfico que desidrata a uva ainda na parreira.</p>
+    <ul>
+      <li>Servidos em doses menores, em torno de 60 a 90 ml — a taça pode ser menor que a de vinho de mesa.</li>
+      <li>Combinam bem com queijos de veia azul, chocolate amargo, castanhas e sobremesas à base de frutas secas.</li>
+      <li>Alguns estilos pedem leve resfriamento mesmo sendo tintos ou âmbar — vale confirmar a ficha de cada rótulo específico na carta da casa antes de recomendar a temperatura.</li>
+    </ul>
+
+    <h3>Vocabulário de aromas — ferramenta para descrever o vinho ao cliente</h3>
+    <p>Ter um pequeno repertório de palavras por categoria ajuda a sugerir vinho com naturalidade, sem soar decorado.</p>
+    <table>
+      <tr><th>Categoria</th><th>Exemplos de aroma</th></tr>
+      <tr><td>Florais</td><td>Rosas, violetas, flor de laranjeira</td></tr>
+      <tr><td>Frutados</td><td>Cereja, framboesa, cassis, maçã verde, pêssego, frutas tropicais</td></tr>
+      <tr><td>Especiarias</td><td>Pimenta-do-reino, canela, cravo, noz-moscada</td></tr>
+      <tr><td>Vegetais/ervas</td><td>Grama cortada, feno, chá, cogumelo</td></tr>
+      <tr><td>Minerais</td><td>Pedra molhada, giz, grafite</td></tr>
+      <tr><td>Tostados</td><td>Café, chocolate, pão torrado, baunilha — típico de vinho com passagem por carvalho</td></tr>
+    </table>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>Não é preciso "acertar" a palavra exata que o enólogo colocaria na ficha técnica — o que vende é a segurança da fala, não a precisão absoluta. "Esse tem um perfume mais de fruta vermelha, fresquinho" já cumpre o papel de orientar o cliente, mesmo que um especialista descrevesse o mesmo vinho com outras dez palavras.</p></div>
+
+    <h3>Defeitos mais comuns — o que perceber antes de servir a mesa</h3>
+    <table>
+      <tr><th>Defeito</th><th>Como perceber</th><th>O que fazer</th></tr>
+      <tr><td>Rolha (contaminação)</td><td>Cheiro de papelão molhado, mofo, porão</td><td>Trocar a garrafa sem custo para o cliente — é defeito do vinho, não escolha dele</td></tr>
+      <tr><td>Oxidação</td><td>Cor amarronzada além do esperado pela idade; cheiro de maçã cozida ou xerez num vinho que não deveria ter esse perfil</td><td>Confirmar com uma prova antes de servir a mesa; se confirmado, trocar</td></tr>
+      <tr><td>Redução</td><td>Cheiro de ovo cozido ou palito de fósforo recém-riscado logo ao abrir</td><td>Costuma passar ao arejar — girar bem o vinho na taça ou decantar rapidamente antes de considerar a garrafa defeituosa</td></tr>
+      <tr><td>Refermentação indesejada</td><td>Bolhas leves num vinho que não é espumante</td><td>Trocar — é sinal de instabilidade microbiológica da garrafa</td></tr>
+    </table>
+    <div class="box warn"><span class="tag">Armazenamento na casa</span><p>Garrafas com rolha de cortiça devem ficar deitadas — a rolha precisa continuar em contato com o vinho para não ressecar e deixar entrar ar. Guardar longe de luz direta, fontes de calor e vibração constante (perto de motor de geladeira ou expositor, por exemplo), em temperatura o mais estável possível. Um vinho de guarda armazenado errado por poucos meses pode perder o que levou anos para se formar.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 9</span>
+    <h2>Padrão de Excelência ArtBlend</h2>
+    <p>Referências internacionais de hospitalidade de alto padrão convergem em dois pontos que a ArtBlend adota como meta para os clientes que buscam nível internacional de atendimento:</p>
+    <h3>Atenção proporcional</h3>
+    <p>Casas de padrão internacional trabalham com poucas mesas por garçom (em torno de 3 a 4, com apoio de um cumim dedicado) exatamente para sustentar o nível de atenção descrito neste manual — em vez de tentar aplicar tudo isso com uma carga de 8 mesas por pessoa. Ajustar a proporção de equipe é parte da consultoria, não só o treinamento individual.</p>
+    <h3>Contratar por atitude, treinar a técnica</h3>
+    <p>Casas reconhecidas internacionalmente pela qualidade de atendimento priorizam, na contratação, pessoas que genuinamente gostam de servir — porque a técnica deste manual se ensina, mas a disposição para cuidar do outro é mais difícil de formar depois. Recomenda-se considerar isso já na entrevista de seleção da equipe de salão.</p>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>A proporção de "3 a 4 mesas por garçom" não é um número arbitrário de luxo — é matemática de atenção. Com a regra dos 2 minutos aplicada a 8 mesas, cada retorno de checagem já leva o garçom à mesa seguinte antes de terminar a anterior: a atenção vira corrida. Com 3–4 mesas, sobra folga real para captar os sinais finos (mãos na mesa, cardápio fechado, guardanapo dobrado) descritos neste manual. Ao vender consultoria, é este cálculo — não uma opinião sobre "padrão internacional" — que justifica ajustar o quadro de equipe antes de cobrar por treinamento.</p></div>
+    <p>Mapa completo do atendimento, do primeiro contato ao pós-venda:</p>
+    <div class="chain">Recepção → Abertura &amp; Cardápio → Sugestão consultiva → Acompanhamento (regra dos 2 min) → Objeções (se houver) → Fechamento &amp; Pagamento → Pós-venda &amp; Fidelização</div>
+    <h3>Checklist final de autoavaliação</h3>
+    <div class="box template"><span class="tag">Template — Autoavaliação de turno</span>
+    <ul>
+      <li>Recebi o cliente em até 1 minuto, com sorriso genuíno?</li>
+      <li>Sugeri algo com conhecimento real do prato, sem empurrar?</li>
+      <li>Voltei à mesa nos primeiros minutos após servir o prato principal?</li>
+      <li>Se algo deu errado, resolvi ou escalei sem deixar o cliente esperando?</li>
+      <li>Me despedi de um jeito que deixa vontade de voltar?</li>
+    </ul>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 10</span>
+    <h2>Serviço de Buffet e Eventos</h2>
+    <p>Eventos corporativos, sociais e institucionais fogem do ritmo do à la carte tradicional: o cardápio, a duração e a forma de servir mudam conforme o tipo de ocasião, e isso muda também como a equipe precisa se organizar. Reconhecer o formato do evento antes de montar a operação evita boa parte dos erros de execução.</p>
+    <h3>Formatos mais comuns</h3>
+    <table>
+      <tr><th>Formato</th><th>Duração típica</th><th>Características</th></tr>
+      <tr><td>Coffee break</td><td>30–60 min</td><td>Serve de intervalo dentro de um evento maior (curso, reunião, convenção); mesa fixa com reposição constante; cardápio simples, de fácil manuseio em pé — salgados pequenos, doces, café, sucos.</td></tr>
+      <tr><td>Brunch</td><td>2–3h</td><td>Mistura formato de café da manhã e almoço; costuma ser self-service ou misto (estações + itens à mesa); horário de chegada mais flexível, com convidados entrando em momentos diferentes.</td></tr>
+      <tr><td>Banquete</td><td>2–4h</td><td>Evento sentado e formal, cardápio fechado e definido com antecedência; os convidados costumam ser servidos em sincronia, por mesa ou pelo salão inteiro.</td></tr>
+      <tr><td>Coquetel</td><td>1,5–3h</td><td>Evento em pé, sem lugares fixos; a comida circula até o convidado em bandejas, em vez de o convidado ir até a comida; ritmo de reposição constante e visual.</td></tr>
+      <tr><td>Finger food</td><td>Varia conforme o evento</td><td>Não é um evento em si, mas um estilo de cardápio: porções individuais para comer em uma ou duas mordidas, sem talher; muito usado em coquetéis, mas pode estruturar uma recepção inteira.</td></tr>
+    </table>
+    <h3>Montagem e equipe</h3>
+    <ul>
+      <li>O tempo de montagem (mise en place do evento) deve ser calculado à parte do horário de início — nunca terminar a montagem em cima da chegada dos convidados.</li>
+      <li>Formato em pé (coquetel) exige mais garçons circulando com menos itens por bandeja; formato sentado (banquete) exige menos garçons, porém mais sincronizados entre si.</li>
+      <li>Buffet fixo (coffee break, brunch) precisa de um responsável de reposição visível — o cliente não deve ver uma travessa vazia sem reposição a caminho.</li>
+      <li>Reservar equipe e tempo específicos para a desmontagem, etapa que costuma ser subestimada no planejamento do evento.</li>
+    </ul>
+    <div class="box warn"><span class="tag">Erros comuns de execução</span><p>Calcular a quantidade de comida sem considerar o pico de consumo dos primeiros minutos (é quando a maior parte dos convidados se serve pela primeira vez); deixar travessas do buffet vazias sem reposição visível; não reservar equipe exclusiva para a desmontagem; servir bebida alcoólica em coquetéis sem qualquer controle de ritmo; conduzir buffet self-service sem sinalização clara de alérgenos e ingredientes.</p></div>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>Os primeiros 15 minutos de qualquer buffet aberto concentram a maior parte da demanda do evento inteiro — é quando praticamente todo mundo se serve pela primeira vez ao mesmo tempo. Reforce a equipe de reposição exatamente nesse intervalo, mesmo que isso signifique reduzir depois: um buffet que "quebra" nos primeiros minutos deixa uma primeira impressão que o resto do evento não consegue mais consertar.</p></div>
+    <div class="box caso"><span class="tag">Caso prático</span><p>Evento formato coquetel para 150 convidados, com finger food circulando em bandejas. Para serviço sentado, a referência prática é de 1 garçom para cada 20–25 convidados; em coquetel com circulação de bandejas essa proporção cai, porque cada volta ao salão consome mais tempo por convidado atendido — a referência passa para 1 garçom a cada 12–15 convidados. Para 150 pessoas: 150 ÷ 13 (média da faixa) ≈ 11 a 12 garçons de circulação, além da equipe de cozinha, bar e do responsável pela reposição das estações fixas, calculados à parte.</p></div>
+    <div class="box exerc"><span class="tag">Exercício 10</span><p>Um cliente está fechando um evento para 80 pessoas e ainda não decidiu entre coquetel e banquete sentado. Escreva as 3 perguntas que você faria a esse cliente para ajudá-lo a decidir, e explique em uma frase o impacto de cada formato na equipe necessária.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 11</span>
+    <h2>Tipos de Serviço de Salão</h2>
+    <p>Existem alguns estilos clássicos de levar o prato até o cliente, e cada um muda o nível de formalidade, o ritmo do serviço e a quantidade de equipe necessária. Conhecer as diferenças ajuda a equipe a executar o estilo certo — e ajuda a consultoria a recomendar o estilo certo para cada tipo de casa ou evento.</p>
+    <h3>Os estilos clássicos</h3>
+    <p><b>À francesa:</b> o garçom leva a travessa até a mesa e o próprio cliente se serve, usando os talheres de serviço apoiados na travessa. É o estilo que mais dá autonomia ao convidado sobre a própria porção.</p>
+    <p><b>À inglesa direta:</b> o garçom serve diretamente da travessa para o prato do cliente, usando pinça ou talheres de serviço, sem que o cliente participe do gesto.</p>
+    <p><b>À inglesa indireta:</b> o garçom transfere a comida da travessa para o prato apoiado em uma mesa auxiliar (gueridon) ao lado da mesa, e só então posiciona o prato pronto à frente do cliente.</p>
+    <p><b>À russa:</b> o prato é finalizado diante do cliente, geralmente em um carrinho ou mesa auxiliar posicionado ao lado da mesa — o garçom conclui a montagem, o corte ou até a flambagem na presença de quem vai comer.</p>
+    <p><b>Empratado (prato montado na cozinha):</b> o prato sai pronto da cozinha e o garçom apenas o posiciona à mesa. É o estilo mais comum no dia a dia de restaurantes à la carte.</p>
+    <p><b>Self-service de circuito livre:</b> o cliente se desloca livremente até o buffet, escolhe os itens e a quantidade na ordem que quiser, quantas vezes quiser.</p>
+    <p><b>Self-service de circuito imposto:</b> o cliente segue um percurso fixo e direcionado pelo buffet (por exemplo, entradas → pratos quentes → sobremesas, sempre nessa ordem), normalmente com sentido único de circulação — usado para organizar filas grandes e reduzir desperdício.</p>
+    <h3>Como funciona o serviço à russa, passo a passo</h3>
+    <div class="chain">Prato semipronto sai da cozinha → Mesa auxiliar (gueridon) é posicionada ao lado do cliente → Garçom finaliza o prato à vista do convidado → Prato finalizado é servido diretamente ao cliente</div>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>O estilo de serviço não é só uma questão de formalidade — é também uma ferramenta de ritmo. Estilos com mais intervenção do garçom (à russa, à inglesa indireta) tomam mais tempo por mesa e funcionam melhor com poucos convidados e mais equipe disponível; estilos mais diretos (empratado, à inglesa direta) sustentam giro alto de mesas. Ao montar a operação de um evento ou de uma casa nova, escolher o estilo antes de calcular o quadro de equipe evita subdimensionar a operação.</p></div>
+    <div class="box template"><span class="tag">Template — Qual estilo usar em cada situação</span>
+    <ul>
+      <li><b>À francesa:</b> eventos e jantares que buscam formalidade com participação do convidado na própria porção.</li>
+      <li><b>À inglesa direta:</b> banquetes de porte médio a grande, quando se precisa de agilidade com ainda alguma formalidade.</li>
+      <li><b>À inglesa indireta:</b> eventos formais que buscam elegância com mais fluidez que a francesa, sem chegar à teatralidade da russa.</li>
+      <li><b>À russa:</b> fine dining e ocasiões de alto padrão, com poucos convidados e equipe disponível para dedicação por mesa.</li>
+      <li><b>Empratado:</b> operação do dia a dia em restaurante à la carte, com giro de mesa mais alto.</li>
+      <li><b>Self-service de circuito livre:</b> ambientes casuais, rodízios e buffets livres, priorizando a autonomia do cliente.</li>
+      <li><b>Self-service de circuito imposto:</b> eventos grandes, quando o objetivo é controlar o fluxo de pessoas e reduzir desperdício de alimento.</li>
+    </ul>
+    </div>
+    <div class="box exerc"><span class="tag">Exercício 11</span><p>Uma casa está planejando um jantar de confraternização para 12 convidados de uma empresa, com orçamento para reforçar a equipe de salão naquela noite. Escolha o estilo de serviço mais adequado entre os sete descritos, e justifique a escolha considerando o número de convidados, a equipe disponível e a formalidade esperada do evento.</p></div>
+  </div>
+
+  <div class="footer">
+    ArtBlend Consultoria Gourmet — Metodologia própria de Vendas & Atendimento de Salão.<br>
+    Conteúdo original, desenvolvido a partir de referências técnicas gerais do setor de hospitalidade.
+  </div>
+
+</div>
+</body>
+</html>

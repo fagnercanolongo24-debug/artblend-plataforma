@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>artblend — CEP 40H</title>
+<style>
+  :root{
+    --bg:#0d1117; --bg2:#161b22; --bg3:#1c2128; --border:#30363d;
+    --text:#e6edf3; --muted:#8b949e;
+    --c1:#3b82f6; --c2:#8b5cf6; --c3:#10b981; --c4:#f59e0b;
+    --c5:#ef4444; --c6:#06b6d4; --c7:#ec4899; --c8:#84cc16;
+    --c9:#f97316; --c10:#6366f1;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+  /* TOPO */
+  .topbar{
+    background:rgba(13,17,23,0.95);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200;
+    display:flex;align-items:center;justify-content:space-between;padding:12px 32px;
+  }
+  .brand{font-size:24px;font-weight:900;letter-spacing:-1px;color:#f0f6fc;}
+  .brand span{font-size:12px;font-weight:400;color:var(--muted);margin-left:8px;vertical-align:middle;}
+  .nav-pills{display:flex;gap:8px;flex-wrap:wrap;}
+  .pill{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .15s;text-decoration:none;color:var(--muted);background:var(--bg3);border-color:var(--border);}
+  .pill:hover{color:var(--text);}
+  .progress-wrap{display:flex;align-items:center;gap:8px;}
+  .prog-bar{width:100px;height:4px;background:var(--border);border-radius:2px;}
+  .prog-fill{height:4px;background:var(--c1);border-radius:2px;width:0%;transition:width .3s;}
+  .prog-label{font-size:11px;color:var(--muted);min-width:28px;}
+
+  /* HERO */
+  .hero{
+    padding:72px 48px 56px;text-align:center;
+    background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(59,130,246,0.18) 0%,transparent 60%);
+    border-bottom:1px solid var(--border);position:relative;overflow:hidden;
+  }
+  .hero::after{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(ellipse 60% 40% at 80% 100%,rgba(139,92,246,0.12) 0%,transparent 60%);
+    pointer-events:none;
+  }
+  .hero-label{display:inline-block;padding:6px 16px;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.35);border-radius:20px;font-size:12px;font-weight:700;color:var(--c1);letter-spacing:1px;margin-bottom:20px;}
+  .hero h1{font-size:48px;font-weight:900;line-height:1.1;letter-spacing:-2px;}
+  .hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--c1),var(--c2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .hero p{color:var(--muted);font-size:16px;max-width:580px;margin:16px auto 0;line-height:1.7;}
+  .hero-stats{display:flex;justify-content:center;gap:40px;margin-top:40px;flex-wrap:wrap;}
+  .stat{text-align:center;}
+  .stat-num{font-size:32px;font-weight:900;line-height:1;}
+  .stat-label{font-size:12px;color:var(--muted);margin-top:4px;}
+
+  /* MÓDULOS GRID */
+  .section{padding:48px 48px 32px;}
+  .section-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:24px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
+
+  .mod-card{
+    border-radius:14px;padding:24px;cursor:pointer;text-decoration:none;display:block;
+    position:relative;overflow:hidden;border:1px solid var(--border);transition:all .2s;
+    background:var(--bg2);
+  }
+  .mod-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .2s;border-radius:14px;}
+  .mod-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,0.4);}
+  .mod-card:hover::before{opacity:1;}
+
+  .m1::before,.m1:hover{border-color:var(--c1);}  .m1::before{background:linear-gradient(135deg,rgba(59,130,246,0.12),transparent);}
+  .m2::before,.m2:hover{border-color:var(--c4);}  .m2::before{background:linear-gradient(135deg,rgba(245,158,11,0.12),transparent);}
+  .m3::before,.m3:hover{border-color:var(--c2);}  .m3::before{background:linear-gradient(135deg,rgba(139,92,246,0.12),transparent);}
+  .m4::before,.m4:hover{border-color:var(--c6);}  .m4::before{background:linear-gradient(135deg,rgba(6,182,212,0.12),transparent);}
+  .m5::before,.m5:hover{border-color:var(--c9);}  .m5::before{background:linear-gradient(135deg,rgba(249,115,22,0.12),transparent);}
+  .m6::before,.m6:hover{border-color:var(--c3);}  .m6::before{background:linear-gradient(135deg,rgba(16,185,129,0.12),transparent);}
+  .m7::before,.m7:hover{border-color:var(--c7);}  .m7::before{background:linear-gradient(135deg,rgba(236,72,153,0.12),transparent);}
+  .m8::before,.m8:hover{border-color:var(--c5);}  .m8::before{background:linear-gradient(135deg,rgba(239,68,68,0.12),transparent);}
+  .m9::before,.m9:hover{border-color:var(--c8);}  .m9::before{background:linear-gradient(135deg,rgba(132,204,22,0.12),transparent);}
+  .m10::before,.m10:hover{border-color:var(--c10);} .m10::before{background:linear-gradient(135deg,rgba(99,102,241,0.12),transparent);}
+
+  .card-num{font-size:11px;font-weight:800;margin-bottom:10px;letter-spacing:1px;}
+  .card-icon{font-size:28px;margin-bottom:10px;display:block;}
+  .card-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px;line-height:1.3;}
+  .card-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+  .card-badge{display:inline-block;margin-top:14px;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;}
+
+  /* CONTEÚDO */
+  .content{max-width:1000px;margin:0 auto;padding:0 48px 80px;}
+
+  .mod-block{margin-bottom:72px;scroll-margin-top:70px;}
+  .mod-header{display:flex;align-items:center;gap:16px;padding:24px 28px;border-radius:14px 14px 0 0;margin-bottom:2px;}
+  .mod-icon{font-size:32px;}
+  .mod-htitle{font-size:22px;font-weight:900;color:#fff;}
+  .mod-hnum{font-size:12px;font-weight:700;opacity:.7;margin-top:2px;}
+  .mod-body{background:var(--bg2);border:1px solid var(--border);border-radius:0 0 14px 14px;padding:28px 32px;}
+
+  /* Gradientes dos headers */
+  .hd1{background:linear-gradient(135deg,rgba(59,130,246,0.35),rgba(59,130,246,0.1));border:1px solid rgba(59,130,246,0.4);}
+  .hd2{background:linear-gradient(135deg,rgba(245,158,11,0.35),rgba(245,158,11,0.1));border:1px solid rgba(245,158,11,0.4);}
+  .hd3{background:linear-gradient(135deg,rgba(139,92,246,0.35),rgba(139,92,246,0.1));border:1px solid rgba(139,92,246,0.4);}
+  .hd4{background:linear-gradient(135deg,rgba(6,182,212,0.35),rgba(6,182,212,0.1));border:1px solid rgba(6,182,212,0.4);}
+  .hd5{background:linear-gradient(135deg,rgba(249,115,22,0.35),rgba(249,115,22,0.1));border:1px solid rgba(249,115,22,0.4);}
+  .hd6{background:linear-gradient(135deg,rgba(16,185,129,0.35),rgba(16,185,129,0.1));border:1px solid rgba(16,185,129,0.4);}
+  .hd7{background:linear-gradient(135deg,rgba(236,72,153,0.35),rgba(236,72,153,0.1));border:1px solid rgba(236,72,153,0.4);}
+  .hd8{background:linear-gradient(135deg,rgba(239,68,68,0.35),rgba(239,68,68,0.1));border:1px solid rgba(239,68,68,0.4);}
+  .hd9{background:linear-gradient(135deg,rgba(132,204,22,0.35),rgba(132,204,22,0.1));border:1px solid rgba(132,204,22,0.4);}
+  .hd10{background:linear-gradient(135deg,rgba(99,102,241,0.35),rgba(99,102,241,0.1));border:1px solid rgba(99,102,241,0.4);}
+
+  h3{font-size:16px;font-weight:800;margin:24px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .c1-t{color:var(--c1);} .c2-t{color:var(--c2);} .c3-t{color:var(--c3);} .c4-t{color:var(--c4);}
+  .c5-t{color:var(--c5);} .c6-t{color:var(--c6);} .c7-t{color:var(--c7);} .c8-t{color:var(--c8);}
+  .c9-t{color:var(--c9);} .c10-t{color:var(--c10);}
+  p{font-size:14px;color:#c9d1d9;line-height:1.8;margin-bottom:12px;}
+  .lead{font-size:15px;color:var(--muted);line-height:1.7;padding:16px 20px;background:var(--bg3);border-radius:8px;border-left:3px solid;margin-bottom:24px;}
+
+  table{width:100%;border-collapse:collapse;margin:12px 0 20px;font-size:13px;}
+  th{padding:10px 14px;text-align:left;font-weight:700;border-bottom:2px solid;background:rgba(255,255,255,0.04);}
+  td{padding:9px 14px;border-bottom:1px solid var(--border);color:#c9d1d9;vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  tr:hover td{background:rgba(255,255,255,0.03);}
+
+  /* callouts */
+  .box{padding:16px 20px;border-radius:10px;margin:14px 0;font-size:13px;line-height:1.7;border-left:4px solid;}
+  .box strong{display:block;margin-bottom:4px;}
+  .box-blue{background:rgba(59,130,246,0.1);border-color:var(--c1);color:#93c5fd;}
+  .box-purple{background:rgba(139,92,246,0.1);border-color:var(--c2);color:#c4b5fd;}
+  .box-green{background:rgba(16,185,129,0.1);border-color:var(--c3);color:#6ee7b7;}
+  .box-yellow{background:rgba(245,158,11,0.1);border-color:var(--c4);color:#fcd34d;}
+  .box-red{background:rgba(239,68,68,0.1);border-color:var(--c5);color:#fca5a5;}
+  .box-cyan{background:rgba(6,182,212,0.1);border-color:var(--c6);color:#67e8f9;}
+  .box-pink{background:rgba(236,72,153,0.1);border-color:var(--c7);color:#f9a8d4;}
+  .box-lime{background:rgba(132,204,22,0.1);border-color:var(--c8);color:#bef264;}
+  .box-orange{background:rgba(249,115,22,0.1);border-color:var(--c9);color:#fdba74;}
+
+  /* badges */
+  .bdg{display:inline-block;padding:2px 10px;border-radius:6px;font-size:11px;font-weight:700;}
+  .b-blue{background:rgba(59,130,246,0.2);color:#93c5fd;}
+  .b-green{background:rgba(16,185,129,0.2);color:#6ee7b7;}
+  .b-yellow{background:rgba(245,158,11,0.2);color:#fcd34d;}
+  .b-red{background:rgba(239,68,68,0.2);color:#fca5a5;}
+  .b-purple{background:rgba(139,92,246,0.2);color:#c4b5fd;}
+  .b-cyan{background:rgba(6,182,212,0.2);color:#67e8f9;}
+  .b-orange{background:rgba(249,115,22,0.2);color:#fdba74;}
+
+  /* code */
+  .tpl{background:#0d1117;border:1px solid var(--border);border-radius:8px;padding:18px;font-family:'Courier New',monospace;font-size:12px;color:#8b949e;margin:14px 0;line-height:1.7;overflow-x:auto;}
+  .tpl .hl{color:var(--c6);font-weight:700;}
+
+  ul,ol{padding-left:20px;margin:10px 0;}
+  li{font-size:13px;color:#c9d1d9;line-height:1.8;margin-bottom:3px;}
+  li strong{color:var(--text);}
+  hr{border:none;border-top:1px solid var(--border);margin:28px 0;}
+
+  /* TABELA METODOLOGIAS */
+  .meto-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin:16px 0;}
+  .meto-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;display:flex;align-items:flex-start;gap:12px;}
+  .meto-num{font-size:11px;font-weight:800;color:var(--muted);min-width:22px;}
+  .meto-name{font-size:13px;font-weight:700;color:var(--text);}
+  .meto-use{font-size:11px;color:var(--muted);margin-top:2px;}
+
+  /* GLOSSÁRIO */
+  .glos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:16px 0;}
+  .glos-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;}
+  .glos-term{font-size:13px;font-weight:800;color:var(--c6);margin-bottom:3px;}
+  .glos-def{font-size:12px;color:var(--muted);line-height:1.5;}
+
+  /* BACK TO TOP */
+  .fab{position:fixed;bottom:28px;right:28px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--c1),var(--c2));border:none;color:#fff;font-size:20px;cursor:pointer;box-shadow:0 4px 16px rgba(59,130,246,.5);opacity:0;transition:opacity .3s;z-index:300;display:flex;align-items:center;justify-content:center;}
+  .fab.show{opacity:1;}
+
+  @media(max-width:768px){
+    .hero{padding:40px 20px;}
+    .hero h1{font-size:30px;}
+    .topbar{padding:10px 16px;}
+    .nav-pills{display:none;}
+    .section,.content{padding:24px 16px;}
+    .mod-body{padding:18px 16px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="brand">artblend <span>Consultoria Gourmet</span></div>
+  <div class="nav-pills">
+    <a class="pill" href="#m1">01</a><a class="pill" href="#m2">02</a>
+    <a class="pill" href="#m3">03</a><a class="pill" href="#m4">04</a>
+    <a class="pill" href="#m5">05</a><a class="pill" href="#m6">06</a>
+    <a class="pill" href="#m7">07</a><a class="pill" href="#m8">08</a>
+    <a class="pill" href="#m9">09</a><a class="pill" href="#m10">10</a>
+    <a class="pill" href="#metodologias">35 Meto.</a>
+    <a class="pill" href="#glossario">Glossário</a>
+  </div>
+  <div class="progress-wrap">
+    <div class="prog-bar"><div class="prog-fill" id="pf"></div></div>
+    <div class="prog-label" id="pl">0%</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">📚 CURSO COMPLETO · 40 HORAS · 10 MÓDULOS</div>
+  <h1>CEP — Consultor<br><em>Estratégico de Pessoas</em></h1>
+  <p>Metodologia completa para food service. Das escutas estratégicas aos indicadores mundiais de RH. Tudo que você precisa para ser o melhor CEP do mercado.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num" style="color:var(--c1)">40H</div><div class="stat-label">de conteúdo</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--c2)">10</div><div class="stat-label">módulos</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--c3)">35+</div><div class="stat-label">metodologias</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--c4)">5</div><div class="stat-label">templates prontos</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--c9)">🍽️</div><div class="stat-label">food service</div></div>
+  </div>
+</div>
+
+<!-- GRID DE MÓDULOS -->
+<div class="section">
+  <div class="section-label">Navegue pelos módulos</div>
+  <div class="grid">
+    <a class="mod-card m1" href="#m1"><span class="card-icon">🎯</span><div class="card-num" style="color:var(--c1)">MÓDULO 01 · 4H</div><div class="card-title">Fundamentos do CEP</div><div class="card-desc">Modelo, 4 pilares, precificação e identidade do consultor</div><span class="card-badge" style="background:rgba(59,130,246,0.2);color:var(--c1)">Base</span></a>
+    <a class="mod-card m2" href="#m2"><span class="card-icon">💰</span><div class="card-num" style="color:var(--c4)">MÓDULO 02 · 4H</div><div class="card-title">Diagnóstico Financeiro</div><div class="card-desc">Benchmarks, folha, compras, ticket médio e People Analytics</div><span class="card-badge" style="background:rgba(245,158,11,0.2);color:var(--c4)">Financeiro</span></a>
+    <a class="mod-card m3" href="#m3"><span class="card-icon">👂</span><div class="card-num" style="color:var(--c2)">MÓDULO 03 · 6H</div><div class="card-title">Escutas Estratégicas</div><div class="card-desc">Técnica comportamental, 5 categorias, 3G e CNV</div><span class="card-badge" style="background:rgba(139,92,246,0.2);color:var(--c2)">Diagnóstico</span></a>
+    <a class="mod-card m4" href="#m4"><span class="card-icon">🧠</span><div class="card-num" style="color:var(--c6)">MÓDULO 04 · 4H</div><div class="card-title">RH Estratégico & HRBP</div><div class="card-desc">Dave Ulrich, OKR, BSC, Gallup Q12, EVP e Employer Branding</div><span class="card-badge" style="background:rgba(6,182,212,0.2);color:var(--c6)">Estratégia</span></a>
+    <a class="mod-card m5" href="#m5"><span class="card-icon">📋</span><div class="card-num" style="color:var(--c9)">MÓDULO 05 · 4H</div><div class="card-title">Treinamento & Desenvolvimento</div><div class="card-desc">T&D, 70/30%, Dinâmica dos Animais, Kirkpatrick e iSpring</div><span class="card-badge" style="background:rgba(249,115,22,0.2);color:var(--c9)">T&D</span></a>
+    <a class="mod-card m6" href="#m6"><span class="card-icon">🔍</span><div class="card-num" style="color:var(--c3)">MÓDULO 06 · 4H</div><div class="card-title">Processos Seletivos</div><div class="card-desc">Descrição de cargo, STAR, entrevista e Employer Branding</div><span class="card-badge" style="background:rgba(16,185,129,0.2);color:var(--c3)">R&S</span></a>
+    <a class="mod-card m7" href="#m7"><span class="card-icon">🏠</span><div class="card-num" style="color:var(--c7)">MÓDULO 07 · 4H</div><div class="card-title">Integração & Cultura</div><div class="card-desc">Onboarding 5 dias, Regimento, Manual e Cultura</div><span class="card-badge" style="background:rgba(236,72,153,0.2);color:var(--c7)">Cultura</span></a>
+    <a class="mod-card m8" href="#m8"><span class="card-icon">🚀</span><div class="card-num" style="color:var(--c5)">MÓDULO 08 · 4H</div><div class="card-title">Desenvolvimento de Liderança</div><div class="card-desc">ADKAR, Kotter 8 etapas, Maslow, Herzberg e Pipeline</div><span class="card-badge" style="background:rgba(239,68,68,0.2);color:var(--c5)">Liderança</span></a>
+    <a class="mod-card m9" href="#m9"><span class="card-icon">⏱️</span><div class="card-num" style="color:var(--c8)">MÓDULO 09 · 4H</div><div class="card-title">Jornada & Escalas</div><div class="card-desc">6×1, 12×36, 4×2, cronograma P1/P2/P3 e DPR</div><span class="card-badge" style="background:rgba(132,204,22,0.2);color:var(--c8)">Operacional</span></a>
+    <a class="mod-card m10" href="#m10"><span class="card-icon">📊</span><div class="card-num" style="color:var(--c10)">MÓDULO 10 · 4H</div><div class="card-title">People Analytics & KPIs</div><div class="card-desc">9-Box, PDI, 360°, Feedback SBI e Workforce Planning</div><span class="card-badge" style="background:rgba(99,102,241,0.2);color:var(--c10)">Dados</span></a>
+  </div>
+</div>
+
+<!-- ======== CONTEÚDO ======== -->
+<div class="content">
+
+  <!-- M1 -->
+  <div class="mod-block" id="m1">
+    <div class="mod-header hd1">
+      <span class="mod-icon">🎯</span>
+      <div><div class="mod-htitle">Fundamentos do CEP</div><div class="mod-hnum">MÓDULO 01 · 4 HORAS</div></div>
+    </div>
+    <div class="mod-body">
+      <p class="lead" style="border-color:var(--c1)">O CEP é um serviço de RH por assinatura mensal para food service. Você não é funcionário — é parceiro estratégico externo que entrega resultados mensuráveis.</p>
+
+      <h3 class="c1-t">⛓️ A Cadeia de Valor CEP</h3>
+      <div class="box box-blue"><strong>META → BOA ESCALA → LIDERANÇA → CULTURA</strong>Sem meta clara não há escala. Sem escala não há liderança consistente. Sem liderança não há cultura. O CEP age em todos esses elos.</div>
+
+      <h3 class="c1-t">📦 Os 4 Pilares do Serviço</h3>
+      <table>
+        <tr><th style="color:var(--c1);border-color:var(--c1)">Pilar</th><th style="color:var(--c1);border-color:var(--c1)">O que é</th><th style="color:var(--c1);border-color:var(--c1)">Entregável</th></tr>
+        <tr><td><strong>① RH Estratégico</strong></td><td>Escutas + diagnóstico de pessoas</td><td>Relatório D.L.O.L.</td></tr>
+        <tr><td><strong>② Treinamentos</strong></td><td>T&D técnico e comportamental</td><td>Treinamentos + Kirkpatrick</td></tr>
+        <tr><td><strong>③ Integração</strong></td><td>Onboarding + Regimento + Cultura</td><td>Manual da Empresa</td></tr>
+        <tr><td><strong>④ Processos Seletivos</strong></td><td>Atração, seleção, contratação</td><td>Descrição de Cargo</td></tr>
+      </table>
+
+      <h3 class="c1-t">💵 Precificação</h3>
+      <table>
+        <tr><th style="color:var(--c1);border-color:var(--c1)">Modalidade</th><th style="color:var(--c1);border-color:var(--c1)">Valor Mensal</th><th style="color:var(--c1);border-color:var(--c1)">Formato</th></tr>
+        <tr><td>Presencial</td><td><span class="bdg b-green">R$ 2.000/mês</span></td><td>Visitas semanais ~3h</td></tr>
+        <tr><td>Híbrido</td><td><span class="bdg b-blue">R$ 1.600/mês</span></td><td>Quinzenal + remoto</td></tr>
+        <tr><td>Remoto</td><td><span class="bdg b-yellow">R$ 1.200/mês</span></td><td>100% online</td></tr>
+      </table>
+
+      <h3 class="c1-t">🛠️ Ferramentas do CEP</h3>
+      <table>
+        <tr><th style="color:var(--c1);border-color:var(--c1)">Ferramenta</th><th style="color:var(--c1);border-color:var(--c1)">Uso</th><th style="color:var(--c1);border-color:var(--c1)">Custo</th></tr>
+        <tr><td>Google Docs / Meet</td><td>Documentos e reuniões</td><td>Grátis</td></tr>
+        <tr><td>Canva</td><td>Materiais visuais de T&D</td><td>~R$70/mês</td></tr>
+        <tr><td>ChatGPT</td><td>Criação de conteúdo</td><td>~R$99/mês</td></tr>
+        <tr><td>iSpring</td><td>Cursos digitais</td><td>Variável</td></tr>
+        <tr><td>Autentic / Gov.br</td><td>Contratos digitais</td><td>Variável</td></tr>
+        <tr><td>C6 Bank / Inter</td><td>Conta PJ</td><td>Grátis</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- M2 -->
+  <div class="mod-block" id="m2">
+    <div class="mod-header hd2">
+      <span class="mod-icon">💰</span>
+      <div><div class="mod-htitle">Diagnóstico Financeiro</div><div class="mod-hnum">MÓDULO 02 · 4 HORAS</div></div>
+    </div>
+    <div class="mod-body">
+      <p class="lead" style="border-color:var(--c4)">Na primeira visita você levanta os números e compara com benchmarks do setor. É aqui que o dono te vê como parceiro de negócio.</p>
+
+      <h3 class="c4-t">📊 Benchmarks do Food Service</h3>
+      <table>
+        <tr><th style="color:var(--c4);border-color:var(--c4)">Indicador</th><th style="color:var(--c4);border-color:var(--c4)">Benchmark Saudável</th><th style="color:var(--c4);border-color:var(--c4)">Alerta</th></tr>
+        <tr><td>Pró Labore do Dono</td><td><span class="bdg b-green">10% – 15%</span></td><td>&lt;8% ou &gt;20%</td></tr>
+        <tr><td>Folha de Pagamento</td><td><span class="bdg b-green">até 15%</span></td><td>&gt;20% = crítico</td></tr>
+        <tr><td>Compras / CMV</td><td><span class="bdg b-green">25% – 30%</span></td><td>&gt;35% = desperdício</td></tr>
+        <tr><td>Investimento</td><td><span class="bdg b-green">3% – 5%</span></td><td>&lt;2% = estagnação</td></tr>
+        <tr><td>Serviço (delivery/taxas)</td><td><span class="bdg b-green">3% – 5%</span></td><td>&gt;8% = custo alto</td></tr>
+      </table>
+
+      <div class="box box-yellow"><strong>💬 Pergunta-chave na 1ª reunião:</strong>"Quanto você fatura? Quanto você gasta?" — Com esses dois números você já faz o diagnóstico completo.</div>
+
+      <h3 class="c4-t">🎫 Ticket Médio</h3>
+      <div class="tpl"><span class="hl">Ticket Médio</span> = Faturamento Total ÷ Nº de Clientes Atendidos
+
+R$3,50 → ticket mínimo (cafezinho, salgado)
+R$13,50 → meta realista para padaria/lanchonete
+
+A missão do T&D: fazer a equipe vender mais por atendimento.</div>
+
+      <h3 class="c4-t">📈 People Analytics — Indicadores Essenciais</h3>
+      <table>
+        <tr><th style="color:var(--c4);border-color:var(--c4)">Indicador</th><th style="color:var(--c4);border-color:var(--c4)">Fórmula</th><th style="color:var(--c4);border-color:var(--c4)">Meta</th></tr>
+        <tr><td>Turnover</td><td>(Saídas ÷ Headcount médio) × 100</td><td><span class="bdg b-green">&lt;5%/mês</span></td></tr>
+        <tr><td>Absenteísmo</td><td>(H. faltadas ÷ H. esperadas) × 100</td><td><span class="bdg b-green">&lt;3%</span></td></tr>
+        <tr><td>Produtividade</td><td>Faturamento ÷ Nº colaboradores</td><td><span class="bdg b-blue">↑ mês a mês</span></td></tr>
+        <tr><td>eNPS</td><td>% Promotores − % Detratores</td><td><span class="bdg b-green">&gt;50</span></td></tr>
+        <tr><td>Custo Folha</td><td>Folha ÷ Faturamento × 100</td><td><span class="bdg b-green">&lt;15%</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- M3 -->
+  <div class="mod-block" id="m3">
+    <div class="mod-header hd3">
+      <span class="mod-icon">👂</span>
+      <div><div class="mod-htitle">Escutas Estratégicas</div><div class="mod-hnum">MÓDULO 03 · 6 HORAS</div></div>
+    </div>
+    <div class="mod-body">
+      <p class="lead" style="border-color:var(--c2)">A escuta estratégica é a ferramenta mais poderosa do CEP. Ela revela o que os números não mostram.</p>
+
+      <h3 class="c2-t">🎭 A Técnica Comportamental</h3>
+      <table>
+        <tr><th style="color:var(--c2);border-color:var(--c2)">Momento</th><th style="color:var(--c2);border-color:var(--c2)">Técnica</th><th style="color:var(--c2);border-color:var(--c2)">Por quê</th></tr>
+        <tr><td>Para <strong>abertura</strong></td><td>Tirar da zona de conforto</td><td>A pessoa fala a verdade</td></tr>
+        <tr><td>Para <strong>coleta</strong></td><td>Ir ao espaço do colaborador</td><td>No próprio ambiente ele confia</td></tr>
+      </table>
+
+      <h3 class="c2-t">🔎 As 5 Categorias da Escuta</h3>
+      <table>
+        <tr><th style="color:var(--c2);border-color:var(--c2)">Categoria</th><th style="color:var(--c2);border-color:var(--c2)">O que observar</th><th style="color:var(--c2);border-color:var(--c2)">Pergunta gatilho</th></tr>
+        <tr><td>🎯 <strong>Liderança</strong></td><td>Relação, tratamento, expressões</td><td>"Como é sua relação com o supervisor?"</td></tr>
+        <tr><td>⚙️ <strong>Tarefas</strong></td><td>Acúmulo, sobrecarga, clareza</td><td>"Me conta um dia típico seu."</td></tr>
+        <tr><td>💬 <strong>Comunicação</strong></td><td>Informação chega? Conflitos?</td><td>"Como você fica sabendo das mudanças?"</td></tr>
+        <tr><td>💰 <strong>Financeiro</strong></td><td>Salário em dia? Benefícios?</td><td>"O pagamento é sempre no prazo?"</td></tr>
+        <tr><td>❤️ <strong>Vida Pessoal</strong></td><td>Problemas externos no trabalho</td><td>"Fora do trabalho, como você está?"</td></tr>
+      </table>
+
+      <div class="box box-green"><strong>✅ Regra dos 40%:</strong>Em qualquer restaurante, ~40% dos colaboradores têm algo relevante para dizer que nunca disseram para o chefe. A escuta libera isso.</div>
+
+      <h3 class="c2-t">❌ ✅ Comportamento na Escuta</h3>
+      <table>
+        <tr><th style="color:var(--c5);border-color:var(--c5)">❌ NÃO faça</th><th style="color:var(--c3);border-color:var(--c3)">✅ FAÇA</th></tr>
+        <tr><td>Usar palavras negativas</td><td>Apertar a mão com calor</td></tr>
+        <tr><td>Interromper</td><td>Manter contato visual</td></tr>
+        <tr><td>Tom de voz que confronta</td><td>Anotar com caneta (não digitar)</td></tr>
+        <tr><td>Cruzar os braços</td><td>Perguntas abertas: "como", "me conta"</td></tr>
+      </table>
+
+      <h3 class="c2-t">🗂️ Ferramenta 3G</h3>
+      <table>
+        <tr><th colspan="3" style="color:var(--c2);border-color:var(--c2)">DIMENSÃO TAREFAS</th><th colspan="2" style="color:var(--c2);border-color:var(--c2)">DIMENSÃO COMPORTAMENTO</th></tr>
+        <tr><td><strong>Tarefa</strong></td><td><strong>Responsável</strong></td><td><strong>Quando</strong></td><td><strong>Líder</strong></td><td><strong>Satisfação</strong></td></tr>
+        <tr><td>O que fazer</td><td>Quem faz</td><td>Prazo/freq.</td><td>Como age</td><td>Satisfeito?</td></tr>
+      </table>
+
+      <h3 class="c2-t">💬 CNV — Comunicação Não-Violenta</h3>
+      <div class="box box-purple"><strong>Marshall Rosenberg — 4 etapas:</strong>
+<strong>1. Observação:</strong> Fato sem julgamento → "Você chegou 20min atrasado 3x essa semana"<br>
+<strong>2. Sentimento:</strong> Como me sinto → "Isso me preocupa porque..."<br>
+<strong>3. Necessidade:</strong> O que preciso → "...preciso que o horário seja cumprido"<br>
+<strong>4. Pedido:</strong> Pedido claro → "Você confirma que vai estar aqui no horário amanhã?"</div>
+    </div>
+  </div>
+
+  <!-- M4 -->
+  <div class="mod-block" id="m4">
+    <div class="mod-header hd4">
+      <span class="mod-icon">🧠</span>
+      <div><div class="mod-htitle">RH Estratégico & HRBP</div><div class="mod-hnum">MÓDULO 04 · 4 HORAS</div></div>
+    </div>
+    <div class="mod-body">
+      <p class="lead" style="border-color:var(--c6)">Aprenda a se posicionar como parceiro estratégico — não como "o cara do RH". Isso muda como o dono te trata e quanto você cobra.</p>
+
+      <h3 class="c6-t">👤 Dave Ulrich — 4 Papéis do HRBP</h3>
+      <table>
+        <tr><th style="color:var(--c6);border-color:var(--c6)">Papel</th><th style="color:var(--c6);border-color:var(--c6)">Foco</th><th style="color:var(--c6);border-color:var(--c6)">No CEP</th><th style="color:var(--c6);border-color:var(--c6)">Quando</th></tr>
+        <tr><td>Parceiro Estratégico</td><td>Futuro/Processos</td><td>Alinha RH às metas</td><td>Mês 5+</td></tr>
+        <tr><td>Especialista Administrativo</td><td>Presente/Processos</td><td>Regimento, contratos</td><td>Mês 2-4</td></tr>
+        <tr><td>Defensor dos Colaboradores</td><td>Presente/Pessoas</td><td>Escutas, CNV</td><td>Mês 1</td></tr>
+        <tr><td>Agente de Mudança</td><td>Futuro/Pessoas</td><td>Cultura, onboarding</td><td>Mês 2-6</td></tr>
+      </table>
+
+      <h3 class="c6-t">🎯 OKR para Food Service</h3>
+      <div class="tpl"><span class="hl">OBJETIVO:</span> Reduzir rotatividade e melhorar clima em 3 meses
+
+<span class="hl">KR1:</span> Reduzir turnover de 12%/mês para menos de 5%/mês
+<span class="hl">KR2:</span> Aumentar score do Gallup Q12 de 32 para 45 pontos
+<span class="hl">KR3:</span> Implantar CNV para 100% dos supervisores até o mês 2</div>
+
+      <h3 class="c6-t">⭐ Gallup Q12 — As 12 Perguntas de Engajamento</h3>
+      <table>
+        <tr><th style="color:var(--c6);border-color:var(--c6)">#</th><th style="color:var(--c6);border-color:var(--c6)">Pergunta (escala 1-5)</th></tr>
+        <tr><td>Q1</td><td>Sei o que é esperado de mim no trabalho?</td></tr>
+        <tr><td>Q2</td><td>Tenho os materiais para fazer meu trabalho corretamente?</td></tr>
+        <tr><td>Q3</td><td>Tenho oportunidade de fazer o que faço de melhor todo dia?</td></tr>
+        <tr><td>Q4</td><td>Nos últimos 7 dias, recebi reconhecimento por um bom trabalho?</td></tr>
+        <tr><td>Q5</td><td>Meu supervisor parece se importar comigo como pessoa?</td></tr>
+        <tr><td>Q6</td><td>Há alguém que encoraja meu desenvolvimento?</td></tr>
+        <tr><td>Q7</td><td>No trabalho, minha opinião parece contar?</td></tr>
+        <tr><td>Q8</td><td>A missão da empresa faz meu trabalho parecer importante?</td></tr>
+        <tr><td>Q9</td><td>Meus colegas estão comprometidos com qualidade?</td></tr>
+        <tr><td>Q10</td><td>Tenho um bom amigo no trabalho?</td></tr>
+        <tr><td>Q11</td><td>Nos últimos 6 meses, alguém falou sobre meu progresso?</td></tr>
+        <tr><td>Q12</td><td>No último ano, tive oportunidade de aprender e crescer?</td></tr>
+      </table>
+      <div class="box box-cyan"><strong>⚠️ Score mínimo de intervenção:</strong>Score total 12-60 pontos. Abaixo de 36 = urgência. Aplique no mês 1 e mês 6 e mostre a evolução ao dono.</div>
+
+      <h3 class="c6-t">💎 EVP — Employee Value Proposition</h3>
+      <table>
+        <tr><th style="color:var(--c6);border-color:var(--c6)">Pilar</th><th style="color:var(--c6);border-color:var(--c6)">O que oferece</th><th style="color:var(--c6);border-color:var(--c6)">Exemplo food service</th></tr>
+        <tr><td>Compensação</td><td>Salário + benefícios + bônus</td><td>R$1.800 + VT + VR</td></tr>
+        <tr><td>Carreira</td><td>Crescimento possível</td><td>"Atendente → Supervisor em 1 ano"</td></tr>
+        <tr><td>Ambiente</td><td>Clima e relações</td><td>Equipe unida, liderança humana</td></tr>
+        <tr><td>Propósito</td><td>Missão da empresa</td><td>"Servimos felicidade em cada prato"</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- M5 -->
+  <div class="mod-block" id="m5">
+    <div class="mod-header hd5">
+      <span class="mod-icon">📋</span>
+      <div><div class="mod-htitle">Treinamento & Desenvolvimento</div><div class="mod-hnum">MÓDULO 05 · 4 HORAS</div></div>
+    </div>
+    <div class="mod-body">
+      <p class="lead" style="border-color:var(--c9)">T&D é o pilar mais lucrativo do CEP. Resultado visível rápido, renova contratos e diferencia você de qualquer consultor que só organiza papelada.</p>
+
+      <h3 class="c9-t">🎓 Perfil do Público</h3>
+      <table>
+        <tr><th style="color:var(--c9);border-color:var(--c9)">Perfil</th><th style="color:var(--c9);border-color:var(--c9)">% em Food Service</th><th style="color:var(--c9);border-color:var(--c9)">Aprende melhor com</th></tr>
+        <tr><td>Até Ensino Fundamental</td><td><span class="bdg b-orange">~70%</span></td><td>Visual, demonstração, prática, cores, gestos</td></tr>
+        <tr><td>Ensino Médio ou acima</td><td><span class="bdg b-blue">~30%</span></td><td>Dados, texto, sistemas, análise</td></tr>
+      </table>
+
+      <h3 class="c9-t">3️⃣ Os 3 Elementos de Todo Treinamento Eficaz</h3>
+      <div class="box box-orange"><strong>📌 Elemento 1 — Material Visual:</strong>Cartazes A3, infográficos, fichas técnicas ilustradas, vídeos curtos. Use Canva. Deixe exposto por 7 dias para fixar.</div>
+      <div class="box box-purple"><strong>🎮 Elemento 2 — Dinâmicas Sensoriais:</strong>Roleplay, Dinâmica dos Animais, jogos. Necessário após 45min — o cérebro precisa de pausa cognitiva.</div>
+      <div class="box box-cyan"><strong>☕ Elemento 3 — Item Afetivo de Marca:</strong>Café especial, brinde, degustação. Cria memória emocional positiva que ancora o conteúdo aprendido.</div>
+
+      <h3 class="c9-t">⭐ Kirkpatrick — Avaliação em 4 Níveis</h3>
+      <table>
+        <tr><th style="color:var(--c9);border-color:var(--c9)">Nível</th><th style="color:var(--c9);border-color:var(--c9)">Avalia</th><th style="color:var(--c9);border-color:var(--c9)">Quando</th><th style="color:var(--c9);border-color:var(--c9)">Como medir</th><th style="color:var(--c9);border-color:var(--c9)">Meta</th></tr>
+        <tr><td><span class="bdg b-blue">N1 Reação</span></td><td>Gostou?</td><td>Imediato</td><td>Formulário 1-5</td><td>&gt;4,0</td></tr>
+        <tr><td><span class="bdg b-green">N2 Aprendizagem</span></td><td>Aprendeu?</td><td>1 semana</td><td>Teste + demo</td><td>&gt;80%</td></tr>
+        <tr><td><span class="bdg b-yellow">N3 Comportamento</span></td><td>Mudou o que faz?</td><td>30 dias</td><td>Observação</td><td>Visível</td></tr>
+        <tr><td><span class="bdg b-red">N4 Resultado</span></td><td>Impactou o negócio?</td><td>60-90 dias</td><td>Ticket, CMV</td><td>Número ↑</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- M6 -->
+  <div class="mod-block" id="m6">
+    <div class="mod-header hd6">
+      <span class="mod-icon">🔍</span>
+      <div><div class="mod-htitle">Processos Seletivos</div><div class="mod-hnum">MÓDULO 06 · 4 HORAS</div></div>
+    </div>
+    <div class="mod-body">
+      <p class="lead" style="border-color:var(--c3)">A Descrição de Cargo é o documento que formaliza quem faz o quê. Sem ela, os conflitos de "isso não é minha função" nunca param.</p>
+
+      <h3 class="c3-t">📄 Estrutura da Descrição de Cargo</h3>
+      <table>
+        <tr><th style="color:var(--c3);border-color:var(--c3)">Bloco</th><th style="color:var(--c3);border-color:var(--c3)">Conteúdo</th></tr>
+        <tr><td><strong>Identificação</strong></td><td>Empresa, cargo, área, filial, carga horária, missão</td></tr>
+        <tr><td><strong>Requisitos</strong></td><td>Escolaridade, experiência, habilidades técnicas e comportamentais</td></tr>
+        <tr><td><strong>Atividades</strong></td><td>Lista detalhada do que a pessoa faz, com frequência</td></tr>
+        <tr><td><strong>Indicadores</strong></td><td>Como o desempenho será medido</td></tr>
+      </table>
+
+      <h3 class="c3-t">⭐ Entrevista STAR</h3>
+      <table>
+        <tr><th style="color:var(--c3);border-color:var(--c3)">Letra</th><th style="color:var(--c3);border-color:var(--c3)">O que pedir</th><th style="color:var(--c3);border-color:var(--c3)">Exemplo</th></tr>
+        <tr><td><strong>S</strong>ituação</td><td>Qual era o contexto?</td><td>"Onde você estava trabalhando?"</td></tr>
+        <tr><td><strong>T</strong>arefa</td><td>Qual era sua responsabilidade?</td><td>"O que era esperado de você?"</td></tr>
+        <tr><td><strong>A</strong>ção</td><td>O que você exatamente fez?</td><td>"Me conta passo a passo."</td></tr>
+        <tr><td><strong>R</strong>esultado</td><td>Qual foi o resultado?</td><td>"O que aconteceu depois?"</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- M7 -->
+  <div class="mod-block" id="m7">
+    <div class="mod-header hd7">
+      <span class="mod-icon">🏠</span>
+      <div><div class="mod-htitle">Integração & Cultura</div><div class="mod-hnum">MÓDULO 07 · 4 HORAS</div></div>
+    </div>
+    <div class="mod-body">
+      <p class="lead" style="border-color:var(--c7)">Onboarding estruturado aumenta a retenção em até 82% no primeiro ano. No food service com alto turnover, isso é dinheiro direto.</p>
+
+      <h3 class="c7-t">📅 Onboarding 5 Dias</h3>
+      <table>
+        <tr><th style="color:var(--c7);border-color:var(--c7)">Dia</th><th style="color:var(--c7);border-color:var(--c7)">Foco</th><th style="color:var(--c7);border-color:var(--c7)">Conteúdo</th></tr>
+        <tr><td><span class="bdg b-blue">Dia 1</span></td><td>Administrativo</td><td>Docs, conta, uniforme, sistemas, regimento, manual</td></tr>
+        <tr><td><span class="bdg b-purple">Dia 2</span></td><td>Outras Áreas</td><td>Tour, apresentação de setores, equipe, MVV</td></tr>
+        <tr><td><span class="bdg b-green">Dia 3</span></td><td>Função (Técnico)</td><td>Descrição de cargo, fichas técnicas, metas</td></tr>
+        <tr><td><span class="bdg b-yellow">Dia 4</span></td><td>Prática supervisionada</td><td>Executa tarefas com supervisão + buddy</td></tr>
+        <tr><td><span class="bdg b-red">Dia 5</span></td><td>Alinhamento</td><td>Feedback, PDI inicial, check-ins 30/60/90 dias</td></tr>
+      </table>
+
+      <h3 class="c7-t">📖 Manual da Empresa</h3>
+      <ul>
+        <li><strong>Nossa História</strong> — como a empresa nasceu</li>
+        <li><strong>Missão</strong> — por que existimos</li>
+        <li><strong>Visão</strong> — onde queremos chegar</li>
+        <li><strong>Valores</strong> — o que guia nossas decisões</li>
+        <li><strong>Nossos Produtos</strong> — o cardápio e seus diferenciais</li>
+        <li><strong>Nossa Equipe</strong> — organograma e contatos</li>
+        <li><strong>Benefícios</strong> — além do salário</li>
+        <li><strong>Canal de Comunicação</strong> — como falar com a empresa</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- M8 -->
+  <div class="mod-block" id="m8">
+    <div class="mod-header hd8">
+      <span class="mod-icon">🚀</span>
+      <div><div class="mod-htitle">Desenvolvimento de Liderança</div><div class="mod-hnum">MÓDULO 08 · 4 HORAS</div></div>
+    </div>
+    <div class="mod-body">
+      <p class="lead" style="border-color:var(--c5)">"Pessoas procuram segurança." Antes de qualquer programa motivacional, resolva a segurança básica da equipe.</p>
+
+      <h3 class="c5-t">🔄 ADKAR — Gestão da Mudança</h3>
+      <table>
+        <tr><th style="color:var(--c5);border-color:var(--c5)">Letra</th><th style="color:var(--c5);border-color:var(--c5)">Significa</th><th style="color:var(--c5);border-color:var(--c5)">Se falta...</th><th style="color:var(--c5);border-color:var(--c5)">Ação</th></tr>
+        <tr><td><strong>A</strong></td><td>Awareness — Consciência</td><td>Não sabe por que mudar</td><td>Explique o problema</td></tr>
+        <tr><td><strong>D</strong></td><td>Desire — Desejo</td><td>Sabe mas não quer</td><td>Entenda os medos</td></tr>
+        <tr><td><strong>K</strong></td><td>Knowledge — Conhecimento</td><td>Quer mas não sabe como</td><td>Treine</td></tr>
+        <tr><td><strong>A</strong></td><td>Ability — Habilidade</td><td>Sabe mas não consegue</td><td>Pratique + suporte</td></tr>
+        <tr><td><strong>R</strong></td><td>Reinforcement — Reforço</td><td>Faz mas volta ao antigo</td><td>Reconheça e cobre</td></tr>
+      </table>
+
+      <h3 class="c5-t">8️⃣ Kotter — 8 Etapas da Mudança</h3>
+      <ol>
+        <li>Criar senso de urgência (mostrar os números ruins)</li>
+        <li>Formar coalizão (identificar o líder interno aliado)</li>
+        <li>Criar a visão ("como esse restaurante vai estar em 6 meses")</li>
+        <li>Comunicar a visão (apresentar para toda a equipe)</li>
+        <li>Remover obstáculos (líder tóxico? processo ruim?)</li>
+        <li>Criar vitórias de curto prazo (celebrar primeiros resultados)</li>
+        <li>Consolidar ganhos (usar resultados para ir mais fundo)</li>
+        <li>Ancorar na cultura (incorporar mudanças no DNA da empresa)</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- M9 -->
+  <div class="mod-block" id="m9">
+    <div class="mod-header hd9">
+      <span class="mod-icon">⏱️</span>
+      <div><div class="mod-htitle">Gestão de Jornada & Escalas</div><div class="mod-hnum">MÓDULO 09 · 4 HORAS</div></div>
+    </div>
+    <div class="mod-body">
+      <p class="lead" style="border-color:var(--c8)">O tipo de jornada impacta diretamente o absenteísmo, o turnover e o custo de folha. Escolher a escala certa pode economizar mais do que um treinamento.</p>
+
+      <h3 class="c8-t">📅 Tipos de Jornada</h3>
+      <table>
+        <tr><th style="color:var(--c8);border-color:var(--c8)">Jornada</th><th style="color:var(--c8);border-color:var(--c8)">Formato</th><th style="color:var(--c8);border-color:var(--c8)">H/Semana</th><th style="color:var(--c8);border-color:var(--c8)">Melhor para</th></tr>
+        <tr><td>6×1 Padrão</td><td>6 dias / 1 folga</td><td>44h</td><td>Operação contínua básica</td></tr>
+        <tr><td>12×36</td><td>12h / 36h descanso</td><td>~42h</td><td>Cobertura longa, portaria</td></tr>
+        <tr><td>4×2 (9h/dia)</td><td>4 dias / 2 folgas</td><td>44h</td><td>Melhor satisfação → menos falta</td></tr>
+        <tr><td>Intermitente</td><td>Por hora/turno</td><td>Variável</td><td>Reforços fins de semana</td></tr>
+      </table>
+
+      <h3 class="c8-t">🗺️ Cronograma P1 / P2 / P3</h3>
+      <table>
+        <tr><th style="color:var(--c8);border-color:var(--c8)">Fase</th><th style="color:var(--c8);border-color:var(--c8)">Semanas</th><th style="color:var(--c8);border-color:var(--c8)">O que acontece</th></tr>
+        <tr><td><span class="bdg b-blue">P1</span></td><td>1-3</td><td>Diagnóstico completo → entrega do Relatório D.L.O.L.</td></tr>
+        <tr><td><span class="bdg b-yellow">P2</span></td><td>4-8</td><td>Implantação: Regimento, Cargos, T&D, Seleção</td></tr>
+        <tr><td><span class="bdg b-green">P3</span></td><td>9-12</td><td>Consolidação: 2º T&D, Kirkpatrick N4, Relatório final</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- M10 -->
+  <div class="mod-block" id="m10">
+    <div class="mod-header hd10">
+      <span class="mod-icon">📊</span>
+      <div><div class="mod-htitle">People Analytics & KPIs</div><div class="mod-hnum">MÓDULO 10 · 4 HORAS</div></div>
+    </div>
+    <div class="mod-body">
+      <p class="lead" style="border-color:var(--c10)">Aqui você prova o valor do CEP com dados. Sem números você é percebido como "o cara dos processos". Com números, você é parceiro estratégico.</p>
+
+      <h3 class="c10-t">🔲 Matriz 9-Box</h3>
+      <table>
+        <tr><th style="color:var(--c10);border-color:var(--c10)"></th><th style="color:var(--c10);border-color:var(--c10)">Potencial Baixo</th><th style="color:var(--c10);border-color:var(--c10)">Potencial Médio</th><th style="color:var(--c10);border-color:var(--c10)">Potencial Alto</th></tr>
+        <tr><td><strong>Alta Performance</strong></td><td>💪 Sólido</td><td>🌟 Estrela Futura</td><td>⭐ Estrela — Promova</td></tr>
+        <tr><td><strong>Média Performance</strong></td><td>⚙️ Eficiente</td><td>🗝️ Chave — Cuide</td><td>🔑 Alto Potencial</td></tr>
+        <tr><td><strong>Baixa Performance</strong></td><td>🔴 Problema — Ação</td><td>⚖️ Dilema</td><td>❓ Enigma — Descubra</td></tr>
+      </table>
+
+      <h3 class="c10-t">💬 Feedback Estruturado — SBI</h3>
+      <div class="box box-purple">
+        <strong>S</strong>ituação: "Na reunião de segunda-feira..."<br>
+        <strong>B</strong>ehavior: "...quando você interrompeu o colaborador 3 vezes..."<br>
+        <strong>I</strong>mpacto: "...percebi que ele ficou retraído e não trouxe mais ideias."
+      </div>
+
+      <h3 class="c10-t">📋 Relatório Mensal CEP</h3>
+      <ol>
+        <li>Resumo Executivo (1 página) — o que foi feito, o que mudou</li>
+        <li>Indicadores de People Analytics — tabela com KPIs do mês</li>
+        <li>Ações Realizadas — nos 4 pilares</li>
+        <li>Resultados Alcançados — com dados comparativos</li>
+        <li>Próximos Passos — o que será feito no próximo mês</li>
+        <li>Recomendações — o que o dono deve fazer fora do escopo</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- METODOLOGIAS -->
+  <div class="mod-block" id="metodologias">
+    <div class="mod-header" style="background:linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02));border:1px solid var(--border);">
+      <span class="mod-icon">🌎</span>
+      <div><div class="mod-htitle">35+ Metodologias Mundiais</div><div class="mod-hnum">REFERÊNCIA RÁPIDA</div></div>
+    </div>
+    <div class="mod-body">
+      <p class="lead" style="border-color:var(--muted)">Todas as metodologias de RH de classe mundial aplicadas dentro da metodologia CEP artblend.</p>
+      <div class="meto-grid">
+        <div class="meto-card"><div class="meto-num">01</div><div><div class="meto-name">Dave Ulrich 4 Papéis</div><div class="meto-use">Posicionamento estratégico</div></div></div>
+        <div class="meto-card"><div class="meto-num">02</div><div><div class="meto-name">People Analytics</div><div class="meto-use">KPIs e dados de RH</div></div></div>
+        <div class="meto-card"><div class="meto-num">03</div><div><div class="meto-name">ADKAR (Prosci)</div><div class="meto-use">Gestão de mudanças</div></div></div>
+        <div class="meto-card"><div class="meto-num">04</div><div><div class="meto-name">Kotter 8 Etapas</div><div class="meto-use">Transformação cultural</div></div></div>
+        <div class="meto-card"><div class="meto-num">05</div><div><div class="meto-name">OKR (Google/Intel)</div><div class="meto-use">Metas e resultados</div></div></div>
+        <div class="meto-card"><div class="meto-num">06</div><div><div class="meto-name">Gallup Q12</div><div class="meto-use">Engajamento mensurável</div></div></div>
+        <div class="meto-card"><div class="meto-num">07</div><div><div class="meto-name">Kirkpatrick 4 Níveis</div><div class="meto-use">ROI de treinamento</div></div></div>
+        <div class="meto-card"><div class="meto-num">08</div><div><div class="meto-name">Matriz 9-Box</div><div class="meto-use">Potencial × Performance</div></div></div>
+        <div class="meto-card"><div class="meto-num">09</div><div><div class="meto-name">Avaliação 360°</div><div class="meto-use">Feedback multifonte</div></div></div>
+        <div class="meto-card"><div class="meto-num">10</div><div><div class="meto-name">PDI</div><div class="meto-use">Desenvolvimento individual</div></div></div>
+        <div class="meto-card"><div class="meto-num">11</div><div><div class="meto-name">EVP</div><div class="meto-use">Proposta de valor ao colaborador</div></div></div>
+        <div class="meto-card"><div class="meto-num">12</div><div><div class="meto-name">Employer Branding</div><div class="meto-use">Marca empregadora</div></div></div>
+        <div class="meto-card"><div class="meto-num">13</div><div><div class="meto-name">BSC de RH</div><div class="meto-use">Dashboard de pessoas</div></div></div>
+        <div class="meto-card"><div class="meto-num">14</div><div><div class="meto-name">SHRM Competency</div><div class="meto-use">Competências do profissional RH</div></div></div>
+        <div class="meto-card"><div class="meto-num">15</div><div><div class="meto-name">CNV (Rosenberg)</div><div class="meto-use">Comunicação interna</div></div></div>
+        <div class="meto-card"><div class="meto-num">16</div><div><div class="meto-name">DISC</div><div class="meto-use">Perfil comportamental</div></div></div>
+        <div class="meto-card"><div class="meto-num">17</div><div><div class="meto-name">Pirâmide de Maslow</div><div class="meto-use">Necessidades dos colaboradores</div></div></div>
+        <div class="meto-card"><div class="meto-num">18</div><div><div class="meto-name">Herzberg</div><div class="meto-use">Motivação vs. Higiene</div></div></div>
+        <div class="meto-card"><div class="meto-num">19</div><div><div class="meto-name">McKinsey 7S</div><div class="meto-use">Diagnóstico organizacional</div></div></div>
+        <div class="meto-card"><div class="meto-num">20</div><div><div class="meto-name">SWOT de Pessoas</div><div class="meto-use">Análise de equipes</div></div></div>
+        <div class="meto-card"><div class="meto-num">21</div><div><div class="meto-name">Pipeline de Liderança</div><div class="meto-use">Desenvolvimento de líderes</div></div></div>
+        <div class="meto-card"><div class="meto-num">22</div><div><div class="meto-name">Plano de Sucessão</div><div class="meto-use">Continuidade do negócio</div></div></div>
+        <div class="meto-card"><div class="meto-num">23</div><div><div class="meto-name">Feedback SBI</div><div class="meto-use">Feedback estruturado</div></div></div>
+        <div class="meto-card"><div class="meto-num">24</div><div><div class="meto-name">Calibragem</div><div class="meto-use">Consistência nas avaliações</div></div></div>
+        <div class="meto-card"><div class="meto-num">25</div><div><div class="meto-name">Workforce Planning</div><div class="meto-use">Planejamento de headcount</div></div></div>
+        <div class="meto-card"><div class="meto-num">26</div><div><div class="meto-name">Design Thinking em RH</div><div class="meto-use">Soluções criativas</div></div></div>
+        <div class="meto-card"><div class="meto-num">27</div><div><div class="meto-name">Agile HR</div><div class="meto-use">Iteração em processos</div></div></div>
+        <div class="meto-card"><div class="meto-num">28</div><div><div class="meto-name">Total Compensation</div><div class="meto-use">Remuneração total</div></div></div>
+        <div class="meto-card"><div class="meto-num">29</div><div><div class="meto-name">Entrevista STAR</div><div class="meto-use">Seleção por competências</div></div></div>
+        <div class="meto-card"><div class="meto-num">30</div><div><div class="meto-name">ADDIE</div><div class="meto-use">Design instrucional</div></div></div>
+        <div class="meto-card"><div class="meto-num">31</div><div><div class="meto-name">eNPS</div><div class="meto-use">Satisfação interna</div></div></div>
+        <div class="meto-card"><div class="meto-num">32</div><div><div class="meto-name">Onboarding Estruturado</div><div class="meto-use">Retenção primeiros 90 dias</div></div></div>
+        <div class="meto-card"><div class="meto-num">33</div><div><div class="meto-name">Buddy System</div><div class="meto-use">Integração social</div></div></div>
+        <div class="meto-card"><div class="meto-num">34</div><div><div class="meto-name">Kirkpatrick Nível 4</div><div class="meto-use">ROI financeiro do T&D</div></div></div>
+        <div class="meto-card"><div class="meto-num">35</div><div><div class="meto-name">DPR</div><div class="meto-use">Foco em resultados</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GLOSSÁRIO -->
+  <div class="mod-block" id="glossario">
+    <div class="mod-header" style="background:linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));border:1px solid var(--border);">
+      <span class="mod-icon">📖</span>
+      <div><div class="mod-htitle">Glossário CEP</div><div class="mod-hnum">TODOS OS TERMOS</div></div>
+    </div>
+    <div class="mod-body">
+      <div class="glos-grid">
+        <div class="glos-card"><div class="glos-term">CEP</div><div class="glos-def">Consultor Estratégico de Pessoas — serviço de RH por assinatura</div></div>
+        <div class="glos-card"><div class="glos-term">T&D</div><div class="glos-def">Treinamento e Desenvolvimento</div></div>
+        <div class="glos-card"><div class="glos-term">HRBP</div><div class="glos-def">HR Business Partner — parceiro de negócio em RH</div></div>
+        <div class="glos-card"><div class="glos-term">CMV</div><div class="glos-def">Custo da Mercadoria Vendida</div></div>
+        <div class="glos-card"><div class="glos-term">DPR</div><div class="glos-def">Descrição de Prioridades e Resultados</div></div>
+        <div class="glos-card"><div class="glos-term">Turnover</div><div class="glos-def">Taxa de rotatividade de pessoal</div></div>
+        <div class="glos-card"><div class="glos-term">Absenteísmo</div><div class="glos-def">Taxa de ausências não programadas</div></div>
+        <div class="glos-card"><div class="glos-term">eNPS</div><div class="glos-def">Employee Net Promoter Score</div></div>
+        <div class="glos-card"><div class="glos-term">OKR</div><div class="glos-def">Objectives and Key Results</div></div>
+        <div class="glos-card"><div class="glos-term">PDI</div><div class="glos-def">Plano de Desenvolvimento Individual</div></div>
+        <div class="glos-card"><div class="glos-term">EVP</div><div class="glos-def">Employee Value Proposition</div></div>
+        <div class="glos-card"><div class="glos-term">CNV</div><div class="glos-def">Comunicação Não-Violenta</div></div>
+        <div class="glos-card"><div class="glos-term">Onboarding</div><div class="glos-def">Processo de integração de novos colaboradores</div></div>
+        <div class="glos-card"><div class="glos-term">LNT</div><div class="glos-def">Levantamento de Necessidades de Treinamento</div></div>
+        <div class="glos-card"><div class="glos-term">People Analytics</div><div class="glos-def">Uso de dados de pessoas para decisões</div></div>
+        <div class="glos-card"><div class="glos-term">3G</div><div class="glos-def">Ferramenta: Tarefas (quem, o quê, quando) + comportamento do líder</div></div>
+        <div class="glos-card"><div class="glos-term">ADKAR</div><div class="glos-def">Awareness, Desire, Knowledge, Ability, Reinforcement</div></div>
+        <div class="glos-card"><div class="glos-term">Escuta Estratégica</div><div class="glos-def">Diagnóstico por conversas estruturadas com colaboradores</div></div>
+        <div class="glos-card"><div class="glos-term">Kirkpatrick</div><div class="glos-def">4 níveis de avaliação de treinamento</div></div>
+        <div class="glos-card"><div class="glos-term">D.L.O.L.</div><div class="glos-def">Framework artblend: Diagnóstico, Leitura, Oportunidades, Liderança</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RODAPÉ -->
+  <div style="text-align:center;padding:40px 0;border-top:1px solid var(--border);">
+    <div style="font-size:28px;font-weight:900;letter-spacing:-1px;margin-bottom:4px;">artblend</div>
+    <div style="font-size:13px;color:var(--muted);">Consultoria Gourmet · CEP 40H · Junho 2026</div>
+    <div style="font-size:11px;color:var(--border);margin-top:8px;">Documento de uso interno — baseado nas melhores referências mundiais de RH Estratégico e Food Service</div>
+  </div>
+
+</div><!-- /content -->
+
+<button class="fab" id="fab" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+window.addEventListener('scroll',()=>{
+  const el=document.documentElement;
+  const pct=Math.round((el.scrollTop/(el.scrollHeight-el.clientHeight))*100)||0;
+  document.getElementById('pf').style.width=pct+'%';
+  document.getElementById('pl').textContent=pct+'%';
+  document.getElementById('fab').classList.toggle('show',el.scrollTop>400);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Migrar dados antigos → Supabase · ArtBlend</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.5"></script>
+<style>
+  :root{
+    --bg:#F5F7FA; --card:#FFFFFF; --border:#E2E6ED; --text:#16294A; --muted:#6E7A8C;
+    --accent:#2EC4D6; --accent-soft:#E4F8FB; --blue:#1C93A8; --good:#2ECC71; --good-bg:#E3FBEF;
+    --bad:#B3411F; --bad-bg:#FBEAE3; --amber:#9a5420; --amber-bg:#FDF3E0;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);padding:40px 20px 70px;}
+  .wrap{max-width:680px;margin:0 auto;}
+  .top{text-align:center;margin-bottom:28px;}
+  .top .kick{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);font-weight:800;}
+  .top h1{font-size:22px;font-weight:800;margin:6px 0 8px;}
+  .top p{color:var(--muted);font-size:13.5px;line-height:1.6;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin:14px 0;}
+  label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin:8px 0 4px;}
+  input{width:100%;padding:9px 10px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:13.5px;}
+  .row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+  button{background:var(--accent);color:#08343B;border:none;padding:10px 16px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;}
+  button.sec{background:var(--accent-soft);color:var(--blue);}
+  button:disabled{opacity:.5;cursor:default;}
+  .log{margin-top:14px;padding:12px 14px;border-radius:8px;font-size:12.5px;line-height:1.7;white-space:pre-wrap;word-break:break-word;background:var(--bg);border:1px solid var(--border);max-height:420px;overflow-y:auto;}
+  .status{margin-top:14px;padding:10px 14px;border-radius:8px;font-size:13px;display:none;}
+  .status.ok{background:var(--good-bg);color:#1C9A57;display:block;}
+  .status.err{background:var(--bad-bg);color:var(--bad);display:block;}
+  .backlink{display:block;text-align:center;margin-top:30px;font-size:13px;}
+  .backlink a{color:var(--blue);font-weight:700;text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="kick">Ferramenta de migração · uso único</div>
+    <h1>Trazer dados antigos para a nuvem</h1>
+    <p>Lê os dados que ficaram salvos neste navegador antes da migração e sobe pro Supabase. Não apaga nada do original — só copia.</p>
+  </div>
+
+  <div class="card" id="loginCard">
+    <h2 style="font-size:14px;margin-bottom:12px;">1. Entrar</h2>
+    <label>E-mail</label>
+    <input id="email" type="email" placeholder="seu@email.com">
+    <label>Senha</label>
+    <input id="senha" type="password">
+    <div class="row"><button onclick="entrar()">Entrar</button></div>
+    <div id="statusAuth" class="status"></div>
+  </div>
+
+  <div class="card" id="migCard" style="display:none;">
+    <h2 style="font-size:14px;margin-bottom:12px;">2. Migrar</h2>
+    <p style="font-size:12.5px;color:var(--muted);margin-bottom:10px;">Isso vai procurar dados antigos de todas as ferramentas neste navegador e copiar pro seu banco de dados. Pode rodar mais de uma vez sem duplicar.</p>
+    <div class="row"><button onclick="migrar()" id="btnMigrar">Iniciar migração</button></div>
+    <div id="statusMig" class="status"></div>
+    <div id="logBox" class="log" style="display:none;"></div>
+  </div>
+
+  <p class="backlink"><a href="ARTBLEND_HUB.html">← Voltar para o Hub</a></p>
+</div>
+
+<script>
+const SUPA_URL = 'https://zjvjixiuvnpbpsdnxuyk.supabase.co';
+const SUPA_KEY = 'sb_publishable_f5DJRgs2w0z3_g50QqDmNQ_0btPNSgV';
+const sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+let sessaoAtual = null;
+
+const FERRAMENTAS = [
+  { base: 'artblend_nr1_drps_v2', ferramenta: 'nr1', label: 'NR-1 / DRPS' },
+  { base: 'artblend_cep_v2', ferramenta: 'cep', label: 'CEP' },
+  { base: 'artblend_cardapio_v2', ferramenta: 'cardapio', label: 'Cardápio / CMV' },
+  { base: 'artblend_td_v1', ferramenta: 'td', label: 'T&D' },
+  { base: 'artblend_compliance_v1', ferramenta: 'compliance', label: 'Compliance' },
+  { base: 'artblend_frameworks_v1', ferramenta: 'frameworks', label: 'Frameworks / Diagnóstico' },
+  { base: 'artblend_cfp_kit_v2', ferramenta: 'kit_operacional', label: 'Kit Operacional' },
+  { base: 'artblend_gestao_financeira_v1', ferramenta: 'financeira', label: 'Gestão Financeira' }
+];
+
+function setStatus(id, text, type){
+  const el = document.getElementById(id);
+  el.className = 'status ' + type;
+  el.textContent = text;
+}
+function log(text){
+  const box = document.getElementById('logBox');
+  box.style.display = 'block';
+  box.textContent += text + '\n';
+  box.scrollTop = box.scrollHeight;
+}
+
+async function entrar(){
+  const email = document.getElementById('email').value.trim();
+  const senha = document.getElementById('senha').value;
+  const r = await sb.auth.signInWithPassword({ email, password: senha });
+  if(r.error){ setStatus('statusAuth', 'Erro: ' + r.error.message, 'err'); return; }
+  sessaoAtual = r.data.session;
+  setStatus('statusAuth', 'Logado como ' + sessaoAtual.user.email, 'ok');
+  document.getElementById('migCard').style.display = 'block';
+}
+
+// cache nome -> id de cliente já criado/encontrado nesta sessão
+const cacheClientes = {};
+
+async function getOuCriaCliente(nome){
+  if(cacheClientes[nome]) return cacheClientes[nome];
+  const busca = await sb.from('clientes').select('id').eq('nome', nome).maybeSingle();
+  if(busca.data && busca.data.id){ cacheClientes[nome] = busca.data.id; return busca.data.id; }
+  const ins = await sb.from('clientes').insert({ nome, owner_id: sessaoAtual.user.id }).select('id').single();
+  if(ins.error){ log('  ⚠ erro ao criar cliente "' + nome + '": ' + ins.error.message); return null; }
+  cacheClientes[nome] = ins.data.id;
+  return ins.data.id;
+}
+
+async function migrar(){
+  document.getElementById('btnMigrar').disabled = true;
+  document.getElementById('logBox').textContent = '';
+  document.getElementById('logBox').style.display = 'block';
+  setStatus('statusMig', 'Migrando...', 'ok');
+
+  let totalClientes = 0, totalRegistros = 0, totalErros = 0;
+
+  for(const f of FERRAMENTAS){
+    const clientsKey = f.base + '__clients';
+    const raw = localStorage.getItem(clientsKey);
+    if(!raw){ log(f.label + ': nenhum dado antigo encontrado neste navegador.'); continue; }
+    let nomes = [];
+    try{ nomes = JSON.parse(raw) || []; }catch(e){ log(f.label + ': erro ao ler lista de clientes.'); continue; }
+    if(!nomes.length){ log(f.label + ': lista de clientes vazia.'); continue; }
+
+    log(f.label + ': ' + nomes.length + ' cliente(s) encontrado(s) — migrando...');
+    for(const nome of nomes){
+      const dataRaw = localStorage.getItem(f.base + '__' + nome);
+      if(!dataRaw){ log('  – ' + nome + ': sem dado salvo (nunca foi preenchido), nada a migrar.'); continue; }
+      let conteudo;
+      try{ conteudo = JSON.parse(dataRaw); }catch(e){ log('  ⚠ dado inválido para "' + nome + '", pulado.'); totalErros++; continue; }
+
+      const cid = await getOuCriaCliente(nome);
+      if(!cid){ totalErros++; continue; }
+      totalClientes++;
+
+      const up = await sb.from('dados_ferramenta').upsert(
+        { cliente_id: cid, ferramenta: f.ferramenta, conteudo, updated_at: new Date().toISOString() },
+        { onConflict: 'cliente_id,ferramenta' }
+      );
+      if(up.error){ log('  ⚠ erro ao salvar "' + nome + '" (' + f.label + '): ' + up.error.message); totalErros++; }
+      else{ log('  ✓ ' + nome + ' → ' + f.label); totalRegistros++; }
+    }
+  }
+
+  // CRM (formato diferente: um blob só, sem lista de clientes)
+  const crmRaw = localStorage.getItem('artblend_crm_v2') || localStorage.getItem('artblend_os');
+  if(crmRaw){
+    log('CRM: dado antigo encontrado — migrando...');
+    try{
+      const crmState = JSON.parse(crmRaw);
+      const up = await sb.from('crm_estado').upsert(
+        { owner_id: sessaoAtual.user.id, conteudo: crmState, updated_at: new Date().toISOString() },
+        { onConflict: 'owner_id' }
+      );
+      if(up.error){ log('  ⚠ erro ao salvar CRM: ' + up.error.message); totalErros++; }
+      else{ log('  ✓ CRM migrado (clientes, agenda, biblioteca, ideias).'); totalRegistros++; }
+    }catch(e){ log('  ⚠ dado do CRM inválido, pulado.'); totalErros++; }
+  } else {
+    log('CRM: nenhum dado antigo encontrado neste navegador.');
+  }
+
+  log('\n— Concluído —');
+  log('Clientes processados: ' + totalClientes);
+  log('Registros migrados: ' + totalRegistros);
+  log('Erros: ' + totalErros);
+
+  setStatus('statusMig', totalErros === 0 ? 'Migração concluída sem erros ✓' : ('Migração concluída com ' + totalErros + ' erro(s) — veja o log abaixo.'), totalErros === 0 ? 'ok' : 'err');
+  document.getElementById('btnMigrar').disabled = false;
+}
+
+(async function(){
+  const r = await sb.auth.getSession();
+  if(r.data.session){
+    sessaoAtual = r.data.session;
+    setStatus('statusAuth', 'Logado como ' + sessaoAtual.user.email, 'ok');
+    document.getElementById('migCard').style.display = 'block';
+  }
+})();
+</script>
+</body>
+</html>

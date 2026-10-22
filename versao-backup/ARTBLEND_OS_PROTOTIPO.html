@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artblend OS — Protótipo</title>
+<style>
+  :root{
+    --ink:#1E2521; --muted:#5B655E; --line:#E4DED4; --paper:#FFFFFF; --warm:#FBF7F1;
+    --primary:#0E5E55; --primary-d:#0A463F; --soft:#E5F0EE; --accent:#D9772F; --accent-d:#B65E1C;
+    --green:#1E7A4B; --green-bg:#E6F3EC; --amber:#B07A12; --amber-bg:#FBF0D8; --red:#B23B2E; --red-bg:#FBE9E6;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--warm);font-size:15px;}
+  .app{display:flex;min-height:100vh;}
+  /* sidebar */
+  .nav{width:230px;background:linear-gradient(165deg,var(--primary-d),var(--primary));color:#fff;padding:22px 16px;flex-shrink:0;position:sticky;top:0;height:100vh;}
+  .brand{font-size:22px;font-weight:800;letter-spacing:-.5px;}
+  .brand small{display:block;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#9BE3D6;margin-top:2px;}
+  .navitem{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:10px;cursor:pointer;margin-top:6px;font-weight:600;font-size:14px;color:#CDEDE7;transition:.15s;}
+  .navitem:hover{background:rgba(255,255,255,.08);}
+  .navitem.active{background:#fff;color:var(--primary-d);}
+  .navitem .ic{width:18px;text-align:center;}
+  .navfoot{position:absolute;bottom:18px;left:16px;right:16px;font-size:11px;color:#9BE3D6;border-top:1px solid rgba(255,255,255,.2);padding-top:12px;}
+  /* main */
+  .main{flex:1;padding:30px 38px;max-width:1100px;}
+  .pagehead{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4px;flex-wrap:wrap;gap:12px;}
+  h1{font-size:26px;margin:0;font-weight:800;color:var(--primary-d);}
+  .sub{color:var(--muted);font-size:14px;margin:2px 0 22px;}
+  /* cards */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px;}
+  .card .v{font-size:30px;font-weight:800;color:var(--primary-d);}
+  .card .l{font-size:13px;color:var(--muted);font-weight:600;}
+  .card.accent{background:linear-gradient(135deg,var(--accent),var(--accent-d));color:#fff;border:0;}
+  .card.accent .v,.card.accent .l{color:#fff;}
+  /* panel */
+  .panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:20px;}
+  .panel h3{margin:0 0 14px;color:var(--primary-d);font-size:18px;}
+  /* forms */
+  label{display:block;font-size:12.5px;font-weight:700;color:var(--muted);margin:12px 0 4px;text-transform:uppercase;letter-spacing:.5px;}
+  input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:14px;font-family:inherit;background:var(--warm);}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--soft);border-color:var(--primary);}
+  textarea{min-height:90px;resize:vertical;line-height:1.5;}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+  .btn{background:var(--primary);color:#fff;border:0;border-radius:9px;padding:11px 18px;font-weight:700;font-size:14px;cursor:pointer;margin-top:14px;}
+  .btn:hover{background:var(--primary-d);}
+  .btn.alt{background:var(--accent);} .btn.alt:hover{background:var(--accent-d);}
+  .btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--primary);}
+  .btn.sm{padding:6px 12px;font-size:12.5px;margin:0;}
+  .btn.danger{background:transparent;color:var(--red);border:1px solid var(--red);}
+  /* table */
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13.5px;}
+  th{text-align:left;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.5px;padding:8px 10px;border-bottom:2px solid var(--line);}
+  td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle;}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;}
+  .b-green{background:var(--green-bg);color:var(--green);} .b-amber{background:var(--amber-bg);color:var(--amber);} .b-red{background:var(--red-bg);color:var(--red);}
+  .b-lead{background:#EEE9F6;color:#6B4E9E;} .b-prop{background:#E8EFF6;color:#2F5D8C;} .b-ativo{background:var(--green-bg);color:var(--green);}
+  .empty{color:var(--muted);font-style:italic;padding:18px 0;}
+  .hint{font-size:12.5px;color:var(--muted);font-style:italic;margin-top:6px;}
+  .xray{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;}
+  .xrow{display:flex;justify-content:space-between;background:var(--warm);border:1px solid var(--line);border-radius:9px;padding:10px 14px;}
+  .xrow b{color:var(--primary-d);}
+  .tag{display:inline-block;background:var(--soft);color:var(--primary-d);border-radius:6px;padding:2px 8px;font-size:12px;font-weight:700;}
+  .acc{border:1px solid var(--line);border-radius:10px;margin-bottom:10px;overflow:hidden;}
+  .acc summary{padding:13px 16px;font-weight:700;cursor:pointer;background:var(--warm);color:var(--primary-d);}
+  .acc[open] summary{border-bottom:1px solid var(--line);}
+  .acc .body{padding:14px 16px;}
+  .topbar{display:none;}
+  @media(max-width:760px){
+    .nav{position:fixed;left:-240px;z-index:30;transition:.2s;} .nav.open{left:0;}
+    .topbar{display:flex;align-items:center;gap:12px;background:var(--primary);color:#fff;padding:12px 16px;position:sticky;top:0;z-index:20;}
+    .main{padding:18px;} .row,.row3,.xray{grid-template-columns:1fr;}
+  }
+  .savebar{position:fixed;bottom:16px;right:20px;background:var(--primary-d);color:#fff;padding:9px 16px;border-radius:30px;font-size:12.5px;opacity:0;transition:.3s;pointer-events:none;}
+  .savebar.show{opacity:1;}
+</style>
+</head>
+<body>
+<div class="topbar"><button class="btn sm" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button><b>Artblend OS</b></div>
+<div class="app">
+  <aside class="nav">
+    <div class="brand">artblend<small>OS · protótipo</small></div>
+    <div class="navitem active" data-p="dash"><span class="ic">▦</span> Dashboard</div>
+    <div class="navitem" data-p="clientes"><span class="ic">☺</span> Clientes (CRM)</div>
+    <div class="navitem" data-p="diag"><span class="ic">⚗</span> Diagnóstico</div>
+    <div class="navitem" data-p="prop"><span class="ic">✎</span> Proposta</div>
+    <div class="navitem" data-p="bib"><span class="ic">▤</span> Biblioteca</div>
+    <div class="navitem" data-p="sug"><span class="ic">✦</span> Minhas ideias</div>
+    <div class="navfoot">Protótipo editável · seus dados ficam só no seu navegador.<br>Artblend Consultoria Gourmet</div>
+  </aside>
+  <main class="main" id="main"></main>
+</div>
+<div class="savebar" id="savebar">✓ salvo</div>
+
+<script>
+/* ---------- estado + persistência ---------- */
+var MOD = {Presencial:2000, "Híbrido":1600, Remoto:1200};
+var BENCH = {
+  folha:{calc:f=>f.folha/f.fat*100, ok:15, warn:20, fmt:"≤15% ideal"},
+  cmv:{calc:f=>f.cmv/f.fat*100, ok:30, warn:35, fmt:"25–30% ideal"},
+  prolabore:{calc:f=>f.prol/f.fat*100, lo:10, ok:15, warn:20, fmt:"10–15% ideal"},
+  invest:{calc:f=>f.inv/f.fat*100, lo:3, ok:5, fmt:"3–5% ideal"}
+};
+var DEFAULT = {
+  clientes:[
+    {id:1,nome:'Padaria Pão & Cia',tipo:'Padaria',contato:'Seu Antônio',modalidade:'Híbrido',status:'ativo',fat:180000,folha:41000,cmv:54000,prol:16000,inv:3000},
+    {id:2,nome:'Hamburgueria Brasa & Cia',tipo:'Hamburgueria',contato:'Marina',modalidade:'Presencial',status:'proposta',fat:120000,folha:21600,cmv:38400,prol:12000,inv:2400}
+  ],
+  biblioteca:{
+    "Script — Abordagem de prospecção":"Oi, [Nome]! Acompanho o [Restaurante]. Eu ajudo donos de food service a parar de perder funcionário e organizar a equipe para vender mais — sem aumentar custo fixo. Posso te mostrar em 30 min como funcionaria aí?",
+    "Script — Abertura da 1ª reunião":"Antes de te apresentar qualquer coisa, quero entender seu cenário. Quanto o restaurante fatura por mês? E quanto sai de folha? E o que mais te tira o sono na equipe?",
+    "Template — POP (modelo)":"NOME DO POP:\nObjetivo:\nResponsável:\nFrequência:\nPasso a passo:\n1)\n2)\n3)\nChecklist de verificação:\n( )\n( )"
+  },
+  ideias:""
+};
+var S = load();
+function load(){ try{var d=localStorage.getItem('artblend_os'); return d?JSON.parse(d):JSON.parse(JSON.stringify(DEFAULT));}catch(e){return JSON.parse(JSON.stringify(DEFAULT));} }
+function save(){ try{localStorage.setItem('artblend_os',JSON.stringify(S)); toast();}catch(e){} }
+function toast(){var b=document.getElementById('savebar');b.classList.add('show');clearTimeout(window._t);window._t=setTimeout(()=>b.classList.remove('show'),1100);}
+function money(n){return 'R$ '+(Number(n)||0).toLocaleString('pt-BR');}
+function pct(n){return (Math.round(n*10)/10).toLocaleString('pt-BR')+'%';}
+function statusFolha(v){return v<=15?'green':v<=20?'amber':'red';}
+function statusCMV(v){return v<=30?'green':v<=35?'amber':'red';}
+function statusFaixa(v,lo,hi){return (v>=lo&&v<=hi)?'green':'amber';}
+function bclass(s){return s=='green'?'b-green':s=='amber'?'b-amber':'b-red';}
+
+/* ---------- navegação ---------- */
+document.querySelectorAll('.navitem').forEach(n=>n.onclick=()=>{
+  document.querySelectorAll('.navitem').forEach(x=>x.classList.remove('active'));
+  n.classList.add('active'); render(n.dataset.p);
+  document.querySelector('.nav').classList.remove('open');
+});
+
+function render(p){
+  var m=document.getElementById('main');
+  if(p=='dash') m.innerHTML=viewDash();
+  else if(p=='clientes') m.innerHTML=viewClientes();
+  else if(p=='diag') m.innerHTML=viewDiag();
+  else if(p=='prop') m.innerHTML=viewProp();
+  else if(p=='bib') m.innerHTML=viewBib();
+  else if(p=='sug') m.innerHTML=viewSug();
+}
+
+/* ---------- DASHBOARD ---------- */
+function viewDash(){
+  var ativos=S.clientes.filter(c=>c.status=='ativo');
+  var mrr=ativos.reduce((a,c)=>a+(MOD[c.modalidade]||0),0);
+  var risco=S.clientes.filter(c=>c.fat&&c.folha/c.fat*100>20).length;
+  var rows=S.clientes.map(c=>{
+    var f=c.fat?c.folha/c.fat*100:0;
+    return `<tr><td><b>${c.nome}</b><br><span class="hint">${c.tipo}</span></td>
+      <td><span class="badge b-${c.status}">${c.status}</span></td>
+      <td>${c.modalidade}</td>
+      <td>${c.fat?pct(f):'—'} ${c.fat?'<span class="badge '+bclass(statusFolha(f))+'">folha</span>':''}</td></tr>`;
+  }).join('');
+  return `<div class="pagehead"><h1>Dashboard</h1></div>
+  <p class="sub">Visão da sua carteira de consultoria — atualiza sozinho conforme você cadastra clientes e diagnósticos.</p>
+  <div class="cards">
+    <div class="card accent"><div class="v">${money(mrr)}</div><div class="l">Receita recorrente (MRR)</div></div>
+    <div class="card"><div class="v">${S.clientes.length}</div><div class="l">Clientes na carteira</div></div>
+    <div class="card"><div class="v">${ativos.length}</div><div class="l">Contratos ativos</div></div>
+    <div class="card"><div class="v">${risco}</div><div class="l">Em alerta (folha &gt; 20%)</div></div>
+  </div>
+  <div class="panel"><h3>Sua carteira</h3>
+  <table><thead><tr><th>Cliente</th><th>Status</th><th>Modalidade</th><th>Folha/Faturamento</th></tr></thead>
+  <tbody>${rows||'<tr><td colspan=4 class=empty>Nenhum cliente ainda.</td></tr>'}</tbody></table></div>`;
+}
+
+/* ---------- CLIENTES ---------- */
+function viewClientes(){
+  var rows=S.clientes.map(c=>`<tr>
+    <td><b>${c.nome}</b><br><span class="hint">${c.tipo} · ${c.contato||''}</span></td>
+    <td><span class="badge b-${c.status}">${c.status}</span></td>
+    <td>${c.modalidade}<br><span class="hint">${money(MOD[c.modalidade])}/mês</span></td>
+    <td style="white-space:nowrap">
+      <button class="btn sm ghost" onclick="editCli(${c.id})">editar</button>
+      <button class="btn sm danger" onclick="delCli(${c.id})">excluir</button></td></tr>`).join('');
+  return `<div class="pagehead"><h1>Clientes (CRM)</h1><button class="btn alt" onclick="editCli(0)">+ Novo cliente</button></div>
+  <p class="sub">Seu funil: leads, propostas e contratos ativos num lugar só.</p>
+  <div class="panel"><table><thead><tr><th>Cliente</th><th>Status</th><th>Modalidade</th><th></th></tr></thead>
+  <tbody>${rows||'<tr><td colspan=4 class=empty>Cadastre seu primeiro cliente.</td></tr>'}</tbody></table></div>
+  <div id="cliform"></div>`;
+}
+function editCli(id){
+  var c=id?S.clientes.find(x=>x.id==id):{id:0,nome:'',tipo:'',contato:'',modalidade:'Híbrido',status:'lead',fat:'',folha:'',cmv:'',prol:'',inv:''};
+  var opt=(v,sel)=>`<option ${v==sel?'selected':''}>${v}</option>`;
+  document.getElementById('cliform').innerHTML=`<div class="panel"><h3>${id?'Editar':'Novo'} cliente</h3>
+   <div class="row"><div><label>Nome do estabelecimento</label><input id="f_nome" value="${c.nome}" placeholder="Ex.: Restaurante Sabor da Praça"></div>
+   <div><label>Tipo</label><input id="f_tipo" value="${c.tipo}" placeholder="Ex.: Restaurante, Padaria, Bar"></div></div>
+   <div class="row"><div><label>Contato (dono)</label><input id="f_contato" value="${c.contato||''}" placeholder="Ex.: Seu Antônio"></div>
+   <div><label>Modalidade</label><select id="f_mod">${opt('Presencial',c.modalidade)}${opt('Híbrido',c.modalidade)}${opt('Remoto',c.modalidade)}</select></div></div>
+   <label>Status no funil</label><select id="f_status">${opt('lead',c.status)}${opt('proposta',c.status)}${opt('ativo',c.status)}</select>
+   <button class="btn" onclick="saveCli(${id})">Salvar cliente</button>
+   <span class="hint"> &nbsp;Os números financeiros você preenche na aba Diagnóstico.</span></div>`;
+  document.getElementById('cliform').scrollIntoView({behavior:'smooth'});
+}
+function saveCli(id){
+  var g=i=>document.getElementById(i).value;
+  if(!g('f_nome').trim()){alert('Dê um nome ao cliente.');return;}
+  if(id){var c=S.clientes.find(x=>x.id==id);c.nome=g('f_nome');c.tipo=g('f_tipo');c.contato=g('f_contato');c.modalidade=g('f_mod');c.status=g('f_status');}
+  else{S.clientes.push({id:Date.now(),nome:g('f_nome'),tipo:g('f_tipo'),contato:g('f_contato'),modalidade:g('f_mod'),status:g('f_status'),fat:'',folha:'',cmv:'',prol:'',inv:''});}
+  save();render('clientes');
+}
+function delCli(id){if(confirm('Excluir este cliente?')){S.clientes=S.clientes.filter(x=>x.id!=id);save();render('clientes');}}
+
+/* ---------- DIAGNÓSTICO ---------- */
+function viewDiag(){
+  var opts=S.clientes.map(c=>`<option value="${c.id}">${c.nome}</option>`).join('');
+  return `<div class="pagehead"><h1>Diagnóstico Financeiro</h1></div>
+  <p class="sub">Digite os números e o sistema calcula os percentuais e o "raio-X" — verde, amarelo ou vermelho.</p>
+  <div class="panel"><label>Cliente</label><select id="d_cli" onchange="loadDiag()">${opts||'<option>Cadastre um cliente antes</option>'}</select>
+   <div class="row3">
+     <div><label>Faturamento/mês</label><input id="d_fat" type="number" oninput="calcDiag()" placeholder="100000"></div>
+     <div><label>Folha + encargos</label><input id="d_folha" type="number" oninput="calcDiag()" placeholder="15000"></div>
+     <div><label>CMV (compras)</label><input id="d_cmv" type="number" oninput="calcDiag()" placeholder="28000"></div>
+   </div>
+   <div class="row"><div><label>Pró-labore</label><input id="d_prol" type="number" oninput="calcDiag()" placeholder="12000"></div>
+   <div><label>Investimento (mkt)</label><input id="d_inv" type="number" oninput="calcDiag()" placeholder="4000"></div></div>
+   <button class="btn" onclick="saveDiag()">Salvar diagnóstico</button>
+  </div>
+  <div class="panel"><h3>Raio-X</h3><div id="xray" class="xray"><span class="empty">Selecione um cliente e preencha os números.</span></div></div>`;
+}
+function loadDiag(){var c=S.clientes.find(x=>x.id==document.getElementById('d_cli').value);if(!c)return;
+  ['fat','folha','cmv','prol','inv'].forEach(k=>document.getElementById('d_'+k).value=c[k]||'');calcDiag();}
+function calcDiag(){
+  var g=i=>Number(document.getElementById('d_'+i).value)||0;
+  var fat=g('fat'); var x=document.getElementById('xray');
+  if(!fat){x.innerHTML='<span class="empty">Informe o faturamento para calcular.</span>';return;}
+  var f=g('folha')/fat*100, cm=g('cmv')/fat*100, pr=g('prol')/fat*100, iv=g('inv')/fat*100;
+  function rowx(lbl,v,cls,bench){return `<div class="xrow"><span>${lbl}<br><span class="hint">${bench}</span></span><span><b>${pct(v)}</b> <span class="badge ${bclass(cls)}">${cls=='green'?'ok':cls=='amber'?'atenção':'crítico'}</span></span></div>`;}
+  x.innerHTML=rowx('Folha / Faturamento',f,statusFolha(f),'≤15% ideal')
+    +rowx('CMV / Faturamento',cm,statusCMV(cm),'25–30% ideal')
+    +rowx('Pró-labore',pr,statusFaixa(pr,10,15),'10–15% ideal')
+    +rowx('Investimento',iv,statusFaixa(iv,3,5),'3–5% ideal');
+}
+function saveDiag(){var c=S.clientes.find(x=>x.id==document.getElementById('d_cli').value);if(!c){alert('Selecione um cliente.');return;}
+  ['fat','folha','cmv','prol','inv'].forEach(k=>c[k]=Number(document.getElementById('d_'+k).value)||0);save();alert('Diagnóstico salvo no cliente '+c.nome+'.');}
+
+/* ---------- PROPOSTA ---------- */
+function viewProp(){
+  var opts=S.clientes.map(c=>`<option value="${c.id}">${c.nome}</option>`).join('');
+  return `<div class="pagehead"><h1>Proposta</h1></div>
+  <p class="sub">Escolha o cliente e gere uma proposta automática — depois edite o texto à vontade.</p>
+  <div class="panel"><div class="row"><div><label>Cliente</label><select id="p_cli">${opts||'<option>Cadastre um cliente</option>'}</select></div>
+  <div><label>Dor principal (nas palavras do dono)</label><input id="p_dor" placeholder="Ex.: perco 2 atendentes por mês"></div></div>
+  <button class="btn alt" onclick="genProp()">Gerar proposta</button></div>
+  <div class="panel"><h3>Proposta (editável)</h3><textarea id="p_out" style="min-height:280px" placeholder="A proposta aparece aqui..."></textarea>
+  <button class="btn ghost" onclick="navigator.clipboard.writeText(document.getElementById('p_out').value);toast()">Copiar texto</button></div>`;
+}
+function genProp(){
+  var c=S.clientes.find(x=>x.id==document.getElementById('p_cli').value);if(!c){alert('Selecione um cliente.');return;}
+  var dor=document.getElementById('p_dor').value||'os desafios atuais da sua equipe';
+  var val=MOD[c.modalidade];
+  var folhaTxt=c.fat?`Hoje sua folha está em ${pct(c.folha/c.fat*100)} do faturamento (o saudável é até 15%). `:'';
+  var t=`PROPOSTA DE CONSULTORIA ESTRATÉGICA DE PESSOAS
+Artblend Consultoria Gourmet — para ${c.nome}
+
+1. CENÁRIO
+Você nos relatou: "${dor}". ${folhaTxt}Isso tem custo direto no seu resultado.
+
+2. O QUE VAMOS ENTREGAR (Método Artblend)
+• RH Estratégico — escutas e diagnóstico de pessoas, líderes e cultura
+• Treinamentos (T&D) — equipe vendendo mais e atendendo melhor
+• Integração — onboarding, regimento e cultura de resultados
+• Processos Seletivos — contratar a pessoa certa
+
+3. COMO VAMOS MEDIR
+Turnover, folha/faturamento e ticket médio — relatório mensal com ROI.
+
+4. INVESTIMENTO
+Modalidade ${c.modalidade}: ${money(val)}/mês · contrato de 3 ou 6 meses.
+
+5. PRÓXIMO PASSO
+Aprovação + 1º mês antecipado e iniciamos o diagnóstico (P1).
+
+— Artblend Consultoria Gourmet`;
+  document.getElementById('p_out').value=t;
+  if(c.status=='lead'){c.status='proposta';save();}
+}
+
+/* ---------- BIBLIOTECA ---------- */
+function viewBib(){
+  var items=Object.keys(S.biblioteca).map((k,i)=>`<details class="acc"><summary>${k}</summary>
+    <div class="body"><textarea id="bib_${i}" oninput="updBib('${encodeURIComponent(k)}',this.value)">${S.biblioteca[k]}</textarea>
+    <button class="btn sm danger" onclick="delBib('${encodeURIComponent(k)}')">remover</button></div></details>`).join('');
+  return `<div class="pagehead"><h1>Biblioteca</h1><button class="btn alt" onclick="addBib()">+ Novo item</button></div>
+  <p class="sub">Seus scripts, templates e POPs — todos editáveis e salvos. Use em campo.</p>
+  ${items}`;
+}
+function updBib(k,v){S.biblioteca[decodeURIComponent(k)]=v;save();}
+function delBib(k){if(confirm('Remover este item?')){delete S.biblioteca[decodeURIComponent(k)];save();render('bib');}}
+function addBib(){var n=prompt('Nome do novo item (ex.: Script — Feedback CNV):');if(n){S.biblioteca[n]='';save();render('bib');}}
+
+/* ---------- IDEIAS / SUGESTÕES ---------- */
+function viewSug(){
+  return `<div class="pagehead"><h1>Minhas ideias</h1></div>
+  <p class="sub">Anote aqui tudo que você quer mudar, sugerir ou acrescentar no app. Eu uso isso para a próxima versão.</p>
+  <div class="panel"><textarea id="sug_box" style="min-height:320px" oninput="S.ideias=this.value;save()" placeholder="Ex.: queria um campo de telefone no cliente; um botão para gerar contrato; um gráfico de evolução do turnover...">${S.ideias||''}</textarea>
+  <p class="hint">Tudo é salvo automaticamente no seu navegador.</p></div>`;
+}
+
+render('dash');
+</script>
+</body>
+</html>

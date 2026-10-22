@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Como funciona o app ArtBlend — curso rápido pra você entender</title>
+<style>
+  :root{
+    --bg:#F5F7FA; --card:#FFFFFF; --border:#E2E6ED; --text:#16294A; --muted:#6E7A8C;
+    --accent:#2EC4D6; --accent-soft:#E4F8FB; --blue:#1C93A8;
+    --caso:#1C93A8; --caso-bg:#E4F8FB; --exerc:#6B4E9E; --exerc-bg:#EFEAF6; --gold:#9A6B00; --gold-bg:#FBF3DA;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);padding:44px 20px 70px;}
+  .wrap{max-width:800px;margin:0 auto;}
+  .top{text-align:center;margin-bottom:36px;}
+  .top .kick{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);font-weight:800;}
+  .top h1{font-size:26px;font-weight:800;margin:6px 0 8px;}
+  .top p{color:var(--muted);font-size:14px;max-width:600px;margin:0 auto;line-height:1.6;}
+  h2.mh{font-size:19px;color:var(--text);margin:34px 0 6px;font-weight:800;border-left:4px solid var(--accent);padding-left:12px;}
+  h2.mh:first-of-type{margin-top:10px;}
+  p{line-height:1.7;font-size:14px;margin:8px 0;}
+  ul,ol{padding-left:22px;line-height:1.8;font-size:14px;margin:8px 0;}
+  .cbox{border-radius:10px;padding:15px 18px;margin:14px 0;border:1px solid var(--border);}
+  .cbox .tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:20px;color:#fff;margin-bottom:8px;}
+  .cbox.caso{background:var(--caso-bg);} .cbox.caso .tag{background:var(--caso);}
+  .cbox.exerc{background:var(--exerc-bg);} .cbox.exerc .tag{background:var(--exerc);}
+  .cbox.gato{background:var(--gold-bg);border-color:#E6D08A;} .cbox.gato .tag{background:var(--gold);}
+  code{background:var(--accent-soft);color:var(--blue);padding:2px 6px;border-radius:5px;font-size:13px;font-family:Consolas,Menlo,monospace;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:12px 0;}
+  th{background:var(--accent-soft);color:var(--blue);text-align:left;padding:8px 10px;font-weight:700;}
+  td{border-bottom:1px solid var(--border);padding:8px 10px;}
+  .backlink{display:block;text-align:center;margin-top:36px;font-size:13px;}
+  .backlink a{color:var(--blue);font-weight:700;text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="kick">Curso rápido · uso pessoal</div>
+    <h1>Como funciona o app ArtBlend</h1>
+    <p>Você não precisa saber programar pra usar as ferramentas — mas entender o básico ajuda a pedir mudanças certas, saber o que é possível hoje e o que só dá pra fazer quando virar um app "de verdade".</p>
+  </div>
+
+  <h2 class="mh">1. O que é, de fato, cada arquivo</h2>
+  <p>Cada ferramenta (Kit Operacional, NR-1, CEP, Cardápio, CRM...) é um <b>único arquivo HTML</b>. HTML é a linguagem que o navegador entende pra desenhar páginas. Dentro desse mesmo arquivo tem três partes:</p>
+  <table>
+    <tr><th>Parte</th><th>O que faz</th></tr>
+    <tr><td><b>HTML</b></td><td>O esqueleto — os textos, botões, tabelas, campos.</td></tr>
+    <tr><td><b>CSS</b></td><td>A aparência — cores, espaçamento, a identidade visual (o turquesa/azul-marinho).</td></tr>
+    <tr><td><b>JavaScript (JS)</b></td><td>O comportamento — o que acontece quando você clica, digita, calcula um CMV, troca de cliente.</td></tr>
+  </table>
+  <p>Por isso dá pra abrir qualquer uma dessas ferramentas com duplo clique — não precisa instalar nada, não depende de internet.</p>
+
+  <h2 class="mh">2. Onde ficam os dados que você digita</h2>
+  <p>Tudo que você digita (fichas técnicas, clientes, diagnósticos) é salvo no <b><code>localStorage</code></b> — uma "gaveta" que o próprio navegador (Chrome, Edge) guarda no seu computador, associada àquele arquivo específico.</p>
+  <div class="cbox gato"><span class="tag">🐱 O detalhe importante</span><p>Essa gaveta é <b>por navegador e por arquivo</b>. Se você abrir o mesmo arquivo em outro computador, ou apagar os dados do navegador, os dados <b>não vão junto</b> — porque não existe um servidor central guardando isso, é só o seu navegador. É por isso que existe o botão <b>"Exportar dados"</b> em quase todas as ferramentas: ele salva um arquivo <code>.json</code> que funciona como um backup que você pode guardar ou levar pra outro computador.</p></div>
+
+  <h2 class="mh">3. O "seletor de cliente"</h2>
+  <p>Nas ferramentas mais novas (NR-1, CEP, Cardápio, Compliance, Kit Operacional, Frameworks, Financeira) tem uma caixinha no topo pra trocar de cliente. Por trás disso, cada cliente tem sua própria "gaveta" dentro do <code>localStorage</code> — trocar de cliente só troca qual gaveta está sendo lida e escrita. Assim os dados de um restaurante nunca se misturam com os de outro.</p>
+
+  <h2 class="mh">4. O que é fácil de pedir, o que é difícil</h2>
+  <table>
+    <tr><th>Fácil de mudar (rápido)</th><th>Difícil de mudar (exige mais tempo/planejamento)</th></tr>
+    <tr><td>Textos, cores, ordem de campos</td><td>Fazer os dados aparecerem em outro computador/celular automaticamente</td></tr>
+    <tr><td>Adicionar uma pergunta, uma coluna, um campo</td><td>Vários consultores acessando o mesmo cliente ao mesmo tempo</td></tr>
+    <tr><td>Novos cálculos simples (uma fórmula nova)</td><td>Publicar como app de verdade na Play Store</td></tr>
+    <tr><td>Unir duas ferramentas numa só</td><td>Login/senha por usuário, permissões diferentes</td></tr>
+  </table>
+  <p>A coluna da direita é justamente o que exige migrar de "arquivo HTML sozinho" para um <b>app com servidor/banco de dados de verdade</b> — que já está anotado como próxima etapa grande do projeto (mas só depois de todo o conteúdo estar unificado, pra não ter que redesenhar tudo de novo).</p>
+
+  <h2 class="mh">5. Glossário rápido (os termos que aparecem nas conversas)</h2>
+  <ul>
+    <li><b>Front-end:</b> a parte visual, o que você vê e clica (é basicamente o que essas ferramentas HTML já são).</li>
+    <li><b>Back-end:</b> o "motor" que roda num servidor, guarda os dados de todo mundo num banco de dados central, permite login. É o que ainda falta pra virar um app publicável.</li>
+    <li><b>Banco de dados:</b> onde os dados ficariam guardados de verdade (em vez do <code>localStorage</code> do navegador).</li>
+    <li><b>App nativo / Play Store:</b> versão instalável no celular — normalmente é uma "casca" em volta do front-end + back-end.</li>
+    <li><b>Sandbox / ambiente:</b> um computador temporário e isolado que eu uso pra rodar comandos técnicos (às vezes ele cai — foi o que aconteceu nesta sessão, por isso não consegui abrir os arquivos .docx direto).</li>
+    <li><b>JSON:</b> o formato de arquivo usado nos backups ("Exportar dados") — é só um jeito organizado de guardar texto.</li>
+  </ul>
+
+  <div class="cbox caso"><span class="tag">Resumo em 1 frase</span><p>Hoje você tem várias "casas" (arquivos) muito bem decoradas e organizadas, cada uma guardando suas próprias coisas na gaveta do navegador; o próximo salto é construir um "prédio" (servidor + banco de dados) que conecta todas as casas e deixa qualquer pessoa, de qualquer lugar, acessar os mesmos dados.</p></div>
+
+  <p class="backlink"><a href="ARTBLEND_HUB.html">← Voltar para o Hub principal</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Central de Inteligência ArtBlend — Estratégia Interna</title>
+<style>
+  :root{
+    --bg:#F5F7FA; --card:#FFFFFF; --border:#E2E6ED; --text:#16294A; --muted:#6E7A8C;
+    --accent:#2EC4D6; --accent-soft:#E4F8FB; --blue:#1C93A8; --green:#3ADC84; --green-soft:#E3FBEF;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);padding:50px 24px 70px;}
+  .wrap{max-width:960px;margin:0 auto;}
+  .top{text-align:center;margin-bottom:40px;}
+  .top .kick{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);font-weight:800;}
+  .top h1{font-size:28px;font-weight:800;margin:6px 0 8px;}
+  .top p{color:var(--muted);font-size:14px;max-width:640px;margin:0 auto;line-height:1.6;}
+  .warn{background:var(--accent-soft);border:1px solid var(--accent);border-radius:12px;padding:14px 18px;margin:22px 0;font-size:13px;color:var(--text);text-align:center;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px;}
+  @media(max-width:760px){.grid{grid-template-columns:1fr;}}
+  .doc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px;}
+  .doc .tag{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--blue);background:var(--accent-soft);border-radius:20px;padding:3px 10px;width:fit-content;}
+  .doc h3{font-size:16.5px;font-weight:700;}
+  .doc p{font-size:13px;color:var(--muted);line-height:1.55;flex-grow:1;}
+  .doc a{display:inline-block;margin-top:4px;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;font-size:12.5px;padding:8px 14px;border-radius:8px;width:fit-content;}
+  .doc a:hover{background:var(--blue);}
+  .foot{margin-top:40px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 22px;font-size:13px;color:var(--muted);line-height:1.6;text-align:center;}
+  .backlink{display:block;text-align:center;margin-top:26px;font-size:13px;}
+  .backlink a{color:var(--blue);font-weight:700;text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="kick">Uso interno · não é para o cliente</div>
+    <h1>Central de Inteligência ArtBlend</h1>
+    <p>Ponto único de acesso aos documentos de estratégia, arquitetura do ecossistema e inteligência competitiva. Cada card abre o documento completo original.</p>
+  </div>
+
+  <div class="warn">⚠️ Estes documentos são de uso estritamente interno (você, Fagner). Nunca compartilhe com clientes — alguns contêm análise de concorrentes e referências de mercado.</div>
+
+  <div class="grid">
+    <div class="doc">
+      <span class="tag">Documento mestre</span>
+      <h3>Sistema Global ArtBlend</h3>
+      <p>O cérebro do projeto: identidade visual, o Método ArtBlend inteiro (CEP + T&D + Cardápio + NR-1 + Frameworks), inteligência competitiva, arquitetura do software (Core/OS/Restaurant/Academy/Intelligence) e arquitetura de agentes de IA.</p>
+      <a href="SISTEMA_GLOBAL_ARTBLEND.html" target="_blank">Abrir documento ↗</a>
+    </div>
+    <div class="doc">
+      <span class="tag">Arquitetura</span>
+      <h3>Blueprint do Ecossistema</h3>
+      <p>Como todas as ferramentas, cursos e o futuro app se encaixam — a planta baixa técnica do ecossistema ArtBlend.</p>
+      <a href="BLUEPRINT_ARTBLEND_ECOSSISTEMA.html" target="_blank">Abrir documento ↗</a>
+    </div>
+    <div class="doc">
+      <span class="tag">Autocrítica</span>
+      <h3>Avaliação Executiva</h3>
+      <p>Crítica executiva honesta do que já foi construído + blueprint de melhoria — o "raio-X" do próprio negócio ArtBlend.</p>
+      <a href="ARTBLEND_AVALIACAO_EXECUTIVA.html" target="_blank">Abrir documento ↗</a>
+    </div>
+    <div class="doc">
+      <span class="tag">Mercado</span>
+      <h3>Análise e Caminho</h3>
+      <p>Análise de mercado, concorrentes, como construir o ecossistema, licenças e custos envolvidos.</p>
+      <a href="ARTBLEND_ANALISE_E_CAMINHO.html" target="_blank">Abrir documento ↗</a>
+    </div>
+    <div class="doc">
+      <span class="tag">Inteligência competitiva</span>
+      <h3>Dossiê de Concorrentes</h3>
+      <p>Mapeamento completo de referências e concorrentes do mercado de consultoria em food service e RH.</p>
+      <a href="ARTBLEND_DOSSIE_CONCORRENTES.html" target="_blank">Abrir documento ↗</a>
+    </div>
+    <div class="doc">
+      <span class="tag">Referência especializada</span>
+      <h3>NR-1 e Frameworks — dossiê de especialistas</h3>
+      <p>O que absorver de referências de mercado em saúde mental ocupacional (NR-1) e em métodos de consultoria escalável — com aviso legal sobre responsabilidade técnica.</p>
+      <a href="ARTBLEND_NR1_E_FRAMEWORKS.html" target="_blank">Abrir documento ↗</a>
+    </div>
+  </div>
+
+  <div class="foot"><strong>ArtBlend Consultoria Gourmet — Fagner Augusto.</strong> Esta página é apenas um índice — o conteúdo de cada documento permanece no arquivo original, sem alterações de conteúdo (apenas navegação centralizada).</div>
+  <div class="backlink"><a href="ARTBLEND_HUB.html">← Voltar para o Hub principal</a></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auditoria Crítica da Plataforma ArtBlend — Documento Interno</title>
+<style>
+  :root{
+    --bg:#F5F7FA; --card:#FFFFFF; --border:#E2E6ED; --text:#16294A; --muted:#6E7A8C;
+    --accent:#2EC4D6; --accent-dark:#1C93A8;
+    --crit-bg:#FBE9E6; --crit:#B23B2E;
+    --imp-bg:#FDF3E0; --imp:#9A6B00;
+    --des-bg:#EAF1FB; --des:#2F5D8C;
+    --pos-bg:#E6F3EC; --pos:#1E7A4B;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.62;padding:0 0 70px;font-size:15px;}
+  .cover{background:linear-gradient(140deg,#16294A,#2E4066 55%,#1C93A8);color:#fff;padding:80px 50px;text-align:left;}
+  .cover .kick{font-size:12px;letter-spacing:3px;text-transform:uppercase;opacity:.8;font-weight:700;margin-bottom:14px;}
+  .cover h1{font-size:36px;font-weight:800;margin:0 0 12px;line-height:1.15;max-width:680px;}
+  .cover h2{font-size:16px;font-weight:500;opacity:.88;max-width:620px;line-height:1.5;margin-bottom:26px;}
+  .cover .meta{display:flex;gap:22px;flex-wrap:wrap;font-size:13px;opacity:.85;border-top:1px solid rgba(255,255,255,.25);padding-top:16px;margin-top:10px;}
+  .wrap{max-width:900px;margin:0 auto;padding:0 30px;}
+  .sec{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:30px 32px;margin-top:24px;}
+  .sec h2{font-size:21px;font-weight:800;margin-bottom:6px;}
+  .sec .sub{font-size:13px;color:var(--muted);margin-bottom:18px;}
+  .sec h3{font-size:16px;font-weight:800;margin:26px 0 4px;color:var(--text);border-left:4px solid var(--accent-dark);padding-left:10px;}
+  .sec h3 .file{font-weight:600;font-size:12.5px;color:var(--muted);display:block;margin-top:2px;padding-left:0;font-family:monospace;}
+  .sec p{font-size:14px;margin-bottom:8px;}
+  .finding{border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:12px 0;}
+  .finding .ftitle{font-weight:700;font-size:14.5px;margin-bottom:6px;}
+  .badge{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-right:8px;vertical-align:middle;}
+  .badge.crit{background:var(--crit-bg);color:var(--crit);}
+  .badge.imp{background:var(--imp-bg);color:var(--imp);}
+  .badge.des{background:var(--des-bg);color:var(--des);}
+  .badge.pos{background:var(--pos-bg);color:var(--pos);}
+  .finding p{font-size:13.5px;color:var(--text);margin:4px 0;}
+  .finding .rec{background:var(--bg);border-radius:8px;padding:8px 12px;margin-top:8px;font-size:13px;}
+  .finding .rec b{color:var(--accent-dark);}
+  .toc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:26px 30px;margin-top:24px;}
+  .toc ol{padding-left:20px;}
+  .toc li{margin:6px 0;font-weight:600;font-size:14px;}
+  .verdict{background:#16294A;color:#fff;border-radius:14px;padding:26px 30px;margin-top:24px;}
+  .verdict h2{color:#fff;}
+  .verdict p{color:#CFE3EA;font-size:14px;}
+  .punch{border-radius:10px;padding:10px 14px;margin:8px 0;border-left:4px solid var(--crit);background:var(--crit-bg);font-size:13.5px;}
+  .punch.imp{border-left-color:var(--imp);background:var(--imp-bg);}
+  .punch.des{border-left-color:var(--des);background:var(--des-bg);}
+  .divider{height:1px;background:var(--border);margin:26px 0;}
+  ul,ol{padding-left:22px;margin:8px 0;}
+  li{margin:4px 0;font-size:13.5px;}
+  code{background:#EEF1F6;padding:1px 5px;border-radius:4px;font-size:12.5px;}
+  .footer{text-align:center;margin-top:36px;font-size:12px;color:var(--muted);}
+  @media print{
+    body{padding:0;background:#fff;}
+    .cover{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .sec,.finding,.verdict{break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="kick">Documento interno · Uso restrito ArtBlend Consultoria Gourmet</div>
+  <h1>Auditoria Crítica da Plataforma ArtBlend</h1>
+  <h2>Revisão técnica rigorosa de todas as ferramentas, manuais e cursos da suite — no padrão de um comitê de aprovação avaliando a plataforma para um marco grande (investimento, lançamento formal ou expansão). Sem cortesia editorial: cada achado é ancorado em função, linha ou trecho real do código, com severidade e recomendação.</h2>
+  <div class="meta">
+    <span>20 arquivos auditados</span>
+    <span>4 frentes de revisão independentes</span>
+    <span>Julho de 2026</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+<div class="verdict">
+  <h2>Veredito geral</h2>
+  <p><b style="color:#fff;">Aprovação condicional, não aprovação plena.</b> O conteúdo pedagógico e a lógica de negócio da plataforma são, na maior parte, genuinamente sólidos — vários módulos (viabilidade financeira, matriz de risco NR-1, Curso de Fundamentos de Gestão, o núcleo do CRM) passariam num comitê técnico sem ressalvas. Mas existem problemas reais, não cosméticos, concentrados em três frentes: <b style="color:#fff;">(1) integridade de dados</b> — falhas de carregamento do Supabase que passam silenciosas em quase toda a plataforma, combinadas com autosave sem debounce, criam risco real de perda/sobrescrita de dados de cliente pagante; <b style="color:#fff;">(2) a peça central que o próprio negócio mais valoriza</b> — Engenharia de Cardápio e BAR21 ainda não têm a cara nem o comportamento de planilha/dashboard integrado que o objetivo do produto pede, e o "estoque" hoje é decorativo, não conectado a vendas/perdas; <b style="color:#fff;">(3) a espinha dorsal de navegação</b> — o Hub tem três itens de menu que apontam para o mesmo arquivo sem se diferenciar, dois cards do dashboard central que nunca vão preencher (apontam para uma tabela que o CRM não usa), e nenhuma ferramenta tem alternativa de navegação em celular quando a barra lateral é escondida.</p>
+</div>
+
+<div class="toc">
+  <h2 style="font-size:16px;">Sumário</h2>
+  <ol>
+    <li>Achados transversais (aparecem em várias ferramentas)</li>
+    <li>Ferramentas do Cliente — Kit Operacional, Frameworks, Financeira, Compliance, NR-1/DRPS</li>
+    <li>Manuais de Treinamento — Vendas, Cocção, Empratamento, Processos, Alta Performance</li>
+    <li>Cardápio, BAR21 e Cursos — com aprofundamento no pedido de planilha + dashboard + estoque</li>
+    <li>Hub Central e CRM</li>
+    <li>Lista priorizada de correções (punch list)</li>
+  </ol>
+</div>
+
+<!-- ===================== 1. TRANSVERSAL ===================== -->
+<div class="sec">
+  <h2>1. Achados transversais</h2>
+  <div class="sub">Problemas que se repetem em várias ferramentas — tratados aqui uma única vez para não repetir 15 vezes o mesmo achado.</div>
+
+  <div class="finding">
+    <div class="ftitle"><span class="badge crit">Crítico</span>Carregamento de dados falha silenciosamente em quase toda a plataforma</div>
+    <p>Praticamente todo <code>load()</code>/<code>loadState()</code> do ecossistema (Kit Operacional, Frameworks, Gestão Financeira, CEP, T&D — Compliance e NR-1/DRPS parcialmente) não verifica <code>r.error</code> do Supabase. Se a leitura falhar (rede instável, RLS mal configurada, token expirado), o app carrega silenciosamente um estado vazio/padrão como se fosse um cliente novo — sem nenhum aviso. O problema real está na combinação com o próximo achado.</p>
+    <div class="rec"><b>Recomendação:</b> checar <code>r.error</code> em toda leitura, bloquear edição e alertar explicitamente até confirmar carregamento bem-sucedido — replicando o padrão que <b>já existe corretamente</b> em vários pontos de <code>save()</code> (ex.: CRM, NR-1/DRPS, Cardápio), só não no carregamento.</div>
+  </div>
+
+  <div class="finding">
+    <div class="ftitle"><span class="badge crit">Crítico</span>Autosave sem debounce grava a cada tecla, em praticamente todo arquivo</div>
+    <p>Todo campo com <code>data-key</code>/<code>oninput</code> chama <code>save()</code>/<code>persist()</code> diretamente a cada tecla digitada — sem debounce em nenhum dos 9 arquivos com autosave auditados. Combinado ao achado anterior: se uma leitura falhar e resetar o estado, a primeira tecla digitada já sobrescreve o registro real do cliente no banco com um objeto quase vazio.</p>
+    <div class="rec"><b>Recomendação:</b> debounce de 500–800ms antes de qualquer <code>save()</code>/<code>persist()</code> — mudança pequena, de altíssimo impacto, replicável em minutos em todos os arquivos.</div>
+  </div>
+
+  <div class="finding">
+    <div class="ftitle"><span class="badge crit">Crítico</span>Isolamento entre clientes e entre consultores depende 100% de RLS não auditável pelo código</div>
+    <p>Nenhuma consulta Supabase (Cardápio, CEP, T&D, Hub, Kit Operacional) filtra explicitamente por <code>owner_id</code>/consultor — a segurança multi-tenant depende inteiramente de policies de RLS configuradas no lado do banco, que não são visíveis a partir do HTML. O cadastro (<code>signUp</code>) é aberto a qualquer pessoa que tenha a URL e a chave pública do Supabase (hardcoded no código), sem convite nem aprovação.</p>
+    <div class="rec"><b>Recomendação:</b> antes de qualquer decisão de investimento/lançamento, confirmar e documentar formalmente (fora do código) que as policies de RLS do projeto Supabase restringem <code>clientes</code> e <code>dados_ferramenta</code> por dono, e desativar cadastro público ou adicionar código de convite.</div>
+  </div>
+
+  <div class="finding">
+    <div class="ftitle"><span class="badge crit">Crítico</span>Barra lateral desaparece em celular sem nenhuma alternativa de navegação</div>
+    <p>Cardápio e T&D usam <code>@media(max-width:780px){.sidebar{display:none;}}</code> sem hambúrguer, drawer ou qualquer navegação substituta — em qualquer smartphone o consultor fica preso na última aba carregada, sem conseguir trocar de cliente nem de módulo. CEP resolveu isso corretamente com uma barra horizontal com <code>flex-wrap</code>; esse padrão precisa ser levado aos demais.</p>
+    <div class="rec"><b>Recomendação:</b> replicar o padrão do CEP (nav horizontal com wrap) ou adicionar um botão de menu que abra a sidebar como drawer no mobile.</div>
+  </div>
+
+  <div class="finding">
+    <div class="ftitle"><span class="badge imp">Importante</span>Toda a plataforma assume um único consultor</div>
+    <p>Nomes hardcoded ("Fagner Augusto" no rodapé do CRM e do curso de Fundamentos), ausência de filtro por dono nas queries, e um dashboard central que não distingue contas — a arquitetura atual não escala para múltiplos consultores sem retrabalho real, mesmo sendo tecnicamente multi-tenant no schema (<code>clientes</code>/<code>dados_ferramenta</code>).</p>
+    <div class="rec"><b>Recomendação:</b> decisão de produto a tomar conscientemente — se o plano é permanecer single-consultant por enquanto, não é bug; se o plano é escalar, é um item de arquitetura a priorizar.</div>
+  </div>
+</div>
+
+<!-- ===================== 2. FERRAMENTAS DO CLIENTE ===================== -->
+<div class="sec">
+  <h2>2. Ferramentas do Cliente</h2>
+  <div class="sub">Kit Operacional da Cozinha · Diagnóstico &amp; Estratégia (Frameworks) · Gestão Financeira · Conformidade &amp; Segurança · NR-1/DRPS</div>
+
+  <h3>Gestão Operacional da Cozinha (Kit Operacional)<span class="file">CHEF_FAIXA_PRETA_KIT_OPERACIONAL.html</span></h3>
+  <div class="finding"><div class="ftitle"><span class="badge crit">Crítico</span>Texto quase invisível em boa parte da ferramenta</div><p>Regras de CSS residuais de um tema escuro (<code>color:#d5dae1</code> em <code>.card li</code>, <code>.card p</code>, <code>td</code>, <code>.step-list li</code>, <code>.ref-note</code>) aplicam cinza quase-branco sobre fundo branco — apagando visualmente descrições de cargo, itens de checklist, todo o conteúdo digitado em tabelas de insumos/POPs e as notas de referência. Só este arquivo tem essa cor; os outros 4 da categoria não.</p><div class="rec"><b>Recomendação:</b> trocar <code>#d5dae1</code> por <code>var(--text)</code> em todas as ocorrências.</div></div>
+  <div class="finding"><div class="ftitle"><span class="badge crit">Crítico</span>Ficha Técnica — Custo não calcula nada</div><p>Apesar de ser descrita como "a base do controle de CMV", os campos de rendimento, preço total, valor/kg e custo por ingrediente são <code>&lt;input&gt;</code> de texto puro sem nenhuma função associada — não existe <code>calcFicha</code>/<code>calcCusto</code>. O consultor precisa calcular por fora e digitar o resultado; se o preço de uma base mudar, nada recalcula os pratos que a usam.</p><div class="rec"><b>Recomendação:</b> implementar a cadeia de cálculo custo→rendimento→valor/kg com recálculo em cascata.</div></div>
+  <div class="finding"><div class="ftitle"><span class="badge crit">Crítico</span>Falha de leitura pode apagar dados salvos do cliente</div><p><code>loadState()</code>/<code>loadClients()</code> não verificam <code>r.error</code>; se falhar, <code>state</code> vira <code>{}</code> silenciosamente e o próximo <code>persist()</code> grava esse objeto quase vazio por cima do histórico real no banco.</p><div class="rec"><b>Recomendação:</b> ver achado transversal #1.</div></div>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>"CMV médio" não recalcula ao reabrir cliente</div><p><code>updateCMVMedio()</code> só é chamada de dentro de <code>calcCMVrow()</code>, nunca em <code>iniciarApp()</code>/<code>switchClient()</code> — o indicador mostra "—" até o consultor tocar manualmente algum campo.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>Tabelas sem rolagem horizontal quebram no celular</div><p>Nenhuma tabela tem <code>overflow-x:auto</code>; tabelas de 5–7 colunas (checklists, fichas de custo, catálogo de 180+ insumos) vão exceder a largura de qualquer smartphone.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge pos">Ponto forte</span></div><p>Catálogo de Compras &amp; Insumos fiel à planilha original (180+ itens), unidades de medida customizáveis, perfis de negócio com starters, e upload de fotos de POP com compressão client-side — funcionalidade genuinamente bem construída.</p></div>
+
+  <h3>Diagnóstico &amp; Estratégia<span class="file">ARTBLEND_FRAMEWORKS.html</span></h3>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>Falha silenciosa em <code>load()</code> + autosave sem debounce (40+ pontos de disparo)</div><p>Mesmo padrão transversal #1 e #2 — aqui com 19 frameworks interativos, cada um multiplicando o risco.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge des">Desejável</span>Nomenclatura de tokens de cor diverge dos demais arquivos</div><p>Usa <code>--ink/--paper/--line</code> em vez de <code>--text/--card/--border</code>; os valores hex batem, mas cada arquivo reinventa os nomes — dificulta manter um design system real compartilhado.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge pos">Ponto forte</span></div><p>Os ~19 frameworks (BMC, VRIO, Matriz GUT, Esforço×Impacto, RACI, SWOT, Porter, Cadeia de Valor, 7S, Oceano Azul, BSC, Jornada, Ishikawa etc.) são genuinamente interativos e persistidos por cliente, com fórmulas de classificação coerentes (GUT com cortes em 27/64) e CSS de impressão dedicado por framework — o arquivo mais maduro tecnicamente da categoria.</p></div>
+
+  <h3>Gestão Financeira<span class="file">FERRAMENTA_ARTBLEND_GESTAO_FINANCEIRA.html</span></h3>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>Três calculadoras de CMV/Prime Cost desconectadas entre si</div><p>Prime Cost &amp; Ponto de Equilíbrio, Orçado×Realizado e Plano de Viabilidade pedem os mesmos dados de custo em três lugares sem nenhuma sincronização — um consultor pode preencher só um painel e deixar os outros com números divergentes, sem aviso.</p><div class="rec"><b>Recomendação:</b> unificar numa fonte de custos única ou exibir aviso cruzado quando os valores divergem.</div></div>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>Painel de Capital de Giro é só texto</div><p>A fórmula do ciclo financeiro está descrita com exemplo numérico, mas não há nenhum campo de input nem cálculo real — puramente decorativo apesar de a fórmula ser trivial de implementar com a infraestrutura já existente.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge pos">Ponto forte</span></div><p><code>computeViabilidade()</code> é a peça de lógica de negócio mais sofisticada de toda a auditoria: Ponto de Equilíbrio, payback simples e payback descontado mês a mês via simulação de fluxo de caixa, com limiares Viável/Atenção/Inviável coerentes.</p></div>
+
+  <h3>Conformidade &amp; Segurança<span class="file">ARTBLEND_COMPLIANCE.html</span></h3>
+  <div class="finding"><div class="ftitle"><span class="badge crit">Crítico</span>Limite de resfriamento HACCP factualmente incorreto, gravado como padrão para todo cliente novo</div><p>O limite crítico de resfriamento está definido como "de 60°C a 10°C em até 2h10" — o padrão real (RDC 216/ANVISA) é até 2 horas, não 2h10. Como <code>loadState()</code> semeia esse valor automaticamente para todo cliente novo, todo cliente recebe um limite de PCC impreciso como dado "oficial" sem aviso de revisão.</p><div class="rec"><b>Recomendação:</b> corrigir para "até 2 horas" e revisar os demais limites-semente contra a RDC 216 vigente antes de usar com qualquer cliente novo.</div></div>
+  <div class="finding"><div class="ftitle"><span class="badge des">Desejável</span>Módulo NR-1 geral não calcula nível de risco</div><p>Ao contrário do HACCP e da ferramenta dedicada de NR-1/DRPS, a tabela de riscos ocupacionais gerais não cruza probabilidade×gravidade automaticamente.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge pos">Ponto forte</span></div><p>Único arquivo da categoria 100% consistente com a paleta documentada, sem cores de baixo contraste. <code>renderHaccpSummary()</code> é um painel de gestão genuinamente útil e correto (sob controle / com desvio / sem registro).</p></div>
+
+  <h3>NR-1 — Ferramenta de Diagnóstico (DRPS)<span class="file">ARTBLEND_NR1_DRPS.html</span></h3>
+  <div class="finding"><div class="ftitle"><span class="badge crit">Crítico</span>Toda a navegação desaparece em celular, sem alternativa</div><p>A única regra de mídia do arquivo esconde a sidebar inteira (cliente, 8 itens de menu, exportar/imprimir) abaixo de 780px — sem hambúrguer nem substituto. Especialmente grave por ser o tipo de ferramenta que se preenche em campo, junto ao RH do cliente.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>Gravidade "0" (melhor caso) é tratada como "sem dado"</div><p><code>gravClass(m)</code> usa <code>if(!m) return null</code> — e <code>0</code> é falsy em JavaScript. Um tópico com média genuinamente 0.0 (sem risco comprovado) exibe "—" (não avaliado), misturando "não preenchido" com "preenchido e comprovadamente sem risco" — ambiguidade real num laudo de compliance.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>A etapa mais trabalhosa do diagnóstico não é automatizada</div><p>A agregação das ~57 perguntas do questionário (inverter escalas, tirar médias por tópico) é feita manualmente fora da ferramenta (Google Forms) — a parte mais sujeita a erro humano do processo inteiro fica fora do sistema, que só automatiza o passo final (ler a matriz).</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge pos">Ponto forte</span></div><p>Matriz de risco Gravidade×Probabilidade coerente e defensável; encadeamento Diagnóstico→Resultado→Plano de Ação genuinamente funcional. <code>save()</code> é um dos poucos pontos de toda a plataforma que já trata <code>r.error</code> corretamente com alerta ao usuário.</p></div>
+</div>
+
+<!-- ===================== 3. MANUAIS ===================== -->
+<div class="sec">
+  <h2>3. Manuais de Treinamento</h2>
+  <div class="sub">Vendas &amp; Atendimento de Salão · Técnicas de Cocção · Empratamento · Gestão &amp; Processos Operacionais · Gestão de Alta Performance — avaliados contra o padrão-ouro do Curso NR-1.</div>
+
+  <h3>Vendas &amp; Atendimento de Salão<span class="file">ARTBLEND_MANUAL_VENDAS_ATENDIMENTO_SALAO.html</span></h3>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>Bug de paginação em boxes gerais</div><p><code>page-break-inside:avoid</code> está definido para os tipos específicos de box mas não para <code>.box</code> genérico nem <code>.box.warn</code> — risco de corte ao meio no PDF.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge des">Desejável</span>Sem <code>@page</code> nem sumário, ao contrário da referência NR-1</div></div>
+  <div class="finding"><div class="ftitle"><span class="badge pos">Ponto forte</span></div><p>Os "pulos do gato" atingem a barra do NR-1 — específicos e verificáveis (leitura de linguagem corporal, ancoragem de preço pela ordem de apresentação, a matemática de 3–4 mesas por garçom deduzida da regra dos 2 minutos). Exercícios exigem produção real, nenhum é vago.</p></div>
+
+  <h3>Técnicas de Cocção<span class="file">ARTBLEND_MANUAL_TECNICAS_COCCAO.html</span></h3>
+  <div class="finding"><div class="ftitle"><span class="badge crit">Crítico</span>Referencia uma "tabela de pasteurização" que não existe no documento</div><p>Os Módulos 4 e 7 (warn, gato e exercícios) instruem repetidamente a cruzar cálculos com "a tabela de pasteurização deste manual" — essa tabela não existe em lugar nenhum; só há tabelas de ponto de carne/ovo/vegetais. Torna os dois exercícios de segurança alimentar irrespondíveis com o material fornecido, no ponto mais sensível do manual (segurança alimentar regulatória).</p><div class="rec"><b>Recomendação:</b> inserir a tabela real de tempo×temperatura de pasteurização antes de qualquer uso com cliente.</div></div>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>Título mais amplo que o conteúdo real</div><p>"Técnicas de Cocção" cobre exclusivamente baixa temperatura/sous-vide — sem grelhados, braseados, frituras ou assados. Considerar renomear para refletir o escopo real.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge pos">Ponto forte</span></div><p>Manual tecnicamente mais rigoroso do conjunto — "pulos do gato" com explicações causais reais (tempo ∝ espessura², cinética de desnaturação da mioglobina, física do resfriamento evaporativo, queda do ponto de ebulição do álcool sob vácuo, pectina metilesterase). Padrão que os demais deveriam perseguir.</p></div>
+
+  <h3>Empratamento<span class="file">ARTBLEND_MANUAL_EMPRATAMENTO.html</span></h3>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>"Pulo do gato" de abertura é genérico (fake gato)</div><p>O gato do Módulo 0 explica <em>por que</em> empratamento importa, não <em>o que fazer</em> — destoa da qualidade específica/acionável do restante do manual.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge des">Desejável</span>Estatística não sustentada apresentada como fato</div><p>"70% dos receptores sensoriais estão nos olhos" (Módulo 8) não tem base científica sólida citável.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge pos">Ponto forte</span></div><p>Manual mais consistente visualmente do conjunto (proteção de quebra de página centralizada numa única regra CSS). Arco pedagógico mais completo (13 módulos), fecha de forma coerente. Nenhum nome de marca/pessoa encontrado.</p></div>
+
+  <h3>Gestão &amp; Processos Operacionais<span class="file">ARTBLEND_MANUAL_GESTAO_PROCESSOS_OPERACIONAIS.html</span></h3>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>Termina abruptamente, sem módulo de fechamento</div><p>Ao contrário dos demais manuais (que fecham com checklist consolidado/script comercial), este termina no Módulo 8 sem síntese — parece interrompido, não fechado.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>Rótulo de capa parece anotação interna</div><p>"Metodologia ArtBlend · Nova Consultoria" lê como rascunho, não como categoria pronta para cliente ver.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge des">Desejável</span>Exercícios ausentes em 6 dos 9 módulos</div></div>
+  <div class="finding"><div class="ftitle"><span class="badge pos">Ponto forte</span></div><p>O gato do SIPOC (preencher de trás para frente, do cliente/saída) e o do POP (dono nomeado + data de revisão) são do nível exato do padrão-ouro. Os 8 Desperdícios foram adaptados sem nunca citar a origem por nome.</p></div>
+
+  <h3>Gestão de Alta Performance<span class="file">ARTBLEND_MANUAL_GESTAO_ALTA_PERFORMANCE.html</span></h3>
+  <div class="finding"><div class="ftitle"><span class="badge crit">Crítico</span>Estrutura conceitual muito próxima de uma obra de gestão específica e reconhecível — apesar de nenhum nome vazar</div><p>Não há vazamento literal de nome/marca, mas a combinação de conceitos (output do gestor = output da equipe sob influência; "alavancagem gerencial"; maturidade de delegação por tarefa, não pela pessoa; reunião individual com pauta de quem é acompanhado; decisão via "discussão franca→decisão clara→apoio total") forma, em conjunto, uma "impressão digital" reconhecível de uma fonte específica — isoladamente cada peça poderia ser boa prática genérica, mas a combinação não. O rodapé afirma "conteúdo original", o que agrava a exposição se algum cliente familiarizado com a obra original perceber a semelhança.</p><div class="rec"><b>Recomendação:</b> decisão consciente da direção — reescrever a estrutura/exemplos de forma mais distante do original, ou pelo menos remover a alegação de originalidade do rodapé.</div></div>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>Nenhuma proteção de quebra de página para as boxes</div><p>Regressão em relação aos demais manuais — este é justamente o que tem os casos/templates mais longos, então é o de maior risco de corte no PDF.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>Sétimo tipo de box não documentado (<code>.box-gold</code>), visualmente ambíguo com o "pulo do gato"</div><p>Usa paleta quase idêntica ao gato mas sem etiqueta identificadora — quebra a gramática visual de "cor = categoria" estabelecida no resto da plataforma.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge pos">Ponto forte</span></div><p>Manual mais forte em coerência pedagógica e qualidade de exercício do conjunto — arco de fechamento fiel ao padrão-ouro NR-1, com o único teste de indicador-líder do nível exato do benchmark ("se esse número piorar hoje, ainda tenho tempo de mudar o resultado de amanhã?"). O achado crítico acima não anula esse mérito — é justamente por ser tão bem construído que a proximidade com a obra-fonte fica mais evidente.</p></div>
+</div>
+
+<!-- ===================== 4. CARDAPIO/BAR21/CURSOS ===================== -->
+<div class="sec">
+  <h2>4. Cardápio, BAR21 e Cursos</h2>
+  <div class="sub">Esta é a seção mais aprofundada do relatório, por pedido explícito do dono da ArtBlend: avaliar se Engenharia de Cardápio e BAR21 já entregam a sensação de planilha integrada + dashboard + estoque plugado.</div>
+
+  <h3>Consultoria de Cardápio<span class="file">ARTBLEND_CARDAPIO.html — análise aprofundada</span></h3>
+
+  <p style="margin-top:14px;"><b>A ferramenta parece planilha, ou parece formulário web?</b> Hoje, formulário web. Não há borda vertical entre colunas (só horizontal entre linhas), nenhum cabeçalho fixo (<code>sticky</code>) em nenhuma tabela, nenhuma numeração de linha, e nenhuma barra de abas de planilha — a navegação é por menu lateral de app. Pior: Engenharia de Cardápio nem tem aba própria hoje — está embutida dentro da aba "🎓 Curso CCP", no meio do texto do Módulo 3. Das 5 colunas da tabela de engenharia, só uma é editável; as demais são somente leitura, ou seja, é uma tabela de resultado, não uma planilha de trabalho.</p>
+
+  <p><b>BAR21 existe como ferramenta real, ou é decorativo?</b> Hoje é só um botão que abre um arquivo HTML externo (<code>CATALOGO_FICHAS_BAR21.html</code>) em nova aba, rotulado "Catálogo BAR21 (referência real)". Não há nenhum estado, tabela ou lógica chamada "bar21" dentro do arquivo principal — não é um módulo interativo ligado aos dados do cliente, é um link para um documento de consulta.</p>
+
+  <p><b>Existe um dashboard real, ou é preciso garimpar as abas?</b> Não existe um painel único. Os números estão espalhados em pelo menos 4 lugares que nunca se encontram: os cards de CMV/fichas/insumos a repor na aba Resultado, a contagem de "abaixo do mínimo" na aba Estoque (com uma fórmula diferente da anterior — ver próximo ponto), a Curva ABC sem nenhum card-resumo (é preciso contar manualmente), e o resumo de quadrantes de Engenharia + o novo alerta de queda de margem, que só aparecem se o consultor rolar até o Módulo 3 do curso.</p>
+
+  <p><b>Estoque está de fato conectado, ou é uma ilusão de integração?</b> Rastreando o código: não está. Há duas fórmulas de "estoque mínimo" coexistindo sem reconciliação (<code>ins.min</code> manual em uma tela, <code>estMinCalc = pe × cmd</code> calculado em outra) que podem discordar entre si. Perdas/quebras calculam o valor em R$ da perda, mas nenhuma função desconta a quantidade do estoque do insumo. Vendas lançadas em CMV Teórico×Real também não descontam estoque por ficha. E o "estoque" usado no cálculo de CMV real (<code>estoqueInicial</code>/<code>estoqueFinal</code> agregados em R$, digitados por período) é uma fonte de dado completamente separada da quantidade física por insumo cadastrada em Insumos/Estoque — o app tem, na prática, duas "fontes de estoque" que nunca conversam. O que de fato liga os módulos hoje é só o cadastro (nome/preço/FC do insumo) — o fluxo transacional real (o que entra, sai por venda, sai por perda) não existe.</p>
+
+  <div class="finding" style="border-color:var(--accent-dark);">
+    <div class="ftitle" style="color:var(--accent-dark);">Roteiro priorizado — menor conjunto de mudanças para chegar a "planilha real + dashboard + estoque plugado" sem reescrita completa</div>
+    <ol>
+      <li><b>Promover Engenharia de Cardápio (e futuro BAR21) a itens de navegação próprios</b> na barra lateral, desvinculados da aba "Curso CCP" — resolve também o alerta de margem ficar escondido.</li>
+      <li><b>Criar uma view "Dashboard"</b> reunindo numa tela só: CMV médio, insumos abaixo do mínimo, resumo da Curva ABC, contagem de quadrantes de Engenharia e o banner de queda de margem — a maior parte do cálculo já existe, falta agregar.</li>
+      <li><b>Ligar Perdas e Vendas ao decremento real do estoque</b> — este é o gap mais crítico de todos: sem isso, "estoque" continua sendo anotação manual, não dado vivo.</li>
+      <li><b>Unificar as duas fórmulas de estoque mínimo</b> numa única fonte de verdade.</li>
+      <li><b>Dar aparência de planilha ao painel de Engenharia/BAR21</b>: bordas verticais entre colunas, cabeçalho fixo (<code>sticky</code>), numeração de linha, e uma faixa de "abas de planilha" no topo.</li>
+      <li><b>Adicionar debounce ao <code>save()</code></b> — vira mais importante ainda quando estoque passar a atualizar por eventos automáticos de venda/perda, aumentando a frequência de gravações.</li>
+    </ol>
+  </div>
+
+  <div class="finding"><div class="ftitle"><span class="badge crit">Crítico</span>Barra lateral 100% oculta em celular, sem substituto</div><p>Mesmo padrão do achado transversal — aqui agravado por ser a ferramenta mais usada da plataforma.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge crit">Crítico</span>Nenhuma query filtra por <code>owner_id</code>; é o módulo com dado mais sensível (preços, margens, fichas) da plataforma</div><p>Maior ponto de risco de vazamento cross-cliente se a RLS estiver mal configurada.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>Possível duplicação do Fator de Correção</div><p><code>cmvFicha()</code> pode aplicar o FC do insumo e o FC calculado por peso bruto/líquido da ficha ao mesmo tempo, corrigindo o custo duas vezes se ambos forem preenchidos para o mesmo item.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>Alerta de queda de margem se autoanula entre visitas</div><p><code>atualizarMargemBaseline()</code> sobrescreve a baseline a cada renderização, mesmo sem alerta disparado — uma erosão gradual ao longo de várias edições espaçadas pode nunca acumular um alerta correspondente.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge des">Desejável</span>Guia "Como usar" está incompleto frente ao escopo real</div><p>Não menciona 6 dos 12 itens de menu atuais (Estoque, Aproveitamento de Carnes, CMV Teórico×Real, Perdas, Curva ABC, Checklist).</p></div>
+
+  <h3>CEP — Consultor Estratégico de Pessoas<span class="file">ARTBLEND_CEP.html</span></h3>
+  <div class="finding"><div class="ftitle"><span class="badge crit">Crítico</span>Ficha de Escuta 3G e Termômetro Q12 não são salvos</div><p>Esses campos não têm atributo <code>id</code>, então o autosave genérico (que varre <code>input[id]</code>) nunca os captura — ao trocar de cliente ou recarregar, esse preenchimento desaparece silenciosamente, enquanto os campos vizinhos persistem normalmente, criando falsa sensação de que "tudo é salvo".</p><div class="rec"><b>Recomendação:</b> dar <code>id</code> a cada campo do 3G e cada rádio do Q12 e incluí-los em <code>collectState()</code>/<code>loadState()</code>.</div></div>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>Cita marcas de terceiros nominalmente (Google Docs, Canva, ChatGPT/Claude, Gov.br)</div><p>Contrasta com a política de zero-nome aplicada rigorosamente em Estrutura Tecnológica.</p><div class="rec"><b>Recomendação:</b> trocar por termos genéricos se a política for vinculante para este arquivo também.</div></div>
+  <div class="finding"><div class="ftitle"><span class="badge pos">Ponto forte</span></div><p>Melhor integração número-a-número entre curso e ferramenta de toda a plataforma — 9-Box e cálculos financeiros/analytics usam benchmarks consistentes com o texto do próprio curso.</p></div>
+
+  <h3>T&amp;D — Treinamento &amp; Desenvolvimento<span class="file">ARTBLEND_TD.html</span></h3>
+  <div class="finding"><div class="ftitle"><span class="badge crit">Crítico</span>Falha de leitura é engolida silenciosamente</div><p>Se a query falhar, o app carrega o <code>seed()</code> vazio como se fosse cliente novo — sem reportar a falha.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge crit">Crítico</span>Sidebar 100% oculta em celular, sem substituto</div></div>
+  <div class="finding"><div class="ftitle"><span class="badge des">Desejável</span>Sem função de importar (só exportar), diferente do Cardápio</div></div>
+  <div class="finding"><div class="ftitle"><span class="badge pos">Ponto forte</span></div><p>Melhor exemplo de dois módulos realmente conversando via o mesmo estado — LNT diagnostica a causa raiz e o Plano de Treinamento gerado a incorpora automaticamente no texto.</p></div>
+
+  <h3>Curso de Fundamentos de Gestão<span class="file">CURSO_ARTBLEND_FUNDAMENTOS_GESTAO.html</span></h3>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>Tabela de custo de turnover induz erro de leitura</div><p>O total apresentado soma só 4 das 5 linhas da tabela, sem nenhuma nota explicando por que a primeira linha fica de fora — um leitor rápido soma tudo e não bate com o total mostrado.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge des">Desejável</span>"ArtBlend" grafado como "Artblend" ao longo de todo o corpo do texto</div><p>Inconsistência de capitalização repetida, não isolada.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge pos">Ponto forte</span></div><p>Único artefato de cálculo de toda a auditoria sem nenhum erro aritmético encontrado — todos os números do exercício guiado do Módulo 5 batem entre si e com as fórmulas descritas.</p></div>
+
+  <h3>Estrutura Tecnológica do Restaurante<span class="file">ARTBLEND_MANUAL_ESTRUTURA_TECNOLOGICA.html</span></h3>
+  <div class="finding"><div class="ftitle"><span class="badge pos">Ponto forte</span></div><p>Melhor exemplo de compliance de zero-nome de marca de toda a plataforma — nenhuma marca real de PDV, maquininha, operadora de delivery ou provedor citada; só termos genéricos. Conteúdo tecnicamente correto e bem sequenciado.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge des">Desejável</span>100% estático — sem nenhuma ferramenta interativa anexa</div><p>Destoa do padrão de CEP/T&D, que têm ferramentas vivas junto ao curso; poderia ganhar um checklist de diagnóstico tecnológico com pontuação, já que o conteúdo já está estruturado como checklist.</p></div>
+</div>
+
+<!-- ===================== 5. HUB E CRM ===================== -->
+<div class="sec">
+  <h2>5. Hub Central e CRM</h2>
+  <div class="sub">A espinha dorsal de navegação e o painel de gestão do próprio consultor.</div>
+
+  <h3>Hub Central<span class="file">ARTBLEND_HUB.html</span></h3>
+  <div class="finding"><div class="ftitle"><span class="badge crit">Crítico</span>Três itens de menu apontam para o mesmo arquivo, sem se diferenciar</div><p>"CRM do Consultor", "Painel de Indicadores do Cliente" e "Agenda" têm o mesmo <code>data-src="ARTBLEND_CRM.html"</code>. Como o carregamento do iframe só recarrega quando o <code>src</code> muda, clicar entre os três não muda nada no conteúdo — só o título da barra superior. Nada roteia para a aba/cliente certo dentro do CRM.</p><div class="rec"><b>Recomendação:</b> usar fragmentos distintos (<code>#painel</code>, <code>#agenda</code>) e fazer o CRM ler <code>location.hash</code> ao iniciar.</div></div>
+  <div class="finding"><div class="ftitle"><span class="badge crit">Crítico</span>Dois cards do dashboard central nunca vão preencher</div><p>"Agenda de hoje" e "Pendências" consultam uma tabela <code>crm_agenda</code> que o CRM nunca escreve — toda a agenda do CRM vive dentro do JSON <code>crm_estado.conteudo.agenda</code>. Esses dois widgets vão mostrar "Nada agendado" para sempre, não importa quanto o consultor use a agenda de verdade.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge crit">Crítico</span>"Clientes ativos" conta tudo, de uma tabela diferente da que o CRM usa</div><p>A query não filtra por status e lê da tabela <code>clientes</code> — uma fonte de dado separada do roster real do CRM (<code>crm_estado.conteudo.clientes</code>). O número em destaque na tela inicial não reflete o que o CRM mostra.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge crit">Crítico</span>Dashboard sem escopo por dono</div><p>Nenhuma das 3 queries do dashboard filtra por <code>owner_id</code>, ao contrário do próprio CRM, que escopa corretamente por usuário — inconsistência que é, em si, um sinal de alerta.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>Ferramentas carregadas via iframe reexibem o próprio login</div><p>Se a sessão não for compartilhada entre a página do Hub e a ferramenta (risco real em arquivos abertos via <code>file://</code>), o consultor loga duas vezes — quebrando a sensação de "app único" que a barra lateral tenta entregar.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>Ícones colidem no modo compacto/mobile</div><p>"NR-1", "Curso NR-1" e "Central de Inteligência ArtBlend" usam o mesmo ícone sem tooltip — ficam indistinguíveis quando a barra lateral colapsa para só ícones.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge pos">Ponto forte</span></div><p>Busca com normalização de acentos corretamente implementada; guarda contra recarregamento desnecessário do iframe; grade do dashboard responsiva de forma bem escalonada (4→2→1 colunas).</p></div>
+
+  <h3>CRM do Consultor<span class="file">ARTBLEND_CRM.html</span></h3>
+  <div class="finding"><div class="ftitle"><span class="badge crit">Crítico</span>"Painel de Indicadores do Cliente" expõe a carteira inteira, não um cliente</div><p>Como o Hub não consegue rotear para uma aba/cliente específico, o que abre sob esse rótulo é o CRM inteiro — a um clique de mostrar nome, faturamento, folha, CMV e estágio de pipeline de todos os outros clientes. Se essa tela é compartilhada com um cliente real (o que o rótulo sugere), é o risco de vazamento mais concreto de toda a auditoria.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge crit">Crítico</span>Dados de demonstração indistinguíveis de clientes reais</div><p>O estado padrão vem com 3 empresas fictícias totalmente preenchidas; se a leitura do Supabase falhar ou vier vazia, essas empresas aparecem como se fossem reais, sem nenhuma marcação de "exemplo".</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>Proposta gerada promete relatório mensal de ROI que a ferramenta não consegue produzir</div><p><code>saveDiag()</code> sobrescreve os dados financeiros do cliente a cada vez, sem histórico — não há como reconstruir uma tendência mês a mês, mas o texto da proposta promete exatamente isso ao prospect.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge imp">Importante</span>Pipeline sem status de "perdido"/"cancelado"</div><p>Só existem lead/proposta/ativo — negócios perdidos ou cancelados ficam marcados como "ativo" por padrão, poluindo silenciosamente as métricas de MRR e clientes ativos do próprio dashboard.</p></div>
+  <div class="finding"><div class="ftitle"><span class="badge pos">Ponto forte</span></div><p>O simulador ao vivo é honesto (não altera dados salvos, e o código cumpre exatamente essa promessa). O health score é uma composição ponderada real, não decorativa. <code>load()</code>/<code>save()</code> dão o melhor tratamento de erro de toda a plataforma — mensagens específicas nomeando a tabela a verificar.</p></div>
+</div>
+
+<!-- ===================== 6. PUNCH LIST ===================== -->
+<div class="sec">
+  <h2>6. Lista priorizada de correções</h2>
+  <div class="sub">Todos os itens Críticos primeiro (ordem de impacto, não de arquivo), depois Importantes. Itens Desejáveis ficam registrados nas seções acima, não repetidos aqui.</div>
+
+  <h3 style="border:0;padding:0;">Críticos</h3>
+  <div class="punch">1. Confirmar/corrigir RLS do Supabase para isolar dados por consultor e por cliente — item de maior risco de negócio de toda a auditoria, afeta praticamente todos os arquivos.</div>
+  <div class="punch">2. Corrigir carregamento silencioso de dados (checar <code>r.error</code>) + adicionar debounce ao autosave em toda a plataforma — combinação com maior risco real de perda de dado de cliente pagante.</div>
+  <div class="punch">3. Ligar Perdas e Vendas ao decremento real de estoque no Cardápio, e unificar as duas fórmulas de estoque mínimo — sem isso, "estoque integrado" continua sendo promessa não cumprida.</div>
+  <div class="punch">4. Corrigir os três itens de menu do Hub que apontam pro mesmo arquivo (CRM/Painel/Agenda) e os dois widgets do dashboard que consultam uma tabela morta (<code>crm_agenda</code>).</div>
+  <div class="punch">5. Resolver o vazamento de escopo do "Painel de Indicadores do Cliente" — hoje mostra a carteira inteira do consultor, não um cliente.</div>
+  <div class="punch">6. Corrigir o limite de resfriamento HACCP (2h, não 2h10) antes de qualquer uso com cliente novo.</div>
+  <div class="punch">7. Implementar de fato o cálculo da Ficha Técnica — Custo no Kit Operacional (hoje são campos de texto sem fórmula).</div>
+  <div class="punch">8. Corrigir o CSS de texto quase invisível no Kit Operacional (<code>#d5dae1</code>).</div>
+  <div class="punch">9. Inserir a tabela de pasteurização prometida e ausente no manual de Técnicas de Cocção.</div>
+  <div class="punch">10. Decidir conscientemente sobre a proximidade estrutural do manual de Alta Performance com uma obra de gestão específica — reescrever ou remover a alegação de "conteúdo original".</div>
+  <div class="punch">11. Dar alternativa de navegação mobile a Cardápio, T&D e NR-1/DRPS (sidebar some sem substituto).</div>
+
+  <h3 style="border:0;padding:0;margin-top:20px;">Importantes (destaques)</h3>
+  <div class="punch imp">Promover Engenharia de Cardápio e BAR21 a itens de navegação próprios, fora da aba de curso, e construir a view de Dashboard consolidado no Cardápio.</div>
+  <div class="punch imp">Unificar as três calculadoras de CMV/Prime Cost da Gestão Financeira numa fonte única de custos.</div>
+  <div class="punch imp">Corrigir a Ficha de Escuta 3G e o Termômetro Q12 no CEP, que hoje não salvam.</div>
+  <div class="punch imp">Adicionar módulo de fechamento ao manual de Gestão &amp; Processos Operacionais.</div>
+  <div class="punch imp">Adicionar status "perdido/cancelado" ao pipeline do CRM e reduzir a promessa de ROI mensal da proposta automática até existir histórico real.</div>
+</div>
+
+<div class="footer">Auditoria Crítica da Plataforma ArtBlend — documento interno, uso exclusivo da equipe consultora. Não distribuir a clientes.</div>
+
+</div>
+</body>
+</html>

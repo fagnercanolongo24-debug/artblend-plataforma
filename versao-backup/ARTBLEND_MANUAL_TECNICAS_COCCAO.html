@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Técnicas de Cocção · Metodologia ArtBlend</title>
+<style>
+  :root{
+    --bg:#F5F7FA; --card:#FFFFFF; --border:#E2E6ED; --text:#16294A; --muted:#6E7A8C;
+    --accent:#2EC4D6; --accent-soft:#E4F8FB; --blue:#1C93A8;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.65;padding:0 0 60px;}
+  .cover{background:linear-gradient(135deg,#B34A1F,#E08A3E);color:#fff;padding:70px 40px;text-align:center;}
+  .cover .kick{font-size:12px;letter-spacing:3px;text-transform:uppercase;opacity:.85;font-weight:700;}
+  .cover h1{font-size:34px;font-weight:800;margin:14px 0 10px;}
+  .cover p{font-size:15px;opacity:.9;max-width:560px;margin:0 auto;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px;}
+  .sec{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px 30px;margin-top:22px;}
+  .sec .num{display:inline-block;background:#FBE9DC;color:#B34A1F;font-weight:800;font-size:12px;letter-spacing:1px;padding:4px 10px;border-radius:20px;margin-bottom:10px;}
+  .sec h2{font-size:20px;font-weight:800;margin-bottom:12px;color:var(--text);}
+  .sec h3{font-size:14px;font-weight:700;margin:18px 0 8px;color:#B34A1F;}
+  .sec p{font-size:14px;color:var(--text);margin-bottom:8px;}
+  .sec ul, .sec ol{margin:8px 0 8px 20px;font-size:14px;}
+  .sec li{margin-bottom:5px;}
+  .muted{color:var(--muted);font-size:13px;}
+  .box{background:#FBE9DC;border-radius:10px;padding:14px 16px;margin:12px 0;font-size:13.5px;}
+  .box.warn{background:#FDF3E0;}
+  .box .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;padding:3px 10px;border-radius:20px;color:#fff;margin-bottom:8px;}
+  .box p:last-child, .box ul:last-child, .box ol:last-child{margin-bottom:0;}
+  .box.gato{background:#FDF1D0;border:1px solid #EFD98F;}
+  .box.gato .tag{background:#B8860B;}
+  .box.gato b, .box.gato strong{color:#8A5A00;}
+  .box.script{background:var(--accent-soft);border:1px solid #BFEAF0;}
+  .box.script .tag{background:var(--blue);}
+  .box.template{background:#F1E6D6;border:1px solid #DCC7A8;}
+  .box.template .tag{background:#8C5A2B;}
+  .box.exerc{background:#F0EAF8;border:1px solid #D9C9EE;}
+  .box.exerc .tag{background:#6B4E9E;}
+  .box.caso{background:#E3F3EC;border:1px solid #BFE0D2;}
+  .box.caso .tag{background:#1E7A5F;}
+  .chain{text-align:center;font-weight:800;color:#B34A1F;background:#FBE9DC;border-radius:10px;padding:12px 10px;margin:14px 0;font-size:12.5px;letter-spacing:.2px;}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0;}
+  th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;}
+  th{background:#FBE9DC;color:#B34A1F;font-weight:700;}
+  .footer{text-align:center;margin-top:34px;font-size:12px;color:var(--muted);}
+  @media print{
+    body{padding:0;background:#fff;}
+    .cover{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+    .sec{break-inside:avoid;border:1px solid #ddd;}
+    .box{break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="kick">Metodologia ArtBlend · Consultoria de Cozinha</div>
+  <h1>Técnicas de Cocção</h1>
+  <p>Fundamentos de cocção a baixa temperatura controlada — o que a equipe de cozinha precisa saber sobre ponto, temperatura e segurança alimentar para ganhar consistência no prato.</p>
+</div>
+
+<div class="wrap">
+
+  <div class="sec">
+    <span class="num">MÓDULO 0</span>
+    <h2>Fundamentos da Cocção a Baixa Temperatura</h2>
+    <p>A técnica consiste em cozinhar o alimento embalado a vácuo, em água ou vapor com temperatura controlada com precisão — o que garante um resultado consistente, prato após prato, algo muito difícil de repetir na cocção tradicional.</p>
+    <h3>Equipamentos mínimos</h3>
+    <ul>
+      <li>Seladora a vácuo e sacos próprios para cocção (BPA free).</li>
+      <li>Termocirculador ou banho-maria com controle preciso de temperatura.</li>
+      <li>Recipiente com volume de água suficiente para o giro do serviço.</li>
+    </ul>
+    <div class="box">
+      <b>Princípio central:</b> a <b>temperatura</b> define o ponto final do alimento (mal passado, ao ponto, bem passado); o <b>tempo</b> define a textura (mais macio, mais firme). São duas variáveis independentes — e é isso que dá controle total sobre o resultado.
+    </div>
+    <div class="box gato"><span class="tag">Pulo do gato</span>
+      <p><b>O que realmente determina o tempo de cocção não é o peso da peça, é a espessura.</b> O calor se move da água para o centro do alimento por condução, e o tempo para essa frente de calor atravessar a peça cresce de forma aproximadamente proporcional ao <b>quadrado da espessura</b> — dobrar a espessura de um corte não dobra o tempo necessário, ele fica próximo de <b>4 vezes maior</b>. Por isso um filé fino e um filé grosso do mesmo peso (um mais largo e raso, outro mais compacto) pedem tempos de banho completamente diferentes, e por isso "peso" nunca deveria ser a referência usada para calcular tempo de cocção — espessura sim.</p>
+      <p>Detalhe operacional que poucos ajustam: sacos empilhados ou encostados uns nos outros dentro do banho criam bolsões de água parada entre eles, atrasando a equalização térmica mesmo com o termocirculador marcando a temperatura certa. Use anilhas/espaçadores e nunca sobrecarregue o recipiente além da capacidade de circulação do equipamento — senão o "tempo de receita" deixa de valer.</p>
+    </div>
+    <div class="box exerc"><span class="tag">Exercício</span>
+      <p>Um filé de peixe de 1,5 cm de espessura atinge o ponto em 25 minutos de banho. Usando a relação de espessura ao quadrado explicada acima, estime (em ordem de grandeza, não em minuto exato) quanto tempo a mais seria necessário para um corte de peixe de 3 cm de espessura no mesmo banho. Depois responda: por que dois cortes de peso igual, mas formato diferente, podem exigir tempos de banho diferentes?</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 1</span>
+    <h2>Ponto x Temperatura em Carnes Vermelhas</h2>
+    <table>
+      <tr><th>Ponto</th><th>Faixa de temperatura</th></tr>
+      <tr><td>Mal passado</td><td>49–52,5°C</td></tr>
+      <tr><td>Ao ponto</td><td>53–55°C</td></tr>
+      <tr><td>Bem passado</td><td>acima de 60°C</td></tr>
+    </table>
+    <p>A cor muda gradualmente dentro dessas faixas conforme o tempo de exposição — quanto mais tempo na mesma temperatura, mais a proteína se transforma, mesmo sem subir o ponto.</p>
+    <div class="box gato"><span class="tag">Pulo do gato</span>
+      <p>A explicação técnica por trás disso: a cor vermelho-rosada da carne vem da <b>mioglobina</b>, e ela não desnatura de forma instantânea ao atingir uma temperatura — ela desnatura de forma progressiva, mesmo em temperatura constante. Isso significa que uma peça mantida a 55°C por 45 minutos fica visivelmente mais rosada que a mesma peça mantida a 55°C por 3 horas, ainda que as duas estejam tecnicamente "ao ponto" e seguras. Se um prato saiu "cinza demais" mesmo na temperatura certa, o problema quase sempre é tempo de banho longo demais para aquele corte, não a temperatura marcada no equipamento.</p>
+    </div>
+    <div class="box template"><span class="tag">Template — Protocolo de verificação de ponto</span>
+      <ol>
+        <li>Confirme a temperatura do banho com um termômetro independente (não confie apenas no visor do equipamento).</li>
+        <li>Insira a sonda no centro geométrico da peça, no ponto de maior espessura — é ali que o núcleo demora mais para equalizar.</li>
+        <li>Só considere o ponto atingido quando a sonda estabilizar na temperatura-alvo por pelo menos 1–2 minutos.</li>
+        <li>Registre no caderno de produção: corte, espessura, temperatura do banho e tempo total — isso vira sua tabela própria, calibrada para os equipamentos da casa.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 2</span>
+    <h2>Reação de Maillard na Prática</h2>
+    <p>A reação que dá cor e sabor de "selado" só acontece com aminoácido, açúcar, alta temperatura e ambiente seco — por isso o alimento precisa ser bem seco na superfície antes de selar.</p>
+    <ul>
+      <li>Secar bem a superfície com papel antes de selar (água atrapalha a reação).</li>
+      <li>Selar em frigideira/chapa muito quente, de preferência depois da cocção a baixa temperatura, para não passar do ponto interno já atingido.</li>
+    </ul>
+    <div class="box gato"><span class="tag">Pulo do gato</span>
+      <p>A razão técnica exata de selar <b>depois</b> e não antes: a água que evapora da superfície consome energia (calor latente) e mantém a superfície perto de 100°C enquanto ainda houver água livre para evaporar — abaixo dos 140–150°C necessários para a reação de Maillard começar de verdade. Se você sela primeiro, a crosta se forma, mas a peça ainda vai passar minutos ou horas dentro do banho quente depois — tempo suficiente para amolecer a crosta e, pior, empurrar o núcleo além do ponto-alvo, já que a crosta quente conduz calor para dentro por mais tempo. Selando por último, o núcleo já está exatamente no ponto e você tem apenas segundos de margem: por isso a fritura final deve ser curta, na chapa/frigideira no ponto de fumaça mais alto possível, com a peça completamente seca e, se possível, gelada por fora por alguns instantes antes (superfície fria absorve menos calor de condução para o centro no tempo em que a crosta se forma).</p>
+    </div>
+    <div class="box caso"><span class="tag">Caso — selar antes x depois</span>
+      <p>Duas peças idênticas de contrafilé, cozidas a 55°C até o núcleo estabilizar. Peça A é selada <b>antes</b> do banho (crosta pronta, depois vai para 55°C por 1h30 de cocção): a crosta amolece com a umidade do saco a vácuo e o calor residual da selagem eleva pontos da borda além de 55°C, gerando uma faixa cinza sob a superfície. Peça B é selada <b>depois</b> do banho (55°C por 1h30, seladas por 40 segundos de cada lado em chapa muito quente, já seca): crosta crocante preservada, corte rosado de ponta a ponta, sem faixa cinza. A diferença não é o tempero nem o corte — é exclusivamente a ordem das etapas.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 3</span>
+    <h2>Ovo no Ponto Perfeito</h2>
+    <p>Clara e gema coagulam em temperaturas diferentes — é isso que permite fazer um ovo com gema líquida e clara firme, algo impossível na fervura tradicional.</p>
+    <table>
+      <tr><th>Parte do ovo</th><th>Início da coagulação</th></tr>
+      <tr><td>Clara</td><td>~60°C</td></tr>
+      <tr><td>Gema</td><td>~68°C</td></tr>
+    </table>
+    <p class="muted">Erro comum: gema esverdeada acontece por excesso de tempo/temperatura — reação entre enxofre e ferro do ovo.</p>
+    <div class="box gato"><span class="tag">Pulo do gato</span>
+      <p>Por que o anel esverdeado aparece mais em uns ovos do que em outros mesmo no mesmo banho: durante o armazenamento, o ovo perde CO₂ pela casca e o pH da clara sobe (fica mais alcalino). Quanto mais alcalina a clara, mais fácil o enxofre liberado pela proteína (cisteína) reage com o ferro da gema formando sulfeto de ferro — o pigmento esverdeado. Ou seja: <b>ovos mais velhos esverdeiam mais rápido que ovos frescos no mesmo tempo/temperatura.</b> Na prática, isso significa que sua tabela de tempo precisa de folga quando o lote de ovos não é recém-chegado — não é só "respeitar a temperatura", é também controlar o giro de estoque do ovo.</p>
+    </div>
+    <div class="box template"><span class="tag">Template — Referência de ponto do ovo (com casca)</span>
+      <table style="margin:6px 0 0;">
+        <tr><th>Temperatura do banho</th><th>Tempo</th><th>Resultado</th></tr>
+        <tr><td>63°C</td><td>45–60 min</td><td>Clara mole/cremosa, gema líquida-cremosa (clássico "ovo 63")</td></tr>
+        <tr><td>65°C</td><td>45–60 min</td><td>Clara mais firme, gema tipo "geleia" (jammy)</td></tr>
+        <tr><td>75°C</td><td>~13 min</td><td>Cozido duro, textura próxima da fervura tradicional, sem anel esverdeado se o tempo não for excedido</td></tr>
+      </table>
+    </div>
+    <div class="box caso"><span class="tag">Caso — dois ovos, dois resultados</span>
+      <p>Lote A: ovos frescos (até 5 dias), 63°C por 45 min → clara translúcida-cremosa, gema fluida, sem anel. Lote B: ovos com 3 semanas de câmara fria, mesmo banho a 63°C por 45 min → clara ligeiramente mais firme e leve esverdeamento perceptível na borda da gema. Mesma receita, resultado diferente — a variável escondida era a idade do ovo, não o equipamento.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 4</span>
+    <h2>Aves</h2>
+    <ul>
+      <li>Peito de frango/peru: 58–63°C mantém a carne úmida.</li>
+      <li>Peito de pato: até 55°C.</li>
+      <li>Carne escura (coxa/sobrecoxa): 70–80°C por 4 a 12 horas — precisa de temperatura mais alta e tempo mais longo para ficar macia, diferente do peito.</li>
+    </ul>
+    <div class="box gato"><span class="tag">Pulo do gato</span>
+      <p>O peito e a coxa não pedem tempos diferentes pelo mesmo motivo — são duas lógicas de cocção distintas rodando em paralelo. No peito (58–63°C), o tempo mínimo é ditado pela <b>pasteurização</b>: o alimento precisa ficar tempo suficiente naquela temperatura para eliminar o risco microbiológico (consulte o Módulo 7) — uma vez atingido esse tempo, a peça já está pronta e macia, não há ganho em deixar mais. Na coxa/sobrecoxa (70–80°C por horas), o fator limitante já não é a segurança microbiológica — essa é resolvida em minutos naquela faixa — e sim a <b>conversão do colágeno</b> em gelatina, que é lenta mesmo em temperaturas mais altas. Confundir os dois leva a dois erros opostos: tirar o peito cedo demais (sem pasteurizar) ou tirar a coxa cedo demais (pasteurizada, mas ainda borrachuda porque o colágeno não teve tempo de quebrar).</p>
+    </div>
+    <div class="box exerc"><span class="tag">Exercício</span>
+      <p>Um peito de frango vai para o banho a 60°C. Usando a lógica de pasteurização do Módulo 7 (quanto mais baixa a temperatura, mais tempo é necessário para eliminar o risco microbiológico), monte o raciocínio que você usaria para determinar o tempo mínimo de permanência no banho antes de liberar essa peça — quais variáveis você precisa cruzar (temperatura do centro, espessura da peça, referência de pasteurização do equipamento/software usado na cozinha) antes de definir esse tempo na ficha técnica?</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 5</span>
+    <h2>Cortes Duros — Baixa e Lenta</h2>
+    <p>Cortes fibrosos (ex.: cupim) ficam macios quando o colágeno se transforma em gelatina — isso exige tempo longo, não necessariamente temperatura alta.</p>
+    <div class="box caso"><span class="tag">Caso — 24h a 62,5°C x 8h a 85°C</span><p>24 horas a 62,5°C produz o mesmo efeito de maciez (quebra do colágeno em gelatina) que 8 horas a 85°C — a diferença está na textura final: a cocção mais longa e mais fria mantém mais suco retido dentro da fibra muscular, resultando em um corte mais suculento; a cocção mais curta e mais quente perde mais líquido para o próprio saco, resultando em um corte igualmente macio, porém mais seco ao morder.</p></div>
+    <p>Preparo antes de embalar: se usar marinada ácida ou com álcool, evaporar o álcool antes de selar a vácuo, senão a embalagem incha durante a cocção.</p>
+    <div class="box gato"><span class="tag">Pulo do gato</span>
+      <p>A explicação física completa por trás da embalagem que incha: a seladora a vácuo remove o ar de dentro do saco, reduzindo a pressão interna. Água (e álcool, com ponto de ebulição ainda mais baixo) ferve em temperatura mais baixa quando a pressão ao redor é menor — é o mesmo princípio de por que a água ferve mais rápido em altitude elevada. Um resíduo de álcool de marinada, dentro de um saco já com pressão reduzida, pode literalmente entrar em ebulição bem abaixo dos 78°C normais, gerando vapor e inchando o saco — o que tira a peça do contato direto com a água do banho e prejudica a troca de calor exatamente no tipo de cocção mais longa, onde isso mais importa. A solução não é só "evaporar o álcool": é reduzir a marinada em fogo aberto até o cheiro de álcool sumir, resfriar completamente antes de embalar, e revisar a selagem 10–15 minutos após o início do banho para garantir que não formou bolsa de ar/vapor.</p>
+    </div>
+    <h3>Técnicas de Cura e Salga</h3>
+    <p>Cura e salga são técnicas de preparo que usam sal — puro ou combinado com açúcar, especiarias e, em alguns casos, sal de cura — para retirar umidade da carne por osmose, concentrar sabor e criar um ambiente menos favorável à deterioração. O efeito sobre a textura é progressivo: quanto mais tempo o sal fica em contato com a peça, mais firme, mais concentrada em sabor e mais desidratada a carne se torna. É por isso que a técnica aparece tanto em preparos como carne seca e a salga de carnes para charque quanto como etapa inicial de uma cura básica para embutidos artesanais.</p>
+    <p>Como ponto de partida a ser testado — e não como regra fixa, já que corte, espessura e objetivo final mudam a proporção ideal — uma referência comum para começar a calibrar é usar em torno de <b>2% do peso da carne em sal</b>. O tempo de contato costuma variar entre <b>24 e 96 horas</b>: peças finas ou fatiadas tendem para a ponta mais curta dessa janela, e peças espessas ou inteiras para a ponta mais longa. O ajuste fino é sempre feito por prova e teste dentro da própria casa, corte a corte.</p>
+    <div class="box warn"><b>Atenção:</b> este trecho trata apenas da técnica culinária de cura e salga. Limites legais, uso de sal de cura (nitrito/nitrato) e riscos de segurança associados — incluindo o risco de botulismo em produtos curados ou embutidos mal conduzidos — são tratados no módulo de Compliance e Segurança Sanitária da plataforma. Consulte-o antes de aplicar qualquer processo de cura em produção comercial.</div>
+    <div class="box gato"><span class="tag">Pulo do gato</span>
+      <p>Para checar se a salga ficou uniforme, não confie apenas no tempo de relógio: aperte a peça em pontos diferentes (centro, borda, parte mais grossa) — a textura deve estar parecida em todos eles, sem núcleo visivelmente mais mole ou úmido que o restante. Ao cortar uma fatia de teste, a cor e a firmeza também devem estar homogêneas de fora para dentro, sem uma faixa central nitidamente diferente da borda; se esse contraste aparecer, é sinal de que o sal ainda não terminou de penetrar e a peça precisa de mais tempo antes de seguir para a próxima etapa.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 6</span>
+    <h2>Vegetais, Frutas e Leguminosas</h2>
+    <p>A técnica retém mais nutrientes que fervura ou vapor tradicional, porque não há perda para a água de cozimento.</p>
+    <table>
+      <tr><th>Categoria</th><th>Faixa sugerida</th></tr>
+      <tr><td>Vegetais sem amido</td><td>82–85°C (cerca de 3x o tempo da fervura)</td></tr>
+      <tr><td>Vegetais amiláceos</td><td>80°C (cerca de 2x o tempo da fervura)</td></tr>
+      <tr><td>Leguminosas</td><td>90°C por 3 a 6 horas</td></tr>
+    </table>
+    <div class="box gato"><span class="tag">Pulo do gato</span>
+      <p>Aqui a lógica se inverte em relação à carne, e é exatamente esse ponto que engana quem vem da técnica de baixa e lenta: em vegetal, passar devagar por uma faixa intermediária de temperatura (aproximadamente 50–70°C) pode deixar o vegetal <b>mais firme</b>, não mais macio — porque essa faixa ativa uma enzima natural da própria parede celular (pectina metilesterase) que reforça as ligações de pectina antes de elas se romperem. É por isso que vegetais para cocção a baixa temperatura pedem temperaturas mais altas (82–90°C) do que se poderia imaginar por analogia com a carne: o objetivo não é "baixa e lenta" como no cupim, é passar rápido pela zona de firmamento e cozinhar na faixa em que a pectina realmente amolece. Se um vegetal saiu mais duro que o esperado mesmo com tempo longo, quase sempre é porque a temperatura escolhida estava dentro da zona de firmamento em vez de acima dela.</p>
+    </div>
+    <div class="box caso"><span class="tag">Caso — cenoura x batata no mesmo banho</span>
+      <p>Cenoura em rodelas de 1 cm a 85°C por 45 min: macia, doce, cor viva preservada (sem contato com água de fervura para lixiviar açúcares e cor). Batata em cubos de 2 cm a 80°C por 40 min: ainda com resistência ao centro, porque o amido da batata precisa de gelatinização em temperatura próxima de 80°C sustentada por mais tempo que o usado — ajuste correto seria 80°C por 60–70 min para o mesmo corte. Mesmo banho, resultado diferente: cada vegetal tem sua própria curva, não existe "tempo padrão de vegetal".</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 7</span>
+    <h2>Segurança Alimentar e Pasteurização</h2>
+    <p>Temperatura e tempo juntos determinam a pasteurização — quanto mais baixa a temperatura, mais tempo é necessário para eliminar o risco microbiológico com segurança.</p>
+    <div class="box warn"><b>Atenção regulatória:</b> a legislação sanitária brasileira (RDC 216/ANVISA) exige que todo alimento já pronto mantido em conservação a quente fique acima de 60°C por no máximo 6 horas antes de ser resfriado ou servido. Isso não substitui a validação de segurança da cocção prolongada a baixa temperatura em si — todo protocolo de cocção abaixo de 60°C por tempo estendido (ex.: cortes duros do Módulo 5) precisa ser cruzado com a tabela de pasteurização deste manual, garantindo que o binômio tempo x temperatura elimine o risco microbiológico antes de liberar o prato.</div>
+    <div class="box template"><span class="tag">Template — Tabela de referência de pasteurização (tempo x temperatura)</span>
+      <p>Tempo mínimo de permanência do <b>núcleo da peça</b> (não a água do banho) na temperatura indicada, para reduzir o risco microbiológico a um nível seguro. Quanto mais baixa a temperatura, maior o tempo necessário — a relação não é linear, pequenas quedas de temperatura pedem aumentos desproporcionais de tempo.</p>
+      <p class="muted" style="margin-top:4px;"><b>Por que a relação não é linear — D-value e redução logarítmica:</b> o <b>D-value</b> de um patógeno é o tempo necessário, numa temperatura constante, para reduzir sua população em 90% (uma redução logarítmica, ou "1 log"). As fontes usadas nesta tabela exigem entre 6,5 e 7 reduções logarítmicas de Salmonella — a população do patógeno cai para uma fração entre 10⁻⁶,⁵ e 10⁻⁷ da inicial. Como o D-value cai de forma aproximadamente exponencial conforme a temperatura sobe, cada grau a mais no núcleo reduz o tempo necessário de forma desproporcional, e o inverso também vale: cada grau a menos exige um salto de tempo bem maior que o proporcional. É essa curva — e não uma tabela arbitrária — que explica por que 2°C de diferença no núcleo podem dobrar (ou mais) o tempo de banho necessário para o mesmo nível de segurança.</p>
+      <table style="margin:10px 0 0;">
+        <tr><th>Temperatura do núcleo</th><th>Tempo mínimo — carne bovina/suína/cordeiro</th><th>Tempo mínimo — frango/peru (aves, ref. ~5% gordura)</th></tr>
+        <tr><td>57,8°C (136°F)</td><td>28 min</td><td>68,4 min</td></tr>
+        <tr><td>60,0°C (140°F)</td><td>12 min</td><td>29 min</td></tr>
+        <tr><td>62,2°C (144°F)</td><td>5 min</td><td>13,2 min</td></tr>
+        <tr><td>64,4°C (148°F)</td><td>1 min 47 s</td><td>5,9 min</td></tr>
+        <tr><td>66,7°C (152°F)</td><td>43 s</td><td>2,3 min</td></tr>
+        <tr><td>68,9°C (156°F)</td><td>17 s</td><td>1 min</td></tr>
+        <tr><td>70,0°C (158°F)</td><td>praticamente instantâneo</td><td>39,6 s</td></tr>
+      </table>
+      <p class="muted" style="margin-top:8px;"><b>Fonte:</b> tempos para carne bovina/suína/cordeiro conforme FDA Food Code 2009, §3-401.11(B)(2); tempos para frango/peru conforme USDA-FSIS (2005), tabela de redução logarítmica 7D de Salmonella para aves (coluna de referência ~5% de gordura). Ambas compiladas em Baldwin, D. E., <i>A Practical Guide to Sous Vide Cooking</i> (Apêndice C). Abaixo de 57,8°C não há dado oficial tabulado para aves nessas fontes — não pratique cocção de aves abaixo dessa faixa sem validar com literatura técnica de segurança alimentar. Sempre confirme a temperatura no ponto de maior espessura (Módulo 0) e, antes de aplicar em produção comercial, valide os tempos também junto a fontes sanitárias brasileiras (ANVISA/vigilância sanitária local).</p>
+    </div>
+    <div class="box template"><span class="tag">Template — Pasteurização de ovo com casca (tempo x temperatura)</span>
+      <p>O ovo segue uma lógica à parte da carne: a clara já começa a coagular por volta de 60°C (Módulo 3), então pasteurizar em temperatura tão alta quanto a de carnes destruiria a textura antes mesmo de servir o propósito do prato. Por isso a pasteurização do ovo com casca é feita numa temperatura bem mais baixa e um tempo bem mais longo.</p>
+      <table style="margin:6px 0 0;">
+        <tr><th>Temperatura do banho</th><th>Tempo mínimo para pasteurizar</th><th>Observação</th></tr>
+        <tr><td>57°C (135°F)</td><td>≥ 75 min (1h15)</td><td>Referência acadêmica conservadora (Schuman et al., 1997, citada em Baldwin, Apêndice C); alguns guias práticos citam ~60 min no mesmo banho como simplificação — para treinamento e produção, use o valor mais conservador.</td></tr>
+      </table>
+      <p class="muted" style="margin-top:8px;">O ovo "63" e o ovo "jammy" do Módulo 3 (63–65°C por 45–60 min) já cozinham em temperatura e tempo acima deste patamar de pasteurização — ou seja, já saem pasteurizados dentro da própria receita de ponto, sem exigir um banho de pasteurização à parte. Já um preparo com ovo cru ou pouco cozido fora dessas faixas (ex.: maionese, mousse, gemada) só deve ser considerado seguro para público sensível se passar antes por este banho de pasteurização dedicado.</p>
+    </div>
+    <div class="box gato"><span class="tag">Pulo do gato</span>
+      <p>O erro mais comum de quem está começando não é escolher a temperatura errada — é medir o ponto certo no lugar errado. A água do banho e a superfície do alimento equalizam quase instantaneamente; quem demora a chegar na temperatura-alvo é o <b>centro geométrico da peça, no ponto de maior espessura</b> (o mesmo ponto discutido no Módulo 0). Se a sonda for inserida perto da superfície ou numa parte mais fina da peça, o equipamento vai indicar "pronto" bem antes de o núcleo real ter sido pasteurizado — o prato sai dentro da temperatura marcada, mas fora do tempo de segurança de fato necessário. Regra prática: a relação entre temperatura e tempo de pasteurização não é linear — quedas pequenas na temperatura do núcleo pedem aumentos desproporcionalmente maiores no tempo de exposição para manter o mesmo nível de segurança, por isso "quase lá" nunca é o mesmo que "lá".</p>
+    </div>
+    <div class="box template"><span class="tag">Template — Protocolo de segurança alimentar (cocção a baixo temperatura)</span>
+      <ol>
+        <li><b>Recebimento:</b> checar temperatura da matéria-prima e procedência antes de embalar.</li>
+        <li><b>Preparo:</b> mãos e superfícies higienizadas; embalar a vácuo o quanto antes para reduzir exposição em temperatura ambiente.</li>
+        <li><b>Cocção:</b> registrar temperatura do banho, ponto de inserção da sonda (sempre na maior espessura) e horário de início/fim.</li>
+        <li><b>Liberação:</b> só libera quem confirmou o tempo mínimo de pasteurização cruzado com a temperatura real do núcleo, não a temperatura do banho.</li>
+        <li><b>Resfriamento (se não for servir na hora):</b> choque térmico imediato em água com gelo até sair da faixa de risco microbiológico o mais rápido possível, antes de ir para a refrigeração.</li>
+        <li><b>Etiquetagem:</b> data de cocção, prazo de validade sob refrigeração/congelamento, identificação do produto.</li>
+        <li><b>Regeneração/serviço:</b> reaquecer respeitando o binômio tempo x temperatura de novo antes de servir — nunca "reaquecer no olho".</li>
+      </ol>
+    </div>
+    <div class="box exerc"><span class="tag">Exercício</span>
+      <p>Um corte foi programado para cozinhar a 65°C. Considerando que a pasteurização depende do binômio tempo x temperatura (quanto mais baixa a temperatura, mais tempo é necessário) e que a temperatura precisa ser confirmada no ponto de maior espessura da peça (não na superfície nem na água do banho), monte o passo a passo que você seguiria para determinar e documentar o tempo mínimo seguro de permanência no banho antes de liberar esse prato ao salão.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 8</span>
+    <h2>Fluxo Cook & Serve vs. Cook & Chill</h2>
+    <ul>
+      <li><b>Cook & serve:</b> cozinha e finaliza na hora, para servir imediatamente.</li>
+      <li><b>Cook & chill:</b> cozinha, resfria rapidamente em água com gelo, refrigera ou congela, e regenera (reaquece) no momento do serviço — útil para operações de alto volume ou eventos.</li>
+    </ul>
+    <div class="chain">COCÇÃO A VÁCUO → RESFRIAMENTO RÁPIDO (água + gelo) → REFRIGERAÇÃO / CONGELAMENTO ROTULADOS → REGENERAÇÃO NO SERVIÇO → SELAGEM / ACABAMENTO → SERVIÇO</div>
+    <div class="box gato"><span class="tag">Pulo do gato</span>
+      <p>O motivo real do choque térmico não é "esfriar rápido por esfriar" — é atravessar o mais rápido possível a faixa de temperatura onde microrganismos se multiplicam (a mesma lógica da faixa de risco tratada no Módulo 7), e um banho de gelo parado nem sempre resolve isso em lote grande. Sacos empilhados dentro do gelo se comportam como no banho quente (Módulo 0): criam bolsões que não trocam calor direito, e o centro de um saco grosso no meio da pilha pode levar bem mais tempo para esfriar do que um saco isolado. Para volume de evento, agite a água com gelo periodicamente, distribua os sacos em camada única sempre que possível, e trate o tempo de resfriamento como uma variável tão crítica quanto o tempo de cocção — não como um detalhe de logística.</p>
+    </div>
+    <div class="box exerc"><span class="tag">Exercício</span>
+      <p>Você vai atender um banquete para 200 pessoas com um prato de carne cozido a baixa temperatura. Monte um cronograma de cook & chill: quando cozinhar, quando resfriar, quantos dias de folga deixar entre a cocção e o evento, e quando regenerar/finalizar. Considere a capacidade de circulação de água do seu equipamento (Módulo 0) ao decidir em quantos lotes dividir os 200 sacos.</p>
+    </div>
+    <div class="box caso"><span class="tag">Caso — banquete de 200 pessoas</span>
+      <p>200 porções de 180 g cada, cortes de 3 cm de espessura, cozidos a 58°C. Capacidade do termocirculador: circulação segura para até 40 sacos por lote sem perder controle de temperatura. Solução: 5 lotes de 40 sacos, cozidos em dias diferentes (D-3 a D-1) para não sobrecarregar a cozinha em um único turno; cada lote resfriado em água com gelo agitada até sair da faixa de risco, etiquetado com data/lote e refrigerado. No dia do evento, os sacos são regenerados em banho a 58°C até o núcleo recuperar a temperatura de serviço, selados rapidamente e finalizados à la minute. O gargalo real não foi a receita — foi a capacidade de circulação do equipamento, por isso ela entrou na conta antes do cronograma.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 9</span>
+    <h2>Acabamento e Serviço</h2>
+    <p>Depois da cocção a baixa temperatura, o prato ganha o toque final: selagem rápida para gerar a reação de Maillard, finalização com molho, e montagem para servir.</p>
+    <div class="box gato"><span class="tag">Pulo do gato</span>
+      <p>Diferente da cocção tradicional, aqui quase não existe "descanso por carryover" — o núcleo já está uniformemente no ponto desde a saída do banho, então não há gradiente de calor interno para se redistribuir. O único descanso que faz sentido é curtíssimo (1–2 minutos) e serve só para a superfície recém-selada perder o excesso de calor de contato antes do corte, evitando que o suco escorra todo na tábua. Outro detalhe que muda a receita tradicional: como o interior já está pronto e não vai mais cozinhar, o tempero de sal na superfície deve ser feito o mais perto possível do momento da selagem final — salgar cedo demais antes de um vácuo longo pode puxar líquido da peça por osmose durante horas de banho, alterando a textura da superfície antes mesmo de chegar na chapa.</p>
+    </div>
+    <div class="box template"><span class="tag">Template — Checklist de acabamento e serviço</span>
+      <ol>
+        <li>Confirmar que a peça saiu do banho na temperatura-alvo (sonda no ponto de maior espessura, não a superfície).</li>
+        <li>Secar bem a superfície com papel antes de qualquer contato com a chapa (Módulo 2).</li>
+        <li>Temperar a superfície agora, não antes do vácuo, se o objetivo é preservar textura.</li>
+        <li>Selar em fogo muito alto, tempo curto, virando o mínimo de vezes possível.</li>
+        <li>Descanso curto (1–2 min) só para estabilizar a crosta, não para "terminar de cozinhar".</li>
+        <li>Finalizar com molho e montar — o prato já está no ponto desde a saída do banho, a etapa de acabamento é sobre textura e apresentação, não sobre cocção.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="footer">
+    ArtBlend Consultoria Gourmet — Metodologia própria de Técnicas de Cocção.<br>
+    Conteúdo original, desenvolvido a partir de referências técnicas gerais de cocção a baixa temperatura.
+  </div>
+
+</div>
+</body>
+</html>

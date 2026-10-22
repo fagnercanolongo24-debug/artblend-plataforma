@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curso NR-1 — Riscos Psicossociais e Saúde Mental no Trabalho | Método Artblend</title>
+<style>
+  :root{
+    --ink:#1E2521; --muted:#5B655E; --line:#E4DED4; --paper:#FFFFFF; --warm:#FBF7F1;
+    --primary:#0E5E55; --primary-d:#0A463F; --soft:#E5F0EE; --accent:#D9772F;
+    --caso:#0E5E55; --caso-bg:#E8F1EF; --script:#2F5D8C; --script-bg:#E8EFF6;
+    --template:#B07A12; --template-bg:#FBF0D8; --exerc:#6B4E9E; --exerc-bg:#EFEAF6;
+    --metodo-bg:#0E5E55; --warn:#B23B2E; --warn-bg:#FBE9E6; --gold:#9A6B00; --gold-bg:#FBF3DA;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{margin:0;font-family:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;color:var(--ink);line-height:1.62;background:#fff;font-size:15px;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 54px;}
+  .cover{background:linear-gradient(150deg,var(--primary-d),var(--primary) 58%,#13766B);color:#fff;padding:86px 54px;position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;}
+  .cover .kick{letter-spacing:3px;text-transform:uppercase;font-size:13px;font-weight:600;color:#9BE3D6;margin-bottom:16px;}
+  .cover h1{font-size:44px;line-height:1.07;margin:0 0 12px;font-weight:800;}
+  .cover h2{font-size:19px;font-weight:500;margin:0 0 30px;color:#CDEDE7;}
+  .cover .bar{width:90px;height:6px;background:var(--accent);border-radius:6px;margin-bottom:26px;}
+  .cover .badges{display:flex;gap:12px;flex-wrap:wrap;}
+  .cover .badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:30px;padding:8px 18px;font-size:13px;font-weight:600;}
+  .cover .foot{position:absolute;bottom:40px;left:54px;right:54px;font-size:13px;color:#9BE3D6;border-top:1px solid rgba(255,255,255,.2);padding-top:14px;display:flex;justify-content:space-between;}
+  .module-head{background:var(--primary);color:#fff;border-radius:14px;padding:24px 28px;margin:46px 0 24px;page-break-before:always;}
+  .module-head .m-kick{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#A7E0D6;font-weight:700;}
+  .module-head h2{font-size:26px;margin:6px 0;font-weight:800;}
+  .module-head .m-meta{font-size:13.5px;color:#CFEAE5;}
+  h3{font-size:20px;color:var(--primary-d);margin:30px 0 8px;font-weight:750;border-left:5px solid var(--accent);padding-left:12px;}
+  h4{font-size:16px;margin:18px 0 6px;font-weight:700;color:var(--primary-d);}
+  p{margin:9px 0;} strong{color:var(--primary-d);}
+  ul,ol{margin:9px 0;padding-left:22px;} li{margin:5px 0;}
+  .box{border-radius:12px;padding:18px 22px 16px;margin:20px 0;border:1px solid var(--line);page-break-inside:avoid;}
+  .box .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:4px 11px;border-radius:20px;color:#fff;margin-bottom:10px;}
+  .box h4{margin-top:0;}
+  .box.caso{background:var(--caso-bg);border-color:#BFD9D3;} .box.caso .tag{background:var(--caso);}
+  .box.script{background:var(--script-bg);border-color:#C5D6E8;} .box.script .tag{background:var(--script);}
+  .box.template{background:var(--template-bg);border-color:#EAD7A6;} .box.template .tag{background:var(--template);}
+  .box.exerc{background:var(--exerc-bg);border-color:#D5C9EC;} .box.exerc .tag{background:var(--exerc);}
+  .box.warn{background:var(--warn-bg);border-color:#EEC4BD;} .box.warn .tag{background:var(--warn);}
+  .box.gato{background:var(--gold-bg);border:1px solid #E6D08A;} .box.gato .tag{background:var(--gold);}
+  .box.gato h4{color:var(--gold);}
+  .metodo{background:var(--metodo-bg);color:#EAF6F3;border-radius:12px;padding:22px 24px;margin:22px 0;page-break-inside:avoid;}
+  .metodo .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;background:var(--accent);color:#fff;padding:4px 12px;border-radius:20px;margin-bottom:12px;}
+  .metodo h4{color:#fff;margin:0 0 8px;font-size:19px;} .metodo strong{color:#FFE3C7;}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;page-break-inside:avoid;}
+  th{background:var(--primary);color:#fff;text-align:left;padding:9px 11px;font-weight:600;}
+  td{border:1px solid var(--line);padding:8px 11px;vertical-align:top;}
+  tr:nth-child(even) td{background:var(--warm);}
+  .matrix td{text-align:center;font-weight:700;}
+  .mb{background:#E6F3EC;color:#1E7A4B;} .mm{background:#FBF0D8;color:#B07A12;} .ma{background:#FBE9E6;color:#B23B2E;} .mc{background:#2A2A2A;color:#fff;}
+  .lead{font-size:16.5px;color:var(--muted);}
+  .chain{text-align:center;font-weight:800;color:var(--primary);background:var(--primary-soft,#E5F0EE);border-radius:10px;padding:13px;margin:16px 0;font-size:14.5px;}
+  .say{background:#fff;border-left:4px solid var(--script);border-radius:6px;padding:10px 14px;margin:9px 0;font-style:italic;}
+  .say::before{content:"🗣 ";font-style:normal;}
+  .note{font-size:13px;color:var(--muted);font-style:italic;}
+  .toc{background:var(--warm);border:1px solid var(--line);border-radius:14px;padding:24px 28px;margin:28px 0;}
+  .toc ol{counter-reset:m;list-style:none;padding-left:0;}
+  .toc li{counter-increment:m;padding:6px 0;border-bottom:1px dashed var(--line);font-weight:600;}
+  .toc li::before{content:counter(m);background:var(--primary);color:#fff;border-radius:6px;padding:1px 9px;margin-right:11px;font-size:13px;}
+  .divider{height:1px;background:var(--line);margin:28px 0;}
+  @page{margin:18mm 13mm;}
+  @media print{.cover{min-height:auto;height:100vh;}}
+</style>
+</head>
+<body>
+<section class="cover">
+  <div class="kick">Artblend Consultoria · Formação</div>
+  <h1>Curso NR-1</h1>
+  <h2>Riscos Psicossociais e Saúde Mental no Trabalho — do zero à execução, com o pulo do gato</h2>
+  <div class="bar"></div>
+  <div class="badges"><span class="badge">Método Artblend</span><span class="badge">DRPS passo a passo</span><span class="badge">Matriz de Risco</span><span class="badge">Laudo + Programas</span><span class="badge">Ferramenta funcional</span></div>
+  <div class="foot"><span>Artblend Consultoria</span><span>Edição Completa · 2026</span></div>
+</section>
+<div class="wrap">
+
+<h3 style="page-break-before:always;">Por que este curso existe</h3>
+<p class="lead">Você assistiu ao material de mercado e sentiu que aprendeu "metade". Não é você — é proposital. Muitos cursos mostram <em>o que</em> fazer, mas guardam o <strong>como exatamente</strong> (o "pulo do gato") para vender o template depois. Este curso entrega os dois: a <strong>teoria completa</strong> e o <strong>passo a passo executável</strong>, com a ferramenta funcional junto. Ao final você saberá rodar um Diagnóstico de Riscos Psicossociais (DRPS) sozinho, do questionário ao laudo e aos programas.</p>
+<div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>Ao longo do curso, todo bloco dourado revela um detalhe que normalmente fica de fora — o que separa "entendi a ideia" de "consigo executar e cobrar por isso".</p></div>
+
+<div class="toc"><h3 style="border:0;padding:0;margin:0 0 12px;">Conteúdo</h3>
+<ol>
+<li>Fundamentos: o que é a NR-1 e por que virou obrigação (e oportunidade)</li>
+<li>Riscos psicossociais: os fatores, gravidade × probabilidade</li>
+<li>O ciclo completo do DRPS (mapa do serviço)</li>
+<li>Etapa 1 — Coleta: o questionário 0–4 e a lógica direta/invertida</li>
+<li>Etapa 2 — Gravidade: média, pontuação corrigida e classificação</li>
+<li>Etapa 3 — Probabilidade: a avaliação qualitativa por setor</li>
+<li>Etapa 4 — Matriz de Risco NR-01: cruzando tudo</li>
+<li>Etapa 5 — O Laudo: estrutura e responsável técnico</li>
+<li>Etapa 6 — Programas: preventivo × interventivo, plano anual</li>
+<li>Etapa 7 — Monitoramento, reavaliação e o lado comercial</li>
+</ol></div>
+
+<!-- M1 -->
+<div class="module-head"><div class="m-kick">Módulo 1</div><h2>Fundamentos da NR-1</h2><div class="m-meta">O que mudou, por que é obrigatório e por que isso é uma mina de ouro para o consultor.</div></div>
+<h3>1.1 O que é a NR-1</h3>
+<p>A <strong>NR-1 (Norma Regulamentadora nº 1)</strong> trata das disposições gerais e do <strong>Gerenciamento de Riscos Ocupacionais (GRO)</strong>. A atualização passou a exigir que as empresas identifiquem, avaliem e controlem também os <strong>riscos psicossociais</strong> dentro do <strong>PGR (Programa de Gerenciamento de Riscos)</strong> — não só os físicos, químicos e ergonômicos.</p>
+<div class="box warn"><span class="tag">O que é risco psicossocial</span><p>É a combinação entre a <strong>probabilidade</strong> de um trabalhador sofrer dano (estresse crônico, burnout, ansiedade, adoecimento) e a <strong>gravidade</strong> desse dano, gerada por fatores da <em>organização do trabalho</em> — não da vida pessoal. Exemplos: sobrecarga, assédio, metas irrealistas, falta de reconhecimento, comunicação violenta.</p></div>
+<h3>1.2 Por que virou obrigação — e oportunidade</h3>
+<p>Como é <strong>exigência legal com risco de autuação</strong>, deixou de ser "se a empresa quiser". Toda empresa com colaboradores precisa fazer. Isso significa <strong>demanda recorrente garantida</strong> para quem sabe executar. E poucos sabem. Some-se a isso o custo invisível que o problema gera: absenteísmo, rotatividade e queda de produtividade.</p>
+<div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>Quem conduz a gestão de riscos psicossociais <strong>não precisa ser exclusivamente psicólogo</strong> — pessoa capacitada pode conduzir o processo de gestão (mapeamento, plano, programas). O que exige responsável técnico habilitado (psicólogo com CRP) é a <strong>assinatura do laudo psicológico/avaliação clínica</strong>. Estratégia Artblend: você conduz o método e o produto; um <strong>psicólogo parceiro credenciado</strong> assina a parte técnica. Assim você escala sem travar.</p></div>
+
+<!-- M2 -->
+<div class="module-head"><div class="m-kick">Módulo 2</div><h2>Os riscos psicossociais</h2><div class="m-meta">Os fatores avaliados e as duas dimensões que medem tudo.</div></div>
+<h3>2.1 Os fatores de risco (os "tópicos")</h3>
+<p>O diagnóstico investiga, no mínimo, <strong>9 tópicos</strong> (e pode ampliar para 13+). Cada um tem uma <strong>fonte geradora</strong> — a causa organizacional:</p>
+<table>
+<tr><th>Fator de risco</th><th>Fonte geradora (causa)</th></tr>
+<tr><td>1. Assédio moral e sexual</td><td>Relações abusivas, comunicação violenta, importunação</td></tr>
+<tr><td>2. Carga excessiva de trabalho</td><td>Metas irrealistas, jornadas prolongadas, má distribuição de cargos</td></tr>
+<tr><td>3. Reconhecimento e recompensas</td><td>Gestão pouco humanizada, administração precária de recursos</td></tr>
+<tr><td>4. Clima organizacional</td><td>Autoritarismo, gestão centralizadora, ausência de regras de convívio</td></tr>
+<tr><td>5. Autonomia e controle sobre o trabalho</td><td>Gestão não humanizada, escassez de inteligência emocional</td></tr>
+<tr><td>6. Pressão e metas irrealistas</td><td>Propósitos financeiros desalinhados com saúde e bem-estar</td></tr>
+<tr><td>7. Insegurança e ameaças</td><td>Gestão não humanizada, escassez para gerenciar conflitos</td></tr>
+<tr><td>8. Conflitos interpessoais e falta de comunicação</td><td>Falta de treinamento, baixa habilidade de comunicação</td></tr>
+<tr><td>9. Alinhamento vida pessoal × profissional</td><td>Ausência de propósito, falta de tempo/planejamento, demandas exageradas</td></tr>
+<tr><td>+ Difícil comunicação · Trabalho remoto isolado · Subcarga · Catástrofes/eventos · Relações impactadas pelo ambiente</td><td>(fatores complementares conforme a empresa)</td></tr>
+</table>
+<h3>2.2 As duas dimensões: Gravidade × Probabilidade</h3>
+<p>Todo risco é medido por duas réguas, cada uma em 3 níveis (Baixa=1, Média=2, Alta=3):</p>
+<ul>
+<li><strong>Gravidade (Severidade):</strong> o quão sério é o dano. <em>Vem do questionário</em> (quantitativo).</li>
+<li><strong>Probabilidade de Ocorrência:</strong> a chance de acontecer. <em>Vem da avaliação do profissional</em> (qualitativo, por setor).</li>
+</ul>
+
+<!-- M3 -->
+<div class="module-head"><div class="m-kick">Módulo 3</div><h2>O ciclo completo do DRPS</h2><div class="m-meta">O mapa do serviço inteiro — guarde esta sequência.</div></div>
+<div class="chain">1. COLETA (Forms 0–4) → 2. GRAVIDADE (média) → 3. PROBABILIDADE (qualitativa por setor) → 4. MATRIZ NR-01 → 5. LAUDO → 6. PROGRAMAS (plano anual) → 7. MONITORAMENTO/REAVALIAÇÃO</div>
+<p>Cada etapa alimenta a próxima. A partir do Módulo 4, destrincho uma por uma, com o passo a passo exato e o que vem antes do quê.</p>
+<div class="box template"><span class="tag">Template — Cronograma do serviço (12 meses)</span><p>Mês 1: DRPS (diagnóstico). Meses 2–12: um programa por mês (líderes, burnout, assédio, clima, ansiedade, equilíbrio, apoio psicológico, avaliação em R&S, psicologia positiva...). Ao final: reavaliação do DRPS. É assim que vira <strong>contrato anual recorrente</strong>.</p></div>
+
+<!-- M4 -->
+<div class="module-head"><div class="m-kick">Módulo 4 · Etapa 1</div><h2>Coleta — o questionário</h2><div class="m-meta">Como medir a gravidade sem viés e com privacidade.</div></div>
+<h3>4.1 A escala 0–4</h3>
+<p>Cada pergunta é respondida numa escala: <strong>0 = Nunca · 1 = Raramente · 2 = Ocasionalmente · 3 = Frequentemente · 4 = Sempre</strong>. Cada tópico tem cerca de <strong>10 perguntas</strong>. O formulário começa com a <strong>identificação</strong> (cargo/função + setor) — essencial porque a análise é <em>por setor</em>.</p>
+<h3>4.2 A lógica direta e a invertida — o segredo da medição correta</h3>
+<div class="box gato"><span class="tag">🐱 Pulo do gato</span>
+<p>Esse é o detalhe que quase ninguém explica. As perguntas têm <strong>dois sentidos</strong>:</p>
+<ul>
+<li><strong>Lógica direta:</strong> quanto maior a resposta, <strong>maior o risco</strong>. Ex.: "Você sofre pressão excessiva?" — responder 4 (Sempre) = risco alto.</li>
+<li><strong>Lógica invertida:</strong> quanto maior a resposta, <strong>menor o risco</strong>. Ex.: "Você sente apoio da liderança?" — responder 4 (Sempre) = risco baixo.</li>
+</ul>
+<p>Se você somar tudo sem inverter as perguntas positivas, o resultado fica <strong>errado</strong>. A planilha aplica a <strong>Pontuação Corrigida</strong>: nas invertidas, ela faz <code>4 − resposta</code> antes de calcular a média. Errar isso é o erro nº 1 dos iniciantes.</p>
+</div>
+<h3>4.3 Anonimato e privacidade</h3>
+<p>O questionário é aplicado de forma <strong>anônima e confidencial</strong> (Google Forms), o que aumenta a sinceridade e protege os dados (LGPD). Abra com um texto de boas-vindas explicando o propósito e pedindo honestidade.</p>
+<div class="box exerc"><span class="tag">Exercício 4</span><ol><li>Escreva 3 perguntas de lógica direta e 3 de lógica invertida para o tópico "Clima Organizacional".</li><li>Para cada invertida, mostre como fica a pontuação corrigida se a pessoa responder 1 e se responder 4.</li></ol></div>
+
+<!-- M5 -->
+<div class="module-head"><div class="m-kick">Módulo 5 · Etapa 2</div><h2>Gravidade — o cálculo</h2><div class="m-meta">Do conjunto de respostas a uma classificação por tópico.</div></div>
+<h3>5.1 Passo a passo</h3>
+<ol>
+<li>Cole as respostas do Forms na aba "Dados do Forms".</li>
+<li>A planilha aplica a <strong>pontuação corrigida</strong> (direta/invertida).</li>
+<li>Converte para classificação por pergunta: <strong>Alta (≥3) · Média (≤2) · Baixa (≤1)</strong>.</li>
+<li>Converte texto em número: Alta=3, Média=2, Baixa=1.</li>
+<li>A aba "Resumo por Tópico" calcula a <strong>média da gravidade</strong> de cada bloco de ~10 perguntas → é o <strong>fator de risco</strong> daquele tópico.</li>
+</ol>
+<div class="box caso"><span class="tag">Exemplo</span><p>Tópico Assédio, setor Recepção: média das 10 perguntas = 2,8 → classificação <strong>Alta</strong> gravidade. Tópico Carga Excessiva = 2,3 → <strong>Média</strong>.</p></div>
+
+<!-- M6 -->
+<div class="module-head"><div class="m-kick">Módulo 6 · Etapa 3</div><h2>Probabilidade — a parte qualitativa</h2><div class="m-meta">Aqui entra o olho do profissional. É o que diferencia um laudo sério.</div></div>
+<p>A <strong>probabilidade</strong> não vem do questionário — vem da <strong>análise qualitativa</strong> que você faz por setor, via <strong>entrevistas e observação</strong>, avaliando três critérios:</p>
+<ul>
+<li><strong>Frequência:</strong> com que frequência a situação de risco aparece naquele setor?</li>
+<li><strong>Histórico de risco:</strong> já houve casos, afastamentos, reclamações?</li>
+<li><strong>Recursos:</strong> a empresa tem (ou não) medidas que reduzem a chance?</li>
+</ul>
+<p>Com base nisso, você atribui <strong>1 (Baixa) · 2 (Média) · 3 (Alta)</strong> para cada tópico, em cada setor.</p>
+<div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>A probabilidade é <strong>por setor</strong> — se você não trocar a probabilidade ao filtrar cada setor, todos os setores saem com o mesmo resultado (erro comum). E é aqui que mora o valor: dois setores podem ter a mesma gravidade no questionário, mas probabilidades diferentes pela realidade observada. <strong>É a sua leitura qualitativa que torna o laudo único e defensável.</strong></p></div>
+
+<!-- M7 -->
+<div class="module-head"><div class="m-kick">Módulo 7 · Etapa 4</div><h2>A Matriz de Risco NR-01</h2><div class="m-meta">O cruzamento que gera a classificação final.</div></div>
+<p>Combine <strong>Gravidade × Probabilidade</strong> nesta matriz para obter o nível de risco final por tópico/setor:</p>
+<table class="matrix">
+<tr><th>Prob. ↓ \ Grav. →</th><th>Baixa (1)</th><th>Média (2)</th><th>Alta (3)</th></tr>
+<tr><td><strong>Baixa (1)</strong></td><td class="mb">Baixo</td><td class="mb">Baixo</td><td class="mm">Médio</td></tr>
+<tr><td><strong>Média (2)</strong></td><td class="mb">Baixo</td><td class="mm">Médio</td><td class="ma">Alto</td></tr>
+<tr><td><strong>Alta (3)</strong></td><td class="mm">Médio</td><td class="ma">Alto</td><td class="mc">Crítico</td></tr>
+</table>
+<p>Na planilha isso é automático (fórmula ÍNDICE/CORRESP). O profissional ainda pode ajustar o resultado final conforme a análise — o sistema sugere, o humano decide.</p>
+<div class="box exerc"><span class="tag">Exercício 7</span><p>Tópico Assédio no setor X: Gravidade Alta (3) e Probabilidade Alta (3). Qual o risco? E se a Probabilidade for Baixa (1)?</p></div>
+
+<!-- M8 -->
+<div class="module-head"><div class="m-kick">Módulo 8 · Etapa 5</div><h2>O Laudo</h2><div class="m-meta">O documento que prova o serviço e sustenta o contrato.</div></div>
+<h3>8.1 Estrutura</h3>
+<ol>
+<li><strong>Capa:</strong> Empresa · Nome · Mês/Ano · Psicólogo Elaborador + CRP.</li>
+<li><strong>Introdução:</strong> contexto da NR-1, prevenção, ligação com absenteísmo/rotatividade.</li>
+<li><strong>Objetivo:</strong> identificar e classificar os riscos nos tópicos; sugerir ações corretivas e preventivas; adaptado à empresa.</li>
+<li><strong>Metodologia:</strong> coleta via Forms anônimo, escalas validadas, cálculo de gravidade e probabilidade, recomendações.</li>
+<li><strong>Análises e Resultados (por setor):</strong> o quadro de identificação (CNPJ, funções, nº de trabalhadores H/M, possíveis agravos — ex. burnout/fadiga/estresse — e medidas de controle existentes) + a <strong>matriz de risco</strong> preenchida.</li>
+<li><strong>Medidas de Controle / Plano anual.</strong></li>
+</ol>
+<div class="box template"><span class="tag">Template — Quadro por setor</span><p>Setor · Funções · Qtd (Homens/Mulheres) · Possíveis agravos à saúde mental · Medidas de controle existentes · Responsável técnico (CRP). Salve por setor em PDF (ex.: "DRPS – Logística").</p></div>
+
+<!-- M9 -->
+<div class="module-head"><div class="m-kick">Módulo 9 · Etapa 6</div><h2>Programas — a entrega contínua</h2><div class="m-meta">Onde o contrato vira recorrência e resultado de verdade.</div></div>
+<h3>9.1 Preventivo × Interventivo</h3>
+<table>
+<tr><th>Aspecto</th><th>Preventivo</th><th>Interventivo</th></tr>
+<tr><td>Quando</td><td>Antes do problema</td><td>Com o problema presente</td></tr>
+<tr><td>Foco</td><td>Promoção de bem-estar</td><td>Acolhimento ao sofrimento</td></tr>
+<tr><td>Ação</td><td>Educativa, cultural, reflexiva</td><td>Clínica, emocional, emergencial</td></tr>
+<tr><td>Público</td><td>Todos os colaboradores</td><td>Grupos específicos</td></tr>
+</table>
+<p><strong>Regra de decisão:</strong> Risco Baixo/Moderado → programas <strong>preventivos</strong>; Risco Alto/Crítico → programas <strong>interventivos</strong>.</p>
+<h3>9.2 Formato de cada programa</h3>
+<p>Duração 1 mês · 1×/mês · encontros de 60–90 min · presencial ou online (roda de conversa, oficina, mini palestra, vivência, dinâmica, escuta em grupo). <strong>Molde de 4 encontros:</strong> (1) Abertura/Engajamento → (2) Intervenção 1 → (3) Intervenção 2 → (4) Encerramento (mini plano de ação).</p>
+<h3>9.3 Catálogo de programas</h3>
+<p>Gestão do Estresse/Burnout · Inteligência Emocional para Líderes · Saúde Mental e Clima · Manejo da Ansiedade · Equilíbrio Vida-Trabalho · Apoio Psicológico · Prevenção ao Assédio · Psicologia Positiva (Carreira no Positivo) · Life Balance · Plantão Emocional · Avaliação em R&S · Formação de Multiplicadores da Cultura do Cuidado · Treinamento do RH para a NR-01.</p>
+<div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>Todo programa tem o <strong>mesmo molde</strong> (4 encontros) — muda só o tema e as práticas. Domine o molde uma vez e você "fabrica" 70+ programas. E sempre gere <strong>evidência</strong>: lista de inscrição + presença (impressa se presencial; a própria avaliação serve de evidência se online). Sem evidência, a empresa não comprova conformidade — e o seu trabalho perde valor jurídico.</p></div>
+
+<!-- M10 -->
+<div class="module-head"><div class="m-kick">Módulo 10 · Etapa 7</div><h2>Monitoramento e o comercial</h2><div class="m-meta">Fechar o ciclo e vender certo.</div></div>
+<h3>10.1 Monitoramento e reavaliação</h3>
+<p>A partir de ~5 meses após o DRPS, monitore: o risco baixou? A cada ciclo de programas, <strong>reaplique o DRPS</strong> e compare. Isso prova evolução e renova o contrato.</p>
+<h3>10.2 Venda e posicionamento</h3>
+<p>O bordão funciona: <em>"Esqueça palestrinhas — levamos programas de saúde mental preventivos."</em> A palestra é preventiva, mas sozinha não gera a transformação cultural exigida pela NR-1. Venda o <strong>programa</strong> (personalizado, prático, com evidência), não a palestra avulsa.</p>
+<div class="box script"><span class="tag">Script — Abordagem</span><p class="say">A NR-1 agora obriga sua empresa a gerenciar riscos psicossociais — e a fiscalização já está cobrando. Eu faço o diagnóstico (DRPS), entrego o laudo por setor e implemento os programas que a sua realidade pede, com tudo documentado para conformidade. Posso te mostrar como ficaria aqui?</p></div>
+<div class="box exerc"><span class="tag">Exercício final</span><ol><li>Monte, em 1 página, a proposta de um ciclo anual (DRPS + 11 programas) para um restaurante de 40 pessoas.</li><li>Defina quais programas seriam preventivos e quais interventivos, com base num risco fictício.</li></ol></div>
+
+<div class="divider"></div>
+<p class="note" style="text-align:center;">Curso NR-1 · Riscos Psicossociais e Saúde Mental · Método Artblend · © Artblend Consultoria — 2026. Material de formação. A avaliação/laudo psicológico deve ter responsável técnico habilitado (CRP).</p>
+</div>
+</body>
+</html>

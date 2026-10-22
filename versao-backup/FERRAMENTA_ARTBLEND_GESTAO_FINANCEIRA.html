@@ -1,0 +1,4061 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestão Financeira do Restaurante · ArtBlend</title>
+<style>
+:root{
+  --ink:#16294A; --muted:#6E7A8C; --line:#E2E6ED; --paper:#FFFFFF; --paper-warm:#F5F7FA;
+  --primary:#2EC4D6; --primary-d:#1C93A8; --primary-soft:#E4F8FB;
+  --accent:#2ECC71; --accent-soft:#E3FBEF;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:"Segoe UI",-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  color:var(--ink);
+  background:var(--paper-warm);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ---------- HEADER ---------- */
+header.topbar{
+  background:var(--paper);
+  border-bottom:1px solid var(--line);
+  padding:14px 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.brand .logo{
+  font-weight:700;
+  font-size:20px;
+  letter-spacing:-0.02em;
+  color:var(--primary-d);
+}
+.brand .logo::first-letter{
+  color:var(--accent);
+}
+.brand .tool-name{
+  font-size:13px;
+  color:var(--muted);
+  border-left:1px solid var(--line);
+  padding-left:12px;
+  line-height:1.3;
+}
+.brand .tool-name b{
+  display:block;
+  color:var(--ink);
+  font-size:14px;
+  font-weight:600;
+}
+.header-actions{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.menu-toggle{
+  display:none;
+  background:none;
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:8px 10px;
+  font-size:18px;
+  cursor:pointer;
+  color:var(--primary-d);
+}
+
+/* ---------- BUTTONS ---------- */
+button{
+  font-family:inherit;
+  cursor:pointer;
+}
+.btn{
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  padding:9px 14px;
+  border-radius:8px;
+  font-size:13px;
+  font-weight:600;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  transition:all .15s ease;
+}
+.btn:hover{
+  border-color:var(--primary);
+  color:var(--primary-d);
+}
+.btn-primary{
+  background:var(--primary);
+  border-color:var(--primary);
+  color:#fff;
+}
+.btn-primary:hover{
+  background:var(--primary-d);
+  border-color:var(--primary-d);
+  color:#fff;
+}
+.btn-accent{
+  background:var(--accent-soft);
+  border-color:var(--accent);
+  color:var(--accent);
+}
+.btn-accent:hover{
+  background:var(--accent);
+  color:#fff;
+}
+.btn-ghost{
+  background:transparent;
+  border-color:transparent;
+  color:var(--muted);
+}
+.btn-ghost:hover{
+  color:var(--primary-d);
+  background:var(--primary-soft);
+}
+.btn-sm{
+  padding:5px 10px;
+  font-size:12px;
+  border-radius:6px;
+}
+.btn-danger{
+  color:#B3411F;
+}
+.btn-danger:hover{
+  border-color:#B3411F;
+  color:#B3411F;
+  background:#FBEAE3;
+}
+
+/* ---------- LAYOUT ---------- */
+.app{
+  flex:1;
+  display:flex;
+  width:100%;
+  max-width:1400px;
+  margin:0 auto;
+  align-items:flex-start;
+}
+nav.tabs{
+  width:230px;
+  flex-shrink:0;
+  padding:22px 14px;
+  position:sticky;
+  top:73px;
+  align-self:flex-start;
+}
+nav.tabs .tab-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:11px 14px;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:600;
+  color:var(--muted);
+  cursor:pointer;
+  margin-bottom:4px;
+  border:1px solid transparent;
+}
+nav.tabs .tab-item .ic{
+  font-size:16px;
+}
+nav.tabs .tab-item:hover{
+  background:var(--primary-soft);
+  color:var(--primary-d);
+}
+nav.tabs .tab-item.active{
+  background:var(--primary);
+  color:#fff;
+  box-shadow:0 2px 8px rgba(28,147,168,.25);
+}
+nav.tabs .section-label{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--muted);
+  padding:14px 14px 6px;
+  font-weight:700;
+  opacity:.7;
+}
+.client-box{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px;margin:14px 14px 0;}
+.client-box label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:5px;}
+.client-box select{width:100%;background:var(--paper-warm);border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:6px 8px;font-size:12px;}
+.client-box .add-client{margin-top:6px;display:flex;gap:5px;}
+.client-box .add-client input{flex:1;background:var(--paper-warm);border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:5px 7px;font-size:11.5px;}
+.client-box .add-client button{background:var(--primary);border:none;color:#fff;border-radius:6px;padding:0 9px;font-weight:700;cursor:pointer;font-size:13px;}
+
+main.content{
+  flex:1;
+  padding:26px 26px 60px;
+  min-width:0;
+}
+
+.panel{
+  display:none;
+}
+.panel.active{
+  display:block;
+  animation:fadein .25s ease;
+}
+@keyframes fadein{
+  from{opacity:0; transform:translateY(4px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+.page-head{
+  margin-bottom:18px;
+}
+.page-head h1{
+  font-size:22px;
+  margin:0 0 4px;
+  color:var(--primary-d);
+}
+.page-head p{
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+  max-width:760px;
+  line-height:1.5;
+}
+.toolrow{
+  display:flex;
+  gap:8px;
+  margin:16px 0;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+/* ---------- CARD ---------- */
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:18px;
+}
+
+/* ---------- 6 PS CANVAS ---------- */
+.sixp-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+}
+.sixp-block{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  min-height:170px;
+}
+.sixp-block h3{
+  font-size:12.5px;
+  margin:0 0 8px;
+  color:var(--primary-d);
+  text-transform:uppercase;
+  letter-spacing:.03em;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.sixp-block h3 .n{
+  background:var(--primary-soft);
+  color:var(--primary-d);
+  width:18px;height:18px;
+  border-radius:50%;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:10.5px;
+  font-weight:700;
+}
+.sixp-block p.hint{
+  font-size:12px;
+  color:var(--muted);
+  margin:0 0 8px;
+}
+.sixp-block textarea{
+  flex:1;
+  resize:none;
+  border:none;
+  background:transparent;
+  font-family:inherit;
+  font-size:13px;
+  line-height:1.45;
+  color:var(--ink);
+  outline:none;
+  min-height:100px;
+}
+.sixp-block textarea::placeholder{
+  color:#B7C0B9;
+}
+.sixp-block.praca{background:var(--primary-soft);}
+.sixp-block.preco{background:var(--accent-soft);}
+.sixp-block.promocao{background:var(--primary-soft);}
+.sixp-block.produto{background:var(--accent-soft);}
+
+@media (max-width:1000px){
+  .sixp-grid{grid-template-columns:1fr 1fr;}
+}
+@media (max-width:640px){
+  .sixp-grid{grid-template-columns:1fr;}
+}
+
+/* ---------- CALCULADORA ---------- */
+.calc-wrap{
+  display:grid;
+  grid-template-columns:340px 1fr;
+  gap:18px;
+  align-items:start;
+}
+@media (max-width:900px){
+  .calc-wrap{grid-template-columns:1fr;}
+}
+.calc-form{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+.field label{
+  font-size:12.5px;
+  font-weight:700;
+  color:var(--primary-d);
+}
+.field .hint{
+  font-size:11.5px;
+  color:var(--muted);
+  font-weight:400;
+}
+.field input[type=number]{
+  font-family:inherit;
+  font-size:15px;
+  padding:9px 11px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  outline:none;
+  background:var(--paper-warm);
+  width:100%;
+}
+.field input[type=number]:focus{
+  border-color:var(--primary);
+  background:#fff;
+}
+.calc-results{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.metric-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+@media (max-width:560px){
+  .metric-row{grid-template-columns:1fr;}
+}
+.metric{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px 16px;
+}
+.metric .label{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+  color:var(--muted);
+  font-weight:700;
+  margin-bottom:6px;
+}
+.metric .value{
+  font-size:22px;
+  font-weight:700;
+  color:var(--primary-d);
+}
+.metric .sub{
+  font-size:12.5px;
+  color:var(--muted);
+  margin-top:2px;
+}
+.status-box{
+  border-radius:14px;
+  padding:18px 20px;
+  border:1px solid var(--line);
+}
+.status-box .label{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  font-weight:700;
+  margin-bottom:6px;
+}
+.status-box .value{
+  font-size:30px;
+  font-weight:700;
+}
+.status-box .msg{
+  font-size:13px;
+  margin-top:6px;
+}
+.status-red{background:#FBEAE3; border-color:#e7b7a3;}
+.status-red .label, .status-red .msg{color:#B3411F;}
+.status-red .value{color:#B3411F;}
+.status-amber{background:#FDF3E0; border-color:#f0d3ab;}
+.status-amber .label, .status-amber .msg{color:#9a5420;}
+.status-amber .value{color:#9a5420;}
+.status-green{background:#E9F3E4; border-color:#c7e2ba;}
+.status-green .label, .status-green .msg{color:#3C7A2A;}
+.status-green .value{color:#3C7A2A;}
+
+.benchmark{
+  font-size:12.5px;
+  color:var(--muted);
+  background:var(--paper-warm);
+  border:1px dashed var(--line);
+  border-radius:10px;
+  padding:10px 14px;
+  line-height:1.6;
+}
+.benchmark strong{color:var(--primary-d);}
+
+/* ---------- CROSS-CHECK (divergência entre painéis de custo) ---------- */
+.cc-warning{
+  display:none;
+  background:#FDF3E0;
+  border:1px solid #f0d3ab;
+  color:#9a5420;
+  border-radius:12px;
+  padding:12px 16px;
+  font-size:13px;
+  line-height:1.55;
+  margin-bottom:16px;
+}
+.cc-warning b{color:#9a5420;}
+.cc-warning ul{margin:6px 0 0 18px; padding:0;}
+.cc-warning li{margin-bottom:3px;}
+
+/* ---------- DASHBOARD TABLE ---------- */
+.table-wrap{
+  overflow-x:auto;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--paper);
+}
+table.dash{
+  width:100%;
+  border-collapse:collapse;
+  min-width:900px;
+}
+table.dash thead th{
+  background:var(--primary-soft);
+  color:var(--primary-d);
+  text-align:left;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+  padding:10px 12px;
+  border-bottom:1px solid var(--line);
+  white-space:nowrap;
+}
+table.dash tbody td{
+  padding:6px;
+  border-bottom:1px solid var(--line);
+  vertical-align:middle;
+}
+table.dash tbody tr:last-child td{
+  border-bottom:none;
+}
+table.dash input[type=text].conta{
+  width:100%;
+  border:1px solid transparent;
+  background:transparent;
+  font-family:inherit;
+  font-size:13.5px;
+  font-weight:600;
+  padding:8px 8px;
+  border-radius:6px;
+  outline:none;
+}
+table.dash input[type=text].conta:focus{
+  border-color:var(--primary);
+  background:var(--paper-warm);
+}
+table.dash input[type=number].valcell{
+  width:100%;
+  border:1px solid var(--line);
+  background:var(--paper-warm);
+  font-family:inherit;
+  font-size:13.5px;
+  padding:8px 8px;
+  border-radius:6px;
+  outline:none;
+}
+table.dash input[type=number].valcell:focus{
+  border-color:var(--primary);
+  background:#fff;
+}
+table.dash td.calc{
+  font-weight:700;
+  font-size:13.5px;
+  padding:8px 12px;
+  white-space:nowrap;
+}
+table.dash td.calc.neg{color:#B3411F;}
+table.dash td.calc.pos{color:#3C7A2A;}
+table.dash tbody tr.row-derived{background:var(--paper-warm);}
+table.dash tbody tr.row-derived input.conta{font-weight:700; color:var(--primary-d);}
+table.dash div.derived-cell{
+  padding:8px 10px;
+  font-weight:700;
+  color:var(--primary-d);
+  background:var(--primary-soft);
+  border-radius:6px;
+  font-size:13.5px;
+  white-space:nowrap;
+}
+.col-actions{
+  width:40px;
+  text-align:center;
+}
+.row-del{
+  border:none;
+  background:none;
+  color:#B3411F;
+  font-size:16px;
+  padding:4px;
+  border-radius:6px;
+  line-height:1;
+}
+.row-del:hover{
+  background:#FBEAE3;
+}
+tfoot td{
+  padding:10px 12px;
+  font-weight:700;
+  border-top:2px solid var(--primary);
+  background:var(--primary-soft);
+  color:var(--primary-d);
+  font-size:13.5px;
+}
+
+/* ---------- VIABILIDADE ---------- */
+.viab-grid3{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:14px;
+}
+@media (max-width:900px){
+  .viab-grid3{grid-template-columns:1fr;}
+}
+.viab-scenario{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
+.viab-scenario.active{
+  border-color:var(--primary);
+  box-shadow:0 0 0 2px var(--primary-soft);
+}
+.viab-scenario h4{
+  margin:0;
+  font-size:13px;
+  color:var(--primary-d);
+  text-transform:uppercase;
+  letter-spacing:.03em;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+.viab-scenario .faturamento-out{
+  background:var(--primary-soft);
+  border-radius:10px;
+  padding:10px 12px;
+  font-size:12.5px;
+  color:var(--primary-d);
+  font-weight:700;
+}
+.viab-scenario .faturamento-out span{display:block; font-size:18px; margin-top:2px;}
+.viab-scenario label.pick{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  font-size:11.5px;
+  color:var(--muted);
+  font-weight:600;
+  cursor:pointer;
+  text-transform:none;
+  letter-spacing:0;
+}
+.viab-scenario label.pick input{accent-color:var(--primary); cursor:pointer;}
+
+/* ---------- RETENÇÃO ---------- */
+.diag-block{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:16px 18px;
+  margin-bottom:14px;
+}
+.diag-block .q{
+  font-size:14.5px;
+  font-weight:700;
+  color:var(--primary-d);
+  margin:0 0 4px;
+  display:flex;
+  gap:8px;
+}
+.diag-block .q .qn{
+  background:var(--primary);
+  color:#fff;
+  width:22px;height:22px;
+  border-radius:50%;
+  font-size:12px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.diag-block textarea{
+  width:100%;
+  min-height:70px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:10px;
+  font-family:inherit;
+  font-size:13.5px;
+  line-height:1.5;
+  outline:none;
+  background:var(--paper-warm);
+  resize:vertical;
+  margin-top:8px;
+}
+.diag-block textarea:focus{
+  border-color:var(--primary);
+  background:#fff;
+}
+.actions-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.action-item{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:10px 14px;
+}
+.action-item input[type=checkbox]{
+  margin-top:4px;
+  width:17px;
+  height:17px;
+  accent-color:var(--primary);
+  cursor:pointer;
+  flex-shrink:0;
+}
+.action-item .a-label{
+  font-size:13.5px;
+  font-weight:600;
+  flex:0 0 auto;
+  min-width:260px;
+  max-width:320px;
+}
+.action-item.checked .a-label{
+  color:var(--muted);
+  text-decoration:line-through;
+}
+.action-item input[type=text].a-note{
+  flex:1;
+  border:1px solid var(--line);
+  border-radius:7px;
+  padding:7px 10px;
+  font-family:inherit;
+  font-size:13px;
+  outline:none;
+  background:var(--paper-warm);
+  min-width:160px;
+}
+.action-item input[type=text].a-note:focus{
+  border-color:var(--primary);
+  background:#fff;
+}
+
+/* ---------- FOOTER ---------- */
+footer.status-bar{
+  background:var(--paper);
+  border-top:1px solid var(--line);
+  padding:10px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:12.5px;
+  color:var(--muted);
+  position:sticky;
+  bottom:0;
+}
+.saved-indicator{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-weight:600;
+}
+.saved-indicator .dot{
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--primary);
+  display:inline-block;
+  box-shadow:0 0 0 3px var(--primary-soft);
+}
+
+/* ---------- TOAST ---------- */
+.toast{
+  position:fixed;
+  bottom:60px;
+  left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:var(--ink);
+  color:#fff;
+  padding:10px 20px;
+  border-radius:30px;
+  font-size:13px;
+  font-weight:600;
+  opacity:0;
+  pointer-events:none;
+  transition:all .3s ease;
+  z-index:200;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);
+}
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+/* modal import */
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(22,41,74,.45);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:300;
+}
+.modal-overlay.show{display:flex;}
+.modal-box{
+  background:var(--paper);
+  border-radius:14px;
+  padding:22px;
+  width:90%;
+  max-width:520px;
+  box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+.modal-box h3{margin:0 0 10px; color:var(--primary-d);}
+.modal-box p{font-size:13px; color:var(--muted); margin:0 0 12px;}
+.modal-box textarea{
+  width:100%;
+  height:140px;
+  font-family:monospace;
+  font-size:12px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:10px;
+  resize:vertical;
+  outline:none;
+}
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:14px;
+}
+.file-hidden{display:none;}
+
+/* ---------- responsive nav ---------- */
+@media (max-width:880px){
+  .app{flex-direction:column;}
+  .menu-toggle{display:inline-flex;}
+  nav.tabs{
+    width:100%;
+    position:static;
+    display:none;
+    padding:10px 14px;
+    border-bottom:1px solid var(--line);
+    background:var(--paper);
+  }
+  nav.tabs.open{display:block;}
+  main.content{padding:18px;}
+  .brand .tool-name{display:none;}
+}
+
+/* ---------- PRINT ---------- */
+@media print{
+  header.topbar, nav.tabs, footer.status-bar, .toolrow, .menu-toggle, .modal-overlay{display:none !important;}
+  body{background:#fff;}
+  .app{display:block; max-width:100%;}
+  main.content{padding:0;}
+  .panel{display:block !important; page-break-after:always;}
+  .panel:last-child{page-break-after:auto;}
+  .card, .sixp-block, .metric, .status-box, .diag-block, .action-item{
+    box-shadow:none !important;
+    border:1px solid #999 !important;
+  }
+  textarea, input{
+    color:#000 !important;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  table.dash{min-width:0;}
+}
+#loginGate{position:fixed;inset:0;background:#F5F7FA;z-index:1000;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+#loginGate .box{background:#fff;border:1px solid #E2E6ED;border-radius:14px;padding:32px 30px;max-width:360px;width:92%;}
+#loginGate h1{font-size:18px;color:#16294A;margin-bottom:4px;}
+#loginGate p{font-size:12.5px;color:#6E7A8C;margin-bottom:18px;line-height:1.5;}
+#loginGate label{display:block;font-size:11.5px;font-weight:700;color:#6E7A8C;margin:10px 0 4px;}
+#loginGate input{width:100%;padding:9px 10px;border:1px solid #E2E6ED;border-radius:8px;font-size:13.5px;font-family:inherit;}
+#loginGate .row{display:flex;gap:8px;margin-top:16px;}
+#loginGate button{flex:1;background:#2EC4D6;color:#08343B;border:none;padding:10px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;}
+#loginGate button.sec{background:#E4F8FB;color:#1C93A8;}
+#loginGate .msg{margin-top:12px;font-size:12px;padding:8px 10px;border-radius:7px;line-height:1.5;display:none;}
+#loginGate .msg.ok{background:#E3FBEF;color:#1C9A57;display:block;}
+#loginGate .msg.err{background:#FBEAE3;color:#B3411F;display:block;}
+#userBar{position:fixed;top:10px;right:10px;z-index:900;background:#fff;border:1px solid #E2E6ED;font-size:11.5px;font-weight:700;color:#16294A;padding:6px 8px 6px 12px;border-radius:20px;display:none;align-items:center;gap:8px;}
+#userBar button{background:#FBEAE3;color:#B3411F;border:none;padding:5px 10px;border-radius:14px;font-size:10.5px;font-weight:700;cursor:pointer;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.5"></script>
+</head>
+<body>
+
+<div id="loginGate">
+  <div class="box">
+    <h1>ArtBlend — Área do consultor</h1>
+    <p>Entre com seu login para acessar esta ferramenta.</p>
+    <label>E-mail</label>
+    <input id="lg_email" type="email" placeholder="seu@email.com">
+    <label>Senha</label>
+    <input id="lg_senha" type="password" placeholder="mínimo 6 caracteres">
+    <div class="row">
+      <button onclick="gateEntrar()">Entrar</button>
+      <button class="sec" onclick="gateCadastrar()">Criar conta</button>
+    </div>
+    <div id="lg_msg" class="msg"></div>
+  </div>
+</div>
+<div id="userBar"><span id="userBarEmail"></span><button onclick="gateSair()">Sair</button></div>
+
+<div id="appContent" style="display:none;">
+<header class="topbar">
+  <div class="brand">
+    <button class="menu-toggle" id="menuToggle" title="Menu">☰</button>
+    <span class="logo">artblend</span>
+    <span class="tool-name">Consultoria Gourmet<b>Gestão Financeira do Restaurante</b></span>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-ghost" id="btnPrint">🖨️ Imprimir / PDF</button>
+    <button class="btn" id="btnImport">⬆ Importar</button>
+    <button class="btn btn-accent" id="btnExport">⬇ Exportar (JSON)</button>
+  </div>
+</header>
+
+<div class="app">
+  <nav class="tabs" id="tabsNav">
+    <div class="client-box">
+      <label>Cliente / Projeto ativo</label>
+      <select id="clientSelect" onchange="switchClient(this.value)"></select>
+      <div class="add-client">
+        <input type="text" id="newClientName" placeholder="Novo cliente...">
+        <button onclick="addClient()">+</button>
+      </div>
+    </div>
+    <div class="section-label">Módulos</div>
+    <div class="tab-item active" data-panel="sixp"><span class="ic">🧩</span> 6 Ps do Restaurante</div>
+    <div class="tab-item" data-panel="calc"><span class="ic">🧮</span> Prime Cost &amp; Ponto de Equilíbrio</div>
+    <div class="tab-item" data-panel="dash"><span class="ic">📊</span> Orçado x Realizado</div>
+    <div class="tab-item" data-panel="fluxocaixa"><span class="ic">💰</span> Fluxo de Caixa Anual</div>
+    <div class="tab-item" data-panel="dre"><span class="ic">📒</span> Plano de Contas &amp; DRE</div>
+    <div class="tab-item" data-panel="clt"><span class="ic">🧾</span> Custo de Funcionário (CLT)</div>
+    <div class="tab-item" data-panel="retencao"><span class="ic">🤝</span> Retenção de Talentos</div>
+    <div class="tab-item" data-panel="capitalgiro"><span class="ic">🔁</span> Ciclo Financeiro &amp; Capital de Giro</div>
+    <div class="tab-item" data-panel="viabilidade"><span class="ic">🚀</span> Plano de Viabilidade</div>
+    <div class="tab-item" data-panel="eventos"><span class="ic">🎉</span> Orçamento de Evento</div>
+    <div class="section-label">Sobre</div>
+    <div style="padding:10px 14px; font-size:12px; color:var(--muted); line-height:1.6;">
+      Ferramenta de apoio à consultoria de gestão financeira e operacional para restaurantes,
+      baseada na metodologia própria da Artblend Consultoria Gourmet.
+    </div>
+  </nav>
+
+  <main class="content">
+
+    <!-- ================= 6 PS ================= -->
+    <section class="panel active" id="panel-sixp">
+      <div class="page-head">
+        <h1>6 Ps do Restaurante</h1>
+        <p>Modele o conceito do negócio com o cliente preenchendo os 6 Ps: Praça, Preço, Processos, Público, Produto e Promoção. Os dados são salvos automaticamente na nuvem.</p>
+      </div>
+      <div class="toolrow">
+        <button class="btn btn-sm" id="sixpClear">🗑 Limpar canvas</button>
+        <span style="font-size:12px; color:var(--muted); align-self:center;">Cliente/Projeto:</span>
+        <input type="text" id="sixpClientName" placeholder="Nome do restaurante / cliente" style="padding:6px 10px; border:1px solid var(--line); border-radius:7px; font-family:inherit; font-size:13px; min-width:220px;">
+      </div>
+
+      <div class="sixp-grid">
+        <div class="sixp-block praca">
+          <h3><span class="n">1</span> Praça</h3>
+          <p class="hint">Espaço físico, capacidade, estrutura e proximidade do público.</p>
+          <textarea data-field="praca" placeholder="Onde está o restaurante? Estrutura, localização, capacidade de atendimento..."></textarea>
+        </div>
+        <div class="sixp-block preco">
+          <h3><span class="n">2</span> Preço</h3>
+          <p class="hint">Preço de venda, posicionamento de mercado, estrutura de custos e lucro.</p>
+          <textarea data-field="preco" placeholder="Faixa de preço, ticket médio, posicionamento frente à concorrência..."></textarea>
+        </div>
+        <div class="sixp-block processos">
+          <h3><span class="n">3</span> Processos</h3>
+          <p class="hint">Controles, produção, técnicas, diferenciais, ESG, procederes e compliance.</p>
+          <textarea data-field="processos" placeholder="Fichas técnicas, controles de estoque, padronização, compliance..."></textarea>
+        </div>
+        <div class="sixp-block publico">
+          <h3><span class="n">4</span> Público</h3>
+          <p class="hint">Cliente ideal, personas, público-alvo, segmentação e estratégia de marketing.</p>
+          <textarea data-field="publico" placeholder="Quem é o cliente ideal? Perfil, ocasião de consumo, segmentação..."></textarea>
+        </div>
+        <div class="sixp-block produto">
+          <h3><span class="n">5</span> Produto</h3>
+          <p class="hint">O que é, qual a diferenciação, qual a qualidade, o valor entregue.</p>
+          <textarea data-field="produto" placeholder="Cardápio, diferenciação, qualidade, problema que resolve para o cliente..."></textarea>
+        </div>
+        <div class="sixp-block promocao">
+          <h3><span class="n">6</span> Promoção</h3>
+          <p class="hint">Marketing, storytelling, tom de voz e a "pegada" da marca.</p>
+          <textarea data-field="promocao" placeholder="Canais de marketing, tom de voz, storytelling da marca..."></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CALCULADORA ================= -->
+    <section class="panel" id="panel-calc">
+      <div class="page-head">
+        <h1>Calculadora de Prime Cost &amp; Ponto de Equilíbrio</h1>
+        <p>Insira o faturamento e os percentuais de custo do restaurante. Os indicadores são recalculados automaticamente a cada alteração.</p>
+      </div>
+
+      <div class="cc-warning" id="ccWarning_calc"></div>
+
+      <div class="calc-wrap">
+        <div class="calc-form">
+          <div class="field">
+            <label for="calcFaturamento">Faturamento (R$)</label>
+            <input type="number" id="calcFaturamento" min="0" step="0.01" placeholder="Ex: 120000">
+          </div>
+          <div class="field">
+            <label for="calcCmv">CMV (%)</label>
+            <span class="hint">Custo de Mercadoria Vendida</span>
+            <input type="number" id="calcCmv" min="0" step="0.1" value="30">
+          </div>
+          <div class="field">
+            <label for="calcCmo">CMO (%)</label>
+            <span class="hint">Custo de Mão de Obra</span>
+            <input type="number" id="calcCmo" min="0" step="0.1" value="20">
+          </div>
+          <div class="field">
+            <label for="calcAluguel">Aluguel (%)</label>
+            <input type="number" id="calcAluguel" min="0" step="0.1" value="10">
+          </div>
+          <div class="field">
+            <label for="calcAdm">ADM (%)</label>
+            <span class="hint">Despesas administrativas</span>
+            <input type="number" id="calcAdm" min="0" step="0.1" value="10">
+          </div>
+          <div class="field">
+            <label for="calcIptu">IPTU (%)</label>
+            <input type="number" id="calcIptu" min="0" step="0.1" value="6">
+          </div>
+          <div class="field">
+            <label for="calcImpostos">Impostos (%)</label>
+            <input type="number" id="calcImpostos" min="0" step="0.1" value="5">
+          </div>
+          <div class="benchmark">
+            <strong>Referência de mercado:</strong> CMV 30% · CMO 20% · Aluguel 10% · ADM 10% · IPTU 6% · Impostos 5% · Lucro 10% a 20%.
+          </div>
+        </div>
+
+        <div class="calc-results">
+          <div class="status-box" id="lucroStatusBox">
+            <div class="label">Lucro estimado</div>
+            <div class="value" id="lucroPctValue">—</div>
+            <div class="msg" id="lucroMsg">Preencha o faturamento e os percentuais ao lado.</div>
+          </div>
+
+          <div class="metric-row">
+            <div class="metric">
+              <div class="label">Prime Cost (CMV + CMO)</div>
+              <div class="value" id="primeCostPct">—</div>
+              <div class="sub" id="primeCostRS">R$ —</div>
+            </div>
+            <div class="metric">
+              <div class="label">Total de custos (fixos + variáveis)</div>
+              <div class="value" id="totalCustosPct">—</div>
+              <div class="sub" id="totalCustosRS">R$ —</div>
+            </div>
+            <div class="metric">
+              <div class="label">Lucro (R$)</div>
+              <div class="value" id="lucroRS">R$ —</div>
+              <div class="sub">Faturamento − total de custos</div>
+            </div>
+            <div class="metric">
+              <div class="label">Margem de Contribuição (R$)</div>
+              <div class="value" id="margemContribuicaoRS">R$ —</div>
+              <div class="sub">Faturamento − Prime Cost (CMV+CMO). Cobre despesas fixas e gera lucro.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= DASHBOARD ================= -->
+    <section class="panel" id="panel-dash">
+      <div class="page-head">
+        <h1>Dashboard Orçado x Realizado</h1>
+        <p>Compare o valor planejado com o realizado em cada conta, seguindo a estrutura completa de indicadores da metodologia Artblend: Faturamento, Ponto de Equilíbrio, Ticket Médio, CMV, Custos Financeiros, Prime Cost, Margem de Contribuição, Despesas Operacionais e Resultado Financeiro Operacional. As linhas destacadas em verde-claro (Ponto de Equilíbrio, A/H, Ideal de Clientes, Custos Variáveis Diretos, Prime Cost, Margem de Contribuição, Total de Despesas Operacionais e Resultado Financeiro Operacional) são <strong>calculadas automaticamente</strong> a partir das demais contas — edite apenas os valores das contas em branco. Diferença e Variação % são recalculadas automaticamente a cada alteração.</p>
+      </div>
+      <div class="cc-warning" id="ccWarning_dash"></div>
+      <div class="toolrow">
+        <button class="btn btn-primary btn-sm" id="dashAddRow">+ Adicionar conta</button>
+        <button class="btn btn-sm" id="dashClear">🗑 Restaurar contas padrão</button>
+      </div>
+      <div class="table-wrap">
+        <table class="dash" id="dashTable">
+          <thead>
+            <tr>
+              <th style="width:28%">Conta</th>
+              <th style="width:18%">Orçado</th>
+              <th style="width:18%">Realizado</th>
+              <th style="width:18%">Diferença</th>
+              <th style="width:14%">Variação %</th>
+              <th class="col-actions"></th>
+            </tr>
+          </thead>
+          <tbody id="dashBody"></tbody>
+          <tfoot>
+            <tr>
+              <td>Total (contas em R$ preenchidas manualmente)</td>
+              <td id="dashTotalOrcado">R$ 0,00</td>
+              <td id="dashTotalRealizado">R$ 0,00</td>
+              <td id="dashTotalDiferenca">R$ 0,00</td>
+              <td id="dashTotalVariacao">—</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= FLUXO DE CAIXA ANUAL ================= -->
+    <section class="panel" id="panel-fluxocaixa">
+      <div class="page-head">
+        <h1>Fluxo de Caixa Anual</h1>
+        <p>Registre a Receita e a Despesa de cada um dos 12 meses do ano. O Lucro Líquido de cada mês (Receita − Despesa) e os totais anuais — Receita Anual, Despesa Anual, Lucro Líquido Anual e Margem de Lucro Anual — são recalculados automaticamente a cada alteração.</p>
+      </div>
+
+      <div class="toolrow">
+        <button class="btn btn-sm" id="fcClear">🗑 Limpar fluxo de caixa</button>
+      </div>
+
+      <div class="metric-row" style="margin-bottom:16px; grid-template-columns:repeat(4,1fr);">
+        <div class="metric">
+          <div class="label">Receita Anual</div>
+          <div class="value" id="fcReceitaAnualOut">R$ —</div>
+          <div class="sub">Soma da Receita dos 12 meses</div>
+        </div>
+        <div class="metric">
+          <div class="label">Despesa Anual</div>
+          <div class="value" id="fcDespesaAnualOut">R$ —</div>
+          <div class="sub">Soma da Despesa dos 12 meses</div>
+        </div>
+        <div class="metric">
+          <div class="label">Lucro Líquido Anual</div>
+          <div class="value" id="fcLucroAnualOut">R$ —</div>
+          <div class="sub">Receita Anual − Despesa Anual</div>
+        </div>
+        <div class="metric">
+          <div class="label">Margem de Lucro Anual</div>
+          <div class="value" id="fcMargemAnualOut">—</div>
+          <div class="sub">Lucro Líquido Anual ÷ Receita Anual</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="dash" id="fcTable" style="min-width:1500px;">
+          <thead>
+            <tr>
+              <th style="width:14%">Conta</th>
+              <th>Jan</th><th>Fev</th><th>Mar</th><th>Abr</th><th>Mai</th><th>Jun</th>
+              <th>Jul</th><th>Ago</th><th>Set</th><th>Out</th><th>Nov</th><th>Dez</th>
+            </tr>
+          </thead>
+          <tbody id="fcBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= PLANO DE CONTAS & DRE ================= -->
+    <section class="panel" id="panel-dre">
+      <div class="page-head">
+        <h1>Plano de Contas &amp; DRE</h1>
+        <p>Demonstrativo de Resultado do Exercício mês a mês, estruturado pelo plano de contas padrão de restaurante da metodologia Artblend: Receitas → (−) Impostos sobre Vendas → (−) Custos Variáveis Diretos → Margem de Contribuição → (−) Despesas Operacionais → Resultado Operacional. Cada valor é editável em R$ e a coluna "% Faturamento" é recalculada automaticamente, como em um DRE gerencial real.</p>
+      </div>
+
+      <div class="cc-warning" id="ccWarning_dre"></div>
+
+      <div class="toolrow" style="flex-wrap:wrap; row-gap:8px;">
+        <span style="font-size:12px; color:var(--muted); align-self:center;">Mês do DRE:</span>
+        <select id="dreMonthSelect" style="padding:7px 10px; border:1px solid var(--line); border-radius:7px; font-family:inherit; font-size:13px; min-width:130px; background:var(--paper-warm); color:var(--ink);"></select>
+        <input type="text" id="dreNewMonthLabel" placeholder="Ex: 08/2026" style="padding:7px 10px; border:1px solid var(--line); border-radius:7px; font-family:inherit; font-size:13px; width:110px;">
+        <button class="btn btn-primary btn-sm" id="dreAddMonth">+ Novo mês</button>
+        <button class="btn btn-sm" id="dreDuplicateMonth">⧉ Duplicar mês ativo</button>
+        <button class="btn btn-sm" id="dreRemoveMonth">🗑 Remover mês ativo</button>
+      </div>
+
+      <div class="metric-row" style="margin-bottom:16px; grid-template-columns:repeat(4,1fr);">
+        <div class="metric">
+          <div class="label">Faturamento Bruto</div>
+          <div class="value" id="dreFaturamentoOut">R$ —</div>
+          <div class="sub">Alimentos + Bebidas + Outras Receitas</div>
+        </div>
+        <div class="metric">
+          <div class="label">Receita Líquida</div>
+          <div class="value" id="dreReceitaLiquidaOut">R$ —</div>
+          <div class="sub">Faturamento Bruto − Impostos sobre Vendas</div>
+        </div>
+        <div class="metric">
+          <div class="label">Margem de Contribuição</div>
+          <div class="value" id="dreMargemOut">R$ —</div>
+          <div class="sub" id="dreMargemPctOut">—</div>
+        </div>
+        <div class="metric">
+          <div class="label">Resultado Operacional</div>
+          <div class="value" id="dreResultadoOut">R$ —</div>
+          <div class="sub" id="dreResultadoPctOut">—</div>
+        </div>
+      </div>
+
+      <div class="table-wrap" style="margin-bottom:22px;">
+        <table class="dash" id="dreTable">
+          <thead>
+            <tr>
+              <th style="width:52%">Conta (Plano de Contas)</th>
+              <th style="width:26%">Valor (R$)</th>
+              <th style="width:22%">% Faturamento</th>
+            </tr>
+          </thead>
+          <tbody id="dreBody"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">Histórico de meses</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">Evolução do CMV%, Margem de Contribuição% e Resultado Operacional% entre os meses cadastrados neste cliente — use para mostrar tendência ao longo da consultoria.</p>
+        <div class="table-wrap">
+          <table class="dash">
+            <thead>
+              <tr><th>Mês</th><th>Faturamento</th><th>CMV %</th><th>Margem de Contribuição %</th><th>Resultado Operacional %</th></tr>
+            </thead>
+            <tbody id="dreHistoryBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CUSTO DE FUNCIONÁRIO (ENCARGOS CLT) ================= -->
+    <section class="panel" id="panel-clt">
+      <div class="page-head">
+        <h1>Custo de Funcionário (Encargos CLT)</h1>
+        <p>Mostra o custo real de um funcionário para o restaurante — não apenas o salário bruto, mas todas as provisões e encargos que incidem sobre ele conforme a legislação trabalhista vigente. Todos os percentuais abaixo têm o valor típico atual como padrão, mas são totalmente editáveis, pois alíquotas mudam de ano a ano.</p>
+      </div>
+
+      <div class="toolrow">
+        <button class="btn btn-sm" id="cltClear">🗑 Restaurar valores padrão</button>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">1. Dados do funcionário e regime tributário</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">O regime tributário da empresa define se incidem ou não o INSS patronal e o Sistema S sobre a folha (o FGTS incide nos dois regimes).</p>
+        <div class="viab-grid3">
+          <div class="field">
+            <label for="cltSalarioBase">Salário base (R$)</label>
+            <input type="number" id="cltSalarioBase" min="0" step="0.01" placeholder="Ex: 1800,00">
+          </div>
+          <div class="field">
+            <label for="cltRegime">Regime tributário da empresa</label>
+            <select id="cltRegime" style="font-family:inherit;font-size:15px;padding:9px 11px;border:1px solid var(--line);border-radius:8px;outline:none;background:var(--paper-warm);width:100%;">
+              <option value="simples">Simples Nacional</option>
+              <option value="real">Lucro Real / Presumido</option>
+            </select>
+          </div>
+        </div>
+        <div class="benchmark" style="margin-top:12px;" id="cltRegimeHint">Regime Simples Nacional: a empresa é, em regra, dispensada do INSS patronal (~20%) e do Sistema S sobre a folha, pois esses encargos já estão incluídos no DAS unificado — apenas o FGTS incide separadamente.</div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">2. Provisões e encargos sobre o salário</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">Percentuais conforme legislação trabalhista vigente (CLT e Lei do FGTS). Editáveis — ajuste conforme a atualização anual das alíquotas.</p>
+        <div class="viab-grid3">
+          <div class="field">
+            <label for="cltFgtsSalarioPct">FGTS sobre salário (%)</label>
+            <input type="number" id="cltFgtsSalarioPct" min="0" step="0.1" value="8">
+          </div>
+          <div class="field">
+            <label for="cltFeriasPct">Férias — provisão mensal (%)</label>
+            <span class="hint">Equivale a 1/12 do salário (8,33%)</span>
+            <input type="number" id="cltFeriasPct" min="0" step="0.01" value="8.33">
+          </div>
+          <div class="field">
+            <label for="cltDecimoPct">13º salário — provisão mensal (%)</label>
+            <span class="hint">Equivale a 1/12 do salário (8,33%)</span>
+            <input type="number" id="cltDecimoPct" min="0" step="0.01" value="8.33">
+          </div>
+          <div class="field">
+            <label for="cltFgtsFeriasPct">FGTS sobre férias (%)</label>
+            <input type="number" id="cltFgtsFeriasPct" min="0" step="0.1" value="8">
+          </div>
+          <div class="field">
+            <label for="cltFgtsDecimoPct">FGTS sobre 13º salário (%)</label>
+            <input type="number" id="cltFgtsDecimoPct" min="0" step="0.1" value="8">
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">3. Encargos patronais (conforme regime)</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">Aplicados sobre o salário apenas quando o regime tributário acima é "Lucro Real / Presumido".</p>
+        <div class="viab-grid3">
+          <div class="field">
+            <label for="cltInssPatronalPct">INSS patronal (%)</label>
+            <input type="number" id="cltInssPatronalPct" min="0" step="0.1" value="20">
+          </div>
+          <div class="field">
+            <label for="cltSistemaSPct">Sistema S / Terceiros (%)</label>
+            <span class="hint">Contribuições ao Sistema S e outras contribuições a terceiros previstas em folha</span>
+            <input type="number" id="cltSistemaSPct" min="0" step="0.1" value="5.8">
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">4. Benefícios e descontos do funcionário</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">Informe o valor mensal de cada benefício e o percentual de desconto do funcionário previsto em lei/norma coletiva. O custo mostrado na tabela final já é o valor líquido pago pela empresa, após o desconto do funcionário.</p>
+        <div class="viab-grid3">
+          <div class="field">
+            <label for="cltValeRefeicao">Vale Refeição (R$/mês)</label>
+            <input type="number" id="cltValeRefeicao" min="0" step="0.01" placeholder="0,00">
+          </div>
+          <div class="field">
+            <label for="cltValeAlimentacao">Vale Alimentação (R$/mês)</label>
+            <input type="number" id="cltValeAlimentacao" min="0" step="0.01" placeholder="0,00">
+          </div>
+          <div class="field">
+            <label for="cltDescontoVrVaPct">Desconto do funcionário sobre VR/VA (%)</label>
+            <span class="hint">Percentual do valor do benefício, até o limite legal (referência: 20%)</span>
+            <input type="number" id="cltDescontoVrVaPct" min="0" max="100" step="0.1" value="20">
+          </div>
+          <div class="field">
+            <label for="cltValeTransporte">Vale Transporte (R$/mês)</label>
+            <input type="number" id="cltValeTransporte" min="0" step="0.01" placeholder="0,00">
+          </div>
+          <div class="field">
+            <label for="cltDescontoVtPct">Desconto do funcionário sobre VT (%)</label>
+            <span class="hint">Percentual sobre o salário base, até o limite legal (referência: 6%)</span>
+            <input type="number" id="cltDescontoVtPct" min="0" max="100" step="0.1" value="6">
+          </div>
+          <div class="field">
+            <label for="cltPlanoSaude">Plano de saúde (R$/mês)</label>
+            <input type="number" id="cltPlanoSaude" min="0" step="0.01" placeholder="0,00">
+          </div>
+          <div class="field">
+            <label for="cltPlanoOdonto">Plano odontológico (R$/mês)</label>
+            <input type="number" id="cltPlanoOdonto" min="0" step="0.01" placeholder="0,00">
+          </div>
+          <div class="field">
+            <label for="cltOutrosBeneficios">Outros benefícios (R$/mês)</label>
+            <input type="number" id="cltOutrosBeneficios" min="0" step="0.01" placeholder="0,00">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">5. Resultado — custo total do funcionário</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">Recalculado automaticamente a cada alteração acima.</p>
+
+        <div class="status-box" id="cltStatusBox">
+          <div class="label">Custo total mensal do funcionário para a empresa</div>
+          <div class="value" id="cltCustoTotalOut">R$ —</div>
+          <div class="msg" id="cltCustoTotalMsg">Preencha o salário base e os encargos ao lado.</div>
+        </div>
+
+        <div class="metric-row" style="margin-top:14px;">
+          <div class="metric">
+            <div class="label">Multiplicador sobre o salário base</div>
+            <div class="value" id="cltMultiplicadorOut">—</div>
+            <div class="sub">Custo total ÷ Salário base — quanto a empresa realmente paga para cada R$ 1,00 de salário</div>
+          </div>
+          <div class="metric">
+            <div class="label">Total de encargos e benefícios (R$)</div>
+            <div class="value" id="cltEncargosTotalOut">R$ —</div>
+            <div class="sub">Custo total − Salário base</div>
+          </div>
+        </div>
+
+        <div class="table-wrap" style="margin-top:16px;">
+          <table class="dash" id="cltBreakdownTable">
+            <thead>
+              <tr>
+                <th style="width:70%">Componente do custo</th>
+                <th style="width:30%">Valor (R$)</th>
+              </tr>
+            </thead>
+            <tbody id="cltBreakdownBody"></tbody>
+            <tfoot>
+              <tr>
+                <td>Custo total mensal do funcionário para a empresa</td>
+                <td id="cltCustoTotalFooter">R$ 0,00</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= RETENÇÃO ================= -->
+    <section class="panel" id="panel-retencao">
+      <div class="page-head">
+        <h1>Retenção de Talentos — Checklist</h1>
+        <p>Aplique o autodiagnóstico com o dono/gestor do restaurante e acompanhe a implementação das ações de reconhecimento e valorização da equipe.</p>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">Autodiagnóstico do gestor</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">Registre a resposta do gestor e a nota/observação do consultor para cada pergunta.</p>
+
+        <div class="diag-block">
+          <p class="q"><span class="qn">1</span> Será que seu restaurante está tomando as decisões certas?</p>
+          <textarea data-field="q1" placeholder="Resposta do gestor / nota e observação do consultor..."></textarea>
+        </div>
+        <div class="diag-block">
+          <p class="q"><span class="qn">2</span> Quais estratégias e metodologias você adotou para manter seus colaboradores motivados com os objetivos da equipe?</p>
+          <textarea data-field="q2" placeholder="Resposta do gestor / nota e observação do consultor..."></textarea>
+        </div>
+        <div class="diag-block">
+          <p class="q"><span class="qn">3</span> Qual foi a última vez que você deu um feedback ou agradeceu seu colaborador por ter executado um belo trabalho?</p>
+          <textarea data-field="q3" placeholder="Resposta do gestor / nota e observação do consultor..."></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">Ações de reconhecimento e valorização</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">Marque as ações conforme forem implementadas junto ao cliente. Use o campo ao lado para anotar detalhes ou prazos.</p>
+        <div class="actions-list" id="actionsList"></div>
+      </div>
+    </section>
+
+    <!-- ================= CICLO FINANCEIRO / CAPITAL DE GIRO ================= -->
+    <section class="panel" id="panel-capitalgiro">
+      <div class="page-head">
+        <h1>Ciclo Financeiro &amp; Capital de Giro</h1>
+        <p>Metodologia Artblend para explicar ao cliente por que ele precisa (ou não) de capital de giro — e o material de referência sobre Ficha Técnica, CMV e POPs usado nas mentorias.</p>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">O ciclo financeiro, passo a passo</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">A necessidade de capital de giro depende do tempo entre pagar o fornecedor e receber do cliente. Quanto <b>menor</b> o ciclo financeiro, <b>menor</b> a necessidade de capital de giro.</p>
+        <table style="width:100%; border-collapse:collapse; font-size:13.5px;">
+          <tr><th style="text-align:left; background:var(--primary-soft); color:var(--primary-d); padding:8px 10px;">Etapa</th><th style="text-align:left; background:var(--primary-soft); color:var(--primary-d); padding:8px 10px;">Como calcular</th><th style="text-align:left; background:var(--primary-soft); color:var(--primary-d); padding:8px 10px;">Exemplo</th></tr>
+          <tr><td style="padding:8px 10px; border-bottom:1px solid var(--line);"><b>Ciclo Econômico</b></td><td style="padding:8px 10px; border-bottom:1px solid var(--line);">Prazo médio de estoque (quanto tempo o produto fica parado antes de vender)</td><td style="padding:8px 10px; border-bottom:1px solid var(--line);">—</td></tr>
+          <tr><td style="padding:8px 10px; border-bottom:1px solid var(--line);"><b>Ciclo Operacional</b></td><td style="padding:8px 10px; border-bottom:1px solid var(--line);">Ciclo Econômico + Prazo médio de recebimento</td><td style="padding:8px 10px; border-bottom:1px solid var(--line);">30 dias estoque + 15 dias recebimento = 45 dias</td></tr>
+          <tr><td style="padding:8px 10px;"><b>Ciclo Financeiro</b></td><td style="padding:8px 10px;">Ciclo Operacional − Prazo médio de pagamento a fornecedores</td><td style="padding:8px 10px;">45 dias − 30 dias fornecedor = <b>15 dias</b> de capital de giro necessário</td></tr>
+        </table>
+        <p style="margin-top:12px; font-size:12.5px; color:var(--muted); font-style:italic;">Atenção: um cliente com ciclo operacional longo que ainda recebe a prazo das operadoras de cartão vai precisar de muito mais capital — sempre confira o prazo médio de cada variável com o dono.</p>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">Calcule o ciclo financeiro deste cliente</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">Informe os prazos médios levantados com o cliente. O Ciclo Operacional e o Ciclo Financeiro são recalculados automaticamente.</p>
+        <div class="viab-grid3">
+          <div class="field">
+            <label for="cgCicloEconomico">Ciclo Econômico (dias)</label>
+            <span class="hint">Prazo médio de estoque — também usado como "dias de giro de estoque" no cálculo de NCG abaixo</span>
+            <input type="number" id="cgCicloEconomico" min="0" step="1" placeholder="Ex: 30">
+          </div>
+          <div class="field">
+            <label for="cgPrazoRecebimento">Prazo de Recebimento (dias)</label>
+            <span class="hint">Tempo médio para receber do cliente (dias de recebimento das vendas)</span>
+            <input type="number" id="cgPrazoRecebimento" min="0" step="1" placeholder="Ex: 15">
+          </div>
+          <div class="field">
+            <label for="cgPrazoPagamento">Prazo de Pagamento (dias)</label>
+            <span class="hint">Tempo médio para pagar fornecedores</span>
+            <input type="number" id="cgPrazoPagamento" min="0" step="1" placeholder="Ex: 30">
+          </div>
+          <div class="field">
+            <label for="cgPrazoImposto">Prazo para Pagar Imposto (dias)</label>
+            <span class="hint">Tempo médio entre a venda e o recolhimento do imposto</span>
+            <input type="number" id="cgPrazoImposto" min="0" step="1" placeholder="Ex: 35">
+          </div>
+        </div>
+        <div class="metric-row" style="margin-top:14px;">
+          <div class="metric">
+            <div class="label">Ciclo Operacional</div>
+            <div class="value" id="cgCicloOperacionalOut">— dias</div>
+            <div class="sub">Ciclo Econômico + Prazo de Recebimento</div>
+          </div>
+          <div class="metric">
+            <div class="label">Ciclo Financeiro</div>
+            <div class="value" id="cgCicloFinanceiroOut">— dias</div>
+            <div class="sub">Ciclo Operacional − Prazo de Pagamento. É o capital de giro necessário, em dias de operação.</div>
+            <div class="sub" id="cgCicloFinanceiroInterpret" style="font-weight:600; margin-top:6px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">Necessidade de Capital de Giro (NCG) em R$</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">Aplica os prazos acima sobre os valores mensais de Faturamento, Compras/CMV e Impostos para estimar o capital de giro necessário em reais. Preencha manualmente ou use "Puxar do DRE" para trazer os valores do mês ativo na aba "Plano de Contas &amp; DRE".</p>
+        <div class="toolrow">
+          <button class="btn btn-sm" id="cgPullFromDre">⇩ Puxar do DRE (mês ativo)</button>
+        </div>
+        <div class="viab-grid3">
+          <div class="field">
+            <label for="cgNcgFaturamento">Faturamento Mensal (R$)</label>
+            <input type="number" id="cgNcgFaturamento" min="0" step="0.01" placeholder="0,00">
+          </div>
+          <div class="field">
+            <label for="cgNcgCmv">Compras / CMV Mensal (R$)</label>
+            <span class="hint">Matéria-prima + embalagens (base de estoque e fornecedores)</span>
+            <input type="number" id="cgNcgCmv" min="0" step="0.01" placeholder="0,00">
+          </div>
+          <div class="field">
+            <label for="cgNcgImpostos">Impostos Mensais (R$)</label>
+            <input type="number" id="cgNcgImpostos" min="0" step="0.01" placeholder="0,00">
+          </div>
+        </div>
+        <div class="metric-row" style="margin-top:14px; grid-template-columns:repeat(4,1fr);">
+          <div class="metric">
+            <div class="label">Contas a Receber</div>
+            <div class="value" id="cgContasReceberOut">R$ —</div>
+            <div class="sub">Faturamento ÷ 30 × dias de recebimento</div>
+          </div>
+          <div class="metric">
+            <div class="label">Estoque</div>
+            <div class="value" id="cgEstoqueOut">R$ —</div>
+            <div class="sub">Compras/CMV ÷ 30 × dias de giro de estoque</div>
+          </div>
+          <div class="metric">
+            <div class="label">(−) Fornecedores a Pagar</div>
+            <div class="value" id="cgContasPagarOut">R$ —</div>
+            <div class="sub">Compras/CMV ÷ 30 × dias de pagamento a fornecedor</div>
+          </div>
+          <div class="metric">
+            <div class="label">(−) Imposto a Pagar</div>
+            <div class="value" id="cgImpostoPagarOut">R$ —</div>
+            <div class="sub">Impostos ÷ 30 × dias para pagar o imposto</div>
+          </div>
+        </div>
+        <div class="status-box status-amber" style="margin-top:14px;">
+          <div class="label">NCG — Necessidade de Capital de Giro</div>
+          <div class="value" id="cgNcgOut">R$ —</div>
+          <div class="msg">Contas a Receber + Estoque − Fornecedores a Pagar − Imposto a Pagar. Quando positivo, é o capital que o restaurante precisa ter disponível para sustentar o ciclo operacional.</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">Os 4 documentos da cozinha profissional</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">Dúvida clássica do cliente: qual a diferença entre ficha técnica, ficha operacional e receituário? Os quatro documentos funcionam em conjunto.</p>
+        <table style="width:100%; border-collapse:collapse; font-size:13.5px;">
+          <tr><th style="text-align:left; background:var(--primary-soft); color:var(--primary-d); padding:8px 10px;">Documento</th><th style="text-align:left; background:var(--primary-soft); color:var(--primary-d); padding:8px 10px;">Finalidade</th><th style="text-align:left; background:var(--primary-soft); color:var(--primary-d); padding:8px 10px;">Usuário principal</th></tr>
+          <tr><td style="padding:8px 10px; border-bottom:1px solid var(--line);">Receituário</td><td style="padding:8px 10px; border-bottom:1px solid var(--line);">Lista de ingredientes e modo de preparo — foco na receita</td><td style="padding:8px 10px; border-bottom:1px solid var(--line);">Chef / Cozinheiro</td></tr>
+          <tr><td style="padding:8px 10px; border-bottom:1px solid var(--line);">Ficha Técnica (FT)</td><td style="padding:8px 10px; border-bottom:1px solid var(--line);">Custo, rendimento, fator de correção, per capita, CMV — foco financeiro</td><td style="padding:8px 10px; border-bottom:1px solid var(--line);">Gestor / Consultor</td></tr>
+          <tr><td style="padding:8px 10px; border-bottom:1px solid var(--line);">Ficha Operacional</td><td style="padding:8px 10px; border-bottom:1px solid var(--line);">Sequência de etapas, responsáveis, tempo, equipamentos — foco no processo</td><td style="padding:8px 10px; border-bottom:1px solid var(--line);">Líder de cozinha / Supervisor</td></tr>
+          <tr><td style="padding:8px 10px;">Ficha de Produção</td><td style="padding:8px 10px;">O que produzir, quando e em que quantidade — foco no planejamento</td><td style="padding:8px 10px;">Gerente de produção</td></tr>
+        </table>
+        <p style="margin-top:12px; font-size:12.5px; color:var(--muted); font-style:italic;">Sobre o Fator de Correção (FC): calculado sempre do BRUTO para o LÍQUIDO, nunca ao contrário. Ex.: 1 kg de frango bruto → 880 g limpo → FC = 1,13. Calcular o FC a partir do líquido é o erro mais comum nas cozinhas.</p>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">CMV — benchmark por tipo de operação</h3>
+        <table style="width:100%; border-collapse:collapse; font-size:13.5px;">
+          <tr><th style="text-align:left; background:var(--primary-soft); color:var(--primary-d); padding:8px 10px;">Segmento</th><th style="text-align:left; background:var(--primary-soft); color:var(--primary-d); padding:8px 10px;">CMV saudável</th></tr>
+          <tr><td style="padding:8px 10px; border-bottom:1px solid var(--line);">Restaurante convencional</td><td style="padding:8px 10px; border-bottom:1px solid var(--line);">28–35%</td></tr>
+          <tr><td style="padding:8px 10px; border-bottom:1px solid var(--line);">Buffet / self-service</td><td style="padding:8px 10px; border-bottom:1px solid var(--line);">32–38% (maior variedade)</td></tr>
+          <tr><td style="padding:8px 10px;">Confeitaria / docinhos</td><td style="padding:8px 10px;">20–30% (depende do produto)</td></tr>
+        </table>
+        <p style="margin-top:12px; font-size:12.5px; color:var(--muted);">Regra geral de precificação de balcão/delivery: <b>Custo × Mark-up de 4 a 5x</b>.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">Regra do estoque mínimo &amp; melhoria contínua</h3>
+        <p style="margin:0 0 10px; font-size:13px;">Se estoque atual &lt; estoque mínimo → <b>produzir/comprar</b>. Se estoque atual ≥ estoque mínimo → <b>não produzir</b>.</p>
+        <p style="margin:0 0 4px; font-size:13px; color:var(--primary-d); font-weight:600;">Ciclo de melhoria contínua (aplique em qualquer processo do cliente):</p>
+        <p style="margin:0; font-size:13.5px; line-height:1.8;">1. <b>Identificar</b> — descrever o que está fora do padrão (não o sintoma) → 2. <b>Analisar</b> — causa raiz (5 Porquês / Ishikawa) → 3. <b>Planejar</b> — o que, quem, até quando (5W2H) → 4. <b>Executar</b> — colocar em prática e registrar (checklist/POP) → 5. <b>Verificar</b> — se funcionou, padronizar; se não, reiniciar o ciclo.</p>
+      </div>
+    </section>
+
+    <!-- ================= PLANO DE VIABILIDADE ================= -->
+    <section class="panel" id="panel-viabilidade">
+      <div class="page-head">
+        <h1>Plano de Viabilidade Financeira</h1>
+        <p>Use este módulo quando o cliente está avaliando abrir um novo restaurante/unidade. Monte o investimento inicial, projete o faturamento em três cenários, informe os custos fixos e variáveis mensais e veja automaticamente o ponto de equilíbrio, o payback e o indicador de viabilidade.</p>
+      </div>
+      <div class="cc-warning" id="ccWarning_viab"></div>
+      <div class="toolrow">
+        <button class="btn btn-sm" id="viabClear">🗑 Restaurar padrão</button>
+      </div>
+
+      <!-- 1. Investimento inicial -->
+      <div class="card" style="margin-bottom:18px;">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">1. Investimento inicial</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">Liste todos os itens de investimento necessários para abrir a unidade (reforma, equipamentos, mobiliário, estoque inicial, capital de giro, taxas/licenças, marketing de abertura...). Adicione ou remova linhas conforme o projeto do cliente.</p>
+        <div class="toolrow" style="margin:0 0 10px;">
+          <button class="btn btn-primary btn-sm" id="viabInvestAddRow">+ Adicionar item</button>
+        </div>
+        <div class="table-wrap">
+          <table class="dash" id="viabInvestTable">
+            <thead>
+              <tr>
+                <th style="width:70%">Item de investimento</th>
+                <th style="width:30%">Valor (R$)</th>
+                <th class="col-actions"></th>
+              </tr>
+            </thead>
+            <tbody id="viabInvestBody"></tbody>
+            <tfoot>
+              <tr>
+                <td>Investimento total</td>
+                <td id="viabInvestTotal">R$ 0,00</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- 2. Projeção de faturamento -->
+      <div class="card" style="margin-bottom:18px;">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">2. Projeção de faturamento</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">Informe o ticket médio esperado, o número de atendimentos/dia projetado e os dias de funcionamento por mês em cada cenário. Marque "usar" no cenário que deve alimentar o ponto de equilíbrio, o payback e o indicador de viabilidade abaixo.</p>
+        <div class="viab-grid3">
+          <div class="viab-scenario" data-cenario="conservador">
+            <h4>Conservador <label class="pick"><input type="radio" name="viabCenario" value="conservador"> usar</label></h4>
+            <div class="field"><label>Ticket médio (R$)</label><input type="number" class="viab-ticket" min="0" step="0.01" placeholder="Ex: 45,00"></div>
+            <div class="field"><label>Atendimentos/dia</label><input type="number" class="viab-atend" min="0" step="1" placeholder="Ex: 60"></div>
+            <div class="field"><label>Dias de funcionamento/mês</label><input type="number" class="viab-dias" min="0" step="1" placeholder="Ex: 26"></div>
+            <div class="faturamento-out">Faturamento mensal projetado<span class="viab-fat-out">R$ 0,00</span></div>
+          </div>
+          <div class="viab-scenario" data-cenario="realista">
+            <h4>Realista <label class="pick"><input type="radio" name="viabCenario" value="realista"> usar</label></h4>
+            <div class="field"><label>Ticket médio (R$)</label><input type="number" class="viab-ticket" min="0" step="0.01" placeholder="Ex: 50,00"></div>
+            <div class="field"><label>Atendimentos/dia</label><input type="number" class="viab-atend" min="0" step="1" placeholder="Ex: 80"></div>
+            <div class="field"><label>Dias de funcionamento/mês</label><input type="number" class="viab-dias" min="0" step="1" placeholder="Ex: 26"></div>
+            <div class="faturamento-out">Faturamento mensal projetado<span class="viab-fat-out">R$ 0,00</span></div>
+          </div>
+          <div class="viab-scenario" data-cenario="otimista">
+            <h4>Otimista <label class="pick"><input type="radio" name="viabCenario" value="otimista"> usar</label></h4>
+            <div class="field"><label>Ticket médio (R$)</label><input type="number" class="viab-ticket" min="0" step="0.01" placeholder="Ex: 55,00"></div>
+            <div class="field"><label>Atendimentos/dia</label><input type="number" class="viab-atend" min="0" step="1" placeholder="Ex: 100"></div>
+            <div class="field"><label>Dias de funcionamento/mês</label><input type="number" class="viab-dias" min="0" step="1" placeholder="Ex: 26"></div>
+            <div class="faturamento-out">Faturamento mensal projetado<span class="viab-fat-out">R$ 0,00</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Custos fixos e variáveis mensais -->
+      <div class="card" style="margin-bottom:18px;">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">3. Custos fixos mensais</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">Aluguel, equipe fixa, contas, contabilidade, sistemas etc. Este módulo funciona de forma independente das outras abas — você pode preencher aqui mesmo sem ter usado a Calculadora de Prime Cost ou o Dashboard.</p>
+        <div class="toolrow" style="margin:0 0 10px;">
+          <button class="btn btn-primary btn-sm" id="viabCustosFixosAddRow">+ Adicionar item</button>
+        </div>
+        <div class="table-wrap">
+          <table class="dash" id="viabCustosFixosTable">
+            <thead>
+              <tr>
+                <th style="width:70%">Item de custo fixo</th>
+                <th style="width:30%">Valor mensal (R$)</th>
+                <th class="col-actions"></th>
+              </tr>
+            </thead>
+            <tbody id="viabCustosFixosBody"></tbody>
+            <tfoot>
+              <tr>
+                <td>Custos fixos — total mensal</td>
+                <td id="viabCustosFixosTotal">R$ 0,00</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">3. Custos variáveis mensais (% do faturamento)</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">CMV, impostos sobre vendas, taxas de cartão, comissões de plataformas de delivery etc. — informe cada item como percentual do faturamento.</p>
+        <div class="toolrow" style="margin:0 0 10px;">
+          <button class="btn btn-primary btn-sm" id="viabCustosVarAddRow">+ Adicionar item</button>
+        </div>
+        <div class="table-wrap">
+          <table class="dash" id="viabCustosVarTable">
+            <thead>
+              <tr>
+                <th style="width:70%">Item de custo variável</th>
+                <th style="width:30%">% do faturamento</th>
+                <th class="col-actions"></th>
+              </tr>
+            </thead>
+            <tbody id="viabCustosVarBody"></tbody>
+            <tfoot>
+              <tr>
+                <td>Custos variáveis — total</td>
+                <td id="viabCustosVarTotal">0,0%</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- 4-6. Ponto de equilíbrio, payback e viabilidade -->
+      <div class="card">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">4-6. Ponto de equilíbrio, payback e viabilidade</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">Calculado automaticamente a partir do cenário marcado como "usar" acima (<strong id="viabCenarioLabel">Realista</strong>), do investimento total e dos custos fixos/variáveis informados.</p>
+
+        <div class="metric-row">
+          <div class="metric">
+            <div class="label">Faturamento mensal (cenário usado)</div>
+            <div class="value" id="viabFaturamentoOut">R$ —</div>
+          </div>
+          <div class="metric">
+            <div class="label">Custos fixos mensais</div>
+            <div class="value" id="viabCustosFixosOut">R$ —</div>
+          </div>
+          <div class="metric">
+            <div class="label">Custos variáveis</div>
+            <div class="value" id="viabCustosVarPctOut">—</div>
+            <div class="sub" id="viabCustosVarRSOut">R$ —</div>
+          </div>
+          <div class="metric">
+            <div class="label">Ponto de equilíbrio mensal</div>
+            <div class="value" id="viabPontoEquilibrioOut">R$ —</div>
+            <div class="sub">Custos fixos ÷ (1 − custos variáveis/faturamento)</div>
+          </div>
+          <div class="metric">
+            <div class="label">Lucro mensal projetado</div>
+            <div class="value" id="viabLucroOut">R$ —</div>
+          </div>
+          <div class="metric">
+            <div class="label">Margem projetada</div>
+            <div class="value" id="viabMargemOut">—</div>
+          </div>
+        </div>
+
+        <div class="field" style="max-width:280px; margin-top:16px;">
+          <label for="viabTaxaDesconto">Taxa de desconto mensal (%) — opcional</label>
+          <span class="hint">Usada apenas para calcular o payback descontado.</span>
+          <input type="number" id="viabTaxaDesconto" min="0" step="0.1" placeholder="Ex: 1,5">
+        </div>
+
+        <div class="metric-row" style="margin-top:14px;">
+          <div class="metric">
+            <div class="label">Investimento total</div>
+            <div class="value" id="viabInvestTotalOut">R$ —</div>
+          </div>
+          <div class="metric">
+            <div class="label">Payback simples</div>
+            <div class="value" id="viabPaybackSimplesOut">—</div>
+            <div class="sub">Investimento total ÷ lucro mensal projetado</div>
+          </div>
+          <div class="metric">
+            <div class="label">Payback descontado</div>
+            <div class="value" id="viabPaybackDescontadoOut">—</div>
+            <div class="sub">Considera a taxa de desconto mensal informada acima</div>
+          </div>
+        </div>
+
+        <div class="status-box" id="viabStatusBox" style="margin-top:18px;">
+          <div class="label">Indicador de viabilidade</div>
+          <div class="value" id="viabStatusValue">—</div>
+          <div class="msg" id="viabStatusMsg">Preencha o investimento, os custos e o cenário de faturamento para ver o resultado.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ORÇAMENTO DE EVENTO ================= -->
+    <section class="panel" id="panel-eventos">
+      <div class="page-head">
+        <h1>Orçamento de Evento (Buffet / Catering)</h1>
+        <p>Mini-calculadora para orçar eventos avulsos (casamentos, formaturas, coquetéis corporativos) cobrados por pessoa — separado da operação mensal do restaurante. Informe o número de convidados, o custo de insumos por pessoa em cada categoria e a taxa de serviço/equipe. O preço sugerido por pessoa já embute a margem alvo do evento.</p>
+      </div>
+
+      <div class="toolrow">
+        <button class="btn btn-sm" id="eventoClear">🗑 Restaurar valores padrão</button>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">1. Convidados e custo de insumos por pessoa</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">Separe o custo de insumos por categoria — como no orçamento real de um evento — para facilitar ajustes finos no cardápio do evento sem recalcular tudo.</p>
+        <div class="viab-grid3">
+          <div class="field">
+            <label for="eventoConvidados">Número de convidados</label>
+            <input type="number" id="eventoConvidados" min="0" step="1" placeholder="Ex: 120">
+          </div>
+          <div class="field">
+            <label for="eventoCustoProteinas">Proteínas (R$/pessoa)</label>
+            <input type="number" id="eventoCustoProteinas" min="0" step="0.01" placeholder="0,00">
+          </div>
+          <div class="field">
+            <label for="eventoCustoAcompanhamentos">Acompanhamentos / Guarnições (R$/pessoa)</label>
+            <input type="number" id="eventoCustoAcompanhamentos" min="0" step="0.01" placeholder="0,00">
+          </div>
+          <div class="field">
+            <label for="eventoCustoMolhos">Molhos e Complementos (R$/pessoa)</label>
+            <input type="number" id="eventoCustoMolhos" min="0" step="0.01" placeholder="0,00">
+          </div>
+          <div class="field">
+            <label for="eventoCustoServico">Itens de Serviço (descartáveis, louça, decoração) (R$/pessoa)</label>
+            <input type="number" id="eventoCustoServico" min="0" step="0.01" placeholder="0,00">
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">2. Taxa de serviço / equipe e margem alvo</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">A taxa de serviço/equipe é um valor fixo do evento (garçons, cozinha de apoio, transporte), não proporcional a convidados. A margem alvo é o lucro desejado sobre o preço final cobrado do cliente.</p>
+        <div class="viab-grid3">
+          <div class="field">
+            <label for="eventoTaxaServico">Taxa de serviço / equipe do evento (R$ total)</label>
+            <input type="number" id="eventoTaxaServico" min="0" step="0.01" placeholder="0,00">
+          </div>
+          <div class="field">
+            <label for="eventoMargemAlvoPct">Margem alvo (%)</label>
+            <span class="hint">Sobre o preço final cobrado do cliente</span>
+            <input type="number" id="eventoMargemAlvoPct" min="0" max="95" step="1" value="30">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 4px; font-size:15px; color:var(--primary-d);">3. Resultado — custo e preço sugerido</h3>
+        <p style="margin:0 0 14px; font-size:13px; color:var(--muted);">Recalculado automaticamente a cada alteração acima.</p>
+
+        <div class="metric-row">
+          <div class="metric">
+            <div class="label">Custo de insumos por pessoa</div>
+            <div class="value" id="eventoCustoInsumosPPOut">R$ —</div>
+            <div class="sub">Proteínas + Acompanhamentos + Molhos + Itens de Serviço</div>
+          </div>
+          <div class="metric">
+            <div class="label">Custo total do evento</div>
+            <div class="value" id="eventoCustoTotalOut">R$ —</div>
+            <div class="sub">(Custo de insumos por pessoa × convidados) + Taxa de serviço/equipe</div>
+          </div>
+          <div class="metric">
+            <div class="label">Custo total por pessoa</div>
+            <div class="value" id="eventoCustoTotalPPOut">R$ —</div>
+            <div class="sub">Custo total do evento ÷ convidados</div>
+          </div>
+        </div>
+
+        <div class="status-box status-green" style="margin-top:14px;">
+          <div class="label">Preço sugerido por pessoa (com margem alvo)</div>
+          <div class="value" id="eventoPrecoSugeridoOut">R$ —</div>
+          <div class="msg" id="eventoPrecoSugeridoMsg">Preencha os convidados e os custos de insumos por pessoa acima.</div>
+        </div>
+
+        <div class="metric-row" style="margin-top:14px;">
+          <div class="metric">
+            <div class="label">Faturamento total sugerido do evento</div>
+            <div class="value" id="eventoFaturamentoOut">R$ —</div>
+            <div class="sub">Preço sugerido por pessoa × convidados</div>
+          </div>
+          <div class="metric">
+            <div class="label">Lucro estimado do evento</div>
+            <div class="value" id="eventoLucroOut">R$ —</div>
+            <div class="sub">Faturamento total sugerido − Custo total do evento</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer class="status-bar">
+  <span class="saved-indicator"><span class="dot"></span> ✓ salvo automaticamente na nuvem</span>
+  <span>Artblend Consultoria Gourmet — Fagner Augusto</span>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-overlay" id="importModal">
+  <div class="modal-box">
+    <h3>Importar dados (JSON)</h3>
+    <p>Cole abaixo o conteúdo de um arquivo JSON exportado anteriormente por esta ferramenta, ou selecione o arquivo.</p>
+    <input type="file" id="importFile" accept="application/json" class="file-hidden">
+    <button class="btn btn-sm" id="importFileBtn" style="margin-bottom:10px;">📁 Selecionar arquivo .json</button>
+    <textarea id="importText" placeholder='{"sixp": {...}, "calc": {...}, "dashboard": [...], "retention": {...} }'></textarea>
+    <div class="modal-actions">
+      <button class="btn" id="importCancel">Cancelar</button>
+      <button class="btn btn-primary" id="importConfirm">Importar</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.5"></script>
+<script>
+(function(){
+  "use strict";
+
+  var FERRAMENTA = "financeira";
+  var sb = window.supabase.createClient("https://zjvjixiuvnpbpsdnxuyk.supabase.co", "sb_publishable_f5DJRgs2w0z3_g50QqDmNQ_0btPNSgV");
+  var sessaoAtual = null;
+
+  function gateMsg(text, type){
+    var el = document.getElementById("lg_msg");
+    el.className = "msg " + type;
+    el.textContent = text;
+  }
+  async function gateEntrar(){
+    var email = document.getElementById("lg_email").value.trim();
+    var senha = document.getElementById("lg_senha").value;
+    var r = await sb.auth.signInWithPassword({ email: email, password: senha });
+    if(r.error){ gateMsg("Erro ao entrar: " + r.error.message, "err"); return; }
+    await iniciarApp(r.data.session);
+  }
+  async function gateCadastrar(){
+    var email = document.getElementById("lg_email").value.trim();
+    var senha = document.getElementById("lg_senha").value;
+    if(!email || senha.length < 6){ gateMsg("Preencha e-mail e uma senha com pelo menos 6 caracteres.", "err"); return; }
+    var r = await sb.auth.signUp({ email: email, password: senha });
+    if(r.error){ gateMsg("Erro ao criar conta: " + r.error.message, "err"); return; }
+    if(r.data.session){ await iniciarApp(r.data.session); }
+    else { gateMsg("Conta criada. Se pedir confirmação por e-mail, confira sua caixa de entrada antes de entrar.", "ok"); }
+  }
+  async function gateSair(){
+    await sb.auth.signOut();
+    location.reload();
+  }
+  async function iniciarApp(session){
+    sessaoAtual = session;
+    document.getElementById("loginGate").style.display = "none";
+    document.getElementById("appContent").style.display = "block";
+    var bar = document.getElementById("userBar");
+    bar.style.display = "flex";
+    document.getElementById("userBarEmail").textContent = session.user.email;
+    await loadClients();
+    await load();
+    renderSixP();
+    renderCalcInputs();
+    computeCalc();
+    renderDash();
+    renderFluxoCaixa();
+    renderDiag();
+    renderActions();
+    renderCapitalGiro();
+    renderDre();
+    renderClt();
+    renderViabilidade();
+    renderEvento();
+  }
+  window.gateEntrar = gateEntrar;
+  window.gateCadastrar = gateCadastrar;
+  window.gateSair = gateSair;
+
+  var clients = [];
+  var activeClient = "";
+  var loadFailed = false;
+
+  async function loadClients(){
+    var r = await sb.from("clientes").select("id,nome").order("created_at", { ascending:true });
+    clients = (r.data || []).map(function(c){ return { id:c.id, nome:c.nome }; });
+    if(clients.length === 0){
+      var ins = await sb.from("clientes").insert({ nome:"Cliente padrão", owner_id: sessaoAtual.user.id }).select("id,nome");
+      if(ins.data && ins.data[0]) clients = [{ id: ins.data[0].id, nome: ins.data[0].nome }];
+    }
+    var lembrado = localStorage.getItem("artblend_gestao_financeira_v1__active_id");
+    activeClient = (lembrado && clients.some(function(c){return c.id===lembrado;})) ? lembrado : clients[0].id;
+    renderClientSelect();
+  }
+  function renderClientSelect(){
+    var sel = document.getElementById("clientSelect");
+    if(!sel) return;
+    sel.innerHTML = clients.map(function(c){
+      return '<option value="'+c.id+'"'+(c.id===activeClient?" selected":"")+'>'+String(c.nome).replace(/"/g,"&quot;")+"</option>";
+    }).join("");
+  }
+  function nomeClienteAtivo(){ var c = clients.find(function(x){return x.id===activeClient;}); return c ? c.nome : "—"; }
+  async function addClient(){
+    var input = document.getElementById("newClientName");
+    var nome = input.value.trim();
+    if(!nome) return;
+    var ins = await sb.from("clientes").insert({ nome:nome, owner_id: sessaoAtual.user.id }).select("id,nome");
+    if(ins.error){ alert("Erro ao criar cliente: " + ins.error.message); return; }
+    clients.push({ id: ins.data[0].id, nome: ins.data[0].nome });
+    input.value = "";
+    await switchClient(ins.data[0].id);
+  }
+  async function switchClient(id){
+    activeClient = id;
+    localStorage.setItem("artblend_gestao_financeira_v1__active_id", id);
+    renderClientSelect();
+    await load();
+    renderSixP();
+    renderCalcInputs();
+    computeCalc();
+    renderDash();
+    renderFluxoCaixa();
+    renderDiag();
+    renderActions();
+    renderCapitalGiro();
+    renderDre();
+    renderClt();
+    renderViabilidade();
+    renderEvento();
+    toast("Cliente ativo: " + nomeClienteAtivo());
+  }
+  window.addClient = addClient;
+  window.switchClient = switchClient;
+
+  function uid(){
+    return "id" + Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+  }
+
+  /* meses do Fluxo de Caixa Anual — declarado aqui (antes de defaultState()) porque
+     defaultFluxoCaixa() é chamada já na inicialização do state e depende deste array. */
+  var FC_MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+
+  /* ---------------- estrutura de contas do dashboard ----------------
+     kind:"input"   -> conta digitada livremente pelo consultor (Orçado/Realizado editáveis)
+     kind:"derived" -> conta calculada automaticamente a partir das contas "input" via key
+     unit:"currency"|"count"|"percent" -> formato de exibição do valor
+  ------------------------------------------------------------------- */
+  function defaultDashRows(){
+    var rows = [
+      { conta: "Faturamento Total", key: "faturamento", kind: "input", unit: "currency" },
+      { conta: "Ponto de Equilíbrio", key: "pontoEquilibrio", kind: "derived", unit: "currency" },
+      { conta: "A/H — Faturamento Real x Ponto de Equilíbrio", key: "ahFaturamento", kind: "derived", unit: "percent" },
+      { conta: "Total de Clientes", key: "totalClientes", kind: "input", unit: "count" },
+      { conta: "Ticket Médio", key: "ticketMedio", kind: "input", unit: "currency" },
+      { conta: "Ideal de Clientes para bater o Ponto de Equilíbrio", key: "idealClientes", kind: "derived", unit: "count" },
+      { conta: "A/H — Clientes Real x Clientes Ponto de Equilíbrio", key: "ahClientes", kind: "derived", unit: "percent" },
+      { conta: "Impostos sobre Vendas", key: "impostos", kind: "input", unit: "currency" },
+      { conta: "CMV — Alimentos e Bebidas", key: "cmvAlim", kind: "input", unit: "currency" },
+      { conta: "CMV — Embalagens e Descartáveis", key: "cmvEmb", kind: "input", unit: "currency" },
+      { conta: "Custos Financeiros (Cartão e Delivery)", key: "custosFin", kind: "input", unit: "currency" },
+      { conta: "Custos Variáveis Diretos — Total", key: "custosVariaveisTotal", kind: "derived", unit: "currency" },
+      { conta: "Prime Cost (CMV + CMO)", key: "primeCost", kind: "derived", unit: "currency" },
+      { conta: "Margem de Contribuição", key: "margemContribuicao", kind: "derived", unit: "currency" },
+      { conta: "Pessoal (CMO)", key: "cmo", kind: "input", unit: "currency" },
+      { conta: "Ocupação e Infraestrutura", key: "ocupacao", kind: "input", unit: "currency" },
+      { conta: "Despesas Administrativas", key: "adminDesp", kind: "input", unit: "currency" },
+      { conta: "Despesas Comerciais", key: "comercialDesp", kind: "input", unit: "currency" },
+      { conta: "Despesas Financeiras", key: "financeiraDesp", kind: "input", unit: "currency" },
+      { conta: "Total de Despesas Operacionais", key: "totalDespesasOp", kind: "derived", unit: "currency" },
+      { conta: "Resultado Financeiro Operacional", key: "resultadoOperacional", kind: "derived", unit: "currency" }
+    ];
+    return rows.map(function(r){
+      return { id: uid(), conta: r.conta, orcado: "", realizado: "", key: r.key, kind: r.kind, unit: r.unit };
+    });
+  }
+
+  function defaultActions(){
+    var labels = [
+      "Feedback individual periódico (não apenas anual)",
+      "Reconhecimento verbal imediato após entrega de bom trabalho",
+      "Reuniões de equipe frequentes (semanais/quinzenais)",
+      "Programa de valorização não financeira (folgas, gestos, elogio público)",
+      "Comunicação clara de propósito e metas do restaurante",
+      "Plano de desenvolvimento e qualificação da equipe (capital intelectual)",
+      "Pesquisa de clima / engajamento da equipe",
+      "Rituais de acolhimento para novos colaboradores"
+    ];
+    return labels.map(function(l){
+      return { id: uid(), label: l, checked: false, note: "" };
+    });
+  }
+
+  /* ---------------- linhas-padrão do Plano de Viabilidade ---------------- */
+  function defaultViabInvestRows(){
+    var items = ["Reforma / obra", "Equipamentos", "Mobiliário", "Estoque inicial",
+                 "Capital de giro inicial", "Taxas e licenças", "Marketing de abertura"];
+    return items.map(function(i){ return { id: uid(), item: i, valor: "" }; });
+  }
+  function defaultViabCustosFixosRows(){
+    var items = ["Aluguel", "Salários e encargos (equipe fixa)", "Água / luz / internet / telefone",
+                 "Contabilidade", "Sistemas e softwares", "Outros custos fixos"];
+    return items.map(function(i){ return { id: uid(), item: i, valor: "" }; });
+  }
+  function defaultViabCustosVariaveisRows(){
+    var items = ["CMV (custo de mercadoria vendida)", "Impostos sobre vendas",
+                 "Taxas de cartão / meios de pagamento", "Comissões de plataformas de delivery"];
+    return items.map(function(i){ return { id: uid(), item: i, pct: "" }; });
+  }
+  function normalizeViabRow(r){
+    return Object.assign({ id: uid(), item:"", valor:"" }, r, { id: (r && r.id) || uid() });
+  }
+  function normalizeViabPctRow(r){
+    return Object.assign({ id: uid(), item:"", pct:"" }, r, { id: (r && r.id) || uid() });
+  }
+  function ensureViabDefaults(){
+    if(!state.viabilidade.investimentos || state.viabilidade.investimentos.length === 0){
+      state.viabilidade.investimentos = defaultViabInvestRows();
+    }
+    if(!state.viabilidade.custosFixos || state.viabilidade.custosFixos.length === 0){
+      state.viabilidade.custosFixos = defaultViabCustosFixosRows();
+    }
+    if(!state.viabilidade.custosVariaveis || state.viabilidade.custosVariaveis.length === 0){
+      state.viabilidade.custosVariaveis = defaultViabCustosVariaveisRows();
+    }
+  }
+
+  function defaultState(){
+    return {
+      sixp: { clientName:"", praca:"", preco:"", processos:"", publico:"", produto:"", promocao:"" },
+      calc: { faturamento:"", cmv:30, cmo:20, aluguel:10, adm:10, iptu:6, impostos:5 },
+      dashboard: [],
+      fluxocaixa: defaultFluxoCaixa(),
+      retention: { q1:"", q2:"", q3:"", actions: [] },
+      capitalgiro: {
+        cicloEconomico:"", prazoRecebimento:"", prazoPagamento:"", prazoImposto:"",
+        ncgFaturamento:"", ncgCmv:"", ncgImpostos:""
+      },
+      dre: { months: [], activeMonthId: "" },
+      clt: {
+        salarioBase:"", regime:"simples",
+        fgtsSalarioPct:8, feriasPct:8.33, decimoPct:8.33, fgtsFeriasPct:8, fgtsDecimoPct:8,
+        inssPatronalPct:20, sistemaSPct:5.8,
+        valeRefeicao:"", valeAlimentacao:"", valeTransporte:"", descontoVtPct:6, descontoVrVaPct:20,
+        planoSaude:"", planoOdonto:"", outrosBeneficios:""
+      },
+      viabilidade: {
+        investimentos: [],
+        custosFixos: [],
+        custosVariaveis: [],
+        cenarios: {
+          conservador: { ticketMedio:"", atendimentosDia:"", diasMes:26 },
+          realista: { ticketMedio:"", atendimentosDia:"", diasMes:26 },
+          otimista: { ticketMedio:"", atendimentosDia:"", diasMes:26 }
+        },
+        cenarioAtivo: "realista",
+        taxaDescontoMensal: ""
+      },
+      evento: {
+        convidados:"", custoProteinas:"", custoAcompanhamentos:"", custoMolhos:"", custoServico:"",
+        taxaServicoEquipe:"", margemAlvoPct:30
+      }
+    };
+  }
+  var state = defaultState();
+
+  /* ---------------- persistence (Supabase) ---------------- */
+  async function saveNow(){
+    if(loadFailed){
+      alert("Edição bloqueada: os dados deste cliente não foram carregados corretamente. Recarregue a página ou troque de cliente antes de continuar editando, para não sobrescrever os dados salvos.");
+      return;
+    }
+    try{
+      var r = await sb.from("dados_ferramenta").upsert({ cliente_id: activeClient, ferramenta: FERRAMENTA, conteudo: state, updated_at: new Date().toISOString() }, { onConflict: "cliente_id,ferramenta" });
+      if(r.error){ alert("Não foi possível salvar: " + r.error.message); return; }
+      flashSaved();
+    }catch(e){
+      alert("Não foi possível salvar: " + e.message);
+    }
+  }
+
+  /* Autosave debounce: todos os campos (textarea/input/range/select) chamam
+     save() diretamente nos eventos "input"/"change". Para não disparar uma
+     escrita no Supabase a cada tecla digitada, o save real (saveNow) só roda
+     600ms depois da última chamada de save(), compartilhado por todos os campos. */
+  var saveDebounceTimer = null;
+  function save(){
+    clearTimeout(saveDebounceTimer);
+    saveDebounceTimer = setTimeout(function(){
+      saveDebounceTimer = null;
+      saveNow();
+    }, 600);
+  }
+
+  function normalizeDashRow(r){
+    return Object.assign({ key: null, kind: "input", unit: "currency" }, r);
+  }
+
+  async function load(){
+    state = defaultState();
+    loadFailed = false;
+    try{
+      var r = await sb.from("dados_ferramenta").select("conteudo").eq("cliente_id", activeClient).eq("ferramenta", FERRAMENTA).maybeSingle();
+      if(r.error){
+        loadFailed = true;
+        alert("Não foi possível carregar os dados salvos deste cliente. Para evitar sobrescrever os dados já salvos, a edição/salvamento foi bloqueada.\n\nRecarregue a página ou tente trocar de cliente novamente.\n\nErro: " + r.error.message);
+        return;
+      }
+      var parsed = r.data && r.data.conteudo;
+      if(parsed){
+        if(parsed.sixp) state.sixp = Object.assign(state.sixp, parsed.sixp);
+        if(parsed.calc) state.calc = Object.assign(state.calc, parsed.calc);
+        if(Array.isArray(parsed.dashboard)) state.dashboard = parsed.dashboard.map(normalizeDashRow);
+        if(parsed.fluxocaixa) state.fluxocaixa = normalizeFluxoCaixa(parsed.fluxocaixa);
+        if(parsed.retention){
+          state.retention.q1 = parsed.retention.q1 || "";
+          state.retention.q2 = parsed.retention.q2 || "";
+          state.retention.q3 = parsed.retention.q3 || "";
+          if(Array.isArray(parsed.retention.actions) && parsed.retention.actions.length){
+            state.retention.actions = parsed.retention.actions;
+          }
+        }
+        if(parsed.capitalgiro) state.capitalgiro = Object.assign(state.capitalgiro, parsed.capitalgiro);
+        if(parsed.dre && Array.isArray(parsed.dre.months) && parsed.dre.months.length){
+          state.dre.months = parsed.dre.months.map(normalizeDreMonth);
+          state.dre.activeMonthId = parsed.dre.activeMonthId || state.dre.months[0].id;
+        }
+        if(parsed.viabilidade){
+          var pv = parsed.viabilidade;
+          if(Array.isArray(pv.investimentos)) state.viabilidade.investimentos = pv.investimentos.map(normalizeViabRow);
+          if(Array.isArray(pv.custosFixos)) state.viabilidade.custosFixos = pv.custosFixos.map(normalizeViabRow);
+          if(Array.isArray(pv.custosVariaveis)) state.viabilidade.custosVariaveis = pv.custosVariaveis.map(normalizeViabPctRow);
+          if(pv.cenarios){
+            ["conservador","realista","otimista"].forEach(function(k){
+              if(pv.cenarios[k]) state.viabilidade.cenarios[k] = Object.assign(state.viabilidade.cenarios[k], pv.cenarios[k]);
+            });
+          }
+          if(pv.cenarioAtivo && state.viabilidade.cenarios[pv.cenarioAtivo]) state.viabilidade.cenarioAtivo = pv.cenarioAtivo;
+          state.viabilidade.taxaDescontoMensal = pv.taxaDescontoMensal === undefined ? "" : pv.taxaDescontoMensal;
+        }
+        if(parsed.clt) state.clt = Object.assign(state.clt, parsed.clt);
+        if(parsed.evento) state.evento = Object.assign(state.evento, parsed.evento);
+      }
+    }catch(e){
+      loadFailed = true;
+      console.error("Erro ao carregar", e);
+      alert("Não foi possível carregar os dados salvos deste cliente. Para evitar sobrescrever os dados já salvos, a edição/salvamento foi bloqueada.\n\nRecarregue a página ou tente trocar de cliente novamente.\n\nErro: " + e.message);
+      return;
+    }
+    if(state.dashboard.length === 0){
+      state.dashboard = defaultDashRows();
+    }
+    if(state.retention.actions.length === 0){
+      state.retention.actions = defaultActions();
+    }
+    ensureViabDefaults();
+    ensureDreDefaults();
+  }
+
+  var savedDot = document.querySelector(".saved-indicator .dot");
+  var savedText = document.querySelector(".saved-indicator");
+  var saveFlashTimeout;
+  function flashSaved(){
+    if(!savedText) return;
+    clearTimeout(saveFlashTimeout);
+    savedDot.style.background = "var(--accent)";
+    saveFlashTimeout = setTimeout(function(){
+      savedDot.style.background = "var(--primary)";
+    }, 500);
+  }
+
+  var toastEl = document.getElementById("toast");
+  var toastTimeout;
+  function toast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(function(){
+      toastEl.classList.remove("show");
+    }, 2200);
+  }
+
+  function formatBRL(n){
+    if(!isFinite(n)) n = 0;
+    return "R$ " + n.toLocaleString("pt-BR", {minimumFractionDigits:2, maximumFractionDigits:2});
+  }
+  function formatPct(n){
+    if(!isFinite(n)) n = 0;
+    return n.toLocaleString("pt-BR", {minimumFractionDigits:1, maximumFractionDigits:1}) + "%";
+  }
+
+  /* ---------------- tabs ---------------- */
+  var tabItems = document.querySelectorAll(".tab-item");
+  var panels = document.querySelectorAll(".panel");
+  tabItems.forEach(function(item){
+    item.addEventListener("click", function(){
+      var target = item.getAttribute("data-panel");
+      tabItems.forEach(function(t){ t.classList.remove("active"); });
+      panels.forEach(function(p){ p.classList.remove("active"); });
+      item.classList.add("active");
+      document.getElementById("panel-" + target).classList.add("active");
+      if(window.innerWidth <= 880){
+        document.getElementById("tabsNav").classList.remove("open");
+      }
+    });
+  });
+
+  document.getElementById("menuToggle").addEventListener("click", function(){
+    document.getElementById("tabsNav").classList.toggle("open");
+  });
+
+  /* ---------------- 6 PS ---------------- */
+  var sixpFields = document.querySelectorAll("#panel-sixp textarea[data-field]");
+  var sixpClientInput = document.getElementById("sixpClientName");
+
+  function renderSixP(){
+    sixpFields.forEach(function(ta){
+      var f = ta.getAttribute("data-field");
+      ta.value = state.sixp[f] || "";
+    });
+    sixpClientInput.value = state.sixp.clientName || "";
+  }
+
+  sixpFields.forEach(function(ta){
+    ta.addEventListener("input", function(){
+      var f = ta.getAttribute("data-field");
+      state.sixp[f] = ta.value;
+      save();
+    });
+  });
+  sixpClientInput.addEventListener("input", function(){
+    state.sixp.clientName = sixpClientInput.value;
+    save();
+  });
+
+  document.getElementById("sixpClear").addEventListener("click", function(){
+    if(!confirm("Limpar todo o conteúdo do canvas dos 6 Ps?")) return;
+    Object.keys(state.sixp).forEach(function(k){
+      if(k !== "clientName") state.sixp[k] = "";
+    });
+    renderSixP();
+    save();
+    toast("Canvas dos 6 Ps limpo.");
+  });
+
+  /* ---------------- CALCULADORA ---------------- */
+  var calcInputs = {
+    faturamento: document.getElementById("calcFaturamento"),
+    cmv: document.getElementById("calcCmv"),
+    cmo: document.getElementById("calcCmo"),
+    aluguel: document.getElementById("calcAluguel"),
+    adm: document.getElementById("calcAdm"),
+    iptu: document.getElementById("calcIptu"),
+    impostos: document.getElementById("calcImpostos")
+  };
+
+  function renderCalcInputs(){
+    Object.keys(calcInputs).forEach(function(k){
+      calcInputs[k].value = state.calc[k] === "" || state.calc[k] === undefined ? "" : state.calc[k];
+    });
+  }
+
+  function num(v){
+    var n = parseFloat(v);
+    return isFinite(n) ? n : 0;
+  }
+
+  function computeCalc(){
+    var faturamento = num(state.calc.faturamento);
+    var cmv = num(state.calc.cmv);
+    var cmo = num(state.calc.cmo);
+    var aluguel = num(state.calc.aluguel);
+    var adm = num(state.calc.adm);
+    var iptu = num(state.calc.iptu);
+    var impostos = num(state.calc.impostos);
+
+    var primeCostPct = cmv + cmo;
+    var totalPct = cmv + cmo + aluguel + adm + iptu + impostos;
+    var lucroPct = 100 - totalPct;
+
+    var primeCostRS = faturamento * primeCostPct / 100;
+    var totalCustosRS = faturamento * totalPct / 100;
+    var lucroRS = faturamento * lucroPct / 100;
+    var margemContribuicaoRS = faturamento - primeCostRS;
+
+    document.getElementById("primeCostPct").textContent = formatPct(primeCostPct);
+    document.getElementById("primeCostRS").textContent = formatBRL(primeCostRS);
+    document.getElementById("totalCustosPct").textContent = formatPct(totalPct);
+    document.getElementById("totalCustosRS").textContent = formatBRL(totalCustosRS);
+    document.getElementById("lucroRS").textContent = formatBRL(lucroRS);
+    document.getElementById("margemContribuicaoRS").textContent = formatBRL(margemContribuicaoRS);
+
+    var box = document.getElementById("lucroStatusBox");
+    var msg = document.getElementById("lucroMsg");
+    box.classList.remove("status-red","status-amber","status-green");
+    document.getElementById("lucroPctValue").textContent = formatPct(lucroPct);
+
+    if(lucroPct < 10){
+      box.classList.add("status-red");
+      msg.textContent = "Abaixo da faixa saudável (referência: 10% a 20%). Revise CMV, CMO e despesas fixas.";
+    } else if(lucroPct <= 20){
+      box.classList.add("status-amber");
+      msg.textContent = "Dentro da faixa de referência do setor (10% a 20%).";
+    } else {
+      box.classList.add("status-green");
+      msg.textContent = "Acima da faixa de referência — margem confortável.";
+    }
+
+    if(typeof renderCrossCheckBanners === "function") renderCrossCheckBanners();
+  }
+
+  Object.keys(calcInputs).forEach(function(k){
+    calcInputs[k].addEventListener("input", function(){
+      state.calc[k] = calcInputs[k].value === "" ? "" : parseFloat(calcInputs[k].value);
+      computeCalc();
+      save();
+    });
+  });
+
+  /* ---------------- DASHBOARD ---------------- */
+  var dashBody = document.getElementById("dashBody");
+
+  var DERIVED_KEYS = ["custosVariaveisTotal","primeCost","margemContribuicao","totalDespesasOp",
+                       "resultadoOperacional","pontoEquilibrio","idealClientes","ahFaturamento","ahClientes"];
+
+  /* busca o valor (orcado ou realizado) de uma conta "input" pela sua key */
+  function getInputVal(key, col){
+    var row = state.dashboard.filter(function(r){ return r.key === key && r.kind === "input"; })[0];
+    return row ? num(row[col]) : 0;
+  }
+
+  /* recalcula todas as contas derivadas para uma coluna ("orcado" ou "realizado"),
+     seguindo exatamente a lógica do dashboard de indicadores Artblend:
+     Custos Variáveis Diretos = Impostos + CMV Alimentos + CMV Embalagens + Custos Financeiros
+     Prime Cost = CMV Alimentos + CMV Embalagens + CMO
+     Margem de Contribuição = Faturamento − Custos Variáveis Diretos
+     Total de Despesas Operacionais = CMO + Ocupação + Adm. + Comerciais + Financeiras
+     Resultado Financeiro Operacional = Margem de Contribuição − Total de Despesas Operacionais
+     Ponto de Equilíbrio = Total de Despesas Operacionais ÷ (Margem de Contribuição ÷ Faturamento)
+     Ideal de Clientes = Ponto de Equilíbrio ÷ Ticket Médio
+     A/H Faturamento = (Faturamento − Ponto de Equilíbrio) ÷ Ponto de Equilíbrio
+     A/H Clientes = (Total de Clientes − Ideal de Clientes) ÷ Ideal de Clientes                    */
+  function computeDerived(col){
+    var impostos = getInputVal("impostos", col);
+    var cmvAlim = getInputVal("cmvAlim", col);
+    var cmvEmb = getInputVal("cmvEmb", col);
+    var custosFin = getInputVal("custosFin", col);
+    var faturamento = getInputVal("faturamento", col);
+    var ticketMedio = getInputVal("ticketMedio", col);
+    var totalClientes = getInputVal("totalClientes", col);
+    var cmo = getInputVal("cmo", col);
+    var ocupacao = getInputVal("ocupacao", col);
+    var adminDesp = getInputVal("adminDesp", col);
+    var comercialDesp = getInputVal("comercialDesp", col);
+    var financeiraDesp = getInputVal("financeiraDesp", col);
+
+    var custosVariaveisTotal = impostos + cmvAlim + cmvEmb + custosFin;
+    var primeCost = cmvAlim + cmvEmb + cmo;
+    var margemContribuicao = faturamento - custosVariaveisTotal;
+    var totalDespesasOp = cmo + ocupacao + adminDesp + comercialDesp + financeiraDesp;
+    var resultadoOperacional = margemContribuicao - totalDespesasOp;
+    var mcRatio = faturamento !== 0 ? margemContribuicao / faturamento : 0;
+    var pontoEquilibrio = mcRatio !== 0 ? totalDespesasOp / mcRatio : 0;
+    var idealClientes = ticketMedio !== 0 ? pontoEquilibrio / ticketMedio : 0;
+    var ahFaturamento = pontoEquilibrio !== 0 ? (faturamento - pontoEquilibrio) / pontoEquilibrio * 100 : 0;
+    var ahClientes = idealClientes !== 0 ? (totalClientes - idealClientes) / idealClientes * 100 : 0;
+
+    return {
+      custosVariaveisTotal: custosVariaveisTotal,
+      primeCost: primeCost,
+      margemContribuicao: margemContribuicao,
+      totalDespesasOp: totalDespesasOp,
+      resultadoOperacional: resultadoOperacional,
+      pontoEquilibrio: pontoEquilibrio,
+      idealClientes: idealClientes,
+      ahFaturamento: ahFaturamento,
+      ahClientes: ahClientes
+    };
+  }
+
+  function applyDerivedValues(){
+    var orc = computeDerived("orcado");
+    var rea = computeDerived("realizado");
+    DERIVED_KEYS.forEach(function(k){
+      var row = state.dashboard.filter(function(r){ return r.key === k && r.kind === "derived"; })[0];
+      if(row){
+        row.orcado = orc[k];
+        row.realizado = rea[k];
+      }
+    });
+  }
+
+  function formatByUnit(unit, n){
+    if(!isFinite(n)) n = 0;
+    if(unit === "percent") return formatPct(n);
+    if(unit === "count") return Math.round(n).toLocaleString("pt-BR");
+    return formatBRL(n);
+  }
+
+  function formatDiffByUnit(unit, n){
+    if(!isFinite(n)) n = 0;
+    if(unit === "percent") return n.toLocaleString("pt-BR", {minimumFractionDigits:1, maximumFractionDigits:1}) + " p.p.";
+    if(unit === "count") return Math.round(n).toLocaleString("pt-BR");
+    return formatBRL(n);
+  }
+
+  function renderDash(){
+    applyDerivedValues();
+    dashBody.innerHTML = "";
+
+    state.dashboard.forEach(function(row){
+      if(!row.unit) row.unit = "currency";
+      if(!row.kind) row.kind = "input";
+
+      var tr = document.createElement("tr");
+      tr.setAttribute("data-id", row.id);
+      if(row.kind === "derived"){
+        tr.className = "row-derived";
+      }
+
+      var tdConta = document.createElement("td");
+      var contaInput = document.createElement("input");
+      contaInput.type = "text";
+      contaInput.className = "conta";
+      contaInput.placeholder = "Nome da conta";
+      contaInput.value = row.conta || "";
+      contaInput.addEventListener("input", function(){
+        row.conta = contaInput.value;
+        save();
+      });
+      tdConta.appendChild(contaInput);
+      tr.appendChild(tdConta);
+
+      if(row.kind === "derived"){
+        var tdOrcadoD = document.createElement("td");
+        var orcadoView = document.createElement("div");
+        orcadoView.className = "derived-cell derived-orcado";
+        orcadoView.textContent = formatByUnit(row.unit, row.orcado);
+        tdOrcadoD.appendChild(orcadoView);
+        tr.appendChild(tdOrcadoD);
+
+        var tdRealizadoD = document.createElement("td");
+        var realizadoView = document.createElement("div");
+        realizadoView.className = "derived-cell derived-realizado";
+        realizadoView.textContent = formatByUnit(row.unit, row.realizado);
+        tdRealizadoD.appendChild(realizadoView);
+        tr.appendChild(tdRealizadoD);
+      } else {
+        var tdOrcado = document.createElement("td");
+        var orcadoInput = document.createElement("input");
+        orcadoInput.type = "number";
+        orcadoInput.step = "0.01";
+        orcadoInput.className = "valcell";
+        orcadoInput.placeholder = "0,00";
+        orcadoInput.value = row.orcado === undefined ? "" : row.orcado;
+        orcadoInput.addEventListener("input", function(){
+          row.orcado = orcadoInput.value;
+          renderDashRowCalc(tr, row);
+          refreshDerivedRows();
+          save();
+        });
+        tdOrcado.appendChild(orcadoInput);
+        tr.appendChild(tdOrcado);
+
+        var tdRealizado = document.createElement("td");
+        var realizadoInput = document.createElement("input");
+        realizadoInput.type = "number";
+        realizadoInput.step = "0.01";
+        realizadoInput.className = "valcell";
+        realizadoInput.placeholder = "0,00";
+        realizadoInput.value = row.realizado === undefined ? "" : row.realizado;
+        realizadoInput.addEventListener("input", function(){
+          row.realizado = realizadoInput.value;
+          renderDashRowCalc(tr, row);
+          refreshDerivedRows();
+          save();
+        });
+        tdRealizado.appendChild(realizadoInput);
+        tr.appendChild(tdRealizado);
+      }
+
+      var tdDiff = document.createElement("td");
+      tdDiff.className = "calc";
+      tdDiff.setAttribute("data-role", "diff");
+      tr.appendChild(tdDiff);
+
+      var tdVar = document.createElement("td");
+      tdVar.className = "calc";
+      tdVar.setAttribute("data-role", "var");
+      tr.appendChild(tdVar);
+
+      var tdAction = document.createElement("td");
+      tdAction.className = "col-actions";
+      var delBtn = document.createElement("button");
+      delBtn.className = "row-del";
+      delBtn.title = "Remover conta";
+      delBtn.textContent = "✕";
+      delBtn.addEventListener("click", function(){
+        state.dashboard = state.dashboard.filter(function(r){ return r.id !== row.id; });
+        if(state.dashboard.length === 0){
+          state.dashboard = defaultDashRows();
+        }
+        renderDash();
+        save();
+      });
+      tdAction.appendChild(delBtn);
+      tr.appendChild(tdAction);
+
+      dashBody.appendChild(tr);
+      renderDashRowCalc(tr, row);
+    });
+
+    renderDashTotals();
+    renderCrossCheckBanners();
+  }
+
+  function renderDashRowCalc(tr, row){
+    var unit = row.unit || "currency";
+    var orcado = num(row.orcado);
+    var realizado = num(row.realizado);
+    var hasOrcado = row.kind === "derived" || (row.orcado !== "" && row.orcado !== undefined && row.orcado !== null);
+    var hasRealizado = row.kind === "derived" || (row.realizado !== "" && row.realizado !== undefined && row.realizado !== null);
+
+    var diff = realizado - orcado;
+    var tdDiff = tr.querySelector('[data-role="diff"]');
+    var tdVar = tr.querySelector('[data-role="var"]');
+
+    if(!hasOrcado && !hasRealizado){
+      tdDiff.textContent = "—";
+      tdVar.textContent = "—";
+      tdDiff.classList.remove("neg","pos");
+      tdVar.classList.remove("neg","pos");
+      return;
+    }
+
+    tdDiff.textContent = formatDiffByUnit(unit, diff);
+    tdDiff.classList.toggle("neg", diff < 0);
+    tdDiff.classList.toggle("pos", diff > 0);
+
+    if(orcado !== 0){
+      var pct = (diff / orcado) * 100;
+      tdVar.textContent = formatPct(pct);
+      tdVar.classList.toggle("neg", pct < 0);
+      tdVar.classList.toggle("pos", pct > 0);
+    } else {
+      tdVar.textContent = "—";
+      tdVar.classList.remove("neg","pos");
+    }
+  }
+
+  /* recalcula as contas derivadas e atualiza apenas as células delas na tela,
+     sem reconstruir a tabela inteira — assim o campo em que o consultor está
+     digitando não perde o foco a cada tecla. */
+  function refreshDerivedRows(){
+    applyDerivedValues();
+    state.dashboard.forEach(function(row){
+      if(row.kind !== "derived") return;
+      var tr = dashBody.querySelector('tr[data-id="' + row.id + '"]');
+      if(!tr) return;
+      var orcEl = tr.querySelector(".derived-orcado");
+      var realEl = tr.querySelector(".derived-realizado");
+      if(orcEl) orcEl.textContent = formatByUnit(row.unit, row.orcado);
+      if(realEl) realEl.textContent = formatByUnit(row.unit, row.realizado);
+      renderDashRowCalc(tr, row);
+    });
+    renderDashTotals();
+    renderCrossCheckBanners();
+  }
+
+  function renderDashTotals(){
+    var totalOrcado = 0, totalRealizado = 0;
+    state.dashboard.forEach(function(row){
+      if(row.kind === "derived") return;
+      if((row.unit || "currency") !== "currency") return;
+      totalOrcado += num(row.orcado);
+      totalRealizado += num(row.realizado);
+    });
+    var totalDiff = totalRealizado - totalOrcado;
+    document.getElementById("dashTotalOrcado").textContent = formatBRL(totalOrcado);
+    document.getElementById("dashTotalRealizado").textContent = formatBRL(totalRealizado);
+    document.getElementById("dashTotalDiferenca").textContent = formatBRL(totalDiff);
+    var totalVarEl = document.getElementById("dashTotalVariacao");
+    if(totalOrcado !== 0){
+      var pct = (totalDiff / totalOrcado) * 100;
+      totalVarEl.textContent = formatPct(pct);
+      totalVarEl.style.color = pct < 0 ? "#B3411F" : (pct > 0 ? "#3C7A2A" : "");
+    } else {
+      totalVarEl.textContent = "—";
+      totalVarEl.style.color = "";
+    }
+  }
+
+  document.getElementById("dashAddRow").addEventListener("click", function(){
+    state.dashboard.push({ id: uid(), conta:"", orcado:"", realizado:"", key:null, kind:"input", unit:"currency" });
+    renderDash();
+    save();
+  });
+
+  document.getElementById("dashClear").addEventListener("click", function(){
+    if(!confirm("Restaurar a lista padrão de contas do dashboard? Os valores preenchidos serão perdidos.")) return;
+    state.dashboard = defaultDashRows();
+    renderDash();
+    save();
+    toast("Contas padrão restauradas.");
+  });
+
+  /* ---------------- CROSS-CHECK: divergência entre painéis de custo ----------------
+     Faturamento, CMV%, CMO% e Custos Fixos são pedidos em quatro lugares diferentes
+     (Prime Cost & Ponto de Equilíbrio, Orçado x Realizado, Plano de Contas & DRE e
+     Plano de Viabilidade) sem nenhuma sincronização entre eles. Este bloco não unifica
+     os quatro painéis — apenas avisa o consultor quando os valores preenchidos em mais
+     de um painel divergem além de uma tolerância, para revisar antes de apresentar ao
+     cliente. */
+  function ccPresent(v){
+    return v !== "" && v !== undefined && v !== null;
+  }
+
+  function ccGetCalc(){
+    var fat = ccPresent(state.calc.faturamento) ? num(state.calc.faturamento) : null;
+    var cmv = ccPresent(state.calc.cmv) ? num(state.calc.cmv) : null;
+    var cmo = ccPresent(state.calc.cmo) ? num(state.calc.cmo) : null;
+    var temFixos = ccPresent(state.calc.aluguel) || ccPresent(state.calc.adm) || ccPresent(state.calc.iptu);
+    var custosFixosPct = temFixos ? (num(state.calc.aluguel) + num(state.calc.adm) + num(state.calc.iptu)) : null;
+    var custosFixos = (custosFixosPct !== null && fat !== null) ? (fat * custosFixosPct / 100) : null;
+    return { faturamento: fat, cmv: cmv, cmo: cmo, custosFixos: custosFixos };
+  }
+
+  function ccGetDash(){
+    function findRow(key){
+      return state.dashboard.filter(function(r){ return r.key === key && r.kind === "input"; })[0] || null;
+    }
+    var fatRow = findRow("faturamento");
+    var col = null;
+    if(fatRow){
+      if(ccPresent(fatRow.realizado)) col = "realizado";
+      else if(ccPresent(fatRow.orcado)) col = "orcado";
+    }
+    if(!col) return { faturamento: null, cmv: null, cmo: null, custosFixos: null };
+    var fat = num(fatRow[col]);
+    var cmvAlimRow = findRow("cmvAlim"), cmvEmbRow = findRow("cmvEmb"), cmoRow = findRow("cmo");
+    var ocupRow = findRow("ocupacao"), admRow = findRow("adminDesp"), comRow = findRow("comercialDesp"), finRow = findRow("financeiraDesp");
+
+    var cmvTemDado = (cmvAlimRow && ccPresent(cmvAlimRow[col])) || (cmvEmbRow && ccPresent(cmvEmbRow[col]));
+    var cmv = (cmvTemDado && fat) ? ((num(cmvAlimRow ? cmvAlimRow[col] : 0) + num(cmvEmbRow ? cmvEmbRow[col] : 0)) / fat * 100) : null;
+
+    var cmoTemDado = cmoRow && ccPresent(cmoRow[col]);
+    var cmo = (cmoTemDado && fat) ? (num(cmoRow[col]) / fat * 100) : null;
+
+    var fixosTemDado = [ocupRow, admRow, comRow, finRow].some(function(r){ return r && ccPresent(r[col]); });
+    var custosFixos = fixosTemDado ? (num(ocupRow ? ocupRow[col] : 0) + num(admRow ? admRow[col] : 0) + num(comRow ? comRow[col] : 0) + num(finRow ? finRow[col] : 0)) : null;
+
+    return { faturamento: fat, cmv: cmv, cmo: cmo, custosFixos: custosFixos };
+  }
+
+  function ccGetViab(){
+    var cen = state.viabilidade.cenarios[state.viabilidade.cenarioAtivo] || {};
+    var fat = null;
+    if(ccPresent(cen.ticketMedio) && ccPresent(cen.atendimentosDia) && ccPresent(cen.diasMes)){
+      fat = num(cen.ticketMedio) * num(cen.atendimentosDia) * num(cen.diasMes);
+    }
+    var cmvRow = (state.viabilidade.custosVariaveis || []).filter(function(r){ return r.item && /cmv/i.test(r.item); })[0];
+    var cmv = (cmvRow && ccPresent(cmvRow.pct)) ? num(cmvRow.pct) : null;
+    var fixosList = state.viabilidade.custosFixos || [];
+    var fixosTemDado = fixosList.some(function(r){ return ccPresent(r.valor); });
+    var custosFixos = fixosTemDado ? fixosList.reduce(function(s,r){ return s + num(r.valor); }, 0) : null;
+    return { faturamento: fat, cmv: cmv, cmo: null, custosFixos: custosFixos };
+  }
+
+  /* ccGetDre: lê o mês ativo do painel "Plano de Contas & DRE" e devolve os mesmos
+     quatro indicadores dos demais painéis, para entrar no cross-check abaixo em vez
+     de virar uma quarta calculadora desconectada. */
+  function ccGetDre(){
+    var month = getActiveDreMonth();
+    if(!month) return { faturamento: null, cmv: null, cmo: null, custosFixos: null };
+    var l = month.linhas || {};
+    var temReceita = ccPresent(l.receitaAlimentos) || ccPresent(l.receitaBebidas) || ccPresent(l.receitaOutras);
+    var temCmv = ccPresent(l.cmvAlimentos) || ccPresent(l.cmvBebidas) || ccPresent(l.embalagens);
+    var temCmo = ccPresent(l.pessoalFolha) || ccPresent(l.pessoalProLabore);
+    var temFixos = ccPresent(l.ocupacaoAluguel) || ccPresent(l.ocupacaoUtilidades) || ccPresent(l.ocupacaoManutencao) ||
+                   ccPresent(l.adminServicos) || ccPresent(l.adminDiversas) || ccPresent(l.comercialMarketing) || ccPresent(l.comercialDescontos) ||
+                   ccPresent(l.despesasFinanceiras) || ccPresent(l.investimentosDepreciacao);
+    var d = computeDreForMonth(month);
+    return {
+      faturamento: temReceita ? d.faturamentoBruto : null,
+      cmv: (temCmv && d.faturamentoBruto) ? d.cmvPct : null,
+      cmo: (temCmo && d.faturamentoBruto) ? d.cmoPct : null,
+      custosFixos: temFixos ? d.custosFixosDre : null
+    };
+  }
+
+  var CC_PANELS = [
+    { id: "calc", label: "Prime Cost & Ponto de Equilíbrio", getter: ccGetCalc },
+    { id: "dash", label: "Orçado x Realizado", getter: ccGetDash },
+    { id: "dre", label: "Plano de Contas & DRE", getter: ccGetDre },
+    { id: "viab", label: "Plano de Viabilidade", getter: ccGetViab }
+  ];
+
+  var CC_METRICS = [
+    { id: "faturamento", label: "Faturamento", kind: "currency",
+      diverge: function(a,b){ var base = Math.max(Math.abs(a), Math.abs(b), 1); return Math.abs(a-b) / base > 0.15; } },
+    { id: "cmv", label: "CMV%", kind: "percent",
+      diverge: function(a,b){ return Math.abs(a-b) > 2; } },
+    { id: "cmo", label: "CMO%", kind: "percent",
+      diverge: function(a,b){ return Math.abs(a-b) > 2; } },
+    { id: "custosFixos", label: "Custos Fixos (R$/mês)", kind: "currency",
+      diverge: function(a,b){ var base = Math.max(Math.abs(a), Math.abs(b), 1); return Math.abs(a-b) / base > 0.15; } }
+  ];
+
+  function ccFmt(kind, v){
+    return kind === "percent" ? formatPct(v) : formatBRL(v);
+  }
+
+  function computeCrossCheckWarnings(){
+    var values = {};
+    CC_PANELS.forEach(function(p){ values[p.id] = p.getter(); });
+    var warnings = [];
+    CC_METRICS.forEach(function(m){
+      for(var i=0; i<CC_PANELS.length; i++){
+        for(var j=i+1; j<CC_PANELS.length; j++){
+          var pa = CC_PANELS[i], pb = CC_PANELS[j];
+          var va = values[pa.id][m.id], vb = values[pb.id][m.id];
+          if(va === null || vb === null) continue;
+          if(m.diverge(va, vb)){
+            warnings.push({
+              panelIds: [pa.id, pb.id],
+              text: "Os valores de " + m.label + " estão diferentes entre os painéis \"" + pa.label + "\" e \"" + pb.label + "\" (" +
+                ccFmt(m.kind, va) + " vs " + ccFmt(m.kind, vb) + ") — revise antes de apresentar ao cliente."
+            });
+          }
+        }
+      }
+    });
+    return warnings;
+  }
+
+  function renderCrossCheckBanners(){
+    var warnings = computeCrossCheckWarnings();
+    CC_PANELS.forEach(function(p){
+      var el = document.getElementById("ccWarning_" + p.id);
+      if(!el) return;
+      var relevant = warnings.filter(function(w){ return w.panelIds.indexOf(p.id) !== -1; });
+      if(relevant.length === 0){
+        el.style.display = "none";
+        el.innerHTML = "";
+      } else {
+        el.style.display = "block";
+        el.innerHTML = "<b>⚠ Painéis de custo divergentes:</b><ul>" +
+          relevant.map(function(w){ return "<li>" + w.text + "</li>"; }).join("") + "</ul>";
+      }
+    });
+  }
+
+  /* ---------------- FLUXO DE CAIXA ANUAL ----------------
+     Estado: state.fluxocaixa = { jan:{receita, despesa}, fev:{...}, ..., dez:{...} }
+     Lucro Líquido de cada mês e os 4 totais anuais (Receita, Despesa, Lucro, Margem%)
+     são sempre calculados a partir de receita/despesa — nunca gravados no state.
+     FC_MESES está declarado logo após uid(), antes de defaultState(). */
+
+  function defaultFluxoCaixa(){
+    var obj = {};
+    FC_MESES.forEach(function(m){ obj[m] = { receita:"", despesa:"" }; });
+    return obj;
+  }
+  function normalizeFluxoCaixa(parsed){
+    var obj = defaultFluxoCaixa();
+    if(parsed){
+      FC_MESES.forEach(function(m){
+        if(parsed[m]) obj[m] = Object.assign({ receita:"", despesa:"" }, parsed[m]);
+      });
+    }
+    return obj;
+  }
+
+  var fcBody = document.getElementById("fcBody");
+
+  function renderFluxoCaixa(){
+    if(!fcBody) return;
+    fcBody.innerHTML = "";
+
+    var trReceita = document.createElement("tr");
+    var tdLabelReceita = document.createElement("td");
+    tdLabelReceita.className = "conta";
+    tdLabelReceita.style.padding = "8px 8px";
+    tdLabelReceita.style.fontWeight = "600";
+    tdLabelReceita.textContent = "Receitas do mês";
+    trReceita.appendChild(tdLabelReceita);
+
+    var trDespesa = document.createElement("tr");
+    var tdLabelDespesa = document.createElement("td");
+    tdLabelDespesa.style.padding = "8px 8px";
+    tdLabelDespesa.style.fontWeight = "600";
+    tdLabelDespesa.textContent = "Despesas do mês";
+    trDespesa.appendChild(tdLabelDespesa);
+
+    var trLucro = document.createElement("tr");
+    trLucro.className = "row-derived";
+    var tdLabelLucro = document.createElement("td");
+    tdLabelLucro.style.padding = "8px 8px";
+    tdLabelLucro.style.fontWeight = "700";
+    tdLabelLucro.style.color = "var(--primary-d)";
+    tdLabelLucro.textContent = "Lucro Líquido do mês";
+    trLucro.appendChild(tdLabelLucro);
+
+    FC_MESES.forEach(function(m){
+      var tdR = document.createElement("td");
+      var inputR = document.createElement("input");
+      inputR.type = "number";
+      inputR.step = "0.01";
+      inputR.className = "valcell";
+      inputR.placeholder = "0,00";
+      inputR.setAttribute("data-mes", m);
+      inputR.setAttribute("data-tipo", "receita");
+      inputR.value = (state.fluxocaixa[m].receita === "" || state.fluxocaixa[m].receita === undefined) ? "" : state.fluxocaixa[m].receita;
+      inputR.addEventListener("input", function(){
+        state.fluxocaixa[m].receita = inputR.value;
+        computeFluxoCaixa();
+        save();
+      });
+      tdR.appendChild(inputR);
+      trReceita.appendChild(tdR);
+
+      var tdD = document.createElement("td");
+      var inputD = document.createElement("input");
+      inputD.type = "number";
+      inputD.step = "0.01";
+      inputD.className = "valcell";
+      inputD.placeholder = "0,00";
+      inputD.setAttribute("data-mes", m);
+      inputD.setAttribute("data-tipo", "despesa");
+      inputD.value = (state.fluxocaixa[m].despesa === "" || state.fluxocaixa[m].despesa === undefined) ? "" : state.fluxocaixa[m].despesa;
+      inputD.addEventListener("input", function(){
+        state.fluxocaixa[m].despesa = inputD.value;
+        computeFluxoCaixa();
+        save();
+      });
+      tdD.appendChild(inputD);
+      trDespesa.appendChild(tdD);
+
+      var tdL = document.createElement("td");
+      var lucroView = document.createElement("div");
+      lucroView.className = "derived-cell";
+      lucroView.id = "fcLucro_" + m;
+      lucroView.textContent = "R$ 0,00";
+      tdL.appendChild(lucroView);
+      trLucro.appendChild(tdL);
+    });
+
+    fcBody.appendChild(trReceita);
+    fcBody.appendChild(trDespesa);
+    fcBody.appendChild(trLucro);
+
+    computeFluxoCaixa();
+  }
+
+  /* recalcula o Lucro Líquido de cada mês e o rollup anual (Receita, Despesa,
+     Lucro Líquido e Margem de Lucro) a cada alteração em qualquer campo de
+     receita/despesa mensal — chamado pelos listeners "input" acima. */
+  function computeFluxoCaixa(){
+    var receitaAnual = 0, despesaAnual = 0;
+    FC_MESES.forEach(function(m){
+      var receita = num(state.fluxocaixa[m].receita);
+      var despesa = num(state.fluxocaixa[m].despesa);
+      receitaAnual += receita;
+      despesaAnual += despesa;
+      var lucroEl = document.getElementById("fcLucro_" + m);
+      if(lucroEl) lucroEl.textContent = formatBRL(receita - despesa);
+    });
+    var lucroAnual = receitaAnual - despesaAnual;
+    var margemAnual = receitaAnual !== 0 ? (lucroAnual / receitaAnual * 100) : 0;
+
+    var elReceita = document.getElementById("fcReceitaAnualOut");
+    var elDespesa = document.getElementById("fcDespesaAnualOut");
+    var elLucro = document.getElementById("fcLucroAnualOut");
+    var elMargem = document.getElementById("fcMargemAnualOut");
+    if(elReceita) elReceita.textContent = formatBRL(receitaAnual);
+    if(elDespesa) elDespesa.textContent = formatBRL(despesaAnual);
+    if(elLucro) elLucro.textContent = formatBRL(lucroAnual);
+    if(elMargem) elMargem.textContent = formatPct(margemAnual);
+  }
+
+  var fcClearBtn = document.getElementById("fcClear");
+  if(fcClearBtn){
+    fcClearBtn.addEventListener("click", function(){
+      if(!confirm("Limpar todos os valores de Receita e Despesa do Fluxo de Caixa Anual?")) return;
+      state.fluxocaixa = defaultFluxoCaixa();
+      renderFluxoCaixa();
+      save();
+      toast("Fluxo de Caixa Anual limpo.");
+    });
+  }
+
+  /* ---------------- RETENÇÃO ---------------- */
+  var diagFields = document.querySelectorAll("#panel-retencao textarea[data-field]");
+  var actionsList = document.getElementById("actionsList");
+
+  function renderDiag(){
+    diagFields.forEach(function(ta){
+      var f = ta.getAttribute("data-field");
+      ta.value = state.retention[f] || "";
+    });
+  }
+  diagFields.forEach(function(ta){
+    ta.addEventListener("input", function(){
+      var f = ta.getAttribute("data-field");
+      state.retention[f] = ta.value;
+      save();
+    });
+  });
+
+  function renderActions(){
+    actionsList.innerHTML = "";
+    state.retention.actions.forEach(function(action){
+      var item = document.createElement("div");
+      item.className = "action-item" + (action.checked ? " checked" : "");
+
+      var cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = !!action.checked;
+      cb.addEventListener("change", function(){
+        action.checked = cb.checked;
+        item.classList.toggle("checked", cb.checked);
+        save();
+      });
+
+      var label = document.createElement("div");
+      label.className = "a-label";
+      label.textContent = action.label;
+
+      var note = document.createElement("input");
+      note.type = "text";
+      note.className = "a-note";
+      note.placeholder = "Observações, prazo, responsável...";
+      note.value = action.note || "";
+      note.addEventListener("input", function(){
+        action.note = note.value;
+        save();
+      });
+
+      item.appendChild(cb);
+      item.appendChild(label);
+      item.appendChild(note);
+      actionsList.appendChild(item);
+    });
+  }
+
+  /* ---------------- CICLO FINANCEIRO & CAPITAL DE GIRO ---------------- */
+  var cgInputs = {
+    cicloEconomico: document.getElementById("cgCicloEconomico"),
+    prazoRecebimento: document.getElementById("cgPrazoRecebimento"),
+    prazoPagamento: document.getElementById("cgPrazoPagamento"),
+    prazoImposto: document.getElementById("cgPrazoImposto")
+  };
+  /* campos monetários usados só no cálculo de NCG (Necessidade de Capital de Giro),
+     preenchidos manualmente ou via botão "Puxar do DRE" (mês ativo do painel
+     Plano de Contas & DRE) */
+  var cgMoneyInputs = {
+    ncgFaturamento: document.getElementById("cgNcgFaturamento"),
+    ncgCmv: document.getElementById("cgNcgCmv"),
+    ncgImpostos: document.getElementById("cgNcgImpostos")
+  };
+
+  function renderCapitalGiro(){
+    Object.keys(cgInputs).forEach(function(k){
+      var el = cgInputs[k];
+      if(!el) return;
+      var v = state.capitalgiro[k];
+      el.value = (v === "" || v === undefined || v === null) ? "" : v;
+    });
+    Object.keys(cgMoneyInputs).forEach(function(k){
+      var el = cgMoneyInputs[k];
+      if(!el) return;
+      var v = state.capitalgiro[k];
+      el.value = (v === "" || v === undefined || v === null) ? "" : v;
+    });
+    computeCapitalGiro();
+  }
+
+  function computeCapitalGiro(){
+    var cicloEconomico = state.capitalgiro.cicloEconomico;
+    var prazoRecebimento = state.capitalgiro.prazoRecebimento;
+    var prazoPagamento = state.capitalgiro.prazoPagamento;
+    var prazoImposto = state.capitalgiro.prazoImposto;
+    var opOut = document.getElementById("cgCicloOperacionalOut");
+    var finOut = document.getElementById("cgCicloFinanceiroOut");
+    if(!opOut || !finOut) return;
+
+    if(!ccPresent(cicloEconomico) || !ccPresent(prazoRecebimento)){
+      opOut.textContent = "— dias";
+    } else {
+      var ciclosOperacional = num(cicloEconomico) + num(prazoRecebimento);
+      opOut.textContent = formatDias(ciclosOperacional);
+    }
+
+    var finInterpretEl = document.getElementById("cgCicloFinanceiroInterpret");
+    if(!ccPresent(cicloEconomico) || !ccPresent(prazoRecebimento) || !ccPresent(prazoPagamento)){
+      finOut.textContent = "— dias";
+      if(finInterpretEl){ finInterpretEl.textContent = ""; finInterpretEl.style.color = ""; }
+    } else {
+      var cicloOperacional = num(cicloEconomico) + num(prazoRecebimento);
+      var cicloFinanceiro = cicloOperacional - num(prazoPagamento);
+      finOut.textContent = formatDias(cicloFinanceiro);
+      if(finInterpretEl){
+        if(cicloFinanceiro > 0){
+          finInterpretEl.textContent = "Positivo: o restaurante recebe do cliente depois de pagar o fornecedor — precisa financiar o giro com capital próprio (ou de terceiros) por " + formatDias(cicloFinanceiro) + ".";
+          finInterpretEl.style.color = "#B3411F";
+        } else if(cicloFinanceiro < 0){
+          finInterpretEl.textContent = "Negativo: o restaurante recebe do cliente antes de pagar o fornecedor — são os fornecedores que financiam o giro do negócio.";
+          finInterpretEl.style.color = "#3C7A2A";
+        } else {
+          finInterpretEl.textContent = "Neutro: o prazo de recebimento cobre exatamente o prazo de pagamento a fornecedores.";
+          finInterpretEl.style.color = "var(--muted)";
+        }
+      }
+    }
+
+    /* NCG = Necessidade de Capital de Giro, seguindo a metodologia Artblend:
+       Contas a Receber + Estoque − Fornecedores a Pagar − Imposto a Pagar,
+       cada componente = valor mensal ÷ 30 × prazo em dias correspondente. */
+    var elReceber = document.getElementById("cgContasReceberOut");
+    var elEstoque = document.getElementById("cgEstoqueOut");
+    var elPagar = document.getElementById("cgContasPagarOut");
+    var elImposto = document.getElementById("cgImpostoPagarOut");
+    var elNcg = document.getElementById("cgNcgOut");
+    if(!elReceber || !elEstoque || !elPagar || !elImposto || !elNcg) return;
+
+    var fatM = num(state.capitalgiro.ncgFaturamento);
+    var cmvM = num(state.capitalgiro.ncgCmv);
+    var impM = num(state.capitalgiro.ncgImpostos);
+    var temDados = ccPresent(state.capitalgiro.ncgFaturamento) || ccPresent(state.capitalgiro.ncgCmv) || ccPresent(state.capitalgiro.ncgImpostos);
+
+    if(!temDados){
+      elReceber.textContent = "R$ —";
+      elEstoque.textContent = "R$ —";
+      elPagar.textContent = "R$ —";
+      elImposto.textContent = "R$ —";
+      elNcg.textContent = "R$ —";
+      return;
+    }
+
+    var contasReceber = fatM / 30 * num(prazoRecebimento);
+    var estoque = cmvM / 30 * num(cicloEconomico);
+    var contasPagar = cmvM / 30 * num(prazoPagamento);
+    var impostoPagar = impM / 30 * num(prazoImposto);
+    var ncg = contasReceber + estoque - contasPagar - impostoPagar;
+
+    elReceber.textContent = formatBRL(contasReceber);
+    elEstoque.textContent = formatBRL(estoque);
+    elPagar.textContent = "− " + formatBRL(contasPagar);
+    elImposto.textContent = "− " + formatBRL(impostoPagar);
+    elNcg.textContent = formatBRL(ncg);
+  }
+
+  function formatDias(n){
+    if(!isFinite(n)) n = 0;
+    return n.toLocaleString("pt-BR", {maximumFractionDigits:1}) + " dias";
+  }
+
+  Object.keys(cgInputs).forEach(function(k){
+    var el = cgInputs[k];
+    if(!el) return;
+    el.addEventListener("input", function(){
+      state.capitalgiro[k] = el.value === "" ? "" : parseFloat(el.value);
+      computeCapitalGiro();
+      save();
+    });
+  });
+
+  Object.keys(cgMoneyInputs).forEach(function(k){
+    var el = cgMoneyInputs[k];
+    if(!el) return;
+    el.addEventListener("input", function(){
+      state.capitalgiro[k] = el.value === "" ? "" : parseFloat(el.value);
+      computeCapitalGiro();
+      save();
+    });
+  });
+
+  var cgPullBtn = document.getElementById("cgPullFromDre");
+  if(cgPullBtn){
+    cgPullBtn.addEventListener("click", function(){
+      var s = getDreSummaryForNCG();
+      if(!s || (!s.faturamento && !s.cmv && !s.impostos)){
+        alert("Preencha o DRE do mês ativo (aba \"Plano de Contas & DRE\") antes de puxar os dados para o cálculo de NCG.");
+        return;
+      }
+      state.capitalgiro.ncgFaturamento = s.faturamento;
+      state.capitalgiro.ncgCmv = s.cmv;
+      state.capitalgiro.ncgImpostos = s.impostos;
+      renderCapitalGiro();
+      save();
+      toast("Dados puxados do DRE ativo.");
+    });
+  }
+
+  /* ---------------- PLANO DE CONTAS & DRE ----------------
+     Estrutura: Receitas → (−) Impostos sobre Vendas → (−) Custos Variáveis
+     Diretos → Margem de Contribuição → (−) CMO → (−) Despesas Operacionais
+     → Resultado Operacional. Um "mês" é um snapshot editável (state.dre.months),
+     e o histórico mostra a evolução de CMV%/Margem%/Resultado% entre eles. */
+  var DRE_GRUPOS = [
+    { id:"receita", titulo:"Receitas" },
+    { id:"imposto", titulo:"(−) Impostos sobre Vendas" },
+    { id:"variavel", titulo:"(−) Custos Variáveis Diretos" },
+    { id:"operacional_cmo", titulo:"(−) Custo de Mão de Obra (CMO)" },
+    { id:"operacional", titulo:"(−) Despesas Operacionais" }
+  ];
+  var DRE_CONTAS = [
+    { key:"receitaAlimentos", label:"Receita de Alimentos", grupo:"receita" },
+    { key:"receitaBebidas", label:"Receita de Bebidas", grupo:"receita" },
+    { key:"receitaOutras", label:"Outras Receitas", grupo:"receita" },
+    { key:"impostosSobreVendas", label:"Impostos sobre Vendas (Simples/ISS/etc.)", grupo:"imposto" },
+    { key:"cmvAlimentos", label:"CMV — Alimentos", grupo:"variavel" },
+    { key:"cmvBebidas", label:"CMV — Bebidas", grupo:"variavel" },
+    { key:"embalagens", label:"Embalagens e Descartáveis", grupo:"variavel" },
+    { key:"custosFinanceiros", label:"Custos Financeiros (Taxa de Cartão/Delivery)", grupo:"variavel" },
+    { key:"pessoalFolha", label:"Folha de Pagamento", grupo:"operacional_cmo" },
+    { key:"pessoalProLabore", label:"Pró-labore / Sócios", grupo:"operacional_cmo" },
+    { key:"ocupacaoAluguel", label:"Aluguel", grupo:"operacional" },
+    { key:"ocupacaoUtilidades", label:"Água / Luz / Internet", grupo:"operacional" },
+    { key:"ocupacaoManutencao", label:"Manutenção e Limpeza", grupo:"operacional" },
+    { key:"adminServicos", label:"Serviços Administrativos (contador, sistema)", grupo:"operacional" },
+    { key:"adminDiversas", label:"Despesas Administrativas Diversas", grupo:"operacional" },
+    { key:"comercialMarketing", label:"Marketing e Publicidade", grupo:"operacional" },
+    { key:"comercialDescontos", label:"Descontos e Promoções", grupo:"operacional" },
+    { key:"despesasFinanceiras", label:"Despesas Financeiras (Juros, Tarifas Bancárias, Empréstimos)", grupo:"operacional" },
+    { key:"investimentosDepreciacao", label:"Investimentos / Depreciação (reinvestimento em equipamentos e reforma)", grupo:"operacional" }
+  ];
+
+  function normalizeDreMonth(m){
+    m = m || {};
+    var srcLinhas = m.linhas || {};
+    var linhas = {};
+    DRE_CONTAS.forEach(function(c){
+      linhas[c.key] = srcLinhas[c.key] === undefined ? "" : srcLinhas[c.key];
+    });
+    return { id: m.id || uid(), label: m.label || "Mês", linhas: linhas };
+  }
+  function novoDreMonth(label){ return normalizeDreMonth({ label: label || "Novo mês" }); }
+
+  /* garante que sempre exista pelo menos um mês no DRE e um mês ativo válido,
+     mesmo em clientes recém-criados ou dados importados sem state.dre completo */
+  function ensureDreDefaults(){
+    if(!state.dre.months || state.dre.months.length === 0){
+      state.dre.months = [novoDreMonth("Mês atual")];
+      state.dre.activeMonthId = state.dre.months[0].id;
+    }
+    if(!state.dre.activeMonthId || !state.dre.months.some(function(m){ return m.id === state.dre.activeMonthId; })){
+      state.dre.activeMonthId = state.dre.months[0].id;
+    }
+  }
+
+  function getActiveDreMonth(){
+    var months = state.dre.months || [];
+    var found = months.filter(function(m){ return m.id === state.dre.activeMonthId; })[0];
+    return found || months[0] || null;
+  }
+
+  function computeDreForMonth(month){
+    function g(k){ return num(month.linhas[k]); }
+    var faturamentoBruto = g("receitaAlimentos") + g("receitaBebidas") + g("receitaOutras");
+    var impostos = g("impostosSobreVendas");
+    var receitaLiquida = faturamentoBruto - impostos;
+    var custosVariaveis = g("cmvAlimentos") + g("cmvBebidas") + g("embalagens") + g("custosFinanceiros");
+    var margemContribuicao = receitaLiquida - custosVariaveis;
+    var cmo = g("pessoalFolha") + g("pessoalProLabore");
+    var custosFixosDre = g("ocupacaoAluguel") + g("ocupacaoUtilidades") + g("ocupacaoManutencao") + g("adminServicos") + g("adminDiversas") + g("comercialMarketing") + g("comercialDescontos") + g("despesasFinanceiras") + g("investimentosDepreciacao");
+    var resultadoOperacional = margemContribuicao - cmo - custosFixosDre;
+    var cmvBase = g("cmvAlimentos") + g("cmvBebidas") + g("embalagens");
+    return {
+      faturamentoBruto: faturamentoBruto,
+      impostos: impostos,
+      receitaLiquida: receitaLiquida,
+      custosVariaveis: custosVariaveis,
+      margemContribuicao: margemContribuicao,
+      margemPct: faturamentoBruto ? (margemContribuicao / faturamentoBruto * 100) : 0,
+      cmo: cmo,
+      cmoPct: faturamentoBruto ? (cmo / faturamentoBruto * 100) : 0,
+      custosFixosDre: custosFixosDre,
+      resultadoOperacional: resultadoOperacional,
+      resultadoPct: faturamentoBruto ? (resultadoOperacional / faturamentoBruto * 100) : 0,
+      cmvPct: faturamentoBruto ? (cmvBase / faturamentoBruto * 100) : 0
+    };
+  }
+
+  function getDreSummaryForNCG(){
+    var month = getActiveDreMonth();
+    if(!month) return null;
+    var d = computeDreForMonth(month);
+    return { faturamento: d.faturamentoBruto, cmv: d.custosVariaveis, impostos: d.impostos };
+  }
+
+  function dreLinePct(month, key, faturamentoBruto){
+    var v = num(month.linhas[key]);
+    return faturamentoBruto ? (v / faturamentoBruto * 100) : 0;
+  }
+
+  function renderDreMonthSelect(){
+    var sel = document.getElementById("dreMonthSelect");
+    if(!sel) return;
+    var months = state.dre.months || [];
+    sel.innerHTML = months.map(function(m){
+      return '<option value="'+m.id+'"'+(m.id===state.dre.activeMonthId?" selected":"")+'>'+String(m.label).replace(/"/g,"&quot;")+"</option>";
+    }).join("");
+  }
+
+  function renderDreTable(month){
+    var body = document.getElementById("dreBody");
+    if(!body) return;
+    body.innerHTML = "";
+    var d = computeDreForMonth(month);
+    var gruposRenderizados = {};
+    DRE_CONTAS.forEach(function(conta){
+      if(!gruposRenderizados[conta.grupo]){
+        gruposRenderizados[conta.grupo] = true;
+        var grupoInfo = DRE_GRUPOS.filter(function(gr){ return gr.id === conta.grupo; })[0];
+        if(grupoInfo){
+          var trGrupo = document.createElement("tr");
+          var tdGrupo = document.createElement("td");
+          tdGrupo.colSpan = 3;
+          tdGrupo.style.cssText = "background:var(--primary-soft); color:var(--primary-d); font-weight:700; font-size:12.5px; padding:7px 10px;";
+          tdGrupo.textContent = grupoInfo.titulo;
+          trGrupo.appendChild(tdGrupo);
+          body.appendChild(trGrupo);
+        }
+      }
+      var tr = document.createElement("tr");
+      var tdLabel = document.createElement("td");
+      tdLabel.textContent = conta.label;
+      tr.appendChild(tdLabel);
+
+      var tdVal = document.createElement("td");
+      var input = document.createElement("input");
+      input.type = "number"; input.step = "0.01"; input.min = "0"; input.placeholder = "0,00";
+      input.className = "valcell";
+      input.value = month.linhas[conta.key] === "" ? "" : month.linhas[conta.key];
+      input.addEventListener("input", function(){
+        month.linhas[conta.key] = input.value === "" ? "" : parseFloat(input.value);
+        renderDre();
+        save();
+      });
+      tdVal.appendChild(input);
+      tr.appendChild(tdVal);
+
+      var tdPct = document.createElement("td");
+      tdPct.textContent = formatPct(dreLinePct(month, conta.key, d.faturamentoBruto));
+      tr.appendChild(tdPct);
+
+      body.appendChild(tr);
+    });
+  }
+
+  function renderDreMetrics(month){
+    var d = computeDreForMonth(month);
+    var elFat = document.getElementById("dreFaturamentoOut");
+    var elRL = document.getElementById("dreReceitaLiquidaOut");
+    var elMC = document.getElementById("dreMargemOut");
+    var elMCpct = document.getElementById("dreMargemPctOut");
+    var elRes = document.getElementById("dreResultadoOut");
+    var elRespct = document.getElementById("dreResultadoPctOut");
+    if(elFat) elFat.textContent = formatBRL(d.faturamentoBruto);
+    if(elRL) elRL.textContent = formatBRL(d.receitaLiquida);
+    if(elMC) elMC.textContent = formatBRL(d.margemContribuicao);
+    if(elMCpct) elMCpct.textContent = formatPct(d.margemPct) + " sobre o faturamento";
+    if(elRes) elRes.textContent = formatBRL(d.resultadoOperacional);
+    if(elRespct) elRespct.textContent = formatPct(d.resultadoPct) + " sobre o faturamento";
+  }
+
+  function renderDreHistory(){
+    var body = document.getElementById("dreHistoryBody");
+    if(!body) return;
+    var months = state.dre.months || [];
+    body.innerHTML = months.map(function(m){
+      var d = computeDreForMonth(m);
+      return "<tr><td>"+String(m.label).replace(/</g,"&lt;")+"</td><td>"+formatBRL(d.faturamentoBruto)+"</td><td>"+formatPct(d.cmvPct)+"</td><td>"+formatPct(d.margemPct)+"</td><td>"+formatPct(d.resultadoPct)+"</td></tr>";
+    }).join("") || '<tr><td colspan="5" style="color:var(--muted); font-style:italic;">Nenhum mês cadastrado ainda.</td></tr>';
+  }
+
+  function renderDre(){
+    if(!state.dre.months || state.dre.months.length === 0){
+      state.dre.months = [novoDreMonth("Mês atual")];
+      state.dre.activeMonthId = state.dre.months[0].id;
+    }
+    if(!state.dre.activeMonthId || !state.dre.months.some(function(m){ return m.id === state.dre.activeMonthId; })){
+      state.dre.activeMonthId = state.dre.months[0].id;
+    }
+    var month = getActiveDreMonth();
+    renderDreMonthSelect();
+    renderDreTable(month);
+    renderDreMetrics(month);
+    renderDreHistory();
+    if(typeof renderCrossCheckBanners === "function") renderCrossCheckBanners();
+  }
+
+  var dreMonthSelectEl = document.getElementById("dreMonthSelect");
+  if(dreMonthSelectEl){
+    dreMonthSelectEl.addEventListener("change", function(){
+      state.dre.activeMonthId = dreMonthSelectEl.value;
+      renderDre();
+      save();
+    });
+  }
+  var dreAddMonthBtn = document.getElementById("dreAddMonth");
+  if(dreAddMonthBtn){
+    dreAddMonthBtn.addEventListener("click", function(){
+      var labelInput = document.getElementById("dreNewMonthLabel");
+      var label = (labelInput && labelInput.value.trim()) || ("Mês " + (state.dre.months.length + 1));
+      var m = novoDreMonth(label);
+      state.dre.months.push(m);
+      state.dre.activeMonthId = m.id;
+      if(labelInput) labelInput.value = "";
+      renderDre();
+      save();
+    });
+  }
+  var dreDuplicateBtn = document.getElementById("dreDuplicateMonth");
+  if(dreDuplicateBtn){
+    dreDuplicateBtn.addEventListener("click", function(){
+      var atual = getActiveDreMonth();
+      if(!atual) return;
+      var copia = normalizeDreMonth({ label: atual.label + " (cópia)", linhas: Object.assign({}, atual.linhas) });
+      state.dre.months.push(copia);
+      state.dre.activeMonthId = copia.id;
+      renderDre();
+      save();
+    });
+  }
+  var dreRemoveBtn = document.getElementById("dreRemoveMonth");
+  if(dreRemoveBtn){
+    dreRemoveBtn.addEventListener("click", function(){
+      if(state.dre.months.length <= 1){
+        alert("Mantenha ao menos um mês cadastrado no DRE.");
+        return;
+      }
+      if(!confirm("Remover o mês ativo do DRE? Essa ação não pode ser desfeita.")) return;
+      var idx = -1;
+      state.dre.months.forEach(function(m, i){ if(m.id === state.dre.activeMonthId) idx = i; });
+      if(idx > -1) state.dre.months.splice(idx, 1);
+      state.dre.activeMonthId = state.dre.months[0].id;
+      renderDre();
+      save();
+    });
+  }
+
+  /* ---------------- CUSTO DE FUNCIONÁRIO (ENCARGOS CLT) ----------------
+     Mostra o custo real de um funcionário para a empresa (não apenas o
+     salário bruto): FGTS sobre salário/férias/13º, provisão de férias e
+     13º, e — quando o regime tributário é Lucro Real/Presumido — também
+     INSS patronal e Sistema S/Terceiros sobre a folha (no Simples Nacional
+     esses dois normalmente já estão embutidos no DAS unificado). Os
+     benefícios (VT/VR/VA) entram pelo custo líquido, já descontada a
+     parcela do funcionário conforme os percentuais informados. Todos os
+     percentuais são editáveis porque a legislação trabalhista muda de
+     tempos em tempos — os valores pré-preenchidos são apenas referência. */
+  var cltInputs = {
+    salarioBase: document.getElementById("cltSalarioBase"),
+    fgtsSalarioPct: document.getElementById("cltFgtsSalarioPct"),
+    feriasPct: document.getElementById("cltFeriasPct"),
+    decimoPct: document.getElementById("cltDecimoPct"),
+    fgtsFeriasPct: document.getElementById("cltFgtsFeriasPct"),
+    fgtsDecimoPct: document.getElementById("cltFgtsDecimoPct"),
+    inssPatronalPct: document.getElementById("cltInssPatronalPct"),
+    sistemaSPct: document.getElementById("cltSistemaSPct"),
+    valeRefeicao: document.getElementById("cltValeRefeicao"),
+    valeAlimentacao: document.getElementById("cltValeAlimentacao"),
+    valeTransporte: document.getElementById("cltValeTransporte"),
+    descontoVtPct: document.getElementById("cltDescontoVtPct"),
+    descontoVrVaPct: document.getElementById("cltDescontoVrVaPct"),
+    planoSaude: document.getElementById("cltPlanoSaude"),
+    planoOdonto: document.getElementById("cltPlanoOdonto"),
+    outrosBeneficios: document.getElementById("cltOutrosBeneficios")
+  };
+  var cltRegimeSelect = document.getElementById("cltRegime");
+
+  function renderClt(){
+    Object.keys(cltInputs).forEach(function(k){
+      var el = cltInputs[k];
+      if(!el) return;
+      var v = state.clt[k];
+      el.value = (v === "" || v === undefined || v === null) ? "" : v;
+    });
+    if(cltRegimeSelect) cltRegimeSelect.value = state.clt.regime === "real" ? "real" : "simples";
+    computeClt();
+  }
+
+  function computeClt(){
+    var c = state.clt;
+    var salario = num(c.salarioBase);
+    var regime = c.regime === "real" ? "real" : "simples";
+
+    var fgtsSalario = salario * num(c.fgtsSalarioPct) / 100;
+    var ferias = salario * num(c.feriasPct) / 100;
+    var decimo = salario * num(c.decimoPct) / 100;
+    var fgtsFerias = ferias * num(c.fgtsFeriasPct) / 100;
+    var fgtsDecimo = decimo * num(c.fgtsDecimoPct) / 100;
+
+    var inssPatronal = regime === "real" ? salario * num(c.inssPatronalPct) / 100 : 0;
+    var sistemaS = regime === "real" ? salario * num(c.sistemaSPct) / 100 : 0;
+
+    var vt = num(c.valeTransporte);
+    var vtDesconto = Math.min(vt, salario * num(c.descontoVtPct) / 100);
+    var vtLiquido = Math.max(vt - vtDesconto, 0);
+
+    var vrVaBruto = num(c.valeRefeicao) + num(c.valeAlimentacao);
+    var vrVaDesconto = vrVaBruto * num(c.descontoVrVaPct) / 100;
+    var vrVaLiquido = Math.max(vrVaBruto - vrVaDesconto, 0);
+
+    var planoSaude = num(c.planoSaude);
+    var planoOdonto = num(c.planoOdonto);
+    var outros = num(c.outrosBeneficios);
+
+    var custoTotal = salario + fgtsSalario + ferias + decimo + fgtsFerias + fgtsDecimo +
+                      inssPatronal + sistemaS + vtLiquido + vrVaLiquido + planoSaude + planoOdonto + outros;
+    var encargosTotal = custoTotal - salario;
+    var multiplicador = salario > 0 ? custoTotal / salario : 0;
+
+    var elCusto = document.getElementById("cltCustoTotalOut");
+    var elMsg = document.getElementById("cltCustoTotalMsg");
+    var elMult = document.getElementById("cltMultiplicadorOut");
+    var elEnc = document.getElementById("cltEncargosTotalOut");
+    if(elCusto) elCusto.textContent = formatBRL(custoTotal);
+    if(elMult) elMult.textContent = salario > 0
+      ? multiplicador.toLocaleString("pt-BR", {minimumFractionDigits:2, maximumFractionDigits:2}) + "x"
+      : "—";
+    if(elEnc) elEnc.textContent = formatBRL(encargosTotal);
+    if(elMsg){
+      elMsg.textContent = salario > 0
+        ? "Para cada R$ 1,00 de salário base, o funcionário custa " +
+          multiplicador.toLocaleString("pt-BR", {minimumFractionDigits:2, maximumFractionDigits:2}) +
+          " para a empresa neste regime."
+        : "Preencha o salário base e os encargos ao lado.";
+    }
+
+    var items = [
+      { label: "Salário base", valor: salario },
+      { label: "FGTS sobre salário (" + formatPct(num(c.fgtsSalarioPct)) + ")", valor: fgtsSalario },
+      { label: "Férias — provisão mensal (" + formatPct(num(c.feriasPct)) + ")", valor: ferias },
+      { label: "13º salário — provisão mensal (" + formatPct(num(c.decimoPct)) + ")", valor: decimo },
+      { label: "FGTS sobre férias (" + formatPct(num(c.fgtsFeriasPct)) + ")", valor: fgtsFerias },
+      { label: "FGTS sobre 13º salário (" + formatPct(num(c.fgtsDecimoPct)) + ")", valor: fgtsDecimo }
+    ];
+    if(regime === "real"){
+      items.push({ label: "INSS patronal (" + formatPct(num(c.inssPatronalPct)) + ") — Lucro Real/Presumido", valor: inssPatronal });
+      items.push({ label: "Sistema S / Terceiros (" + formatPct(num(c.sistemaSPct)) + ") — Lucro Real/Presumido", valor: sistemaS });
+    }
+    items.push({ label: "Vale Transporte (líquido do desconto do funcionário)", valor: vtLiquido });
+    items.push({ label: "Vale Refeição + Vale Alimentação (líquido do desconto)", valor: vrVaLiquido });
+    items.push({ label: "Plano de saúde", valor: planoSaude });
+    items.push({ label: "Plano odontológico", valor: planoOdonto });
+    items.push({ label: "Outros benefícios", valor: outros });
+
+    var body = document.getElementById("cltBreakdownBody");
+    if(body){
+      body.innerHTML = items.map(function(it){
+        return "<tr><td>" + it.label + "</td><td class=\"calc\">" + formatBRL(it.valor) + "</td></tr>";
+      }).join("");
+    }
+    var footer = document.getElementById("cltCustoTotalFooter");
+    if(footer) footer.textContent = formatBRL(custoTotal);
+
+    var regimeHint = document.getElementById("cltRegimeHint");
+    if(regimeHint){
+      regimeHint.textContent = regime === "real"
+        ? "Regime Lucro Real/Presumido: além do FGTS, incidem sobre o salário o INSS patronal e o Sistema S/Terceiros, conforme legislação trabalhista vigente."
+        : "Regime Simples Nacional: a empresa é, em regra, dispensada do INSS patronal (~20%) e do Sistema S sobre a folha, pois esses encargos já estão incluídos no DAS unificado — apenas o FGTS incide separadamente.";
+    }
+  }
+
+  Object.keys(cltInputs).forEach(function(k){
+    var el = cltInputs[k];
+    if(!el) return;
+    el.addEventListener("input", function(){
+      state.clt[k] = el.value === "" ? "" : parseFloat(el.value);
+      computeClt();
+      save();
+    });
+  });
+  if(cltRegimeSelect){
+    cltRegimeSelect.addEventListener("change", function(){
+      state.clt.regime = cltRegimeSelect.value === "real" ? "real" : "simples";
+      computeClt();
+      save();
+    });
+  }
+  var cltClearBtn = document.getElementById("cltClear");
+  if(cltClearBtn){
+    cltClearBtn.addEventListener("click", function(){
+      if(!confirm("Restaurar os valores padrão da calculadora de Custo de Funcionário?")) return;
+      state.clt = defaultState().clt;
+      renderClt();
+      save();
+      toast("Calculadora de Custo de Funcionário restaurada aos valores padrão.");
+    });
+  }
+
+  /* ---------------- PLANO DE VIABILIDADE ---------------- */
+
+  /* tabela genérica: coluna "item" (texto) + coluna "valor" (R$) + remover linha */
+  function renderViabValueTable(bodyEl, totalEl, rows){
+    bodyEl.innerHTML = "";
+    rows.forEach(function(row){
+      var tr = document.createElement("tr");
+      tr.setAttribute("data-id", row.id);
+
+      var tdItem = document.createElement("td");
+      var itemInput = document.createElement("input");
+      itemInput.type = "text";
+      itemInput.className = "conta";
+      itemInput.placeholder = "Descrição do item";
+      itemInput.value = row.item || "";
+      itemInput.addEventListener("input", function(){
+        row.item = itemInput.value;
+        save();
+      });
+      tdItem.appendChild(itemInput);
+      tr.appendChild(tdItem);
+
+      var tdVal = document.createElement("td");
+      var valInput = document.createElement("input");
+      valInput.type = "number";
+      valInput.step = "0.01";
+      valInput.className = "valcell";
+      valInput.placeholder = "0,00";
+      valInput.value = row.valor === undefined ? "" : row.valor;
+      valInput.addEventListener("input", function(){
+        row.valor = valInput.value;
+        updateViabTotalCell(totalEl, rows);
+        computeViabilidade();
+        save();
+      });
+      tdVal.appendChild(valInput);
+      tr.appendChild(tdVal);
+
+      var tdAction = document.createElement("td");
+      tdAction.className = "col-actions";
+      var delBtn = document.createElement("button");
+      delBtn.className = "row-del";
+      delBtn.title = "Remover item";
+      delBtn.textContent = "✕";
+      delBtn.addEventListener("click", function(){
+        var idx = rows.indexOf(row);
+        if(idx > -1) rows.splice(idx, 1);
+        renderViabValueTable(bodyEl, totalEl, rows);
+        computeViabilidade();
+        save();
+      });
+      tdAction.appendChild(delBtn);
+      tr.appendChild(tdAction);
+
+      bodyEl.appendChild(tr);
+    });
+    updateViabTotalCell(totalEl, rows);
+  }
+  function updateViabTotalCell(totalEl, rows){
+    var total = rows.reduce(function(s,r){ return s + num(r.valor); }, 0);
+    totalEl.textContent = formatBRL(total);
+    return total;
+  }
+
+  /* tabela genérica: coluna "item" (texto) + coluna "% do faturamento" + remover linha */
+  function renderViabPctTable(bodyEl, totalEl, rows){
+    bodyEl.innerHTML = "";
+    rows.forEach(function(row){
+      var tr = document.createElement("tr");
+      tr.setAttribute("data-id", row.id);
+
+      var tdItem = document.createElement("td");
+      var itemInput = document.createElement("input");
+      itemInput.type = "text";
+      itemInput.className = "conta";
+      itemInput.placeholder = "Descrição do item";
+      itemInput.value = row.item || "";
+      itemInput.addEventListener("input", function(){
+        row.item = itemInput.value;
+        save();
+      });
+      tdItem.appendChild(itemInput);
+      tr.appendChild(tdItem);
+
+      var tdVal = document.createElement("td");
+      var valInput = document.createElement("input");
+      valInput.type = "number";
+      valInput.step = "0.1";
+      valInput.className = "valcell";
+      valInput.placeholder = "0,0";
+      valInput.value = row.pct === undefined ? "" : row.pct;
+      valInput.addEventListener("input", function(){
+        row.pct = valInput.value;
+        updateViabPctTotalCell(totalEl, rows);
+        computeViabilidade();
+        save();
+      });
+      tdVal.appendChild(valInput);
+      tr.appendChild(tdVal);
+
+      var tdAction = document.createElement("td");
+      tdAction.className = "col-actions";
+      var delBtn = document.createElement("button");
+      delBtn.className = "row-del";
+      delBtn.title = "Remover item";
+      delBtn.textContent = "✕";
+      delBtn.addEventListener("click", function(){
+        var idx = rows.indexOf(row);
+        if(idx > -1) rows.splice(idx, 1);
+        renderViabPctTable(bodyEl, totalEl, rows);
+        computeViabilidade();
+        save();
+      });
+      tdAction.appendChild(delBtn);
+      tr.appendChild(tdAction);
+
+      bodyEl.appendChild(tr);
+    });
+    updateViabPctTotalCell(totalEl, rows);
+  }
+  function updateViabPctTotalCell(totalEl, rows){
+    var total = rows.reduce(function(s,r){ return s + num(r.pct); }, 0);
+    totalEl.textContent = formatPct(total);
+    return total;
+  }
+
+  function cenarioLabel(k){
+    return { conservador:"Conservador", realista:"Realista", otimista:"Otimista" }[k] || "Realista";
+  }
+  function formatMeses(n){
+    if(!isFinite(n)) return "—";
+    return n.toLocaleString("pt-BR", {minimumFractionDigits:1, maximumFractionDigits:1}) + " meses";
+  }
+
+  /* recalcula faturamento dos 3 cenários, ponto de equilíbrio, lucro mensal,
+     payback simples e descontado, e o indicador de viabilidade final.
+     Fórmulas:
+       Faturamento mensal (cenário) = ticket médio × atendimentos/dia × dias de funcionamento/mês
+       Ponto de Equilíbrio = Custos Fixos ÷ (1 − (Custos Variáveis ÷ Faturamento))
+       Lucro mensal projetado = Faturamento − Custos Fixos − Custos Variáveis (R$)
+       Payback simples (meses) = Investimento total ÷ Lucro mensal projetado
+       Payback descontado (meses) = menor n tal que Σ(Lucro/(1+taxa)^t), t=1..n ≥ Investimento total */
+  function computeViabilidade(){
+    var v = state.viabilidade;
+
+    ["conservador","realista","otimista"].forEach(function(k){
+      var c = v.cenarios[k];
+      var fat = num(c.ticketMedio) * num(c.atendimentosDia) * num(c.diasMes);
+      var el = document.querySelector('.viab-scenario[data-cenario="' + k + '"] .viab-fat-out');
+      if(el) el.textContent = formatBRL(fat);
+    });
+
+    var investTotal = v.investimentos.reduce(function(s,r){ return s + num(r.valor); }, 0);
+    var custosFixosTotal = v.custosFixos.reduce(function(s,r){ return s + num(r.valor); }, 0);
+    var custosVarPct = v.custosVariaveis.reduce(function(s,r){ return s + num(r.pct); }, 0);
+
+    var cenario = v.cenarios[v.cenarioAtivo] || v.cenarios.realista;
+    var faturamento = num(cenario.ticketMedio) * num(cenario.atendimentosDia) * num(cenario.diasMes);
+    var custosVarRS = faturamento * custosVarPct / 100;
+
+    var mcRatio = 1 - (custosVarPct / 100);
+    var pontoEquilibrio = mcRatio > 0 ? custosFixosTotal / mcRatio : Infinity;
+
+    var lucroMensal = faturamento - custosFixosTotal - custosVarRS;
+    var margemPct = faturamento > 0 ? (lucroMensal / faturamento) * 100 : 0;
+
+    var elCenarioLabel = document.getElementById("viabCenarioLabel");
+    if(elCenarioLabel) elCenarioLabel.textContent = cenarioLabel(v.cenarioAtivo);
+    document.getElementById("viabFaturamentoOut").textContent = formatBRL(faturamento);
+    document.getElementById("viabCustosFixosOut").textContent = formatBRL(custosFixosTotal);
+    document.getElementById("viabCustosVarPctOut").textContent = formatPct(custosVarPct);
+    document.getElementById("viabCustosVarRSOut").textContent = formatBRL(custosVarRS);
+    document.getElementById("viabPontoEquilibrioOut").textContent = isFinite(pontoEquilibrio) ? formatBRL(pontoEquilibrio) : "—";
+    document.getElementById("viabLucroOut").textContent = formatBRL(lucroMensal);
+    document.getElementById("viabMargemOut").textContent = formatPct(margemPct);
+    document.getElementById("viabInvestTotalOut").textContent = formatBRL(investTotal);
+
+    /* payback simples */
+    var paybackSimples = lucroMensal > 0 ? investTotal / lucroMensal : Infinity;
+    document.getElementById("viabPaybackSimplesOut").textContent = (lucroMensal > 0)
+      ? formatMeses(paybackSimples)
+      : "Não se paga com o resultado atual";
+
+    /* payback descontado (simulação mês a mês com a taxa informada) */
+    var taxa = num(v.taxaDescontoMensal) / 100;
+    var paybackDescontado = Infinity;
+    if(lucroMensal > 0 && investTotal > 0){
+      if(taxa <= 0){
+        paybackDescontado = paybackSimples;
+      } else {
+        var acumulado = 0, meses = 0, maxMeses = 600;
+        while(acumulado < investTotal && meses < maxMeses){
+          meses++;
+          acumulado += lucroMensal / Math.pow(1 + taxa, meses);
+        }
+        paybackDescontado = acumulado >= investTotal ? meses : Infinity;
+      }
+    }
+    document.getElementById("viabPaybackDescontadoOut").textContent = isFinite(paybackDescontado)
+      ? formatMeses(paybackDescontado)
+      : "Não se paga no horizonte projetado";
+
+    /* indicador de viabilidade: payback + margem, com limiares definidos abaixo
+       viável   -> payback ≤ 24 meses  e margem ≥ 10%
+       atenção  -> payback ≤ 36 meses  e margem ≥ 5%
+       inviável -> lucro mensal ≤ 0, ou payback/margem fora das faixas acima */
+    var box = document.getElementById("viabStatusBox");
+    var val = document.getElementById("viabStatusValue");
+    var msg = document.getElementById("viabStatusMsg");
+    box.classList.remove("status-red","status-amber","status-green");
+
+    if(investTotal <= 0 || faturamento <= 0){
+      box.classList.add("status-amber");
+      val.textContent = "Preencha os dados";
+      msg.textContent = "Informe o investimento total e a projeção de faturamento do cenário marcado como \"usar\" para calcular a viabilidade.";
+    } else if(lucroMensal <= 0){
+      box.classList.add("status-red");
+      val.textContent = "Inviável";
+      msg.textContent = "O cenário projetado não gera lucro mensal positivo — revise preço, volume ou estrutura de custos antes de investir.";
+    } else if(paybackSimples <= 24 && margemPct >= 10){
+      box.classList.add("status-green");
+      val.textContent = "Viável";
+      msg.textContent = "Payback em até 24 meses e margem projetada saudável (≥10%). Cenário favorável ao investimento.";
+    } else if(paybackSimples <= 36 && margemPct >= 5){
+      box.classList.add("status-amber");
+      val.textContent = "Atenção";
+      msg.textContent = "Payback entre 24 e 36 meses e/ou margem entre 5% e 10% — viável, mas com folga apertada. Reforce o plano de riscos com o cliente.";
+    } else {
+      box.classList.add("status-red");
+      val.textContent = "Inviável";
+      msg.textContent = "Payback acima de 36 meses e/ou margem projetada abaixo de 5% — reavalie o investimento, o ticket médio ou a estrutura de custos.";
+    }
+
+    renderCrossCheckBanners();
+  }
+
+  function renderViabilidade(){
+    renderViabValueTable(document.getElementById("viabInvestBody"), document.getElementById("viabInvestTotal"), state.viabilidade.investimentos);
+    renderViabValueTable(document.getElementById("viabCustosFixosBody"), document.getElementById("viabCustosFixosTotal"), state.viabilidade.custosFixos);
+    renderViabPctTable(document.getElementById("viabCustosVarBody"), document.getElementById("viabCustosVarTotal"), state.viabilidade.custosVariaveis);
+
+    ["conservador","realista","otimista"].forEach(function(k){
+      var c = state.viabilidade.cenarios[k];
+      var card = document.querySelector('.viab-scenario[data-cenario="' + k + '"]');
+      if(!card) return;
+      card.classList.toggle("active", state.viabilidade.cenarioAtivo === k);
+      card.querySelector(".viab-ticket").value = (c.ticketMedio === "" || c.ticketMedio === undefined) ? "" : c.ticketMedio;
+      card.querySelector(".viab-atend").value = (c.atendimentosDia === "" || c.atendimentosDia === undefined) ? "" : c.atendimentosDia;
+      card.querySelector(".viab-dias").value = (c.diasMes === "" || c.diasMes === undefined) ? "" : c.diasMes;
+      var radio = card.querySelector('input[type=radio]');
+      radio.checked = state.viabilidade.cenarioAtivo === k;
+    });
+
+    var taxaEl = document.getElementById("viabTaxaDesconto");
+    taxaEl.value = (state.viabilidade.taxaDescontoMensal === "" || state.viabilidade.taxaDescontoMensal === undefined) ? "" : state.viabilidade.taxaDescontoMensal;
+
+    computeViabilidade();
+  }
+
+  document.getElementById("viabInvestAddRow").addEventListener("click", function(){
+    state.viabilidade.investimentos.push({ id: uid(), item:"", valor:"" });
+    renderViabValueTable(document.getElementById("viabInvestBody"), document.getElementById("viabInvestTotal"), state.viabilidade.investimentos);
+    computeViabilidade();
+    save();
+  });
+  document.getElementById("viabCustosFixosAddRow").addEventListener("click", function(){
+    state.viabilidade.custosFixos.push({ id: uid(), item:"", valor:"" });
+    renderViabValueTable(document.getElementById("viabCustosFixosBody"), document.getElementById("viabCustosFixosTotal"), state.viabilidade.custosFixos);
+    computeViabilidade();
+    save();
+  });
+  document.getElementById("viabCustosVarAddRow").addEventListener("click", function(){
+    state.viabilidade.custosVariaveis.push({ id: uid(), item:"", pct:"" });
+    renderViabPctTable(document.getElementById("viabCustosVarBody"), document.getElementById("viabCustosVarTotal"), state.viabilidade.custosVariaveis);
+    computeViabilidade();
+    save();
+  });
+
+  document.querySelectorAll(".viab-scenario").forEach(function(card){
+    var k = card.getAttribute("data-cenario");
+    card.querySelector(".viab-ticket").addEventListener("input", function(e){
+      state.viabilidade.cenarios[k].ticketMedio = e.target.value === "" ? "" : parseFloat(e.target.value);
+      computeViabilidade();
+      save();
+    });
+    card.querySelector(".viab-atend").addEventListener("input", function(e){
+      state.viabilidade.cenarios[k].atendimentosDia = e.target.value === "" ? "" : parseFloat(e.target.value);
+      computeViabilidade();
+      save();
+    });
+    card.querySelector(".viab-dias").addEventListener("input", function(e){
+      state.viabilidade.cenarios[k].diasMes = e.target.value === "" ? "" : parseFloat(e.target.value);
+      computeViabilidade();
+      save();
+    });
+    card.querySelector('input[type=radio]').addEventListener("change", function(){
+      state.viabilidade.cenarioAtivo = k;
+      document.querySelectorAll(".viab-scenario").forEach(function(c2){
+        c2.classList.toggle("active", c2.getAttribute("data-cenario") === k);
+      });
+      computeViabilidade();
+      save();
+    });
+  });
+
+  document.getElementById("viabTaxaDesconto").addEventListener("input", function(e){
+    state.viabilidade.taxaDescontoMensal = e.target.value === "" ? "" : parseFloat(e.target.value);
+    computeViabilidade();
+    save();
+  });
+
+  document.getElementById("viabClear").addEventListener("click", function(){
+    if(!confirm("Restaurar os valores padrão do Plano de Viabilidade? Os dados preenchidos serão perdidos.")) return;
+    state.viabilidade = defaultState().viabilidade;
+    ensureViabDefaults();
+    renderViabilidade();
+    save();
+    toast("Plano de Viabilidade restaurado.");
+  });
+
+  /* ---------------- ORÇAMENTO DE EVENTO ----------------
+     Mini-calculadora independente para orçar eventos avulsos cobrados por
+     pessoa (buffet/catering): soma o custo de insumos por pessoa (por
+     categoria) + a taxa de serviço/equipe fixa do evento, e sugere o preço
+     por pessoa a cobrar do cliente para atingir a margem alvo informada. */
+  var eventoInputs = {
+    convidados: document.getElementById("eventoConvidados"),
+    custoProteinas: document.getElementById("eventoCustoProteinas"),
+    custoAcompanhamentos: document.getElementById("eventoCustoAcompanhamentos"),
+    custoMolhos: document.getElementById("eventoCustoMolhos"),
+    custoServico: document.getElementById("eventoCustoServico"),
+    taxaServicoEquipe: document.getElementById("eventoTaxaServico"),
+    margemAlvoPct: document.getElementById("eventoMargemAlvoPct")
+  };
+
+  function renderEvento(){
+    Object.keys(eventoInputs).forEach(function(k){
+      var el = eventoInputs[k];
+      if(!el) return;
+      var v = state.evento[k];
+      el.value = (v === "" || v === undefined || v === null) ? "" : v;
+    });
+    computeEvento();
+  }
+
+  function computeEvento(){
+    var e = state.evento;
+    var convidados = num(e.convidados);
+    var custoInsumosPP = num(e.custoProteinas) + num(e.custoAcompanhamentos) + num(e.custoMolhos) + num(e.custoServico);
+    var custoInsumosTotal = custoInsumosPP * convidados;
+    var taxaServico = num(e.taxaServicoEquipe);
+    var custoTotal = custoInsumosTotal + taxaServico;
+    var custoTotalPP = convidados > 0 ? custoTotal / convidados : 0;
+    var margemAlvoPct = num(e.margemAlvoPct);
+    var precoSugeridoPP = (margemAlvoPct < 100) ? custoTotalPP / (1 - margemAlvoPct / 100) : 0;
+    var faturamentoSugerido = precoSugeridoPP * convidados;
+    var lucroSugerido = faturamentoSugerido - custoTotal;
+
+    var elInsumosPP = document.getElementById("eventoCustoInsumosPPOut");
+    var elCustoTotal = document.getElementById("eventoCustoTotalOut");
+    var elCustoTotalPP = document.getElementById("eventoCustoTotalPPOut");
+    var elPreco = document.getElementById("eventoPrecoSugeridoOut");
+    var elPrecoMsg = document.getElementById("eventoPrecoSugeridoMsg");
+    var elFat = document.getElementById("eventoFaturamentoOut");
+    var elLucro = document.getElementById("eventoLucroOut");
+
+    if(elInsumosPP) elInsumosPP.textContent = formatBRL(custoInsumosPP);
+    if(elCustoTotal) elCustoTotal.textContent = formatBRL(custoTotal);
+    if(elCustoTotalPP) elCustoTotalPP.textContent = convidados > 0 ? formatBRL(custoTotalPP) : "R$ —";
+    if(elPreco) elPreco.textContent = convidados > 0 ? formatBRL(precoSugeridoPP) : "R$ —";
+    if(elPrecoMsg) elPrecoMsg.textContent = convidados > 0
+      ? "Preço sugerido para atingir margem de " + formatPct(margemAlvoPct) + " sobre o preço final cobrado do cliente."
+      : "Preencha os convidados e os custos de insumos por pessoa acima.";
+    if(elFat) elFat.textContent = convidados > 0 ? formatBRL(faturamentoSugerido) : "R$ —";
+    if(elLucro) elLucro.textContent = convidados > 0 ? formatBRL(lucroSugerido) : "R$ —";
+  }
+
+  Object.keys(eventoInputs).forEach(function(k){
+    var el = eventoInputs[k];
+    if(!el) return;
+    el.addEventListener("input", function(){
+      state.evento[k] = el.value === "" ? "" : parseFloat(el.value);
+      computeEvento();
+      save();
+    });
+  });
+  var eventoClearBtn = document.getElementById("eventoClear");
+  if(eventoClearBtn){
+    eventoClearBtn.addEventListener("click", function(){
+      if(!confirm("Restaurar os valores padrão do Orçamento de Evento?")) return;
+      state.evento = defaultState().evento;
+      renderEvento();
+      save();
+      toast("Orçamento de Evento restaurado aos valores padrão.");
+    });
+  }
+
+  /* ---------------- export / import ---------------- */
+  document.getElementById("btnExport").addEventListener("click", function(){
+    var dataStr = JSON.stringify(state, null, 2);
+    var blob = new Blob([dataStr], {type:"application/json"});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    var dateTag = new Date().toISOString().slice(0,10);
+    var clientPart = (state.sixp.clientName || "cliente").replace(/[^a-z0-9]+/gi,"_").toLowerCase();
+    a.href = url;
+    a.download = "artblend_gestao_financeira_" + clientPart + "_" + dateTag + ".json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast("Dados exportados em JSON.");
+  });
+
+  var importModal = document.getElementById("importModal");
+  var importText = document.getElementById("importText");
+  var importFile = document.getElementById("importFile");
+
+  document.getElementById("btnImport").addEventListener("click", function(){
+    importText.value = "";
+    importModal.classList.add("show");
+  });
+  document.getElementById("importCancel").addEventListener("click", function(){
+    importModal.classList.remove("show");
+  });
+  document.getElementById("importFileBtn").addEventListener("click", function(){
+    importFile.click();
+  });
+  importFile.addEventListener("change", function(){
+    var file = importFile.files[0];
+    if(!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e){
+      importText.value = e.target.result;
+    };
+    reader.readAsText(file);
+  });
+  document.getElementById("importConfirm").addEventListener("click", function(){
+    var raw = importText.value.trim();
+    if(!raw){
+      alert("Cole ou selecione um JSON válido antes de importar.");
+      return;
+    }
+    try{
+      var parsed = JSON.parse(raw);
+      if(parsed.sixp){
+        state.sixp = Object.assign({clientName:"", praca:"", preco:"", processos:"", publico:"", produto:"", promocao:""}, parsed.sixp);
+      }
+      if(parsed.calc){
+        state.calc = Object.assign({faturamento:"", cmv:30, cmo:20, aluguel:10, adm:10, iptu:6, impostos:5}, parsed.calc);
+      }
+      if(Array.isArray(parsed.dashboard) && parsed.dashboard.length){
+        state.dashboard = parsed.dashboard.map(function(r){
+          return Object.assign({id: uid(), conta:"", orcado:"", realizado:"", key:null, kind:"input", unit:"currency"}, r, {id: r.id || uid()});
+        });
+      }
+      if(parsed.fluxocaixa){
+        state.fluxocaixa = normalizeFluxoCaixa(parsed.fluxocaixa);
+      }
+      if(parsed.retention){
+        state.retention.q1 = parsed.retention.q1 || "";
+        state.retention.q2 = parsed.retention.q2 || "";
+        state.retention.q3 = parsed.retention.q3 || "";
+        if(Array.isArray(parsed.retention.actions) && parsed.retention.actions.length){
+          state.retention.actions = parsed.retention.actions.map(function(a){
+            return Object.assign({id: uid(), label:"", checked:false, note:""}, a, {id: a.id || uid()});
+          });
+        }
+      }
+      if(parsed.capitalgiro){
+        state.capitalgiro = Object.assign({
+          cicloEconomico:"", prazoRecebimento:"", prazoPagamento:"", prazoImposto:"",
+          ncgFaturamento:"", ncgCmv:"", ncgImpostos:""
+        }, parsed.capitalgiro);
+      }
+      if(parsed.dre && Array.isArray(parsed.dre.months) && parsed.dre.months.length){
+        state.dre.months = parsed.dre.months.map(normalizeDreMonth);
+        state.dre.activeMonthId = parsed.dre.activeMonthId || state.dre.months[0].id;
+      }
+      if(parsed.viabilidade){
+        var pv2 = parsed.viabilidade;
+        if(Array.isArray(pv2.investimentos) && pv2.investimentos.length) state.viabilidade.investimentos = pv2.investimentos.map(normalizeViabRow);
+        if(Array.isArray(pv2.custosFixos) && pv2.custosFixos.length) state.viabilidade.custosFixos = pv2.custosFixos.map(normalizeViabRow);
+        if(Array.isArray(pv2.custosVariaveis) && pv2.custosVariaveis.length) state.viabilidade.custosVariaveis = pv2.custosVariaveis.map(normalizeViabPctRow);
+        if(pv2.cenarios){
+          ["conservador","realista","otimista"].forEach(function(k){
+            if(pv2.cenarios[k]) state.viabilidade.cenarios[k] = Object.assign(state.viabilidade.cenarios[k], pv2.cenarios[k]);
+          });
+        }
+        if(pv2.cenarioAtivo && state.viabilidade.cenarios[pv2.cenarioAtivo]) state.viabilidade.cenarioAtivo = pv2.cenarioAtivo;
+        if(pv2.taxaDescontoMensal !== undefined) state.viabilidade.taxaDescontoMensal = pv2.taxaDescontoMensal;
+      }
+      if(parsed.clt){
+        state.clt = Object.assign({
+          salarioBase:"", regime:"simples",
+          fgtsSalarioPct:8, feriasPct:8.33, decimoPct:8.33, fgtsFeriasPct:8, fgtsDecimoPct:8,
+          inssPatronalPct:20, sistemaSPct:5.8,
+          valeRefeicao:"", valeAlimentacao:"", valeTransporte:"", descontoVtPct:6, descontoVrVaPct:20,
+          planoSaude:"", planoOdonto:"", outrosBeneficios:""
+        }, parsed.clt);
+      }
+      if(parsed.evento){
+        state.evento = Object.assign({
+          convidados:"", custoProteinas:"", custoAcompanhamentos:"", custoMolhos:"", custoServico:"",
+          taxaServicoEquipe:"", margemAlvoPct:30
+        }, parsed.evento);
+      }
+      ensureViabDefaults();
+      ensureDreDefaults();
+      renderSixP();
+      renderCalcInputs();
+      computeCalc();
+      renderDash();
+      renderFluxoCaixa();
+      renderDiag();
+      renderActions();
+      renderCapitalGiro();
+      renderDre();
+      renderClt();
+      renderViabilidade();
+      renderEvento();
+      save();
+      importModal.classList.remove("show");
+      toast("Dados importados com sucesso.");
+    }catch(e){
+      alert("JSON inválido. Verifique o conteúdo colado/arquivo selecionado.\n\nDetalhe: " + e.message);
+    }
+  });
+
+  /* ---------------- print ---------------- */
+  document.getElementById("btnPrint").addEventListener("click", function(){
+    window.print();
+  });
+
+  /* ---------------- init ---------------- */
+  (async function(){
+    var r = await sb.auth.getSession();
+    if(r.data.session){ await iniciarApp(r.data.session); }
+  })();
+
+})();
+</script>
+</body>
+</html>

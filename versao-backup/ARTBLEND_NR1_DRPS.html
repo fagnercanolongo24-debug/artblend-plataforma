@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NR-1 · Riscos Psicossociais (DRPS) · ArtBlend</title>
+<style>
+  :root{
+    --bg:#F5F7FA; --sidebar:#FFFFFF; --card:#FFFFFF; --card-hover:#EEF6F8; --border:#E2E6ED;
+    --text:#16294A; --muted:#6E7A8C; --accent:#2EC4D6; --accent-soft:#E4F8FB;
+    --good:#2ECC71; --good-bg:#E3FBEF; --bad:#B3411F; --bad-bg:#FBEAE3; --amber:#9a5420; --amber-bg:#FDF3E0;
+    --blue:#1C93A8;
+    --caso:#1C93A8; --caso-bg:#E4F8FB; --script:#2F5D8C; --script-bg:#E8EFF6;
+    --template:#9a5420; --template-bg:#FDF3E0; --exerc:#6B4E9E; --exerc-bg:#EFEAF6;
+    --gold:#9A6B00; --gold-bg:#FBF3DA;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex;min-height:100vh;}
+  .sidebar{width:250px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);padding:20px 14px;position:sticky;top:0;height:100vh;overflow-y:auto;}
+  .brand{font-size:19px;font-weight:800;letter-spacing:-.4px;color:var(--text);}
+  .brand small{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-top:2px;font-weight:700;}
+  .client-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px;margin:14px 0;}
+  .client-box label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:5px;}
+  .client-box select{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:6px 8px;font-size:12px;}
+  .client-box .add-client{margin-top:6px;display:flex;gap:5px;}
+  .client-box .add-client input{flex:1;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:5px 7px;font-size:11.5px;}
+  .client-box .add-client button{background:var(--accent);border:none;color:#fff;border-radius:6px;padding:0 9px;font-weight:700;cursor:pointer;font-size:13px;}
+  .navitem{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:9px;cursor:pointer;margin-top:4px;font-weight:600;font-size:13.5px;color:var(--text);}
+  .navitem:hover{background:var(--card-hover);}
+  .navitem.active{background:var(--accent);color:#fff;}
+  .navfoot{margin-top:16px;padding-top:12px;border-top:1px solid var(--border);}
+  .navfoot button{width:100%;background:var(--card-hover);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px;font-size:11.5px;font-weight:700;cursor:pointer;margin-top:5px;}
+  .navfoot button:hover{border-color:var(--accent);}
+  .main{flex:1;padding:26px 34px 60px;max-width:900px;}
+  h1{font-size:23px;margin:0;font-weight:800;color:var(--text);}
+  .sub{color:var(--muted);font-size:13.5px;margin:4px 0 18px;line-height:1.5;}
+  .bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:16px;}
+  select,input,textarea{padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;background:#fff;color:var(--text);}
+  .panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:16px;}
+  .panel h3{margin:0 0 12px;font-size:15px;color:var(--text);}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{background:var(--accent-soft);color:var(--blue);text-align:left;padding:8px 9px;font-weight:700;font-size:12px;}
+  td{border-bottom:1px solid var(--border);padding:7px 9px;vertical-align:middle;}
+  .badge{display:inline-block;padding:3px 10px;border-radius:14px;font-size:11.5px;font-weight:800;}
+  .b-baixo{background:var(--good-bg);color:#1C9A57;} .b-medio{background:var(--amber-bg);color:var(--amber);} .b-alto{background:var(--bad-bg);color:var(--bad);} .b-crit{background:#2A2A2A;color:#fff;}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:15px 17px;}
+  .card .v{font-size:26px;font-weight:800;color:var(--text);}
+  .card .l{font-size:11.5px;color:var(--muted);font-weight:600;}
+  .card.accent{background:linear-gradient(135deg,var(--accent),var(--blue));color:#fff;border:0;}
+  .card.accent .v,.card.accent .l{color:#fff;}
+  .btn{background:var(--accent);color:#fff;border:0;border-radius:9px;padding:9px 15px;font-weight:700;font-size:13px;cursor:pointer;}
+  .btn.alt{background:var(--blue);} .btn.sm{padding:6px 11px;font-size:12px;}
+  .formgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+  .formgrid label{display:block;font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
+  .formgrid input,.formgrid textarea{width:100%;}
+  .matrix td{text-align:center;font-weight:700;}
+  .pcard{display:flex;gap:12px;background:var(--bg);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:11px;padding:12px 14px;margin-bottom:9px;}
+  .hint{font-size:12px;color:var(--muted);font-style:italic;}
+  .save{position:fixed;bottom:14px;right:16px;background:var(--text);color:#fff;padding:7px 14px;border-radius:30px;font-size:12px;opacity:0;transition:.3s;}
+  .save.on{opacity:1;}
+  .gravslider{width:90px;}
+  /* curso */
+  h2.mh{font-size:19px;color:var(--text);margin:26px 0 4px;font-weight:800;}
+  h2.mh:first-child{margin-top:0;}
+  .m-kick{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);font-weight:700;}
+  h3.ch{font-size:16px;color:var(--text);margin:18px 0 6px;font-weight:750;border-left:4px solid var(--accent);padding-left:10px;}
+  .cbox{border-radius:10px;padding:14px 17px;margin:12px 0;border:1px solid var(--border);}
+  .cbox .tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:20px;color:#fff;margin-bottom:8px;}
+  .cbox.caso{background:var(--caso-bg);} .cbox.caso .tag{background:var(--caso);}
+  .cbox.script{background:var(--script-bg);} .cbox.script .tag{background:var(--script);}
+  .cbox.template{background:var(--template-bg);} .cbox.template .tag{background:var(--template);}
+  .cbox.exerc{background:var(--exerc-bg);} .cbox.exerc .tag{background:var(--exerc);}
+  .cbox.gato{background:var(--gold-bg);border-color:#E6D08A;} .cbox.gato .tag{background:var(--gold);}
+  .cbox.warn{background:var(--bad-bg);} .cbox.warn .tag{background:var(--bad);}
+  .say{background:#fff;border-left:4px solid var(--script);border-radius:6px;padding:9px 13px;margin:8px 0;font-style:italic;font-size:13px;}
+  .chain{text-align:center;font-weight:800;color:var(--blue);background:var(--accent-soft);border-radius:10px;padding:12px;margin:14px 0;font-size:13.5px;}
+  .toc{background:var(--card-hover);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin:14px 0;}
+  .toc ol{padding-left:20px;}
+  .toc li{margin:5px 0;font-weight:600;font-size:13.5px;}
+  .qtop{background:var(--accent);color:#fff;border-radius:10px;padding:10px 15px;margin:20px 0 8px;font-size:15px;font-weight:800;}
+  .qtop:first-of-type{margin-top:0;}
+  .tagd,.tagi{display:inline-block;font-size:10px;font-weight:800;border-radius:10px;padding:1px 7px;color:#fff;margin-left:5px;}
+  .tagd{background:var(--script);} .tagi{background:var(--exerc);}
+  .scale{background:var(--accent-soft);border-radius:8px;padding:8px 12px;font-size:12.5px;color:var(--blue);font-weight:600;margin:10px 0;}
+  .navToggle{display:none;position:fixed;top:10px;left:10px;z-index:960;background:var(--text);color:#fff;border:none;border-radius:8px;width:38px;height:38px;font-size:18px;line-height:1;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.25);}
+  .sidebarBackdrop{display:none;}
+  @media(max-width:780px){
+    .navToggle{display:flex;}
+    .sidebar{display:flex;flex-direction:column;position:fixed;left:0;top:0;height:100vh;z-index:950;transform:translateX(-100%);transition:transform .25s ease;box-shadow:2px 0 18px rgba(0,0,0,.25);}
+    .sidebar.open{transform:translateX(0);}
+    .sidebarBackdrop.show{display:block;position:fixed;inset:0;background:rgba(10,20,35,.4);z-index:940;}
+    .formgrid{grid-template-columns:1fr;}
+    .main{padding:16px;padding-top:62px;}
+  }
+  #loginGate{position:fixed;inset:0;background:#F5F7FA;z-index:1000;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  #loginGate .box{background:#fff;border:1px solid #E2E6ED;border-radius:14px;padding:32px 30px;max-width:360px;width:92%;}
+  #loginGate h1{font-size:18px;color:#16294A;margin-bottom:4px;}
+  #loginGate p{font-size:12.5px;color:#6E7A8C;margin-bottom:18px;line-height:1.5;}
+  #loginGate label{display:block;font-size:11.5px;font-weight:700;color:#6E7A8C;margin:10px 0 4px;}
+  #loginGate input{width:100%;padding:9px 10px;border:1px solid #E2E6ED;border-radius:8px;font-size:13.5px;font-family:inherit;}
+  #loginGate .row{display:flex;gap:8px;margin-top:16px;}
+  #loginGate button{flex:1;background:#2EC4D6;color:#08343B;border:none;padding:10px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;}
+  #loginGate button.sec{background:#E4F8FB;color:#1C93A8;}
+  #loginGate .msg{margin-top:12px;font-size:12px;padding:8px 10px;border-radius:7px;line-height:1.5;display:none;}
+  #loginGate .msg.ok{background:#E3FBEF;color:#1C9A57;display:block;}
+  #loginGate .msg.err{background:#FBEAE3;color:#B3411F;display:block;}
+  #userBar{position:fixed;top:10px;right:10px;z-index:900;background:#fff;border:1px solid #E2E6ED;font-size:11.5px;font-weight:700;color:#16294A;padding:6px 8px 6px 12px;border-radius:20px;display:none;align-items:center;gap:8px;}
+  #userBar button{background:#FBEAE3;color:#B3411F;border:none;padding:5px 10px;border-radius:14px;font-size:10.5px;font-weight:700;cursor:pointer;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.5"></script>
+</head>
+<body>
+
+<div id="loginGate">
+  <div class="box">
+    <h1>ArtBlend — Área do consultor</h1>
+    <p>Entre com seu login para acessar esta ferramenta.</p>
+    <label>E-mail</label>
+    <input id="lg_email" type="email" placeholder="seu@email.com">
+    <label>Senha</label>
+    <input id="lg_senha" type="password" placeholder="mínimo 6 caracteres">
+    <div class="row">
+      <button onclick="gateEntrar()">Entrar</button>
+      <button class="sec" onclick="gateCadastrar()">Criar conta</button>
+    </div>
+    <div id="lg_msg" class="msg"></div>
+  </div>
+</div>
+<div id="userBar"><span id="userBarEmail"></span><button onclick="gateSair()">Sair</button></div>
+
+<div id="appContent" style="display:none;">
+<button class="navToggle" id="navToggle" onclick="toggleSidebar()" aria-label="Abrir menu">☰</button>
+<div class="sidebarBackdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
+<div class="sidebar">
+  <div class="brand">ArtBlend<small>NR-1 · DRPS</small></div>
+  <div class="client-box">
+    <label>Cliente / Projeto ativo</label>
+    <select id="clientSelect" onchange="switchClient(this.value)"></select>
+    <div class="add-client">
+      <input type="text" id="newClientName" placeholder="Novo cliente...">
+      <button onclick="addClient()">+</button>
+    </div>
+  </div>
+  <div class="navitem active" data-s="setor">🏢 Setor</div>
+  <div class="navitem" data-s="diag">📋 Diagnóstico</div>
+  <div class="navitem" data-s="dash">📊 Resultado</div>
+  <div class="navitem" data-s="plano">🎯 Plano de Ação</div>
+  <div class="navitem" data-s="anual">🗓️ Plano Anual</div>
+  <div class="navitem" data-s="curso">🎓 Curso NR-1</div>
+  <div class="navitem" data-s="quest">📝 Questionário</div>
+  <div class="navitem" data-s="guia">📖 Como usar</div>
+  <div class="navfoot">
+    <button onclick="exportJSON()">⬇ Exportar dados</button>
+    <button onclick="window.print()">🖨 Imprimir laudo</button>
+  </div>
+</div>
+<main class="main" id="main"></main>
+<div class="save" id="save">✓ salvo</div>
+</div>
+
+<script>
+/* ===== login / sessão ===== */
+const FERRAMENTA = 'nr1';
+const sb = window.supabase.createClient('https://zjvjixiuvnpbpsdnxuyk.supabase.co', 'sb_publishable_f5DJRgs2w0z3_g50QqDmNQ_0btPNSgV');
+let sessaoAtual = null;
+
+function gateMsg(text, type){
+  var el = document.getElementById('lg_msg');
+  el.className = 'msg ' + type;
+  el.textContent = text;
+}
+async function gateEntrar(){
+  var email = document.getElementById('lg_email').value.trim();
+  var senha = document.getElementById('lg_senha').value;
+  var r = await sb.auth.signInWithPassword({ email: email, password: senha });
+  if(r.error){ gateMsg('Erro ao entrar: ' + r.error.message, 'err'); return; }
+  await iniciarApp(r.data.session);
+}
+async function gateCadastrar(){
+  var email = document.getElementById('lg_email').value.trim();
+  var senha = document.getElementById('lg_senha').value;
+  if(!email || senha.length < 6){ gateMsg('Preencha e-mail e uma senha com pelo menos 6 caracteres.', 'err'); return; }
+  var r = await sb.auth.signUp({ email: email, password: senha });
+  if(r.error){ gateMsg('Erro ao criar conta: ' + r.error.message, 'err'); return; }
+  if(r.data.session){ await iniciarApp(r.data.session); }
+  else { gateMsg('Conta criada. Se pedir confirmação por e-mail, confira sua caixa de entrada antes de entrar.', 'ok'); }
+}
+async function gateSair(){
+  await sb.auth.signOut();
+  location.reload();
+}
+async function iniciarApp(session){
+  sessaoAtual = session;
+  document.getElementById('loginGate').style.display = 'none';
+  document.getElementById('appContent').style.display = 'flex';
+  var bar = document.getElementById('userBar');
+  bar.style.display = 'flex';
+  document.getElementById('userBarEmail').textContent = session.user.email;
+  await loadClients();
+  S = await load();
+  render('setor');
+}
+/* ===== conteúdo fixo ===== */
+var TOPICOS=[
+ {nome:"Assédio moral e sexual", fonte:"Relações abusivas, comunicação violenta, importunação", prog:"Prevenção ao Assédio Moral e Psicológico"},
+ {nome:"Carga excessiva de trabalho", fonte:"Metas irrealistas, jornadas prolongadas, má distribuição", prog:"Gestão do Estresse e Prevenção do Burnout"},
+ {nome:"Reconhecimento e recompensas", fonte:"Gestão pouco humanizada, recursos precários", prog:"Psicologia Positiva / Reconhecimento"},
+ {nome:"Clima organizacional", fonte:"Autoritarismo, gestão centralizadora", prog:"Saúde Mental e Clima Organizacional"},
+ {nome:"Autonomia e controle sobre o trabalho", fonte:"Gestão não humanizada, baixa inteligência emocional", prog:"Inteligência Emocional para Líderes"},
+ {nome:"Pressão e metas irrealistas", fonte:"Propósitos financeiros desalinhados com bem-estar", prog:"Gestão do Estresse + revisão de metas"},
+ {nome:"Insegurança e ameaças", fonte:"Gestão não humanizada, conflitos mal geridos", prog:"Apoio Psicológico nas Empresas"},
+ {nome:"Conflitos interpessoais e comunicação", fonte:"Falta de treino, baixa habilidade de comunicação", prog:"Comunicação Assertiva e Não Agressiva"},
+ {nome:"Alinhamento vida pessoal × profissional", fonte:"Falta de tempo/planejamento, demandas exageradas", prog:"Programa Life Balance / Equilíbrio"}
+];
+var PLANO_ANUAL=[
+ "Mês 1 — DRPS (Diagnóstico de Riscos Psicossociais)",
+ "Mês 2 — Inteligência Emocional para Líderes",
+ "Mês 3 — Gestão do Estresse e Prevenção do Burnout",
+ "Mês 4 — Prevenção ao Assédio Moral e Psicológico",
+ "Mês 5 — Saúde Mental e Clima Organizacional",
+ "Mês 6 — Psicologia Positiva (Carreira no Positivo)",
+ "Mês 7 — Equilíbrio Vida-Trabalho (Life Balance)",
+ "Mês 8 — Apoio Psicológico nas Empresas",
+ "Mês 9 — Manejo da Ansiedade",
+ "Mês 10 — Avaliação Psicológica em Recrutamento e Seleção",
+ "Mês 11 — Formação de Multiplicadores da Cultura do Cuidado",
+ "Mês 12 — Treinamento do RH para a NR-01 + Reavaliação do DRPS"
+];
+
+/* ===== multi-cliente (Supabase) ===== */
+let clients = []; // [{id, nome}]
+let activeClient = ''; // id do cliente ativo
+async function loadClients(){
+  var r = await sb.from('clientes').select('id,nome').order('created_at', { ascending:true });
+  clients = (r.data || []).map(function(c){ return { id:c.id, nome:c.nome }; });
+  if(clients.length === 0){
+    var ins = await sb.from('clientes').insert({ nome:'Cliente padrão', owner_id: sessaoAtual.user.id }).select('id,nome');
+    if(ins.data && ins.data[0]) clients = [{ id: ins.data[0].id, nome: ins.data[0].nome }];
+  }
+  var lembrado = localStorage.getItem('artblend_nr1_drps_v2__active_id');
+  activeClient = (lembrado && clients.some(function(c){return c.id===lembrado;})) ? lembrado : clients[0].id;
+  renderClientSelect();
+}
+function renderClientSelect(){
+  var sel = document.getElementById('clientSelect');
+  sel.innerHTML = clients.map(function(c){ return '<option value="'+c.id+'"'+(c.id===activeClient?' selected':'')+'>'+String(c.nome).replace(/"/g,'&quot;')+'</option>'; }).join('');
+}
+async function addClient(){
+  var input = document.getElementById('newClientName');
+  var nome = input.value.trim();
+  if(!nome) return;
+  var ins = await sb.from('clientes').insert({ nome:nome, owner_id: sessaoAtual.user.id }).select('id,nome');
+  if(ins.error){ alert('Erro ao criar cliente: ' + ins.error.message); return; }
+  clients.push({ id: ins.data[0].id, nome: ins.data[0].nome });
+  input.value = '';
+  await switchClient(ins.data[0].id);
+}
+async function switchClient(id){
+  activeClient = id;
+  localStorage.setItem('artblend_nr1_drps_v2__active_id', id);
+  renderClientSelect();
+  S = await load();
+  render(cur);
+  toast();
+  closeSidebar();
+}
+function nomeClienteAtivo(){var c=clients.find(function(x){return x.id===activeClient;});return c?c.nome:'—';}
+
+function novoSetor(nome){return {nome:nome||"Novo setor", funcoes:"", qtdH:"", qtdM:"", agravos:"Burnout, fadiga, estresse, transtornos mentais", medidas:"", topicos:TOPICOS.map(function(t){return {grav:"", prob:"2"};})};}
+function seed(){return {setores:[novoSetor("Exemplo — Recepção")], ativo:0, empresa:"", cnpj:"", responsavel:"", crp:""};}
+var S;
+async function load(){
+  var r = await sb.from('dados_ferramenta').select('conteudo').eq('cliente_id', activeClient).eq('ferramenta', FERRAMENTA).maybeSingle();
+  if(r.error){ alert('Não foi possível carregar os dados: ' + r.error.message); return seed(); }
+  if(r.data && r.data.conteudo) return r.data.conteudo;
+  return seed();
+}
+var _saveTimer = null;
+function save(){
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(saveNow, 600);
+}
+async function saveNow(){
+  try{
+    var r = await sb.from('dados_ferramenta').upsert({ cliente_id: activeClient, ferramenta: FERRAMENTA, conteudo: S, updated_at: new Date().toISOString() }, { onConflict: 'cliente_id,ferramenta' });
+    if(r.error){ alert('Não foi possível salvar: ' + r.error.message); return; }
+    toast();
+  }catch(e){ alert('Não foi possível salvar: ' + e.message); }
+}
+function toast(){var b=document.getElementById("save");b.classList.add("on");clearTimeout(window._t);window._t=setTimeout(function(){b.classList.remove("on");},900);}
+function num(v){var n=parseFloat(v);return isNaN(n)?0:n;}
+function set(){return S.setores[S.ativo];}
+
+function gravClass(m){ if(m===null||m===undefined||m==="") return null; m=num(m); return m>=2.5?"Alta":m>=1.5?"Média":"Baixa"; }
+function gravNum(m){var c=gravClass(m); return c=="Alta"?3:c=="Média"?2:c=="Baixa"?1:0;}
+function matriz(g,p){
+ if(!g||!p) return null;
+ if(p==1) return g==3?"Médio":"Baixo";
+ if(p==2) return g==1?"Baixo":g==2?"Médio":"Alto";
+ return g==1?"Médio":g==2?"Alto":"Crítico";
+}
+function badge(r){ if(!r) return '<span class="badge" style="background:#eee;color:#888">—</span>';
+ var c=r=="Baixo"?"b-baixo":r=="Médio"?"b-medio":r=="Alto"?"b-alto":"b-crit"; return '<span class="badge '+c+'">'+r+'</span>'; }
+
+/* nav */
+document.querySelectorAll(".navitem").forEach(function(n){n.onclick=function(){
+ document.querySelectorAll(".navitem").forEach(function(x){x.classList.remove("active");});
+ n.classList.add("active"); render(n.dataset.s); closeSidebar();};});
+function toggleSidebar(){document.querySelector(".sidebar").classList.toggle("open");document.getElementById("sidebarBackdrop").classList.toggle("show");}
+function closeSidebar(){document.querySelector(".sidebar").classList.remove("open");document.getElementById("sidebarBackdrop").classList.remove("show");}
+var cur="setor";
+function render(s){cur=s||cur; var m=document.getElementById("main");
+ if(cur=="setor")m.innerHTML=vSetor();
+ else if(cur=="diag")m.innerHTML=vDiag();
+ else if(cur=="dash")m.innerHTML=vDash();
+ else if(cur=="plano")m.innerHTML=vPlano();
+ else if(cur=="anual")m.innerHTML=vAnual();
+ else if(cur=="curso")m.innerHTML=vCurso();
+ else if(cur=="quest")m.innerHTML=vQuestionario();
+ else m.innerHTML=vGuia();
+}
+function setorOptions(){return S.setores.map(function(st,i){return '<option value="'+i+'" '+(i==S.ativo?"selected":"")+'>'+st.nome+'</option>';}).join("");}
+
+/* SETOR */
+function vSetor(){var st=set();
+ return '<h1>Identificação</h1><p class="sub">Cadastre a empresa e os setores. A análise é feita por setor.</p>'+
+ '<div class="panel"><h3>Empresa</h3><div class="formgrid">'+
+ fin("empresa","Empresa",S.empresa)+fin("cnpj","CNPJ",S.cnpj)+
+ fin("responsavel","Responsável técnico",S.responsavel)+fin("crp","CRP",S.crp)+'</div></div>'+
+ '<div class="panel"><div class="bar"><h3 style="margin:0">Setor em edição</h3>'+
+ '<select onchange="S.ativo=+this.value;save();render(\'setor\')">'+setorOptions()+'</select>'+
+ '<button class="btn alt sm" onclick="addSetor()">+ Novo setor</button>'+
+ (S.setores.length>1?'<button class="btn sm" style="background:var(--bad)" onclick="delSetor()">excluir setor</button>':'')+'</div>'+
+ '<div class="formgrid">'+
+ fs("nome","Nome do setor",st.nome)+fs("funcoes","Funções/cargos",st.funcoes)+
+ '<div><label>Nº trabalhadores</label><div style="display:flex;gap:6px"><input style="width:50%" placeholder="H" value="'+esc(st.qtdH)+'" oninput="setF(\'qtdH\',this.value)"><input style="width:50%" placeholder="M" value="'+esc(st.qtdM)+'" oninput="setF(\'qtdM\',this.value)"></div></div>'+
+ '</div><div class="formgrid" style="margin-top:10px">'+
+ fs("agravos","Possíveis agravos à saúde mental",st.agravos)+fs("medidas","Medidas de controle existentes",st.medidas)+'<div></div></div>'+
+ '<p class="hint">Tudo salva sozinho. Vá para "Diagnóstico" para lançar os riscos.</p></div>';
+}
+function fin(k,l,v){return '<div><label>'+l+'</label><input value="'+esc(v)+'" oninput="S.'+k+'=this.value;save()"></div>';}
+function fs(k,l,v){return '<div><label>'+l+'</label><input value="'+esc(v)+'" oninput="setF(\''+k+'\',this.value)"></div>';}
+function setF(k,v){set()[k]=v;save();}
+function esc(s){return (s==null?"":String(s)).replace(/"/g,'&quot;');}
+function addSetor(){S.setores.push(novoSetor("Setor "+(S.setores.length+1)));S.ativo=S.setores.length-1;save();render("setor");}
+function delSetor(){if(confirm("Excluir este setor?")){S.setores.splice(S.ativo,1);S.ativo=0;save();render("setor");}}
+
+/* DIAGNÓSTICO */
+function vDiag(){var st=set();
+ var rows=st.topicos.map(function(t,i){
+  var gc=gravClass(t.grav), g=gravNum(t.grav), p=num(t.prob), r=matriz(g,p);
+  return '<tr><td><b>'+TOPICOS[i].nome+'</b><br><span class="hint">'+TOPICOS[i].fonte+'</span></td>'+
+   '<td><input class="gravslider" type="number" min="0" max="4" step="0.1" value="'+esc(t.grav)+'" oninput="setTop('+i+',\'grav\',this.value)"> '+(gc?'<span class="badge '+(gc=="Alta"?"b-alto":gc=="Média"?"b-medio":"b-baixo")+'">'+gc+'</span>':'')+'</td>'+
+   '<td><select onchange="setTop('+i+',\'prob\',this.value)"><option value="1" '+(p==1?"selected":"")+'>Baixa</option><option value="2" '+(p==2?"selected":"")+'>Média</option><option value="3" '+(p==3?"selected":"")+'>Alta</option></select></td>'+
+   '<td>'+badge(r)+'</td></tr>';
+ }).join("");
+ return '<h1>Diagnóstico — '+st.nome+'</h1><p class="sub">Lance a <b>Gravidade média</b> de cada tópico (0–4, do questionário) e a <b>Probabilidade</b> (sua avaliação por setor). O risco sai automático pela matriz NR-01.</p>'+
+ '<div class="panel"><table><thead><tr><th>Fator de risco</th><th>Gravidade média (0–4)</th><th>Probabilidade</th><th>Matriz de Risco</th></tr></thead><tbody>'+rows+'</tbody></table>'+
+ '<p class="hint">Gravidade: ≥2,5 = Alta · 1,5–2,4 = Média · &lt;1,5 = Baixa (ajustável). A probabilidade você define por entrevista/observação (frequência, histórico, recursos).</p></div>'+
+ '<div class="panel"><h3>Matriz de Risco NR-01 (referência)</h3><table class="matrix"><tr><th>Prob.↓ \\ Grav.→</th><th>Baixa</th><th>Média</th><th>Alta</th></tr>'+
+ '<tr><td><b>Baixa</b></td>'+mc("Baixo")+mc("Baixo")+mc("Médio")+'</tr>'+
+ '<tr><td><b>Média</b></td>'+mc("Baixo")+mc("Médio")+mc("Alto")+'</tr>'+
+ '<tr><td><b>Alta</b></td>'+mc("Médio")+mc("Alto")+mc("Crítico")+'</tr></table></div>';
+}
+function mc(r){return '<td>'+badge(r)+'</td>';}
+function setTop(i,k,v){set().topicos[i][k]=v;save();render("diag");}
+
+/* DASHBOARD */
+function riscosDoSetor(st){return st.topicos.map(function(t){return matriz(gravNum(t.grav),num(t.prob));});}
+function vDash(){var st=set();var rs=riscosDoSetor(st);
+ var c={Baixo:0,Médio:0,Alto:0,"Crítico":0,"—":0};
+ rs.forEach(function(r){c[r||"—"]++;});
+ var nivel = c["Crítico"]>0?"Crítico":c.Alto>0?"Alto":c.Médio>0?"Médio":(c.Baixo>0?"Baixo":"—");
+ function card(v,l,acc){return '<div class="card'+(acc?" accent":"")+'"><div class="v">'+v+'</div><div class="l">'+l+'</div></div>';}
+ return '<h1>Resultado — '+st.nome+'</h1><p class="sub">Visão consolidada do risco psicossocial do setor.</p>'+
+ '<div class="cards">'+card(badge(nivel),"Risco geral do setor",true)+card(c["Crítico"]+c.Alto,"Tópicos Alto/Crítico")+card(c.Médio,"Tópicos Médio")+card(c.Baixo,"Tópicos Baixo")+'</div>'+
+ '<div class="panel"><h3>Resumo por tópico</h3><table><thead><tr><th>Tópico</th><th>Gravidade</th><th>Probabilidade</th><th>Risco</th></tr></thead><tbody>'+
+ st.topicos.map(function(t,i){var p=num(t.prob);return '<tr><td>'+TOPICOS[i].nome+'</td><td>'+(gravClass(t.grav)||"—")+(t.grav?" ("+t.grav+")":"")+'</td><td>'+(p==1?"Baixa":p==2?"Média":"Alta")+'</td><td>'+badge(matriz(gravNum(t.grav),p))+'</td></tr>';}).join("")+
+ '</tbody></table></div>'+
+ '<div class="panel"><h3>Leitura</h3><p>'+( (c["Crítico"]+c.Alto)>0 ? '⚠ Há '+(c["Crítico"]+c.Alto)+' tópico(s) de risco <b>Alto/Crítico</b> — exigem <b>programas interventivos</b> e plano de ação imediato no PGR.' : '✓ Sem riscos altos neste setor — foco em <b>programas preventivos</b> e manutenção da cultura.' )+'</p></div>';
+}
+
+/* PLANO DE AÇÃO */
+function vPlano(){var st=set();
+ var items=st.topicos.map(function(t,i){var r=matriz(gravNum(t.grav),num(t.prob));return {nome:TOPICOS[i].nome,prog:TOPICOS[i].prog,risco:r};}).filter(function(x){return x.risco;});
+ items.sort(function(a,b){var ord={Crítico:0,Alto:1,Médio:2,Baixo:3};return ord[a.risco]-ord[b.risco];});
+ if(!items.length) return '<h1>Plano de Ação</h1><p class="sub">Preencha o Diagnóstico para gerar o plano.</p>';
+ var html=items.map(function(x){
+  var tipo = (x.risco=="Alto"||x.risco=="Crítico")?"Interventivo (prioridade)":x.risco=="Médio"?"Preventivo reforçado":"Manutenção/Preventivo";
+  return '<div class="pcard"><div>'+badge(x.risco)+'</div><div><b>'+x.nome+'</b><br><span class="hint">Ação: '+tipo+' → Programa: '+x.prog+'</span></div></div>';
+ }).join("");
+ return '<h1>Plano de Ação — '+st.nome+'</h1><p class="sub">Gerado automaticamente: Alto/Crítico → interventivo; Médio → preventivo reforçado; Baixo → manutenção.</p><div class="panel">'+html+'</div>';
+}
+
+/* PLANO ANUAL */
+function vAnual(){
+ return '<h1>Plano Anual de Implementação (NR-1)</h1><p class="sub">Cronograma-modelo de 12 meses: 1 DRPS + 11 programas + reavaliação. Vira o contrato recorrente.</p>'+
+ '<div class="panel"><table><tbody>'+PLANO_ANUAL.map(function(p){return '<tr><td>'+p+'</td></tr>';}).join("")+'</tbody></table></div>'+
+ '<div class="panel"><h3>Formato de cada programa</h3><p>Duração 1 mês · 1×/mês · encontros de 60–90 min · presencial ou online. Molde de 4 encontros: (1) Abertura/Engajamento → (2) Intervenção 1 → (3) Intervenção 2 → (4) Encerramento (mini plano de ação). Sempre gere <b>evidência</b> (lista de presença) — sem evidência a empresa não comprova conformidade.</p></div>';
+}
+
+/* GUIA */
+function vGuia(){
+ return '<h1>Como usar (passo a passo)</h1><div class="panel"><ol style="padding-left:20px;line-height:1.9">'+
+ '<li><b>Setor:</b> cadastre a empresa e cada setor (funções, nº de pessoas, agravos, medidas existentes).</li>'+
+ '<li><b>Diagnóstico:</b> aplique o questionário (aba "Questionário", Forms, escala 0–4) e lance aqui a <b>Gravidade média</b> de cada tópico. Defina a <b>Probabilidade</b> por setor (entrevista/observação).</li>'+
+ '<li><b>Resultado:</b> veja o risco consolidado e o resumo por tópico.</li>'+
+ '<li><b>Plano de Ação:</b> o sistema recomenda os programas (interventivo/preventivo) por prioridade.</li>'+
+ '<li><b>Plano Anual:</b> use o cronograma de 12 meses para o contrato.</li>'+
+ '<li><b>Curso NR-1:</b> a aba "Curso NR-1" tem a formação completa, com o passo a passo teórico de cada etapa.</li>'+
+ '<li><b>Imprimir laudo:</b> use Imprimir/PDF para gerar o documento; a assinatura técnica (CRP) deve ser do responsável habilitado.</li>'+
+ '</ol><p class="hint">Lembrete: nas perguntas de lógica invertida do questionário, a gravidade já deve vir corrigida (4 − resposta) antes da média.</p></div>';
+}
+
+/* CURSO NR-1 — conteúdo completo */
+function vCurso(){
+ return '<h1>Curso NR-1</h1><p class="sub">Riscos Psicossociais e Saúde Mental no Trabalho — do zero à execução, com o "pulo do gato". Método ArtBlend.</p>'+
+
+ '<div class="cbox gato"><span class="tag">🐱 Por que este curso existe</span><p>Muito material de mercado mostra <em>o que</em> fazer, mas guarda o <b>como exatamente</b> (o "pulo do gato") pra vender o template depois. Aqui você tem os dois: a teoria completa e o passo a passo executável, com a ferramenta funcional integrada (abas Setor/Diagnóstico/Resultado ao lado).</p></div>'+
+
+ '<div class="toc"><b>Conteúdo</b><ol>'+
+ '<li>Fundamentos: o que é a NR-1 e por que virou obrigação (e oportunidade)</li>'+
+ '<li>Riscos psicossociais: os fatores, gravidade × probabilidade</li>'+
+ '<li>O ciclo completo do DRPS (mapa do serviço)</li>'+
+ '<li>Etapa 1 — Coleta: o questionário 0–4 e a lógica direta/invertida</li>'+
+ '<li>Etapa 2 — Gravidade: média, pontuação corrigida e classificação</li>'+
+ '<li>Etapa 3 — Probabilidade: a avaliação qualitativa por setor</li>'+
+ '<li>Etapa 4 — Matriz de Risco NR-01: cruzando tudo</li>'+
+ '<li>Etapa 5 — O Laudo: estrutura e responsável técnico</li>'+
+ '<li>Etapa 6 — Programas: preventivo × interventivo, plano anual</li>'+
+ '<li>Etapa 7 — Monitoramento, reavaliação e o lado comercial</li>'+
+ '</ol></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Módulo 1</span><br>Fundamentos da NR-1</h2>'+
+ '<h3 class="ch">1.1 O que é a NR-1</h3>'+
+ '<p>A <b>NR-1 (Norma Regulamentadora nº 1)</b> trata das disposições gerais e do <b>Gerenciamento de Riscos Ocupacionais (GRO)</b>. A atualização passou a exigir que as empresas identifiquem, avaliem e controlem também os <b>riscos psicossociais</b> dentro do <b>PGR (Programa de Gerenciamento de Riscos)</b> — não só os físicos, químicos e ergonômicos.</p>'+
+ '<div class="cbox warn"><span class="tag">O que é risco psicossocial</span><p>É a combinação entre a <b>probabilidade</b> de um trabalhador sofrer dano (estresse crônico, burnout, ansiedade, adoecimento) e a <b>gravidade</b> desse dano, gerada por fatores da <i>organização do trabalho</i> — não da vida pessoal. Exemplos: sobrecarga, assédio, metas irrealistas, falta de reconhecimento, comunicação violenta.</p></div>'+
+ '<h3 class="ch">1.2 Por que virou obrigação — e oportunidade</h3>'+
+ '<p>Como é <b>exigência legal com risco de autuação</b>, deixou de ser "se a empresa quiser". Toda empresa com colaboradores precisa fazer. Isso significa <b>demanda recorrente garantida</b> para quem sabe executar. E poucos sabem. Some-se a isso o custo invisível que o problema gera: absenteísmo, rotatividade e queda de produtividade.</p>'+
+ '<div class="cbox gato"><span class="tag">🐱 Pulo do gato</span><p>Quem conduz a gestão de riscos psicossociais <b>não precisa ser exclusivamente psicólogo</b> — pessoa capacitada pode conduzir o processo (mapeamento, plano, programas). O que exige responsável técnico habilitado (psicólogo com CRP) é a <b>assinatura do laudo psicológico/avaliação clínica</b>. Estratégia ArtBlend: você conduz o método e o produto; um <b>psicólogo parceiro credenciado</b> assina a parte técnica. Assim você escala sem travar.</p></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Módulo 2</span><br>Os riscos psicossociais</h2>'+
+ '<h3 class="ch">2.1 Os fatores de risco (os "tópicos")</h3>'+
+ '<p>O diagnóstico investiga, no mínimo, <b>9 tópicos</b> (e pode ampliar para 13+). Cada um tem uma <b>fonte geradora</b> — a causa organizacional:</p>'+
+ '<table><tr><th>Fator de risco</th><th>Fonte geradora (causa)</th></tr>'+
+ TOPICOS.map(function(t,i){return '<tr><td>'+(i+1)+'. '+t.nome+'</td><td>'+t.fonte+'</td></tr>';}).join('')+
+ '<tr><td>+ Difícil comunicação · Trabalho remoto isolado · Subcarga · Catástrofes/eventos</td><td>(fatores complementares conforme a empresa)</td></tr></table>'+
+ '<h3 class="ch">2.2 As duas dimensões: Gravidade × Probabilidade</h3>'+
+ '<p>Todo risco é medido por duas réguas, cada uma em 3 níveis (Baixa=1, Média=2, Alta=3):</p>'+
+ '<ul style="padding-left:20px;line-height:1.8"><li><b>Gravidade (Severidade):</b> o quão sério é o dano. <i>Vem do questionário</i> (quantitativo).</li><li><b>Probabilidade de Ocorrência:</b> a chance de acontecer. <i>Vem da avaliação do profissional</i> (qualitativo, por setor).</li></ul>'+
+
+ '<h2 class="mh"><span class="m-kick">Módulo 3</span><br>O ciclo completo do DRPS</h2>'+
+ '<div class="chain">1. COLETA (Forms 0–4) → 2. GRAVIDADE (média) → 3. PROBABILIDADE (qualitativa por setor) → 4. MATRIZ NR-01 → 5. LAUDO → 6. PROGRAMAS (plano anual) → 7. MONITORAMENTO/REAVALIAÇÃO</div>'+
+ '<div class="cbox template"><span class="tag">Template — Cronograma do serviço (12 meses)</span><p>Mês 1: DRPS (diagnóstico). Meses 2–12: um programa por mês. Ao final: reavaliação do DRPS. É assim que vira <b>contrato anual recorrente</b> (veja a aba "Plano Anual").</p></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Módulo 4 · Etapa 1</span><br>Coleta — o questionário</h2>'+
+ '<h3 class="ch">4.1 A escala 0–4</h3>'+
+ '<p>Cada pergunta é respondida numa escala: <b>0 = Nunca · 1 = Raramente · 2 = Ocasionalmente · 3 = Frequentemente · 4 = Sempre</b>. Cada tópico tem cerca de <b>10 perguntas</b> (veja a aba "Questionário"). O formulário começa com a <b>identificação</b> (cargo/função + setor) — essencial porque a análise é <i>por setor</i>.</p>'+
+ '<h3 class="ch">4.2 A lógica direta e a invertida — o segredo da medição correta</h3>'+
+ '<div class="cbox gato"><span class="tag">🐱 Pulo do gato</span><p>Esse é o detalhe que quase ninguém explica. As perguntas têm <b>dois sentidos</b>: <b>Lógica direta</b> — quanto maior a resposta, maior o risco (ex.: "Você sofre pressão excessiva?" responder 4 = risco alto). <b>Lógica invertida</b> — quanto maior a resposta, menor o risco (ex.: "Você sente apoio da liderança?" responder 4 = risco baixo). Se você somar tudo sem inverter as perguntas positivas, o resultado fica <b>errado</b>. A regra: nas invertidas, faça <code>4 − resposta</code> antes de calcular a média. Errar isso é o erro nº 1 dos iniciantes.</p></div>'+
+ '<h3 class="ch">4.3 Anonimato e privacidade</h3>'+
+ '<p>O questionário é aplicado de forma <b>anônima e confidencial</b> (Google Forms), o que aumenta a sinceridade e protege os dados (LGPD).</p>'+
+
+ '<h2 class="mh"><span class="m-kick">Módulo 5 · Etapa 2</span><br>Gravidade — o cálculo</h2>'+
+ '<ol style="padding-left:20px;line-height:1.9"><li>Colete as respostas do Forms.</li><li>Aplique a <b>pontuação corrigida</b> (direta/invertida).</li><li>Converta para classificação por pergunta: <b>Alta (≥3) · Média (≤2) · Baixa (≤1)</b>.</li><li>A <b>média da gravidade</b> de cada bloco de ~10 perguntas é o <b>fator de risco</b> daquele tópico — lance esse número na aba "Diagnóstico".</li></ol>'+
+ '<div class="cbox caso"><span class="tag">Exemplo</span><p>Tópico Assédio, setor Recepção: média das 10 perguntas = 2,8 → classificação <b>Alta</b> gravidade. Tópico Carga Excessiva = 2,3 → <b>Média</b>.</p></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Módulo 6 · Etapa 3</span><br>Probabilidade — a parte qualitativa</h2>'+
+ '<p>A <b>probabilidade</b> não vem do questionário — vem da <b>análise qualitativa</b> por setor, via entrevistas e observação, avaliando três critérios: <b>Frequência</b> (com que frequência a situação aparece), <b>Histórico de risco</b> (já houve casos, afastamentos, reclamações?) e <b>Recursos</b> (a empresa tem medidas que reduzem a chance?).</p>'+
+ '<div class="cbox gato"><span class="tag">🐱 Pulo do gato</span><p>A probabilidade é <b>por setor</b> — se você não trocar a probabilidade ao mudar de setor na ferramenta, todos saem com o mesmo resultado (erro comum). Dois setores podem ter a mesma gravidade no questionário, mas probabilidades diferentes pela realidade observada. <b>É a sua leitura qualitativa que torna o laudo único e defensável.</b></p></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Módulo 7 · Etapa 4</span><br>A Matriz de Risco NR-01</h2>'+
+ '<p>Combine <b>Gravidade × Probabilidade</b> nesta matriz (a ferramenta já calcula automático na aba Diagnóstico):</p>'+
+ '<table class="matrix"><tr><th>Prob. ↓ \\ Grav. →</th><th>Baixa (1)</th><th>Média (2)</th><th>Alta (3)</th></tr>'+
+ '<tr><td><b>Baixa (1)</b></td>'+mc('Baixo')+mc('Baixo')+mc('Médio')+'</tr>'+
+ '<tr><td><b>Média (2)</b></td>'+mc('Baixo')+mc('Médio')+mc('Alto')+'</tr>'+
+ '<tr><td><b>Alta (3)</b></td>'+mc('Médio')+mc('Alto')+mc('Crítico')+'</tr></table>'+
+ '<p class="hint">O profissional ainda pode ajustar o resultado final conforme a análise — o sistema sugere, o humano decide.</p>'+
+
+ '<h2 class="mh"><span class="m-kick">Módulo 8 · Etapa 5</span><br>O Laudo</h2>'+
+ '<h3 class="ch">8.1 Estrutura</h3>'+
+ '<ol style="padding-left:20px;line-height:1.9"><li><b>Capa:</b> Empresa · Nome · Mês/Ano · Psicólogo Elaborador + CRP.</li><li><b>Introdução:</b> contexto da NR-1, prevenção, ligação com absenteísmo/rotatividade.</li><li><b>Objetivo:</b> identificar e classificar os riscos; sugerir ações; adaptado à empresa.</li><li><b>Metodologia:</b> coleta via Forms anônimo, escalas validadas, cálculo de gravidade e probabilidade.</li><li><b>Análises e Resultados (por setor):</b> quadro de identificação + matriz de risco preenchida.</li><li><b>Medidas de Controle / Plano anual.</b></li></ol>'+
+ '<div class="cbox template"><span class="tag">Template — Quadro por setor</span><p>Setor · Funções · Qtd (Homens/Mulheres) · Possíveis agravos à saúde mental · Medidas de controle existentes · Responsável técnico (CRP). Use o botão "Imprimir laudo" no menu lateral.</p></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Módulo 9 · Etapa 6</span><br>Programas — a entrega contínua</h2>'+
+ '<h3 class="ch">9.1 Preventivo × Interventivo</h3>'+
+ '<table><tr><th>Aspecto</th><th>Preventivo</th><th>Interventivo</th></tr><tr><td>Quando</td><td>Antes do problema</td><td>Com o problema presente</td></tr><tr><td>Foco</td><td>Promoção de bem-estar</td><td>Acolhimento ao sofrimento</td></tr><tr><td>Ação</td><td>Educativa, cultural, reflexiva</td><td>Clínica, emocional, emergencial</td></tr><tr><td>Público</td><td>Todos os colaboradores</td><td>Grupos específicos</td></tr></table>'+
+ '<p><b>Regra de decisão:</b> Risco Baixo/Moderado → <b>preventivos</b>; Risco Alto/Crítico → <b>interventivos</b>.</p>'+
+ '<h3 class="ch">9.2 Formato de cada programa</h3>'+
+ '<p>Duração 1 mês · 1×/mês · encontros de 60–90 min. <b>Molde de 4 encontros:</b> (1) Abertura/Engajamento → (2) Intervenção 1 → (3) Intervenção 2 → (4) Encerramento (mini plano de ação).</p>'+
+ '<div class="cbox gato"><span class="tag">🐱 Pulo do gato</span><p>Todo programa tem o <b>mesmo molde</b> (4 encontros) — muda só o tema. Domine o molde uma vez e você "fabrica" 70+ programas. Sempre gere <b>evidência</b> (lista de presença) — sem evidência a empresa não comprova conformidade, e o seu trabalho perde valor jurídico.</p></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Módulo 10 · Etapa 7</span><br>Monitoramento e o comercial</h2>'+
+ '<h3 class="ch">10.1 Monitoramento e reavaliação</h3>'+
+ '<p>A partir de ~5 meses após o DRPS, monitore se o risco baixou. A cada ciclo de programas, <b>reaplique o DRPS</b> e compare — prova evolução e renova o contrato.</p>'+
+ '<h3 class="ch">10.2 Venda e posicionamento</h3>'+
+ '<p>Venda o <b>programa</b> (personalizado, prático, com evidência), não a palestra avulsa.</p>'+
+ '<div class="cbox script"><span class="tag">Script — Abordagem</span><p class="say">"A NR-1 agora obriga sua empresa a gerenciar riscos psicossociais — e a fiscalização já está cobrando. Eu faço o diagnóstico (DRPS), entrego o laudo por setor e implemento os programas que a sua realidade pede, com tudo documentado para conformidade. Posso te mostrar como ficaria aqui?"</p></div>'+
+ '<div class="cbox exerc"><span class="tag">Exercício final</span><p>Monte, em 1 página, a proposta de um ciclo anual (DRPS + 11 programas) para um restaurante de 40 pessoas, definindo quais programas seriam preventivos e quais interventivos.</p></div>'+
+
+ '<p class="hint" style="text-align:center;margin-top:20px;">Curso NR-1 · Método ArtBlend. Material de formação — a avaliação/laudo psicológico deve ter responsável técnico habilitado (CRP).</p>';
+}
+
+/* QUESTIONÁRIO */
+function vQuestionario(){
+ var qs = [
+  {t:"Tópico 1 — Assédio moral e sexual", perg:[
+   ["Você já presenciou ou sofreu comentários ofensivos, piadas ou insinuações inadequadas no trabalho?","d"],
+   ["Você se sente à vontade para relatar assédio moral ou sexual sem medo de represálias?","i"],
+   ["Existe um canal seguro e sigiloso para denunciar assédio?","i"],
+   ["Você já recebeu tratamento desrespeitoso de colegas ou superiores?","d"],
+   ["Você percebe favoritismo ou perseguição no ambiente?","d"],
+   ["A empresa realiza treinamentos ou campanhas de conscientização sobre assédio?","i"],
+   ["O RH e os gestores demonstram comprometimento real com a prevenção do assédio?","i"],
+   ["Você já se sentiu constrangido por comentários sobre sua aparência ou vida pessoal?","d"]]},
+  {t:"Tópico 2 — Carga excessiva de trabalho", perg:[
+   ["Sua carga de trabalho é maior do que você consegue realizar no horário?","d"],
+   ["Você faz horas extras com frequência para dar conta das tarefas?","d"],
+   ["Você sente que as metas e prazos são irrealistas?","d"],
+   ["Você consegue fazer pausas adequadas durante a jornada?","i"],
+   ["Você leva trabalho ou preocupações do trabalho para casa?","d"],
+   ["A distribuição de tarefas na equipe é justa?","i"],
+   ["Você sente exaustão física ou mental ao fim do dia?","d"],
+   ["Você tem recursos e pessoas suficientes para o volume de trabalho?","i"]]},
+  {t:"Tópico 3 — Reconhecimento e recompensas", perg:[
+   ["Você sente que seu trabalho é reconhecido e valorizado?","i"],
+   ["Você recebe feedback e elogios quando faz um bom trabalho?","i"],
+   ["Há oportunidades reais de crescimento ou promoção?","i"],
+   ["Você sente que se esforça e ninguém percebe?","d"],
+   ["Sua remuneração é compatível com suas responsabilidades?","i"],
+   ["Seus resultados influenciam as decisões da empresa?","i"]]},
+  {t:"Tópico 4 — Clima organizacional", perg:[
+   ["O ambiente de trabalho é respeitoso e colaborativo?","i"],
+   ["Você presencia gritos, humilhações ou tratamento autoritário?","d"],
+   ["As regras de convívio são claras e cumpridas por todos?","i"],
+   ["Há fofoca, panelinhas ou competição destrutiva?","d"],
+   ["Você se sente parte da equipe (pertencimento)?","i"],
+   ["Você confia na liderança da empresa?","i"]]},
+  {t:"Tópico 5 — Autonomia e controle sobre o trabalho", perg:[
+   ["Você tem autonomia para decidir como fazer seu trabalho?","i"],
+   ["Você se sente vigiado ou microgerenciado o tempo todo?","d"],
+   ["Sua opinião é considerada nas decisões que afetam seu trabalho?","i"],
+   ["Você tem clareza sobre o que é esperado de você?","i"]]},
+  {t:"Tópico 6 — Pressão e metas irrealistas", perg:[
+   ["Você sofre pressão excessiva por resultados?","d"],
+   ["As metas priorizam o financeiro acima do bem-estar das pessoas?","d"],
+   ["Você sente medo constante de não bater as metas?","d"],
+   ["As metas são acordadas com você e realistas?","i"]]},
+  {t:"Tópico 7 — Insegurança e ameaças", perg:[
+   ["Você teme perder o emprego a qualquer momento?","d"],
+   ["Você já foi ameaçado (demissão, punição) de forma intimidadora?","d"],
+   ["Você sente estabilidade e segurança no emprego?","i"],
+   ["A empresa comunica mudanças com transparência e antecedência?","i"]]},
+  {t:"Tópico 8 — Conflitos interpessoais e comunicação", perg:[
+   ["Há conflitos frequentes entre colegas ou setores?","d"],
+   ["A comunicação entre as áreas funciona bem?","i"],
+   ["Você recebe as informações necessárias para fazer seu trabalho?","i"],
+   ["Você sente que os problemas são resolvidos por silêncio ou \"despiste\"?","d"]]},
+  {t:"Tópico 9 — Alinhamento entre vida pessoal e profissional", perg:[
+   ["Você consegue equilibrar vida pessoal e trabalho?","i"],
+   ["O trabalho invade seu tempo de descanso e de família?","d"],
+   ["Você sente propósito no que faz?","i"],
+   ["A jornada permite que você cuide da sua saúde?","i"]]}
+ ];
+ var html = '<h1>Questionário DRPS</h1><p class="sub">Inventário de Diagnóstico de Riscos Psicossociais — pronto para montar no Google Forms.</p>'+
+ '<div class="panel"><p><b>Como usar:</b> monte este questionário no <b>Google Forms</b>, uma seção por tópico, todas as perguntas com a mesma escala de 0 a 4. Aplique de forma <b>anônima e confidencial</b>. Antes das seções, pergunte a <b>Função/Cargo</b> e o <b>Setor</b> (a análise é por setor).</p>'+
+ '<p class="scale">Escala de resposta: <b>0 = Nunca · 1 = Raramente · 2 = Ocasionalmente · 3 = Frequentemente · 4 = Sempre</b></p>'+
+ '<p style="margin-top:8px;font-size:13px;"><span class="tagd">D</span> = lógica <b>direta</b> (resposta alta = risco alto). <span class="tagi">I</span> = lógica <b>invertida</b> (resposta alta = risco baixo → 4 − resposta antes da média). A aba "Diagnóstico" já pede a média corrigida.</p></div>';
+ qs.forEach(function(q){
+  html += '<div class="qtop">'+q.t+'</div><ol style="padding-left:20px;line-height:2;">'+
+   q.perg.map(function(p){return '<li>'+p[0]+' <span class="'+(p[1]=='d'?'tagd':'tagi')+'">'+(p[1]=='d'?'D':'I')+'</span></li>';}).join('')+
+   '</ol>';
+ });
+ html += '<div class="panel"><b>Depois de coletar:</b> calcule a média da gravidade por tópico (aplicando 4 − resposta nas invertidas), lance na aba <b>Diagnóstico</b>, defina a probabilidade por setor e veja a matriz de risco e o plano de ação gerados automaticamente.</div>';
+ return html;
+}
+
+function exportJSON(){var b=new Blob([JSON.stringify(S,null,2)],{type:"application/json"});var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="artblend_drps_"+nomeClienteAtivo().replace(/[^a-z0-9]+/gi,'_')+".json";a.click();}
+
+(async function(){
+  var r = await sb.auth.getSession();
+  if(r.data.session){ await iniciarApp(r.data.session); }
+})();
+</script>
+</body>
+</html>

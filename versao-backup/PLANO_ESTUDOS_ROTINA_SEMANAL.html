@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano de Estudos e Rotina Semanal</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,600;1,700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito','Arial',sans-serif;background:#fff;color:#111;width:960px;margin:0 auto;padding:10px;font-size:11px;line-height:1.3;}
+/* HEADER */
+.header-wrap{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 4px 6px;}
+.header-title{flex:1;}
+.header-title h1{font-size:28px;font-weight:900;color:#0d1b52;letter-spacing:0.5px;line-height:1.1;text-transform:uppercase;}
+.header-title .subtitle{font-size:16px;font-weight:700;color:#c0392b;font-style:italic;margin-top:2px;}
+.header-badges{display:flex;flex-direction:column;gap:4px;min-width:140px;}
+.badge{padding:5px 10px;border-radius:6px;font-size:10.5px;font-weight:700;white-space:nowrap;}
+.badge-red{background:#c0392b;color:#fff;}
+.badge-orange{background:#e67e22;color:#fff;}
+/* SECTION HEADER */
+.sec-hdr{background:#0d1b52;color:#fff;font-weight:800;font-size:11.5px;text-align:center;padding:5px 8px;letter-spacing:0.3px;}
+.sec-hdr-red{background:#c0392b;color:#fff;font-weight:800;font-size:11.5px;text-align:center;padding:5px 8px;}
+.sec-hdr-orange{background:#e67e22;color:#fff;font-weight:800;font-size:11px;text-align:center;padding:5px 8px;}
+.sec-hdr-green{background:#27ae60;color:#fff;font-weight:800;font-size:11px;text-align:center;padding:5px 8px;}
+.sec-hdr-blue{background:#2980b9;color:#fff;font-weight:800;font-size:11px;text-align:center;padding:5px 8px;}
+/* TWO COLUMN TOP */
+.top-grid{display:flex;gap:8px;margin-bottom:8px;}
+.top-left{flex:0 0 560px;}
+.top-right{flex:1;}
+/* DISCIPLINES TABLE */
+.disc-table{width:100%;border-collapse:collapse;border:1.5px solid #0d1b52;}
+.disc-table th{background:#0d1b52;color:#fff;font-weight:800;font-size:10.5px;padding:5px 6px;text-align:center;border:1px solid #1a2e6e;}
+.disc-table .col-name{text-align:left;}
+.disc-table td{padding:5px 6px;border:1px solid #c8d6e5;vertical-align:middle;}
+.disc-table tr:nth-child(even){background:#eaf4fb;}
+.disc-table tr:nth-child(odd){background:#f7fbff;}
+.disc-row-name{display:flex;align-items:center;gap:5px;font-weight:800;font-size:10.5px;}
+.disc-row-name .icon{font-size:14px;min-width:20px;text-align:center;}
+.disc-row-name.adm .icon{color:#1a4fa8;}
+.disc-row-name.neg .icon{color:#27ae60;}
+.disc-row-name.fin .icon{color:#f39c12;}
+.disc-row-name.mkt .icon{color:#e74c3c;}
+.disc-row-name.rh  .icon{color:#8e44ad;}
+.disc-row-name.gas .icon{color:#e67e22;}
+.disc-row-name.den .icon{color:#16a085;}
+.disc-row-name.rev .icon{color:#7f8c8d;}
+.disc-desc{font-size:10px;color:#333;}
+.disc-hrs{text-align:center;font-weight:900;font-size:15px;color:#0d1b52;}
+.disc-total-row td{background:#0d1b52 !important;color:#fff;font-weight:900;font-size:12px;padding:6px;}
+.disc-total-lbl{text-align:left;padding-left:8px !important;}
+.disc-total-val{text-align:center;font-size:17px;}
+/* DONUT CHART SECTION */
+.donut-wrap{display:flex;align-items:center;gap:12px;padding:8px;}
+.donut-svg{flex-shrink:0;}
+.donut-legend{font-size:10px;line-height:1.7;}
+.legend-item{display:flex;align-items:center;gap:5px;}
+.legend-sq{width:12px;height:12px;border-radius:2px;flex-shrink:0;}
+.legend-label{color:#222;}
+.legend-val{font-weight:800;margin-left:2px;}
+/* FOCO */
+.foco-list{padding:8px 10px;}
+.foco-item{display:flex;align-items:flex-start;gap:5px;margin-bottom:5px;font-size:10.5px;font-weight:600;}
+.foco-item .heart{color:#c0392b;font-size:12px;}
+/* GRADE SEMANAL */
+.grade-table{width:100%;border-collapse:collapse;border:1.5px solid #0d1b52;margin-bottom:8px;}
+.grade-table th{background:#0d1b52;color:#fff;font-weight:800;font-size:10px;padding:4px 3px;text-align:center;border:1px solid #1a2e6e;}
+.grade-table td{border:1px solid #c8d6e5;padding:3px 3px;text-align:center;font-size:9.5px;vertical-align:middle;line-height:1.25;}
+.grade-table .col-time{background:#eef2f8;font-weight:800;font-size:9.5px;color:#0d1b52;white-space:nowrap;}
+.cell-deus{background:#fff;color:#555;}
+.cell-gym{background:#fff;color:#333;}
+.cell-banho{background:#fff;color:#333;}
+.cell-adm{background:#d6eaf8;font-weight:800;color:#1a4fa8;}
+.cell-neg{background:#d5f5e3;font-weight:800;color:#1e8449;}
+.cell-fin{background:#fef9e7;font-weight:800;color:#d68910;}
+.cell-mkt{background:#fadbd8;font-weight:800;color:#c0392b;}
+.cell-rh{background:#e8daef;font-weight:800;color:#7d3c98;}
+.cell-gas{background:#fde8d8;font-weight:800;color:#ca6f1e;}
+.cell-rev{background:#eaecee;font-weight:800;color:#555;}
+.cell-lanche{background:#fff;color:#333;}
+.cell-almoco{background:#fff;color:#333;}
+.cell-denis{background:#d1f2eb;font-weight:700;color:#0e6655;}
+.cell-terapia{background:#fce4ec;font-weight:700;color:#c0392b;}
+.cell-buscar{background:#fff;color:#333;}
+.cell-escola{background:#fff6e6;color:#7d4700;}
+.cell-tarefas{background:#fff;color:#555;}
+.cell-compras{background:#fff;color:#555;}
+.cell-plan{background:#fff;color:#555;}
+.cell-jantar{background:#fff;color:#333;}
+.cell-marido{background:#fce4ec;font-weight:700;color:#a93226;}
+.cell-deus-fim{background:#fff;color:#555;font-size:8.5px;}
+.cell-icon{display:inline-block;margin-bottom:1px;}
+/* MIDDLE SECTION */
+.mid-grid{display:flex;gap:8px;margin-bottom:8px;}
+.mid-left{flex:0 0 620px;}
+.mid-right{flex:1;}
+/* VISAO MENSAL */
+.vis-table{width:100%;border-collapse:collapse;border:1.5px solid #0d1b52;}
+.vis-table th{background:#0d1b52;color:#fff;font-weight:800;font-size:10px;padding:4px 5px;text-align:center;border:1px solid #1a2e6e;}
+.vis-table td{border:1px solid #c8d6e5;padding:4px 5px;font-size:9.5px;vertical-align:middle;}
+.vis-table tr:nth-child(even) td{background:#f0f4f8;}
+.vis-table tr:nth-child(odd) td{background:#fff;}
+.vis-disc-cell{display:flex;align-items:center;gap:4px;font-weight:800;font-size:9.5px;}
+.vis-disc-cell .icon{font-size:12px;}
+.vis-table .col-mes{text-align:center;font-size:9px;}
+.vis-table .col-ent{font-size:9px;color:#c0392b;font-weight:700;}
+/* TAREFAS */
+.trf-list,.meta-list{padding:5px 8px;}
+.trf-item{display:flex;align-items:center;gap:5px;padding:3px 0;font-size:10px;border-bottom:1px solid #eee;}
+.trf-item .ticon{font-size:12px;}
+.meta-item{display:flex;align-items:flex-start;gap:5px;padding:3px 0;font-size:10px;}
+.meta-chk{color:#27ae60;font-size:12px;font-weight:900;}
+/* FOOTER 4 COLS */
+.footer-grid{display:flex;gap:6px;margin-top:6px;}
+.footer-col{flex:1;}
+.footer-inner{padding:6px 8px;}
+.footer-inner p{font-size:9.5px;margin-bottom:3px;display:flex;align-items:flex-start;gap:4px;}
+.footer-inner p .fi{font-size:10px;}
+/* RESUMO */
+.resumo-inner{padding:6px 8px;}
+.resumo-item{display:flex;align-items:center;gap:5px;font-size:10px;color:#fff;margin-bottom:4px;}
+.resumo-item .ri{font-size:11px;}
+.resumo-tagline{margin-top:8px;text-align:center;font-size:12px;font-weight:900;color:#f39c12;font-style:italic;line-height:1.4;}
+@media print{body{width:100%;}}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<div class="header-wrap">
+  <div class="header-title">
+    <h1>Plano de Estudos e Rotina Semanal</h1>
+    <div class="subtitle">Organização hoje, liberdade amanhã! ♡</div>
+  </div>
+  <div class="header-badges">
+    <div class="badge badge-red">🎯 META: 12 SEMANAS</div>
+    <div class="badge badge-orange">📅 INÍCIO: 03/06/2024</div>
+  </div>
+</div>
+
+<!-- ============ TOP SECTION: DISCIPLINES + CHART ============ -->
+<div class="top-grid">
+  <!-- LEFT: DISCIPLINES TABLE -->
+  <div class="top-left">
+    <div class="sec-hdr">DISCIPLINAS / ASSUNTOS DE ESTUDOS</div>
+    <table class="disc-table">
+      <thead>
+        <tr>
+          <th class="col-name" style="width:30%">DISCIPLINA</th>
+          <th style="width:57%">DESCRIÇÃO</th>
+          <th style="width:13%">HORAS<br>SEMANAIS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="disc-row-name adm"><span class="icon">🏢</span>Administração de Empresas</div></td>
+          <td class="disc-desc">Teorias administrativas, planejamento, organização, direção e controle.</td>
+          <td class="disc-hrs">5h</td>
+        </tr>
+        <tr>
+          <td><div class="disc-row-name neg"><span class="icon">📈</span>Gestão de Negócios</div></td>
+          <td class="disc-desc">Modelos de negócios, estratégia, processos e inovação.</td>
+          <td class="disc-hrs">5h</td>
+        </tr>
+        <tr>
+          <td><div class="disc-row-name fin"><span class="icon">💰</span>Finanças</div></td>
+          <td class="disc-desc">Finanças empresariais, análise de investimentos, orçamentos e custos.</td>
+          <td class="disc-hrs">5h</td>
+        </tr>
+        <tr>
+          <td><div class="disc-row-name mkt"><span class="icon">📣</span>Marketing</div></td>
+          <td class="disc-desc">Marketing estratégico, pesquisas, branding, 4Ps e digital.</td>
+          <td class="disc-hrs">5h</td>
+        </tr>
+        <tr>
+          <td><div class="disc-row-name rh"><span class="icon">👥</span>Recursos Humanos</div></td>
+          <td class="disc-desc">Recrutamento, seleção, treinamento, clima, avaliação e desenvolvimento.</td>
+          <td class="disc-hrs">4h</td>
+        </tr>
+        <tr>
+          <td><div class="disc-row-name gas"><span class="icon">👨‍🍳</span>Consultoria Gastronômica</div></td>
+          <td class="disc-desc">Gestão de restaurantes, cardápios, custos, precificação e operação.</td>
+          <td class="disc-hrs">4h</td>
+        </tr>
+        <tr>
+          <td><div class="disc-row-name den"><span class="icon">💻</span>Aulas Denis</div></td>
+          <td class="disc-desc">Acompanhamento das aulas e aplicação prática dos conteúdos.</td>
+          <td class="disc-hrs">4h</td>
+        </tr>
+        <tr>
+          <td><div class="disc-row-name rev"><span class="icon">📚</span>Revisão e Exercícios</div></td>
+          <td class="disc-desc">Revisão dos conteúdos, resumos e exercícios práticos.</td>
+          <td class="disc-hrs">3h</td>
+        </tr>
+        <tr class="disc-total-row">
+          <td class="disc-total-lbl" colspan="2">TOTAL DE HORAS DE ESTUDOS POR SEMANA</td>
+          <td class="disc-total-val">35h</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- RIGHT: DONUT + FOCO -->
+  <div class="top-right">
+    <div class="sec-hdr">DISTRIBUIÇÃO SEMANAL DE HORAS DE ESTUDOS</div>
+    <div style="border:1.5px solid #0d1b52;border-top:none;background:#fff;">
+      <div class="donut-wrap">
+        <!-- SVG DONUT CHART -->
+        <svg class="donut-svg" width="130" height="130" viewBox="0 0 130 130">
+          <!-- 35h total: Adm 5, Neg 5, Fin 5, Mkt 5, RH 4, Gas 4, Denis 4, Rev 3 -->
+          <!-- Angles: 5/35*360=51.43, 5/35=51.43, 5/35=51.43, 5/35=51.43, 4/35=41.14, 4/35=41.14, 4/35=41.14, 3/35=30.86 -->
+          <!-- Using stroke-dasharray trick on circles r=42, circumference=263.9 -->
+          <!-- Adm: 0-14.29% -->
+          <circle cx="65" cy="65" r="42" fill="none" stroke="#1a4fa8" stroke-width="22"
+            stroke-dasharray="37.7 226.2" stroke-dashoffset="0" transform="rotate(-90 65 65)"/>
+          <!-- Neg: 14.29-28.57% -->
+          <circle cx="65" cy="65" r="42" fill="none" stroke="#27ae60" stroke-width="22"
+            stroke-dasharray="37.7 226.2" stroke-dashoffset="-37.7" transform="rotate(-90 65 65)"/>
+          <!-- Fin: 28.57-42.86% -->
+          <circle cx="65" cy="65" r="42" fill="none" stroke="#f1c40f" stroke-width="22"
+            stroke-dasharray="37.7 226.2" stroke-dashoffset="-75.4" transform="rotate(-90 65 65)"/>
+          <!-- Mkt: 42.86-57.14% -->
+          <circle cx="65" cy="65" r="42" fill="none" stroke="#e74c3c" stroke-width="22"
+            stroke-dasharray="37.7 226.2" stroke-dashoffset="-113.1" transform="rotate(-90 65 65)"/>
+          <!-- RH: 57.14-68.57% -->
+          <circle cx="65" cy="65" r="42" fill="none" stroke="#9b59b6" stroke-width="22"
+            stroke-dasharray="30.2 233.7" stroke-dashoffset="-150.8" transform="rotate(-90 65 65)"/>
+          <!-- Gas: 68.57-80% -->
+          <circle cx="65" cy="65" r="42" fill="none" stroke="#e67e22" stroke-width="22"
+            stroke-dasharray="30.2 233.7" stroke-dashoffset="-181.0" transform="rotate(-90 65 65)"/>
+          <!-- Denis: 80-91.43% -->
+          <circle cx="65" cy="65" r="42" fill="none" stroke="#1abc9c" stroke-width="22"
+            stroke-dasharray="30.2 233.7" stroke-dashoffset="-211.2" transform="rotate(-90 65 65)"/>
+          <!-- Rev: 91.43-100% -->
+          <circle cx="65" cy="65" r="42" fill="none" stroke="#95a5a6" stroke-width="22"
+            stroke-dasharray="22.6 241.3" stroke-dashoffset="-241.4" transform="rotate(-90 65 65)"/>
+          <!-- Center -->
+          <circle cx="65" cy="65" r="30" fill="#fff"/>
+          <text x="65" y="61" text-anchor="middle" font-family="Nunito,Arial" font-size="18" font-weight="900" fill="#0d1b52">35h</text>
+          <text x="65" y="74" text-anchor="middle" font-family="Nunito,Arial" font-size="9" fill="#666">por semana</text>
+        </svg>
+        <!-- LEGEND -->
+        <div class="donut-legend">
+          <div class="legend-item"><div class="legend-sq" style="background:#1a4fa8"></div><span class="legend-label">Administração de Empresas</span><span class="legend-val">5h (14%)</span></div>
+          <div class="legend-item"><div class="legend-sq" style="background:#27ae60"></div><span class="legend-label">Gestão de Negócios</span><span class="legend-val">5h (14%)</span></div>
+          <div class="legend-item"><div class="legend-sq" style="background:#f1c40f"></div><span class="legend-label">Finanças</span><span class="legend-val">5h (14%)</span></div>
+          <div class="legend-item"><div class="legend-sq" style="background:#e74c3c"></div><span class="legend-label">Marketing</span><span class="legend-val">5h (14%)</span></div>
+          <div class="legend-item"><div class="legend-sq" style="background:#9b59b6"></div><span class="legend-label">Recursos Humanos</span><span class="legend-val">4h (11%)</span></div>
+          <div class="legend-item"><div class="legend-sq" style="background:#e67e22"></div><span class="legend-label">Consultoria Gastronômica</span><span class="legend-val">4h (11%)</span></div>
+          <div class="legend-item"><div class="legend-sq" style="background:#1abc9c"></div><span class="legend-label">Aulas Denis</span><span class="legend-val">4h (11%)</span></div>
+          <div class="legend-item"><div class="legend-sq" style="background:#95a5a6"></div><span class="legend-label">Revisão e Exercícios</span><span class="legend-val">3h (9%)</span></div>
+        </div>
+      </div>
+      <!-- FOCO DO PLANO -->
+      <div class="sec-hdr-red">FOCO DO PLANO</div>
+      <div class="foco-list">
+        <div class="foco-item"><span class="heart">♥</span> Estudar com consistência e qualidade</div>
+        <div class="foco-item"><span class="heart">♥</span> Aplicar o conhecimento na prática</div>
+        <div class="foco-item"><span class="heart">♥</span> Revisar e reforçar os conteúdos semanalmente</div>
+        <div class="foco-item"><span class="heart">♥</span> Equilibrar estudos, rotina, saúde e vida pessoal</div>
+        <div class="foco-item"><span class="heart">♥</span> Alcançar domínio dos temas e aplicar nos negócios</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ GRADE SEMANAL ============ -->
+<div class="sec-hdr" style="margin-bottom:0;">GRADE SEMANAL – ROTINA COMPLETA (ESTUDOS + TAREFAS + VIDA)</div>
+<table class="grade-table">
+  <thead>
+    <tr>
+      <th style="width:7.5%">HORÁRIO</th>
+      <th style="width:13%">SEGUNDA</th>
+      <th style="width:13%">TERÇA</th>
+      <th style="width:13%">QUARTA</th>
+      <th style="width:13%">QUINTA</th>
+      <th style="width:13%">SEXTA</th>
+      <th style="width:13%">SÁBADO</th>
+      <th style="width:13.5%">DOMINGO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="col-time">05:30 – 06:30</td>
+      <td class="cell-deus">🌅 Momento só com Deus</td>
+      <td class="cell-deus">🌅 Momento só com Deus</td>
+      <td class="cell-deus">🌅 Momento só com Deus</td>
+      <td class="cell-deus">🌅 Momento só com Deus</td>
+      <td class="cell-deus">🌅 Momento só com Deus</td>
+      <td class="cell-deus">🌅 Momento só com Deus</td>
+      <td class="cell-deus">🌅 Momento só com Deus</td>
+    </tr>
+    <tr>
+      <td class="col-time">06:30 – 07:30</td>
+      <td class="cell-gym">🏋️ Academia</td>
+      <td class="cell-gym">🏋️ Academia</td>
+      <td class="cell-gym">🏋️ Academia</td>
+      <td class="cell-gym">🏋️ Academia</td>
+      <td class="cell-gym">🏋️ Academia</td>
+      <td class="cell-gym">🏋️ Academia</td>
+      <td class="cell-gym">🏋️ Academia</td>
+    </tr>
+    <tr>
+      <td class="col-time">07:30 – 08:30</td>
+      <td class="cell-banho">☕ Banho, café e organização</td>
+      <td class="cell-banho">☕ Banho, café e organização</td>
+      <td class="cell-banho">☕ Banho, café e organização</td>
+      <td class="cell-banho">☕ Banho, café e organização</td>
+      <td class="cell-banho">☕ Banho, café e organização</td>
+      <td class="cell-banho">☕ Banho, café e organização</td>
+      <td class="cell-banho">☕ Banho, café e organização</td>
+    </tr>
+    <tr>
+      <td class="col-time">08:30 – 10:00</td>
+      <td class="cell-adm">🏢 Administração de Empresas</td>
+      <td class="cell-neg">📈 Gestão de Negócios</td>
+      <td class="cell-fin">💰 Finanças</td>
+      <td class="cell-mkt">📣 Marketing</td>
+      <td class="cell-rh">👥 Recursos Humanos</td>
+      <td class="cell-gas">👨‍🍳 Consultoria Gastronômica</td>
+      <td class="cell-rev">📚 Revisão e Exercícios</td>
+    </tr>
+    <tr>
+      <td class="col-time">10:00 – 10:30</td>
+      <td class="cell-lanche">🍎 Intervalo / Lanche</td>
+      <td class="cell-lanche">🍎 Intervalo / Lanche</td>
+      <td class="cell-lanche">🍎 Intervalo / Lanche</td>
+      <td class="cell-lanche">🍎 Intervalo / Lanche</td>
+      <td class="cell-lanche">🍎 Intervalo / Lanche</td>
+      <td class="cell-lanche">🍎 Intervalo / Lanche</td>
+      <td class="cell-lanche">🍎 Intervalo / Lanche</td>
+    </tr>
+    <tr>
+      <td class="col-time">10:30 – 12:00</td>
+      <td class="cell-adm">🏢 Administração de Empresas</td>
+      <td class="cell-neg">📈 Gestão de Negócios</td>
+      <td class="cell-fin">💰 Finanças</td>
+      <td class="cell-mkt">📣 Marketing</td>
+      <td class="cell-rh">👥 Recursos Humanos</td>
+      <td class="cell-gas">👨‍🍳 Consultoria Gastronômica</td>
+      <td class="cell-rev">📚 Revisão e Exercícios</td>
+    </tr>
+    <tr>
+      <td class="col-time">12:00 – 13:00</td>
+      <td class="cell-almoco">🍽️ Almoço / Família</td>
+      <td class="cell-almoco">🍽️ Almoço / Família</td>
+      <td class="cell-almoco">🍽️ Almoço / Família</td>
+      <td class="cell-almoco">🍽️ Almoço / Família</td>
+      <td class="cell-almoco">🍽️ Almoço / Família</td>
+      <td class="cell-almoco">🍽️ Almoço / Família</td>
+      <td class="cell-almoco">🍽️ Almoço / Família</td>
+    </tr>
+    <tr>
+      <td class="col-time">13:00 – 14:30</td>
+      <td class="cell-denis">💻 Aulas Denis</td>
+      <td class="cell-denis">💻 Aulas Denis</td>
+      <td class="cell-terapia">♥ Terapia</td>
+      <td class="cell-denis">💻 Aulas Denis</td>
+      <td class="cell-denis">💻 Aulas Denis</td>
+      <td class="cell-tarefas">🏠 Tarefas Domésticas<br><span style="font-size:8.5px;color:#777">(organização da casa)</span></td>
+      <td class="cell-tarefas">🏠 Tarefas Domésticas<br><span style="font-size:8.5px;color:#777">(organização da casa)</span></td>
+    </tr>
+    <tr>
+      <td class="col-time">14:30 – 15:30</td>
+      <td class="cell-buscar">🎒 Buscar criança na escola</td>
+      <td class="cell-buscar">🎒 Buscar criança na escola</td>
+      <td class="cell-buscar">🎒 Buscar criança na escola</td>
+      <td class="cell-buscar">🎒 Buscar criança na escola</td>
+      <td class="cell-buscar">🎒 Buscar criança na escola</td>
+      <td class="cell-buscar">🎒 Buscar criança na escola</td>
+      <td class="cell-buscar">🎒 Buscar criança na escola</td>
+    </tr>
+    <tr>
+      <td class="col-time">15:30 – 17:00</td>
+      <td class="cell-escola">✏️ Escola da criança<br><span style="font-size:8.5px">(atividades / deveres)</span></td>
+      <td class="cell-escola">✏️ Escola da criança<br><span style="font-size:8.5px">(atividades / deveres)</span></td>
+      <td class="cell-escola">✏️ Escola da criança<br><span style="font-size:8.5px">(atividades / deveres)</span></td>
+      <td class="cell-escola">✏️ Escola da criança<br><span style="font-size:8.5px">(atividades / deveres)</span></td>
+      <td class="cell-escola">✏️ Escola da criança<br><span style="font-size:8.5px">(atividades / deveres)</span></td>
+      <td class="cell-escola">✏️ Escola da criança<br><span style="font-size:8.5px">(atividades / deveres)</span></td>
+      <td class="cell-escola">✏️ Escola da criança<br><span style="font-size:8.5px">(atividades / deveres)</span></td>
+    </tr>
+    <tr>
+      <td class="col-time">17:00 – 18:00</td>
+      <td class="cell-tarefas">🏠 Tarefas Domésticas<br><span style="font-size:8.5px;color:#777">(casa e rotina)</span></td>
+      <td class="cell-tarefas">🏠 Tarefas Domésticas<br><span style="font-size:8.5px;color:#777">(casa e rotina)</span></td>
+      <td class="cell-tarefas">🏠 Tarefas Domésticas<br><span style="font-size:8.5px;color:#777">(casa e rotina)</span></td>
+      <td class="cell-tarefas">🏠 Tarefas Domésticas<br><span style="font-size:8.5px;color:#777">(casa e rotina)</span></td>
+      <td class="cell-tarefas">🏠 Tarefas Domésticas<br><span style="font-size:8.5px;color:#777">(casa e rotina)</span></td>
+      <td class="cell-compras">🛒 Compras / Mercado<br><span style="font-size:8.5px;color:#777">(se necessário)</span></td>
+      <td class="cell-plan">📋 Planejamento da semana / Organização</td>
+    </tr>
+    <tr>
+      <td class="col-time">18:00 – 19:00</td>
+      <td class="cell-jantar">📖 Jantar / Família</td>
+      <td class="cell-jantar">📖 Jantar / Família</td>
+      <td class="cell-jantar">📖 Jantar / Família</td>
+      <td class="cell-jantar">📖 Jantar / Família</td>
+      <td class="cell-jantar">📖 Jantar / Família</td>
+      <td class="cell-jantar">📖 Jantar / Família</td>
+      <td class="cell-jantar">📖 Jantar / Família</td>
+    </tr>
+    <tr>
+      <td class="col-time">19:00 – 20:30</td>
+      <td class="cell-adm">🏢 Administração de Empresas</td>
+      <td class="cell-neg">📈 Gestão de Negócios</td>
+      <td class="cell-fin">💰 Finanças</td>
+      <td class="cell-mkt">📣 Marketing</td>
+      <td class="cell-rh">👥 Recursos Humanos</td>
+      <td class="cell-gas">👨‍🍳 Consultoria Gastronômica</td>
+      <td class="cell-rev">📚 Revisão e Exercícios</td>
+    </tr>
+    <tr>
+      <td class="col-time">20:30 – 21:30</td>
+      <td class="cell-marido">❤️ Tempo com o marido<br><span style="font-size:8.5px">(sem telas)</span></td>
+      <td class="cell-marido">❤️ Tempo com o marido<br><span style="font-size:8.5px">(sem telas)</span></td>
+      <td class="cell-marido">❤️ Tempo com o marido<br><span style="font-size:8.5px">(sem telas)</span></td>
+      <td class="cell-marido">❤️ Tempo com o marido<br><span style="font-size:8.5px">(sem telas)</span></td>
+      <td class="cell-marido">❤️ Tempo com o marido<br><span style="font-size:8.5px">(sem telas)</span></td>
+      <td class="cell-marido">❤️ Tempo com o marido<br><span style="font-size:8.5px">(sem telas)</span></td>
+      <td class="cell-marido">❤️ Tempo com o marido<br><span style="font-size:8.5px">(sem telas)</span></td>
+    </tr>
+    <tr>
+      <td class="col-time">21:30 – 22:00</td>
+      <td class="cell-deus-fim">🌅 Momento só com Deus + Gratidão</td>
+      <td class="cell-deus-fim">🌅 Momento só com Deus + Gratidão</td>
+      <td class="cell-deus-fim">🌅 Momento só com Deus + Gratidão</td>
+      <td class="cell-deus-fim">🌅 Momento só com Deus + Gratidão</td>
+      <td class="cell-deus-fim">🌅 Momento só com Deus + Gratidão</td>
+      <td class="cell-deus-fim">🌅 Momento só com Deus + Gratidão</td>
+      <td class="cell-deus-fim">🌅 Momento só com Deus + Gratidão</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ============ MIDDLE: VISÃO MENSAL + TAREFAS + METAS ============ -->
+<div class="mid-grid">
+  <!-- LEFT: VISÃO MENSAL -->
+  <div class="mid-left">
+    <div class="sec-hdr">VISÃO MENSAL – 12 SEMANAS</div>
+    <table class="vis-table">
+      <thead>
+        <tr>
+          <th style="width:18%">DISCIPLINA</th>
+          <th style="width:18%">MÊS 1<br><span style="font-weight:400;font-size:9px">(Sem 1–4)</span></th>
+          <th style="width:18%">MÊS 2<br><span style="font-weight:400;font-size:9px">(Sem 5–8)</span></th>
+          <th style="width:18%">MÊS 3<br><span style="font-weight:400;font-size:9px">(Sem 9–12)</span></th>
+          <th style="width:28%">ENTREGAS / RESULTADOS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="vis-disc-cell"><span class="icon" style="color:#1a4fa8">🏢</span>Administração de Empresas</div></td>
+          <td class="col-mes">Fundamentos da Administração</td>
+          <td class="col-mes">Planejamento, Organização e Direção</td>
+          <td class="col-mes">Controle, Indicadores e Gestão Estratégica</td>
+          <td class="col-ent">Resumo completo + Mapa mental / Estudo de caso</td>
+        </tr>
+        <tr>
+          <td><div class="vis-disc-cell"><span class="icon" style="color:#27ae60">📈</span>Gestão de Negócios</div></td>
+          <td class="col-mes">Modelos de Negócios e Análise de Mercado</td>
+          <td class="col-mes">Estratégia, Processos e Inovação</td>
+          <td class="col-mes">Gestão de Projetos e Performance</td>
+          <td class="col-ent">Plano de Negócio / Canvas completo</td>
+        </tr>
+        <tr>
+          <td><div class="vis-disc-cell"><span class="icon" style="color:#f39c12">💰</span>Finanças</div></td>
+          <td class="col-mes">Matemática Financeira e Fluxo de Caixa</td>
+          <td class="col-mes">Análise de Investimentos e Orçamentos</td>
+          <td class="col-mes">Indicadores Financeiros e Precificação</td>
+          <td class="col-ent">Relatórios + Planilhas / Simulações</td>
+        </tr>
+        <tr>
+          <td><div class="vis-disc-cell"><span class="icon" style="color:#e74c3c">📣</span>Marketing</div></td>
+          <td class="col-mes">Fundamentos e Pesquisa de Mercado</td>
+          <td class="col-mes">Estratégias, 4Ps e Branding</td>
+          <td class="col-mes">Marketing Digital e Métricas</td>
+          <td class="col-ent">Plano de Marketing / Campanha prática</td>
+        </tr>
+        <tr>
+          <td><div class="vis-disc-cell"><span class="icon" style="color:#9b59b6">👥</span>Recursos Humanos</div></td>
+          <td class="col-mes">Recrutamento e Seleção / Treinamento</td>
+          <td class="col-mes">Desenvolvimento, Avaliação e Clima</td>
+          <td class="col-mes">Liderança e Cultura Organizacional</td>
+          <td class="col-ent">Políticas + Planos / Estudo de caso</td>
+        </tr>
+        <tr>
+          <td><div class="vis-disc-cell"><span class="icon" style="color:#e67e22">👨‍🍳</span>Consultoria Gastronômica</div></td>
+          <td class="col-mes">Conceitos e Mercado Gastronômico</td>
+          <td class="col-mes">Cardápio, Custos e Precificação</td>
+          <td class="col-mes">Gestão de Operações e Experiência</td>
+          <td class="col-ent">Projeto Consultoria / Relatório final</td>
+        </tr>
+        <tr>
+          <td><div class="vis-disc-cell"><span class="icon" style="color:#16a085">💻</span>Aulas Denis</div></td>
+          <td class="col-mes">Acompanhamento e Anotações</td>
+          <td class="col-mes">Aplicação dos Conteúdos</td>
+          <td class="col-mes">Projetos e Aprendizagens</td>
+          <td class="col-ent">Portfólio de Aprendizados / Aplicações práticas</td>
+        </tr>
+        <tr>
+          <td><div class="vis-disc-cell"><span class="icon" style="color:#7f8c8d">📚</span>Revisão e Exercícios</div></td>
+          <td class="col-mes">Exercícios e Resumos Semanais</td>
+          <td class="col-mes">Revisões e Fixação de Conteúdo</td>
+          <td class="col-mes">Simulados e Consolidação</td>
+          <td class="col-ent">Simulados + Correções / Revisão final</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- RIGHT: TAREFAS + METAS -->
+  <div class="mid-right">
+    <div class="sec-hdr-orange">TAREFAS DOMÉSTICAS</div>
+    <div style="border:1.5px solid #e67e22;border-top:none;background:#fff;margin-bottom:6px;">
+      <div class="trf-list">
+        <div class="trf-item"><span class="ticon">📅</span> Lavar roupas</div>
+        <div class="trf-item"><span class="ticon">📅</span> Organizar quartos</div>
+        <div class="trf-item"><span class="ticon">📅</span> Limpar banheiros</div>
+        <div class="trf-item"><span class="ticon">📅</span> Cozinhar / Marmitas</div>
+        <div class="trf-item"><span class="ticon">📅</span> Aspirar e passar pano</div>
+        <div class="trf-item"><span class="ticon">📅</span> Organizar despensa</div>
+        <div class="trf-item"><span class="ticon">📅</span> Lixo / Reciclagem</div>
+        <div class="trf-item" style="border:none"><span class="ticon">📅</span> Pagamentos / Contas</div>
+      </div>
+    </div>
+    <div class="sec-hdr-green">METAS E HÁBITOS</div>
+    <div style="border:1.5px solid #27ae60;border-top:none;background:#fff;">
+      <div class="meta-list">
+        <div class="meta-item"><span class="meta-chk">✔</span> Manter constância: estudar todos os dias</div>
+        <div class="meta-item"><span class="meta-chk">✔</span> Seguir a grade e cumprir os horários</div>
+        <div class="meta-item"><span class="meta-chk">✔</span> Fazer anotações e resumos</div>
+        <div class="meta-item"><span class="meta-chk">✔</span> Cuidar da saúde e da alimentação</div>
+        <div class="meta-item"><span class="meta-chk">✔</span> Priorizar família e relacionamentos</div>
+        <div class="meta-item"><span class="meta-chk">✔</span> Equilibrar estudos, trabalho e vida</div>
+        <div class="meta-item"><span class="meta-chk">✔</span> Descansar e confiar no processo</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ FOOTER 4 COLUMNS ============ -->
+<div class="footer-grid">
+  <!-- ESCOLA DA CRIANÇA -->
+  <div class="footer-col">
+    <div class="sec-hdr-red">ESCOLA DA CRIANÇA</div>
+    <div style="border:1.5px solid #c0392b;border-top:none;background:#fff5f5;">
+      <div style="text-align:center;font-size:22px;padding:6px 0 2px;">⛪</div>
+      <div class="footer-inner">
+        <p><span class="fi">♡</span> Acompanhar tarefas e provas</p>
+        <p><span class="fi">♡</span> Reuniões e comunicados</p>
+        <p><span class="fi">♡</span> Projetos e atividades</p>
+        <p><span class="fi">♡</span> Estimular leitura e rotina</p>
+        <p><span class="fi">♡</span> Apoiar com amor e paciência</p>
+      </div>
+    </div>
+  </div>
+  <!-- MOMENTO COM O MARIDO -->
+  <div class="footer-col">
+    <div class="sec-hdr-orange">MOMENTO COM O MARIDO</div>
+    <div style="border:1.5px solid #e67e22;border-top:none;background:#fff9f0;">
+      <div style="text-align:center;font-size:22px;padding:6px 0 2px;">❤️💑</div>
+      <div class="footer-inner">
+        <p><span class="fi">♡</span> Pelo menos 3x por semana</p>
+        <p><span class="fi">♡</span> Sem telas, só conexão</p>
+        <p><span class="fi">♡</span> Conversar, planejar e sonhar juntos</p>
+        <p><span class="fi">♡</span> Fortalecer parceria e amizade</p>
+        <p><span class="fi">♡</span> Criar memórias e momentos especiais</p>
+      </div>
+    </div>
+  </div>
+  <!-- MOMENTO SÓ COM DEUS -->
+  <div class="footer-col">
+    <div class="sec-hdr-blue">MOMENTO SÓ COM DEUS</div>
+    <div style="border:1.5px solid #2980b9;border-top:none;background:#f0f8ff;">
+      <div style="text-align:center;font-size:22px;padding:6px 0 2px;">✝️</div>
+      <div class="footer-inner">
+        <p><span class="fi">♡</span> Orar, agradecer e entregar</p>
+        <p><span class="fi">♡</span> Ler a Bíblia e meditar</p>
+        <p><span class="fi">♡</span> Buscar direção e sabedoria</p>
+        <p><span class="fi">♡</span> Renovar a fé e a esperança</p>
+        <p><span class="fi">♡</span> Começar e terminar o dia com Deus</p>
+      </div>
+    </div>
+  </div>
+  <!-- RESUMO DO PLANO -->
+  <div class="footer-col">
+    <div class="sec-hdr">RESUMO DO PLANO</div>
+    <div style="background:#0d1b52;padding:8px 10px;">
+      <div class="resumo-item"><span class="ri">📅</span><span style="color:#fff;">Duração: 12 semanas</span></div>
+      <div class="resumo-item"><span class="ri">⏰</span><span style="color:#fff;">Horas de estudos: 35h/semana</span></div>
+      <div class="resumo-item"><span class="ri">✔️</span><span style="color:#fff;">Rotina com equilíbrio e propósito</span></div>
+      <div style="text-align:center;margin-top:10px;border-top:1px solid #3a4a8a;padding-top:8px;">
+        <span style="color:#f39c12;font-size:12px;font-weight:900;font-style:italic;line-height:1.5;">
+          Disciplina no presente,<br>liberdade no futuro! ♡
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artblend Estúdio — App do Consultor</title>
+<style>
+  :root{--ink:#1E2521;--muted:#5B655E;--line:#E4DED4;--warm:#FBF7F1;--primary:#0E5E55;--primary-d:#0A463F;--soft:#E5F0EE;--accent:#D9772F;--accent-d:#B65E1C;--green:#1E7A4B;}
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--warm);font-size:14.5px;}
+  .app{display:flex;min-height:100vh;}
+  .nav{width:225px;background:linear-gradient(168deg,var(--primary-d),var(--primary));color:#fff;padding:22px 15px;flex-shrink:0;position:sticky;top:0;height:100vh;}
+  .brand{font-size:21px;font-weight:800;letter-spacing:-.5px;} .brand small{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9BE3D6;margin-top:2px;}
+  .navitem{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:10px;cursor:pointer;margin-top:5px;font-weight:600;font-size:14px;color:#CDEDE7;}
+  .navitem:hover{background:rgba(255,255,255,.08);} .navitem.active{background:#fff;color:var(--primary-d);}
+  .navfoot{position:absolute;bottom:16px;left:15px;right:15px;font-size:11px;color:#9BE3D6;border-top:1px solid rgba(255,255,255,.2);padding-top:12px;}
+  .main{flex:1;padding:28px 36px;max-width:1080px;}
+  h1{font-size:25px;margin:0;font-weight:800;color:var(--primary-d);} .sub{color:var(--muted);font-size:14px;margin:3px 0 22px;}
+  .hero{background:linear-gradient(150deg,var(--primary-d),var(--primary) 60%,#13766B);color:#fff;border-radius:18px;padding:34px 32px;margin-bottom:22px;}
+  .hero h2{font-size:26px;margin:0 0 8px;font-weight:800;} .hero p{color:#CDEDE7;margin:0;font-size:15px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:15px;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:18px 20px;box-shadow:0 5px 16px rgba(20,32,28,.04);display:flex;flex-direction:column;}
+  .card .ic{font-size:22px;width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--soft);margin-bottom:10px;}
+  .card h3{margin:0 0 4px;font-size:15.5px;color:var(--primary-d);} .card p{margin:0 0 12px;font-size:12.8px;color:var(--muted);flex:1;line-height:1.45;}
+  .btnrow{display:flex;gap:7px;flex-wrap:wrap;}
+  a.btn,button.btn{display:inline-block;text-decoration:none;background:var(--primary);color:#fff;border:0;border-radius:9px;padding:8px 13px;font-weight:700;font-size:12.5px;cursor:pointer;}
+  a.btn:hover{background:var(--primary-d);} a.btn.g{background:var(--accent);} a.btn.g:hover{background:var(--accent-d);}
+  a.btn.o{background:#fff;color:var(--primary);border:1px solid var(--primary);}
+  .sec-lbl{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:800;margin:26px 0 12px;}
+  details.step{background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden;}
+  details.step summary{padding:14px 18px;font-weight:750;cursor:pointer;color:var(--primary-d);font-size:15px;list-style:none;display:flex;align-items:center;gap:10px;}
+  details.step summary::-webkit-details-marker{display:none;}
+  details.step summary .n{background:var(--accent);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+  details.step .body{padding:0 18px 16px 54px;font-size:14px;color:#333;}
+  details.step .body b{color:var(--primary-d);}
+  .roles{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+  .role{background:#fff;border:1px solid var(--line);border-radius:22px;padding:8px 16px;font-weight:700;font-size:13px;cursor:pointer;}
+  .role.on{background:var(--primary);color:#fff;border-color:var(--primary);}
+  .tags{display:flex;gap:8px;flex-wrap:wrap;}
+  .foot{color:var(--muted);font-size:11.5px;margin-top:26px;}
+  .topbar{display:none;}
+  @media(max-width:800px){.nav{position:fixed;left:-240px;z-index:30;transition:.2s;}.nav.open{left:0;}.topbar{display:flex;gap:10px;align-items:center;background:var(--primary);color:#fff;padding:11px 15px;position:sticky;top:0;z-index:20;}.main{padding:16px;}}
+</style>
+</head>
+<body>
+<div class="topbar"><button class="btn" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button><b>Artblend Estúdio</b></div>
+<div class="app">
+  <aside class="nav">
+    <div class="brand">artblend<small>Estúdio · app</small></div>
+    <div class="navitem active" data-s="inicio">🏠 Início</div>
+    <div class="navitem" data-s="modelos">📑 Esqueletos &amp; Modelos</div>
+    <div class="navitem" data-s="treino">🎓 Treinamento passo a passo</div>
+    <div class="navitem" data-s="ferramentas">🧰 Ferramentas</div>
+    <div class="navitem" data-s="refs">🖼️ Referências (Google)</div>
+    <div class="navfoot">Artblend Consultoria · app do consultor. Mantenha na mesma pasta dos cursos e ferramentas.</div>
+  </aside>
+  <main class="main" id="main"></main>
+</div>
+<script>
+var DRIVE={
+ proposta:"https://drive.google.com/file/d/1EnnmEzAucW4iVp8EhvGLD5DNZtuPcnVI/view",
+ contrato:"https://drive.google.com/file/d/1EiVZ8MLh7sVixJpOQhtBcPdKPila1Bwb/view",
+ fichaOp:"https://drive.google.com/file/d/1kz2TIhGn7nWNffqli6NhCraMimhIfIhn/view",
+ avalDesemp:"https://drive.google.com/file/d/11Dmo89gHJOTt7mQNj6RyXiudPaRhsujG/view",
+ naoConf:"https://drive.google.com/file/d/1sJrK6pSedDGHxJn5_PzMeRY9qW0Id7QT/view",
+ escala:"https://drive.google.com/file/d/10-pkPe7zU97EN8_GZpz8v-4sZNy4zglb/view",
+ indicadores:"https://drive.google.com/file/d/1ZuIOEEhm1geZiKY5eb8PWlq0QUYKgKIs/view",
+ curadoria:"https://drive.google.com/file/d/1vSNXVlpCQhcVRLRf1N2KFO3xuBhCRZzw/view"
+};
+function gimg(q){return "https://www.google.com/search?tbm=isch&q="+encodeURIComponent(q);}
+
+document.querySelectorAll('.navitem').forEach(function(n){n.onclick=function(){
+ document.querySelectorAll('.navitem').forEach(function(x){x.classList.remove('active');});n.classList.add('active');render(n.dataset.s);
+ document.querySelector('.nav').classList.remove('open');};});
+
+function render(s){var m=document.getElementById('main');
+ if(s=='inicio')m.innerHTML=vInicio();
+ else if(s=='modelos')m.innerHTML=vModelos();
+ else if(s=='treino')m.innerHTML=vTreino('consultor');
+ else if(s=='ferramentas')m.innerHTML=vFerr();
+ else m.innerHTML=vRefs();}
+
+function vInicio(){
+ return '<div class="hero"><h2>Bem-vindo ao Estúdio do Consultor</h2><p>Tudo o que você precisa para aprender, atuar e entregar — num lugar só.</p></div>'+
+ '<div class="grid">'+
+ card('📑','Esqueletos &amp; Modelos','Proposta, contrato, ficha técnica, avaliação... com botão que abre o modelo no Drive.','<button class="btn" onclick="go(\'modelos\')">Abrir</button>')+
+ card('🎓','Treinamento passo a passo','Trilha didática para formar consultores, colaboradores, líderes e donos.','<button class="btn" onclick="go(\'treino\')">Abrir</button>')+
+ card('🧰','Ferramentas','Sistema, DRPS (NR-1), Ficha Técnica + CMV, Painel, Questionário.','<button class="btn" onclick="go(\'ferramentas\')">Abrir</button>')+
+ card('🖼️','Referências','Busca pronta no Google Imagens de POPs, planilhas, DRE e afins.','<button class="btn" onclick="go(\'refs\')">Abrir</button>')+
+ '</div>';
+}
+function card(ic,t,p,btns){return '<div class="card"><div class="ic">'+ic+'</div><h3>'+t+'</h3><p>'+p+'</p><div class="btnrow">'+btns+'</div></div>';}
+function go(s){document.querySelectorAll('.navitem').forEach(function(x){x.classList.toggle('active',x.dataset.s==s);});render(s);}
+
+/* MODELOS */
+function vModelos(){
+ function mc(ic,t,p,drive,q){var b='';if(drive)b+='<a class="btn" href="'+drive+'" target="_blank">Abrir no Drive</a>';b+='<a class="btn o" href="'+gimg(q)+'" target="_blank">Ver exemplos</a>';return card(ic,t,p,b);}
+ return '<h1>Esqueletos &amp; Modelos</h1><p class="sub">Os documentos-chave da consultoria. "Abrir no Drive" abre o modelo pronto; "Ver exemplos" mostra referências no Google.</p>'+
+ '<div class="grid">'+
+ mc('🧾','Proposta comercial','Escopo, cronograma, benefícios, valores e validade.',DRIVE.proposta,'modelo proposta consultoria gastronômica pdf')+
+ mc('📜','Contrato de consultoria','9 cláusulas: serviços, cronograma, valores, obrigações.',DRIVE.contrato,'modelo contrato prestação de serviços consultoria')+
+ mc('🍽️','Ficha técnica operacional','Ingredientes, modo de preparo, rendimento e custo.',DRIVE.fichaOp,'ficha técnica gastronomia modelo planilha')+
+ mc('📈','Indicadores / DRE (Rubens)','Faturamento, ponto de equilíbrio, CMV, Prime Cost.',DRIVE.indicadores,'DRE restaurante planilha indicadores modelo')+
+ mc('🔎','Curadoria / diagnóstico de cardápio','Avaliação nota 1–5: cardápio, vitrine, ambiente, serviço.',DRIVE.curadoria,'diagnóstico auditoria restaurante checklist modelo')+
+ mc('🗓️','Escala de trabalho','Escala mensal por colaborador (44h/30h).',DRIVE.escala,'escala de trabalho restaurante modelo planilha')+
+ mc('📋','Avaliação de desempenho','Comportamento, rendimento, higiene, treinamentos.',DRIVE.avalDesemp,'avaliação de desempenho colaborador modelo')+
+ mc('⚠️','Relatório de não conformidade','Área, NC, ação corretiva/preventiva, eficácia.',DRIVE.naoConf,'relatório de não conformidade modelo')+
+ mc('✅','POP (Procedimento Operacional Padrão)','Passo a passo padronizado por praça/tarefa.','','modelo POP procedimento operacional padrão restaurante')+
+ mc('📖','Regimento / Manual interno','Regras de convivência e cultura da empresa.','','regimento interno restaurante modelo')+
+ mc('👤','Descrição de cargo','Perfil, requisitos, atividades e indicadores.','','descrição de cargo restaurante modelo')+
+ mc('🗂️','Portfólio do consultor','Cases: problema → solução → resultado (N4).','','portfólio consultor apresentação modelo')+
+ '</div>';
+}
+
+/* TREINAMENTO */
+var TRILHAS={
+ consultor:[
+  ['Aprenda a base','Leia o <b>Curso CEP</b> (pessoas) e o <b>Curso de Cardápio</b>. São a sua fundação. Abra pela Central ou pelas Ferramentas.'],
+  ['Prospecte clientes','Escolha <b>20 restaurantes</b>. Mande a mensagem: "Ajudo donos de food service a parar de perder gente e vender mais, sem aumentar custo fixo. Posso te mostrar em 30 min?"'],
+  ['Faça a 1ª reunião','Pergunte só dois números: <b>quanto fatura</b> e <b>quanto é a folha</b>. Depois ouça a maior dor. Você fala 20%, ele fala 80%.'],
+  ['Diagnostique','Use a planilha de diagnóstico: folha ≤15%? CMV 25–30%? Ticket? Mostre onde está o dinheiro escondido.'],
+  ['Envie a proposta em 24h','Abra o <b>modelo de proposta</b>, coloque as dores dele e o valor. Rapidez fecha contrato.'],
+  ['Feche com contrato','Use o <b>modelo de contrato</b>. Combine 1º mês antecipado.'],
+  ['Execute','Escutas, treinos, POPs, ficha técnica, escala. Um passo por semana.'],
+  ['Prove o resultado','No fim do mês, mostre o <b>relatório com ROI</b>. É o que renova o contrato.']
+ ],
+ colaborador:[
+  ['Boas-vindas','Você é parte do time. Aprenda a receber bem e a caprichar — clientes felizes voltam.'],
+  ['Atendimento','Sorria, cumprimente, ofereça ajuda. No fechamento, sugira uma sobremesa ou bebida.'],
+  ['Higiene e segurança','Lave as mãos, use uniforme limpo, siga a validade dos alimentos. Segurança em primeiro lugar.'],
+  ['O POP da sua função','Cada tarefa tem um passo a passo (POP). Siga sempre — é o que garante o padrão.'],
+  ['Venda sugestiva','"Vai uma borda recheada por só R$7 a mais? É a preferida da casa." Ofereça, sempre.']
+ ],
+ lider:[
+  ['Liderança é comportamento','Você não lidera pelo cargo, e sim pelo exemplo. Trate a equipe como quer ser tratado.'],
+  ['Comunicação sem violência (CNV)','Fale do fato, não da pessoa: "percebi que chegou atrasado 3 vezes" (fato) → "preciso do horário" (necessidade) → "consegue confirmar amanhã?" (pedido).'],
+  ['Feedback SBI','Situação → Comportamento → Impacto. Serve para elogiar e para corrigir, sempre sem humilhar.'],
+  ['Escala por pico','Coloque mais gente no horário cheio e menos na baixa. Publique a escala com 7 dias de antecedência.'],
+  ['Reconhecimento','Elogie o esforço específico, na frente da equipe. Reconhecimento é o que mais motiva.']
+ ],
+ proprietario:[
+  ['Olhe 3 números','<b>Folha</b> (≤15%), <b>CMV</b> (25–30%) e <b>ticket médio</b>. Se souber esses, você já está à frente.'],
+  ['Pessoas em dia primeiro','Salário certo, escala previsível, regras claras. Segurança vem antes de qualquer prêmio.'],
+  ['Cultura de resultados','Compartilhe as metas com a equipe e celebre os avanços, mesmo os pequenos.'],
+  ['Apoie o consultor','Dê acesso aos números e apoie as mudanças. O resultado aparece em ~90 dias.'],
+  ['NR-1 é obrigatório','Você precisa gerenciar os riscos psicossociais (estresse, assédio). Use o kit DRPS do Artblend.']
+ ]
+};
+var TROLE={consultor:'Consultor',colaborador:'Colaborador',lider:'Líder / Supervisor',proprietario:'Proprietário'};
+function vTreino(role){
+ var chips=Object.keys(TROLE).map(function(k){return '<span class="role '+(k==role?'on':'')+'" onclick="setRole(\''+k+'\')">'+TROLE[k]+'</span>';}).join('');
+ var steps=TRILHAS[role].map(function(s,i){return '<details class="step"'+(i==0?' open':'')+'><summary><span class="n">'+(i+1)+'</span>'+s[0]+'</summary><div class="body">'+s[1]+'</div></details>';}).join('');
+ return '<h1>Treinamento passo a passo</h1><p class="sub">Escolha para quem é. Cada passo é curto e prático — abra um de cada vez.</p>'+
+ '<div class="roles">'+chips+'</div>'+steps;
+}
+function setRole(r){document.getElementById('main').innerHTML=vTreino(r);document.querySelectorAll('.navitem').forEach(function(x){x.classList.toggle('active',x.dataset.s=='treino');});}
+
+/* FERRAMENTAS */
+function vFerr(){
+ function fc(ic,t,p,href){return card(ic,t,p,'<a class="btn" href="'+href+'" target="_blank">Abrir</a>');}
+ return '<h1>Ferramentas</h1><p class="sub">Os apps do ecossistema (ficam na mesma pasta).</p><div class="grid">'+
+ fc('🗄️','Artblend Sistema','Planilhas unificadas: gestão, estoque, POPs, RH, NR-1.','ARTBLEND_SISTEMA.html')+
+ fc('🧠','DRPS (NR-1)','Diagnóstico de riscos psicossociais → matriz → plano.','ARTBLEND_NR1_DRPS.html')+
+ fc('📝','Questionário DRPS','Banco de perguntas para o Google Forms.','QUESTIONARIO_DRPS_ARTBLEND.html')+
+ fc('🍽️','Ficha Técnica + CMV + Estoque','Insumos, fichas, CMV, preço sugerido, estoque.','ARTBLEND_FICHA_TECNICA.html')+
+ fc('📈','Painel Demo','Cockpit com health score e simulador.','ARTBLEND_DEMO_PAINEL.html')+
+ fc('📘','Documento Mestre','A memória completa do projeto.','SISTEMA_GLOBAL_ARTBLEND.html')+
+ '</div>'+
+ '<div class="sec-lbl">Cursos</div><div class="grid">'+
+ fc('👥','Curso CEP','Consultor Estratégico de Pessoas (40h).','CURSO_CEP_ARTBLEND.html')+
+ fc('🎓','Curso T&amp;D','Treinamento &amp; Desenvolvimento.','CURSO_TD_ARTBLEND.html')+
+ fc('🍽️','Curso Cardápio','Consultoria de Cardápio (8 módulos).','ARTBLEND_CONSULTORIA_CARDAPIO.html')+
+ fc('🧩','Curso NR-1','Riscos psicossociais, do zero à execução.','CURSO_NR1_ARTBLEND.html')+
+ '</div>';
+}
+
+/* REFERÊNCIAS */
+function vRefs(){
+ var qs=[
+  ['Modelo de POP (restaurante)','modelo POP procedimento operacional padrão restaurante'],
+  ['Ficha técnica (planilha)','ficha técnica gastronomia modelo planilha excel'],
+  ['Engenharia de cardápio','engenharia de cardápio matriz estrela planilha modelo'],
+  ['DRE / indicadores restaurante','DRE restaurante planilha indicadores prime cost modelo'],
+  ['Controle de estoque','controle de estoque restaurante planilha modelo'],
+  ['Checklist abertura/fechamento','checklist abertura fechamento restaurante modelo'],
+  ['Manual de boas práticas','manual de boas práticas restaurante ANVISA modelo'],
+  ['Proposta de consultoria','proposta consultoria gastronômica modelo pdf'],
+  ['Contrato de consultoria','modelo contrato prestação de serviços consultoria'],
+  ['Escala de trabalho','escala de trabalho 6x1 restaurante modelo'],
+  ['Descrição de cargo','descrição de cargo food service modelo'],
+  ['Avaliação de desempenho','avaliação de desempenho colaborador restaurante modelo'],
+  ['DRPS / riscos psicossociais','diagnóstico riscos psicossociais NR-1 planilha modelo'],
+  ['Dashboard de gestão (Consumer/iFood)','dashboard gestão restaurante software tela'],
+  ['SIPOC / mapa de processo','SIPOC mapa de processo exemplo']
+ ];
+ var chips=qs.map(function(q){return '<a class="btn o" href="'+gimg(q[1])+'" target="_blank">'+q[0]+'</a>';}).join(' ');
+ return '<h1>Referências (Google Imagens)</h1><p class="sub">Botões prontos de busca. Cada um abre o Google Imagens com as tags certas — pra você ver modelos das melhores estruturas.</p>'+
+ '<div class="card" style="padding:22px"><div class="tags">'+chips+'</div></div>'+
+ '<p class="foot">Observação: são buscas na web (não são arquivos seus). Use como inspiração de layout/estrutura para os seus próprios modelos.</p>';
+}
+render('inicio');
+</script>
+</body>
+</html>

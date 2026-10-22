@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blueprint do Ecossistema Artblend — De documentos a software</title>
+<style>
+  :root{
+    --ink:#1E2521; --muted:#5B655E; --line:#E4DED4; --paper:#FFFFFF; --paper-warm:#FBF7F1;
+    --primary:#0E5E55; --primary-d:#0A463F; --primary-soft:#E5F0EE;
+    --accent:#D9772F; --accent-soft:#FBEBDB;
+    --a:#0E5E55; --a-bg:#E8F1EF; --b:#2F5D8C; --b-bg:#E8EFF6;
+    --t:#B07A12; --t-bg:#FBF0D8; --x:#6B4E9E; --x-bg:#EFEAF6;
+    --metodo-bg:#0E5E55; --warn:#B23B2E; --warn-bg:#FBE9E6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.62;margin:0;background:#fff;font-size:15px;}
+  .wrap{max-width:900px;margin:0 auto;padding:0 54px;}
+  .cover{background:linear-gradient(150deg,var(--primary-d) 0%,var(--primary) 55%,#13766B 100%);color:#fff;padding:90px 54px 70px;position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;}
+  .cover .kick{letter-spacing:3px;text-transform:uppercase;font-size:13px;font-weight:600;color:#9BE3D6;margin-bottom:18px;}
+  .cover h1{font-size:46px;line-height:1.06;margin:0 0 12px;font-weight:800;}
+  .cover h2{font-size:20px;font-weight:500;margin:0 0 34px;color:#CDEDE7;}
+  .cover .accentbar{width:90px;height:6px;background:var(--accent);border-radius:6px;margin:0 0 30px;}
+  .cover .badges{display:flex;gap:12px;flex-wrap:wrap;}
+  .cover .badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:30px;padding:8px 18px;font-size:13px;font-weight:600;}
+  .cover .foot{position:absolute;bottom:42px;left:54px;right:54px;font-size:13px;color:#9BE3D6;border-top:1px solid rgba(255,255,255,.2);padding-top:16px;display:flex;justify-content:space-between;}
+  .sec{background:var(--primary);color:#fff;border-radius:14px;padding:22px 28px;margin:46px 0 22px;page-break-before:always;}
+  .sec .k{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#A7E0D6;font-weight:700;}
+  .sec h2{font-size:25px;margin:6px 0;font-weight:800;}
+  .sec .m{font-size:13.5px;color:#CFEAE5;}
+  h3{font-size:19px;color:var(--primary-d);margin:30px 0 8px;font-weight:750;border-left:5px solid var(--accent);padding-left:12px;}
+  h4{font-size:16px;margin:18px 0 6px;font-weight:700;}
+  p{margin:9px 0;} strong{color:var(--primary-d);}
+  ul,ol{margin:9px 0;padding-left:22px;} li{margin:5px 0;}
+  .box{border-radius:12px;padding:18px 22px 16px;margin:18px 0;border:1px solid var(--line);page-break-inside:avoid;}
+  .box .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:4px 11px;border-radius:20px;color:#fff;margin-bottom:10px;}
+  .box h4{margin-top:0;}
+  .box.a{background:var(--a-bg);border-color:#BFD9D3;} .box.a .tag{background:var(--a);}
+  .box.b{background:var(--b-bg);border-color:#C5D6E8;} .box.b .tag{background:var(--b);}
+  .box.t{background:var(--t-bg);border-color:#EAD7A6;} .box.t .tag{background:var(--t);}
+  .box.x{background:var(--x-bg);border-color:#D5C9EC;} .box.x .tag{background:var(--x);}
+  .box.warn{background:var(--warn-bg);border-color:#EEC4BD;} .box.warn .tag{background:var(--warn);}
+  .metodo{background:var(--metodo-bg);color:#EAF6F3;border-radius:12px;padding:20px 24px;margin:20px 0;page-break-inside:avoid;}
+  .metodo .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;background:var(--accent);color:#fff;padding:4px 12px;border-radius:20px;margin-bottom:12px;}
+  .metodo h4{color:#fff;margin:0 0 8px;font-size:18px;} .metodo strong{color:#FFE3C7;}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px;page-break-inside:avoid;}
+  th{background:var(--primary);color:#fff;text-align:left;padding:9px 11px;font-weight:600;}
+  td{border:1px solid var(--line);padding:8px 11px;vertical-align:top;}
+  tr:nth-child(even) td{background:var(--paper-warm);}
+  .flow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:18px 0;}
+  .node{background:var(--primary-soft);border:1px solid #BFD9D3;border-radius:10px;padding:12px 16px;font-weight:700;color:var(--primary-d);font-size:13px;text-align:center;flex:1;min-width:150px;}
+  .node small{display:block;font-weight:500;color:var(--muted);margin-top:3px;}
+  .lead{font-size:16.5px;color:var(--muted);}
+  .note{font-size:13px;color:var(--muted);font-style:italic;}
+  .divider{height:1px;background:var(--line);margin:28px 0;}
+  @page{margin:18mm 13mm;}
+  @media print{.cover{min-height:auto;height:100vh;}}
+</style>
+</head>
+<body>
+<section class="cover">
+  <div class="kick">Artblend Consultoria Gourmet · Documento Estratégico</div>
+  <h1>Blueprint do Ecossistema Artblend</h1>
+  <h2>De documentos soltos a um software de consultoria gastronômica — arquitetura, IA e roadmap</h2>
+  <div class="accentbar"></div>
+  <div class="badges"><span class="badge">Benchmark dos players</span><span class="badge">Arquitetura</span><span class="badge">Agentes de IA</span><span class="badge">Roadmap por fases</span></div>
+  <div class="foot"><span>Artblend Consultoria Gourmet</span><span>Junho 2026</span></div>
+</section>
+<div class="wrap">
+
+<h3 style="page-break-before:always;">Resumo para decisão (leia isto primeiro)</h3>
+<p class="lead">Sim — transformar seus documentos em ferramenta funciona, e é exatamente o que separa um consultor de uma <em>empresa de consultoria que escala</em>. A recomendação central deste blueprint é simples: <strong>não um app só, e não tudo separado. Dois produtos sobre um mesmo motor de dados.</strong></p>
+<div class="flow">
+  <div class="node">ARTBLEND OS<small>Interno — o consultor opera</small></div>
+  <div class="node">MOTOR DE DADOS<small>Núcleo comum + IA</small></div>
+  <div class="node">ARTBLEND PARA RESTAURANTES<small>Assinatura — o cliente usa</small></div>
+</div>
+<p>O <strong>Artblend OS</strong> é a sua "cabine de comando" (prospecção, diagnóstico, proposta, contrato, entrega). O <strong>Artblend para Restaurantes</strong> é o produto de assinatura que o dono e a equipe usam todo dia (POPs, fichas, escalas, treinamentos, dashboard). Os dois conversam pelo mesmo motor — o que você diagnostica no OS vira a configuração do app do cliente. É assim que players como o iFood operam: um painel de gestão com dados, cardápio e relatórios num lugar só.</p>
+
+<!-- 1 -->
+<div class="sec"><div class="k">Parte 1</div><h2>A ideia está certa — e tem nome: produtização</h2><div class="m">Pegar conhecimento que hoje vive em PDFs e transformá-lo em ferramenta repetível e cobrável.</div></div>
+<p>Hoje seus templates "não dá pra mexer" porque são documentos. O salto é torná-los <strong>campos preenchíveis com exemplos, que geram entregáveis e guardam dados</strong>. Quando o template de LNT vira um formulário que, ao ser preenchido, já monta o relatório e alimenta o dashboard, você deixou de vender horas e passou a vender um sistema. Isso:</p>
+<ul>
+<li><strong>Escala</strong> — o mesmo método atende 3 ou 30 clientes sem você refazer tudo à mão.</li>
+<li><strong>Padroniza</strong> — todo cliente recebe o mesmo nível (foi exatamente isso que o McDonald's fez com manuais e checklists para garantir o mesmo produto em qualquer loja).</li>
+<li><strong>Prende o cliente (no bom sentido)</strong> — assinatura mensal com dados acumulados torna a troca cara para o restaurante.</li>
+<li><strong>Cria ativo</strong> — você passa a ter um software com valor próprio, não só a sua agenda.</li>
+</ul>
+
+<!-- 2 -->
+<div class="sec"><div class="k">Parte 2</div><h2>Benchmark — o que os grandes têm (e o que copiar)</h2><div class="m">McDonald's, Subway, iFood e consultorias: o que cada um faz bem.</div></div>
+<table>
+<tr><th>Player</th><th>O que eles têm</th><th>O que o Artblend tira de lição</th></tr>
+<tr><td><strong>McDonald's</strong></td><td>Manual de operações + <strong>SOC (Station Observation Checklist)</strong>: cada estação tem padrão, checklist de qualidade, segurança e atendimento, usado para treinar e avaliar.</td><td>Cada POP precisa de um <strong>checklist de observação</strong> que vira nota de auditoria — não só um texto.</td></tr>
+<tr><td><strong>Subway / franquias</strong></td><td>Manual de franquia: padronização de processo, layout, receita e marca replicável em qualquer unidade.</td><td>Seu método é a "franquia da gestão": um <strong>playbook replicável</strong> que qualquer consultor Artblend aplica igual.</td></tr>
+<tr><td><strong>iFood Gestor</strong></td><td>Painel único: cadastro de cardápio, pedidos em tempo real, <strong>dashboard de vendas, ticket médio e ranking de pratos</strong>, avaliações, marketing.</td><td>O app do restaurante tem que ter <strong>dashboard com os números que importam</strong> — decisão por dado, não por achismo.</td></tr>
+<tr><td><strong>Consultorias gastronômicas</strong></td><td>Entregáveis: diagnóstico, ficha técnica, engenharia de cardápio, POPs, manual de boas práticas, plano de ação, fluxo de caixa.</td><td>Você já tem a metodologia (CEP + T&D); falta <strong>empacotar os entregáveis em módulos do sistema</strong>.</td></tr>
+<tr><td><strong>SaaS de restaurante</strong></td><td>Estoque, CMV, compras (BOM), engenharia de cardápio, escalas, CRM, integração com PDV.</td><td>O diferencial do Artblend é unir <strong>gestão de PESSOAS</strong> (seu forte) com esses dados de operação.</td></tr>
+</table>
+<div class="box warn"><span class="tag">O que falta no mercado (sua brecha)</span><p>Os SaaS existentes são fortes em <strong>operação e finanças</strong>, mas fracos em <strong>gestão de pessoas, treinamento e cultura</strong> — que é exatamente o seu método CEP. Um produto que junta "dados de operação + desenvolvimento de pessoas + acompanhamento do consultor" tem pouquíssimos concorrentes. Esse é o seu posicionamento.</p></div>
+
+<!-- 3 -->
+<div class="sec"><div class="k">Parte 3</div><h2>Arquitetura recomendada: 2 produtos, 1 motor</h2><div class="m">Por que separar — e por que mesmo assim integrar.</div></div>
+<p><strong>Por que não um app só:</strong> consultor e dono têm objetivos, telas e permissões diferentes. Misturar prospecção/contrato (seu negócio) com POP/escala (negócio do cliente) gera confusão e risco de o cliente ver o que não deve.</p>
+<p><strong>Por que não tudo separado e solto:</strong> se forem ilhas, você reescreve dado em todo lugar — o problema que você tem hoje. A saída é um <strong>motor de dados comum</strong> (clientes, colaboradores, indicadores, biblioteca de conteúdo) que abastece os dois produtos.</p>
+<div class="box a"><span class="tag">Produto A — Artblend OS (interno do consultor)</span>
+<p>Sua cabine de comando. Seções: <strong>Portfólio</strong> (cases) · <strong>CRM de Prospecção</strong> (funil de leads + scripts) · <strong>Escopo &amp; Proposta</strong> (gera a proposta em 1 clique) · <strong>Contrato</strong> (assinatura digital) · <strong>Diagnóstico</strong> (financeiro + escutas + LNT) · <strong>Biblioteca</strong> (scripts, templates, POPs, dinâmicas) · <strong>Entrega &amp; Relatórios</strong> (Kirkpatrick, ROI, relatório mensal) · <strong>Dashboard do consultor</strong> (carteira, MRR, renovações).</p></div>
+<div class="box b"><span class="tag">Produto B — Artblend para Restaurantes (assinatura)</span>
+<p>O que o dono e a equipe usam todo dia, no modelo de assinatura (como você citou — tipo Sulflex). Seções: <strong>POPs &amp; Checklists</strong> (estilo SOC) · <strong>Fichas Técnicas &amp; CMV</strong> · <strong>Escalas</strong> · <strong>Onboarding &amp; Treinamentos</strong> (trilha digital) · <strong>Regimento &amp; Manual</strong> · <strong>Dashboard de pessoas e vendas</strong> · <strong>Pesquisas</strong> (Q12, eNPS). Níveis de acesso: dono vê tudo; líder vê o setor; colaborador vê só o treino e o checklist dele.</p></div>
+
+<!-- 4 -->
+<div class="sec"><div class="k">Parte 4</div><h2>Segmentação dos documentos por público</h2><div class="m">Quem vê o quê — a pergunta que você fez, respondida.</div></div>
+<table>
+<tr><th>Público</th><th>Documentos / ferramentas</th><th>Onde vive</th></tr>
+<tr><td><strong>Consultor (você)</strong></td><td>Proposta, contrato, diagnóstico, LNT, relatório de ROI, CRM, portfólio</td><td>Artblend OS</td></tr>
+<tr><td><strong>Dono do restaurante</strong></td><td>Dashboard, relatório mensal, indicadores, plano de ação, contrato</td><td>App do restaurante (perfil dono)</td></tr>
+<tr><td><strong>Líder / supervisor</strong></td><td>Escala, POPs do setor, checklist de observação, feedback (SBI/CNV)</td><td>App do restaurante (perfil líder)</td></tr>
+<tr><td><strong>Colaborador</strong></td><td>Onboarding, treino digital, ficha técnica ilustrada, checklist da função</td><td>App do restaurante (perfil colaborador, celular)</td></tr>
+<tr><td><strong>Prospecção (lead)</strong></td><td>Página de proposta, calculadora de ROI, material de venda</td><td>Artblend OS → link público</td></tr>
+</table>
+
+<!-- 5 -->
+<div class="sec"><div class="k">Parte 5</div><h2>Camada de dados e integrações</h2><div class="m">Planilhas automatizadas + conexão com estoque, compras e PDV.</div></div>
+<p>As "planilhas automatizadas" que você imaginou são, na verdade, a <strong>camada de dados</strong> do sistema. O ideal: o usuário preenche um formulário (ou importa do PDV) e o sistema calcula CMV, ticket, turnover, custo de folha — e atualiza o dashboard sozinho. Integrações que valem a pena, por ordem:</p>
+<ol>
+<li><strong>PDV / iFood</strong> — puxa vendas e ticket médio automaticamente (o iFood já expõe esses dados no painel dele).</li>
+<li><strong>Estoque / compras</strong> — alimenta o CMV e a ficha técnica (entra nota, baixa insumo).</li>
+<li><strong>Folha / ponto</strong> — turnover, absenteísmo, custo de folha.</li>
+<li><strong>Planilhas (Google Sheets) como ponte</strong> no início — barato e rápido para o MVP, antes de integrações nativas.</li>
+</ol>
+
+<!-- 6 -->
+<div class="sec"><div class="k">Parte 6</div><h2>Camada de IA — os agentes</h2><div class="m">Sua ideia de "um agente que faz e um supervisor que gerencia outros agentes" está correta — chama-se orquestração multi-agente.</div></div>
+<div class="metodo"><span class="tag">Arquitetura multi-agente Artblend</span>
+<h4>1 Supervisor + agentes especialistas</h4>
+<p>Um <strong>Agente Supervisor (Orquestrador)</strong> recebe o pedido, decide qual especialista aciona, junta os resultados e controla qualidade. Abaixo dele:</p>
+<ul>
+<li><strong>Agente Diagnóstico</strong> — conduz LNT, escutas e diagnóstico financeiro; identifica causa raiz (saber/poder/querer).</li>
+<li><strong>Agente Conteúdo/T&D</strong> — gera trilha de treino, materiais, quizzes, POPs com exemplos nos campos.</li>
+<li><strong>Agente Comercial</strong> — monta proposta, contrato e argumento de ROI.</li>
+<li><strong>Agente Dados/BI</strong> — lê indicadores, monta dashboard e alerta desvios (folha &gt; 15%, turnover &gt; 5%).</li>
+</ul>
+</div>
+<p><strong>Conselho honesto sobre os agentes:</strong> isso é poderoso, mas é a parte mais avançada — não comece por aqui. Primeiro padronize os dados e os fluxos (Fases 1–2). Agentes brilham quando têm dados estruturados para puxar; soltos, viram demonstração bonita que não decide nada.</p>
+
+<!-- 7 -->
+<div class="sec"><div class="k">Parte 7</div><h2>Para que serve cada peça e quando usar</h2></div>
+<table>
+<tr><th>Peça</th><th>Para que serve</th><th>Quando usar</th></tr>
+<tr><td>Portfólio</td><td>Provar resultado e fechar venda</td><td>Prospecção</td></tr>
+<tr><td>Escopo</td><td>Definir limites do que será entregue</td><td>Antes da proposta</td></tr>
+<tr><td>Proposta</td><td>Apresentar valor e preço</td><td>Após 1ª reunião</td></tr>
+<tr><td>Contrato</td><td>Formalizar e proteger</td><td>No fechamento</td></tr>
+<tr><td>Diagnóstico / LNT</td><td>Achar o problema real antes de agir</td><td>Mês 1 (P1)</td></tr>
+<tr><td>Scripts</td><td>Padronizar falas (venda, escuta, feedback)</td><td>Em campo</td></tr>
+<tr><td>Templates</td><td>Acelerar entregáveis</td><td>Toda entrega</td></tr>
+<tr><td>POPs + checklist</td><td>Padronizar e auditar a operação</td><td>Implantação (P2)</td></tr>
+<tr><td>Dashboard / dados</td><td>Decidir por número e provar ROI</td><td>Contínuo / P3</td></tr>
+</table>
+
+<!-- 8 -->
+<div class="sec"><div class="k">Parte 8</div><h2>O que falta para chegar nesse nível</h2></div>
+<ul>
+<li><strong>Padronizar os dados</strong> antes de programar: definir os campos de cada formulário (com exemplos preenchidos — como você quer).</li>
+<li><strong>Escolher a base técnica:</strong> começar com no-code/low-code (ex.: Notion, Glide, Softr, AppSheet) acoplado a planilhas — rápido e barato — antes de um software sob medida.</li>
+<li><strong>Modelo de assinatura e preço</strong> do produto do restaurante (mensal por loja, faixas por nº de colaboradores).</li>
+<li><strong>Segurança e LGPD</strong> — dados de colaboradores e financeiros do cliente exigem cuidado e contrato de tratamento de dados.</li>
+<li><strong>Engenharia de cardápio e CMV</strong> — peça que ainda não está nos seus documentos e que todo restaurante valoriza.</li>
+<li><strong>Onboarding do próprio software</strong> — o dono precisa aprender a usar; sem isso, o app vira prateleira.</li>
+</ul>
+
+<!-- 9 -->
+<div class="sec"><div class="k">Parte 9</div><h2>Roadmap por fases (não tente tudo de uma vez)</h2></div>
+<table>
+<tr><th>Fase</th><th>Foco</th><th>Como fazer</th></tr>
+<tr><td><strong>Fase 0 — Padronizar</strong></td><td>Transformar PDFs em formulários com campos e exemplos</td><td>Estruturar no Google Sheets/Notion</td></tr>
+<tr><td><strong>Fase 1 — OS do consultor</strong></td><td>Prospecção, proposta, diagnóstico, relatório</td><td>No-code (Notion/Softr) sobre planilhas</td></tr>
+<tr><td><strong>Fase 2 — App do restaurante</strong></td><td>POPs, treino, escala, dashboard por assinatura</td><td>Glide/AppSheet (acesso mobile)</td></tr>
+<tr><td><strong>Fase 3 — Integrações</strong></td><td>PDV/iFood, estoque, folha</td><td>APIs + planilhas como ponte</td></tr>
+<tr><td><strong>Fase 4 — Agentes de IA</strong></td><td>Supervisor + especialistas</td><td>Sobre os dados já estruturados</td></tr>
+</table>
+<div class="box t"><span class="tag">Minha recomendação de partida</span><p>Comece pela <strong>Fase 0 + Fase 1</strong> com no-code sobre planilhas. Em poucas semanas você tem o OS funcionando e já sente o ganho — sem gastar com desenvolvimento. Só invista em software sob medida e agentes quando o método estiver rodando e gerando assinaturas.</p></div>
+
+<div class="divider"></div>
+<p class="note" style="text-align:center;">Blueprint do Ecossistema Artblend · Documento estratégico · © Artblend Consultoria Gourmet — Junho 2026.</p>
+</div>
+</body>
+</html>

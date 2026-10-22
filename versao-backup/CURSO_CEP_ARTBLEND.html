@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curso CEP — Artblend Consultoria Gourmet | Food Service</title>
+<style>
+  :root{
+    --ink:#1E2521; --muted:#5B655E; --line:#E4DED4; --paper:#FFFFFF; --paper-warm:#FBF7F1;
+    --primary:#0E5E55; --primary-d:#0A463F; --primary-soft:#E5F0EE;
+    --accent:#D9772F; --accent-soft:#FBEBDB;
+    --caso:#0E5E55; --caso-bg:#E8F1EF; --script:#2F5D8C; --script-bg:#E8EFF6;
+    --template:#B07A12; --template-bg:#FBF0D8; --exerc:#6B4E9E; --exerc-bg:#EFEAF6;
+    --metodo:#0A463F; --metodo-bg:#0E5E55; --warn:#B23B2E; --warn-bg:#FBE9E6;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.62;margin:0;background:var(--paper);font-size:15px;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 54px;}
+  .cover{background:linear-gradient(150deg,var(--primary-d) 0%,var(--primary) 55%,#13766B 100%);color:#fff;padding:90px 54px 70px;text-align:left;position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;}
+  .cover .kick{letter-spacing:3px;text-transform:uppercase;font-size:13px;font-weight:600;color:#9BE3D6;margin-bottom:18px;}
+  .cover h1{font-size:54px;line-height:1.05;margin:0 0 10px;font-weight:800;letter-spacing:-1px;}
+  .cover h2{font-size:23px;font-weight:500;margin:0 0 34px;color:#CDEDE7;}
+  .cover .badges{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;}
+  .cover .badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:30px;padding:8px 18px;font-size:13px;font-weight:600;}
+  .cover .accentbar{width:90px;height:6px;background:var(--accent);border-radius:6px;margin:0 0 30px;}
+  .cover .foot{position:absolute;bottom:42px;left:54px;right:54px;font-size:13px;color:#9BE3D6;border-top:1px solid rgba(255,255,255,.2);padding-top:16px;display:flex;justify-content:space-between;}
+  .module-head{background:var(--primary);color:#fff;border-radius:14px;padding:26px 30px;margin:50px 0 26px;page-break-before:always;}
+  .module-head .m-kick{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#A7E0D6;font-weight:700;}
+  .module-head h2{font-size:29px;margin:6px 0 6px;font-weight:800;line-height:1.12;}
+  .module-head .m-meta{font-size:13.5px;color:#CFEAE5;}
+  h3{font-size:21px;color:var(--primary-d);margin:34px 0 8px;font-weight:750;border-left:5px solid var(--accent);padding-left:12px;}
+  h4{font-size:17px;color:var(--ink);margin:22px 0 6px;font-weight:700;}
+  p{margin:9px 0;} strong{color:var(--primary-d);}
+  ul,ol{margin:9px 0 9px;padding-left:22px;} li{margin:5px 0;}
+  .box{border-radius:12px;padding:18px 22px 16px;margin:20px 0;border:1px solid var(--line);page-break-inside:avoid;}
+  .box .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:4px 11px;border-radius:20px;color:#fff;margin-bottom:10px;}
+  .box h4{margin-top:0;}
+  .box.caso{background:var(--caso-bg);border-color:#BFD9D3;} .box.caso .tag{background:var(--caso);}
+  .box.script{background:var(--script-bg);border-color:#C5D6E8;} .box.script .tag{background:var(--script);}
+  .box.template{background:var(--template-bg);border-color:#EAD7A6;} .box.template .tag{background:var(--template);}
+  .box.exerc{background:var(--exerc-bg);border-color:#D5C9EC;} .box.exerc .tag{background:var(--exerc);}
+  .box.warn{background:var(--warn-bg);border-color:#EEC4BD;} .box.warn .tag{background:var(--warn);}
+  .metodo{background:var(--metodo-bg);color:#EAF6F3;border-radius:12px;padding:22px 24px;margin:22px 0;page-break-inside:avoid;}
+  .metodo .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;background:var(--accent);color:#fff;padding:4px 12px;border-radius:20px;margin-bottom:12px;}
+  .metodo h4{color:#fff;margin:0 0 8px;font-size:19px;} .metodo strong{color:#FFE3C7;} .metodo ul li{margin:6px 0;}
+  .say{background:#fff;border-left:4px solid var(--script);border-radius:6px;padding:10px 14px;margin:9px 0;font-style:italic;}
+  .say::before{content:"🗣 ";font-style:normal;}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px;page-break-inside:avoid;}
+  th{background:var(--primary);color:#fff;text-align:left;padding:9px 12px;font-weight:600;}
+  td{border:1px solid var(--line);padding:8px 12px;vertical-align:top;}
+  tr:nth-child(even) td{background:var(--paper-warm);}
+  .ck td:first-child{color:var(--primary);font-weight:700;width:26px;text-align:center;}
+  .lead{font-size:16.5px;color:var(--muted);}
+  .pill{display:inline-block;background:var(--accent-soft);color:#9A4E12;border-radius:6px;padding:2px 9px;font-weight:700;font-size:13px;}
+  .chain{text-align:center;font-weight:800;color:var(--primary);background:var(--primary-soft);border-radius:10px;padding:14px;margin:16px 0;letter-spacing:1px;font-size:16px;}
+  .divider{height:1px;background:var(--line);margin:30px 0;}
+  .toc{background:var(--paper-warm);border:1px solid var(--line);border-radius:14px;padding:26px 30px;margin:30px 0;}
+  .toc h3{border:0;padding:0;margin:0 0 14px;color:var(--primary-d);}
+  .toc ol{counter-reset:mod;list-style:none;padding-left:0;}
+  .toc ol li{counter-increment:mod;padding:7px 0;border-bottom:1px dashed var(--line);font-weight:600;}
+  .toc ol li::before{content:counter(mod);background:var(--primary);color:#fff;border-radius:6px;padding:1px 9px;margin-right:12px;font-size:13px;}
+  .toc ol li span{float:right;color:var(--muted);font-weight:500;font-size:13px;}
+  .note{font-size:13px;color:var(--muted);font-style:italic;}
+  @page{margin:18mm 14mm;}
+  @media print{.cover{min-height:auto;height:100vh;}}
+</style>
+</head>
+<body>
+
+<section class="cover">
+  <div class="kick">Artblend Consultoria Gourmet · 40 Horas</div>
+  <h1>Curso CEP</h1>
+  <h2>Consultor Estratégico de Pessoas para Food&nbsp;Service</h2>
+  <div class="accentbar"></div>
+  <div class="badges">
+    <span class="badge">Método Artblend</span>
+    <span class="badge">Casos Reais</span>
+    <span class="badge">Scripts Prontos</span>
+    <span class="badge">Templates &amp; Exercícios</span>
+    <span class="badge">Avaliações</span>
+  </div>
+  <div class="foot">
+    <span>Artblend Consultoria Gourmet</span>
+    <span>Edição Completa · Junho 2026</span>
+  </div>
+</section>
+
+<div class="wrap">
+
+<h3 style="page-break-before:always;">Como usar este curso</h3>
+<p class="lead">Este não é um índice de tópicos. É um curso de <strong>40 horas reais</strong>, dividido em 10 módulos de 4 horas cada. Cada conceito é destrinchado em cinco camadas, sempre na mesma ordem, para você aprender e <em>aplicar no mesmo dia</em>.</p>
+<table>
+  <tr><th>Camada</th><th>O que você encontra</th></tr>
+  <tr><td><strong>1. O que é</strong></td><td>O conceito explicado em linguagem simples, sem jargão.</td></tr>
+  <tr><td><strong>2. Por que usar</strong></td><td>O problema real de food service que isso resolve — e quanto custa ignorar.</td></tr>
+  <tr><td><strong>3. Como aplicar</strong></td><td>Passo a passo de execução dentro do restaurante.</td></tr>
+  <tr><td><strong>4. Caso real</strong></td><td>Situação → Diagnóstico → Intervenção → <strong>Resultado em números</strong>.</td></tr>
+  <tr><td><strong>5. Ferramentas</strong></td><td>Script pronto, template para copiar e exercício para fixar.</td></tr>
+</table>
+<p>Ao longo do curso você verá blocos coloridos. Aprenda a reconhecê-los:</p>
+<div class="box caso"><span class="tag">Caso Real</span> Um caso completo de restaurante, padaria ou lanchonete, com números antes e depois.</div>
+<div class="box script"><span class="tag">Script Pronto</span> Falas palavra por palavra para você usar em reuniões, escutas, vendas e feedbacks.</div>
+<div class="box template"><span class="tag">Template</span> Modelos prontos para copiar: proposta, contrato, planilhas, regimento, descrição de cargo.</div>
+<div class="box exerc"><span class="tag">Exercício</span> Atividade prática + autoavaliação ao final de cada módulo para fixar o conteúdo.</div>
+<div class="metodo"><span class="tag">Método Artblend</span><h4>O jeito Artblend de aplicar</h4>Ferramentas de gestão de pessoas testadas e adaptadas pela Artblend Consultoria Gourmet ao chão do food service.</div>
+
+<div class="toc">
+  <h3>Mapa do curso — 10 módulos · 40 horas</h3>
+  <ol>
+    <li>Fundamentos do CEP e Modelo de Negócio <span>4h</span></li>
+    <li>Diagnóstico Financeiro e People Analytics <span>4h</span></li>
+    <li>Escutas Estratégicas e Comunicação <span>6h</span></li>
+    <li>RH Estratégico e o Papel do HRBP <span>4h</span></li>
+    <li>Treinamento e Desenvolvimento (T&D) <span>4h</span></li>
+    <li>Processos Seletivos e Descrição de Cargo <span>4h</span></li>
+    <li>Integração, Onboarding e Cultura <span>4h</span></li>
+    <li>Desenvolvimento de Liderança e Motivação <span>4h</span></li>
+    <li>Gestão de Jornada, Escalas e Processos <span>4h</span></li>
+    <li>Avaliação de Desempenho, KPIs e Relatório <span>4h</span></li>
+  </ol>
+  <p class="note">Carga total: 42h de conteúdo (Módulo 3 tem 6h pela densidade das escutas). Cada módulo encerra com exercícios e avaliação.</p>
+</div>
+
+<div class="module-head"><div class="m-kick">Módulo 1 · 4 horas</div><h2>Fundamentos do CEP e Modelo de Negócio</h2><div class="m-meta">O que é o serviço, como ele gera valor, quanto cobrar e como se posicionar como autoridade.</div></div>
+<h3>1.1 O que é o CEP — Consultor Estratégico de Pessoas</h3>
+<p>O <strong>CEP</strong> é um modelo de serviço de RH prestado <strong>por assinatura mensal</strong> a empresas de food service — restaurantes, bares, padarias, lanchonetes, cafeterias, dark kitchens e redes de fast food. A diferença essencial em relação a um funcionário de RH é a posição: você não é um custo fixo dentro da folha, você é um <strong>parceiro externo</strong> que entrega resultado mensurável e cobra por isso.</p>
+<p>O dono de restaurante raramente acorda pensando "preciso de RH". Ele acorda pensando "meu time não rende", "todo mês alguém pede demissão", "o salão está mal atendido", "minha margem está sumindo na folha". O CEP traduz esses incêndios em um sistema. A proposta de valor nunca é "faço seu RH" — é <em>"organizo suas pessoas para o seu restaurante vender mais e perder menos gente"</em>.</p>
+<h4>A cadeia de valor do CEP</h4>
+<div class="chain">META → BOA ESCALA → LIDERANÇA → CULTURA</div>
+<p>Leia como uma sequência de dependências. Sem <strong>meta</strong> clara, ninguém sabe para onde a equipe rema. Sem <strong>boa escala</strong>, a meta não tem braços. Sem <strong>liderança</strong> consistente, a escala vira papel sem cobrança. E só quando os três giram por meses nasce <strong>cultura</strong> — o comportamento que se mantém mesmo sem o dono olhando. Tentar instalar "cultura" num restaurante que não paga em dia é jogar dinheiro fora.</p>
+<table>
+  <tr><th>RH Tradicional</th><th>CEP — Consultor Estratégico</th></tr>
+  <tr><td>Funcionário fixo, na folha</td><td>Serviço por assinatura, externo</td></tr>
+  <tr><td>Foco em burocracia e Depto. Pessoal</td><td>Foco em resultado de negócio</td></tr>
+  <tr><td>Reativo — apaga incêndios</td><td>Proativo — diagnostica e planeja</td></tr>
+  <tr><td>Custo fixo mensal alto + encargos</td><td>Custo variável, controlado, cancelável</td></tr>
+  <tr><td>Não acompanha indicadores</td><td>People Analytics e relatório mensal</td></tr>
+</table>
+<h3>1.2 Os 4 Pilares do serviço CEP</h3>
+<table>
+  <tr><th>Pilar</th><th>O que entrega</th><th>Entregável concreto</th></tr>
+  <tr><td><strong>1. RH Estratégico</strong></td><td>Escutas estratégicas: diagnóstico de pessoas, líderes e cultura</td><td>Relatório de diagnóstico + mapa de colaboradores</td></tr>
+  <tr><td><strong>2. Treinamentos (T&D)</strong></td><td>Capacitação técnica e comportamental para vender mais e atender melhor</td><td>Trilha de treinamento + materiais visuais</td></tr>
+  <tr><td><strong>3. Integração</strong></td><td>Onboarding, regimento interno, cultura de resultados, canal de comunicação</td><td>Manual interno + onboarding de 5 dias</td></tr>
+  <tr><td><strong>4. Processos Seletivos</strong></td><td>Atração, seleção e contratação alinhadas ao perfil da empresa</td><td>Descrição de cargo + funil de seleção</td></tr>
+</table>
+<h3>1.3 Modelo de precificação e a equação do consultor</h3>
+<table>
+  <tr><th>Modalidade</th><th>Como funciona</th><th>Valor mensal</th></tr>
+  <tr><td><strong>Presencial</strong></td><td>Visita semanal (~3h/semana) + remoto</td><td>R$ 2.000/mês</td></tr>
+  <tr><td><strong>Híbrido</strong></td><td>Presencial quinzenal + acompanhamento remoto</td><td>R$ 1.600/mês</td></tr>
+  <tr><td><strong>Remoto</strong></td><td>100% online (reuniões, materiais, relatórios)</td><td>R$ 1.200/mês</td></tr>
+</table>
+<p><strong>Contratos:</strong> de 3 ou 6 meses. O cliente <strong>aprova e paga o 1º mês antecipado</strong>; proposta enviada em até 24h após a 1ª reunião. <strong>Por que mínimo de 3 meses?</strong> Mês 1 é diagnóstico, mês 2 é implantação, mês 3 é quando os números viram. Vender mês avulso é vender fracasso.</p>
+<div class="box template"><span class="tag">Template — Equação de Renda</span>
+<ul>
+<li><strong>3 clientes</strong> ≈ <span class="pill">R$ 7.000/mês</span></li>
+<li><strong>5 clientes</strong> ≈ <span class="pill">R$ 10.000 – 12.000/mês</span></li>
+<li>Fechamento médio de iniciante ~20%. Logo, <strong>5 clientes = ~25 reuniões = ~50 abordagens.</strong></li>
+</ul></div>
+<h3>1.4 Identidade visual e postura — você é a primeira prova de valor</h3>
+<p>No food service o dono compra <strong>credibilidade</strong>. Por isso: <strong>aparência profissional</strong> (a roupa fala antes de você); <strong>identidade visual mínima</strong> (logo, cartão, Instagram, proposta padronizada no Canva); e o <strong>ritual da 1ª reunião</strong> — entender o cenário → apresentar a metodologia → prometer a proposta em 24h.</p>
+<h3>1.5 Ferramentas obrigatórias do CEP</h3>
+<table>
+  <tr><th>Ferramenta</th><th>Uso</th><th>Custo</th></tr>
+  <tr><td>Google Docs / Drive</td><td>Documentos, contratos, relatórios</td><td>Gratuito</td></tr>
+  <tr><td>Google Meet</td><td>Reuniões e treinamentos remotos</td><td>Gratuito</td></tr>
+  <tr><td>Canva</td><td>Materiais visuais, comunicação, proposta</td><td>~R$ 70/mês</td></tr>
+  <tr><td>ChatGPT / IA</td><td>Conteúdo, relatórios, planos de T&D</td><td>~R$ 99/mês</td></tr>
+  <tr><td>Autentic / Gov.br</td><td>Contratos digitais com validade jurídica</td><td>Variável</td></tr>
+  <tr><td>iSpring</td><td>Cursos e onboarding digital com certificado</td><td>Variável</td></tr>
+  <tr><td>Planilhas Google</td><td>Diagnóstico financeiro e indicadores</td><td>Gratuito</td></tr>
+  <tr><td>C6 / Inter PJ</td><td>Conta jurídica para recebimentos</td><td>Gratuito</td></tr>
+</table>
+<div class="box caso"><span class="tag">Caso Real</span>
+<h4>Padaria "Pão &amp; Cia" — o primeiro contrato de um CEP iniciante</h4>
+<p><strong>Situação:</strong> padaria com 14 funcionários perdia 2 atendentes/mês; dono "apagando incêndio".</p>
+<p><strong>Diagnóstico:</strong> faturamento ~R$ 180 mil/mês, folha R$ 41 mil = <strong>22,7%</strong> (saudável: 15%). Turnover queimava ~R$ 18 mil/ano.</p>
+<p><strong>Intervenção:</strong> proposta híbrida R$ 1.600/mês, 3 meses, em 22h. Argumento: "R$ 4.800 no trimestre para parar de perder R$ 18 mil/ano."</p>
+<p><strong>Resultado:</strong> fechou no 2º dia; turnover 2/mês → 0; folha em 17%. Renovou por 6 meses e <strong>indicou 2 donos</strong>.</p>
+</div>
+<div class="box script"><span class="tag">Script — Abordagem de prospecção</span>
+<p class="say">Oi, [Nome]! Acompanho o [Restaurante]. Eu ajudo donos de food service a parar de perder funcionário e a organizar a equipe para vender mais — sem aumentar custo fixo. Posso te mostrar em 30 minutos como funcionaria aí? Sem compromisso.</p></div>
+<div class="box script"><span class="tag">Script — Abertura da 1ª reunião</span>
+<p class="say">Antes de te apresentar qualquer coisa, quero entender seu cenário. Quanto o restaurante fatura por mês? E quanto sai de folha?</p>
+<p class="say">E hoje, o que mais te tira o sono na equipe — é gente saindo, atendimento, briga na cozinha, custo?</p></div>
+<div class="box template"><span class="tag">Template — Proposta Comercial (1 página)</span>
+<ol><li>Cabeçalho com logo + "Proposta de Consultoria Estratégica de Pessoas".</li><li>Cenário atual: 2–3 dores nas palavras do dono.</li><li>O que vou entregar: os 4 pilares.</li><li>Como vou medir: turnover, folha/faturamento, ticket.</li><li>Investimento: modalidade + valor + prazo.</li><li>Próximo passo: aprovação + 1º mês antecipado.</li></ol></div>
+<div class="box exerc"><span class="tag">Exercício — Módulo 1</span>
+<ol><li>Escreva sua frase de posicionamento (sem usar "RH").</li><li>Monte sua equação de renda.</li><li>Faça a proposta para um restaurante de R$ 150 mil com folha de 21%.</li><li>Autoavaliação das 9 competências (Módulo 4).</li></ol></div>
+
+<div class="module-head"><div class="m-kick">Módulo 2 · 4 horas</div><h2>Diagnóstico Financeiro e People Analytics</h2><div class="m-meta">Antes de mexer em pessoas, leia os números. Quem fala a língua do dinheiro vira parceiro estratégico.</div></div>
+<h3>2.1 Benchmarks do food service</h3>
+<table>
+  <tr><th>Indicador</th><th>Benchmark saudável</th><th>Alerta</th></tr>
+  <tr><td><strong>Pró-labore</strong></td><td>10% a 15%</td><td>&lt; 8% ou &gt; 20%</td></tr>
+  <tr><td><strong>Folha</strong></td><td>Até 15%</td><td>&gt; 20% = crítico</td></tr>
+  <tr><td><strong>CMV</strong></td><td>25% a 30%</td><td>&gt; 35% = desperdício</td></tr>
+  <tr><td><strong>Investimento</strong></td><td>3% a 5%</td><td>&lt; 2% = estagnação</td></tr>
+  <tr><td><strong>Serviço</strong></td><td>3% a 5%</td><td>&gt; 8% = custo alto</td></tr>
+</table>
+<p>A pergunta que abre tudo: <em>"Quanto você fatura? Quanto você gasta?"</em>. Se o dono não souber, você achou a 1ª entrega: <strong>previsibilidade financeira</strong>.</p>
+<h3>2.2 Dívidas e caixa</h3>
+<p>Antes de qualquer intervenção: existe dívida (valor/prazo)? Existe caixa de reserva (ideal 3 meses)? O pró-labore é pago? O CMV é controlado (há fichas técnicas)?</p>
+<h3>2.3 Ticket médio</h3>
+<div class="chain">Ticket Médio = Faturamento ÷ Nº de Clientes</div>
+<p>É a ponte entre treinar gente e ganhar dinheiro: o atendente que aprende a oferecer sobremesa sobe o ticket sem aumentar o número de clientes.</p>
+<div class="metodo"><span class="tag">Método Artblend</span><h4>People Analytics — o RH que fala a língua do CFO</h4>
+<p>Uso de dados sobre pessoas para decidir. Sem dados você é "o moço dos processos"; com dados, parceiro estratégico. Indicadores: turnover (&lt;5%/mês), absenteísmo (&lt;3%), custo por contratação, tempo de vaga (&lt;15 dias), produtividade, eNPS (&gt;50), folha/faturamento (&lt;15%).</p></div>
+<table>
+  <tr><th>Indicador</th><th>Fórmula</th><th>Meta</th></tr>
+  <tr><td>Turnover</td><td>(Saídas ÷ Headcount médio) × 100</td><td>&lt; 5%/mês</td></tr>
+  <tr><td>Absenteísmo</td><td>(Horas faltadas ÷ esperadas) × 100</td><td>&lt; 3%</td></tr>
+  <tr><td>Tempo de preenchimento</td><td>Dias da vaga até contratação</td><td>&lt; 15 dias</td></tr>
+  <tr><td>eNPS</td><td>% Promotores − % Detratores</td><td>&gt; 50</td></tr>
+</table>
+<div class="box caso"><span class="tag">Caso Real</span>
+<h4>Restaurante "Sabor da Praça" — o turnover que comia o lucro</h4>
+<p><strong>Situação:</strong> 20 funcionários, turnover 12%/mês (≈ 29 contratações/ano).</p>
+<p><strong>Diagnóstico:</strong> ~R$ 520/contratação → <strong>~R$ 15 mil/ano</strong> só em recrutamento.</p>
+<p><strong>Intervenção:</strong> escutas revelaram comunicação violenta e escala imprevisível. CNV + escala com 7 dias.</p>
+<p><strong>Resultado:</strong> turnover 12% → <strong>5%/mês</strong>; o CEP se pagou no 1º mês.</p></div>
+<div class="box template"><span class="tag">Template — Planilha de Diagnóstico</span>
+<table>
+<tr><th>Conta</th><th>R$</th><th>%</th><th>Benchmark</th><th>Status</th></tr>
+<tr><td>Folha + encargos</td><td>21.000</td><td>21%</td><td>≤15%</td><td>🔴</td></tr>
+<tr><td>CMV</td><td>32.000</td><td>32%</td><td>25–30%</td><td>🟡</td></tr>
+<tr><td>Investimento</td><td>2.000</td><td>2%</td><td>3–5%</td><td>🔴</td></tr>
+</table></div>
+<div class="box exerc"><span class="tag">Exercício — Módulo 2</span>
+<ol><li>Monte a planilha para R$ 90 mil/mês, folha R$ 22 mil, CMV R$ 34 mil.</li><li>Calcule o custo de turnover de 8%/mês em 15 pessoas (R$ 500/contratação).</li><li>Escreva 2 frases para apresentar isso ao dono sem assustar.</li><li>Liste os indicadores e metas de memória.</li></ol></div>
+
+<div class="module-head"><div class="m-kick">Módulo 3 · 6 horas</div><h2>Escutas Estratégicas e Comunicação</h2><div class="m-meta">O coração do CEP: descobrir a verdade que o dono não sabe e ganhar a confiança da equipe.</div></div>
+<h3>3.1 Duas técnicas opostas</h3>
+<p>A Artblend trabalha duas técnicas: para <strong>fazer falar</strong>, tire a pessoa levemente da zona de conforto; para <strong>coletar a verdade</strong>, vá ao espaço dela (cozinha, salão, depósito), onde se sente segura e para de "performar".</p>
+<h3>3.2 Protocolo do 1º dia</h3>
+<ol><li>Vá ao espaço do colaborador.</li><li>Valide a proximidade (aperto de mão, nome).</li><li>Ganhe confiança antes de perguntar trabalho.</li><li>Só então busque as 5 categorias.</li></ol>
+<h3>3.3 As 5 categorias</h3>
+<table>
+<tr><th>Categoria</th><th>Pergunta-gatilho</th></tr>
+<tr><td><strong>1. Liderança</strong></td><td>"Quando tem um problema, com quem você fala?"</td></tr>
+<tr><td><strong>2. Tarefas</strong></td><td>"Me conta um dia típico seu."</td></tr>
+<tr><td><strong>3. Comunicação</strong></td><td>"Como você fica sabendo das mudanças aqui?"</td></tr>
+<tr><td><strong>4. Financeiro</strong></td><td>"O pagamento cai sempre no prazo?"</td></tr>
+<tr><td><strong>5. Vida pessoal</strong></td><td>"Fora do trabalho, como você está?"</td></tr>
+</table>
+<div class="box warn"><span class="tag">Princípio dos 40%</span><p>Em média <strong>40% dos colaboradores</strong> têm algo relevante que nunca disseram ao chefe. A escuta libera isso — o ouro do diagnóstico.</p></div>
+<h3>3.4 Comportamento na escuta</h3>
+<table><tr><th>NÃO faça</th><th>FAÇA</th></tr>
+<tr><td>Palavras negativas / interromper</td><td>Aperto de mão firme, contato visual</td></tr>
+<tr><td>Tom que confronta / olhar o celular</td><td>Anotar com caneta, perguntas abertas</td></tr></table>
+<h3>3.5 Ferramenta 3G</h3>
+<p>Preenchida depois da escuta, por setor/turno: <strong>Tarefas</strong> (tarefa · responsável · quando) e <strong>Comportamento do líder</strong> (como age · satisfação). Vira o "raio-X" que você apresenta ao dono.</p>
+<p><strong>Promoção de supervisor (critério Artblend):</strong> deve vir com <strong>+40% sobre o salário-base médio</strong> da equipe liderada — senão vira mais trabalho pelo mesmo dinheiro.</p>
+<div class="metodo"><span class="tag">Método Artblend</span><h4>CNV — Comunicação Não-Violenta</h4>
+<ul><li><strong>Observação</strong> (fato): "percebi que chegou 20 min atrasado 3 vezes".</li><li><strong>Sentimento:</strong> "isso me preocupa porque..."</li><li><strong>Necessidade:</strong> "...preciso do horário cumprido para a operação."</li><li><strong>Pedido:</strong> "consegue confirmar que estará no horário amanhã?"</li></ul></div>
+<div class="metodo"><span class="tag">Método Artblend</span><h4>Q12 — engajamento com dado</h4>
+<p>12 perguntas pontuadas de 1 a 5 (total 12–60; abaixo de 36 = urgência), aplicadas antes e depois — provam o impacto. Ex.: "Sei o que esperam de mim?", "Recebi reconhecimento nos últimos 7 dias?", "Tive oportunidade de crescer no último ano?".</p></div>
+<div class="box caso"><span class="tag">Caso Real</span>
+<h4>Hamburgueria "Brasa &amp; Cia" — a verdade na chapa</h4>
+<p><strong>Situação:</strong> dono culpava "preguiça"; Q12 inicial 29.</p>
+<p><strong>Diagnóstico:</strong> gerente gritava, escala só na véspera. 3G mostrou liderança violenta em 2 de 3 turnos.</p>
+<p><strong>Intervenção:</strong> CNV para supervisores + escala com 7 dias.</p>
+<p><strong>Resultado:</strong> Q12 29 → <strong>44</strong>; absenteísmo 9% → 4%; contrato renovado.</p></div>
+<div class="box script"><span class="tag">Script — Abrindo a escuta</span>
+<p class="say">Oi, Pedro, tudo bem? Não vim cobrar nada. Tô conhecendo a equipe pra ajudar a melhorar as coisas pra vocês. Como é um dia normal seu aqui na cozinha?</p></div>
+<div class="box exerc"><span class="tag">Exercício — Módulo 3</span>
+<ol><li>Crie 1 pergunta-gatilho para cada categoria.</li><li>Reescreva 3 frases violentas em CNV.</li><li>Estime o Q12 de um restaurante que você conhece.</li><li>Preencha um 3G fictício.</li></ol></div>
+
+<div class="module-head"><div class="m-kick">Módulo 4 · 4 horas</div><h2>RH Estratégico e o Papel do HRBP</h2><div class="m-meta">As ferramentas de gestão de pessoas do Método Artblend traduzidas para o balcão.</div></div>
+<div class="metodo"><span class="tag">Método Artblend</span><h4>Os 4 papéis do HRBP</h4><p>No Método Artblend o RH assume 4 papéis, ativados em sequência no contrato.</p></div>
+<table>
+<tr><th>Papel</th><th>No CEP / quando</th></tr>
+<tr><td><strong>Defensor dos colaboradores</strong></td><td>Escutas, mapeamento, CNV — mês 1</td></tr>
+<tr><td><strong>Especialista administrativo</strong></td><td>Regimento, contratos, descrições — mês 2–4</td></tr>
+<tr><td><strong>Agente de mudança</strong></td><td>Cultura, onboarding, liderança — mês 2–4</td></tr>
+<tr><td><strong>Parceiro estratégico</strong></td><td>Dados e indicadores — mês 5+</td></tr>
+</table>
+<div class="metodo"><span class="tag">Método Artblend</span><h4>OKR — Objetivos &amp; Resultados-Chave</h4>
+<p>Separa o Objetivo (qualitativo) dos KRs (quantitativos). Ex.: Objetivo "reduzir rotatividade em 3 meses"; KR1 turnover 12% → &lt;5%; KR2 Q12 32 → 45; KR3 CNV em 100% dos supervisores até o mês 2.</p></div>
+<h3>4.3 Balanced Scorecard de Pessoas</h3>
+<p>Seu relatório equilibra 4 perspectivas: Financeira; Colaboradores (eNPS, turnover); Processos (tempo de contratação, % cargos com descrição); Aprendizado (% treinados, horas/mês).</p>
+<h3>4.4 As 9 competências do consultor</h3>
+<table>
+<tr><td class="ck">1</td><td>Conhecimento técnico de RH</td><td class="ck">2</td><td>Visão de negócio</td></tr>
+<tr><td class="ck">3</td><td>Analisar dados</td><td class="ck">4</td><td>Consultoria (não execução)</td></tr>
+<tr><td class="ck">5</td><td>Ética e sigilo</td><td class="ck">6</td><td>Comunicação</td></tr>
+<tr><td class="ck">7</td><td>Diversidade</td><td class="ck">8</td><td>Liderar mudança</td></tr>
+<tr><td class="ck">9</td><td colspan="3">Gestão de relacionamento</td></tr>
+</table>
+<div class="metodo"><span class="tag">Método Artblend</span><h4>EVP — Proposta de Valor ao Colaborador</h4>
+<p>Vai além do salário. Cinco pilares: compensação, benefícios, carreira, ambiente e propósito. Vira o anúncio de vaga (Pilar 4) e o onboarding (Pilar 3).</p></div>
+<h3>4.6 Employer Branding</h3>
+<p>Reputação como lugar para trabalhar. Construa: defina o EVP; perfil voltado a colaboradores; publique bastidores; incentive postagens; responda avaliações. Em 6 meses: +30% a +60% de candidaturas espontâneas.</p>
+<div class="box caso"><span class="tag">Caso Real</span>
+<h4>Cafeteria "Grão Nobre" — de vaga vazia a fila de candidatos</h4>
+<p><strong>Situação:</strong> 25 dias com vaga aberta, zero candidatos.</p>
+<p><strong>Intervenção:</strong> anúncio com EVP + 8 posts de bastidores.</p>
+<p><strong>Resultado:</strong> 17 candidaturas em 10 dias; custo por contratação <strong>−40%</strong>.</p></div>
+<div class="box exerc"><span class="tag">Exercício — Módulo 4</span>
+<ol><li>Defina 1 OKR completo.</li><li>Escreva o EVP de uma padaria.</li><li>Autoavalie as 9 competências.</li><li>Associe cada papel do HRBP a uma ação no mês 1 e no mês 5.</li></ol></div>
+
+<div class="module-head"><div class="m-kick">Módulo 5 · 4 horas</div><h2>Treinamento e Desenvolvimento (T&D)</h2><div class="m-meta">Como treinar uma equipe de food service para que ela aprenda — e venda mais.</div></div>
+<h3>5.1 Estrutura do T&D</h3>
+<p>Três passos: <strong>diagnóstico</strong> (vendas, Google, redes, escuta); <strong>objetivo</strong> (vender mais? reduzir desperdício?); <strong>público</strong> (idade, escolaridade, cargos).</p>
+<div class="box warn"><span class="tag">Dado do público</span><p>~70% da equipe tem até Fundamental → aprende com <strong>VISUAL</strong>; ~30% Médio+ → dados e texto. Slide cheio de texto perde a maioria.</p></div>
+<h3>5.2 Os 3 elementos eficazes</h3>
+<ul><li><strong>Material visual</strong> (cartazes, vídeo curto); regra dos 7 dias de exposição.</li><li><strong>Dinâmicas e role-playing</strong> — vivencial, não slide.</li><li><strong>Item afetivo</strong> (café, brinde) — cria memória emocional.</li></ul>
+<div class="box warn"><span class="tag">Princípio neurológico · Artblend</span><p>A atenção cai após ~1h30 de conteúdo contínuo. Regra: máx. 45 min → 15 min de dinâmica → 45 min → encerramento.</p></div>
+<p>Abertura de treino de liderança: <strong>"Liderança não é cargo, é comportamento."</strong></p>
+<div class="metodo"><span class="tag">Método Artblend</span><h4>Os 4 níveis de avaliação</h4></div>
+<table>
+<tr><th>Nível</th><th>Avalia</th><th>Como medir</th></tr>
+<tr><td>1. Reação</td><td>Gostou?</td><td>Formulário</td></tr>
+<tr><td>2. Aprendizagem</td><td>Aprendeu?</td><td>Teste antes × depois</td></tr>
+<tr><td>3. Comportamento</td><td>Mudou?</td><td>Observação 30 dias</td></tr>
+<tr><td>4. Resultado</td><td>Impactou?</td><td>Ticket, avaliações, turnover</td></tr>
+</table>
+<div class="box caso"><span class="tag">Caso Real</span>
+<h4>Pizzaria "Forno di Napoli" — venda sugestiva subiu o ticket</h4>
+<p><strong>Situação:</strong> ticket travado em R$ 38.</p>
+<p><strong>Intervenção:</strong> treino visual + role-playing de borda e sobremesa + item afetivo.</p>
+<p><strong>Resultado:</strong> ticket R$ 38 → <strong>R$ 47 (+24%)</strong>; +R$ 13.500/mês.</p></div>
+<div class="box exerc"><span class="tag">Exercício — Módulo 5</span>
+<ol><li>Plano de treino de 1h30 para reduzir desperdício.</li><li>Teste antes/depois com 5 perguntas.</li><li>Adapte um texto para formato visual.</li><li>Explique como provaria o resultado ao dono.</li></ol></div>
+
+<div class="module-head"><div class="m-kick">Módulo 6 · 4 horas</div><h2>Processos Seletivos e Descrição de Cargo</h2><div class="m-meta">Contratar certo resolve 60% dos problemas antes de existirem.</div></div>
+<h3>6.2 Estrutura da descrição de cargo</h3>
+<table><tr><th>Bloco</th><th>Conteúdo</th></tr>
+<tr><td>1. Identificação</td><td>Empresa, cargo, setor, carga horária, missão</td></tr>
+<tr><td>2. Requisitos</td><td>Escolaridade, experiência, habilidades</td></tr>
+<tr><td>3. Atividades</td><td>O que faz no dia a dia, frequência</td></tr>
+<tr><td>4. Indicadores</td><td>Como o desempenho será medido</td></tr></table>
+<div class="box template"><span class="tag">Template — Cargo: Atendente de Salão</span>
+<p><strong>Missão:</strong> atendimento de excelência garantindo satisfação e ticket acima de R$ XX. <strong>Atividades:</strong> recepcionar, apresentar cardápio, tirar/entregar pedidos, fechar conta. <strong>Indicadores:</strong> tempo de atendimento, avaliações, ticket/mesa.</p></div>
+<h3>6.5 Processo seletivo</h3>
+<table><tr><th>Etapa</th><th>O que fazer</th></tr>
+<tr><td>1. Divulgação</td><td>Anúncio com EVP</td></tr>
+<tr><td>2. Triagem (70%)</td><td>Formulário + vídeo de 30s</td></tr>
+<tr><td>3. Entrevista STAR</td><td>Perguntas por situação real</td></tr>
+<tr><td>4. Experiência prática</td><td>Dia remunerado</td></tr></table>
+<p><strong>Garantia de 60%:</strong> a experiência da Artblend mostra que um processo seletivo bem-feito garante 60% da performance futura.</p>
+<div class="metodo"><span class="tag">Método Artblend</span><h4>Entrevista por competências — STAR</h4>
+<p><strong>S</strong>ituação → <strong>T</strong>arefa → <strong>A</strong>ção → <strong>R</strong>esultado. "Me conta uma vez que resolveu um problema com um cliente difícil — o que aconteceu, o que você fez e qual foi o resultado?"</p></div>
+<div class="box caso"><span class="tag">Caso Real</span>
+<h4>Lanchonete "Top Burger" — o garçom errado custava caro</h4>
+<p><strong>Situação:</strong> contratava por "feeling"; 3 de 4 saíam em &lt;60 dias.</p>
+<p><strong>Intervenção:</strong> descrição de cargo + EVP + vídeo + STAR + dia de experiência.</p>
+<p><strong>Resultado:</strong> contratação seguinte ficou &gt; 8 meses; custo por contratação caiu.</p></div>
+<div class="box script"><span class="tag">Script — 3 perguntas STAR</span>
+<p class="say">"Me conta uma vez que o restaurante encheu de repente e faltou gente. O que você fez?"</p>
+<p class="say">"Já teve um cliente muito irritado? Como terminou?"</p></div>
+<div class="box exerc"><span class="tag">Exercício — Módulo 6</span>
+<ol><li>Descrição de cargo de "Auxiliar de Cozinha".</li><li>4 perguntas STAR para caixa.</li><li>Funil de seleção com o filtro de cada etapa.</li></ol></div>
+
+<div class="module-head"><div class="m-kick">Módulo 7 · 4 horas</div><h2>Integração, Onboarding e Cultura</h2><div class="m-meta">Os primeiros 5 dias decidem se o colaborador fica 5 meses ou 5 anos.</div></div>
+<h3>7.1 Onboarding de 5 dias</h3>
+<table><tr><th>Dia</th><th>Conteúdo</th><th>Responsável</th></tr>
+<tr><td>1</td><td>Administrativo (documentos, uniforme)</td><td>RH/Dono</td></tr>
+<tr><td>2</td><td>Outras áreas (tour, equipe)</td><td>Gestor</td></tr>
+<tr><td>3</td><td>Função (treino, fichas)</td><td>Supervisor</td></tr>
+<tr><td>4</td><td>Prática supervisionada</td><td>Supervisor</td></tr>
+<tr><td>5</td><td>Avaliação e alinhamento</td><td>Gestor + RH</td></tr></table>
+<h3>7.2 Regimento e 7.3 Manual</h3>
+<p>O <strong>Regimento</strong> (normativo, assinado): horários, uniforme, higiene, celular, conduta, disciplinar. O <strong>Manual</strong> (inspiracional): história, missão, visão, valores, produtos, equipe, benefícios.</p>
+<h3>7.5 Cultura de resultados e DPR</h3>
+<p>O <strong>DPR</strong> (Descrição de Prioridades e Resultados) diz o que a pessoa precisa <em>entregar</em> — diferente da descrição, que diz o que ela <em>faz</em>.</p>
+<div class="metodo"><span class="tag">Método Artblend</span><h4>Onboarding validado</h4>
+<ul><li>Onboarding estruturado → +82% de retenção no 1º ano.</li><li>Substituir alguém custa 50–200% do salário anual.</li></ul>
+<p>Adicione: Buddy System, check-ins aos 30/60/90 dias e pesquisa de experiência.</p></div>
+<div class="box caso"><span class="tag">Caso Real</span>
+<h4>"Casa Mineira" — o novato que durava 3 semanas</h4>
+<p><strong>Intervenção:</strong> onboarding de 5 dias + Buddy + check-in 30 dias.</p>
+<p><strong>Resultado:</strong> retenção de novos em 90 dias de ~50% para <strong>85%</strong>.</p></div>
+<div class="box exerc"><span class="tag">Exercício — Módulo 7</span>
+<ol><li>Cronograma de onboarding de auxiliar de cozinha.</li><li>5 itens do regimento + 1 valor.</li><li>DPR de um atendente.</li></ol></div>
+
+<div class="module-head"><div class="m-kick">Módulo 8 · 4 horas</div><h2>Desenvolvimento de Liderança e Motivação</h2><div class="m-meta">Melhore a liderança e você melhora todos os indicadores de uma vez.</div></div>
+<h3>8.1 Os 3 eixos do líder</h3>
+<table><tr><th>Eixo</th><th>Capacitação</th></tr>
+<tr><td>Comportamento gerencial</td><td>1 dia de gestão</td></tr>
+<tr><td>Sócio-emocional</td><td>1 dia + outras áreas</td></tr>
+<tr><td>Administrativo</td><td>3 dias de função</td></tr></table>
+<h3>8.2 "Pessoas procuram segurança"</h3>
+<p>Princípio do Método Artblend. Antes de motivação, resolva segurança básica: emprego estável, pagamento certo, regras claras.</p>
+<div class="metodo"><span class="tag">Método Artblend</span><h4>Pirâmide das necessidades</h4>
+<p>Fisiológica → Segurança → Social → Estima → Autorrealização. Quem sai costuma ter os níveis 1 e 2 não atendidos.</p></div>
+<div class="metodo"><span class="tag">Método Artblend</span><h4>Higiene × Motivação</h4>
+<p><strong>Higiene</strong> (salário, regras): se falta, gera insatisfação. <strong>Motivadores</strong> (reconhecimento, crescimento): geram satisfação. 1ª fase resolve higiene; 2ª adiciona motivadores.</p></div>
+<div class="metodo"><span class="tag">Método Artblend</span><h4>ADKAR — gestão da mudança</h4>
+<p>Consciência → Desejo → Conhecimento → Habilidade → Reforço. Se a mudança trava, ache em qual etapa parou.</p></div>
+<div class="box caso"><span class="tag">Caso Real</span>
+<h4>"Tempero da Vó" — o programa de elogios que fracassou</h4>
+<p><strong>Diagnóstico:</strong> folha atrasada e escala instável (higiene quebrada) — premiar inseguro soa deboche.</p>
+<p><strong>Resultado:</strong> estabilizou higiene primeiro; eNPS −10 → +35.</p></div>
+<div class="box script"><span class="tag">Script — Reconhecimento que motiva</span>
+<p class="say">Ana, ontem você manteve a calma e organizou a fila sozinha. Isso fez diferença real no faturamento. Obrigado — quero te dar mais responsabilidade nessa parte.</p></div>
+<div class="box exerc"><span class="tag">Exercício — Módulo 8</span>
+<ol><li>Classifique 6 queixas em higiene/motivação.</li><li>Ação para cada letra do ADKAR.</li><li>Onboarding de 5 dias de um supervisor.</li></ol></div>
+
+<div class="module-head"><div class="m-kick">Módulo 9 · 4 horas</div><h2>Gestão de Jornada, Escalas e Processos</h2><div class="m-meta">A escala é onde clima, custo e atendimento se encontram.</div></div>
+<h3>9.1 Tipos de jornada</h3>
+<p>12×36, 6×1, 5×2, parcial (até 30h) e intermitente. A escolha equilibra cobertura no pico, hora extra e descanso legal.</p>
+<h3>9.2–9.3 Fluxo e cobertura</h3>
+<p>Mapeie a curva de movimento (PDV) e dimensione para o pico, não para a média. Maximize cobertura no pico, enxugue ociosidade na baixa.</p>
+<h3>9.4 Cronograma P1–P2–P3</h3>
+<div class="chain">P1 (mês 1) Diagnóstico → P2 (mês 2–4) Implantação → P3 (mês 5+) Consolidação/ROI</div>
+<div class="box caso"><span class="tag">Caso Real</span>
+<h4>Bar "Esquina do Som" — escala imprevisível</h4>
+<p><strong>Intervenção:</strong> fluxo por hora + escala 6×1 publicada com 7 dias + dimensionamento por pico.</p>
+<p><strong>Resultado:</strong> hora extra −60%, folha 24% → 18%; pedidos de demissão pararam.</p></div>
+<div class="box template"><span class="tag">Template — Escala por pico</span>
+<table><tr><th>Horário</th><th>Seg–Qui</th><th>Sex–Sáb</th></tr>
+<tr><td>Almoço</td><td>3</td><td>4</td></tr>
+<tr><td>Baixa</td><td>1</td><td>2</td></tr>
+<tr><td>Jantar/pico</td><td>3</td><td>6</td></tr></table></div>
+<div class="box exerc"><span class="tag">Exercício — Módulo 9</span>
+<ol><li>Curva de movimento e escala por pico.</li><li>Cronograma P1–P2–P3 de 6 meses.</li><li>DPR de "cozinheiro de chapa".</li></ol></div>
+
+<div class="module-head"><div class="m-kick">Módulo 10 · 4 horas</div><h2>Avaliação de Desempenho, KPIs e Relatório</h2><div class="m-meta">Onde você prova, com número, que o CEP valeu cada centavo.</div></div>
+<h3>10.1–10.3 Sucessão, PDI e métodos</h3>
+<p><strong>Plano de sucessão:</strong> 1–2 sucessores por cargo crítico. <strong>PDI:</strong> onde está, onde queremos, ações com prazo. <strong>Avaliação:</strong> comece com 180° (gestor + autoavaliação).</p>
+<div class="metodo"><span class="tag">Método Artblend</span><h4>Matriz 9-Box — Potencial × Performance</h4>
+<p>Cruza performance e potencial em 9 quadrantes. "Alta/alto" = futuros líderes (sucessão); "baixa/baixo" = decisão. Orienta promoção, PDI e sucessão de forma justa.</p></div>
+<div class="metodo"><span class="tag">Método Artblend</span><h4>Feedback SBI</h4>
+<p><strong>S</strong>ituação → <strong>B</strong>ehavior/Comportamento → <strong>I</strong>mpacto. "Ontem no pico (S) você assumiu a fila sem eu pedir (B) e a espera caiu — clientes satisfeitos (I)."</p></div>
+<h3>10.8 Relatório mensal</h3>
+<table><tr><th>Bloco</th><th>Conteúdo</th></tr>
+<tr><td>1. Resumo executivo</td><td>3 conquistas do mês</td></tr>
+<tr><td>2. Indicadores</td><td>Turnover, Q12, folha, ticket</td></tr>
+<tr><td>3. Ações</td><td>Escutas, treinos, contratações</td></tr>
+<tr><td>4. Próximo mês</td><td>O que será feito</td></tr>
+<tr><td>5. ROI</td><td>Economia × investimento</td></tr></table>
+<div class="box caso"><span class="tag">Caso Real</span>
+<h4>Rede "Sabor Express" — o relatório que renovou por 12 meses</h4>
+<p><strong>Dados:</strong> turnover 11% → 4,5%; Q12 31 → 46; ticket +18%; folha 23% → 17%.</p>
+<p><strong>Resultado:</strong> economia ~R$ 95 mil/ano contra R$ 9.600/semestre. Renovou por 12 meses.</p></div>
+<div class="box script"><span class="tag">Script — Reunião de renovação</span>
+<p class="say">Há 6 meses você perdia 2 pessoas/mês e a folha estava em 23%. Hoje perde menos de 1 e a folha está em 17% — ~R$ 95 mil de economia no ano contra R$ 9.600 investidos. Faz sentido seguirmos para a próxima etapa?</p></div>
+<div class="box exerc"><span class="tag">Exercício — Módulo 10</span>
+<ol><li>Posicione 5 colaboradores na 9-Box.</li><li>1 feedback SBI de elogio e 1 de correção.</li><li>Estrutura de relatório mensal com dados.</li><li>Argumento de ROI com números.</li></ol></div>
+
+<div class="module-head" style="background:linear-gradient(135deg,var(--accent) 0%,#C25E1E 100%);"><div class="m-kick" style="color:#FCE3CC;">Encerramento</div><h2>Sua jornada como Consultor Estratégico de Pessoas</h2><div class="m-meta" style="color:#FBEEE0;">Do primeiro cliente à carteira de 5 contratos recorrentes.</div></div>
+<p>Recapitulando: você <strong>diagnostica com dados</strong> (Módulos 2–3), <strong>implanta com método</strong> (Módulos 4–9) e <strong>prova com número</strong> (Módulo 10) — sempre respeitando a ordem: segurança antes de motivação, higiene antes de reconhecimento.</p>
+<div class="box template"><span class="tag">Checklist mestre do CEP</span>
+<table>
+<tr><td class="ck">☐</td><td>Identidade visual + proposta</td><td class="ck">☐</td><td>Planilha de diagnóstico</td></tr>
+<tr><td class="ck">☐</td><td>Roteiro de escuta + 3G</td><td class="ck">☐</td><td>Q12 + eNPS</td></tr>
+<tr><td class="ck">☐</td><td>Descrições de cargo + DPRs</td><td class="ck">☐</td><td>Relatório mensal + ROI</td></tr>
+</table></div>
+<div class="divider"></div>
+<p class="note" style="text-align:center;">Curso CEP — Consultor Estratégico de Pessoas · Food Service · 40 horas · Método Artblend. © Artblend Consultoria Gourmet — Junho 2026. Todos os direitos reservados.</p>
+
+</div>
+</body>
+</html>

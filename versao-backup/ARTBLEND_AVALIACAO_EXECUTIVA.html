@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artblend — Avaliação Executiva e Blueprint v2</title>
+<style>
+  :root{
+    --ink:#1E2521; --muted:#5B655E; --line:#E4DED4; --paper:#FFFFFF; --paper-warm:#FBF7F1;
+    --primary:#0E5E55; --primary-d:#0A463F; --primary-soft:#E5F0EE; --accent:#D9772F;
+    --a:#0E5E55; --a-bg:#E8F1EF; --b:#2F5D8C; --b-bg:#E8EFF6; --t:#B07A12; --t-bg:#FBF0D8;
+    --x:#6B4E9E; --x-bg:#EFEAF6; --metodo-bg:#0E5E55; --warn:#B23B2E; --warn-bg:#FBE9E6; --ok:#1E7A4B; --ok-bg:#E6F3EC;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:"Segoe UI",-apple-system,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);line-height:1.62;margin:0;background:#fff;font-size:15px;}
+  .wrap{max-width:900px;margin:0 auto;padding:0 54px;}
+  .cover{background:linear-gradient(150deg,var(--primary-d) 0%,var(--primary) 55%,#13766B 100%);color:#fff;padding:90px 54px 70px;position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;}
+  .cover .kick{letter-spacing:3px;text-transform:uppercase;font-size:13px;font-weight:600;color:#9BE3D6;margin-bottom:18px;}
+  .cover h1{font-size:44px;line-height:1.07;margin:0 0 12px;font-weight:800;}
+  .cover h2{font-size:20px;font-weight:500;margin:0 0 34px;color:#CDEDE7;}
+  .cover .accentbar{width:90px;height:6px;background:var(--accent);border-radius:6px;margin:0 0 30px;}
+  .cover .badges{display:flex;gap:12px;flex-wrap:wrap;}
+  .cover .badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:30px;padding:8px 18px;font-size:13px;font-weight:600;}
+  .cover .foot{position:absolute;bottom:42px;left:54px;right:54px;font-size:13px;color:#9BE3D6;border-top:1px solid rgba(255,255,255,.2);padding-top:16px;display:flex;justify-content:space-between;}
+  .sec{background:var(--primary);color:#fff;border-radius:14px;padding:22px 28px;margin:46px 0 22px;page-break-before:always;}
+  .sec .k{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#A7E0D6;font-weight:700;}
+  .sec h2{font-size:24px;margin:6px 0;font-weight:800;}
+  .sec .m{font-size:13.5px;color:#CFEAE5;}
+  h3{font-size:19px;color:var(--primary-d);margin:28px 0 8px;font-weight:750;border-left:5px solid var(--accent);padding-left:12px;}
+  h4{font-size:16px;margin:16px 0 6px;font-weight:700;}
+  p{margin:9px 0;} strong{color:var(--primary-d);}
+  ul,ol{margin:9px 0;padding-left:22px;} li{margin:5px 0;}
+  .box{border-radius:12px;padding:18px 22px 16px;margin:18px 0;border:1px solid var(--line);page-break-inside:avoid;}
+  .box .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:4px 11px;border-radius:20px;color:#fff;margin-bottom:10px;}
+  .box h4{margin-top:0;}
+  .box.a{background:var(--a-bg);border-color:#BFD9D3;} .box.a .tag{background:var(--a);}
+  .box.b{background:var(--b-bg);border-color:#C5D6E8;} .box.b .tag{background:var(--b);}
+  .box.t{background:var(--t-bg);border-color:#EAD7A6;} .box.t .tag{background:var(--t);}
+  .box.x{background:var(--x-bg);border-color:#D5C9EC;} .box.x .tag{background:var(--x);}
+  .box.warn{background:var(--warn-bg);border-color:#EEC4BD;} .box.warn .tag{background:var(--warn);}
+  .box.ok{background:var(--ok-bg);border-color:#BEE0CC;} .box.ok .tag{background:var(--ok);}
+  .metodo{background:var(--metodo-bg);color:#EAF6F3;border-radius:12px;padding:20px 24px;margin:20px 0;page-break-inside:avoid;}
+  .metodo .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;background:var(--accent);color:#fff;padding:4px 12px;border-radius:20px;margin-bottom:12px;}
+  .metodo h4{color:#fff;margin:0 0 8px;font-size:18px;} .metodo strong{color:#FFE3C7;}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:12.5px;page-break-inside:avoid;}
+  th{background:var(--primary);color:#fff;text-align:left;padding:9px 11px;font-weight:600;}
+  td{border:1px solid var(--line);padding:8px 11px;vertical-align:top;}
+  tr:nth-child(even) td{background:var(--paper-warm);}
+  .lead{font-size:16.5px;color:var(--muted);}
+  .note{font-size:13px;color:var(--muted);font-style:italic;}
+  .divider{height:1px;background:var(--line);margin:28px 0;}
+  .score{display:inline-block;background:var(--accent);color:#fff;font-weight:800;border-radius:8px;padding:2px 12px;}
+  @page{margin:18mm 13mm;}
+  @media print{.cover{min-height:auto;height:100vh;}}
+</style>
+</head>
+<body>
+<section class="cover">
+  <div class="kick">Artblend Consultoria Gourmet · Documento de Direção</div>
+  <h1>Avaliação Executiva &amp; Blueprint v2</h1>
+  <h2>O que o plano diz, como usar, e como elevá-lo ao nível de uma empresa de tecnologia</h2>
+  <div class="accentbar"></div>
+  <div class="badges"><span class="badge">Leitura para leigo</span><span class="badge">Crítica honesta</span><span class="badge">Benchmark real</span><span class="badge">Primeiros 90 dias</span></div>
+  <div class="foot"><span>Artblend Consultoria Gourmet</span><span>Junho 2026</span></div>
+</section>
+<div class="wrap">
+
+<!-- 1 -->
+<div class="sec"><div class="k">Parte 1</div><h2>O que o documento diz (em linguagem simples) e como usar</h2></div>
+<p class="lead">O Blueprint não é um manual de operação. É um <strong>plano de negócio</strong>: ele propõe deixar de vender horas de consultoria e passar a vender um <em>sistema</em> que aplica o seu método sozinho, em escala.</p>
+<p>Em uma frase para um leigo: hoje, quando chega um cliente, você abre Word, procura PDF, planilha, POP e monta tudo na mão. O Blueprint propõe que esse trabalho vire um <strong>botão</strong> — como no McDonald's, onde abrir uma loja nova não exige reescrever nada: o sistema já gera o padrão. A estrutura proposta tem três peças:</p>
+<ul>
+<li><strong>Um núcleo de dados</strong> (o "cérebro" que guarda clientes, colaboradores, indicadores e conteúdo).</li>
+<li><strong>Artblend OS</strong> — o sistema que <em>você</em>, consultor, usa (prospecção, diagnóstico, proposta, contrato, relatório).</li>
+<li><strong>Artblend para Restaurantes</strong> — o app de assinatura que o <em>cliente</em> usa todo dia (POPs, fichas, escalas, treino, dashboard).</li>
+</ul>
+<h4>Como usar o documento da melhor forma</h4>
+<p>Use-o como <strong>mapa de decisão</strong>, não como ordem de execução. Ele responde "o que construir e por quê". A próxima camada — que ele ainda não tem — é o "como construir, em que ordem, com qual orçamento". É isso que esta avaliação acrescenta.</p>
+
+<!-- 2 -->
+<div class="sec"><div class="k">Parte 2</div><h2>Avaliação da sugestão do outro agente</h2><div class="m">Crítica honesta de diretor: o que ele acertou em cheio e onde ele te coloca em risco.</div></div>
+<p>Nota da visão: <span class="score">9,5/10</span> — concordo. As ideias são excelentes. Mas há um risco clássico de quem pensa grande, e o meu papel é apontá-lo.</p>
+<div class="box ok"><span class="tag">O que ele acertou (mantenha)</span>
+<ul>
+<li><strong>Objetos inteligentes</strong> em vez de PDFs (um POP com nome, vídeo, checklist, versão, auditoria) — certíssimo, é o coração da plataforma.</li>
+<li><strong>Governança, versionamento e auditoria</strong> — quem altera o quê, quando e por quê. Isso é o que separa "ferramenta" de "empresa séria" (é assim que NASA e ANAC operam).</li>
+<li><strong>KPIs estratégicos</strong> (taxa de implantação, renovação, evolução de CMV, ROI da consultoria).</li>
+<li><strong>Multi-agente com supervisor</strong>, <strong>consultor digital permanente</strong> (alertas proativos) e <strong>memória operacional</strong> (a IA lembra do histórico do restaurante). Ideias fortes — guarde para as fases finais.</li>
+<li><strong>Academy</strong> como módulo próprio — faz total sentido (você já tem CEP e T&D prontos para isso).</li>
+</ul></div>
+<div class="box warn"><span class="tag">Onde ele te coloca em risco (cuidado)</span>
+<ul>
+<li><strong>Inflação de escopo.</strong> Ele propõe 4 a 6 sistemas, 11 portais, Digital Twin, Marketplace, Holding... <em>tudo junto</em>. Isso não é como a NASA opera — é como startups quebram. A NASA e a SpaceX vencem por <strong>foco brutal e incrementos</strong>: um módulo funcionando de cada vez, testado, antes do próximo.</li>
+<li><strong>Digital Twin e Marketplace agora</strong> são distração. São lindos no PowerPoint e drenam todo o caixa antes de existir um cliente pagante.</li>
+<li><strong>"Holding" e organograma de 11 diretorias de IA</strong> é arquitetura de empresa de 100 pessoas. Você está na fase de <em>validar que um restaurante paga a assinatura</em>. Construir o palácio antes da fundação é o erro nº 1.</li>
+</ul></div>
+<div class="metodo"><span class="tag">Princípio de diretor</span><h4>Visão grande, passos pequenos</h4><p>A regra das big techs sérias: <strong>"Think big, start small, scale fast."</strong> Aceite toda a visão dele — mas execute em fatias que se pagam. Cada fatia precisa gerar receita ou prova antes da próxima.</p></div>
+
+<!-- 3 -->
+<div class="sec"><div class="k">Parte 3</div><h2>Minhas melhorias ao plano</h2></div>
+<h3>3.1 O "wedge" — por onde a Artblend entra e ganha</h3>
+<p>Toda plataforma vencedora começa por <strong>uma dor aguda</strong> e se expande. Sua dor-âncora é clara e pouco disputada: <strong>gestão de pessoas + treinamento + cultura</strong>. Suflex domina validade/CMV; sistemas de PDV dominam venda; mas quase ninguém resolve <em>pessoas</em> bem. Entre por aí. É o seu CEP + T&D virando software. Depois agregue operação e finanças.</p>
+<h3>3.2 Modular — mas com sequência obrigatória</h3>
+<p>Concordo com a arquitetura modular do outro agente. Só imponho ordem: um módulo só nasce quando o anterior tem cliente usando.</p>
+<table>
+<tr><th>Camada</th><th>Nome sugerido</th><th>Entra na fase</th></tr>
+<tr><td>Núcleo de dados</td><td><strong>Artblend Core</strong></td><td>0</td></tr>
+<tr><td>Sistema do consultor</td><td><strong>Artblend OS</strong></td><td>1</td></tr>
+<tr><td>App do restaurante (foco pessoas)</td><td><strong>Artblend Restaurant</strong></td><td>2</td></tr>
+<tr><td>Educação</td><td><strong>Artblend Academy</strong></td><td>3</td></tr>
+<tr><td>Inteligência / agentes</td><td><strong>Artblend Intelligence</strong></td><td>4</td></tr>
+<tr><td>BI, Marketplace, Digital Twin</td><td>Expansão</td><td>5+</td></tr>
+</table>
+<h3>3.3 Três ideias dele que eu promoveria a diferencial</h3>
+<ul>
+<li><strong>Níveis de maturidade (Bronze→Platinum)</strong> + <strong>gamificação</strong> — retenção e engajamento. Barato e poderoso. Implementar já na Fase 2.</li>
+<li><strong>Consultor Digital Permanente</strong> (alertas diários: "faltam 3 treinos", "CMV da carne subiu 4%") — é o que transforma assinatura em hábito.</li>
+<li><strong>Memória operacional</strong> ("em março tivemos isso; o que funcionou foi trocar o fornecedor") — vira inteligência institucional, não chatbot.</li>
+</ul>
+
+<!-- 4 -->
+<div class="sec"><div class="k">Parte 4</div><h2>Benchmark real das referências</h2><div class="m">Pesquisado e checado — com os nomes corretos. Nenhuma faz tudo; aí está a sua brecha.</div></div>
+<table>
+<tr><th>Referência</th><th>O que é (verificado)</th><th>Categoria</th><th>O que agregar à Artblend</th></tr>
+<tr><td><strong>Domine a Consultoria de Alimentos</strong> (Latoya Brum / Katherine Manetti — Apis Food)</td><td>Formação para o consultor faturar 10k+: venda, prospecção, proposta, parte técnica (rotulagem, ficha, BPF). Entrega <strong>modelo de contrato + planilha de precificação</strong>.</td><td>Gestão da consultoria</td><td>O "kit do consultor" (precificação, contrato, funil) dentro do Artblend OS</td></tr>
+<tr><td><strong>Politi Academy</strong> (Marcelo Politi)</td><td>Plataforma educacional de food service, +3.000 empresários; plataforma de alunos + <strong>app de treino de funcionários</strong> + arsenal de processos (CMV, pessoas, rituais). Faturou ~R$ 9,2 mi.</td><td>Educação + processos</td><td>O modelo do Artblend Academy + app de treino — você já tem o conteúdo (CEP/T&D)</td></tr>
+<tr><td><strong>Suflex</strong></td><td>Sistema de cozinha: etiquetas, <strong>controle de validade</strong>, contagem de insumos, produção, recebimento. Assinatura mensal sem fidelidade.</td><td>Operação / CMV</td><td>Inspiração para o módulo de operação; ou integrar em vez de recriar</td></tr>
+<tr><td><strong>Nova Inteligência (Chef Vinícius Meyer) / IA gastronômica</strong></td><td>IA aplicada à gastronomia (fichas, cardápio). <span class="note">Detalhes específicos não confirmados publicamente.</span></td><td>IA gastronômica</td><td>Inspiração para o Agente Gastronômico (ficha, engenharia de cardápio)</td></tr>
+<tr><td><strong>Pro App / ECOA (Ricardo Dorneles)</strong></td><td>App de organização do consultor / IA de apoio. <span class="note">Não verificado em detalhe nesta pesquisa.</span></td><td>Consultor / IA</td><td>Inspiração para fluxo do consultor e IA de orientação</td></tr>
+</table>
+<div class="box ok"><span class="tag">Conclusão do benchmark</span><p>Cada uma resolve <strong>um</strong> pedaço: Domine ensina o consultor; Politi educa o dono; Suflex controla a cozinha; as IAs respondem perguntas. <strong>Ninguém integra consultoria + operação + educação + IA num só ecossistema com foco em pessoas.</strong> É exatamente esse vão que a Artblend ocupa.</p></div>
+
+<!-- 5 -->
+<div class="sec"><div class="k">Parte 5</div><h2>O posicionamento — e o cuidado com ele</h2></div>
+<p>"Sistema Operacional do Food Service" é um posicionamento forte e ambicioso — eu o usaria como <strong>visão</strong> (onde se quer chegar). Mas no <strong>discurso de venda inicial</strong> ele é abstrato demais para o dono de restaurante, que compra solução para dor concreta. Venda assim:</p>
+<ul>
+<li><strong>Hoje (venda):</strong> "Eu organizo suas pessoas e seus processos para você vender mais e perder menos gente — com acompanhamento e um app."</li>
+<li><strong>Amanhã (visão/investidor):</strong> "Estamos construindo o sistema operacional de gestão e pessoas do food service."</li>
+</ul>
+
+<!-- 6 -->
+<div class="sec"><div class="k">Parte 6</div><h2>O que ainda falta (além do que os dois agentes citaram)</h2></div>
+<ul>
+<li><strong>Modelo financeiro:</strong> preço da assinatura, CAC (custo de aquisição), churn, ponto de equilíbrio. Sem isso, é sonho.</li>
+<li><strong>Quem constrói:</strong> você sozinho no no-code? sócio técnico? agência? Define velocidade e custo.</li>
+<li><strong>LGPD e contrato de dados</strong> com cada restaurante (você guarda dado de colaborador e financeiro).</li>
+<li><strong>Onboarding do software</strong> — sem ensinar o dono a usar, o app vira prateleira.</li>
+<li><strong>Engenharia de cardápio / CMV</strong> — peça valiosa que ainda não está nos seus materiais.</li>
+<li><strong>1 cliente-piloto pagante</strong> antes de qualquer linha de código séria. É a prova mais importante de todas.</li>
+</ul>
+
+<!-- 7 -->
+<div class="sec"><div class="k">Parte 7</div><h2>Primeiros 90 dias (o que um diretor faria)</h2></div>
+<table>
+<tr><th>Semanas</th><th>Foco</th><th>Entregável</th></tr>
+<tr><td>1–3</td><td>Padronizar campos de cada documento (com exemplos)</td><td>Formulários no Google Sheets/Notion</td></tr>
+<tr><td>4–6</td><td>Montar o Artblend OS mínimo (no-code)</td><td>Proposta + diagnóstico + relatório funcionando</td></tr>
+<tr><td>7–10</td><td>1 restaurante-piloto usando uma fatia do app (treino + checklist + dashboard de pessoas)</td><td>Prova de uso real + feedback</td></tr>
+<tr><td>11–13</td><td>Modelo de preço + benchmark de 1 página por referência</td><td>Decisão de seguir / ajustar</td></tr>
+</table>
+<div class="box t"><span class="tag">Sobre o benchmark de "200 a 300 páginas"</span><p>O outro agente sugeriu um benchmark gigante. A ideia é boa, o tamanho não. <strong>1 a 2 páginas por referência</strong> resolvem 90% do valor e cabem numa semana. Documento de 300 páginas vira gaveta — gere o essencial e vá para o piloto.</p></div>
+
+<div class="divider"></div>
+<p class="note" style="text-align:center;">Avaliação Executiva &amp; Blueprint v2 · © Artblend Consultoria Gourmet — Junho 2026. Fontes de benchmark: Politi Academy, Domine a Consultoria de Alimentos, Suflex e pesquisas de mercado food service 2025–2026.</p>
+</div>
+</body>
+</html>

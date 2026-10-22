@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArtBlend Consultoria Gourmet — Suite de Ferramentas</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<style>
+  :root{
+    --bg:#F5F7FA;
+    --surface:#FFFFFF;
+    --border:#E2E6ED;
+    --ink:#16294A;
+    --ink-soft:#3B4A66;
+    --muted:#6E7A8C;
+    --primary:#2EC4D6;
+    --primary-dark:#1C93A8;
+    --primary-soft:#E4F8FB;
+    --green:#3ADC84;
+    --green-soft:#E3FBEF;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:var(--font);
+    background:var(--bg);
+    color:var(--ink);
+    min-height:100vh;
+    padding:0;
+    position:relative;
+    overflow-x:hidden;
+  }
+  .watermark{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:62vw;font-weight:900;color:var(--primary);opacity:0.05;line-height:1;pointer-events:none;user-select:none;z-index:0;letter-spacing:-2vw;}
+  .wrap{max-width:1040px;margin:0 auto;position:relative;z-index:1;}
+
+  .brandmark{position:relative;z-index:3;display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;margin-bottom:8px;font-family:'Poppins',var(--font);}
+  .brandmark .word{font-size:19px;font-weight:700;line-height:1.14;color:var(--ink-soft);letter-spacing:-.3px;text-align:left;}
+  .brandmark .word .letter{display:inline-block;opacity:0;transform:translateY(10px);animation:letterIn .35s ease forwards;}
+  .brandmark .word .letter.abc{position:relative;font-size:1.28em;font-weight:900;color:var(--primary-dark);animation:letterIn .35s ease forwards, letterGlow 2.4s ease-in-out 1.6s infinite;}
+  .brandmark .word .letter.abc.traveling{animation:letterIn .35s ease forwards, letterGlow 2.4s ease-in-out 1.6s infinite, letterTravel 1.5s ease-out;}
+  @keyframes letterIn{to{opacity:1;transform:translateY(0);}}
+  @keyframes letterGlow{0%,100%{color:var(--primary-dark);}50%{color:var(--primary);}}
+  @keyframes letterTravel{
+    0%{transform:translate(0,0) scale(1);opacity:1;}
+    8%{transform:translate(-15px, calc(var(--ty) * .024)) scale(1.05);opacity:1;}
+    14%{transform:translate(-29px, calc(var(--ty) * .095)) scale(1.05);opacity:1;}
+    22%{transform:translate(-40px, calc(var(--ty) * .206)) scale(.95);opacity:1;}
+    29%{transform:translate(-48px, calc(var(--ty) * .345)) scale(.8);opacity:.9;}
+    35%{transform:translate(-50px, calc(var(--ty) * .5)) scale(.6);opacity:.75;}
+    43%{transform:translate(-48px, calc(var(--ty) * .655)) scale(.45);opacity:.55;}
+    49%{transform:translate(-40px, calc(var(--ty) * .794)) scale(.3);opacity:.35;}
+    56%{transform:translate(-29px, calc(var(--ty) * .905)) scale(.15);opacity:.15;}
+    64%{transform:translate(-15px, calc(var(--ty) * .976)) scale(.05);opacity:.05;}
+    70%{transform:translate(0, var(--ty)) scale(0);opacity:0;}
+    80%{transform:translate(0,0) scale(0);opacity:0;}
+    100%{transform:translate(0,0) scale(1);opacity:1;}
+  }
+  .tag{font-family:'Poppins',var(--font);font-size:11px;color:var(--primary-dark);font-weight:600;margin-top:6px;opacity:0;animation:wordIn .55s ease forwards;animation-delay:1.6s;}
+  .tag2{font-family:'Poppins',var(--font);font-size:10px;color:var(--muted);font-weight:500;margin-top:2px;opacity:0;animation:wordIn .55s ease forwards;animation-delay:1.85s;line-height:1.4;}
+  .tag3{font-family:'Poppins',var(--font);font-size:9.5px;color:var(--muted);font-weight:700;letter-spacing:.9px;text-transform:uppercase;margin-top:7px;opacity:0;animation:wordIn .55s ease forwards;animation-delay:2.1s;}
+  .tag2 .a2, .tag2 .b2, .tag2 .c2, .tag2 .g2{display:inline-block;font-weight:800;color:var(--primary-dark);}
+  .tag2 .a2.flashing, .tag2 .b2.flashing, .tag2 .c2.flashing, .tag2 .g2.flashing{animation:tagFlash 1.5s ease-out;}
+  @keyframes tagFlash{
+    0%,48%{transform:scale(1);color:var(--primary-dark);}
+    70%{transform:scale(1.85);color:var(--primary);}
+    85%{transform:scale(1.25);color:var(--primary);}
+    100%{transform:scale(1);color:var(--primary-dark);}
+  }
+  @keyframes wordIn{to{opacity:1;transform:translateY(0);}}
+
+  .top{text-align:center;margin-bottom:46px;}
+  .top p{color:var(--muted);font-size:15px;margin-top:14px;max-width:580px;margin-left:auto;margin-right:auto;line-height:1.6;}
+
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+  @media(max-width:800px){.grid{grid-template-columns:1fr;}}
+
+  .tool-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:26px 22px;display:flex;flex-direction:column;gap:12px;text-decoration:none;color:var(--ink);transition:transform .15s, border-color .15s, box-shadow .15s;position:relative;box-shadow:0 1px 2px rgba(22,41,74,0.04);overflow:hidden;}
+  .tool-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--primary),var(--green));opacity:0;transition:opacity .15s;}
+  .tool-card:hover{transform:translateY(-3px);border-color:var(--primary);box-shadow:0 10px 26px rgba(22,41,74,0.1);}
+  .tool-card:hover::before{opacity:1;}
+  .tool-card.disabled{opacity:.62;cursor:default;pointer-events:none;}
+  .icon{width:44px;height:44px;border-radius:12px;background:var(--primary-soft);border:1px solid var(--primary);display:flex;align-items:center;justify-content:center;font-size:21px;}
+  .tool-card h3{font-size:16.5px;font-weight:700;color:var(--ink);}
+  .tool-card p{font-size:13px;color:var(--muted);line-height:1.5;flex-grow:1;}
+  .status{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:4px 10px;border-radius:999px;display:inline-block;width:fit-content;}
+  .status.live{background:var(--green-soft);color:#1C9A57;}
+  .status.pending{background:var(--primary-soft);color:var(--primary-dark);}
+  .status.soon{background:#F0F2F6;color:var(--muted);}
+
+  .section{margin-top:40px;}
+  .section:first-of-type{margin-top:0;}
+  .section-head{display:flex;align-items:baseline;gap:10px;margin-bottom:16px;}
+  .section-head .bar{width:22px;height:4px;border-radius:3px;background:linear-gradient(90deg,var(--primary),var(--green));flex-shrink:0;}
+  .section-head h2{font-size:13px;text-transform:uppercase;letter-spacing:1.2px;font-weight:800;color:var(--ink);}
+  .section-head span{font-size:12px;color:var(--muted);}
+
+  .footer-note{margin-top:44px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 22px;font-size:13px;color:var(--muted);line-height:1.65;}
+  .footer-note strong{color:var(--ink);}
+
+  .dash-section{margin-bottom:40px;}
+  .dash-greeting{font-size:19px;font-weight:800;color:var(--ink);margin-bottom:14px;font-family:'Poppins',var(--font);}
+  .dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  @media(max-width:800px){.dash-grid{grid-template-columns:1fr 1fr;}}
+  .dash-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 1px 2px rgba(22,41,74,0.04);}
+  .dash-card-wide{grid-column:span 2;}
+  @media(max-width:520px){.dash-grid{grid-template-columns:1fr;}.dash-card-wide{grid-column:span 1;}}
+  .dash-card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+  .dash-card-label i{color:var(--primary-dark);font-size:14px;}
+  .dash-card-value{font-size:28px;font-weight:800;color:var(--ink);font-family:'Poppins',var(--font);}
+  .dash-list{list-style:none;display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--ink-soft);}
+  .dash-list li{line-height:1.4;}
+  .dash-empty{color:var(--muted);font-style:italic;}
+  .dash-card-sub{font-size:10.5px;color:var(--muted);line-height:1.35;margin-top:-4px;}
+  .dash-card-full{grid-column:1/-1;}
+  @media(max-width:520px){.dash-card-full{grid-column:1;}}
+  .dash-cliente-list{gap:0;}
+  .dash-cliente-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);}
+  .dash-cliente-item:last-child{border-bottom:none;}
+  .dci-nome{font-weight:700;color:var(--ink);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .dci-score{font-weight:800;color:var(--ink-soft);width:26px;text-align:right;font-family:'Poppins',var(--font);}
+  .dci-badge{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;padding:3px 9px;border-radius:999px;white-space:nowrap;flex-shrink:0;}
+  .dci-saudavel{background:var(--green-soft);color:#1C9A57;}
+  .dci-atencao{background:#FFF3DE;color:#B3720F;}
+  .dci-critico{background:#FBEAE3;color:#B3411F;}
+  .dci-semdiag{background:#F0F2F6;color:var(--muted);}
+
+  /* ---- Layout do app (sidebar + conteúdo) ---- */
+  .hub-app{display:flex;width:100%;min-height:100vh;position:relative;z-index:1;}
+  .sidebar{width:262px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;position:sticky;top:0;overflow:hidden;}
+  .sidebar-brand{padding:22px 20px 14px;border-bottom:1px solid var(--border);flex-shrink:0;}
+  .mobile-brand{display:none;}
+  .sidebar-nav{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:2px;}
+  .nav-group-label{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:18px 10px 6px;}
+  .nav-group-label:first-of-type{margin-top:10px;}
+  .nav-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:transparent;border:none;border-left:3px solid transparent;padding:9px 10px;border-radius:8px;font-size:12.6px;font-weight:600;color:var(--ink-soft);cursor:pointer;font-family:inherit;line-height:1.3;transition:background .15s,color .15s;}
+  .nav-item .nav-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .nav-item i{font-size:16px;color:var(--muted);width:18px;text-align:center;flex-shrink:0;}
+  .nav-item:hover{background:var(--primary-soft);color:var(--ink);}
+  .nav-item.active{background:var(--primary-soft);color:var(--primary-dark);border-left-color:var(--primary);font-weight:700;}
+  .nav-item.active i{color:var(--primary-dark);}
+  .nav-item-home{margin-bottom:6px;}
+  .sidebar-search{padding:14px 16px 2px;flex-shrink:0;}
+  .sidebar-search-box{position:relative;display:flex;align-items:center;}
+  .sidebar-search-box i{position:absolute;left:10px;font-size:14px;color:var(--muted);pointer-events:none;}
+  .sidebar-search-box input{width:100%;padding:8px 10px 8px 32px;border:1px solid var(--border);border-radius:8px;font-size:12.5px;font-family:inherit;color:var(--ink);background:var(--bg);}
+  .sidebar-search-box input:focus{outline:none;border-color:var(--primary);background:var(--surface);}
+  .sidebar-search-box input::placeholder{color:var(--muted);}
+  .sidebar-logout-wrap{padding:12px;border-top:1px solid var(--border);flex-shrink:0;}
+  .sidebar-logout{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;background:#FBEAE3;color:#B3411F;border:none;padding:10px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;}
+  .sidebar-logout:hover{filter:brightness(.97);}
+
+  .main-content{flex:1;min-width:0;height:100vh;overflow-y:auto;}
+  .view{display:none;}
+  .view.active{display:block;}
+  #viewInicio{padding:34px 34px 48px;max-width:920px;}
+  #viewFerramenta{flex-direction:column;height:100vh;padding:18px 24px 24px;}
+  #viewFerramenta.active{display:flex;}
+  .tool-titlebar{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-bottom:none;border-radius:12px 12px 0 0;font-weight:700;font-size:14px;color:var(--ink);flex-shrink:0;}
+  .tool-titlebar i{color:var(--primary-dark);font-size:18px;}
+  .tool-iframe{flex:1;width:100%;border:1px solid var(--border);border-radius:0 0 12px 12px;background:#fff;}
+
+  @media(max-width:900px){
+    .sidebar{width:66px;}
+    .sidebar-brand{display:none;}
+    .mobile-brand{display:block;padding:14px 4px 18px;border-bottom:1px solid var(--border);margin-bottom:16px;text-align:center;}
+    .mobile-brand .brandmark{align-items:center;}
+    .sidebar-search{display:none;}
+    .nav-group-label{display:none;}
+    .nav-item .nav-label{display:none;}
+    .nav-item{justify-content:center;padding:11px 4px;}
+    .sidebar-logout-wrap{padding:8px;}
+    .sidebar-logout .nav-label{display:none;}
+    .sidebar-logout{padding:11px 4px;}
+    #viewInicio{padding:20px 16px 32px;}
+    #viewFerramenta{padding:10px;}
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.5"></script>
+<style>
+  #loginGate{position:fixed;inset:0;background:#F5F7FA;z-index:1000;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  #loginGate .box{background:#fff;border:1px solid #E2E6ED;border-radius:14px;padding:32px 30px;max-width:360px;width:92%;}
+  #loginGate h1{font-size:18px;color:#16294A;margin-bottom:4px;}
+  #loginGate p{font-size:12.5px;color:#6E7A8C;margin-bottom:18px;line-height:1.5;}
+  #loginGate label{display:block;font-size:11.5px;font-weight:700;color:#6E7A8C;margin:10px 0 4px;}
+  #loginGate input{width:100%;padding:9px 10px;border:1px solid #E2E6ED;border-radius:8px;font-size:13.5px;font-family:inherit;}
+  #loginGate .row{display:flex;gap:8px;margin-top:16px;}
+  #loginGate button{flex:1;background:#2EC4D6;color:#08343B;border:none;padding:10px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;}
+  #loginGate button.sec{background:#E4F8FB;color:#1C93A8;}
+  #loginGate .msg{margin-top:12px;font-size:12px;padding:8px 10px;border-radius:7px;line-height:1.5;display:none;}
+  #loginGate .msg.ok{background:#E3FBEF;color:#1C9A57;display:block;}
+  #loginGate .msg.err{background:#FBEAE3;color:#B3411F;display:block;}
+  #userBar{position:fixed;top:10px;right:10px;z-index:900;background:#fff;border:1px solid #E2E6ED;font-size:11.5px;font-weight:700;color:#16294A;padding:6px 8px 6px 12px;border-radius:20px;display:none;align-items:center;gap:8px;}
+  #userBar button{background:#FBEAE3;color:#B3411F;border:none;padding:5px 10px;border-radius:14px;font-size:10.5px;font-weight:700;cursor:pointer;}
+  #semPerfilGate{position:fixed;inset:0;background:#F5F7FA;z-index:1000;display:none;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  #semPerfilGate .box{background:#fff;border:1px solid #E2E6ED;border-radius:14px;padding:32px 30px;max-width:380px;width:92%;text-align:center;}
+  #semPerfilGate h1{font-size:18px;color:#16294A;margin-bottom:10px;}
+  #semPerfilGate p{font-size:13px;color:#6E7A8C;line-height:1.6;margin-bottom:18px;}
+  #semPerfilGate button{background:#FBEAE3;color:#B3411F;border:none;padding:10px 18px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<div id="loginGate">
+  <div class="box">
+    <h1>ArtBlend — Área do consultor</h1>
+    <p>Entre com seu login para acessar as ferramentas. Os dados ficam salvos com segurança, vinculados só à sua conta.</p>
+    <label>E-mail</label>
+    <input id="lg_email" type="email" placeholder="seu@email.com">
+    <label>Senha</label>
+    <input id="lg_senha" type="password" placeholder="mínimo 6 caracteres">
+    <div class="row">
+      <button onclick="hubEntrar()">Entrar</button>
+      <button class="sec" onclick="hubCadastrar()">Criar conta</button>
+    </div>
+    <div id="lg_msg" class="msg"></div>
+  </div>
+</div>
+
+<div id="userBar"><span id="userBarEmail"></span><button onclick="hubSair()">Sair</button></div>
+
+<div id="semPerfilGate">
+  <div class="box">
+    <h1>Acesso ainda não liberado</h1>
+    <p>Sua conta ainda não tem um perfil de acesso configurado. Peça pro consultor liberar seu acesso.</p>
+    <button onclick="hubSair()">Sair</button>
+  </div>
+</div>
+
+<script>
+var sbHub = window.supabase.createClient('https://zjvjixiuvnpbpsdnxuyk.supabase.co', 'sb_publishable_f5DJRgs2w0z3_g50QqDmNQ_0btPNSgV');
+
+function hubMsg(text, type){
+  var el = document.getElementById('lg_msg');
+  el.className = 'msg ' + type;
+  el.textContent = text;
+}
+
+// Lista de ferramentas técnicas de desenvolvimento — ficam restritas ao papel "desenvolvedor",
+// mesmo para quem tem papel "consultor" (que enxerga o resto de "Estratégia interna").
+var HUB_FERRAMENTAS_DEV = [
+  'ARTBLEND_TESTE_CONEXAO_SUPABASE.html',
+  'PLANO_MIGRACAO_BACKEND_ARTBLEND.html',
+  'ARTBLEND_MIGRAR_DADOS_ANTIGOS.html'
+];
+
+function hubMostrarSemPerfil(){
+  var semPerfil = document.getElementById('semPerfilGate');
+  if(semPerfil) semPerfil.style.display = 'flex';
+}
+
+// Esconde/mostra cada <button class="nav-item"> de #sidebarNav conforme o papel do usuário logado.
+// Regras (ver data-papeis/data-setor em cada botão):
+//  - desenvolvedor: vê tudo, sem checar nada.
+//  - consultor: vê tudo, exceto as ferramentas técnicas listadas em HUB_FERRAMENTAS_DEV.
+//  - dono/lider/colaborador: só vê o item se o papel dele estiver em data-papeis; para "lider",
+//    além disso o data-setor do item precisa ser "geral" ou igual ao setor do próprio líder.
+function hubFiltrarNavPorPerfil(perfil){
+  var papel = perfil && perfil.papel;
+  var setorUsuario = perfil && perfil.setor;
+  var items = document.querySelectorAll('#sidebarNav .nav-item');
+
+  items.forEach(function(item){
+    if(item.classList.contains('nav-item-home')){
+      item.style.display = '';
+      return;
+    }
+
+    if(papel === 'desenvolvedor'){
+      item.style.display = '';
+      return;
+    }
+
+    var src = item.getAttribute('data-src') || '';
+
+    if(papel === 'consultor'){
+      item.style.display = (HUB_FERRAMENTAS_DEV.indexOf(src) !== -1) ? 'none' : '';
+      return;
+    }
+
+    var papeisItem = (item.getAttribute('data-papeis') || '').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+    var permitido = papel ? (papeisItem.indexOf(papel) !== -1) : false;
+
+    if(permitido && papel === 'lider'){
+      var setorItem = item.getAttribute('data-setor');
+      if(setorItem){
+        permitido = (setorItem === 'geral') || (setorItem === setorUsuario);
+      }
+    }
+
+    item.style.display = permitido ? '' : 'none';
+  });
+}
+
+async function mostrarApp(session){
+  document.getElementById('loginGate').style.display = 'none';
+  var bar = document.getElementById('userBar');
+  bar.style.display = 'flex';
+  document.getElementById('userBarEmail').textContent = session.user.email;
+
+  var appEl = document.getElementById('appContent');
+  var perfil = null;
+
+  try{
+    var rp = await sbHub.from('perfis_usuario').select('papel,cliente_id,setor').eq('user_id', session.user.id).maybeSingle();
+    if(!rp.error) perfil = rp.data || null;
+  }catch(e){
+    perfil = null;
+  }
+
+  window.hubPerfilAtual = perfil;
+
+  // Sem linha em perfis_usuario => sem acesso a nenhuma ferramenta, só o botão de Sair.
+  if(!perfil){
+    if(appEl) appEl.style.display = 'none';
+    hubMostrarSemPerfil();
+    return;
+  }
+
+  if(appEl) appEl.style.display = '';
+  hubFiltrarNavPorPerfil(perfil);
+  carregarDashboard(session.user.id, session.user.email);
+}
+
+function hubTempoRelativo(iso){
+  try{
+    var d = new Date(iso);
+    var diffMs = Date.now() - d.getTime();
+    var diffMin = Math.floor(diffMs / 60000);
+    if(diffMin < 1) return 'agora mesmo';
+    if(diffMin < 60) return 'há ' + diffMin + ' min';
+    var diffH = Math.floor(diffMin / 60);
+    if(diffH < 24) return 'há ' + diffH + 'h';
+    var diffD = Math.floor(diffH / 24);
+    return 'há ' + diffD + (diffD === 1 ? ' dia' : ' dias');
+  }catch(e){ return ''; }
+}
+
+function hubDataHojeStr(){
+  var hoje = new Date();
+  var mm = String(hoje.getMonth() + 1).padStart(2, '0');
+  var dd = String(hoje.getDate()).padStart(2, '0');
+  return hoje.getFullYear() + '-' + mm + '-' + dd;
+}
+
+// ---- Métricas portadas 1:1 da lógica do CRM (ARTBLEND_CRM.html), para não divergir dos números
+// que o consultor já vê lá dentro. Mesma tabela de preço por modalidade e mesma fórmula de pScore().
+var HUB_MOD = {Presencial:2000, "Híbrido":1600, Remoto:1200};
+function hubClamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+function hubPScore(d){
+  // Idêntico ao pScore() do CRM: folha 28%, cmv 22%, turnover 28%, Q12 22%, cada componente clamped 0-100.
+  var f = hubClamp(100-(d.folha-15)*7,0,100);
+  var c = hubClamp(100-(d.cmv-30)*6,0,100);
+  var t = hubClamp(100-d.turn*9,0,100);
+  var q = hubClamp((d.q12-20)/40*100,0,100);
+  return Math.round(f*.28+c*.22+t*.28+q*.22);
+}
+// Mesmo default usado no Painel do CRM (renderPainel): só calcula de verdade quando o cliente
+// já tem faturamento (c.fat) preenchido — sem isso não fabricamos um score.
+function hubScoreCliente(c){
+  var folhaPct = c.fat ? Number(c.folha)/Number(c.fat)*100 : 0;
+  var cmvPct = c.fat ? Number(c.cmv)/Number(c.fat)*100 : 0;
+  var d = {
+    folha: Math.round(folhaPct) || 17,
+    cmv: Math.round(cmvPct) || 30,
+    turn: Number(c.turn) || 5,
+    q12: Number(c.q12) || 40
+  };
+  return hubPScore(d);
+}
+function hubTemDiagnostico(c){ return !!(c && c.fat && Number(c.fat) > 0); }
+
+async function carregarDashboard(userId, userEmail){
+  // Saudação
+  try{
+    var hora = new Date().getHours();
+    var periodo = hora < 12 ? 'Bom dia' : (hora < 18 ? 'Boa tarde' : 'Boa noite');
+    var nome = '';
+    if(userEmail){
+      nome = userEmail.split('@')[0].replace(/[._0-9]+/g, ' ').trim();
+      nome = nome.replace(/\b\w/g, function(c){ return c.toUpperCase(); });
+    }
+    var elSaud = document.getElementById('dashSaudacao');
+    if(elSaud) elSaud.textContent = periodo + (nome ? ', ' + nome : '') + '!';
+  }catch(e){}
+
+  // Estado real do CRM (mesma tabela/linha que o CRM lê e grava em load()/save()),
+  // sempre filtrado pelo consultor logado — é daqui que vêm clientes e agenda de verdade.
+  var crmConteudo = null;
+  try{
+    var re = await sbHub.from('crm_estado').select('conteudo').eq('owner_id', userId).maybeSingle();
+    if(!re.error && re.data && re.data.conteudo) crmConteudo = re.data.conteudo;
+  }catch(e){ crmConteudo = null; }
+  var crmClientes = (crmConteudo && Array.isArray(crmConteudo.clientes)) ? crmConteudo.clientes : [];
+  var crmAgenda = (crmConteudo && Array.isArray(crmConteudo.agenda)) ? crmConteudo.agenda : [];
+
+  // Total de clientes ativos (carteira do CRM, não a tabela solta "clientes")
+  var crmAtivos = [];
+  try{
+    crmAtivos = crmClientes.filter(function(c){ return c.status === 'ativo'; });
+    var elCli = document.getElementById('dashClientes');
+    if(elCli) elCli.textContent = crmAtivos.length;
+  }catch(e){
+    var elCli2 = document.getElementById('dashClientes');
+    if(elCli2) elCli2.textContent = '—';
+  }
+
+  // Receita recorrente estimada (MRR) — mesma conta do viewDash() do CRM: soma do preço por
+  // modalidade (HUB_MOD) de cada cliente ativo.
+  try{
+    var elMrr = document.getElementById('dashMRR');
+    var elMrrSub = document.getElementById('dashMRRSub');
+    var mrr = crmAtivos.reduce(function(acc, c){ return acc + (HUB_MOD[c.modalidade] || 0); }, 0);
+    if(elMrr) elMrr.textContent = 'R$ ' + mrr.toLocaleString('pt-BR');
+    if(elMrrSub) elMrrSub.textContent = crmAtivos.length + ' cliente(s) ativo(s) por modalidade';
+  }catch(e){
+    var elMrr2 = document.getElementById('dashMRR');
+    if(elMrr2) elMrr2.textContent = '—';
+  }
+
+  // Health Score médio da carteira — mesma fórmula pScore() do Painel do CRM, calculada só para
+  // clientes ativos que já têm diagnóstico (faturamento) preenchido, para não fabricar número.
+  try{
+    var elHs = document.getElementById('dashHealthScore');
+    var elHsSub = document.getElementById('dashHealthScoreSub');
+    var comDiagnostico = crmAtivos.filter(hubTemDiagnostico);
+    if(comDiagnostico.length === 0){
+      if(elHs) elHs.textContent = '—';
+      if(elHsSub) elHsSub.textContent = 'Nenhum cliente ativo com diagnóstico preenchido ainda';
+    } else {
+      var somaScore = comDiagnostico.reduce(function(acc, c){ return acc + hubScoreCliente(c); }, 0);
+      var media = Math.round(somaScore / comDiagnostico.length);
+      if(elHs) elHs.textContent = media;
+      if(elHsSub) elHsSub.textContent = 'Baseado em ' + comDiagnostico.length + ' de ' + crmAtivos.length + ' cliente(s) ativo(s) com diagnóstico';
+    }
+  }catch(e){
+    var elHs2 = document.getElementById('dashHealthScore');
+    if(elHs2) elHs2.textContent = '—';
+  }
+
+  // Clientes recentes — os últimos clientes com atividade/cadastro, ordenados pela data do
+  // diagnóstico mais recente (c.historico) e, na falta dela, pela data de criação embutida no id
+  // (novos clientes usam Date.now() como id — mesmo esquema do CRM em saveCli()).
+  try{
+    var elRecentes = document.getElementById('dashClientesRecentes');
+    var candidatos = crmClientes.filter(function(c){ return c.status !== 'perdido' && c.status !== 'cancelado'; });
+    candidatos.forEach(function(c){
+      var ts = 0;
+      if(c.historico && c.historico.length){
+        var ultimo = c.historico[c.historico.length - 1];
+        if(ultimo && ultimo.data){
+          var dt = new Date(ultimo.data + 'T00:00:00');
+          if(!isNaN(dt.getTime())) ts = dt.getTime();
+        }
+      }
+      if(!ts){
+        var idNum = Number(c.id);
+        if(!isNaN(idNum)) ts = idNum;
+      }
+      c._hubRecenciaTs = ts;
+    });
+    candidatos.sort(function(a, b){ return b._hubRecenciaTs - a._hubRecenciaTs; });
+    var recentes = candidatos.slice(0, 5);
+    if(elRecentes){
+      if(recentes.length === 0){
+        elRecentes.innerHTML = '<li class="dash-empty">Nenhum cliente cadastrado ainda.</li>';
+      } else {
+        elRecentes.innerHTML = '';
+        recentes.forEach(function(c){
+          var li = document.createElement('li');
+          li.className = 'dash-cliente-item';
+          var nomeSpan = document.createElement('span');
+          nomeSpan.className = 'dci-nome';
+          nomeSpan.textContent = c.nome || 'Cliente';
+          var scoreSpan = document.createElement('span');
+          scoreSpan.className = 'dci-score';
+          var badgeSpan = document.createElement('span');
+          badgeSpan.className = 'dci-badge';
+          if(hubTemDiagnostico(c)){
+            var score = hubScoreCliente(c);
+            scoreSpan.textContent = score;
+            if(score >= 80){ badgeSpan.classList.add('dci-saudavel'); badgeSpan.textContent = 'Saudável'; }
+            else if(score >= 60){ badgeSpan.classList.add('dci-atencao'); badgeSpan.textContent = 'Atenção'; }
+            else { badgeSpan.classList.add('dci-critico'); badgeSpan.textContent = 'Crítico'; }
+          } else {
+            scoreSpan.textContent = '—';
+            badgeSpan.classList.add('dci-semdiag');
+            badgeSpan.textContent = 'Sem diagnóstico';
+          }
+          li.appendChild(nomeSpan);
+          li.appendChild(scoreSpan);
+          li.appendChild(badgeSpan);
+          elRecentes.appendChild(li);
+        });
+      }
+    }
+  }catch(e){
+    var elRecentes2 = document.getElementById('dashClientesRecentes');
+    if(elRecentes2) elRecentes2.innerHTML = '<li class="dash-empty">Nenhum cliente cadastrado ainda.</li>';
+  }
+
+  // Última atividade (dados_ferramenta mais recentes + nome do cliente) — escopada pelo
+  // consultor logado. A tabela "dados_ferramenta" não tem owner_id direto (só cliente_id),
+  // então primeiro buscamos os ids de cliente que pertencem a este usuário (tabela "clientes"
+  // tem owner_id) e só então filtramos as atividades por esses ids.
+  try{
+    var elAt = document.getElementById('dashAtividade');
+    var rMeusCli = await sbHub.from('clientes').select('id,nome').eq('owner_id', userId);
+    var nomesPorId = {};
+    var meusIdsClientes = [];
+    if(!rMeusCli.error && rMeusCli.data){
+      rMeusCli.data.forEach(function(c){ nomesPorId[c.id] = c.nome; meusIdsClientes.push(c.id); });
+    }
+    if(meusIdsClientes.length === 0){
+      if(elAt) elAt.innerHTML = '<li class="dash-empty">Nenhuma atividade ainda — comece cadastrando um cliente.</li>';
+    } else {
+      var ra = await sbHub.from('dados_ferramenta').select('id,cliente_id,ferramenta,updated_at').in('cliente_id', meusIdsClientes).order('updated_at', { ascending: false }).limit(5);
+      if(ra.error || !ra.data || ra.data.length === 0){
+        if(elAt) elAt.innerHTML = '<li class="dash-empty">Nenhuma atividade ainda — comece cadastrando um cliente.</li>';
+      } else if(elAt){
+        elAt.innerHTML = '';
+        ra.data.forEach(function(d){
+          var li = document.createElement('li');
+          var nomeCli = nomesPorId[d.cliente_id] || 'Cliente';
+          li.textContent = nomeCli + ' — ' + (d.ferramenta || 'ferramenta') + ' — ' + hubTempoRelativo(d.updated_at);
+          elAt.appendChild(li);
+        });
+      }
+    }
+  }catch(e){
+    var elAt2 = document.getElementById('dashAtividade');
+    if(elAt2) elAt2.innerHTML = '<li class="dash-empty">Nenhuma atividade ainda — comece cadastrando um cliente.</li>';
+  }
+
+  // Agenda de hoje (lida de crm_estado.conteudo.agenda — mesma fonte que a aba Agenda do CRM)
+  try{
+    var hojeStr = hubDataHojeStr();
+    var elHoje = document.getElementById('dashAgendaHoje');
+    var nomesCli = {};
+    crmClientes.forEach(function(c){ nomesCli[c.id] = c.nome; });
+    var itensHoje = crmAgenda.filter(function(a){ return a.data === hojeStr; });
+    if(itensHoje.length === 0){
+      if(elHoje) elHoje.innerHTML = '<li class="dash-empty">Nada agendado para hoje.</li>';
+    } else {
+      if(elHoje){
+        elHoje.innerHTML = '';
+        itensHoje.forEach(function(a){
+          var li = document.createElement('li');
+          var nomeCli = nomesCli[a.cliId] || 'Cliente';
+          li.textContent = (a.tipo || 'Compromisso') + ' — ' + nomeCli + (a.nota ? ' — ' + a.nota : '');
+          elHoje.appendChild(li);
+        });
+      }
+    }
+  }catch(e){
+    var elHoje2 = document.getElementById('dashAgendaHoje');
+    if(elHoje2) elHoje2.innerHTML = '<li class="dash-empty">Nada agendado para hoje.</li>';
+  }
+
+  // Pendências: mesma regra usada no dashboard do próprio CRM (pendente e vencendo/atrasado)
+  try{
+    var hojeStr2 = hubDataHojeStr();
+    var elPend = document.getElementById('dashPendencias');
+    var pendCount = crmAgenda.filter(function(a){ return a.status === 'pendente' && a.data && a.data <= hojeStr2; }).length;
+    if(elPend) elPend.textContent = pendCount;
+  }catch(e){
+    var elPend2 = document.getElementById('dashPendencias');
+    if(elPend2) elPend2.textContent = '—';
+  }
+}
+
+async function hubEntrar(){
+  var email = document.getElementById('lg_email').value.trim();
+  var senha = document.getElementById('lg_senha').value;
+  var r = await sbHub.auth.signInWithPassword({ email: email, password: senha });
+  if(r.error){ hubMsg('Erro ao entrar: ' + r.error.message, 'err'); return; }
+  mostrarApp(r.data.session);
+}
+
+async function hubCadastrar(){
+  var email = document.getElementById('lg_email').value.trim();
+  var senha = document.getElementById('lg_senha').value;
+  if(!email || senha.length < 6){ hubMsg('Preencha e-mail e uma senha com pelo menos 6 caracteres.', 'err'); return; }
+  var r = await sbHub.auth.signUp({ email: email, password: senha });
+  if(r.error){ hubMsg('Erro ao criar conta: ' + r.error.message, 'err'); return; }
+  // Se o consultor já cadastrou um convite (tabela perfis_convite) pra esse
+  // e-mail, efetiva o perfil agora que já existe um user_id de verdade.
+  if(r.data.session){
+    await hubEfetivarConvite(r.data.session.user.id, email);
+    mostrarApp(r.data.session);
+  } else {
+    hubMsg('Conta criada. Se pedir confirmação por e-mail, confira sua caixa de entrada antes de entrar.', 'ok');
+  }
+}
+
+async function hubEfetivarConvite(userId, email){
+  try{
+    var rc = await sbHub.from('perfis_convite').select('papel,cliente_id,setor').eq('email', email).eq('usado', false).maybeSingle();
+    if(rc.error || !rc.data) return;
+    var conv = rc.data;
+    await sbHub.from('perfis_usuario').upsert({
+      user_id: userId,
+      email: email,
+      papel: conv.papel,
+      cliente_id: conv.cliente_id,
+      setor: conv.setor
+    }, { onConflict: 'user_id' });
+    await sbHub.from('perfis_convite').update({ usado: true }).eq('email', email);
+  }catch(e){
+    // Sem convite ou sem permissão de leitura — usuário fica sem perfil
+    // até o consultor liberar manualmente. Não bloqueia o cadastro.
+  }
+}
+
+async function hubSair(){
+  await sbHub.auth.signOut();
+  location.reload();
+}
+
+function hubSetActiveNav(btn){
+  var items = document.querySelectorAll('#sidebarNav .nav-item');
+  items.forEach(function(el){ el.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+}
+
+function hubMostrarInicio(btn){
+  var vf = document.getElementById('viewFerramenta');
+  var vi = document.getElementById('viewInicio');
+  if(vf) vf.classList.remove('active');
+  if(vi) vi.classList.add('active');
+  hubSetActiveNav(btn);
+}
+
+function hubAbrirFerramenta(btn){
+  var src = btn.getAttribute('data-src');
+  var title = btn.getAttribute('data-title') || '';
+  var iconEl = btn.querySelector('i');
+
+  var vi = document.getElementById('viewInicio');
+  var vf = document.getElementById('viewFerramenta');
+  if(vi) vi.classList.remove('active');
+  if(vf) vf.classList.add('active');
+
+  var titleEl = document.getElementById('toolTitleText');
+  if(titleEl) titleEl.textContent = title;
+  var iconTarget = document.getElementById('toolTitleIcon');
+  if(iconTarget) iconTarget.className = iconEl ? iconEl.className : 'ti ti-apps';
+
+  var iframe = document.getElementById('toolIframe');
+  if(iframe && iframe.getAttribute('data-current-src') !== src){
+    iframe.src = src;
+    iframe.setAttribute('data-current-src', src);
+  }
+
+  hubSetActiveNav(btn);
+}
+
+(async function(){
+  var r = await sbHub.auth.getSession();
+  if(r.data.session){ mostrarApp(r.data.session); }
+})();
+</script>
+
+<div class="watermark">ABC</div>
+<div class="hub-app" id="appContent" style="display:none;">
+
+  <aside class="sidebar" id="hubSidebar">
+    <div class="sidebar-brand">
+      <div class="brandmark">
+        <div class="word"><span class="abc">A</span>rt</div>
+        <div class="word"><span class="abc">B</span>lend</div>
+        <div class="word"><span class="abc">C</span>onsultoria</div>
+        <div class="word"><span class="abc">G</span>ourmet</div>
+      </div>
+      <div class="tag">Soluções assertivas</div>
+      <div class="tag2">O <span class="a2">A</span><span class="b2">B</span><span class="c2">C</span> <span class="g2">G</span>astronômico que você precisa</div>
+      <div class="tag3">Restaurant Intelligence Platform</div>
+    </div>
+
+    <div class="sidebar-search">
+      <div class="sidebar-search-box">
+        <i class="ti ti-search"></i>
+        <input type="text" id="sidebarSearchInput" placeholder="Buscar ferramenta..." autocomplete="off">
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebarNav">
+      <button type="button" class="nav-item nav-item-home active" onclick="hubMostrarInicio(this)">
+        <i class="ti ti-layout-dashboard"></i><span class="nav-label">Início</span>
+      </button>
+
+      <div class="nav-group-label">Ferramentas do cliente</div>
+      <button type="button" class="nav-item" data-src="ARTBLEND_MANUAIS_OPERACIONAIS.html" data-title="Planilhas Operacionais" data-papeis="desenvolvedor,consultor,dono,lider,colaborador" data-setor="cozinha" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-chef-hat"></i><span class="nav-label">Planilhas Operacionais</span>
+      </button>
+      <button type="button" class="nav-item" data-src="ARTBLEND_FRAMEWORKS.html" data-title="Diagnóstico & Estratégia" data-papeis="desenvolvedor,consultor,dono,lider" data-setor="geral" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-target-arrow"></i><span class="nav-label">Diagnóstico & Estratégia</span>
+      </button>
+      <button type="button" class="nav-item" data-src="FERRAMENTA_ARTBLEND_GESTAO_FINANCEIRA.html" data-title="Gestão Financeira do Restaurante" data-papeis="desenvolvedor,consultor,dono,lider" data-setor="geral" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-chart-bar"></i><span class="nav-label">Gestão Financeira do Restaurante</span>
+      </button>
+      <button type="button" class="nav-item" data-src="ARTBLEND_COMPLIANCE.html" data-title="Controle de Qualidade & Consultoria Sanitária" data-papeis="desenvolvedor,consultor,dono,lider" data-setor="geral" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-shield-check"></i><span class="nav-label">Controle de Qualidade & Consultoria Sanitária</span>
+      </button>
+      <button type="button" class="nav-item" data-src="ARTBLEND_NR1_DRPS.html" data-title="NR-1 — Riscos Psicossociais" data-papeis="desenvolvedor,consultor,dono,lider" data-setor="geral" onclick="hubAbrirFerramenta(this)" title="NR-1 — Riscos Psicossociais">
+        <i class="ti ti-heartbeat"></i><span class="nav-label">NR-1 — Riscos Psicossociais</span>
+      </button>
+
+      <div class="nav-group-label">Manuais de Treinamento de Equipe</div>
+      <button type="button" class="nav-item" data-src="ARTBLEND_MANUAL_VENDAS_ATENDIMENTO_SALAO.html" data-title="Vendas & Atendimento de Salão" data-papeis="desenvolvedor,consultor,dono,lider,colaborador" data-setor="salao" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-glass-full"></i><span class="nav-label">Vendas & Atendimento de Salão</span>
+      </button>
+      <button type="button" class="nav-item" data-src="ARTBLEND_MANUAL_TECNICAS_COCCAO.html" data-title="Técnicas de Cocção" data-papeis="desenvolvedor,consultor,dono,lider,colaborador" data-setor="cozinha" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-temperature"></i><span class="nav-label">Técnicas de Cocção</span>
+      </button>
+      <button type="button" class="nav-item" data-src="ARTBLEND_MANUAL_EMPRATAMENTO.html" data-title="Empratamento" data-papeis="desenvolvedor,consultor,dono,lider,colaborador" data-setor="cozinha" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-palette"></i><span class="nav-label">Empratamento</span>
+      </button>
+      <button type="button" class="nav-item" data-src="ARTBLEND_MANUAL_GESTAO_PROCESSOS_OPERACIONAIS.html" data-title="Gestão & Processos Operacionais" data-papeis="desenvolvedor,consultor,dono,lider,colaborador" data-setor="geral" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-settings"></i><span class="nav-label">Gestão & Processos Operacionais</span>
+      </button>
+      <button type="button" class="nav-item" data-src="ARTBLEND_MANUAL_GESTAO_ALTA_PERFORMANCE.html" data-title="Liderança & Gestão de Alta Performance" data-papeis="desenvolvedor,consultor,dono,lider,colaborador" data-setor="geral" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-trophy"></i><span class="nav-label">Liderança & Gestão de Alta Performance</span>
+      </button>
+      <button type="button" class="nav-item" data-src="ARTBLEND_MANUAL_CONFEITARIA_TECNICA.html" data-title="Confeitaria Técnica" data-papeis="desenvolvedor,consultor,dono,lider,colaborador" data-setor="cozinha" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-cake"></i><span class="nav-label">Confeitaria Técnica</span>
+      </button>
+
+      <div class="nav-group-label">Formação & Cursos</div>
+      <button type="button" class="nav-item" data-src="CURSO_ARTBLEND_FUNDAMENTOS_GESTAO.html" data-title="Fundamentos de Gestão" data-papeis="desenvolvedor,consultor,dono" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-school"></i><span class="nav-label">Fundamentos de Gestão</span>
+      </button>
+      <button type="button" class="nav-item" data-src="CURSO_NR1_ARTBLEND.html" data-title="Curso NR-1 — Riscos Psicossociais" data-papeis="desenvolvedor,consultor,dono" onclick="hubAbrirFerramenta(this)" title="Curso NR-1 — Riscos Psicossociais">
+        <i class="ti ti-certificate"></i><span class="nav-label">Curso NR-1 — Riscos Psicossociais</span>
+      </button>
+      <button type="button" class="nav-item" data-src="ARTBLEND_CEP.html" data-title="RH — Recursos Humanos" data-papeis="desenvolvedor,consultor,dono" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-users"></i><span class="nav-label">RH — Recursos Humanos</span>
+      </button>
+      <button type="button" class="nav-item" data-src="ARTBLEND_TD.html" data-title="T&D — Treinamento & Desenvolvimento" data-papeis="desenvolvedor,consultor,dono" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-book"></i><span class="nav-label">T&D — Treinamento & Desenvolvimento</span>
+      </button>
+      <button type="button" class="nav-item" data-src="ARTBLEND_CARDAPIO.html" data-title="Engenharia de Cardápio" data-papeis="desenvolvedor,consultor,dono" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-tools-kitchen-2"></i><span class="nav-label">Engenharia de Cardápio</span>
+      </button>
+      <button type="button" class="nav-item" data-src="ARTBLEND_MANUAL_ESTRUTURA_TECNOLOGICA.html" data-title="Estrutura Tecnológica do Restaurante" data-papeis="desenvolvedor,consultor,dono" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-router"></i><span class="nav-label">Estrutura Tecnológica do Restaurante</span>
+      </button>
+
+      <div class="nav-group-label">CRM & Painel do Consultor</div>
+      <button type="button" class="nav-item" data-src="ARTBLEND_CRM.html#clientes" data-title="CRM do Consultor" data-papeis="desenvolvedor,consultor" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-compass"></i><span class="nav-label">CRM do Consultor</span>
+      </button>
+      <button type="button" class="nav-item" data-src="ARTBLEND_CRM.html#painel" data-title="Painel de Indicadores do Cliente" data-papeis="desenvolvedor,consultor" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-chart-line"></i><span class="nav-label">Painel de Indicadores do Cliente</span>
+      </button>
+      <button type="button" class="nav-item" data-src="ARTBLEND_CRM.html#agenda" data-title="Agenda" data-papeis="desenvolvedor,consultor" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-calendar"></i><span class="nav-label">Agenda</span>
+      </button>
+
+      <div class="nav-group-label">Estratégia interna</div>
+      <button type="button" class="nav-item" data-src="ARTBLEND_INTELIGENCIA.html" data-title="Central de Inteligência ArtBlend" data-papeis="desenvolvedor,consultor" onclick="hubAbrirFerramenta(this)" title="Central de Inteligência ArtBlend">
+        <i class="ti ti-brain"></i><span class="nav-label">Central de Inteligência ArtBlend</span>
+      </button>
+      <button type="button" class="nav-item" data-src="CURSO_TECNOLOGIA_ARTBLEND.html" data-title="Como funciona o app (curso rápido)" data-papeis="desenvolvedor,consultor" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-device-laptop"></i><span class="nav-label">Como funciona o app (curso rápido)</span>
+      </button>
+      <button type="button" class="nav-item" data-src="PLANO_MIGRACAO_BACKEND_ARTBLEND.html" data-title="Plano de Migração — Backend Real" data-papeis="desenvolvedor" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-database"></i><span class="nav-label">Plano de Migração — Backend Real</span>
+      </button>
+      <button type="button" class="nav-item" data-src="ARTBLEND_MIGRAR_DADOS_ANTIGOS.html" data-title="Migrar Dados Antigos → Nuvem" data-papeis="desenvolvedor" onclick="hubAbrirFerramenta(this)">
+        <i class="ti ti-upload"></i><span class="nav-label">Migrar Dados Antigos → Nuvem</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-logout-wrap">
+      <button type="button" class="sidebar-logout" onclick="hubSair()"><i class="ti ti-logout"></i><span class="nav-label">Sair</span></button>
+    </div>
+  </aside>
+
+  <main class="main-content" id="hubMainContent">
+
+    <div id="viewInicio" class="view active">
+      <div class="sidebar-brand mobile-brand">
+        <div class="brandmark">
+          <div class="word"><span class="abc">A</span>rt</div>
+          <div class="word"><span class="abc">B</span>lend</div>
+          <div class="word"><span class="abc">C</span>onsultoria</div>
+          <div class="word"><span class="abc">G</span>ourmet</div>
+        </div>
+        <div class="tag">Soluções assertivas</div>
+        <div class="tag2">O <span class="a2">A</span><span class="b2">B</span><span class="c2">C</span> <span class="g2">G</span>astronômico que você precisa</div>
+        <div class="tag3">Restaurant Intelligence Platform</div>
+      </div>
+      <div class="dash-section">
+        <div class="dash-greeting" id="dashSaudacao">Olá!</div>
+        <div class="dash-grid">
+          <div class="dash-card">
+            <div class="dash-card-label"><i class="ti ti-users"></i> Clientes ativos</div>
+            <div class="dash-card-value" id="dashClientes">—</div>
+          </div>
+          <div class="dash-card">
+            <div class="dash-card-label"><i class="ti ti-list-check"></i> Pendências na agenda</div>
+            <div class="dash-card-value" id="dashPendencias">—</div>
+          </div>
+          <div class="dash-card">
+            <div class="dash-card-label"><i class="ti ti-cash"></i> Receita recorrente estimada</div>
+            <div class="dash-card-value" id="dashMRR">—</div>
+            <div class="dash-card-sub" id="dashMRRSub">Carregando…</div>
+          </div>
+          <div class="dash-card">
+            <div class="dash-card-label"><i class="ti ti-heartbeat"></i> Health Score médio</div>
+            <div class="dash-card-value" id="dashHealthScore">—</div>
+            <div class="dash-card-sub" id="dashHealthScoreSub">Carregando…</div>
+          </div>
+          <div class="dash-card dash-card-wide">
+            <div class="dash-card-label"><i class="ti ti-calendar-event"></i> Agenda de hoje</div>
+            <ul class="dash-list" id="dashAgendaHoje"><li class="dash-empty">Carregando…</li></ul>
+          </div>
+          <div class="dash-card dash-card-wide">
+            <div class="dash-card-label"><i class="ti ti-history"></i> Última atividade</div>
+            <ul class="dash-list" id="dashAtividade"><li class="dash-empty">Carregando…</li></ul>
+          </div>
+          <div class="dash-card dash-card-full">
+            <div class="dash-card-label"><i class="ti ti-users-group"></i> Clientes recentes</div>
+            <ul class="dash-list dash-cliente-list" id="dashClientesRecentes"><li class="dash-empty">Carregando…</li></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        <strong>Por que essa página existe:</strong> centralizar todas as ferramentas ArtBlend num só lugar, sem nada espalhado entre arquivos soltos.
+        <br><br>
+        <strong>Seletor de cliente:</strong> Planilhas Operacionais, Diagnóstico & Estratégia, Gestão Financeira, Controle de Qualidade & Consultoria Sanitária, NR-1, RH, Engenharia de Cardápio e T&D já trocam entre clientes/projetos sem misturar dados, com listas de adicionar/editar/excluir. O CRM funciona diferente: ele já é a carteira inteira de clientes num só lugar, por isso não precisa de seletor.
+        <br><br>
+        <strong>Manuais de Treinamento de Equipe:</strong> os 5 manuais dessa seção são documentos únicos, sem seletor de cliente — foram pensados para abrir e usar direto com a equipe, e para imprimir ou exportar em PDF com Ctrl+P.
+        <br><br>
+        <strong>Status:</strong> todas as ferramentas e cursos estão disponíveis — não há mais nenhum card "Em construção". O que falta é a migração para um backend real (ver "Plano de Migração — Backend Real" no menu) e a leitura dos manuais antigos em .docx.
+      </div>
+    </div>
+
+    <div id="viewFerramenta" class="view">
+      <div class="tool-titlebar">
+        <i id="toolTitleIcon" class="ti ti-apps"></i>
+        <span id="toolTitleText">Ferramenta</span>
+      </div>
+      <iframe id="toolIframe" class="tool-iframe" src="" title="Ferramenta ArtBlend"></iframe>
+    </div>
+
+  </main>
+</div>
+<script>
+(function(){
+  var words = document.querySelectorAll('.brandmark .word');
+  var idx = 0;
+  var abcTy = [95, 71, 49, 28];
+  var abcCounter = 0;
+  var targets = document.querySelectorAll('.tag2 .a2, .tag2 .b2, .tag2 .c2, .tag2 .g2');
+  var abcItems = [];
+  words.forEach(function(word){
+    var hasAbc = !!word.querySelector('.abc');
+    var text = word.textContent;
+    word.textContent = '';
+    Array.prototype.forEach.call(text, function(ch, i){
+      var span = document.createElement('span');
+      span.textContent = ch === ' ' ? ' ' : ch;
+      span.className = 'letter';
+      span.style.animationDelay = (idx * 0.045).toFixed(3) + 's';
+      if(i === 0 && hasAbc){
+        span.classList.add('abc');
+        var n = Math.min(abcCounter, abcTy.length - 1);
+        span.style.setProperty('--ty', abcTy[n] + 'px');
+        abcItems.push({ el: span, target: targets[n] });
+        abcCounter++;
+      }
+      word.appendChild(span);
+      idx++;
+    });
+  });
+
+  function triggerOne(item){
+    item.el.classList.add('traveling');
+    if(item.target) item.target.classList.add('flashing');
+    var cleanup = function(e){
+      if(e.animationName !== 'letterTravel') return;
+      item.el.classList.remove('traveling');
+      if(item.target) item.target.classList.remove('flashing');
+      item.el.removeEventListener('animationend', cleanup);
+    };
+    item.el.addEventListener('animationend', cleanup);
+  }
+
+  function playRelay(){
+    abcItems.forEach(function(item, i){
+      setTimeout(function(){ triggerOne(item); }, i * 950);
+    });
+  }
+
+  setTimeout(function(){
+    playRelay();
+    setInterval(playRelay, 6200);
+  }, 2400);
+})();
+
+(function(){
+  var diacriticsRe = new RegExp('[' + String.fromCharCode(768) + '-' + String.fromCharCode(879) + ']', 'g');
+
+  function hubNormalizeText(str){
+    return (str || '').toString().normalize('NFD').replace(diacriticsRe, '').toLowerCase();
+  }
+
+  var searchInput = document.getElementById('sidebarSearchInput');
+  var sidebarNav = document.getElementById('sidebarNav');
+  if(!searchInput || !sidebarNav) return;
+
+  searchInput.addEventListener('input', function(){
+    var term = hubNormalizeText(searchInput.value.trim());
+    var items = sidebarNav.querySelectorAll('.nav-item[data-title]');
+    var groupLabels = sidebarNav.querySelectorAll('.nav-group-label');
+
+    items.forEach(function(item){
+      if(!term){
+        item.style.display = '';
+        return;
+      }
+      var title = item.getAttribute('data-title') || '';
+      var labelEl = item.querySelector('.nav-label');
+      var label = labelEl ? labelEl.textContent : '';
+      var haystack = hubNormalizeText(title + ' ' + label);
+      item.style.display = haystack.indexOf(term) !== -1 ? '' : 'none';
+    });
+
+    groupLabels.forEach(function(groupLabel){
+      if(!term){
+        groupLabel.style.display = '';
+        return;
+      }
+      var hasVisibleItem = false;
+      var sibling = groupLabel.nextElementSibling;
+      while(sibling && !sibling.classList.contains('nav-group-label')){
+        if(sibling.classList.contains('nav-item') && sibling.style.display !== 'none'){
+          hasVisibleItem = true;
+          break;
+        }
+        sibling = sibling.nextElementSibling;
+      }
+      groupLabel.style.display = hasVisibleItem ? '' : 'none';
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artblend Intelligence — Painel do Restaurante (Demo)</title>
+<style>
+  :root{
+    --ink:#16201C; --muted:#6A746D; --line:#E7E1D7; --paper:#FFFFFF; --warm:#FBF8F3;
+    --primary:#0E5E55; --primary-d:#073D37; --soft:#E4F0ED; --accent:#E07B2E; --accent-d:#C0631C;
+    --green:#1E8A53; --green-bg:#E4F4EB; --amber:#C08A12; --amber-bg:#FBF1D6; --red:#C23B2C; --red-bg:#FBE7E3;
+    --gold:#C9A227;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;color:var(--ink);
+    background:radial-gradient(1200px 600px at 80% -10%,#0e6b61 0%,transparent 60%),var(--warm);font-size:15px;}
+  .shell{max-width:1180px;margin:0 auto;padding:26px 26px 60px;}
+  /* header */
+  .top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:22px;}
+  .logo{font-size:22px;font-weight:800;letter-spacing:-.5px;color:var(--primary-d);}
+  .logo small{display:block;font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);}
+  .switch{display:flex;gap:8px;background:#fff;border:1px solid var(--line);border-radius:30px;padding:5px;box-shadow:0 4px 16px rgba(14,94,85,.06);}
+  .switch button{border:0;background:transparent;padding:9px 16px;border-radius:24px;font-weight:700;font-size:13px;cursor:pointer;color:var(--muted);}
+  .switch button.on{background:var(--primary);color:#fff;}
+  /* hero */
+  .hero{display:grid;grid-template-columns:300px 1fr;gap:18px;margin-bottom:18px;}
+  .scorecard{background:linear-gradient(160deg,var(--primary-d),var(--primary));color:#fff;border-radius:22px;padding:24px;position:relative;overflow:hidden;box-shadow:0 18px 40px rgba(7,61,55,.28);}
+  .scorecard .rname{font-size:15px;font-weight:700;color:#BFE9E1;}
+  .scorecard .ring{display:flex;justify-content:center;margin:6px 0 2px;}
+  .scorecard .lvl{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:30px;padding:6px 14px;font-weight:800;font-size:13px;}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold);}
+  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .kpi{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px 18px 14px;box-shadow:0 6px 20px rgba(20,32,28,.04);display:flex;flex-direction:column;justify-content:space-between;}
+  .kpi .lab{font-size:12.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.4px;}
+  .kpi .num{font-size:34px;font-weight:800;color:var(--primary-d);line-height:1.1;margin-top:4px;}
+  .kpi .trend{font-size:12.5px;font-weight:700;margin-top:4px;}
+  .up{color:var(--green);} .down{color:var(--red);}
+  .spark{margin-top:8px;}
+  /* grid */
+  .grid{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px 24px;box-shadow:0 6px 20px rgba(20,32,28,.04);margin-bottom:18px;}
+  .panel h3{margin:0 0 4px;font-size:16px;color:var(--primary-d);display:flex;align-items:center;gap:8px;}
+  .panel .ph{font-size:12.5px;color:var(--muted);margin:0 0 14px;}
+  /* alerts */
+  .alert{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line);}
+  .alert:last-child{border:0;}
+  .alert .ico{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+  .ico.g{background:var(--green-bg);} .ico.a{background:var(--amber-bg);} .ico.r{background:var(--red-bg);}
+  .alert .txt{font-size:13.5px;line-height:1.45;}
+  .alert .txt b{color:var(--primary-d);}
+  .alert .t{font-size:11px;color:var(--muted);font-weight:700;}
+  /* xray bars */
+  .xline{margin:13px 0;}
+  .xline .lh{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;}
+  .xline .lh b{color:var(--primary-d);}
+  .track{height:9px;border-radius:6px;background:var(--warm);overflow:hidden;}
+  .fill{height:100%;border-radius:6px;width:0;transition:width 1s cubic-bezier(.3,1,.4,1);}
+  .badge{font-size:11px;font-weight:800;padding:2px 9px;border-radius:20px;}
+  .bg{background:var(--green-bg);color:var(--green);} .ba{background:var(--amber-bg);color:var(--amber);} .br{background:var(--red-bg);color:var(--red);}
+  /* sim */
+  .sim label{display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:var(--muted);margin:14px 0 6px;}
+  .sim label b{color:var(--primary-d);}
+  input[type=range]{width:100%;accent-color:var(--accent);}
+  /* action */
+  .btn{background:var(--accent);color:#fff;border:0;border-radius:11px;padding:12px 20px;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 8px 20px rgba(224,123,46,.28);}
+  .btn:hover{background:var(--accent-d);}
+  .plan{display:none;margin-top:14px;}
+  .pcard{display:flex;gap:12px;background:var(--warm);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:13px 15px;margin-bottom:10px;animation:rise .5s ease both;}
+  .pcard .n{font-weight:800;color:var(--accent);font-size:18px;}
+  @keyframes rise{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+  .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:26px;}
+  .pill{display:inline-block;background:var(--soft);color:var(--primary-d);border-radius:20px;padding:3px 11px;font-size:11.5px;font-weight:700;}
+  @media(max-width:880px){.hero{grid-template-columns:1fr;}.grid{grid-template-columns:1fr;}.kpis{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="logo">artblend<small>Intelligence · Painel</small></div>
+    <div class="switch">
+      <button class="on" onclick="setR(0,this)">🔥 Brasa &amp; Cia</button>
+      <button onclick="setR(1,this)">🥖 Pão &amp; Cia</button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="scorecard">
+      <div class="rname" id="rname">Hamburgueria Brasa &amp; Cia</div>
+      <div class="ring">
+        <svg width="180" height="160" viewBox="0 0 180 160">
+          <circle cx="90" cy="85" r="64" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="14"/>
+          <circle id="ringfg" cx="90" cy="85" r="64" fill="none" stroke="url(#gg)" stroke-width="14" stroke-linecap="round"
+            stroke-dasharray="402" stroke-dashoffset="402" transform="rotate(-90 90 85)"/>
+          <defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFD79A"/><stop offset="1" stop-color="#E07B2E"/></linearGradient></defs>
+          <text id="scoreT" x="90" y="80" text-anchor="middle" font-size="40" font-weight="800" fill="#fff">0</text>
+          <text x="90" y="103" text-anchor="middle" font-size="12" fill="#BFE9E1" letter-spacing="1">HEALTH SCORE</text>
+        </svg>
+      </div>
+      <div style="text-align:center"><span class="lvl"><span class="dot" id="lvldot"></span> Nível <b id="lvl">Ouro</b></span></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div><div class="lab">Turnover / mês</div><div class="num"><span id="k_turn">0</span>%</div><div class="trend up" id="k_turnT">▼ melhorando</div></div>
+        <svg class="spark" id="sp_turn" width="100%" height="34" viewBox="0 0 120 34" preserveAspectRatio="none"></svg></div>
+      <div class="kpi"><div><div class="lab">Ticket médio</div><div class="num">R$ <span id="k_tick">0</span></div><div class="trend up" id="k_tickT">▲ subindo</div></div>
+        <svg class="spark" id="sp_tick" width="100%" height="34" viewBox="0 0 120 34" preserveAspectRatio="none"></svg></div>
+      <div class="kpi"><div><div class="lab">Engajamento (Q12)</div><div class="num"><span id="k_q12">0</span></div><div class="trend up" id="k_q12T">▲ +15 pts</div></div>
+        <svg class="spark" id="sp_q12" width="100%" height="34" viewBox="0 0 120 34" preserveAspectRatio="none"></svg></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <div class="panel">
+        <h3>🤖 Consultor Digital — alertas de hoje</h3>
+        <p class="ph">A IA acompanha a operação e avisa antes de virar problema.</p>
+        <div id="alerts"></div>
+      </div>
+      <div class="panel">
+        <h3>📊 Raio-X financeiro</h3>
+        <p class="ph">Cada conta comparada ao benchmark saudável do food service.</p>
+        <div id="xray"></div>
+      </div>
+    </div>
+    <div>
+      <div class="panel sim">
+        <h3>🎚️ Simulador ao vivo</h3>
+        <p class="ph">Arraste e veja o Health Score reagir na hora — é o "e se?" da gestão.</p>
+        <label>Folha / faturamento <b><span id="s_folhaV">17</span>%</b></label>
+        <input type="range" id="s_folha" min="10" max="28" value="17" oninput="sim()">
+        <label>CMV / faturamento <b><span id="s_cmvV">31</span>%</b></label>
+        <input type="range" id="s_cmv" min="22" max="42" value="31" oninput="sim()">
+        <label>Turnover / mês <b><span id="s_turnV">5</span>%</b></label>
+        <input type="range" id="s_turn" min="0" max="20" value="5" oninput="sim()">
+        <label>Engajamento Q12 <b><span id="s_q12V">44</span></b></label>
+        <input type="range" id="s_q12" min="20" max="60" value="44" oninput="sim()">
+      </div>
+      <div class="panel">
+        <h3>🎯 Plano de ação inteligente</h3>
+        <p class="ph">A IA cruza os indicadores e sugere o próximo passo.</p>
+        <button class="btn" onclick="genPlan()">Gerar plano de ação</button>
+        <div class="plan" id="plan"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">Demonstração · Artblend Intelligence · dados fictícios · © Artblend Consultoria Gourmet 2026 &nbsp;·&nbsp; <span class="pill">protótipo interativo</span></div>
+</div>
+
+<script>
+var DATA=[
+ {nome:'Hamburgueria Brasa & Cia', folha:17, cmv:31, turn:5, tick:47, q12:44,
+  turnS:[12,9,7,6,5,5], tickS:[38,40,42,44,46,47], q12S:[29,33,37,40,42,44],
+  alerts:[
+   {c:'g',i:'✅',t:'AGORA',m:'<b>Equipe da cozinha</b> concluiu 100% dos checklists de abertura.'},
+   {c:'a',i:'⚠️',t:'10:30',m:'<b>CMV da carne</b> subiu 4% nesta semana — vale checar o fornecedor.'},
+   {c:'r',i:'🎓',t:'08:00',m:'Faltam <b>3 treinamentos obrigatórios</b> de 2 novos colaboradores.'},
+   {c:'g',i:'📈',t:'ONTEM',m:'<b>Ticket médio</b> bateu R$ 47 — melhor marca dos últimos 6 meses.'}]},
+ {nome:'Padaria Pão & Cia', folha:19, cmv:33, turn:8, tick:14, q12:36,
+  turnS:[14,12,11,9,8,8], tickS:[11,12,12,13,13,14], q12S:[31,32,33,34,35,36],
+  alerts:[
+   {c:'r',i:'🔴',t:'AGORA',m:'<b>Turnover em 8%/mês</b> — acima da meta (5%). Priorize escutas no setor de balcão.'},
+   {c:'a',i:'⚠️',t:'09:15',m:'<b>Folha em 19%</b> do faturamento — atenção, o saudável é até 15%.'},
+   {c:'a',i:'🥖',t:'07:40',m:'Desperdício de <b>hortaliças</b> passou do limite ontem.'},
+   {c:'g',i:'👏',t:'SEMANA',m:'<b>Q12 subiu</b> de 31 para 36 — a CNV está fazendo efeito.'}]}
+];
+var cur=0;
+
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function score(d){
+  var f=clamp(100-(d.folha-15)*7,0,100);
+  var c=clamp(100-(d.cmv-30)*6,0,100);
+  var t=clamp(100-d.turn*9,0,100);
+  var q=clamp((d.q12-20)/40*100,0,100);
+  return Math.round(f*.28+c*.22+t*.28+q*.22);
+}
+function level(s){return s>=85?['Platina','#7FD4E8']:s>=70?['Ouro','#C9A227']:s>=55?['Prata','#B8C0C6']:['Bronze','#C8804A'];}
+function bcls(s){return s=='g'?'bg':s=='a'?'ba':'br';}
+
+function spark(id,arr,color,invert){
+  var w=120,h=34,min=Math.min.apply(0,arr),max=Math.max.apply(0,arr),rng=(max-min)||1;
+  var pts=arr.map((v,i)=>{var x=i/(arr.length-1)*w;var y=h-4-((v-min)/rng)*(h-10);return x+','+y;});
+  var area='0,'+h+' '+pts.join(' ')+' '+w+','+h;
+  document.getElementById(id).innerHTML=
+   '<defs><linearGradient id="'+id+'g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+color+'" stop-opacity=".35"/><stop offset="1" stop-color="'+color+'" stop-opacity="0"/></linearGradient></defs>'+
+   '<polygon points="'+area+'" fill="url(#'+id+'g)"/>'+
+   '<polyline points="'+pts.join(' ')+'" fill="none" stroke="'+color+'" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
+}
+function animateNum(id,to,dur,dec){
+  var el=document.getElementById(id),st=null,from=0;
+  function step(ts){if(!st)st=ts;var p=clamp((ts-st)/dur,0,1);var v=from+(to-from)*(1-Math.pow(1-p,3));
+    el.textContent=dec?v.toFixed(0):Math.round(v);if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+function ring(s){
+  var C=402,off=C-(s/100)*C;
+  var el=document.getElementById('ringfg');el.style.transition='stroke-dashoffset 1.1s cubic-bezier(.3,1,.4,1)';
+  el.style.strokeDashoffset=off;
+}
+
+function render(){
+  var d=DATA[cur],s=score(d),lv=level(s);
+  document.getElementById('rname').textContent=d.nome;
+  ring(s);animateNum('scoreT',s,1100);
+  document.getElementById('lvl').textContent=lv[0];
+  document.getElementById('lvldot').style.background=lv[1];
+  document.getElementById('lvldot').style.boxShadow='0 0 10px '+lv[1];
+  animateNum('k_turn',d.turn,900);animateNum('k_tick',d.tick,900);animateNum('k_q12',d.q12,900);
+  spark('sp_turn',d.turnS,'#1E8A53');spark('sp_tick',d.tickS,'#0E5E55');spark('sp_q12',d.q12S,'#E07B2E');
+  // alerts
+  document.getElementById('alerts').innerHTML=d.alerts.map(a=>
+   '<div class="alert"><div class="ico '+a.c+'">'+a.i+'</div><div class="txt">'+a.m+'<div class="t">'+a.t+'</div></div></div>').join('');
+  // sliders sync
+  document.getElementById('s_folha').value=d.folha;document.getElementById('s_folhaV').textContent=d.folha;
+  document.getElementById('s_cmv').value=d.cmv;document.getElementById('s_cmvV').textContent=d.cmv;
+  document.getElementById('s_turn').value=d.turn;document.getElementById('s_turnV').textContent=d.turn;
+  document.getElementById('s_q12').value=d.q12;document.getElementById('s_q12V').textContent=d.q12;
+  xray(d);
+  document.getElementById('plan').style.display='none';
+}
+function xray(d){
+  function row(lbl,val,unit,good,pctw,status){
+    return '<div class="xline"><div class="lh"><span>'+lbl+'</span><span><b>'+val+unit+'</b> <span class="badge '+bcls(status)+'">'+
+      (status=='g'?'ok':status=='a'?'atenção':'crítico')+'</span></span></div>'+
+      '<div class="track"><div class="fill" style="background:'+(status=='g'?'#1E8A53':status=='a'?'#C08A12':'#C23B2C')+'" data-w="'+pctw+'"></div></div></div>';
+  }
+  var fS=d.folha<=15?'g':d.folha<=20?'a':'r';
+  var cS=d.cmv<=30?'g':d.cmv<=35?'a':'r';
+  var tS=d.turn<=5?'g':d.turn<=8?'a':'r';
+  var qS=d.q12>=45?'g':d.q12>=36?'a':'r';
+  document.getElementById('xray').innerHTML=
+    row('Folha / faturamento',d.folha,'%',15,clamp(d.folha/28*100,5,100),fS)+
+    row('CMV / faturamento',d.cmv,'%',30,clamp(d.cmv/42*100,5,100),cS)+
+    row('Turnover / mês',d.turn,'%',5,clamp(d.turn/20*100,5,100),tS)+
+    row('Engajamento Q12',d.q12,'',45,clamp(d.q12/60*100,5,100),qS);
+  setTimeout(()=>document.querySelectorAll('#xray .fill').forEach(f=>f.style.width=f.dataset.w+'%'),60);
+}
+function sim(){
+  var d=DATA[cur];
+  d.folha=+s_folha.value;d.cmv=+s_cmv.value;d.turn=+s_turn.value;d.q12=+s_q12.value;
+  s_folhaV.textContent=d.folha;s_cmvV.textContent=d.cmv;s_turnV.textContent=d.turn;s_q12V.textContent=d.q12;
+  var s=score(d),lv=level(s);
+  ring(s);document.getElementById('scoreT').textContent=s;
+  document.getElementById('lvl').textContent=lv[0];
+  document.getElementById('lvldot').style.background=lv[1];document.getElementById('lvldot').style.boxShadow='0 0 10px '+lv[1];
+  document.getElementById('k_turn').textContent=d.turn;document.getElementById('k_q12').textContent=d.q12;
+  xray(d);
+}
+function genPlan(){
+  var d=DATA[cur],items=[];
+  if(d.folha>15)items.push(['Folha alta','Sua folha está em '+d.folha+'%. Reorganize a escala por pico e reveja produtividade antes de pensar em demitir.']);
+  if(d.cmv>30)items.push(['CMV elevado','CMV em '+d.cmv+'%. Implante fichas técnicas e cheque os 3 insumos de maior peso na compra.']);
+  if(d.turn>5)items.push(['Rotatividade','Turnover de '+d.turn+'%/mês. Rode escutas estratégicas e treine os supervisores em CNV.']);
+  if(d.q12<45)items.push(['Engajamento','Q12 em '+d.q12+'. Aplique reconhecimento estruturado e reavalie em 60 dias.']);
+  if(!items.length)items.push(['Tudo saudável','Indicadores no verde. Foque em desenvolvimento de liderança e suba de nível (Platina).']);
+  var el=document.getElementById('plan');
+  el.innerHTML=items.map((it,i)=>'<div class="pcard" style="animation-delay:'+(i*.08)+'s"><div class="n">'+(i+1)+'</div><div><b style="color:var(--primary-d)">'+it[0]+'</b><br>'+it[1]+'</div></div>').join('');
+  el.style.display='block';
+}
+function setR(i,btn){cur=i;document.querySelectorAll('.switch button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');render();}
+render();
+</script>
+</body>
+</html>

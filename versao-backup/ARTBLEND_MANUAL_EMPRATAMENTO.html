@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Empratamento · Metodologia ArtBlend</title>
+<style>
+  :root{
+    --bg:#F5F7FA; --card:#FFFFFF; --border:#E2E6ED; --text:#16294A; --muted:#6E7A8C;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --gato:#A6791E; --gato-bg:#FBF1D9; --gato-border:#EDD9A0;
+    --script:#375D8C; --script-bg:#E8EFF7; --script-border:#C7D6E8;
+    --template:#8A5A2E; --template-bg:#F5E9D6; --template-border:#E7D3A8;
+    --exerc:#5B3A8E; --exerc-bg:#EEE5FA; --exerc-border:#D9C7F0;
+    --caso:#1B7A68; --caso-bg:#E1F2EE; --caso-border:#BEE0D4;
+    --warn:#B23B3B; --warn-bg:#FBEAEA; --warn-border:#EFC6C2;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.65;padding:0 0 60px;}
+  .cover{background:linear-gradient(135deg,#5B3A8E,#9B6FD1);color:#fff;padding:70px 40px;text-align:center;}
+  .cover .kick{font-size:12px;letter-spacing:3px;text-transform:uppercase;opacity:.85;font-weight:700;}
+  .cover h1{font-size:34px;font-weight:800;margin:14px 0 10px;}
+  .cover p{font-size:15px;opacity:.9;max-width:560px;margin:0 auto;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px;}
+  .sec{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px 30px;margin-top:22px;}
+  .sec .num{display:inline-block;background:#EEE5FA;color:#5B3A8E;font-weight:800;font-size:12px;letter-spacing:1px;padding:4px 10px;border-radius:20px;margin-bottom:10px;}
+  .sec h2{font-size:20px;font-weight:800;margin-bottom:12px;color:var(--text);}
+  .sec h3{font-size:14px;font-weight:700;margin:18px 0 8px;color:#5B3A8E;}
+  .sec p{font-size:14px;color:var(--text);margin-bottom:8px;}
+  .sec ul, .sec ol{margin:8px 0 8px 20px;font-size:14px;}
+  .sec li{margin-bottom:5px;}
+  .muted{color:var(--muted);font-size:13px;}
+  .box{background:#EEE5FA;border-radius:10px;padding:14px 16px;margin:12px 0;font-size:13.5px;}
+  .protocolo{border:1px dashed var(--border);border-radius:8px;padding:12px 14px;margin:8px 0;}
+  .protocolo b{color:#5B3A8E;}
+  .box.gato,.box.script,.box.template,.box.exerc,.box.caso,.box.warn{border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13.5px;border:1px solid var(--border);page-break-inside:avoid;}
+  .box .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;padding:4px 10px;border-radius:20px;color:#fff;margin-bottom:8px;}
+  .box h4{font-size:14px;margin:0 0 6px;}
+  .box.gato p,.box.script p,.box.template p,.box.exerc p,.box.caso p,.box.warn p{margin:6px 0;}
+  .box.gato ul,.box.gato ol,.box.script ul,.box.script ol,.box.template ul,.box.template ol,.box.exerc ul,.box.exerc ol,.box.caso ul,.box.caso ol,.box.warn ul,.box.warn ol{margin:6px 0 6px 18px;}
+  .box.gato{background:var(--gato-bg);border-color:var(--gato-border);} .box.gato .tag{background:var(--gato);} .box.gato h4{color:var(--gato);}
+  .box.script{background:var(--script-bg);border-color:var(--script-border);} .box.script .tag{background:var(--script);}
+  .box.template{background:var(--template-bg);border-color:var(--template-border);} .box.template .tag{background:var(--template);}
+  .box.exerc{background:var(--exerc-bg);border-color:var(--exerc-border);} .box.exerc .tag{background:var(--exerc);}
+  .box.caso{background:var(--caso-bg);border-color:var(--caso-border);} .box.caso .tag{background:var(--caso);}
+  .box.warn{background:var(--warn-bg);border-color:var(--warn-border);} .box.warn .tag{background:var(--warn);}
+  .chain{text-align:center;font-weight:800;color:#5B3A8E;background:#EEE5FA;border:1px solid #D9C7F0;border-radius:10px;padding:12px;margin:14px 0;font-size:13.5px;}
+  .say{background:#fff;border-left:3px solid var(--script);border-radius:6px;padding:8px 12px;margin:8px 0;font-style:italic;font-size:13.5px;}
+  .footer{text-align:center;margin-top:34px;font-size:12px;color:var(--muted);}
+  @media print{
+    body{padding:0;background:#fff;}
+    .cover{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+    .sec{break-inside:avoid;border:1px solid #ddd;}
+    .box.gato,.box.script,.box.template,.box.exerc,.box.caso,.box.warn,.chain{break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="kick">Metodologia ArtBlend · Consultoria de Cozinha</div>
+  <h1>Empratamento</h1>
+  <p>Princípios de composição visual do prato — como transformar um preparo tecnicamente correto em uma experiência visual que justifica o valor cobrado.</p>
+</div>
+
+<div class="wrap">
+
+  <div class="sec">
+    <span class="num">MÓDULO 0</span>
+    <h2>Por que o Empratamento Importa</h2>
+    <p>A apresentação do prato é parte da experiência sensorial do cliente, não um detalhe estético opcional — é o primeiro contato antes do sabor, e molda a expectativa de qualidade.</p>
+    <div class="box gato"><span class="tag">Pulo do gato</span><p>O julgamento visual acontece antes de o garfo tocar o prato — em menos de um segundo o cérebro já formou uma expectativa de sabor. Essa expectativa funciona como âncora: o mesmo preparo, servido com mais cuidado visual, tende a ser avaliado como mais saboroso pelo mesmo cliente. É por isso que o retorno de um trabalho de empratamento aparece na percepção de valor e na satisfação relatada, mesmo quando a receita em si não muda em nada.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 1</span>
+    <h2>Equilíbrio e Composição</h2>
+    <ul>
+      <li><b>Regra dos terços:</b> posicionar o ponto focal do prato fora do centro geométrico gera uma composição mais dinâmica e agradável ao olho.</li>
+      <li><b>Espaço negativo:</b> deixar áreas vazias no prato evita a sensação de excesso e destaca os elementos principais.</li>
+      <li>Distribuir os elementos de forma que o olho percorra o prato naturalmente, sem competir por atenção.</li>
+    </ul>
+    <div class="box gato"><span class="tag">Pulo do gato</span><p>Grupos de elementos em números ímpares (3, 5) são lidos pelo olho como mais naturais do que grupos em números pares. Números pares tendem a se organizar em pares simétricos, e a simetria perfeita é lida como algo estático, quase artificial. Um número ímpar sempre deixa um elemento "sobrando", e é esse elemento que o olho usa como ponto de apoio para montar um percurso — geralmente triangular — pelo prato. É essa trajetória que transmite composição proposital, e não ingredientes apenas dispostos lado a lado.</p></div>
+    <div class="box caso"><span class="tag">Caso</span><p>Um prato de peixe grelhado com purê e vegetais salteados era servido com os três elementos divididos em terços iguais, um do lado do outro, sem hierarquia. Ao reposicionar o purê como base assimétrica, apoiar o peixe sobre ele fora do centro geométrico e agrupar os vegetais em um trio (3 pontas) ao lado, o mesmo prato passou a guiar o olhar em um percurso em L — sem trocar nenhum ingrediente, só a disposição.</p></div>
+    <div class="box exerc"><span class="tag">Exercício</span><p>Escolha uma proteína do cardápio atual e esboce (no papel ou em foto) 3 versões de montagem do mesmo prato: (1) ponto focal na regra dos terços, (2) elemento centralizado, (3) composição linear/em fileira. Para cada versão, anote em uma frase que sensação ela transmite e a qual estilo do Módulo 9 ela mais se aproxima.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 2</span>
+    <h2>Cor e Contraste</h2>
+    <ul>
+      <li>Usar a cor natural dos ingredientes/molhos para criar contraste visual — cores vibrantes chamam atenção com equilíbrio.</li>
+      <li>Combinar cores quentes e frias para dar profundidade ao prato.</li>
+      <li>Contraste de textura reforça o contraste de cor: crocante ao lado de cremoso, por exemplo.</li>
+    </ul>
+    <div class="box gato"><span class="tag">Pulo do gato</span><p>Cores complementares (opostas no círculo cromático) aumentam o contraste percebido mais do que cores apenas "vibrantes" isoladas. Verde de ervas frescas ao lado de um molho vermelho concentrado, por exemplo, não é só esteticamente agradável — esse par de complementares é lido pelo cérebro como sinal de frescor, porque é um contraste raro em ambientes naturais (a maioria dos cenários naturais é dominada por tons próximos, verdes e marrons). Por isso um fio de ervas verdes sobre um molho quente costuma valorizar mais o prato do que simplesmente adicionar mais um ingrediente.</p></div>
+    <div class="box caso"><span class="tag">Caso</span><p>Um risoto de cor predominantemente amarela/creme era finalizado só com queijo ralado por cima — resultado visualmente monocromático. A troca por um fio de óleo de ervas verde-escuro, aplicado por último, criou contraste de cor sem alterar o sabor de forma perceptível e sem custo relevante de insumo.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 3</span>
+    <h2>Textura e Altura</h2>
+    <p>Variar texturas no mesmo prato (liso, crocante, em gel) cria interesse tanto visual quanto na boca. Construir volume — empilhamento, camadas, guarnições verticais — dá sensação de sofisticação sem precisar de ingredientes mais caros.</p>
+    <div class="box gato"><span class="tag">Pulo do gato</span><p>A viscosidade do molho precisa ser ajustada em função da ferramenta usada para aplicá-lo, não o contrário. Um molho fino demais em bisnaga escorre e perde o traço definido; o mesmo molho, levemente mais espesso, mantém a linha desenhada. Já para aplicação com colher (efeito "vírgula" ou "borrão"), o molho precisa ser mais fluido — senão não desliza da colher de forma controlada. Testar a ferramenta com a consistência final do molho antes do serviço evita ter que corrigir isso no meio do movimento, com pedidos represados.</p></div>
+    <div class="box exerc"><span class="tag">Exercício</span><p>Prepare o mesmo molho em duas consistências (padrão e levemente mais espessa). Aplique um traço com bisnaga sobre um prato branco em cada consistência e compare: qual mantém a linha definida por mais tempo sem espalhar? Registre a proporção usada para padronizar a receita.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 4</span>
+    <h2>Ferramentas e Técnicas de Apoio</h2>
+    <ul>
+      <li>Guarnições comestíveis: microgreens, flores comestíveis, ervas frescas, óleos e pós aromatizados.</li>
+      <li>Molhos e espumas: uso de bisnaga para precisão no traço do molho; espumas leves como acabamento.</li>
+      <li>Géis: usados em cubos ou lâminas para dar textura extra sem alterar muito o sabor.</li>
+      <li>Esferificação: técnica de transformar líquidos em pequenas esferas — recurso visual de alto impacto, usado com moderação.</li>
+    </ul>
+    <p class="muted">Essas técnicas são ferramentas, não obrigatórias em todo prato — usar apenas quando reforçam o conceito do prato.</p>
+    <div class="box gato"><span class="tag">Pulo do gato</span><p>A firmeza final de um gel de guarnição depende do equilíbrio entre a concentração do agente gelificante e a acidez do líquido usado — bases muito ácidas podem enfraquecer a gelificação e deixar o gel mole demais para cortar em cubos limpos. Sempre que uma receita de gel muda de líquido base (por exemplo, de um caldo neutro para um suco cítrico), vale testar a concentração de novo antes de padronizar — não assumir que a mesma proporção funciona igual em outro líquido.</p></div>
+    <div class="box warn"><span class="tag">Atenção</span><p>Esferificação tem vida útil curta depois de pronta: a membrana que segura o líquido continua reagindo com o tempo e fica mais espessa e borrachuda quanto mais tempo passa fora do banho de preparo. Montar as esferas com muita antecedência para o serviço é um erro comum — o efeito de "estourar na boca" desaparece, e o que deveria ser um recurso de impacto vira um defeito perceptível pelo cliente.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 5</span>
+    <h2>Roteiro Prático de Montagem</h2>
+    <div class="chain">1. PREPARAÇÃO → 2. MONTAGEM → 3. ACABAMENTO → 4. INSPEÇÃO FINAL</div>
+    <div class="protocolo"><b>1. Preparação:</b> todos os componentes prontos antes de montar; escolha do prato certo (forma/tamanho); controle da temperatura (quente permanece quente, frio permanece frio).</div>
+    <div class="protocolo"><b>2. Montagem:</b> posicionar o elemento principal primeiro (ponto focal); construir em camadas com auxílio de aros quando necessário; usar pinça para posicionamento fino dos elementos menores.</div>
+    <div class="protocolo"><b>3. Acabamento:</b> aplicar guarnição, molho ou espuma por último; decoração comestível como toque final.</div>
+    <div class="protocolo"><b>4. Inspeção final:</b> checar equilíbrio geral da composição, limpar bordas do prato, fazer os últimos ajustes antes de servir.</div>
+    <div class="box gato"><span class="tag">Pulo do gato</span><p>A ordem de montagem não é arbitrária: elementos que servem de apoio estrutural para os demais (bases, purês, arroz) vão primeiro, porque errar a posição deles depois de já ter colocado o resto do prato exige desmontar tudo de novo. Molhos e líquidos finos vão sempre por último, porque qualquer elemento colocado depois desliza ou borra sobre a superfície ainda não firme do molho. Essa lógica de "do mais fixo para o mais fluido" evita ter que refazer o prato inteiro por causa de um único elemento fora de ordem.</p></div>
+    <div class="box script"><span class="tag">Script — Explicando o conceito para a equipe</span><p class="say">Esse prato não é "proteína, guarnição e molho". O conceito é [ex.: contraste crocante e cremoso, com um toque ácido no final]. Toda vez que você for montar, se pergunte: essa montagem está deixando esse contraste claro para quem vai comer, ou só está cumprindo o roteiro? Se a resposta for só "cumprindo o roteiro", ajuste antes de mandar para a mesa.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 6</span>
+    <h2>Checklist Rápido Pré-Serviço</h2>
+    <div class="box template"><span class="tag">Template — Checklist copia-e-cola</span>
+      <ul>
+        <li>O prato tem um ponto focal claro?</li>
+        <li>Há contraste de cor e de textura?</li>
+        <li>Existe espaço negativo, ou o prato está poluído?</li>
+        <li>As bordas do prato estão limpas?</li>
+        <li>Há alguma sensação de altura/dimensão, ou está tudo achatado?</li>
+        <li>O prato está na temperatura certa para o tipo de preparo?</li>
+        <li>A quantidade de guarnição está proporcional ao elemento principal, sem excesso?</li>
+      </ul>
+      <p class="muted">Fixar esta lista impressa na praça de finalização acelera a checagem em serviço de alto volume — a equipe passa a rodar o checklist de cabeça, sem precisar reler tudo a cada prato.</p>
+    </div>
+    <div class="box gato"><span class="tag">Pulo do gato</span><p>A checagem da borda do prato precisa ser feita com o prato já na posição em que vai sair da cozinha — na mão, levemente inclinado — e não deitado na bancada. Boa parte das manchas só aparece quando o prato é inclinado ou carregado, e passa despercebida se a inspeção for feita só com o prato parado.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 7</span>
+    <h2>Erros Mais Comuns</h2>
+    <ul>
+      <li>Excesso de elementos no prato, sem espaço negativo.</li>
+      <li>Molho borrado nas bordas por falta de limpeza final.</li>
+      <li>Guarnição decorativa sem função de sabor (usar só o que agrega ao prato).</li>
+      <li>Prato errado para o volume do preparo (muito grande ou pequeno demais).</li>
+    </ul>
+    <div class="box gato"><span class="tag">Pulo do gato</span><p>A técnica mais usada em cozinhas de alto volume para manter as bordas limpas não é limpar depois de sujar — é evitar que a borda seja tocada durante a montagem. Reservar uma zona de segurança (uma faixa de 1,5 a 2 cm a partir do rebordo) onde nenhum elemento é posicionado, e usar um pano levemente úmido dedicado só a essa função, passado numa única direção e num único movimento contínuo por prato — nunca "esfregando" de um lado para o outro, o que espalha a mancha em vez de removê-la.</p></div>
+    <div class="box warn"><span class="tag">Erro caro</span><p>Guarnição decorativa sem função de sabor é um dos erros que mais custa dinheiro sem o cozinheiro perceber: além do desperdício de insumo, o cliente que prova um elemento "só de enfeite" e não gosta associa a decepção ao prato inteiro — o elemento errado pode derrubar a nota de um prato tecnicamente correto.</p></div>
+    <div class="box warn"><span class="tag">Erro caro</span><p>Excesso de elementos sem espaço negativo não é só uma questão estética: cada elemento a mais no prato é insumo, tempo de preparo e tempo de montagem que não necessariamente aumentam a percepção de valor — em muitos casos, reduzem, porque o prato "poluído" parece mais barato, não mais generoso.</p></div>
+    <div class="box">Próximo passo: a galeria de referências visuais próprias da ArtBlend ainda precisa ser criada — fotos reais de pratos montados pela metodologia, para servir de material de apoio visual junto com este manual.</div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 8</span>
+    <h2>Os 5 Sentidos na Experiência do Prato</h2>
+    <p>O sabor percebido pelo cliente não é resultado só do paladar — é a soma de tudo que os 5 sentidos captam durante a refeição. Entender esse mecanismo ajuda o consultor a orientar decisões que vão além do visual.</p>
+    <h3>Visão</h3>
+    <p>É a primeira sensação ativada no momento da degustação — antes mesmo do primeiro garfo, o cérebro já decidiu se o prato "parece bom". Cerca de 70% dos receptores sensoriais do corpo humano estão nos olhos, e esse julgamento inicial é instintivo e inconsciente. Um prato visualmente atraente aciona gatilhos de prazer — a sensação de novidade e surpresa libera no cérebro os mesmos hormônios associados à satisfação, o que eleva a percepção de sabor antes mesmo da primeira garfada.</p>
+    <h3>Paladar</h3>
+    <p>Os 5 gostos básicos — doce, salgado, ácido, amargo e umami — são a base da composição de sabor do prato. Trabalhar o equilíbrio entre eles ativa isoladamente apenas um dos 5 sentidos; os demais precisam ser pensados à parte.</p>
+    <h3>Olfato</h3>
+    <p>Está diretamente ligado ao paladar e é um dos sentidos mais usados para julgar se um alimento está bom para consumo. Também carrega forte carga emocional — aromas específicos disparam memórias e sensações. Na prática: liberar aroma no momento certo (fumaça, ervas frescas, um fio de azeite aromático finalizado à mesa) reforça a experiência antes do primeiro garfo.</p>
+    <h3>Tato</h3>
+    <p>Dois efeitos práticos importantes: a <b>temperatura</b> do prato altera a percepção do próprio sabor — frio reduz a sensação de doce, calor reforça a sensação de salgado. E a <b>textura</b> sentida na boca (crocante, macio, cremoso, fofo) é o que sustenta na mastigação o mesmo contraste que o Módulo 3 já trabalha na composição visual.</p>
+    <h3>Audição</h3>
+    <p>O ambiente sonoro do salão influencia o estado emocional do cliente, e o estado emocional influencia o apetite. Estudos sobre música e comportamento alimentar indicam que ritmos mais harmônicos tendem a elevar a disposição para comer, enquanto ambientes sonoros mais agressivos tendem a reduzi-la. Não é sobre o prato em si, mas faz parte da experiência completa que a consultoria pode orientar no ambiente do cliente.</p>
+    <div class="box">Aplicação prática: ao montar o conceito de um cardápio ou prato para o cliente, pensar nos 5 sentidos evita que todo o esforço da consultoria fique concentrado só na foto do prato — o objetivo final é a experiência completa do cliente à mesa.</div>
+    <div class="box gato"><span class="tag">Pulo do gato</span><p>O prato aquecido antes da montagem não é só uma questão de manter a comida quente por mais tempo — ele muda a leitura visual do molho. Um molho à base de gordura (manteiga, creme) aplicado sobre um prato frio começa a esfriar e endurecer no contato, perdendo brilho e ficando com aspecto fosco e opaco quase na hora. O mesmo molho sobre um prato aquecido mantém o brilho por muito mais tempo, porque a gordura não solidifica na superfície — é esse brilho que o olho lê como "fresco e recém-feito", mesmo em pratos que já estão prontos há alguns minutos.</p></div>
+    <div class="box exerc"><span class="tag">Exercício</span><p>Escolha um prato do cardápio e descreva, em uma frase para cada sentido (visão, paladar, olfato, tato, audição), o que ele ativa hoje. Depois, aponte um sentido que está sendo pouco explorado e proponha um ajuste simples e de baixo custo para reforçá-lo (ex.: liberar aroma à mesa, ajustar a temperatura de serviço).</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 9</span>
+    <h2>Estilos de Apresentação</h2>
+    <p>Antes de montar um prato, vale definir a que estilo de apresentação ele pertence — isso dá coerência ao cardápio inteiro e evita misturar linguagens visuais diferentes no mesmo menu.</p>
+    <ul>
+      <li><b>Minimalista:</b> poucos elementos, muito espaço negativo, foco total no ingrediente principal. Exige alta precisão técnica, já que não há como "esconder" imperfeições atrás de excesso de composição.</li>
+      <li><b>Clássico:</b> composição mais cheia e simétrica, disposição tradicional dos componentes (proteína, guarnição, molho em posições consagradas). Transmite solidez e familiaridade.</li>
+      <li><b>Rústico:</b> aparência artesanal e despojada, uso de louças e superfícies naturais (madeira, barro, pedra), texturas propositalmente menos "perfeitas". Reforça sensação de autenticidade e produção caseira.</li>
+      <li><b>Contemporâneo:</b> assimetria controlada, construção em altura, uso de técnicas modernas de apoio (géis, esferificação, pós, espumas — ver Módulo 4) e forte componente de storytelling visual no prato.</li>
+    </ul>
+    <div class="box">Como escolher: o estilo não é uma questão de moda, e sim de coerência com o conceito do restaurante, o ticket médio praticado e a identidade que o cliente quer comunicar. A escolha do estilo deve ser definida junto com o cliente antes de qualquer teste de empratamento.</div>
+    <div class="box gato"><span class="tag">Pulo do gato</span><p>Quanto mais minimalista o estilo, maior a exigência técnica invisível por trás dele — porque não há composição para "distrair" de um corte torto, um ponto de cocção errado ou um tempero mal ajustado. Um prato clássico ou rústico tem mais elementos absorvendo a atenção do olho; no minimalista, cada detalhe fica exposto sozinho. Por isso o estilo minimalista costuma exigir mais treino de padronização da equipe do que os outros, não menos.</p></div>
+    <div class="box caso"><span class="tag">Caso</span><p>Um prato de massa estava sendo servido no estilo clássico — porção alta e centralizada, molho cobrindo tudo por cima. Ao reformular para o estilo contemporâneo do mesmo restaurante, a massa passou a ser enrolada em ninho lateral, o molho aplicado em traço controlado ao redor (não por cima) e um elemento de altura (uma lasca crocante) apoiado de forma assimétrica. O prato passou a comunicar "autoral" em vez de "tradicional" — decisão coerente porque o restaurante já se posicionava como contemporâneo em cardápio e ambiente.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 10</span>
+    <h2>Ficha de Planejamento de Empratamento</h2>
+    <p>Ferramenta de apoio para estruturar o raciocínio de montagem antes de qualquer teste na bancada. Recomendado preencher esta ficha para cada prato novo do cardápio, antes de aplicar o Roteiro Prático de Montagem (Módulo 5).</p>
+    <div class="box template"><span class="tag">Template — Ficha de Planejamento (copiar e preencher)</span>
+      <div class="protocolo"><b>Prato / conceito:</b> nome do prato e descrição resumida do conceito em uma frase.</div>
+      <div class="protocolo"><b>Elemento principal:</b> qual é o ponto focal e onde ele fica posicionado no prato.</div>
+      <div class="protocolo"><b>Base / componentes:</b> base, guarnições e decoração — cada um com função definida (ver Módulo 1).</div>
+      <div class="protocolo"><b>Molho:</b> tipo de aplicação (traço, ponto, cobertura) e ferramenta usada (ver Módulo 3).</div>
+      <div class="protocolo"><b>Textura extra:</b> quais texturas estão presentes e como contrastam entre si (ver Módulo 3).</div>
+      <div class="protocolo"><b>Altura:</b> como o prato constrói volume/dimensão, e não fica achatado (ver Módulo 3).</div>
+      <div class="protocolo"><b>Guarnição / experiência sensorial:</b> guarnição comestível + o que o prato ativa em aroma, temperatura e som (ver Módulo 8).</div>
+      <div class="protocolo"><b>Superfície e estilo:</b> tipo de prato/tigela/tábua e a qual estilo de apresentação o prato pertence (ver Módulo 9).</div>
+      <div class="protocolo"><b>Inspeção final:</b> critérios específicos deste prato para aprovação antes de ir para o cardápio (ligar com o Checklist do Módulo 6).</div>
+    </div>
+    <div class="box gato"><span class="tag">Pulo do gato</span><p>Preencher a ficha antes de tocar em qualquer ingrediente parece burocracia, mas o objetivo real é outro: decisões de geometria e textura tomadas em pé, com pressa, na bancada, tendem a copiar automaticamente o último prato que a pessoa montou. Preencher a ficha antes obriga a pensar no prato como um projeto próprio — não como repetição inconsciente do anterior.</p></div>
+    <p class="muted">Depois de preenchida, a ficha vira a referência oficial do prato — é ela que orienta o teste de empratamento do Módulo 12.</p>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 11</span>
+    <h2>Cardápio Enxuto e Componentes Multifuncionais</h2>
+    <p>Empratamento rápido e consistente começa antes da cozinha — começa no desenho do cardápio.</p>
+    <ul>
+      <li>Manter um cardápio enxuto e proporcional ao tamanho real da estrutura de cozinha do cliente: menos pratos bem executados rendem mais do que muitos pratos medianos.</li>
+      <li>Eliminar pratos de baixo giro que geram prejuízo de tempo e insumo sem contrapartida de faturamento.</li>
+      <li>Priorizar ingredientes e preparações-base que servem a mais de um prato do cardápio — isso aumenta o giro de produção e reduz o número de finalizações diferentes que a equipe precisa dominar.</li>
+    </ul>
+    <div class="box">Exemplos práticos: uma mesma tuile pode compor dois pratos diferentes; um óleo aromatizado pode aparecer em três receitas; um purê pode ser adaptado para virar guarnição de outro prato do menu. O objetivo não é repetir sabor — é reduzir a quantidade de preparações exclusivas sem empobrecer o cardápio.</div>
+    <div class="box gato"><span class="tag">Pulo do gato</span><p>O ganho real de um componente multifuncional não é só o tempo de preparo — é a redução de erro em horário de pico. Quanto mais preparações exclusivas uma cozinha tem, maior a chance de a equipe confundir qual guarnição vai em qual prato sob pressão. Reduzir o número de preparações distintas reduz proporcionalmente o número de decisões que a equipe precisa tomar corretamente por minuto durante o serviço — é uma forma de padronização, não só de economia.</p></div>
+    <div class="box exerc"><span class="tag">Exercício</span><p>Liste todos os pratos do cardápio atual e, ao lado de cada um, anote os componentes-base usados (molhos, purês, guarnições crocantes). Marque quais componentes já se repetem em mais de um prato e identifique pelo menos 2 novos pontos possíveis de reaproveitamento.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 12</span>
+    <h2>Empratamento Rápido sem Esfriar</h2>
+    <p>Um prato tecnicamente perfeito perde valor se chega frio à mesa. Esta seção organiza teste, bancada e linha de montagem para reduzir o tempo entre a cocção e o serviço.</p>
+    <h3>Teste e padronização prévia</h3>
+    <div class="protocolo"><b>1. Nunca decidir o empratamento na hora do serviço</b> — e evitar alterar a composição no meio do movimento.</div>
+    <div class="protocolo"><b>2. Testar e fixar o modelo</b> antes de o prato entrar no cardápio, usando a Ficha de Planejamento (Módulo 10).</div>
+    <div class="protocolo"><b>3. Fotografar o prato padrão</b> e afixar a referência visual na cozinha — acelera o treinamento da equipe e mantém a consistência entre turnos.</div>
+    <h3>Aquecimento dos pratos</h3>
+    <p>Louça fria esfria a comida rapidamente mesmo quando a técnica de cocção está correta. Manter os pratos aquecidos em estufa, sob lâmpada de aquecimento ou, em eventos, no forno — sempre prontos antes do início da montagem.</p>
+    <div class="box gato"><span class="tag">Pulo do gato</span><p>Prato frio não é só um problema de temperatura da comida — ele também gera condensação na superfície assim que recebe um alimento quente, e essa umidade forma manchas e escorridos ao redor dos elementos, mesmo que a montagem tenha sido feita com cuidado. É o choque térmico entre o prato frio e o vapor do alimento quente que "suja" a borda depois que o prato já saiu limpo da cozinha — por isso aquecer a louça evita retrabalho de limpeza que a equipe nem percebe que precisaria fazer.</p></div>
+    <h3>Organização da bancada</h3>
+    <p>Utensílios e louças sempre à mão e sempre no mesmo lugar — repetição de posição acelera o trabalho porque a equipe passa a agir no automático. Manter pano e álcool por perto para limpeza de bordas durante a montagem, sem precisar interromper a linha.</p>
+    <h3>Linha de montagem</h3>
+    <div class="chain">GUARNIÇÕES (todos os pratos) → PROTEÍNA (todos os pratos) → MOLHO E FINALIZAÇÃO (todos os pratos) → INSPEÇÃO</div>
+    <ul>
+      <li>Definir uma ordem fixa de colocação dos componentes no prato, sempre a mesma sequência.</li>
+      <li>Para volumes grandes, dividir a montagem em etapas: primeiro as guarnições em todos os pratos, depois a proteína em todos, por último molho e finalização em todos — com um responsável por etapa quando houver mais de um cozinheiro.</li>
+      <li>Manter um prato-modelo visível durante a montagem e seguir sempre o mesmo sentido de montagem (ex.: da esquerda para a direita).</li>
+      <li>Dividir lotes grandes em blocos menores (ex.: 80 pratos saem em blocos de 20) para manter o controle de qualidade e de temperatura.</li>
+      <li>Direcionar a responsabilidade pelas finalizações para a praça com menor volume de produção no momento (ex.: garde manger, confeitaria).</li>
+    </ul>
+    <div class="box caso"><span class="tag">Caso</span><p>Em um evento para 80 pessoas com prato quente único, a montagem em bloco único (todos os 80 pratos ao mesmo tempo, um cozinheiro fazendo tudo) estava gerando pratos frios nos últimos 20 a chegar à mesa. Dividindo o mesmo volume em blocos de 20 pratos, com um responsável fixo por etapa (guarnição, proteína, molho) e envio para o salão bloco a bloco, o tempo entre a primeira e a última mesa servida caiu bastante, e a diferença de temperatura entre o primeiro e o último prato deixou de ser perceptível.</p></div>
+    <h3>Em eventos</h3>
+    <p>Entradas e sobremesas podem ser pré-montadas e finalizadas próximo do horário de servir. Pratos quentes seguem a linha de montagem normalmente, com um profissional responsável por cada etapa.</p>
+    <div class="box warn"><span class="tag">Atenção</span><p>Alterar a composição do prato no meio do movimento — mesmo uma pequena mudança "para ganhar tempo" — costuma custar mais tempo do que economiza: a equipe treinada no padrão anterior comete mais erros ao tentar seguir dois padrões diferentes na mesma noite, e a inconsistência entre pratos que saem da cozinha fica visível para o salão.</p></div>
+    <div class="box">Com bancada organizada, prato aquecido e uma linha de montagem padronizada, é possível empratar qualquer prato criativo sem sacrificar velocidade — o resultado técnico só existe se chegar à mesa na temperatura certa.</div>
+  </div>
+
+  <div class="footer">
+    ArtBlend Consultoria Gourmet — Metodologia própria de Empratamento.<br>
+    Conteúdo original, desenvolvido a partir de referências técnicas gerais de composição de pratos.
+  </div>
+
+</div>
+</body>
+</html>

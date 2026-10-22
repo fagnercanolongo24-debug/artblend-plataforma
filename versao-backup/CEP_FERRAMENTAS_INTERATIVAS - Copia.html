@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CEP — Ferramentas Interativas do Consultor</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #0f1117; color: #e8eaf0; }
+
+  .header { background: linear-gradient(135deg, #1a1f35 0%, #0d1b2a 100%); padding: 24px 32px; border-bottom: 2px solid #2563eb; }
+  .header h1 { font-size: 24px; color: #60a5fa; font-weight: 700; }
+  .header p { color: #94a3b8; margin-top: 6px; font-size: 14px; }
+
+  .nav { display: flex; gap: 8px; padding: 16px 32px; background: #141826; border-bottom: 1px solid #1e293b; flex-wrap: wrap; }
+  .nav button { padding: 8px 16px; border: 1px solid #334155; background: #1e293b; color: #94a3b8; border-radius: 6px; cursor: pointer; font-size: 13px; transition: all 0.2s; }
+  .nav button:hover, .nav button.active { background: #2563eb; color: white; border-color: #2563eb; }
+
+  .tool { display: none; padding: 24px 32px; }
+  .tool.active { display: block; }
+
+  h2 { color: #60a5fa; font-size: 18px; margin-bottom: 6px; }
+  .subtitle { color: #64748b; font-size: 13px; margin-bottom: 20px; }
+
+  .card { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+  .card h3 { color: #38bdf8; font-size: 15px; margin-bottom: 12px; }
+
+  label { display: block; font-size: 13px; color: #94a3b8; margin-bottom: 4px; margin-top: 12px; }
+  input, select, textarea { width: 100%; padding: 8px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #e2e8f0; font-size: 14px; }
+  input:focus, select:focus { outline: none; border-color: #2563eb; }
+
+  .btn { display: inline-block; padding: 10px 20px; background: #2563eb; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; margin-top: 16px; }
+  .btn:hover { background: #1d4ed8; }
+  .btn-green { background: #059669; }
+  .btn-green:hover { background: #047857; }
+
+  .result-box { background: #0f172a; border: 1px solid #2563eb; border-radius: 8px; padding: 16px; margin-top: 16px; }
+  .result-box h4 { color: #60a5fa; margin-bottom: 12px; }
+
+  .metric { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #1e293b; }
+  .metric:last-child { border-bottom: none; }
+  .metric-label { color: #94a3b8; font-size: 13px; }
+  .metric-value { font-weight: 700; font-size: 15px; }
+  .ok { color: #4ade80; }
+  .warn { color: #fbbf24; }
+  .bad { color: #f87171; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
+  th { background: #1e3a5f; color: #60a5fa; padding: 10px 12px; text-align: left; }
+  td { padding: 8px 12px; border-bottom: 1px solid #1e293b; }
+  td input { background: transparent; border: none; border-bottom: 1px solid #334155; border-radius: 0; color: #e2e8f0; padding: 4px 0; }
+  td select { background: #1e293b; border: 1px solid #334155; padding: 4px 8px; }
+  tr:hover td { background: #162032; }
+
+  .score-bar { background: #1e293b; height: 8px; border-radius: 4px; margin-top: 4px; }
+  .score-fill { height: 8px; border-radius: 4px; transition: width 0.5s; }
+
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+  .badge-ok { background: #064e3b; color: #4ade80; }
+  .badge-warn { background: #451a03; color: #fbbf24; }
+  .badge-bad { background: #450a0a; color: #f87171; }
+
+  .section-divider { border-top: 1px solid #334155; margin: 20px 0; padding-top: 20px; }
+
+  @media (max-width: 768px) { .grid2, .grid3 { grid-template-columns: 1fr; } .tool { padding: 16px; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🎯 CEP — Ferramentas Interativas do Consultor Estratégico de Pessoas</h1>
+  <p>Metodologia Jeff Simão + Referências Mundiais | Fagner Augusto | Food Service</p>
+</div>
+
+<div class="nav">
+  <button class="active" onclick="showTool('financeiro')">💰 Diagnóstico Financeiro</button>
+  <button onclick="showTool('escuta')">👂 Ficha de Escuta 3G</button>
+  <button onclick="showTool('analytics')">📊 People Analytics</button>
+  <button onclick="showTool('gallup')">🔬 Gallup Q12</button>
+  <button onclick="showTool('9box')">🎯 Matriz 9-Box</button>
+  <button onclick="showTool('onboarding')">🚀 Cronograma Onboarding</button>
+  <button onclick="showTool('treinamento')">📚 Plano de T&D</button>
+  <button onclick="showTool('jornada')">⏰ Calculadora de Jornada</button>
+</div>
+
+<!-- FERRAMENTA 1: DIAGNÓSTICO FINANCEIRO -->
+<div class="tool active" id="tool-financeiro">
+  <h2>💰 Diagnóstico Financeiro do Cliente</h2>
+  <p class="subtitle">Insira os dados do restaurante para gerar o diagnóstico automático com benchmarks do food service</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>📥 Dados do Cliente</h3>
+      <label>Nome do Restaurante</label>
+      <input type="text" id="nomeRestaurante" placeholder="Ex: Restaurante Sabor & Arte">
+      <label>Faturamento Mensal (R$)</label>
+      <input type="number" id="faturamento" placeholder="Ex: 80000" oninput="calcFinanceiro()">
+      <label>Folha de Pagamento Total (R$)</label>
+      <input type="number" id="folha" placeholder="Ex: 12000" oninput="calcFinanceiro()">
+      <label>Custo de Compras/Ingredientes (R$)</label>
+      <input type="number" id="compras" placeholder="Ex: 22000" oninput="calcFinanceiro()">
+      <label>Pró Labore do Dono (R$)</label>
+      <input type="number" id="proLabore" placeholder="Ex: 8000" oninput="calcFinanceiro()">
+      <label>Investimento (Marketing + Melhorias) (R$)</label>
+      <input type="number" id="investimento" placeholder="Ex: 3000" oninput="calcFinanceiro()">
+      <label>Dívidas em Aberto? (R$)</label>
+      <input type="number" id="dividas" placeholder="Ex: 15000" oninput="calcFinanceiro()">
+      <label>Caixa de Reserva Disponível (R$)</label>
+      <input type="number" id="caixa" placeholder="Ex: 5000" oninput="calcFinanceiro()">
+      <label>Número de Colaboradores</label>
+      <input type="number" id="nColaboradores" placeholder="Ex: 15" oninput="calcFinanceiro()">
+    </div>
+
+    <div>
+      <div class="result-box" id="resultFinanceiro">
+        <h4>📊 Resultado do Diagnóstico</h4>
+        <p style="color:#64748b; font-size:13px;">Preencha os dados ao lado para ver o diagnóstico automático.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FERRAMENTA 2: FICHA DE ESCUTA 3G -->
+<div class="tool" id="tool-escuta">
+  <h2>👂 Ficha de Escuta Estratégica + 3G</h2>
+  <p class="subtitle">Registre as informações coletadas nas escutas e gere o mapa de diagnóstico da equipe</p>
+
+  <div class="card">
+    <h3>📋 Dados da Escuta</h3>
+    <div class="grid3">
+      <div>
+        <label>Nome do Colaborador</label>
+        <input type="text" id="nomeColab" placeholder="Nome completo">
+      </div>
+      <div>
+        <label>Cargo</label>
+        <input type="text" id="cargoColab" placeholder="Ex: Cozinheiro">
+      </div>
+      <div>
+        <label>Tempo na Empresa</label>
+        <input type="text" id="tempoColab" placeholder="Ex: 8 meses">
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>🔍 5 Categorias da Escuta</h3>
+      <label>1. LIDERANÇA — Observações e respostas</label>
+      <textarea rows="3" id="escLideranca" placeholder="Ex: Demonstrou tensão ao falar do supervisor. Evitou contato visual. Mencionou 'às vezes é difícil'..."></textarea>
+      <label>2. TAREFAS — Observações e respostas</label>
+      <textarea rows="3" id="escTarefas" placeholder="Ex: Faz serviço de 3 cargos diferentes. Reclamou do acúmulo de função..."></textarea>
+      <label>3. COMUNICAÇÃO — Observações e respostas</label>
+      <textarea rows="3" id="escComunicacao" placeholder="Ex: Fica sabendo das mudanças por rumores. Não há reuniões de equipe..."></textarea>
+      <label>4. FINANCEIRO — Observações e respostas</label>
+      <textarea rows="3" id="escFinanceiro" placeholder="Ex: Pagamento sempre correto. Mas nunca recebeu o VR prometido..."></textarea>
+      <label>5. VIDA PESSOAL — Observações (com cuidado)</label>
+      <textarea rows="3" id="escPessoal" placeholder="Ex: Mencionou dificuldades com transporte. Parece cansado..."></textarea>
+    </div>
+
+    <div class="card">
+      <h3>🔧 Ferramenta 3G — Diagnóstico de Tarefas</h3>
+      <p style="color:#64748b; font-size:12px; margin-bottom:12px;">Baseado na escuta, preencha o 3G para este colaborador/setor</p>
+
+      <table id="tabela3G">
+        <tr>
+          <th>Tarefa</th>
+          <th>Responsável</th>
+          <th>Quando</th>
+          <th>Status</th>
+        </tr>
+        <tr>
+          <td><input placeholder="O que fazer"></td>
+          <td><input placeholder="Quem"></td>
+          <td><input placeholder="Prazo"></td>
+          <td><select><option>🟡 Pendente</option><option>🟢 OK</option><option>🔴 Problema</option></select></td>
+        </tr>
+        <tr>
+          <td><input placeholder="O que fazer"></td>
+          <td><input placeholder="Quem"></td>
+          <td><input placeholder="Prazo"></td>
+          <td><select><option>🟡 Pendente</option><option>🟢 OK</option><option>🔴 Problema</option></select></td>
+        </tr>
+        <tr>
+          <td><input placeholder="O que fazer"></td>
+          <td><input placeholder="Quem"></td>
+          <td><input placeholder="Prazo"></td>
+          <td><select><option>🟡 Pendente</option><option>🟢 OK</option><option>🔴 Problema</option></select></td>
+        </tr>
+      </table>
+      <button class="btn" onclick="addLinha3G()">+ Adicionar Linha</button>
+
+      <div class="section-divider">
+        <h3 style="color:#38bdf8; font-size:14px; margin-bottom:12px;">📊 Score de Risco</h3>
+        <div>
+          <label>Nível de Risco de Saída</label>
+          <select id="riscoSaida">
+            <option value="baixo">🟢 Baixo — está bem, sem sinais de saída</option>
+            <option value="medio">🟡 Médio — alguns sinais, monitorar</option>
+            <option value="alto">🔴 Alto — provável saída em 30-60 dias</option>
+          </select>
+        </div>
+        <div>
+          <label>Existe assédio ou problema grave?</label>
+          <select id="assedio">
+            <option value="nao">Não identificado</option>
+            <option value="suspeita">Suspeita — investigar</option>
+            <option value="confirmado">Confirmado — ação imediata</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn btn-green" onclick="gerarRelatorioEscuta()">📄 Gerar Resumo da Escuta</button>
+  <div id="resultEscuta"></div>
+</div>
+
+<!-- FERRAMENTA 3: PEOPLE ANALYTICS -->
+<div class="tool" id="tool-analytics">
+  <h2>📊 Dashboard de People Analytics</h2>
+  <p class="subtitle">Acompanhe os principais indicadores de pessoas do seu cliente mês a mês</p>
+
+  <div class="grid3">
+    <div class="card">
+      <h3>📉 Turnover</h3>
+      <label>Colaboradores no início do mês</label>
+      <input type="number" id="headInicio" placeholder="Ex: 20" oninput="calcAnalytics()">
+      <label>Colaboradores que saíram</label>
+      <input type="number" id="saidas" placeholder="Ex: 2" oninput="calcAnalytics()">
+      <label>Colaboradores que entraram</label>
+      <input type="number" id="entradas" placeholder="Ex: 3" oninput="calcAnalytics()">
+    </div>
+    <div class="card">
+      <h3>😴 Absenteísmo</h3>
+      <label>Total de horas esperadas no mês</label>
+      <input type="number" id="horasEsperadas" placeholder="Ex: 2000" oninput="calcAnalytics()">
+      <label>Total de horas faltadas (ausências)</label>
+      <input type="number" id="horasFaltadas" placeholder="Ex: 80" oninput="calcAnalytics()">
+    </div>
+    <div class="card">
+      <h3>💼 Produtividade</h3>
+      <label>Faturamento do mês (R$)</label>
+      <input type="number" id="fatAnalytics" placeholder="Ex: 80000" oninput="calcAnalytics()">
+      <label>Número médio de colaboradores</label>
+      <input type="number" id="headMedio" placeholder="Ex: 21" oninput="calcAnalytics()">
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>😊 eNPS — Employee Net Promoter Score</h3>
+    <p style="color:#64748b; font-size:12px; margin-bottom:12px;">Pergunta feita para todos: "Em uma escala de 0 a 10, o quanto você recomendaria trabalhar aqui para um amigo?"</p>
+    <div class="grid3">
+      <div>
+        <label>Quantidade de Promotores (9-10)</label>
+        <input type="number" id="promotores" placeholder="Ex: 8" oninput="calcAnalytics()">
+      </div>
+      <div>
+        <label>Quantidade de Neutros (7-8)</label>
+        <input type="number" id="neutros" placeholder="Ex: 5" oninput="calcAnalytics()">
+      </div>
+      <div>
+        <label>Quantidade de Detratores (0-6)</label>
+        <input type="number" id="detratores" placeholder="Ex: 3" oninput="calcAnalytics()">
+      </div>
+    </div>
+  </div>
+
+  <div class="result-box" id="resultAnalytics">
+    <h4>📊 Indicadores do Mês</h4>
+    <p style="color:#64748b; font-size:13px;">Preencha os dados acima para ver os indicadores calculados automaticamente.</p>
+  </div>
+</div>
+
+<!-- FERRAMENTA 4: GALLUP Q12 -->
+<div class="tool" id="tool-gallup">
+  <h2>🔬 Gallup Q12 — Medição de Engajamento</h2>
+  <p class="subtitle">Aplique as 12 perguntas do Gallup com sua equipe. Cada pergunta: 1 (Discordo totalmente) a 5 (Concordo totalmente)</p>
+
+  <div class="card">
+    <h3>👤 Dados do Respondente</h3>
+    <div class="grid3">
+      <div>
+        <label>Nome (opcional)</label>
+        <input type="text" id="gallupNome" placeholder="Anônimo ou nome">
+      </div>
+      <div>
+        <label>Cargo</label>
+        <input type="text" id="gallupCargo" placeholder="Ex: Atendente">
+      </div>
+      <div>
+        <label>Setor</label>
+        <input type="text" id="gallupSetor" placeholder="Ex: Salão">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📋 As 12 Perguntas</h3>
+    <div id="q12perguntas"></div>
+  </div>
+
+  <button class="btn" onclick="calcGallup()">🔍 Calcular Score de Engajamento</button>
+  <div class="result-box" id="resultGallup" style="display:none; margin-top:16px;"></div>
+</div>
+
+<!-- FERRAMENTA 5: MATRIZ 9-BOX -->
+<div class="tool" id="tool-9box">
+  <h2>🎯 Matriz 9-Box — Potencial × Performance</h2>
+  <p class="subtitle">Posicione cada colaborador na matriz e identifique suas ações de gestão</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>➕ Adicionar Colaborador</h3>
+      <label>Nome</label>
+      <input type="text" id="box9Nome" placeholder="Nome do colaborador">
+      <label>Cargo</label>
+      <input type="text" id="box9Cargo" placeholder="Ex: Chefe de Cozinha">
+      <label>Performance Atual (1=Baixa, 2=Média, 3=Alta)</label>
+      <select id="box9Perf">
+        <option value="1">1 — Baixa Performance</option>
+        <option value="2">2 — Performance Média</option>
+        <option value="3">3 — Alta Performance</option>
+      </select>
+      <label>Potencial Futuro (1=Baixo, 2=Médio, 3=Alto)</label>
+      <select id="box9Pot">
+        <option value="1">1 — Baixo Potencial</option>
+        <option value="2">2 — Potencial Médio</option>
+        <option value="3">3 — Alto Potencial</option>
+      </select>
+      <button class="btn" onclick="add9Box()" style="margin-top:12px;">Adicionar à Matriz</button>
+    </div>
+
+    <div class="card">
+      <h3>📊 Matriz 9-Box</h3>
+      <div id="matriz9box" style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:4px; margin-bottom:12px;">
+        <!-- JS fills this -->
+      </div>
+      <div id="lista9box"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FERRAMENTA 6: ONBOARDING -->
+<div class="tool" id="tool-onboarding">
+  <h2>🚀 Cronograma de Onboarding — 5 Dias</h2>
+  <p class="subtitle">Gere o cronograma personalizado de integração do novo colaborador</p>
+
+  <div class="card">
+    <h3>👤 Dados do Novo Colaborador</h3>
+    <div class="grid3">
+      <div>
+        <label>Nome</label>
+        <input type="text" id="onbNome" placeholder="Nome completo">
+      </div>
+      <div>
+        <label>Cargo</label>
+        <input type="text" id="onbCargo" placeholder="Ex: Atendente de Salão">
+      </div>
+      <div>
+        <label>Data de Início</label>
+        <input type="date" id="onbData">
+      </div>
+    </div>
+  </div>
+
+  <button class="btn btn-green" onclick="gerarOnboarding()">📋 Gerar Cronograma de Onboarding</button>
+  <div id="resultOnboarding"></div>
+</div>
+
+<!-- FERRAMENTA 7: PLANO T&D -->
+<div class="tool" id="tool-treinamento">
+  <h2>📚 Plano de Treinamento (T&D)</h2>
+  <p class="subtitle">Monte o plano de treinamento baseado no diagnóstico do restaurante</p>
+
+  <div class="card">
+    <h3>🎯 Objetivo do Treinamento</h3>
+    <label>Qual é o principal problema identificado?</label>
+    <select id="tdProblema">
+      <option value="vendas">Ticket médio baixo / Vender mais</option>
+      <option value="atendimento">Atendimento ao cliente ruim</option>
+      <option value="lideranca">Liderança fraca / Comunicação violenta</option>
+      <option value="processos">Processos desorganizados / Desperdício</option>
+      <option value="integracao">Alta rotatividade / Integração falha</option>
+    </select>
+
+    <label>Perfil predominante da equipe</label>
+    <select id="tdPerfil">
+      <option value="fundamental">70%+ até Ensino Fundamental (foco visual)</option>
+      <option value="medio">70%+ Ensino Médio ou acima (foco dados+texto)</option>
+      <option value="misto">Equipe mista (combinar formatos)</option>
+    </select>
+
+    <label>Duração disponível para o treinamento</label>
+    <select id="tdDuracao">
+      <option value="2h">2 horas</option>
+      <option value="4h">4 horas (meio período)</option>
+      <option value="8h">8 horas (dia inteiro)</option>
+    </select>
+
+    <button class="btn" onclick="gerarPlanTD()" style="margin-top:12px;">📋 Gerar Plano de T&D</button>
+  </div>
+
+  <div id="resultTD"></div>
+</div>
+
+<!-- FERRAMENTA 8: JORNADA -->
+<div class="tool" id="tool-jornada">
+  <h2>⏰ Calculadora de Jornada e Custo de Pessoal</h2>
+  <p class="subtitle">Compare os tipos de jornada e calcule o custo total de cada configuração</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>⚙️ Dados do Cargo</h3>
+      <label>Salário Base (R$)</label>
+      <input type="number" id="jornSalario" placeholder="Ex: 1800" oninput="calcJornada()">
+      <label>Número de Funcionários neste cargo</label>
+      <input type="number" id="jornQtd" placeholder="Ex: 5" oninput="calcJornada()">
+      <label>Tipo de Jornada</label>
+      <select id="jornTipo" onchange="calcJornada()">
+        <option value="44_6x1">44h semanais — 6×1</option>
+        <option value="30_6x1">30h semanais — 6×1 Produção</option>
+        <option value="12x36">12×36</option>
+        <option value="44_4x2">44h semanais — 4×2 (9h/dia)</option>
+        <option value="30_5x2">30h semanais — 5×2 (6h/dia)</option>
+      </select>
+      <label>INSS Patronal + FGTS + Provisões (%)</label>
+      <input type="number" id="jornEncargos" value="42" oninput="calcJornada()">
+    </div>
+    <div class="result-box" id="resultJornada">
+      <h4>💰 Análise de Custo da Jornada</h4>
+      <p style="color:#64748b; font-size:13px;">Preencha os dados ao lado.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// NAV
+function showTool(id) {
+  document.querySelectorAll('.tool').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tool-' + id).classList.add('active');
+  event.target.classList.add('active');
+  if (id === 'gallup' && !document.querySelector('#q12perguntas .q-item')) initQ12();
+  if (id === '9box') init9Box();
+}
+
+// ============================
+// FINANCEIRO
+// ============================
+function calcFinanceiro() {
+  const fat = parseFloat(document.getElementById('faturamento').value) || 0;
+  if (!fat) return;
+
+  const folha = parseFloat(document.getElementById('folha').value) || 0;
+  const compras = parseFloat(document.getElementById('compras').value) || 0;
+  const pl = parseFloat(document.getElementById('proLabore').value) || 0;
+  const inv = parseFloat(document.getElementById('investimento').value) || 0;
+  const div = parseFloat(document.getElementById('dividas').value) || 0;
+  const caixa = parseFloat(document.getElementById('caixa').value) || 0;
+  const nColab = parseFloat(document.getElementById('nColaboradores').value) || 1;
+  const nome = document.getElementById('nomeRestaurante').value || 'Restaurante';
+
+  function pct(v) { return fat ? ((v/fat)*100).toFixed(1) : '0'; }
+  function cls(v, min, max) {
+    if (v >= min && v <= max) return 'ok';
+    if (v < min*0.7 || v > max*1.3) return 'bad';
+    return 'warn';
+  }
+  function badge(v, min, max) {
+    const c = cls(v, min, max);
+    const label = c === 'ok' ? '✅ OK' : c === 'warn' ? '⚠️ Atenção' : '🔴 Crítico';
+    return `<span class="badge badge-${c}">${label}</span>`;
+  }
+
+  const pFolha = folha/fat*100;
+  const pCompras = compras/fat*100;
+  const pPL = pl/fat*100;
+  const pInv = inv/fat*100;
+  const fat_colab = fat/nColab;
+  const mesesCaixa = div > 0 ? (caixa/div).toFixed(1) : '∞';
+
+  document.getElementById('resultFinanceiro').innerHTML = `
+    <h4>📊 Diagnóstico — ${nome}</h4>
+    <div class="metric"><span class="metric-label">Faturamento Mensal</span><span class="metric-value ok">R$ ${fat.toLocaleString('pt-BR')}</span></div>
+    <div class="metric"><span class="metric-label">Folha / Faturamento</span><span class="metric-value ${cls(pFolha,10,15)}">${pFolha.toFixed(1)}% ${badge(pFolha,10,15)}</span></div>
+    <div class="metric"><span class="metric-label">Compras / Faturamento</span><span class="metric-value ${cls(pCompras,25,30)}">${pCompras.toFixed(1)}% ${badge(pCompras,25,30)}</span></div>
+    <div class="metric"><span class="metric-label">Pró Labore / Faturamento</span><span class="metric-value ${cls(pPL,10,15)}">${pPL.toFixed(1)}% ${badge(pPL,10,15)}</span></div>
+    <div class="metric"><span class="metric-label">Investimento / Faturamento</span><span class="metric-value ${cls(pInv,3,5)}">${pInv.toFixed(1)}% ${badge(pInv,3,5)}</span></div>
+    <div class="metric"><span class="metric-label">Faturamento por Colaborador</span><span class="metric-value ok">R$ ${fat_colab.toLocaleString('pt-BR', {maximumFractionDigits:0})}/mês</span></div>
+    ${div > 0 ? `<div class="metric"><span class="metric-label">Dívida vs Caixa</span><span class="metric-value ${caixa >= div ? 'ok' : 'bad'}">${caixa >= div ? '✅ Caixa cobre a dívida' : '🔴 Caixa insuficiente para cobrir dívida'}</span></div>` : ''}
+    <div style="margin-top:14px; padding:12px; background:#162032; border-radius:6px; font-size:12px; color:#94a3b8;">
+      <strong style="color:#60a5fa;">Benchmark Food Service (Jeff Simão):</strong><br>
+      Folha: 10-15% | Compras: 25-30% | Pró Labore: 10-15% | Investimento: 3-5%
+    </div>
+  `;
+}
+
+// ============================
+// ESCUTA
+// ============================
+function addLinha3G() {
+  const t = document.getElementById('tabela3G');
+  const r = t.insertRow(-1);
+  r.innerHTML = `
+    <td><input placeholder="O que fazer"></td>
+    <td><input placeholder="Quem"></td>
+    <td><input placeholder="Prazo"></td>
+    <td><select><option>🟡 Pendente</option><option>🟢 OK</option><option>🔴 Problema</option></select></td>
+  `;
+}
+
+function gerarRelatorioEscuta() {
+  const nome = document.getElementById('nomeColab').value || 'Colaborador';
+  const cargo = document.getElementById('cargoColab').value || 'Cargo';
+  const risco = document.getElementById('riscoSaida').value;
+  const assedio = document.getElementById('assedio').value;
+  const riscoLabel = {baixo:'🟢 BAIXO', medio:'🟡 MÉDIO', alto:'🔴 ALTO'}[risco];
+  const assedioLabel = {nao:'✅ Não identificado', suspeita:'⚠️ Suspeita — investigar', confirmado:'🚨 CONFIRMADO — Ação IMEDIATA'}[assedio];
+
+  document.getElementById('resultEscuta').innerHTML = `
+    <div class="result-box" style="margin-top:16px;">
+      <h4>📄 Resumo da Escuta — ${nome} | ${cargo}</h4>
+      <div class="metric"><span class="metric-label">Liderança</span><span class="metric-value" style="font-size:13px;">${document.getElementById('escLideranca').value || '—'}</span></div>
+      <div class="metric"><span class="metric-label">Tarefas</span><span class="metric-value" style="font-size:13px;">${document.getElementById('escTarefas').value || '—'}</span></div>
+      <div class="metric"><span class="metric-label">Comunicação</span><span class="metric-value" style="font-size:13px;">${document.getElementById('escComunicacao').value || '—'}</span></div>
+      <div class="metric"><span class="metric-label">Financeiro</span><span class="metric-value" style="font-size:13px;">${document.getElementById('escFinanceiro').value || '—'}</span></div>
+      <div class="metric"><span class="metric-label">Vida Pessoal</span><span class="metric-value" style="font-size:13px;">${document.getElementById('escPessoal').value || '—'}</span></div>
+      <div class="metric"><span class="metric-label">Risco de Saída</span><span class="metric-value">${riscoLabel}</span></div>
+      <div class="metric"><span class="metric-label">Assédio/Problema Grave</span><span class="metric-value">${assedioLabel}</span></div>
+    </div>
+  `;
+}
+
+// ============================
+// PEOPLE ANALYTICS
+// ============================
+function calcAnalytics() {
+  const hi = parseFloat(document.getElementById('headInicio').value) || 0;
+  const s = parseFloat(document.getElementById('saidas').value) || 0;
+  const e = parseFloat(document.getElementById('entradas').value) || 0;
+  const he = parseFloat(document.getElementById('horasEsperadas').value) || 0;
+  const hf = parseFloat(document.getElementById('horasFaltadas').value) || 0;
+  const fat = parseFloat(document.getElementById('fatAnalytics').value) || 0;
+  const hm = parseFloat(document.getElementById('headMedio').value) || 1;
+  const prom = parseFloat(document.getElementById('promotores').value) || 0;
+  const neut = parseFloat(document.getElementById('neutros').value) || 0;
+  const detr = parseFloat(document.getElementById('detratores').value) || 0;
+
+  if (!hi) return;
+
+  const headMed = hi + e - s;
+  const turnover = hi > 0 ? (s/hi*100).toFixed(1) : 0;
+  const absen = he > 0 ? (hf/he*100).toFixed(1) : 0;
+  const prodColab = hm > 0 ? (fat/hm).toLocaleString('pt-BR', {maximumFractionDigits:0}) : 0;
+  const total = prom + neut + detr;
+  const enps = total > 0 ? Math.round((prom/total - detr/total) * 100) : 0;
+
+  function status(v, good, warn) { return v <= good ? 'ok' : v <= warn ? 'warn' : 'bad'; }
+
+  document.getElementById('resultAnalytics').innerHTML = `
+    <h4>📊 People Analytics — Indicadores do Mês</h4>
+    <div class="metric"><span class="metric-label">Turnover Mensal</span><span class="metric-value ${status(turnover,5,10)}">${turnover}% <small style="font-weight:400;color:#64748b;">(meta: &lt;5%)</small></span></div>
+    <div class="metric"><span class="metric-label">Absenteísmo</span><span class="metric-value ${status(absen,3,6)}">${absen}% <small style="font-weight:400;color:#64748b;">(meta: &lt;3%)</small></span></div>
+    <div class="metric"><span class="metric-label">Faturamento por Colaborador</span><span class="metric-value ok">R$ ${prodColab}/mês</span></div>
+    <div class="metric"><span class="metric-label">eNPS</span><span class="metric-value ${enps >= 50 ? 'ok' : enps >= 0 ? 'warn' : 'bad'}">${enps} <small style="font-weight:400;color:#64748b;">(meta: &gt;50)</small></span></div>
+    <div class="metric"><span class="metric-label">Headcount Final do Mês</span><span class="metric-value ok">${headMed} colaboradores</span></div>
+    <div style="margin-top:14px; padding:12px; background:#162032; border-radius:6px;">
+      <p style="font-size:12px; color:#94a3b8;">
+        <strong style="color:#60a5fa;">Interpretação do Turnover ${turnover}%:</strong><br>
+        ${turnover <= 5 ? '✅ Excelente — abaixo da meta. Ambiente saudável.' :
+          turnover <= 10 ? '⚠️ Atenção — acima da meta. Investigar causas com escuta estratégica.' :
+          '🔴 Crítico — alto custo de recrutamento. Ação imediata necessária.'}
+      </p>
+    </div>
+  `;
+}
+
+// ============================
+// GALLUP Q12
+// ============================
+const q12 = [
+  "Sei o que é esperado de mim no trabalho.",
+  "Tenho os materiais e equipamentos para fazer meu trabalho corretamente.",
+  "No trabalho, tenho oportunidade de fazer o que faço de melhor todo dia.",
+  "Nos últimos 7 dias, recebi reconhecimento ou elogio por um bom trabalho.",
+  "Meu supervisor parece se importar comigo como pessoa.",
+  "Há alguém no trabalho que encoraja meu desenvolvimento.",
+  "No trabalho, minha opinião parece contar.",
+  "A missão da empresa me faz sentir que meu trabalho é importante.",
+  "Meus colegas estão comprometidos em fazer um trabalho de qualidade.",
+  "Tenho um bom amigo no trabalho.",
+  "Nos últimos 6 meses, alguém falou comigo sobre meu progresso.",
+  "No último ano, tive oportunidade de aprender e crescer."
+];
+
+function initQ12() {
+  const c = document.getElementById('q12perguntas');
+  c.innerHTML = q12.map((q, i) => `
+    <div class="q-item" style="margin-bottom:16px;">
+      <p style="font-size:13px; color:#e2e8f0; margin-bottom:6px;"><strong style="color:#60a5fa;">Q${i+1}.</strong> ${q}</p>
+      <div style="display:flex; gap:8px;">
+        ${[1,2,3,4,5].map(v => `
+          <label style="display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer;">
+            <input type="radio" name="q${i+1}" value="${v}" style="width:auto;">
+            <span style="font-size:11px; color:#64748b;">${v}</span>
+          </label>
+        `).join('')}
+      </div>
+      <div style="display:flex; justify-content:space-between; font-size:10px; color:#475569; margin-top:2px;">
+        <span>Discordo totalmente</span><span>Concordo totalmente</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function calcGallup() {
+  let total = 0; let respondidas = 0;
+  for (let i=1; i<=12; i++) {
+    const v = document.querySelector(`input[name="q${i}"]:checked`);
+    if (v) { total += parseInt(v.value); respondidas++; }
+  }
+  if (respondidas < 12) { alert('Responda todas as 12 perguntas.'); return; }
+  const pct = Math.round((total/60)*100);
+  const nivel = total >= 52 ? {label:'🟢 ALTAMENTE ENGAJADO', cor:'#4ade80', desc:'Colaborador modelo. Reconheça e retenha.'} :
+                total >= 40 ? {label:'🟡 ENGAJAMENTO MODERADO', cor:'#fbbf24', desc:'Há oportunidades de melhoria. Investigue as Q com nota baixa.'} :
+                {label:'🔴 BAIXO ENGAJAMENTO', cor:'#f87171', desc:'Risco de saída elevado. Escuta estratégica urgente.'};
+
+  const nome = document.getElementById('gallupNome').value || 'Colaborador';
+  document.getElementById('resultGallup').style.display = 'block';
+  document.getElementById('resultGallup').innerHTML = `
+    <h4>📊 Resultado Gallup Q12 — ${nome}</h4>
+    <div style="text-align:center; padding:20px 0;">
+      <div style="font-size:48px; font-weight:900; color:${nivel.cor};">${total}<span style="font-size:20px;">/60</span></div>
+      <div style="font-size:18px; color:${nivel.cor}; margin-top:8px;">${nivel.label}</div>
+      <div style="color:#94a3b8; font-size:13px; margin-top:8px;">${nivel.desc}</div>
+    </div>
+    <div class="score-bar"><div class="score-fill" style="width:${pct}%; background:${nivel.cor};"></div></div>
+    <div style="text-align:right; font-size:11px; color:#64748b; margin-top:4px;">${pct}% de engajamento máximo</div>
+  `;
+}
+
+// ============================
+// 9-BOX
+// ============================
+let colaboradores9box = [];
+
+function init9Box() {
+  render9Box();
+}
+
+const labels9box = {
+  '3-3': {label:'⭐ ESTRELA', cor:'#4ade80', acao:'Candidate à próxima promoção. PDI imediato.'},
+  '3-2': {label:'🌟 ESTRELA FUTURA', cor:'#34d399', acao:'Desenvolva com PDI. Mantenha engajado.'},
+  '3-1': {label:'💪 SÓLIDO', cor:'#60a5fa', acao:'Reconheça e retenha. Não deixe estagnado.'},
+  '2-3': {label:'🔑 ALTO POTENCIAL', cor:'#a78bfa', acao:'Invista em desenvolvimento acelerado.'},
+  '2-2': {label:'🗝️ COLABORADOR CHAVE', cor:'#818cf8', acao:'Backbone da equipe. Reconheça consistentemente.'},
+  '2-1': {label:'⚙️ EFICIENTE', cor:'#94a3b8', acao:'Função bem cumprida. Estimule crescimento.'},
+  '1-3': {label:'❓ ENIGMA', cor:'#fbbf24', acao:'Descubra o bloqueio. Pode ser potencial não ativado.'},
+  '1-2': {label:'⚖️ DILEMA', cor:'#f97316', acao:'Investigue causas da baixa performance.'},
+  '1-1': {label:'🔴 PROBLEMA', cor:'#f87171', acao:'Plano de ação ou desligamento. Não procrastine.'},
+};
+
+function add9Box() {
+  const n = document.getElementById('box9Nome').value;
+  if (!n) { alert('Digite o nome.'); return; }
+  const perf = document.getElementById('box9Perf').value;
+  const pot = document.getElementById('box9Pot').value;
+  colaboradores9box.push({nome: n, cargo: document.getElementById('box9Cargo').value, perf, pot});
+  document.getElementById('box9Nome').value = '';
+  render9Box();
+}
+
+function render9Box() {
+  const grid = document.getElementById('matriz9box');
+  const lista = document.getElementById('lista9box');
+
+  const cells = [
+    ['3-1','3-2','3-3'],
+    ['2-1','2-2','2-3'],
+    ['1-1','1-2','1-3'],
+  ];
+
+  const colHeaders = ['<div></div>','<div style="text-align:center;font-size:11px;color:#64748b;">↑ Potencial Baixo</div>','<div style="text-align:center;font-size:11px;color:#64748b;">Potencial Médio</div>','<div style="text-align:center;font-size:11px;color:#64748b;">Potencial Alto ↑</div>'];
+
+  let html = '';
+  cells.forEach((row, ri) => {
+    if (ri === 0) html += '<div style="font-size:11px;color:#64748b;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;">Alta Perf.</div>';
+    else if (ri === 1) html += '<div style="font-size:11px;color:#64748b;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;">Média Perf.</div>';
+    else html += '<div style="font-size:11px;color:#64748b;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;">Baixa Perf.</div>';
+
+    row.forEach(key => {
+      const info = labels9box[key];
+      const nomes = colaboradores9box.filter(c => `${c.perf}-${c.pot}` === key).map(c => `<div style="font-size:10px;background:rgba(0,0,0,0.3);padding:2px 4px;border-radius:3px;margin-top:2px;">${c.nome}</div>`).join('');
+      html += `<div style="background:${info.cor}22;border:1px solid ${info.cor}44;border-radius:6px;padding:8px;min-height:60px;">
+        <div style="font-size:10px;font-weight:700;color:${info.cor};">${info.label}</div>
+        ${nomes}
+      </div>`;
+    });
+  });
+  grid.innerHTML = html;
+  grid.style.gridTemplateColumns = '20px 1fr 1fr 1fr';
+
+  if (colaboradores9box.length > 0) {
+    lista.innerHTML = '<h3 style="color:#38bdf8;font-size:14px;margin:12px 0 8px;">📋 Ações Recomendadas:</h3>' +
+      colaboradores9box.map(c => {
+        const key = `${c.perf}-${c.pot}`;
+        const info = labels9box[key];
+        return `<div class="metric"><span class="metric-label">${c.nome} (${c.cargo})</span><span class="metric-value" style="font-size:12px;color:${info.cor};">${info.label} → ${info.acao}</span></div>`;
+      }).join('');
+  }
+}
+
+// ============================
+// ONBOARDING
+// ============================
+function gerarOnboarding() {
+  const nome = document.getElementById('onbNome').value || 'Novo Colaborador';
+  const cargo = document.getElementById('onbCargo').value || 'Cargo';
+  const dataStr = document.getElementById('onbData').value;
+  const data = dataStr ? new Date(dataStr + 'T12:00:00') : new Date();
+
+  const dias = [];
+  for (let i = 0; i < 5; i++) {
+    let d = new Date(data);
+    d.setDate(data.getDate() + i);
+    dias.push(d.toLocaleDateString('pt-BR', {weekday:'long', day:'2-digit', month:'short'}));
+  }
+
+  const plano = [
+    {titulo:'Dia 1 — ADMINISTRATIVO', cor:'#3b82f6', atividades:[
+      'Apresentação à equipe e ao gestor',
+      'Entrega de uniformes e EPI',
+      'Abertura de conta corrente (C6 ou Inter)',
+      'Assinatura de contrato, regimento interno e LGPD',
+      'Leitura do Manual da Empresa',
+      'Apresentação dos sistemas e ferramentas usadas',
+      'Definição do horário, folga e escala',
+    ]},
+    {titulo:'Dia 2 — OUTRAS ÁREAS', cor:'#8b5cf6', atividades:[
+      'Tour completo pela empresa (todos os setores)',
+      'Apresentação aos colaboradores de outros setores',
+      'Observação do fluxo operacional completo',
+      'Entrevista informal com colega de cargo similar',
+      'Almoço/refeição com a equipe',
+      'Apresentação da Missão, Visão e Valores',
+    ]},
+    {titulo:'Dia 3 — FUNÇÃO (TÉCNICO)', cor:'#10b981', atividades:[
+      'Leitura e explicação da Descrição de Cargo',
+      'Apresentação das fichas técnicas do cargo',
+      'Treinamento técnico específico com supervisor',
+      'Explicação dos indicadores e metas do cargo',
+      `Primeiros contatos supervisionados com as tarefas de ${cargo}`,
+    ]},
+    {titulo:'Dia 4 — PRÁTICA SUPERVISIONADA', cor:'#f59e0b', atividades:[
+      'Execução das tarefas do cargo com supervisão próxima',
+      'Perguntas e dúvidas respondidas em tempo real',
+      'Simulação de situações de pico/stress operacional',
+      'Acompanhamento do Buddy (colega tutor)',
+      'Relatório inicial: o que absorveu, o que ainda tem dúvida',
+    ]},
+    {titulo:'Dia 5 — ALINHAMENTO E COMPROMISSO', cor:'#ef4444', atividades:[
+      'Feedback do gestor sobre os 4 primeiros dias',
+      'Autoavaliação do novo colaborador',
+      'Alinhamento das expectativas mútuas',
+      'Apresentação do PDI inicial (se aplicável)',
+      'Definição dos check-ins: 30, 60 e 90 dias',
+      'Avaliação do onboarding pelo colaborador (Kirkpatrick N1)',
+      'Celebração — bem-vindo(a) oficialmente!',
+    ]},
+  ];
+
+  document.getElementById('resultOnboarding').innerHTML = `
+    <div class="result-box" style="margin-top:16px;">
+      <h4>🚀 Cronograma de Onboarding — ${nome} | ${cargo}</h4>
+      ${plano.map((d, i) => `
+        <div style="border-left:3px solid ${d.cor}; padding:12px 16px; margin:12px 0; background:${d.cor}11; border-radius:0 8px 8px 0;">
+          <div style="color:${d.cor}; font-weight:700; margin-bottom:4px;">${d.titulo}</div>
+          <div style="color:#64748b; font-size:12px; margin-bottom:8px;">${dias[i]}</div>
+          ${d.atividades.map(a => `<div style="font-size:13px; color:#cbd5e1; padding:3px 0;">• ${a}</div>`).join('')}
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+// ============================
+// PLANO T&D
+// ============================
+function gerarPlanTD() {
+  const prob = document.getElementById('tdProblema').value;
+  const perfil = document.getElementById('tdPerfil').value;
+  const dur = document.getElementById('tdDuracao').value;
+
+  const planos = {
+    vendas: {
+      titulo: 'Treinamento: Aumentar Ticket Médio e Vendas',
+      objetivo: 'Fazer a equipe vender mais por atendimento — de R$3,50 para R$13,50+ de ticket',
+      conteudo: ['Técnica de sugestão ativa (não "só isso?")', 'Cardápio: conhecer ingredientes, diferenciais e combos', 'Linguagem de venda: palavras que convencem', 'Simulação de atendimento com feedback', 'Metas individuais e coletivas de ticket'],
+      dinamica: 'Roleplay: cliente difícil x cliente receptivo',
+      ferramenta: 'Google Avaliações para ver o que clientes elogiam',
+      kpi: 'Ticket médio antes e depois do treinamento (Kirkpatrick N4)',
+    },
+    atendimento: {
+      titulo: 'Treinamento: Excelência no Atendimento ao Cliente',
+      objetivo: 'Melhorar NPS externo e reduzir reclamações',
+      conteudo: ['O que é excelência no food service', 'Linguagem corporal e expressão facial', 'Como lidar com cliente insatisfeito', 'Resolução de problemas em tempo real', 'Recuperação de serviço: transformar reclamação em fidelização'],
+      dinamica: 'Dinâmica dos Animais — autoconhecimento comportamental',
+      ferramenta: 'Google Avaliações + Rede Social como espelho',
+      kpi: 'Score médio de avaliações antes e depois',
+    },
+    lideranca: {
+      titulo: 'Treinamento: Liderança e Comunicação Não-Violenta',
+      objetivo: 'Eliminar comunicação violenta e desenvolver líderes conscientes',
+      conteudo: ['Liderança não é cargo — é comportamento', 'As 4 etapas da CNV', 'Como dar feedback (modelo SBI)', 'Gestão de conflitos em horário de pico', 'Pirâmide de Maslow na gestão de equipe'],
+      dinamica: 'Simulação de CNV em situações reais de pico',
+      ferramenta: 'iSpring para criação de módulo de liderança digital',
+      kpi: 'Score Gallup Q12 antes e depois (Q4, Q5, Q6)',
+    },
+    processos: {
+      titulo: 'Treinamento: Gestão de Processos e Redução de Desperdício',
+      objetivo: 'Reduzir CMV e padronizar operação',
+      conteudo: ['Fichas técnicas: por que existem e como usar', 'Controle de estoque e validade', 'Mise-en-place eficiente', 'Gestão de resíduos e aproveitamento', 'Higiene e segurança alimentar'],
+      dinamica: 'Exercício prático de preenchimento de ficha técnica',
+      ferramenta: 'Planilha de CMV e desperdício mensal',
+      kpi: 'CMV % do faturamento antes e depois',
+    },
+    integracao: {
+      titulo: 'Treinamento: Integração e Redução de Turnover',
+      objetivo: 'Criar sentimento de pertencimento e reduzir saídas',
+      conteudo: ['Nossa história, missão e valores', 'O que cada pessoa representa para a equipe', 'EVP: por que é bom trabalhar aqui', 'Regimento interno — direitos e deveres', 'Canal de comunicação interno'],
+      dinamica: 'Dinâmica: "O que cada um traz de melhor para a equipe"',
+      ferramenta: 'Manual Interno + Onboarding Digital no iSpring',
+      kpi: 'Turnover % nos 3 meses seguintes ao treinamento',
+    }
+  };
+
+  const p = planos[prob];
+  const duracoes = {
+    '2h': [{min:0, titulo:'Abertura (15min)', desc:'Apresentação, expectativas, dinâmica de aquecimento'},
+           {min:15, titulo:'Conteúdo Principal (60min)', desc:p.conteudo.slice(0,3).join(' | ')},
+           {min:75, titulo:'Dinâmica Prática (30min)', desc:p.dinamica},
+           {min:105, titulo:'Encerramento e Avaliação (15min)', desc:'Kirkpatrick N1 + comprometimento'}],
+    '4h': [{min:0, titulo:'Abertura e Contexto (30min)', desc:'Diagnóstico da situação atual + expectativas'},
+           {min:30, titulo:'Conteúdo Bloco 1 (50min)', desc:p.conteudo.slice(0,2).join(' | ')},
+           {min:80, titulo:'Dinâmica 1 (20min)', desc:'Intervalo cognitivo — dinâmica rápida'},
+           {min:100, titulo:'Conteúdo Bloco 2 (50min)', desc:p.conteudo.slice(2,4).join(' | ')},
+           {min:150, titulo:'Prática Supervisionada (60min)', desc:p.dinamica},
+           {min:210, titulo:'Avaliação e Encerramento (30min)', desc:'Kirkpatrick N1+N2 + comprometimentos'}],
+    '8h': [{min:0, titulo:'Abertura e Diagnóstico (1h)', desc:'Contexto, dados, expectativas, acordos'},
+           {min:60, titulo:'Conteúdo Módulo 1 (1h30)', desc:p.conteudo.slice(0,3).join(' | ')},
+           {min:150, titulo:'Dinâmica e Intervalo (30min)', desc:p.dinamica},
+           {min:180, titulo:'Almoço (1h)', desc:'Item de marca afetivo — refeição especial'},
+           {min:240, titulo:'Conteúdo Módulo 2 (1h30)', desc:p.conteudo.slice(3).join(' | ')},
+           {min:330, titulo:'Prática em Grupos (1h)', desc:'Roleplay e simulações por grupos'},
+           {min:390, titulo:'Apresentações (45min)', desc:'Grupos apresentam aprendizados'},
+           {min:435, titulo:'Avaliação e Encerramento (45min)', desc:'Kirkpatrick N1+N2 + PDI + celebração'}],
+  };
+
+  document.getElementById('resultTD').innerHTML = `
+    <div class="result-box" style="margin-top:16px;">
+      <h4>📚 ${p.titulo}</h4>
+      <div class="metric"><span class="metric-label">Objetivo</span><span class="metric-value" style="font-size:13px;">${p.objetivo}</span></div>
+      <div class="metric"><span class="metric-label">Ferramenta recomendada</span><span class="metric-value" style="font-size:13px;color:#60a5fa;">${p.ferramenta}</span></div>
+      <div class="metric"><span class="metric-label">Como medir (Kirkpatrick)</span><span class="metric-value" style="font-size:13px;">${p.kpi}</span></div>
+
+      <div style="margin-top:16px;">
+        <strong style="color:#38bdf8; font-size:14px;">⏱️ Roteiro — ${dur}</strong>
+        ${(duracoes[dur] || []).map(b => `
+          <div style="margin:8px 0; padding:10px 12px; background:#162032; border-left:3px solid #2563eb; border-radius:0 6px 6px 0;">
+            <div style="font-size:12px; color:#60a5fa; font-weight:600;">${b.min}min — ${b.titulo}</div>
+            <div style="font-size:12px; color:#94a3b8; margin-top:3px;">${b.desc}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// ============================
+// JORNADA
+// ============================
+function calcJornada() {
+  const sal = parseFloat(document.getElementById('jornSalario').value) || 0;
+  const qtd = parseFloat(document.getElementById('jornQtd').value) || 1;
+  const tipo = document.getElementById('jornTipo').value;
+  const enc = (parseFloat(document.getElementById('jornEncargos').value) || 42) / 100;
+
+  if (!sal) return;
+
+  const jornadas = {
+    '44_6x1': {nome:'44h / 6×1', hSemana:44, hMes:190, folgas:'1/semana (geralmente domingo)', desc:'Jornada padrão CLT. Alta carga → maior risco de fadiga e turnover.'},
+    '30_6x1': {nome:'30h / 6×1 Produção', hSemana:30, hMes:130, folgas:'1/semana', desc:'Ideal para cargos de abertura ou preparação. Menor carga → menos extras.'},
+    '12x36': {nome:'12×36', hSemana:42, hMes:182, folgas:'36h após cada turno', desc:'Muito usado em coberturas longas. Atenção ao NR-17 (ergonomia).'},
+    '44_4x2': {nome:'44h / 4×2 (9h/dia)', hSemana:44, hMes:190, folgas:'2/semana', desc:'Melhor descanso → menor absenteísmo. Colaboradores mais satisfeitos.'},
+    '30_5x2': {nome:'30h / 5×2 (6h/dia)', hSemana:30, hMes:130, folgas:'2/semana', desc:'Jornada reduzida. Sem direito a hora extra. Excelente para posições de suporte.'},
+  };
+
+  const j = jornadas[tipo];
+  const custoTotal = sal * qtd * (1 + enc);
+  const custoHora = sal / j.hMes;
+  const custoHoraExtra = custoHora * 1.5;
+
+  document.getElementById('resultJornada').innerHTML = `
+    <h4>💰 Análise — ${j.nome}</h4>
+    <div class="metric"><span class="metric-label">Custo Total Mensal (${qtd} pessoas)</span><span class="metric-value ok">R$ ${custoTotal.toLocaleString('pt-BR', {maximumFractionDigits:0})}</span></div>
+    <div class="metric"><span class="metric-label">Custo por Colaborador</span><span class="metric-value warn">R$ ${(custoTotal/qtd).toLocaleString('pt-BR', {maximumFractionDigits:0})}/mês</span></div>
+    <div class="metric"><span class="metric-label">Horas Mensais por Pessoa</span><span class="metric-value">${j.hMes}h</span></div>
+    <div class="metric"><span class="metric-label">Custo/hora normal</span><span class="metric-value">R$ ${custoHora.toFixed(2)}/h</span></div>
+    <div class="metric"><span class="metric-label">Custo/hora extra (50%)</span><span class="metric-value warn">R$ ${custoHoraExtra.toFixed(2)}/h</span></div>
+    <div class="metric"><span class="metric-label">Folgas</span><span class="metric-value">${j.folgas}</span></div>
+    <div style="margin-top:12px; padding:10px; background:#162032; border-radius:6px; font-size:12px; color:#94a3b8;">
+      <strong style="color:#60a5fa;">Análise:</strong> ${j.desc}
+    </div>
+    <div style="margin-top:10px; padding:10px; background:#1a2a1a; border-radius:6px; font-size:12px; color:#94a3b8;">
+      <strong style="color:#4ade80;">Dica CEP:</strong> Se o restaurante está com turnover alto nesta função, considere a jornada 4×2 — o aumento de satisfação pode compensar o custo adicional em horas extras evitadas e recrutamentos não feitos.
+    </div>
+  `;
+}
+</script>
+</body>
+</html>

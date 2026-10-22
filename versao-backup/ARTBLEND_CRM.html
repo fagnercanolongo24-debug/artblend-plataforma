@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArtBlend OS — CRM, Painel do Cliente &amp; Agenda</title>
+<style>
+  :root{
+    --bg:#F5F7FA; --card:#FFFFFF; --border:#E2E6ED; --text:#16294A; --muted:#6E7A8C;
+    --accent:#2EC4D6; --accent-soft:#E4F8FB; --blue:#1C93A8;
+    --good:#2ECC71; --good-bg:#E3FBEF; --bad:#B3411F; --bad-bg:#FBEAE3; --amber:#9a5420; --amber-bg:#FDF3E0;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{margin:0;font-family:var(--font);color:var(--text);background:var(--bg);font-size:15px;}
+  .app{display:flex;min-height:100vh;}
+  .nav{width:230px;background:linear-gradient(165deg,var(--text),var(--blue));color:#fff;padding:22px 16px;flex-shrink:0;position:sticky;top:0;height:100vh;}
+  /* Modo restrito: usado quando o Hub abre direto #painel ou #agenda (ex.: tela mostrada
+     ao próprio cliente) — esconde a navegação lateral pra não expor a carteira inteira. */
+  .modo-restrito .nav{display:none;}
+  #exemploBanner{display:none;background:#FDF3E0;color:#9a5420;font-size:12.5px;font-weight:700;text-align:center;padding:9px 14px;border-bottom:1px solid #f0d9ab;}
+  .brand{font-size:20px;font-weight:800;letter-spacing:-.5px;}
+  .brand small{display:block;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#BFF3EE;margin-top:2px;}
+  .navitem{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:10px;cursor:pointer;margin-top:6px;font-weight:600;font-size:13.5px;color:#D7EFF3;transition:.15s;}
+  .navitem:hover{background:rgba(255,255,255,.1);}
+  .navitem.active{background:#fff;color:var(--text);}
+  .navfoot{position:absolute;bottom:18px;left:16px;right:16px;font-size:11px;color:#BFF3EE;border-top:1px solid rgba(255,255,255,.2);padding-top:12px;}
+  .main{flex:1;padding:28px 34px;max-width:1080px;}
+  .pagehead{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4px;flex-wrap:wrap;gap:12px;}
+  h1{font-size:24px;margin:0;font-weight:800;color:var(--text);}
+  .sub{color:var(--muted);font-size:13.5px;margin:2px 0 20px;}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:20px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;}
+  .card .v{font-size:27px;font-weight:800;color:var(--text);}
+  .card .l{font-size:12px;color:var(--muted);font-weight:600;}
+  .card.accent{background:linear-gradient(135deg,var(--accent),var(--blue));color:#fff;border:0;}
+  .card.accent .v,.card.accent .l{color:#fff;}
+  .panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:18px;}
+  .panel h3{margin:0 0 12px;color:var(--text);font-size:16px;}
+  label{display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin:11px 0 4px;text-transform:uppercase;letter-spacing:.4px;}
+  input,select,textarea{width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:8px;font-size:13.5px;font-family:inherit;background:#fff;color:var(--text);}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);}
+  textarea{min-height:90px;resize:vertical;line-height:1.5;}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+  .row4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;}
+  .btn{background:var(--accent);color:#fff;border:0;border-radius:9px;padding:10px 17px;font-weight:700;font-size:13.5px;cursor:pointer;margin-top:14px;}
+  .btn:hover{background:var(--blue);}
+  .btn.alt{background:var(--text);}
+  .btn.ghost{background:transparent;color:var(--blue);border:1px solid var(--blue);}
+  .btn.sm{padding:6px 12px;font-size:12px;margin:0;}
+  .btn.danger{background:transparent;color:var(--bad);border:1px solid var(--bad);}
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px;}
+  th{text-align:left;color:var(--muted);font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;padding:8px 9px;border-bottom:2px solid var(--border);}
+  td{padding:9px;border-bottom:1px solid var(--border);vertical-align:middle;}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:700;}
+  .b-green{background:var(--good-bg);color:#1C9A57;} .b-amber{background:var(--amber-bg);color:var(--amber);} .b-red{background:var(--bad-bg);color:var(--bad);}
+  .b-lead{background:var(--accent-soft);color:var(--blue);} .b-proposta{background:#EFEAF6;color:#6B4E9E;} .b-ativo{background:var(--good-bg);color:#1C9A57;}
+  .b-perdido{background:var(--bad-bg);color:var(--bad);} .b-cancelado{background:#E9EAEC;color:#6E7A8C;}
+  .b-pendente{background:var(--amber-bg);color:var(--amber);} .b-concluido{background:var(--good-bg);color:#1C9A57;}
+  .empty{color:var(--muted);font-style:italic;padding:16px 0;}
+  .hint{font-size:12px;color:var(--muted);font-style:italic;margin-top:5px;}
+  .xray{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;}
+  .xrow{display:flex;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:10px 14px;}
+  .xrow b{color:var(--text);}
+  .acc{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden;}
+  .acc summary{padding:12px 15px;font-weight:700;cursor:pointer;background:var(--bg);color:var(--text);}
+  .acc[open] summary{border-bottom:1px solid var(--border);}
+  .acc .body{padding:14px 16px;}
+  .savebar{position:fixed;bottom:16px;right:20px;background:var(--text);color:#fff;padding:9px 16px;border-radius:30px;font-size:12px;opacity:0;transition:.3s;pointer-events:none;}
+  .savebar.show{opacity:1;}
+  /* painel do cliente */
+  .hero{display:grid;grid-template-columns:260px 1fr;gap:16px;margin-bottom:16px;}
+  .scorecard{background:linear-gradient(160deg,var(--text),var(--blue));color:#fff;border-radius:18px;padding:20px;text-align:center;}
+  .scorecard .rname{font-size:14px;font-weight:700;color:#BFF3EE;}
+  .lvl{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:30px;padding:5px 13px;font-weight:800;font-size:12.5px;margin-top:4px;}
+  .dot{width:8px;height:8px;border-radius:50%;}
+  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .kpi{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;}
+  .kpi .lab{font-size:11.5px;color:var(--muted);font-weight:700;text-transform:uppercase;}
+  .kpi .num{font-size:26px;font-weight:800;color:var(--text);margin-top:3px;}
+  .xline{margin:12px 0;}
+  .xline .lh{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;}
+  .track{height:8px;border-radius:6px;background:var(--bg);overflow:hidden;}
+  .fill{height:100%;border-radius:6px;transition:width .8s;}
+  .sim label{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;color:var(--muted);margin:12px 0 5px;text-transform:none;}
+  .sim label b{color:var(--text);}
+  input[type=range]{width:100%;accent-color:var(--accent);}
+  .pcard{display:flex;gap:12px;background:var(--bg);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:12px;padding:12px 15px;margin-bottom:9px;}
+  .pcard .n{font-weight:800;color:var(--blue);font-size:17px;}
+  @media(max-width:800px){.nav{display:none;}.row,.row3,.row4,.xray,.hero{grid-template-columns:1fr;}.main{padding:16px;}.kpis{grid-template-columns:1fr;}}
+  #loginGate{position:fixed;inset:0;background:#F5F7FA;z-index:1000;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  #loginGate .box{background:#fff;border:1px solid #E2E6ED;border-radius:14px;padding:32px 30px;max-width:360px;width:92%;}
+  #loginGate h1{font-size:18px;color:#16294A;margin-bottom:4px;}
+  #loginGate p{font-size:12.5px;color:#6E7A8C;margin-bottom:18px;line-height:1.5;}
+  #loginGate label{display:block;font-size:11.5px;font-weight:700;color:#6E7A8C;margin:10px 0 4px;}
+  #loginGate input{width:100%;padding:9px 10px;border:1px solid #E2E6ED;border-radius:8px;font-size:13.5px;font-family:inherit;}
+  #loginGate .row{display:flex;gap:8px;margin-top:16px;}
+  #loginGate button{flex:1;background:#2EC4D6;color:#08343B;border:none;padding:10px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;}
+  #loginGate button.sec{background:#E4F8FB;color:#1C93A8;}
+  #loginGate .msg{margin-top:12px;font-size:12px;padding:8px 10px;border-radius:7px;line-height:1.5;display:none;}
+  #loginGate .msg.ok{background:#E3FBEF;color:#1C9A57;display:block;}
+  #loginGate .msg.err{background:#FBEAE3;color:#B3411F;display:block;}
+  #userBar{position:fixed;top:10px;right:10px;z-index:900;background:#fff;border:1px solid #E2E6ED;font-size:11.5px;font-weight:700;color:#16294A;padding:6px 8px 6px 12px;border-radius:20px;display:none;align-items:center;gap:8px;}
+  #userBar button{background:#FBEAE3;color:#B3411F;border:none;padding:5px 10px;border-radius:14px;font-size:10.5px;font-weight:700;cursor:pointer;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.5"></script>
+</head>
+<body>
+
+<div id="loginGate">
+  <div class="box">
+    <h1>ArtBlend — Área do consultor</h1>
+    <p>Entre com seu login para acessar esta ferramenta.</p>
+    <label>E-mail</label>
+    <input id="lg_email" type="email" placeholder="seu@email.com">
+    <label>Senha</label>
+    <input id="lg_senha" type="password" placeholder="mínimo 6 caracteres">
+    <div class="row">
+      <button onclick="gateEntrar()">Entrar</button>
+      <button class="sec" onclick="gateCadastrar()">Criar conta</button>
+    </div>
+    <div id="lg_msg" class="msg"></div>
+  </div>
+</div>
+<div id="userBar"><span id="userBarEmail"></span><button onclick="gateSair()">Sair</button></div>
+<div id="exemploBanner">⚠ Não foi possível confirmar a leitura dos seus dados salvos no banco agora — o que você está vendo é um estado local/vazio, não a carteira real. Verifique sua conexão antes de editar algo importante.</div>
+
+<div id="appContent" style="display:none;">
+<div class="app">
+  <aside class="nav">
+    <div class="brand">ArtBlend<small>OS · CRM &amp; Painel</small></div>
+    <div class="navitem active" data-p="dash">▦ Dashboard</div>
+    <div class="navitem" data-p="clientes">☺ Clientes (CRM)</div>
+    <div class="navitem" data-p="diag">⚗ Diagnóstico</div>
+    <div class="navitem" data-p="painel">📈 Painel do Cliente</div>
+    <div class="navitem" data-p="agenda">🗓️ Agenda</div>
+    <div class="navitem" data-p="prop">✎ Proposta</div>
+    <div class="navitem" data-p="propcom">📋 Proposta Comercial</div>
+    <div class="navitem" data-p="contrato">📄 Contrato</div>
+    <div class="navitem" data-p="equipe">👥 Equipe &amp; Acessos</div>
+    <div class="navitem" data-p="bib">▤ Biblioteca</div>
+    <div class="navitem" data-p="sug">✦ Minhas ideias</div>
+    <div class="navfoot">Seus dados ficam salvos com segurança na nuvem.<br>ArtBlend Consultoria Gourmet — Fagner Augusto</div>
+  </aside>
+  <main class="main" id="main"></main>
+</div>
+<div class="savebar" id="savebar">✓ salvo</div>
+</div>
+
+<script>
+/* ===== login / sessão ===== */
+const FERRAMENTA_CRM = true;
+const sb = window.supabase.createClient('https://zjvjixiuvnpbpsdnxuyk.supabase.co', 'sb_publishable_f5DJRgs2w0z3_g50QqDmNQ_0btPNSgV');
+let sessaoAtual = null;
+
+function gateMsg(text, type){
+  var el = document.getElementById('lg_msg');
+  el.className = 'msg ' + type;
+  el.textContent = text;
+}
+async function gateEntrar(){
+  var email = document.getElementById('lg_email').value.trim();
+  var senha = document.getElementById('lg_senha').value;
+  var r = await sb.auth.signInWithPassword({ email: email, password: senha });
+  if(r.error){ gateMsg('Erro ao entrar: ' + r.error.message, 'err'); return; }
+  await iniciarApp(r.data.session);
+}
+async function gateCadastrar(){
+  var email = document.getElementById('lg_email').value.trim();
+  var senha = document.getElementById('lg_senha').value;
+  if(!email || senha.length < 6){ gateMsg('Preencha e-mail e uma senha com pelo menos 6 caracteres.', 'err'); return; }
+  var r = await sb.auth.signUp({ email: email, password: senha });
+  if(r.error){ gateMsg('Erro ao criar conta: ' + r.error.message, 'err'); return; }
+  if(r.data.session){ await iniciarApp(r.data.session); }
+  else { gateMsg('Conta criada. Se pedir confirmação por e-mail, confira sua caixa de entrada antes de entrar.', 'ok'); }
+}
+async function gateSair(){
+  await sb.auth.signOut();
+  location.reload();
+}
+var VIEWS_VALIDAS = ['dash','clientes','diag','painel','agenda','prop','propcom','contrato','equipe','bib','sug'];
+// Modo restrito: quando o hash aberto é exatamente #painel ou #agenda (é assim que o Hub
+// roteia "Painel de Indicadores do Cliente" e "Agenda"), escondemos a navegação lateral e,
+// no caso do Painel, restringimos a visão a 1 único cliente — evita que essa tela, pensada
+// pra ser mostrada ao próprio dono do restaurante, exponha a carteira inteira do consultor.
+var MODO_RESTRITO = null;
+var LS_ULTIMO_CLIENTE_PAINEL = 'artblend_crm_ultimo_cliente_painel';
+function aplicarHashAtual(){
+  var hash = location.hash.replace('#','');
+  var alvo = VIEWS_VALIDAS.indexOf(hash) !== -1 ? hash : 'dash';
+  MODO_RESTRITO = (hash === 'painel' || hash === 'agenda') ? hash : null;
+  document.body.classList.toggle('modo-restrito', !!MODO_RESTRITO);
+  document.querySelectorAll('.navitem').forEach(function(x){ x.classList.remove('active'); });
+  var navEl = document.querySelector('.navitem[data-p="' + alvo + '"]');
+  if(navEl) navEl.classList.add('active');
+  render(alvo);
+}
+async function iniciarApp(session){
+  sessaoAtual = session;
+  document.getElementById('loginGate').style.display = 'none';
+  document.getElementById('appContent').style.display = 'block';
+  var bar = document.getElementById('userBar');
+  bar.style.display = 'flex';
+  document.getElementById('userBarEmail').textContent = session.user.email;
+  S = await load();
+  var bannerEx = document.getElementById('exemploBanner');
+  if(bannerEx) bannerEx.style.display = ESTADO_ORIGEM_BD ? 'none' : 'block';
+  aplicarHashAtual();
+}
+// Quando o Hub troca só o fragmento (#clientes, #painel, #agenda) num iframe já carregado,
+// o navegador não recarrega o documento — então escutamos hashchange para trocar de view também.
+window.addEventListener('hashchange', function(){
+  if(sessaoAtual) aplicarHashAtual();
+});
+
+/* ---------- estado + persistência ---------- */
+var MOD = {Presencial:2000, "Híbrido":1600, Remoto:1200};
+
+var DEFAULT = {
+  clientes:[],
+  agenda:[
+    {id:1,data:'',tipo:'Visita',cliId:1,nota:'Acompanhamento mensal de indicadores',status:'pendente'}
+  ],
+  biblioteca:{
+    "Script — Abordagem de prospecção":"Oi, [Nome]! Acompanho o [Restaurante]. Eu ajudo donos de food service a parar de perder funcionário e organizar a equipe para vender mais — sem aumentar custo fixo. Posso te mostrar em 30 min como funcionaria aí?",
+    "Script — Abertura da 1ª reunião":"Antes de te apresentar qualquer coisa, quero entender seu cenário. Quanto o restaurante fatura por mês? E quanto sai de folha? E o que mais te tira o sono na equipe?",
+    "Template — POP (modelo)":"NOME DO POP:\nObjetivo:\nResponsável:\nFrequência:\nPasso a passo:\n1)\n2)\n3)\nChecklist de verificação:\n( )\n( )"
+  },
+  ideias:""
+};
+var S;
+// true = o que está em S veio confirmadamente do banco (linha encontrada). false = caiu no
+// estado padrão local (falha de leitura, ou ainda não existe linha salva) — usado para exibir
+// o aviso "#exemploBanner" e não deixar um estado vazio/local passar por dado real.
+var ESTADO_ORIGEM_BD = true;
+async function load(){
+  try{
+    var r = await sb.from('crm_estado').select('conteudo').eq('owner_id', sessaoAtual.user.id).maybeSingle();
+    if(r.error){ ESTADO_ORIGEM_BD = false; alert('Erro ao carregar seus dados do CRM:\n\n' + r.error.message + '\n\nVerifique se a tabela "crm_estado" foi criada no Supabase.'); return JSON.parse(JSON.stringify(DEFAULT)); }
+    if(r.data && r.data.conteudo){ ESTADO_ORIGEM_BD = true; return r.data.conteudo; }
+    ESTADO_ORIGEM_BD = false;
+    return JSON.parse(JSON.stringify(DEFAULT));
+  }catch(e){ ESTADO_ORIGEM_BD = false; alert('Erro ao carregar dados: ' + e.message); return JSON.parse(JSON.stringify(DEFAULT)); }
+}
+async function save(){
+  try{
+    var r = await sb.from('crm_estado').upsert({ owner_id: sessaoAtual.user.id, conteudo: S, updated_at: new Date().toISOString() }, { onConflict: 'owner_id' });
+    if(r.error){ alert('Não foi possível salvar:\n\n' + r.error.message + '\n\nVerifique se a tabela "crm_estado" foi criada no Supabase (SQL Editor).'); return; }
+    toast();
+  }catch(e){ alert('Não foi possível salvar: ' + e.message); }
+}
+function toast(){var b=document.getElementById('savebar');b.classList.add('show');clearTimeout(window._t);window._t=setTimeout(()=>b.classList.remove('show'),1100);}
+function money(n){return 'R$ '+(Number(n)||0).toLocaleString('pt-BR');}
+function pct(n){return (Math.round(n*10)/10).toLocaleString('pt-BR')+'%';}
+function statusFolha(v){return v<=15?'green':v<=20?'amber':'red';}
+function statusCMV(v){return v<=30?'green':v<=35?'amber':'red';}
+function statusFaixa(v,lo,hi){return (v>=lo&&v<=hi)?'green':'amber';}
+function bclass(s){return s=='green'?'b-green':s=='amber'?'b-amber':'b-red';}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+
+/* ---------- navegação ---------- */
+document.querySelectorAll('.navitem').forEach(n=>n.onclick=()=>{
+  document.querySelectorAll('.navitem').forEach(x=>x.classList.remove('active'));
+  n.classList.add('active'); render(n.dataset.p);
+});
+function render(p){
+  var m=document.getElementById('main');
+  if(p=='dash') m.innerHTML=viewDash();
+  else if(p=='clientes') m.innerHTML=viewClientes();
+  else if(p=='diag') m.innerHTML=viewDiag();
+  else if(p=='painel'){ m.innerHTML=viewPainelWrap(); initPainel(); }
+  else if(p=='agenda') m.innerHTML=viewAgenda();
+  else if(p=='prop') m.innerHTML=viewProp();
+  else if(p=='propcom') m.innerHTML=viewPropComercial();
+  else if(p=='contrato') m.innerHTML=viewContrato();
+  else if(p=='equipe'){ m.innerHTML=viewEquipeWrap(); initEquipe(); }
+  else if(p=='bib') m.innerHTML=viewBib();
+  else if(p=='sug') m.innerHTML=viewSug();
+}
+
+/* ---------- DASHBOARD ---------- */
+function viewDash(){
+  var ativos=S.clientes.filter(c=>c.status=='ativo');
+  var mrr=ativos.reduce((a,c)=>a+(MOD[c.modalidade]||0),0);
+  var risco=S.clientes.filter(c=>c.status!='perdido'&&c.status!='cancelado'&&c.fat&&c.folha/c.fat*100>20).length;
+  var hoje=new Date().toISOString().slice(0,10);
+  var pend=S.agenda.filter(a=>a.status=='pendente'&&a.data&&a.data<=hoje).length;
+  var rows=S.clientes.map(c=>{
+    var f=c.fat?c.folha/c.fat*100:0;
+    return `<tr><td><b>${c.nome}</b><br><span class="hint">${c.tipo}</span></td>
+      <td><span class="badge b-${c.status}">${c.status}</span></td>
+      <td>${c.modalidade}</td>
+      <td>${c.fat?pct(f):'—'} ${c.fat?'<span class="badge '+bclass(statusFolha(f))+'">folha</span>':''}</td></tr>`;
+  }).join('');
+  return `<div class="pagehead"><h1>Dashboard</h1></div>
+  <p class="sub">Visão da sua carteira de consultoria — atualiza sozinho conforme você cadastra clientes e diagnósticos.</p>
+  <div class="cards">
+    <div class="card accent"><div class="v">${money(mrr)}</div><div class="l">Receita recorrente (MRR)</div></div>
+    <div class="card"><div class="v">${S.clientes.length}</div><div class="l">Clientes na carteira</div></div>
+    <div class="card"><div class="v">${ativos.length}</div><div class="l">Contratos ativos</div></div>
+    <div class="card"><div class="v">${risco}</div><div class="l">Em alerta (folha &gt; 20%)</div></div>
+    <div class="card"><div class="v">${pend}</div><div class="l">Compromissos vencendo/atrasados</div></div>
+  </div>
+  <div class="panel"><h3>Sua carteira</h3>
+  <table><thead><tr><th>Cliente</th><th>Status</th><th>Modalidade</th><th>Folha/Faturamento</th></tr></thead>
+  <tbody>${rows||'<tr><td colspan=4 class=empty>Nenhum cliente ainda.</td></tr>'}</tbody></table></div>`;
+}
+
+/* ---------- CLIENTES ---------- */
+function viewClientes(){
+  var rows=S.clientes.map(c=>`<tr>
+    <td><b>${c.nome}</b><br><span class="hint">${c.tipo} · ${c.contato||''}</span></td>
+    <td><span class="badge b-${c.status}">${c.status}</span></td>
+    <td>${c.modalidade}<br><span class="hint">${money(MOD[c.modalidade])}/mês</span></td>
+    <td style="white-space:nowrap">
+      <button class="btn sm ghost" onclick="editCli(${c.id})">editar</button>
+      <button class="btn sm danger" onclick="delCli(${c.id})">excluir</button></td></tr>`).join('');
+  return `<div class="pagehead"><h1>Clientes (CRM)</h1><button class="btn alt" onclick="editCli(0)">+ Novo cliente</button></div>
+  <p class="sub">Seu funil: leads, propostas e contratos ativos num lugar só.</p>
+  <div class="panel"><table><thead><tr><th>Cliente</th><th>Status</th><th>Modalidade</th><th></th></tr></thead>
+  <tbody>${rows||'<tr><td colspan=4 class=empty>Cadastre seu primeiro cliente.</td></tr>'}</tbody></table></div>
+  <div id="cliform"></div>`;
+}
+function editCli(id){
+  var c=id?S.clientes.find(x=>x.id==id):{id:0,nome:'',tipo:'',contato:'',modalidade:'Híbrido',status:'lead',fat:'',folha:'',cmv:'',prol:'',inv:'',turn:'',tick:'',q12:''};
+  var opt=(v,sel)=>`<option ${v==sel?'selected':''}>${v}</option>`;
+  document.getElementById('cliform').innerHTML=`<div class="panel"><h3>${id?'Editar':'Novo'} cliente</h3>
+   <div class="row"><div><label>Nome do estabelecimento</label><input id="f_nome" value="${c.nome}" placeholder="Ex.: Restaurante Sabor da Praça"></div>
+   <div><label>Tipo</label><input id="f_tipo" value="${c.tipo}" placeholder="Ex.: Restaurante, Padaria, Bar"></div></div>
+   <div class="row"><div><label>Contato (dono)</label><input id="f_contato" value="${c.contato||''}" placeholder="Ex.: Seu Antônio"></div>
+   <div><label>Modalidade</label><select id="f_mod">${opt('Presencial',c.modalidade)}${opt('Híbrido',c.modalidade)}${opt('Remoto',c.modalidade)}</select></div></div>
+   <label>Status no funil</label><select id="f_status">${opt('lead',c.status)}${opt('proposta',c.status)}${opt('ativo',c.status)}${opt('perdido',c.status)}${opt('cancelado',c.status)}</select>
+   <button class="btn" onclick="saveCli(${id})">Salvar cliente</button>
+   <span class="hint"> &nbsp;Os números financeiros e de engajamento você preenche na aba Diagnóstico.</span></div>`;
+  document.getElementById('cliform').scrollIntoView({behavior:'smooth'});
+}
+function saveCli(id){
+  var g=i=>document.getElementById(i).value;
+  if(!g('f_nome').trim()){alert('Dê um nome ao cliente.');return;}
+  if(id){var c=S.clientes.find(x=>x.id==id);c.nome=g('f_nome');c.tipo=g('f_tipo');c.contato=g('f_contato');c.modalidade=g('f_mod');c.status=g('f_status');}
+  else{S.clientes.push({id:Date.now(),nome:g('f_nome'),tipo:g('f_tipo'),contato:g('f_contato'),modalidade:g('f_mod'),status:g('f_status'),fat:'',folha:'',cmv:'',prol:'',inv:'',turn:'',tick:'',q12:''});}
+  save();render('clientes');
+}
+function delCli(id){if(confirm('Excluir este cliente?')){S.clientes=S.clientes.filter(x=>x.id!=id);save();render('clientes');}}
+
+/* ---------- DIAGNÓSTICO ---------- */
+function viewDiag(){
+  var opts=S.clientes.map(c=>`<option value="${c.id}">${c.nome}</option>`).join('');
+  return `<div class="pagehead"><h1>Diagnóstico Financeiro &amp; Indicadores</h1></div>
+  <p class="sub">Digite os números e o sistema calcula os percentuais e o "raio-X" — e alimenta o Painel do Cliente.</p>
+  <div class="panel"><label>Cliente</label><select id="d_cli" onchange="loadDiag()">${opts||'<option>Cadastre um cliente antes</option>'}</select>
+   <div class="row3">
+     <div><label>Faturamento/mês</label><input id="d_fat" type="number" oninput="calcDiag()" placeholder="100000"></div>
+     <div><label>Folha + encargos</label><input id="d_folha" type="number" oninput="calcDiag()" placeholder="15000"></div>
+     <div><label>CMV (compras)</label><input id="d_cmv" type="number" oninput="calcDiag()" placeholder="28000"></div>
+   </div>
+   <div class="row"><div><label>Pró-labore</label><input id="d_prol" type="number" oninput="calcDiag()" placeholder="12000"></div>
+   <div><label>Investimento (mkt)</label><input id="d_inv" type="number" oninput="calcDiag()" placeholder="4000"></div></div>
+   <div class="row3">
+     <div><label>Turnover mensal (%)</label><input id="d_turn" type="number" placeholder="5"></div>
+     <div><label>Ticket médio (R$)</label><input id="d_tick" type="number" placeholder="45"></div>
+     <div><label>Engajamento Q12 (0-60)</label><input id="d_q12" type="number" placeholder="44"></div>
+   </div>
+   <button class="btn" onclick="saveDiag()">Salvar diagnóstico</button>
+  </div>
+  <div class="panel"><h3>Raio-X</h3><div id="xray" class="xray"><span class="empty">Selecione um cliente e preencha os números.</span></div></div>
+  <div class="panel"><h3>Histórico de diagnósticos</h3><div id="d_hist"><span class="empty">Selecione um cliente para ver o histórico.</span></div></div>`;
+}
+function loadDiag(){var c=S.clientes.find(x=>x.id==document.getElementById('d_cli').value);if(!c)return;
+  ['fat','folha','cmv','prol','inv','turn','tick','q12'].forEach(k=>document.getElementById('d_'+k).value=c[k]||'');calcDiag();renderHistDiag(c);}
+function renderHistDiag(c){
+  var h=document.getElementById('d_hist');if(!h)return;
+  if(!c.historico||!c.historico.length){h.innerHTML='<span class="empty">Ainda não há histórico salvo para este cliente. Cada diagnóstico salvo cria um novo snapshot aqui, permitindo comparar meses.</span>';return;}
+  var rows=c.historico.slice().reverse().map(s=>`<tr><td>${s.data}</td><td>${money(s.fat)}</td><td>${money(s.folha)}</td><td>${money(s.cmv)}</td><td>${money(s.prol)}</td><td>${money(s.inv)}</td></tr>`).join('');
+  h.innerHTML=`<table><thead><tr><th>Data</th><th>Faturamento</th><th>Folha</th><th>CMV</th><th>Pró-labore</th><th>Investimento</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+function calcDiag(){
+  var g=i=>Number(document.getElementById('d_'+i).value)||0;
+  var fat=g('fat'); var x=document.getElementById('xray');
+  if(!fat){x.innerHTML='<span class="empty">Informe o faturamento para calcular.</span>';return;}
+  var f=g('folha')/fat*100, cm=g('cmv')/fat*100, pr=g('prol')/fat*100, iv=g('inv')/fat*100;
+  function rowx(lbl,v,cls,bench){return `<div class="xrow"><span>${lbl}<br><span class="hint">${bench}</span></span><span><b>${pct(v)}</b> <span class="badge ${bclass(cls)}">${cls=='green'?'ok':cls=='amber'?'atenção':'crítico'}</span></span></div>`;}
+  x.innerHTML=rowx('Folha / Faturamento',f,statusFolha(f),'≤15% ideal')
+    +rowx('CMV / Faturamento',cm,statusCMV(cm),'25–30% ideal')
+    +rowx('Pró-labore',pr,statusFaixa(pr,10,15),'10–15% ideal')
+    +rowx('Investimento',iv,statusFaixa(iv,3,5),'3–5% ideal');
+}
+function saveDiag(){var c=S.clientes.find(x=>x.id==document.getElementById('d_cli').value);if(!c){alert('Selecione um cliente.');return;}
+  if(Number(c.fat)>0){
+    if(!c.historico)c.historico=[];
+    c.historico.push({data:new Date().toISOString().slice(0,10),fat:Number(c.fat)||0,folha:Number(c.folha)||0,cmv:Number(c.cmv)||0,prol:Number(c.prol)||0,inv:Number(c.inv)||0});
+  }
+  ['fat','folha','cmv','prol','inv'].forEach(k=>c[k]=Number(document.getElementById('d_'+k).value)||0);
+  ['turn','tick','q12'].forEach(k=>c[k]=Number(document.getElementById('d_'+k).value)||0);
+  save();renderHistDiag(c);alert('Diagnóstico salvo no cliente '+c.nome+'.');}
+
+/* ---------- PAINEL DO CLIENTE (health score) ---------- */
+function viewPainelWrap(){
+  if(MODO_RESTRITO==='painel'){
+    var idSalvo=localStorage.getItem(LS_ULTIMO_CLIENTE_PAINEL);
+    var cRestrito=idSalvo?S.clientes.find(x=>x.id==idSalvo):null;
+    if(!cRestrito){
+      return `<div class="pagehead"><h1>Painel do Cliente</h1></div>
+      <p class="sub">Health Score, raio-X e simulador "e se?" — a mesma leitura que você mostra ao dono do restaurante.</p>
+      <div class="panel"><p class="empty">Nenhum cliente selecionado ainda para esta visão. Abra o CRM completo (aba "Painel do Cliente" no menu lateral), escolha o cliente desejado, e esta tela restrita passará a mostrar só ele — sem expor o restante da carteira.</p></div>`;
+    }
+    return `<div class="pagehead"><h1>Painel do Cliente</h1></div>
+    <p class="sub">Health Score, raio-X e simulador "e se?" — visão restrita a este cliente.</p>
+    <input type="hidden" id="pn_cli" value="${cRestrito.id}">
+    <div id="painelBody"></div>`;
+  }
+  var opts=S.clientes.map(c=>`<option value="${c.id}">${c.nome}</option>`).join('');
+  return `<div class="pagehead"><h1>Painel do Cliente</h1></div>
+  <p class="sub">Health Score, raio-X e simulador "e se?" — a mesma leitura que você mostra ao dono do restaurante.</p>
+  <div class="panel"><label>Cliente</label><select id="pn_cli" onchange="localStorage.setItem(LS_ULTIMO_CLIENTE_PAINEL,this.value);renderPainel()">${opts||'<option>Cadastre um cliente</option>'}</select></div>
+  <div id="painelBody"></div>`;
+}
+function pScore(d){
+  var f=clamp(100-(d.folha-15)*7,0,100);
+  var c=clamp(100-(d.cmv-30)*6,0,100);
+  var t=clamp(100-d.turn*9,0,100);
+  var q=clamp((d.q12-20)/40*100,0,100);
+  return Math.round(f*.28+c*.22+t*.28+q*.22);
+}
+function pLevel(s){return s>=85?['Platina','#2EC4D6']:s>=70?['Ouro','#9a5420']:s>=55?['Prata','#6E7A8C']:['Bronze','#B3611F'];}
+var painelSim=null;
+function initPainel(){
+  var sel=document.getElementById('pn_cli');
+  if(!sel) return;
+  // No modo restrito o "seletor" é um <input type="hidden"> com 1 cliente só (sem .options);
+  // no modo normal é um <select> com a carteira inteira.
+  if(sel.tagName==='SELECT'){ if(sel.options.length) renderPainel(); }
+  else if(sel.value){ renderPainel(); }
+}
+function renderPainel(){
+  var c=S.clientes.find(x=>x.id==document.getElementById('pn_cli').value);
+  var body=document.getElementById('painelBody');
+  if(!c){body.innerHTML='<p class="empty">Cadastre um cliente.</p>';return;}
+  var folhaPct=c.fat?Number(c.folha)/Number(c.fat)*100:0;
+  var cmvPct=c.fat?Number(c.cmv)/Number(c.fat)*100:0;
+  painelSim={folha:Math.round(folhaPct)||17,cmv:Math.round(cmvPct)||30,turn:Number(c.turn)||5,q12:Number(c.q12)||40};
+  var s=pScore(painelSim),lv=pLevel(s);
+  body.innerHTML=`
+  <div class="hero">
+    <div class="scorecard">
+      <div class="rname">${c.nome}</div>
+      <div style="font-size:44px;font-weight:800;margin:8px 0 2px;">${s}</div>
+      <div style="font-size:11px;letter-spacing:1px;color:#BFF3EE;">HEALTH SCORE</div>
+      <div class="lvl"><span class="dot" style="background:${lv[1]};box-shadow:0 0 8px ${lv[1]}"></span> Nível <b id="pn_lvl">${lv[0]}</b></div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="lab">Turnover / mês</div><div class="num" id="pn_turn">${painelSim.turn}%</div></div>
+      <div class="kpi"><div class="lab">Ticket médio</div><div class="num">R$ ${(c.tick||'—')}</div></div>
+      <div class="kpi"><div class="lab">Engajamento (Q12)</div><div class="num" id="pn_q12n">${painelSim.q12}</div></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="panel"><h3>📊 Raio-X financeiro</h3><div id="pn_xray"></div></div>
+    <div class="panel sim"><h3>🎚️ Simulador ao vivo</h3><p class="hint">Simulação não altera os dados salvos — é só para mostrar o "e se?" ao cliente.</p>
+      <label>Folha / faturamento <b><span id="pn_folhaV">${painelSim.folha}</span>%</b></label>
+      <input type="range" id="pn_folha" min="10" max="28" value="${painelSim.folha}" oninput="simPainel()">
+      <label>CMV / faturamento <b><span id="pn_cmvV">${painelSim.cmv}</span>%</b></label>
+      <input type="range" id="pn_cmv" min="22" max="42" value="${painelSim.cmv}" oninput="simPainel()">
+      <label>Turnover / mês <b><span id="pn_turnV">${painelSim.turn}</span>%</b></label>
+      <input type="range" id="pn_turnR" min="0" max="20" value="${painelSim.turn}" oninput="simPainel()">
+      <label>Engajamento Q12 <b><span id="pn_q12V">${painelSim.q12}</span></b></label>
+      <input type="range" id="pn_q12R" min="20" max="60" value="${painelSim.q12}" oninput="simPainel()">
+    </div>
+  </div>
+  <div class="panel"><h3>🎯 Plano de ação inteligente</h3><button class="btn" onclick="genPlanPainel()">Gerar plano de ação</button><div id="pn_plan" style="margin-top:12px;"></div></div>`;
+  xrayPainel();
+}
+function xrayPainel(){
+  var d=painelSim;
+  function row(lbl,val,unit,bench,pctw,status){
+    return `<div class="xline"><div class="lh"><span>${lbl}<br><span class="hint">${bench}</span></span><span><b>${val}${unit}</b> <span class="badge ${bclass(status)}">${status=='green'?'ok':status=='amber'?'atenção':'crítico'}</span></span></div>
+      <div class="track"><div class="fill" style="background:${status=='green'?'#1C9A57':status=='amber'?'#9a5420':'#B3411F'};width:${clamp(pctw,5,100)}%"></div></div></div>`;
+  }
+  document.getElementById('pn_xray').innerHTML=
+    row('Folha / faturamento',d.folha,'%','≤15% ideal',d.folha/28*100,statusFolha(d.folha))+
+    row('CMV / faturamento',d.cmv,'%','25–30% ideal',d.cmv/42*100,statusCMV(d.cmv))+
+    row('Turnover / mês',d.turn,'%','≤5% ideal',d.turn/20*100,d.turn<=5?'green':d.turn<=8?'amber':'red')+
+    row('Engajamento Q12',d.q12,'','≥45 ideal',d.q12/60*100,d.q12>=45?'green':d.q12>=36?'amber':'red');
+}
+function simPainel(){
+  painelSim.folha=+document.getElementById('pn_folha').value;
+  painelSim.cmv=+document.getElementById('pn_cmv').value;
+  painelSim.turn=+document.getElementById('pn_turnR').value;
+  painelSim.q12=+document.getElementById('pn_q12R').value;
+  document.getElementById('pn_folhaV').textContent=painelSim.folha;
+  document.getElementById('pn_cmvV').textContent=painelSim.cmv;
+  document.getElementById('pn_turnV').textContent=painelSim.turn;
+  document.getElementById('pn_q12V').textContent=painelSim.q12;
+  document.getElementById('pn_turn').textContent=painelSim.turn+'%';
+  document.getElementById('pn_q12n').textContent=painelSim.q12;
+  var s=pScore(painelSim),lv=pLevel(s);
+  document.querySelector('.scorecard div[style*="44px"]').textContent=s;
+  document.getElementById('pn_lvl').textContent=lv[0];
+  xrayPainel();
+}
+function genPlanPainel(){
+  var d=painelSim,items=[];
+  if(d.folha>15)items.push(['Folha alta','Folha em '+d.folha+'%. Reorganize a escala por pico e reveja produtividade antes de pensar em demitir.']);
+  if(d.cmv>30)items.push(['CMV elevado','CMV em '+d.cmv+'%. Implante fichas técnicas e cheque os insumos de maior peso na compra.']);
+  if(d.turn>5)items.push(['Rotatividade','Turnover de '+d.turn+'%/mês. Rode escutas estratégicas e treine supervisores em CNV.']);
+  if(d.q12<45)items.push(['Engajamento','Q12 em '+d.q12+'. Aplique reconhecimento estruturado e reavalie em 60 dias.']);
+  if(!items.length)items.push(['Tudo saudável','Indicadores no verde. Foque em desenvolvimento de liderança e suba de nível.']);
+  document.getElementById('pn_plan').innerHTML=items.map((it,i)=>'<div class="pcard"><div class="n">'+(i+1)+'</div><div><b>'+it[0]+'</b><br>'+it[1]+'</div></div>').join('');
+}
+
+/* ---------- AGENDA ---------- */
+function viewAgenda(){
+  var hoje=new Date().toISOString().slice(0,10);
+  var list=S.agenda.slice().sort((a,b)=>(a.data||'9999').localeCompare(b.data||'9999'));
+  var rows=list.map(a=>{
+    var cli=S.clientes.find(c=>c.id==a.cliId);
+    var atraso=a.status=='pendente'&&a.data&&a.data<hoje;
+    return `<tr style="${atraso?'background:var(--bad-bg)':''}"><td>${a.data||'—'}</td><td>${a.tipo}</td><td>${cli?cli.nome:'—'}</td><td>${a.nota||''}</td>
+      <td><span class="badge b-${a.status}">${a.status}${atraso?' · atrasado':''}</span></td>
+      <td style="white-space:nowrap">
+        <button class="btn sm ghost" onclick="toggleAgenda(${a.id})">${a.status=='pendente'?'concluir':'reabrir'}</button>
+        <button class="btn sm danger" onclick="delAgenda(${a.id})">excluir</button></td></tr>`;
+  }).join('');
+  var opts=S.clientes.map(c=>`<option value="${c.id}">${c.nome}</option>`).join('');
+  return `<div class="pagehead"><h1>Agenda</h1></div>
+  <p class="sub">Visitas, treinamentos, auditorias e reuniões — por cliente.</p>
+  <div class="panel"><h3>Novo compromisso</h3>
+  <div class="row4">
+    <div><label>Data</label><input type="date" id="a_data"></div>
+    <div><label>Tipo</label><select id="a_tipo"><option>Visita</option><option>Treinamento</option><option>Auditoria</option><option>Reunião</option><option>Follow up</option></select></div>
+    <div><label>Cliente</label><select id="a_cli">${opts||'<option>Cadastre um cliente</option>'}</select></div>
+    <div><label>Nota</label><input id="a_nota" placeholder="Ex.: revisar plano de ação"></div>
+  </div>
+  <button class="btn" onclick="addAgenda()">+ Adicionar à agenda</button></div>
+  <div class="panel"><table><thead><tr><th>Data</th><th>Tipo</th><th>Cliente</th><th>Nota</th><th>Status</th><th></th></tr></thead>
+  <tbody>${rows||'<tr><td colspan=6 class=empty>Nenhum compromisso ainda.</td></tr>'}</tbody></table></div>`;
+}
+function addAgenda(){
+  var data=document.getElementById('a_data').value;
+  var tipo=document.getElementById('a_tipo').value;
+  var cliId=+document.getElementById('a_cli').value;
+  var nota=document.getElementById('a_nota').value;
+  if(!cliId){alert('Cadastre um cliente antes.');return;}
+  S.agenda.push({id:Date.now(),data:data,tipo:tipo,cliId:cliId,nota:nota,status:'pendente'});
+  save();render('agenda');
+}
+function toggleAgenda(id){var a=S.agenda.find(x=>x.id==id);a.status=a.status=='pendente'?'concluido':'pendente';save();render('agenda');}
+function delAgenda(id){if(confirm('Excluir este compromisso?')){S.agenda=S.agenda.filter(x=>x.id!=id);save();render('agenda');}}
+
+/* ---------- PROPOSTA ---------- */
+function viewProp(){
+  var opts=S.clientes.map(c=>`<option value="${c.id}">${c.nome}</option>`).join('');
+  return `<div class="pagehead"><h1>Proposta</h1></div>
+  <p class="sub">Escolha o cliente e gere uma proposta automática — depois edite o texto à vontade.</p>
+  <div class="panel"><div class="row"><div><label>Cliente</label><select id="p_cli">${opts||'<option>Cadastre um cliente</option>'}</select></div>
+  <div><label>Dor principal (nas palavras do dono)</label><input id="p_dor" placeholder="Ex.: perco 2 atendentes por mês"></div></div>
+  <button class="btn alt" onclick="genProp()">Gerar proposta</button></div>
+  <div class="panel"><h3>Proposta (editável)</h3><textarea id="p_out" style="min-height:280px" placeholder="A proposta aparece aqui..."></textarea>
+  <button class="btn ghost" onclick="navigator.clipboard.writeText(document.getElementById('p_out').value);toast()">Copiar texto</button></div>`;
+}
+function genProp(){
+  var c=S.clientes.find(x=>x.id==document.getElementById('p_cli').value);if(!c){alert('Selecione um cliente.');return;}
+  var dor=document.getElementById('p_dor').value||'os desafios atuais da sua equipe';
+  var val=MOD[c.modalidade];
+  var folhaTxt=c.fat?`Hoje sua folha está em ${pct(c.folha/c.fat*100)} do faturamento (o saudável é até 15%). `:'';
+  var t=`PROPOSTA DE CONSULTORIA ESTRATÉGICA
+ArtBlend Consultoria Gourmet — para ${c.nome}
+
+1. CENÁRIO
+Você nos relatou: "${dor}". ${folhaTxt}Isso tem custo direto no seu resultado.
+
+2. O QUE VAMOS ENTREGAR (Método ArtBlend)
+• RH Estratégico — escutas e diagnóstico de pessoas, líderes e cultura
+• Treinamentos (T&D) — equipe vendendo mais e atendendo melhor
+• Integração — onboarding, regimento e cultura de resultados
+• Processos Seletivos — contratar a pessoa certa
+
+3. COMO VAMOS MEDIR
+Turnover, folha/faturamento e ticket médio — relatório mensal com ROI.
+
+4. INVESTIMENTO
+Modalidade ${c.modalidade}: ${money(val)}/mês · contrato de 3 ou 6 meses.
+
+5. PRÓXIMO PASSO
+Aprovação + 1º mês antecipado e iniciamos o diagnóstico (P1).
+
+— ArtBlend Consultoria Gourmet`;
+  document.getElementById('p_out').value=t;
+  if(c.status=='lead'){c.status='proposta';save();}
+}
+
+/* ---------- PROPOSTA COMERCIAL ---------- */
+function viewPropComercial(){
+  var opts=S.clientes.map(c=>`<option value="${c.id}">${c.nome}</option>`).join('');
+  var hoje=new Date().toISOString().slice(0,10);
+  return `<div class="pagehead"><h1>Proposta Comercial</h1></div>
+  <p class="sub">Escolha o cliente e gere a proposta comercial formal — normalmente enviada antes do contrato, ao final do diagnóstico inicial ou da primeira reunião. Revise os campos preenchíveis antes de imprimir ou copiar.</p>
+  <div class="panel">
+   <div class="row"><div><label>Cliente</label><select id="pc_cli">${opts||'<option>Cadastre um cliente</option>'}</select></div>
+   <div><label>Data da proposta</label><input id="pc_data" type="date" value="${hoje}"></div></div>
+   <div class="row"><div><label>Validade da proposta (dias)</label><input id="pc_validade" type="number" value="15"></div>
+   <div><label>Prazo estimado do diagnóstico inicial (dias)</label><input id="pc_diag" type="number" value="15"></div></div>
+   <div class="row"><div><label>Valor proposto (R$)</label><input id="pc_valor" type="number" placeholder="Ex.: 1600"></div>
+   <div><label>Tipo de valor</label><select id="pc_tipo"><option>Mensal recorrente</option><option>Valor pontual</option></select></div></div>
+   <label>Forma de pagamento</label><input id="pc_pagto" placeholder="Ex.: Mensal, via transferência bancária, até o 5º dia útil">
+   <button class="btn alt" onclick="genPropComercial()">Gerar proposta comercial</button>
+   <span class="hint"> &nbsp;Reaproveita nome, contato e modalidade já cadastrados no cliente; deixe o valor em branco se ainda não foi definido.</span>
+  </div>
+  <div class="panel"><h3>Proposta comercial (editável)</h3><textarea id="pc_out" style="min-height:420px" placeholder="A proposta comercial aparece aqui..."></textarea>
+  <button class="btn ghost" onclick="navigator.clipboard.writeText(document.getElementById('pc_out').value);toast()">Copiar texto</button>
+  <button class="btn ghost" onclick="imprimirPropComercial()">Imprimir / salvar PDF</button>
+  <p class="hint">Revise os campos entre colchetes [ ] antes de enviar — são específicos de cada proposta e não são preenchidos automaticamente. Este documento é um modelo de apoio e não representa compromisso contratual até a formalização do contrato.</p></div>`;
+}
+function genPropComercial(){
+  var c=S.clientes.find(x=>x.id==document.getElementById('pc_cli').value);if(!c){alert('Selecione um cliente.');return;}
+  var g=i=>document.getElementById(i).value;
+  var dataRaw=g('pc_data');
+  var dataTxt=dataRaw?new Date(dataRaw+'T00:00:00').toLocaleDateString('pt-BR'):'[DATA DE EMISSÃO]';
+  var validadeDias=g('pc_validade')||'15';
+  var validadeFimTxt='';
+  if(dataRaw && Number(validadeDias)>0){
+    var dEnd=new Date(dataRaw+'T00:00:00');
+    dEnd.setDate(dEnd.getDate()+Number(validadeDias));
+    validadeFimTxt=' (até '+dEnd.toLocaleDateString('pt-BR')+')';
+  }
+  var diagDias=g('pc_diag')||'15';
+  var tipoValor=g('pc_tipo')||'Mensal recorrente';
+  var valorNum=Number(g('pc_valor'))||0;
+  var valorTxt=valorNum>0?money(valorNum)+(tipoValor=='Valor pontual'?' (valor pontual)':'/mês'):'[VALOR A DEFINIR]';
+  var pagtoTxt=(g('pc_pagto')||'').trim()||'[FORMA DE PAGAMENTO A DEFINIR]';
+  var contato=c.contato||'[NOME DO CONTATO]';
+  var t=`PROPOSTA COMERCIAL
+
+ArtBlend Consultoria Gourmet — para ${c.nome}
+Contato: ${contato}
+Data de emissão: ${dataTxt}
+Validade da proposta: ${validadeDias} dias${validadeFimTxt}
+
+1. SOBRE A ARTBLEND
+A ArtBlend Consultoria Gourmet é uma consultoria especializada em gestão de food service, unindo processos operacionais, engenharia de cardápio, gestão financeira e desenvolvimento de equipes para ajudar donos de restaurantes, bares e padarias a profissionalizar a operação e ganhar previsibilidade no resultado.
+
+2. MATRIZ DE SERVIÇOS — MODALIDADES DE CONSULTORIA
+• PRESENCIAL — Consultor em campo, com visitas periódicas ao estabelecimento para diagnóstico, treinamento presencial da equipe e acompanhamento direto da operação. Valor de referência: ${money(MOD.Presencial)}/mês.
+• HÍBRIDO — Combinação de visitas presenciais estratégicas com acompanhamento remoto contínuo, equilibrando proximidade e frequência de contato. Valor de referência: ${money(MOD['Híbrido'])}/mês.
+• REMOTO — Acompanhamento à distância, com reuniões on-line, relatórios periódicos e suporte por canais digitais — indicado para operações já estruturadas. Valor de referência: ${money(MOD.Remoto)}/mês.
+
+Modalidade recomendada para ${c.nome}: ${c.modalidade}.
+
+3. INVESTIMENTO
+Valor proposto: ${valorTxt}
+Forma de pagamento: ${pagtoTxt}
+
+4. DIAGNÓSTICO INICIAL E CRONOGRAMA MACRO
+Prazo estimado para o diagnóstico inicial: ${diagDias} dias corridos, contados a partir da aprovação desta proposta.
+
+Cronograma macro (referencial):
+Semana 1-2: Diagnóstico financeiro, operacional e de equipe
+Semana 3-4: Elaboração e apresentação do plano de ação
+Mês 2: Início da implementação das ações prioritárias
+Mês 3 em diante: Acompanhamento mensal, ajustes e relatório de indicadores
+
+5. PRÓXIMOS PASSOS
+Para avançar, basta confirmar o aceite desta proposta. Após a aprovação, formalizamos os detalhes em contrato de prestação de serviços e agendamos a primeira reunião de diagnóstico.
+Ficamos à disposição para esclarecer dúvidas e ajustar esta proposta conforme a necessidade do seu negócio.
+
+— ArtBlend Consultoria Gourmet`;
+  document.getElementById('pc_out').value=t;
+  if(c.status=='lead'){c.status='proposta';save();}
+}
+function imprimirPropComercial(){
+  var texto=document.getElementById('pc_out').value;
+  if(!texto){alert('Gere a proposta comercial antes de imprimir.');return;}
+  var esc=texto.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  var w=window.open('','_blank');
+  if(!w){alert('Permita pop-ups para imprimir a proposta.');return;}
+  w.document.write('<html><head><title>Proposta Comercial — '+ (S.clientes.find(x=>x.id==document.getElementById('pc_cli').value)||{nome:''}).nome +'</title><style>body{font-family:Georgia,"Times New Roman",serif;white-space:pre-wrap;line-height:1.6;max-width:760px;margin:40px auto;padding:0 20px 60px;color:#16294A;font-size:13.5px;}</style></head><body>'+esc+'</body></html>');
+  w.document.close();
+  w.focus();
+  setTimeout(function(){w.print();},300);
+}
+
+/* ---------- CONTRATO ---------- */
+function viewContrato(){
+  var opts=S.clientes.map(c=>`<option value="${c.id}">${c.nome}</option>`).join('');
+  var hoje=new Date().toISOString().slice(0,10);
+  return `<div class="pagehead"><h1>Contrato</h1></div>
+  <p class="sub">Escolha o cliente (normalmente após a proposta ser aceita) e gere o contrato de prestação de serviços — revise os campos preenchíveis antes de imprimir ou copiar.</p>
+  <div class="panel">
+   <div class="row"><div><label>Cliente</label><select id="ct_cli">${opts||'<option>Cadastre um cliente</option>'}</select></div>
+   <div><label>Data de início</label><input id="ct_data" type="date" value="${hoje}"></div></div>
+   <div class="row"><div><label>CNPJ do cliente</label><input id="ct_cnpj" placeholder="00.000.000/0000-00"></div>
+   <div><label>Endereço do cliente</label><input id="ct_end" placeholder="Rua, número, bairro, cidade/UF"></div></div>
+   <div class="row3">
+     <div><label>Prazo de vigência (dias)</label><input id="ct_prazo" type="number" value="90"></div>
+     <div><label>Multa por não concorrência (R$)</label><input id="ct_multa" type="number" placeholder="Ex.: 20000"></div>
+     <div><label>Foro (comarca/UF)</label><input id="ct_foro" placeholder="Ex.: Vitória/ES"></div>
+   </div>
+   <div class="row"><div><label>CNPJ da ArtBlend (contratada)</label><input id="ct_cnpjab" placeholder="00.000.000/0000-00"></div>
+   <div><label>Responsável do cliente (assinatura)</label><input id="ct_resp" placeholder="Nome de quem assina pelo cliente"></div></div>
+   <button class="btn alt" onclick="genContrato()">Gerar contrato</button>
+   <span class="hint"> &nbsp;Reaproveita nome, contato e modalidade/valor já cadastrados no cliente.</span>
+  </div>
+  <div class="panel"><h3>Contrato (editável)</h3><textarea id="ct_out" style="min-height:420px" placeholder="O contrato aparece aqui..."></textarea>
+  <button class="btn ghost" onclick="navigator.clipboard.writeText(document.getElementById('ct_out').value);toast()">Copiar texto</button>
+  <button class="btn ghost" onclick="imprimirContrato()">Imprimir / salvar PDF</button>
+  <p class="hint">Revise os campos entre colchetes [ ] antes de enviar — são específicos de cada contrato e não são preenchidos automaticamente. Este documento é um modelo de apoio; não substitui a revisão por um advogado.</p></div>`;
+}
+function genContrato(){
+  var c=S.clientes.find(x=>x.id==document.getElementById('ct_cli').value);if(!c){alert('Selecione um cliente.');return;}
+  var g=i=>document.getElementById(i).value;
+  var val=MOD[c.modalidade]||0;
+  var cnpjCli=g('ct_cnpj')||'[CNPJ DO CLIENTE]';
+  var endCli=g('ct_end')||'[ENDEREÇO DO CLIENTE]';
+  var dataIniRaw=g('ct_data');
+  var dataIniTxt=dataIniRaw?new Date(dataIniRaw+'T00:00:00').toLocaleDateString('pt-BR'):'[DATA DE INÍCIO]';
+  var prazo=g('ct_prazo')||'90';
+  var multaNum=Number(g('ct_multa'))||0;
+  var multaTxt=multaNum>0?money(multaNum):'[VALOR DA MULTA — A DEFINIR]';
+  var foro=(g('ct_foro')||'').trim()||'[COMARCA/UF]';
+  var cnpjAB=g('ct_cnpjab')||'[CNPJ DA ARTBLEND]';
+  var resp=g('ct_resp')||c.contato||'[NOME DO RESPONSÁVEL PELO CLIENTE]';
+  var cidadeAss=foro!='[COMARCA/UF]'?foro.split('/')[0]:'[CIDADE]';
+  var hojeTxt=new Date().toLocaleDateString('pt-BR');
+  var t=`CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE CONSULTORIA
+
+Pelo presente instrumento particular, as partes abaixo qualificadas:
+
+CONTRATANTE: ${c.nome}, pessoa jurídica de direito privado, inscrita no CNPJ sob o nº ${cnpjCli}, com sede em ${endCli}, neste ato representada por ${resp}, doravante denominada CONTRATANTE.
+
+CONTRATADA: ArtBlend Consultoria Gourmet, inscrita no CNPJ sob o nº ${cnpjAB}, doravante denominada CONTRATADA.
+
+RESOLVEM as partes celebrar o presente Contrato de Prestação de Serviços de Consultoria ("Contrato"), regido pela Lei nº 10.406/2002 (Código Civil) e mediante as cláusulas seguintes:
+
+CLÁUSULA 1ª — DO OBJETO
+1.1. Este Contrato tem por objeto a prestação, pela CONTRATADA à CONTRATANTE, de serviços de consultoria em gestão para food service — modalidade ${c.modalidade} —, compreendendo diagnóstico financeiro e de indicadores, RH estratégico, treinamentos (T&D), estruturação de processos seletivos, integração/onboarding de equipe e acompanhamento mensal de resultados, conforme metodologia própria da CONTRATADA ("Método ArtBlend").
+1.2. Os serviços poderão ser alterados mediante acordo entre as partes, com aviso prévio de 30 (trinta) dias e formalização por aditivo, ajustando-se a Remuneração quando aplicável.
+
+CLÁUSULA 2ª — DO PRAZO DE VIGÊNCIA
+2.1. Este Contrato vigora pelo prazo de ${prazo} dias corridos, com início em ${dataIniTxt}, podendo ser renovado por igual período mediante acordo entre as partes, formalizado com antecedência mínima de 30 (trinta) dias do término da vigência.
+
+CLÁUSULA 3ª — DO VALOR E FORMA DE PAGAMENTO
+3.1. Pela prestação dos serviços, a CONTRATANTE pagará à CONTRATADA o valor mensal de ${money(val)} (modalidade ${c.modalidade}), até o 5º dia útil do mês subsequente à prestação, mediante depósito/transferência bancária, com emissão da respectiva nota fiscal.
+3.2. O atraso no pagamento sujeitará a CONTRATANTE à incidência de juros de 1% (um por cento) ao mês e correção monetária, calculados pro rata die.
+
+CLÁUSULA 4ª — CONFIDENCIALIDADE E PROTEÇÃO DE DADOS (LGPD)
+4.1. As partes obrigam-se a manter sigilo absoluto sobre todas as informações, dados e materiais da outra parte a que tiverem acesso em razão deste Contrato, respondendo por perdas e danos em caso de divulgação indevida.
+4.2. O tratamento de dados pessoais realizado no âmbito deste Contrato observará os princípios e obrigações da Lei nº 13.709/2018 (Lei Geral de Proteção de Dados — LGPD), em especial finalidade, adequação, necessidade, transparência, segurança e prevenção.
+4.3. As obrigações de confidencialidade permanecem vigentes por 5 (cinco) anos após o encerramento deste Contrato, independentemente do motivo da rescisão.
+
+CLÁUSULA 5ª — PROPRIEDADE INTELECTUAL
+5.1. Os diagnósticos, planos de ação, treinamentos, POPs, roteiros e demais materiais desenvolvidos especificamente pela CONTRATADA para a CONTRATANTE no âmbito deste Contrato terão seus direitos patrimoniais cedidos à CONTRATANTE, para uso exclusivo em sua operação, uma vez integralmente quitada a Remuneração correspondente.
+5.2. A metodologia, os templates padronizados, scripts e o know-how próprios da CONTRATADA ("Método ArtBlend"), preexistentes ou aperfeiçoados durante a prestação dos serviços, permanecem de propriedade exclusiva da CONTRATADA, sendo apenas licenciado seu uso à CONTRATANTE enquanto vigorar este Contrato.
+
+CLÁUSULA 6ª — NÃO CONCORRÊNCIA
+6.1. A CONTRATADA compromete-se a manter sigilo sobre as informações estratégicas e operacionais da CONTRATANTE, abstendo-se de utilizá-las em benefício de concorrentes diretos da CONTRATANTE durante a vigência deste Contrato.
+6.2. Em caso de descumprimento desta cláusula, a parte infratora ficará sujeita a multa pecuniária no valor de ${multaTxt}, sem prejuízo de eventuais perdas e danos apurados.
+
+CLÁUSULA 7ª — DA RESCISÃO
+7.1. Qualquer das partes poderá rescindir este Contrato mediante aviso prévio por escrito de 30 (trinta) dias.
+7.2. O descumprimento do prazo de aviso prévio sujeitará a parte denunciante ao pagamento de indenização equivalente a 1 (uma) mensalidade.
+7.3. O Contrato poderá ser considerado rescindido de pleno direito, independentemente de notificação judicial ou extrajudicial, em caso de: (I) infração contratual não sanada em até 10 (dez) dias após notificação escrita; (II) decretação de falência, recuperação judicial ou extrajudicial de qualquer das partes; ou (III) cessão deste Contrato a terceiros sem anuência prévia e por escrito da outra parte.
+7.4. Em qualquer hipótese de rescisão, serão devidos os valores proporcionais aos serviços já efetivamente prestados.
+
+CLÁUSULA 8ª — DISPOSIÇÕES GERAIS E FORO
+8.1. As partes declaram não haver vínculo empregatício, societário ou de subordinação entre si, sendo cada uma exclusivamente responsável por seus próprios encargos trabalhistas, tributários e previdenciários.
+8.2. Este Contrato somente poderá ser alterado, modificado ou aditado mediante instrumento escrito assinado por ambas as partes.
+8.3. Fica eleito o foro da comarca de ${foro} para dirimir quaisquer questões oriundas deste Contrato, com renúncia a qualquer outro, por mais privilegiado que seja.
+
+E, por estarem assim justas e contratadas, as partes firmam o presente instrumento em 2 (duas) vias de igual teor e forma.
+
+${cidadeAss}, ${hojeTxt}
+
+_______________________________________
+${c.nome}
+CONTRATANTE
+
+_______________________________________
+ArtBlend Consultoria Gourmet
+CONTRATADA`;
+  document.getElementById('ct_out').value=t;
+}
+function imprimirContrato(){
+  var texto=document.getElementById('ct_out').value;
+  if(!texto){alert('Gere o contrato antes de imprimir.');return;}
+  var esc=texto.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  var w=window.open('','_blank');
+  if(!w){alert('Permita pop-ups para imprimir o contrato.');return;}
+  w.document.write('<html><head><title>Contrato — '+ (S.clientes.find(x=>x.id==document.getElementById('ct_cli').value)||{nome:''}).nome +'</title><style>body{font-family:Georgia,"Times New Roman",serif;white-space:pre-wrap;line-height:1.6;max-width:760px;margin:40px auto;padding:0 20px 60px;color:#16294A;font-size:13.5px;}</style></head><body>'+esc+'</body></html>');
+  w.document.close();
+  w.focus();
+  setTimeout(function(){w.print();},300);
+}
+
+/* ---------- EQUIPE & ACESSOS ---------- */
+/*
+  COMO FUNCIONA O CONVITE DE ACESSO (leia antes de mexer aqui):
+
+  Pelo client-side, com a chave "anon" do Supabase, NÃO é possível buscar o
+  user_id de um e-mail que ainda não tem conta — isso exigiria sb.auth.admin,
+  que só existe com a chave de serviço, no backend, e não pode ficar exposta
+  num arquivo HTML. Por isso o vínculo de acesso é feito em 2 passos, com uma
+  tabela auxiliar (perfis_convite) fazendo a ponte:
+
+  1) AQUI no CRM (aba "Equipe & Acessos"), o consultor/desenvolvedor
+     pré-cadastra o e-mail da pessoa + papel + cliente + setor na tabela
+     perfis_convite (email, papel, cliente_id, setor, usado=false) — ANTES
+     de essa pessoa nunca ter logado na plataforma.
+  2) Quando essa pessoa se cadastra pela 1ª vez no Hub (ARTBLEND_HUB.html),
+     o cadastro (função hubCadastrar() ou equivalente) deve, logo depois de
+     criar a conta com sb.auth.signUp(), verificar se existe uma linha em
+     perfis_convite com aquele e-mail e usado=false. Se existir: criar
+     automaticamente a linha correspondente em perfis_usuario (com o
+     user_id novo + papel/cliente_id/setor daquele convite) e marcar
+     usado=true no convite.
+
+     >>> AVISO PARA QUEM MEXE NO ARTBLEND_HUB.html: o passo 2 acima ainda
+     precisa ser implementado lá. Sem isso, os convites cadastrados aqui
+     ficam pendentes para sempre e o acesso nunca chega a ser efetivado em
+     perfis_usuario. O SQL de perfis_convite (com as políticas de RLS que
+     permitem esse update) está em SETUP_PERFIS_CONVITE_SUPABASE.sql.
+
+  Por isso esta tela do CRM NUNCA insere direto em perfis_usuario — essa
+  tabela exige um user_id (NOT NULL, único, referência a auth.users) que só
+  passa a existir depois que a pessoa se cadastra. Esta tela só lê/escreve
+  perfis_convite, e apenas LÊ perfis_usuario para mostrar quem já efetivou o
+  acesso (com o nome do cliente resolvido via um mapa id→nome, buscado à
+  parte com sb.from('clientes').select('id,nome')).
+*/
+var equipeClientesMap = {};
+function viewEquipeWrap(){
+  return `<div class="pagehead"><h1>Equipe &amp; Acessos</h1></div>
+  <p class="sub">Controle de quem tem (ou vai ter) acesso à plataforma, com qual papel e vinculado a qual cliente/setor.</p>
+  <div class="panel">
+    <h3>Adicionar acesso</h3>
+    <p class="hint">A pessoa precisa se cadastrar no Hub usando este mesmo e-mail. O acesso em perfis_usuario é criado automaticamente assim que ela criar a conta — até lá, o registro fica como "convite pendente" abaixo.</p>
+    <div class="row">
+      <div><label>E-mail da pessoa</label><input id="eq_email" type="email" placeholder="pessoa@email.com"></div>
+      <div><label>Papel</label><select id="eq_papel" onchange="onPapelEquipeChange()">
+        <option value="desenvolvedor">Desenvolvedor</option>
+        <option value="consultor">Consultor</option>
+        <option value="dono">Dono</option>
+        <option value="lider" selected>Líder</option>
+        <option value="colaborador">Colaborador</option>
+      </select></div>
+    </div>
+    <div class="row" id="eq_row2">
+      <div id="eq_cliBox"><label>Cliente vinculado</label><select id="eq_cliente"><option value="">Carregando clientes...</option></select></div>
+      <div id="eq_setorBox"><label>Setor</label><select id="eq_setor">
+        <option value="cozinha">Cozinha</option>
+        <option value="salao">Salão</option>
+        <option value="geral">Geral</option>
+      </select></div>
+    </div>
+    <button class="btn" onclick="addConviteEquipe()">+ Adicionar acesso</button>
+  </div>
+  <div class="panel"><h3>Convites pendentes</h3><p class="hint">Ainda aguardando a pessoa se cadastrar no Hub com este e-mail.</p><div id="eq_pendentes"><span class="empty">Carregando...</span></div></div>
+  <div class="panel"><h3>Perfis com acesso ativo</h3><p class="hint">Já efetivados em perfis_usuario (a pessoa já se cadastrou e o vínculo foi criado).</p><div id="eq_ativos"><span class="empty">Carregando...</span></div></div>`;
+}
+function onPapelEquipeChange(){
+  var papel=document.getElementById('eq_papel').value;
+  var mostraCliente=(papel=='dono'||papel=='lider'||papel=='colaborador');
+  var mostraSetor=(papel=='lider');
+  document.getElementById('eq_cliBox').style.display=mostraCliente?'block':'none';
+  document.getElementById('eq_setorBox').style.display=mostraSetor?'block':'none';
+}
+async function initEquipe(){
+  onPapelEquipeChange();
+  var selCli=document.getElementById('eq_cliente');
+  var rc=await sb.from('clientes').select('id,nome').order('nome',{ascending:true});
+  equipeClientesMap={};
+  if(rc.error){
+    selCli.innerHTML='<option value="">Erro ao carregar clientes</option>';
+  }else{
+    (rc.data||[]).forEach(function(c){ equipeClientesMap[c.id]=c.nome; });
+    selCli.innerHTML=(rc.data&&rc.data.length)?rc.data.map(function(c){return '<option value="'+c.id+'">'+c.nome+'</option>';}).join(''):'<option value="">Nenhum cliente cadastrado ainda</option>';
+  }
+  await carregarEquipe();
+}
+async function addConviteEquipe(){
+  var email=document.getElementById('eq_email').value.trim().toLowerCase();
+  var papel=document.getElementById('eq_papel').value;
+  var mostraCliente=(papel=='dono'||papel=='lider'||papel=='colaborador');
+  var mostraSetor=(papel=='lider');
+  var clienteId=mostraCliente?(document.getElementById('eq_cliente').value||null):null;
+  var setor=mostraSetor?document.getElementById('eq_setor').value:null;
+  if(!email||email.indexOf('@')===-1){alert('Informe um e-mail válido.');return;}
+  var r=await sb.from('perfis_convite').upsert({
+    email:email, papel:papel, cliente_id:clienteId, setor:setor, usado:false
+  },{onConflict:'email'});
+  if(r.error){alert('Não foi possível salvar o convite:\n\n'+r.error.message+'\n\nVerifique se a tabela "perfis_convite" foi criada no Supabase (rode o SETUP_PERFIS_CONVITE_SUPABASE.sql).');return;}
+  document.getElementById('eq_email').value='';
+  toast();
+  await carregarEquipe();
+}
+async function carregarEquipe(){
+  var elPend=document.getElementById('eq_pendentes');
+  var elAtivos=document.getElementById('eq_ativos');
+  // Convites ainda não usados (perfis_convite, usado=false).
+  var rp=await sb.from('perfis_convite').select('email,papel,cliente_id,setor,criado_em').eq('usado',false).order('criado_em',{ascending:false});
+  if(rp.error){
+    elPend.innerHTML='<span class="empty">Erro ao carregar convites: '+rp.error.message+'</span>';
+  }else{
+    var pend=rp.data||[];
+    if(!pend.length){elPend.innerHTML='<span class="empty">Nenhum convite pendente.</span>';}
+    else{
+      var rows=pend.map(function(p){
+        var cliNome=p.cliente_id?(equipeClientesMap[p.cliente_id]||('#'+p.cliente_id)):'—';
+        var dt=p.criado_em?new Date(p.criado_em).toLocaleDateString('pt-BR'):'—';
+        return '<tr><td>'+p.email+'</td><td><span class="badge b-pendente">'+p.papel+'</span></td><td>'+cliNome+'</td><td>'+(p.setor||'—')+'</td><td>'+dt+'</td>'+
+          '<td><button class="btn sm danger" onclick="cancelarConvite(\''+p.email.replace(/'/g,"\\'")+'\')">cancelar</button></td></tr>';
+      }).join('');
+      elPend.innerHTML='<table><thead><tr><th>E-mail</th><th>Papel</th><th>Cliente</th><th>Setor</th><th>Criado em</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
+    }
+  }
+  // Perfis já efetivados (perfis_usuario) — join manual do nome do cliente via equipeClientesMap.
+  var ra=await sb.from('perfis_usuario').select('email,papel,cliente_id,setor,criado_em').order('criado_em',{ascending:false});
+  if(ra.error){
+    elAtivos.innerHTML='<span class="empty">Erro ao carregar perfis: '+ra.error.message+'</span>';
+  }else{
+    var ativos=ra.data||[];
+    if(!ativos.length){elAtivos.innerHTML='<span class="empty">Ninguém efetivou o acesso ainda.</span>';}
+    else{
+      var rows2=ativos.map(function(p){
+        var cliNome=p.cliente_id?(equipeClientesMap[p.cliente_id]||('#'+p.cliente_id)):'—';
+        var dt=p.criado_em?new Date(p.criado_em).toLocaleDateString('pt-BR'):'—';
+        return '<tr><td>'+p.email+'</td><td><span class="badge b-ativo">'+p.papel+'</span></td><td>'+cliNome+'</td><td>'+(p.setor||'—')+'</td><td>'+dt+'</td></tr>';
+      }).join('');
+      elAtivos.innerHTML='<table><thead><tr><th>E-mail</th><th>Papel</th><th>Cliente</th><th>Setor</th><th>Desde</th></tr></thead><tbody>'+rows2+'</tbody></table>';
+    }
+  }
+}
+async function cancelarConvite(email){
+  if(!confirm('Cancelar este convite pendente?'))return;
+  var r=await sb.from('perfis_convite').delete().eq('email',email);
+  if(r.error){alert('Não foi possível cancelar: '+r.error.message);return;}
+  await carregarEquipe();
+}
+
+/* ---------- BIBLIOTECA ---------- */
+function viewBib(){
+  var items=Object.keys(S.biblioteca).map((k,i)=>`<details class="acc"><summary>${k}</summary>
+    <div class="body"><textarea id="bib_${i}" oninput="updBib('${encodeURIComponent(k)}',this.value)">${S.biblioteca[k]}</textarea>
+    <button class="btn sm danger" onclick="delBib('${encodeURIComponent(k)}')">remover</button></div></details>`).join('');
+  return `<div class="pagehead"><h1>Biblioteca</h1><button class="btn alt" onclick="addBib()">+ Novo item</button></div>
+  <p class="sub">Seus scripts, templates e POPs — todos editáveis e salvos. Use em campo.</p>
+  ${items}`;
+}
+function updBib(k,v){S.biblioteca[decodeURIComponent(k)]=v;save();}
+function delBib(k){if(confirm('Remover este item?')){delete S.biblioteca[decodeURIComponent(k)];save();render('bib');}}
+function addBib(){var n=prompt('Nome do novo item (ex.: Script — Feedback CNV):');if(n){S.biblioteca[n]='';save();render('bib');}}
+
+/* ---------- IDEIAS / SUGESTÕES ---------- */
+function viewSug(){
+  return `<div class="pagehead"><h1>Minhas ideias</h1></div>
+  <p class="sub">Anote aqui tudo que você quer mudar, sugerir ou acrescentar no app.</p>
+  <div class="panel"><textarea id="sug_box" style="min-height:320px" oninput="S.ideias=this.value;save()" placeholder="Ex.: queria um campo de telefone no cliente; um botão para gerar contrato...">${S.ideias||''}</textarea>
+  <p class="hint">Tudo é salvo automaticamente na nuvem.</p></div>`;
+}
+
+(async function(){
+  var r = await sb.auth.getSession();
+  if(r.data.session){ await iniciarApp(r.data.session); }
+})();
+</script>
+</body>
+</html>

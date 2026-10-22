@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artblend — Dossiê Competitivo</title>
+<style>
+  :root{
+    --ink:#1E2521; --muted:#5B655E; --line:#E4DED4; --paper:#FFFFFF; --warm:#FBF7F1;
+    --primary:#0E5E55; --primary-d:#0A463F; --soft:#E5F0EE; --accent:#D9772F;
+    --c1:#0E5E55; --c1b:#E8F1EF; --c2:#2F5D8C; --c2b:#E8EFF6; --c3:#B07A12; --c3b:#FBF0D8;
+    --c4:#6B4E9E; --c4b:#EFEAF6; --c5:#B23B2E; --c5b:#FBE9E6; --ok:#1E7A4B; --ok-bg:#E6F3EC;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{margin:0;font-family:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;color:var(--ink);line-height:1.6;background:#fff;font-size:14.5px;}
+  .wrap{max-width:940px;margin:0 auto;padding:0 50px;}
+  .cover{background:linear-gradient(150deg,var(--primary-d),var(--primary) 60%,#13766B);color:#fff;padding:84px 50px;position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;}
+  .cover .kick{letter-spacing:3px;text-transform:uppercase;font-size:13px;font-weight:600;color:#9BE3D6;margin-bottom:16px;}
+  .cover h1{font-size:44px;line-height:1.07;margin:0 0 12px;font-weight:800;}
+  .cover h2{font-size:19px;font-weight:500;margin:0 0 28px;color:#CDEDE7;}
+  .cover .bar{width:90px;height:6px;background:var(--accent);border-radius:6px;margin-bottom:26px;}
+  .cover .foot{position:absolute;bottom:40px;left:50px;right:50px;font-size:13px;color:#9BE3D6;border-top:1px solid rgba(255,255,255,.2);padding-top:14px;display:flex;justify-content:space-between;}
+  .sec{background:var(--primary);color:#fff;border-radius:14px;padding:20px 26px;margin:42px 0 18px;page-break-before:always;}
+  .sec .k{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#A7E0D6;font-weight:700;}
+  .sec h2{font-size:22px;margin:6px 0;font-weight:800;}
+  .sec .m{font-size:13px;color:#CFEAE5;}
+  h3{font-size:17px;color:var(--primary-d);margin:22px 0 6px;font-weight:750;border-left:5px solid var(--accent);padding-left:11px;}
+  p{margin:8px 0;} strong{color:var(--primary-d);}
+  ul,ol{margin:8px 0;padding-left:20px;} li{margin:4px 0;}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:12px;page-break-inside:avoid;}
+  th{background:var(--primary);color:#fff;text-align:left;padding:7px 9px;font-weight:600;}
+  td{border:1px solid var(--line);padding:7px 9px;vertical-align:top;}
+  tr:nth-child(even) td{background:var(--warm);}
+  .cat{display:inline-block;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:14px;color:#fff;}
+  .k1{background:var(--c1);} .k2{background:var(--c2);} .k3{background:var(--c3);} .k4{background:var(--c4);} .k5{background:var(--c5);}
+  .box{border-radius:12px;padding:15px 19px;margin:15px 0;border:1px solid var(--line);page-break-inside:avoid;}
+  .box.ok{background:var(--ok-bg);border-color:#BEE0CC;}
+  .box.ac{background:#FBEBDB;border-color:#EAD7A6;}
+  .box .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:14px;color:#fff;margin-bottom:8px;background:var(--accent);}
+  .box.ok .tag{background:var(--ok);}
+  .lead{font-size:15.5px;color:var(--muted);}
+  .note{font-size:12px;color:var(--muted);font-style:italic;}
+  .map{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:14px 0;}
+  .mcol{border:1px solid var(--line);border-radius:10px;padding:10px;font-size:11.5px;}
+  .mcol h4{margin:0 0 6px;font-size:12px;color:#fff;padding:5px 8px;border-radius:8px;text-align:center;}
+  .divider{height:1px;background:var(--line);margin:24px 0;}
+  @page{margin:16mm 12mm;}
+  @media print{.cover{min-height:auto;height:100vh;} .map{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<section class="cover">
+  <div class="kick">Artblend Consultoria Gourmet · Inteligência Competitiva</div>
+  <h1>Dossiê Competitivo</h1>
+  <h2>Quem é quem no mercado de gestão e consultoria gastronômica — e onde a Artblend vence</h2>
+  <div class="bar"></div>
+  <div class="foot"><span>Artblend Consultoria Gourmet</span><span>Junho 2026</span></div>
+</section>
+<div class="wrap">
+
+<div class="sec"><div class="k">Como ler</div><h2>Método e transparência</h2></div>
+<p class="lead">Este dossiê reúne informações <strong>públicas</strong> (sites oficiais, redes, matérias, lojas de app) de cada concorrente, mais o que capturamos do ValiTag/V‑Core direto da tela. Não baixei arquivos privados nem telas internas — o que está aqui é verificável e serve para decisão.</p>
+<p>Organizei todos em <strong>5 categorias</strong>. Repare: quase todos dominam <em>uma</em> faixa. A Artblend nasce no cruzamento que ninguém ocupa.</p>
+<p>
+<span class="cat k1">A · App do consultor</span> &nbsp;
+<span class="cat k2">B · Operação / etiqueta</span> &nbsp;
+<span class="cat k3">C · ERP / PDV</span> &nbsp;
+<span class="cat k4">D · Educação / mentoria</span> &nbsp;
+<span class="cat k5">E · Grandes redes</span>
+</p>
+
+<div class="sec"><div class="k">Parte 1</div><h2>Quadro geral dos concorrentes</h2></div>
+<table>
+<tr><th>Nome</th><th>Cat.</th><th>O que é (verificado)</th><th>Força</th><th>O que falta (sua chance)</th></tr>
+<tr><td><strong>ProApp</strong> (Produz Soluções)</td><td><span class="cat k1">A</span></td><td>App para o consultor de alimentos, funciona <strong>offline</strong>: checklists personalizados + modelos prontos, rótulos nutricionais, fichas técnicas com cálculo de custo. R$ 20/usuário extra, 7 dias grátis, sem fidelidade.</td><td>Praticidade do consultor; ficha técnica + checklist</td><td>Pessoas, treinamento, cultura, CRM comercial, IA</td></tr>
+<tr><td><strong>ValiTag</strong></td><td><span class="cat k2">B</span></td><td>Ecossistema de <strong>etiqueta inteligente + validade + segurança alimentar (ANVISA)</strong>: imprime etiqueta em 1 clique, calcula validade, QR de rastreabilidade.</td><td>Compliance e padronização de cozinha</td><td>Gestão de pessoas e desenvolvimento</td></tr>
+<tr><td><strong>V‑Core</strong> (Vinícius Meyer + ValiTag)</td><td><span class="cat k2">B</span></td><td>Camada de gestão sobre a ValiTag: <strong>missões + checklist por estação</strong> (frente de loja, cozinha), abertura/fechamento, contagem de estoque, "Chef Inteligente" (IA), mapa visual de operação, CMV automático.</td><td>Núcleo operacional integrado + IA. Concorrente mais sério na visão de "integrar tudo".</td><td>Não cobre treinamento/cultura/consultoria de pessoas</td></tr>
+<tr><td><strong>Suflex</strong></td><td><span class="cat k2">B</span></td><td>Sistema de cozinha: etiquetas, controle de validade, contagem de insumos, produção, recebimento. Mensal sem fidelidade.</td><td>Controle de validade e desperdício</td><td>Mesmo: foco só em operação</td></tr>
+<tr><td><strong>Consumer</strong></td><td><span class="cat k3">C</span></td><td>ERP/PDV consolidado: +30 mil clientes, +15 anos, +100 funções — mesas, delivery, iFood, estoque, NF, caixa, relatórios, Consumer Ads, Smart Delivery. Freemium até 200 pedidos/mês.</td><td>Venda, caixa e operação de ponta a ponta</td><td>Não é consultoria nem desenvolvimento de equipe</td></tr>
+<tr><td><strong>iFood</strong></td><td><span class="cat k3">C</span></td><td>Painel do parceiro: cardápio, pedidos em tempo real, <strong>dashboard de vendas/ticket/ranking</strong>, avaliações, marketing.</td><td>Dados de venda e alcance gigante</td><td>Fonte de dados — integre, não compita</td></tr>
+<tr><td><strong>Politi Academy</strong> (Marcelo Politi)</td><td><span class="cat k4">D</span></td><td>Escola food service: plataforma de alunos + <strong>app de treino de funcionários</strong> + arsenal de processos (CMV, pessoas, rituais). +3.000 empresários; ~R$ 9,2 mi.</td><td>Educação + app de treino (mais perto do seu Academy)</td><td>Não faz a consultoria 1:1 com dados do cliente</td></tr>
+<tr><td><strong>EGG</strong> (Escola de Gestão em Negócios da Gastronomia)</td><td><span class="cat k4">D</span></td><td>Fundada 2018 (Ivan Achcar e sócios). Escola de <strong>negócios da gastronomia</strong>: dezenas de cursos, mentorias e consultoria, +100 professores.</td><td>Autoridade em gestão de negócios gastronômicos</td><td>Conteúdo, não software operacional</td></tr>
+<tr><td><strong>Matheus Lessa</strong> (Domine Seu Restaurante)</td><td><span class="cat k4">D</span></td><td>Escola de treinamentos: <strong>gestão, liderança, marketing e vendas</strong>; mentoria; parceria com PDV (Takeat). Usa conceitos de grandes redes.</td><td>Marketing e comunidade forte; gestão+liderança</td><td>Não tem plataforma de operação/consultoria com dados</td></tr>
+<tr><td><strong>Mayara Vale</strong> (Consultora de Alimentos)</td><td><span class="cat k4">D</span></td><td>Maior canal de consultoria de alimentos do YouTube; autora de livro do tema; <strong>forma consultores</strong> (mentoria), POPs, treino de manipuladores. +12.000 alunos; atendeu Coca‑Cola, Petrobras.</td><td>Autoridade em formar consultores + segurança alimentar</td><td>É formação, não um software de gestão</td></tr>
+<tr><td><strong>Jorge Lucena</strong></td><td><span class="cat k4">D</span></td><td>Consultor de food service. <span class="note">Não consegui confirmar o perfil exato publicamente — há um homônimo numa consultoria argentina. Confirme comigo qual é o Jorge que você segue.</span></td><td>—</td><td>—</td></tr>
+<tr><td><strong>McDonald's</strong> + grandes redes</td><td><span class="cat k5">E</span></td><td>Pioneiro da padronização e franquia: <strong>manual de operações + SOC (checklist por estação)</strong> + universidade corporativa (Hamburger University). Subway, Starbucks, Burger King, Domino's, Outback, Madero, Habib's seguem a mesma lógica de POP + treino padronizado.</td><td>Padronização absoluta replicável em qualquer loja</td><td>É modelo interno de rede — não vendido como produto a terceiros</td></tr>
+</table>
+
+<div class="sec"><div class="k">Parte 2</div><h2>Mapa de posicionamento</h2><div class="m">Onde cada um joga — e o espaço vazio.</div></div>
+<div class="map">
+  <div class="mcol"><h4 style="background:var(--c1)">A · App consultor</h4>ProApp</div>
+  <div class="mcol"><h4 style="background:var(--c2)">B · Operação</h4>ValiTag · V‑Core · Suflex</div>
+  <div class="mcol"><h4 style="background:var(--c3)">C · ERP/PDV</h4>Consumer · iFood</div>
+  <div class="mcol"><h4 style="background:var(--c4)">D · Educação</h4>Politi · EGG · M. Lessa · M. Vale</div>
+  <div class="mcol"><h4 style="background:var(--c5)">E · Redes</h4>McDonald's +10</div>
+</div>
+<div class="box ok"><span class="tag">O espaço vazio (a Artblend)</span>
+<p>Repare no padrão: <strong>educação ensina</strong> (Politi, EGG, Lessa, Vale), <strong>operação controla</strong> (V‑Core, Suflex, ValiTag), <strong>ERP vende</strong> (Consumer, iFood), <strong>app organiza o consultor</strong> (ProApp). <strong>Ninguém entrega, num só lugar: consultoria 1:1 com dados do cliente + desenvolvimento de pessoas + treinamento aplicado + acompanhamento com IA.</strong> A Artblend é a ponte entre "ensinar" e "operar" — a <em>consultoria viva</em>, com método (CEP/T&D) virando software.</p></div>
+
+<div class="sec"><div class="k">Parte 3</div><h2>O que aproveitar de cada um</h2></div>
+<table>
+<tr><th>De quem</th><th>O que copiar para a Artblend</th></tr>
+<tr><td><strong>ProApp</strong></td><td>Ficha técnica com custo automático + checklist offline + preço por usuário (modelo de receita simples)</td></tr>
+<tr><td><strong>V‑Core</strong></td><td>UX de <strong>"missões + checklist por estação"</strong> e o "Chef Inteligente" — adaptar para missões de <em>pessoas</em> (treino, escuta, feedback, onboarding)</td></tr>
+<tr><td><strong>ValiTag / Suflex</strong></td><td>Etiqueta/validade e compliance ANVISA — integrar, não recriar</td></tr>
+<tr><td><strong>Consumer / iFood</strong></td><td>Dashboard de vendas e dados — integrar como fonte</td></tr>
+<tr><td><strong>Politi</strong></td><td>App de treino de funcionário + arsenal de processos = base do Artblend Academy</td></tr>
+<tr><td><strong>EGG</strong></td><td>Profundidade de conteúdo de negócios e curadoria de especialistas</td></tr>
+<tr><td><strong>Matheus Lessa</strong></td><td>Marketing, comunidade e linguagem que vende para dono de restaurante</td></tr>
+<tr><td><strong>Mayara Vale</strong></td><td>Como <strong>formar consultores</strong> (a Artblend pode credenciar consultores no método — escala via gente)</td></tr>
+<tr><td><strong>McDonald's</strong></td><td>SOC: todo POP vira checklist auditável; universidade corporativa (certificação)</td></tr>
+</table>
+
+<div class="sec"><div class="k">Parte 4</div><h2>Conclusão estratégica</h2></div>
+<div class="box ac"><span class="tag" style="background:#B07A12">A jogada</span>
+<p>A Artblend não deve brigar de frente no "núcleo operacional" (V‑Core já corre forte) nem virar "mais uma escola" (Politi, EGG, Lessa, Vale dominam). O <strong>posicionamento vencedor</strong> é: <strong>a plataforma de consultoria + pessoas + treinamento que se conecta por cima da operação</strong>, com IA que acompanha e um método proprietário (CEP/T&D) que nenhum software tem. Você combina o melhor dos dois mundos — a profundidade de pessoas das escolas com a praticidade de app da operação — onde ninguém combinou ainda.</p></div>
+<p><strong>Próximo passo sugerido:</strong> eu transformo este dossiê numa <strong>matriz visual de posicionamento</strong> (eixo "operação ↔ pessoas" × "ferramenta ↔ educação") e/ou construo a tela <strong>"Artblend Missões"</strong> inspirada no V‑Core, mas voltada para desenvolvimento de equipe.</p>
+
+<div class="divider"></div>
+<p class="note" style="text-align:center;">Dossiê Competitivo · © Artblend Consultoria Gourmet — Junho 2026. Fontes públicas: sites oficiais ProApp, Consumer, Suflex, ValiTag, Politi Academy, EGG, Domine Seu Restaurante, Consultora de Alimentos, iFood + captura do V‑Core. Dados de mercado podem mudar; confirmar antes de decisões.</p>
+</div>
+</body>
+</html>

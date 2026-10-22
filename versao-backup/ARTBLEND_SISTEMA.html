@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artblend Sistema — Planilhas Unificadas</title>
+<style>
+  :root{
+    --ink:#1E2521; --muted:#5B655E; --line:#E4DED4; --warm:#FBF7F1;
+    --primary:#0E5E55; --primary-d:#0A463F; --soft:#E5F0EE; --accent:#D9772F; --accent-d:#B65E1C;
+    --green:#1E7A4B; --green-bg:#E6F3EC; --amber:#B07A12; --amber-bg:#FBF0D8; --red:#B23B2E; --red-bg:#FBE9E6;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--warm);font-size:14px;}
+  .app{display:flex;min-height:100vh;}
+  .nav{width:230px;background:linear-gradient(168deg,var(--primary-d),var(--primary));color:#fff;padding:20px 14px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow:auto;}
+  .brand{font-size:21px;font-weight:800;letter-spacing:-.5px;padding:0 6px;}
+  .brand small{display:block;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#9BE3D6;margin-top:2px;}
+  .nav .grp{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#6FBDB0;margin:16px 6px 6px;font-weight:700;}
+  .navitem{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:9px;cursor:pointer;margin-top:3px;font-weight:600;font-size:13.5px;color:#CDEDE7;}
+  .navitem:hover{background:rgba(255,255,255,.08);}
+  .navitem.active{background:#fff;color:var(--primary-d);}
+  .navitem .ic{width:16px;text-align:center;}
+  .navfoot{margin-top:18px;padding:12px 6px 0;border-top:1px solid rgba(255,255,255,.18);}
+  .navfoot button{width:100%;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;margin-top:6px;}
+  .main{flex:1;padding:26px 34px;max-width:1150px;}
+  .head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;margin-bottom:4px;}
+  h1{font-size:24px;margin:0;font-weight:800;color:var(--primary-d);}
+  .sub{color:var(--muted);font-size:13.5px;margin:2px 0 20px;}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:20px;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
+  .card .v{font-size:26px;font-weight:800;color:var(--primary-d);line-height:1.1;}
+  .card .l{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px;}
+  .card.accent{background:linear-gradient(135deg,var(--accent),var(--accent-d));color:#fff;border:0;}
+  .card.accent .v,.card.accent .l{color:#fff;}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:18px;overflow:auto;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{background:var(--soft);color:var(--primary-d);text-align:left;padding:8px 9px;font-weight:700;font-size:12px;border-bottom:2px solid #CFE2DD;white-space:nowrap;}
+  td{border-bottom:1px solid var(--line);padding:5px 7px;vertical-align:middle;}
+  input,select{width:100%;min-width:80px;padding:7px 8px;border:1px solid var(--line);border-radius:7px;font-size:13px;font-family:inherit;background:#fff;}
+  input:focus,select:focus{outline:2px solid var(--soft);border-color:var(--primary);}
+  .calc{font-weight:700;color:var(--primary-d);white-space:nowrap;}
+  .badge{display:inline-block;padding:3px 9px;border-radius:14px;font-size:11.5px;font-weight:800;white-space:nowrap;}
+  .b-ok{background:var(--green-bg);color:var(--green);} .b-warn{background:var(--amber-bg);color:var(--amber);} .b-bad{background:var(--red-bg);color:var(--red);} .b-x{background:#EEE;color:#666;}
+  .btn{background:var(--primary);color:#fff;border:0;border-radius:9px;padding:9px 16px;font-weight:700;font-size:13px;cursor:pointer;}
+  .btn:hover{background:var(--primary-d);}
+  .btn.alt{background:var(--accent);} .btn.alt:hover{background:var(--accent-d);}
+  .btn.sm{padding:5px 10px;font-size:12px;}
+  .del{background:transparent;border:1px solid var(--red);color:var(--red);border-radius:7px;padding:4px 9px;font-size:12px;cursor:pointer;font-weight:700;}
+  .formgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+  .formgrid label{display:block;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;}
+  .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px;flex-wrap:wrap;}
+  .hint{font-size:12px;color:var(--muted);font-style:italic;}
+  .save{position:fixed;bottom:16px;right:18px;background:var(--primary-d);color:#fff;padding:8px 15px;border-radius:30px;font-size:12px;opacity:0;transition:.3s;pointer-events:none;}
+  .save.on{opacity:1;}
+  .topbar{display:none;}
+  @media(max-width:780px){.nav{position:fixed;left:-240px;z-index:30;transition:.2s;}.nav.open{left:0;}.topbar{display:flex;gap:10px;align-items:center;background:var(--primary);color:#fff;padding:11px 14px;position:sticky;top:0;z-index:20;}.main{padding:16px;}.formgrid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="topbar"><button class="btn sm" onclick="document.querySelector('.nav').classList.toggle('open')">☰</button><b>Artblend Sistema</b></div>
+<div class="app">
+  <aside class="nav">
+    <div class="brand">artblend<small>Sistema · planilhas</small></div>
+    <div class="grp">Cliente</div>
+    <div class="navitem active" data-s="dados"><span class="ic">▦</span> Dados</div>
+    <div class="navitem" data-s="gestao"><span class="ic">📊</span> Gestão</div>
+    <div class="grp">Operação</div>
+    <div class="navitem" data-s="estoque"><span class="ic">📦</span> Estoque</div>
+    <div class="navitem" data-s="operacao"><span class="ic">🗓️</span> Operação</div>
+    <div class="navitem" data-s="pops"><span class="ic">✅</span> POPs</div>
+    <div class="navitem" data-s="controle"><span class="ic">💰</span> Controle</div>
+    <div class="grp">Pessoas &amp; Consultoria</div>
+    <div class="navitem" data-s="rh"><span class="ic">👥</span> RH</div>
+    <div class="navitem" data-s="consultoria"><span class="ic">📁</span> Consultoria</div>
+    <div class="navitem" data-s="nr1"><span class="ic">🧠</span> NR-1</div>
+    <div class="navfoot">
+      <button onclick="exportData()">⬇ Exportar dados (JSON)</button>
+      <button onclick="importData()">⬆ Importar dados</button>
+      <button onclick="window.print()">🖨 Imprimir / PDF</button>
+    </div>
+  </aside>
+  <main class="main" id="main"></main>
+</div>
+<div class="save" id="save">✓ salvo</div>
+<input type="file" id="fileIn" accept="application/json" style="display:none">
+
+<script>
+/* ============ utilidades ============ */
+function num(v){var n=parseFloat(v);return isNaN(n)?0:n;}
+function money(n){return 'R$ '+ num(n).toLocaleString('pt-BR',{maximumFractionDigits:2});}
+function pct(n){return (Math.round(num(n)*10)/10).toLocaleString('pt-BR')+'%';}
+function esc(s){return (s==null?'':String(s)).replace(/"/g,'&quot;');}
+function badge(txt,cls){return '<span class="badge '+cls+'">'+txt+'</span>';}
+var MOD={Presencial:2000,"Híbrido":1600,Remoto:1200};
+
+/* ============ schema das seções ============ */
+var SECTIONS={
+ dados:{title:'Dados do Cliente',sub:'Cadastro do restaurante. Alimenta os cálculos das outras planilhas.',type:'form',
+   fields:[['nome','Nome do estabelecimento','text'],['tipo','Tipo','text'],['cidade','Cidade/UF','text'],
+           ['cnpj','CNPJ','text'],['colaboradores','Nº de colaboradores','number'],
+           ['faturamento','Faturamento mensal (R$)','number'],['ticketMeta','Meta de ticket médio (R$)','number']]},
+
+ gestao:{title:'Gestão — Painel de Indicadores',sub:'Resumo automático puxado das outras planilhas.',type:'dashboard'},
+
+ estoque:{title:'Estoque / Insumos',sub:'Controle de insumos, custo e validade.',type:'table',
+   cols:[{k:'insumo',l:'Insumo',t:'text'},{k:'un',l:'Unidade',t:'text'},{k:'qtd',l:'Qtd',t:'number'},
+         {k:'custo',l:'Custo unit. (R$)',t:'number'},
+         {k:'total',l:'Custo total',t:'calc',fn:r=>money(num(r.qtd)*num(r.custo))},
+         {k:'validade',l:'Validade (AAAA-MM-DD)',t:'text'},
+         {k:'st',l:'Status',t:'calc',fn:r=>{if(!r.validade)return badge('—','b-x');var d=new Date(r.validade);if(isNaN(d))return badge('—','b-x');var dias=Math.ceil((d-new Date())/86400000);return dias<0?badge('Vencido','b-bad'):dias<=3?badge(dias+'d','b-warn'):badge('OK','b-ok');}}],
+   seed:[{insumo:'Carne hambúrguer',un:'kg',qtd:10,custo:38,validade:''},{insumo:'Queijo',un:'kg',qtd:5,custo:42,validade:''}]},
+
+ operacao:{title:'Operação — Escalas e Jornada',sub:'Dimensione por pico, não por média.',type:'table',
+   cols:[{k:'estacao',l:'Setor / Estação',t:'text'},{k:'turno',l:'Turno',t:'text'},{k:'horario',l:'Horário',t:'text'},
+         {k:'pessoas',l:'Nº pessoas',t:'number'},
+         {k:'jornada',l:'Jornada',t:'select',opt:['6x1','5x2','12x36','Parcial 30h','Intermitente']}],
+   seed:[{estacao:'Salão',turno:'Jantar/pico',horario:'18h-23h',pessoas:4,jornada:'6x1'},{estacao:'Cozinha',turno:'Almoço',horario:'11h-15h',pessoas:3,jornada:'6x1'}]},
+
+ pops:{title:'POPs — Procedimentos &amp; Checklists',sub:'Padronize e audite a operação (estilo SOC).',type:'table',
+   cols:[{k:'pop',l:'POP',t:'text'},{k:'setor',l:'Setor',t:'text'},
+         {k:'freq',l:'Frequência',t:'select',opt:['Diária','Semanal','Mensal','Por turno']},
+         {k:'resp',l:'Responsável',t:'text'},
+         {k:'st',l:'Status',t:'select',opt:['Pendente','OK','Atrasado']}],
+   seed:[{pop:'Abertura da frente de loja',setor:'Salão',freq:'Por turno',resp:'Líder',st:'OK'},
+         {pop:'Higienização da cozinha',setor:'Cozinha',freq:'Diária',resp:'Aux. cozinha',st:'Pendente'},
+         {pop:'Contagem de estoque',setor:'Estoque',freq:'Semanal',resp:'Gerente',st:'Pendente'}]},
+
+ controle:{title:'Controle Financeiro (Diagnóstico)',sub:'% calculado sobre o faturamento (aba Dados). Verde/amarelo/vermelho automático.',type:'table',
+   cols:[{k:'conta',l:'Conta',t:'text'},{k:'valor',l:'Valor (R$)',t:'number'},
+         {k:'pc',l:'% do faturamento',t:'calc',fn:r=>{var f=num(STATE.dados.faturamento);return f?pct(num(r.valor)/f*100):'—';}},
+         {k:'bench',l:'Benchmark',t:'calc',fn:r=>benchTxt(r.conta)},
+         {k:'st',l:'Status',t:'calc',fn:r=>{var f=num(STATE.dados.faturamento);if(!f)return badge('defina faturamento','b-x');return statusConta(r.conta,num(r.valor)/f*100);}}],
+   seed:[{conta:'Folha de pagamento',valor:15000},{conta:'CMV (compras)',valor:28000},{conta:'Pró-labore',valor:12000},{conta:'Investimento (mkt)',valor:3000},{conta:'Serviço (delivery/taxas)',valor:4000}]},
+
+ rh:{title:'RH — Mapa de Colaboradores',sub:'Diagnóstico de pessoas (escutas). Base do CEP.',type:'table',
+   cols:[{k:'nome',l:'Colaborador',t:'text'},{k:'cargo',l:'Cargo',t:'text'},{k:'salario',l:'Salário (R$)',t:'number'},
+         {k:'assedio',l:'Sofre assédio?',t:'select',opt:['Não','Sim']},
+         {k:'tarefas',l:'Tarefas claras?',t:'select',opt:['Sim','Não']},
+         {k:'risco',l:'Risco de saída',t:'select',opt:['Baixo','Médio','Alto']}],
+   seed:[{nome:'Ana',cargo:'Atendente',salario:1600,assedio:'Não',tarefas:'Não',risco:'Médio'},
+         {nome:'Pedro',cargo:'Cozinheiro',salario:2200,assedio:'Não',tarefas:'Sim',risco:'Alto'}]},
+
+ consultoria:{title:'Dados da Consultoria (CRM)',sub:'Sua carteira: leads, propostas e contratos. MRR automático.',type:'table',
+   cols:[{k:'cliente',l:'Cliente',t:'text'},
+         {k:'mod',l:'Modalidade',t:'select',opt:['Presencial','Híbrido','Remoto']},
+         {k:'valor',l:'Valor/mês',t:'calc',fn:r=>money(MOD[r.mod]||0)},
+         {k:'status',l:'Status',t:'select',opt:['lead','proposta','ativo']},
+         {k:'inicio',l:'Início',t:'text'}],
+   seed:[{cliente:'Padaria Pão & Cia',mod:'Híbrido',status:'ativo',inicio:'2026-06'},
+         {cliente:'Brasa & Cia',mod:'Presencial',status:'proposta',inicio:''}]},
+
+ nr1:{title:'NR-1 — Riscos Psicossociais (DRPS)',sub:'Gravidade média (0–4, do questionário) × Probabilidade (avaliação por setor) → Matriz NR-01 (Baixo/Médio/Alto/Crítico). Obrigatório no PGR.',type:'table',
+   cols:[{k:'fator',l:'Fator de risco',t:'text'},
+         {k:'grav',l:'Gravidade média (0–4)',t:'number'},
+         {k:'gc',l:'Classif. gravidade',t:'calc',fn:r=>gravClassNR1(r.grav)},
+         {k:'prob',l:'Probabilidade',t:'select',opt:['Baixa','Média','Alta']},
+         {k:'risco',l:'Matriz de Risco',t:'calc',fn:r=>matrizNR1(r.grav,r.prob)},
+         {k:'acao',l:'Ação / Programa',t:'text'}],
+   seed:[{fator:'Assédio moral e sexual',grav:2.8,prob:'Média',acao:'Programa de Prevenção ao Assédio'},
+         {fator:'Carga excessiva de trabalho',grav:2.3,prob:'Baixa',acao:'Gestão do Estresse e Burnout'},
+         {fator:'Clima organizacional',grav:1.7,prob:'Baixa',acao:'Saúde Mental e Clima'},
+         {fator:'Conflitos interpessoais e comunicação',grav:2.5,prob:'Alta',acao:'Comunicação Assertiva / CNV'}]}
+};
+
+function benchTxt(c){c=(c||'').toLowerCase();if(c.indexOf('folha')>=0)return '≤ 15%';if(c.indexOf('cmv')>=0||c.indexOf('compra')>=0)return '25–30%';if(c.indexOf('labore')>=0||c.indexOf('pró')>=0)return '10–15%';if(c.indexOf('invest')>=0)return '3–5%';if(c.indexOf('servi')>=0)return '3–5%';return '—';}
+function statusConta(c,p){c=(c||'').toLowerCase();
+  if(c.indexOf('folha')>=0)return p<=15?badge('ok','b-ok'):p<=20?badge('atenção','b-warn'):badge('crítico','b-bad');
+  if(c.indexOf('cmv')>=0||c.indexOf('compra')>=0)return p<=30?badge('ok','b-ok'):p<=35?badge('atenção','b-warn'):badge('crítico','b-bad');
+  if(c.indexOf('labore')>=0||c.indexOf('pró')>=0)return (p>=10&&p<=15)?badge('ok','b-ok'):badge('atenção','b-warn');
+  if(c.indexOf('invest')>=0)return (p>=3&&p<=5)?badge('ok','b-ok'):p<2?badge('baixo','b-warn'):badge('ok','b-ok');
+  if(c.indexOf('servi')>=0)return p<=5?badge('ok','b-ok'):p<=8?badge('atenção','b-warn'):badge('alto','b-bad');
+  return badge('—','b-x');}
+function gravClassNR1(m){m=num(m);if(!m)return badge('—','b-x');return m>=2.5?badge('Alta','b-bad'):m>=1.5?badge('Média','b-warn'):badge('Baixa','b-ok');}
+function gravNumNR1(m){m=num(m);return m>=2.5?3:m>=1.5?2:m?1:0;}
+function probNumNR1(p){return p=='Alta'?3:p=='Média'?2:p=='Baixa'?1:0;}
+function riskNR1(m,p){var g=gravNumNR1(m),pn=probNumNR1(p);if(!g||!pn)return '';if(pn==1)return g==3?'Médio':'Baixo';if(pn==2)return g==1?'Baixo':g==2?'Médio':'Alto';return g==1?'Médio':g==2?'Alto':'Crítico';}
+function matrizNR1(m,p){var r=riskNR1(m,p);if(!r)return badge('—','b-x');var cls=r=='Baixo'?'b-ok':r=='Médio'?'b-warn':'b-bad';return badge(r,cls);}
+
+/* ============ estado ============ */
+var STATE=load();
+function seedState(){var s={dados:{nome:'',tipo:'',cidade:'',cnpj:'',colaboradores:'',faturamento:'',ticketMeta:''}};
+  for(var k in SECTIONS){if(SECTIONS[k].type==='table')s[k]=JSON.parse(JSON.stringify(SECTIONS[k].seed||[]));}
+  return s;}
+function load(){try{var d=localStorage.getItem('artblend_sistema');if(d)return JSON.parse(d);}catch(e){}return seedState();}
+function save(){try{localStorage.setItem('artblend_sistema',JSON.stringify(STATE));toast();}catch(e){}}
+function toast(){var b=document.getElementById('save');b.classList.add('on');clearTimeout(window._t);window._t=setTimeout(function(){b.classList.remove('on');},1000);}
+
+/* ============ navegação ============ */
+var current='dados';
+document.querySelectorAll('.navitem').forEach(function(n){n.onclick=function(){
+  document.querySelectorAll('.navitem').forEach(function(x){x.classList.remove('active');});
+  n.classList.add('active');current=n.dataset.s;render();
+  document.querySelector('.nav').classList.remove('open');
+};});
+
+function render(){
+  var sec=SECTIONS[current],m=document.getElementById('main');
+  var html='<div class="head"><h1>'+sec.title+'</h1></div><p class="sub">'+sec.sub+'</p>';
+  if(sec.type==='form') html+=renderForm(sec);
+  else if(sec.type==='dashboard') html+=renderDash();
+  else html+=renderTable(sec);
+  m.innerHTML=html;
+}
+
+/* ---- FORM (Dados) ---- */
+function renderForm(sec){
+  var h='<div class="panel"><div class="formgrid">';
+  sec.fields.forEach(function(f){
+    h+='<div><label>'+f[1]+'</label><input type="'+f[2]+'" value="'+esc(STATE.dados[f[0]])+'" oninput="setForm(\''+f[0]+'\',this.value)"></div>';
+  });
+  h+='</div><p class="hint">Tudo é salvo automaticamente no seu navegador.</p></div>';
+  return h;
+}
+function setForm(k,v){STATE.dados[k]=v;save();}
+
+/* ---- DASHBOARD (Gestão) ---- */
+function findConta(frag){var rows=STATE.controle||[];for(var i=0;i<rows.length;i++){if((rows[i].conta||'').toLowerCase().indexOf(frag)>=0)return rows[i];}return null;}
+function renderDash(){
+  var f=num(STATE.dados.faturamento);
+  var folha=findConta('folha'),cmv=findConta('cmv');
+  var folhaP=(folha&&f)?num(folha.valor)/f*100:0;
+  var cmvP=(cmv&&f)?num(cmv.valor)/f*100:0;
+  var mrr=(STATE.consultoria||[]).reduce(function(a,r){return a+(r.status==='ativo'?(MOD[r.mod]||0):0);},0);
+  var riscoAlto=(STATE.rh||[]).filter(function(r){return r.risco==='Alto';}).length;
+  var nr1Crit=(STATE.nr1||[]).filter(function(r){var lv=riskNR1(r.grav,r.prob);return lv=='Alto'||lv=='Crítico';}).length;
+  var popsPend=(STATE.pops||[]).filter(function(r){return r.st!=='OK';}).length;
+  function c(v,l,acc){return '<div class="card'+(acc?' accent':'')+'"><div class="v">'+v+'</div><div class="l">'+l+'</div></div>';}
+  return '<div class="cards">'+
+    c(f?money(f):'—','Faturamento mensal',true)+
+    c(f?pct(folhaP):'—','Folha / faturamento')+
+    c(f?pct(cmvP):'—','CMV / faturamento')+
+    c(STATE.dados.ticketMeta?money(STATE.dados.ticketMeta):'—','Meta de ticket')+
+    c(money(mrr),'MRR da consultoria')+
+    c(riscoAlto,'Colaboradores em risco alto')+
+    c(nr1Crit,'Riscos NR-1 (alto/crítico)')+
+    c(popsPend,'POPs pendentes')+
+  '</div>'+
+  '<div class="panel"><b style="color:var(--primary-d)">Leitura rápida</b><p class="hint">'+
+   (f? (folhaP>20?'⚠ Folha acima de 20% — ação imediata. ':folhaP>15?'• Folha em atenção (acima de 15%). ':'✓ Folha saudável. ')
+     :'Defina o faturamento na aba Dados para ativar os cálculos. ')+
+   (nr1Crit>0?('⚠ '+nr1Crit+' risco(s) psicossocial(is) alto/crítico — exige plano de ação no PGR. '):'✓ Riscos psicossociais sob controle. ')+
+   (riscoAlto>0?('⚠ '+riscoAlto+' colaborador(es) com risco alto de saída. '):'')+
+   '</p></div>';
+}
+
+/* ---- TABLE genérica ---- */
+function renderTable(sec){
+  var rows=STATE[current]||[];
+  var h='<div class="panel"><div class="toolbar"><span class="hint">'+rows.length+' registro(s)</span>'+
+        '<button class="btn alt sm" onclick="addRow()">+ Adicionar linha</button></div>';
+  if(sec.summary){h+=sec.summary(rows);}
+  h+='<table><thead><tr>';
+  sec.cols.forEach(function(col){h+='<th>'+col.l+'</th>';});
+  h+='<th></th></tr></thead><tbody>';
+  rows.forEach(function(r,i){
+    h+='<tr data-i="'+i+'">';
+    sec.cols.forEach(function(col){h+='<td data-k="'+col.k+'">'+cell(col,r,i)+'</td>';});
+    h+='<td><button class="del" onclick="delRow('+i+')">✕</button></td></tr>';
+  });
+  h+='</tbody></table></div>';
+  return h;
+}
+function cell(col,r,i){
+  if(col.t==='calc')return col.fn(r);
+  if(col.t==='select'){var o='';col.opt.forEach(function(v){o+='<option '+(r[col.k]===v?'selected':'')+'>'+v+'</option>';});
+    return '<select onchange="setCell('+i+',\''+col.k+'\',this.value)">'+o+'</select>';}
+  return '<input type="'+col.t+'" value="'+esc(r[col.k])+'" oninput="setCell('+i+',\''+col.k+'\',this.value)">';
+}
+function setCell(i,k,v){
+  STATE[current][i][k]=v;save();
+  // recomputa apenas as células calculadas da linha
+  var sec=SECTIONS[current];
+  var tr=document.querySelector('tr[data-i="'+i+'"]');
+  if(tr){sec.cols.forEach(function(col){if(col.t==='calc'){var td=tr.querySelector('td[data-k="'+col.k+'"]');if(td)td.innerHTML=col.fn(STATE[current][i]);}});}
+}
+function addRow(){var sec=SECTIONS[current];var row={};sec.cols.forEach(function(c){if(c.t!=='calc')row[c.k]=(c.t==='select'?c.opt[0]:'');});STATE[current].push(row);save();render();}
+function delRow(i){STATE[current].splice(i,1);save();render();}
+
+/* ---- export / import ---- */
+function exportData(){var blob=new Blob([JSON.stringify(STATE,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='artblend_sistema_dados.json';a.click();}
+function importData(){document.getElementById('fileIn').click();}
+document.getElementById('fileIn').onchange=function(e){var f=e.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){try{STATE=JSON.parse(rd.result);save();render();alert('Dados importados.');}catch(err){alert('Arquivo inválido.');}};rd.readAsText(f);};
+
+render();
+</script>
+</body>
+</html>

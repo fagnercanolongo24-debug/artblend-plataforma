@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liderança & Gestão de Alta Performance · Metodologia ArtBlend</title>
+<style>
+  :root{
+    --bg:#F4F7F6; --card:#FFFFFF; --border:#DCE6E2; --text:#0F3D3B; --muted:#5E7873;
+    --soft:#DCEEE9; --gold:#B8902F; --gold-soft:#F3EAD3;
+    --script:#2B5F7A; --script-soft:#E4EFF3;
+    --template:#A45C2C; --template-soft:#F5E6D8;
+    --exerc:#6B4E9E; --exerc-soft:#EDE8F5;
+    --caso:#14514B; --caso-soft:#DCEEE9;
+    --warn:#B23B2E; --warn-soft:#FBE9E6;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.65;padding:0 0 60px;}
+  .cover{background:linear-gradient(135deg,#0F3D3B,#1F6F65);color:#fff;padding:70px 40px;text-align:center;}
+  .cover .kick{font-size:12px;letter-spacing:3px;text-transform:uppercase;opacity:.9;font-weight:700;color:#EAD9A0;}
+  .cover h1{font-size:34px;font-weight:800;margin:14px 0 10px;}
+  .cover p{font-size:15px;opacity:.9;max-width:560px;margin:0 auto;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px;}
+  .sec{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px 30px;margin-top:22px;}
+  .sec .num{display:inline-block;background:var(--soft);color:#0F3D3B;font-weight:800;font-size:12px;letter-spacing:1px;padding:4px 10px;border-radius:20px;margin-bottom:10px;}
+  .sec h2{font-size:20px;font-weight:800;margin-bottom:12px;color:var(--text);}
+  .sec h3{font-size:14px;font-weight:700;margin:18px 0 8px;color:#1F6F65;}
+  .sec p{font-size:14px;color:var(--text);margin-bottom:8px;}
+  .sec ul, .sec ol{margin:8px 0 8px 20px;font-size:14px;}
+  .sec li{margin-bottom:5px;}
+  .muted{color:var(--muted);font-size:13px;}
+  .box{background:var(--soft);border-radius:10px;padding:14px 16px;margin:12px 0;font-size:13.5px;}
+  .box-gold{background:var(--gold-soft);border-left:3px solid var(--gold);border-radius:10px;padding:14px 16px;margin:12px 0;font-size:13.5px;color:#5C4718;}
+  .box-gold b{color:#8A6A1F;}
+  .box .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:20px;color:#fff;margin-bottom:8px;}
+  .box.gato{background:var(--gold-soft);border:1px solid #E6D08A;color:#5C4718;} .box.gato .tag{background:var(--gold);}
+  .box.script{background:var(--script-soft);border:1px solid #B9D2DE;color:#17323F;} .box.script .tag{background:var(--script);}
+  .box.template{background:var(--template-soft);border:1px solid #E3C4A6;color:#4A2E14;} .box.template .tag{background:var(--template);}
+  .box.exerc{background:var(--exerc-soft);border:1px solid #D2C5E8;color:#3A2A5C;} .box.exerc .tag{background:var(--exerc);}
+  .box.caso{background:var(--caso-soft);border:1px solid #B9D9D0;color:#0F3D3B;} .box.caso .tag{background:var(--caso);}
+  .box.warn{background:var(--warn-soft);border:1px solid #EEC4BD;color:#6B231B;} .box.warn .tag{background:var(--warn);}
+  .box-gold .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:20px;color:#fff;margin-bottom:8px;background:var(--gold);}
+  .box .say{background:#fff;border-left:3px solid var(--script);border-radius:6px;padding:9px 13px;margin:8px 0 0;font-style:italic;}
+  .box .say::before{content:"🗣 ";font-style:normal;}
+  .chain{text-align:center;font-weight:800;color:#0F3D3B;background:var(--soft);border:1px solid var(--border);border-radius:10px;padding:12px 10px;margin:14px 0;font-size:13px;}
+  .fase{display:flex;gap:12px;align-items:flex-start;margin:10px 0;padding:12px 14px;border-left:3px solid #1F6F65;background:var(--bg);border-radius:6px;}
+  .fase b{color:#0F3D3B;}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0;}
+  th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;}
+  th{background:var(--soft);color:#0F3D3B;font-weight:700;}
+  .footer{text-align:center;margin-top:34px;font-size:12px;color:var(--muted);}
+  @media print{
+    body{padding:0;background:#fff;}
+    .cover{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+    .sec{break-inside:avoid;border:1px solid #ddd;}
+    .box.gato,.box.script,.box.template,.box.exerc,.box.caso,.box.warn{break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="kick">Metodologia ArtBlend · Formação de Liderança</div>
+  <h1>Liderança & Gestão de Alta Performance</h1>
+  <p>Curso para donos e gerentes de restaurante sobre como fazer a equipe entregar mais resultado — através do multiplicador de impacto do gestor, indicadores, reuniões produtivas, estrutura de liderança, decisões rápidas, delegação com controle e avaliação contínua de desempenho.</p>
+</div>
+
+<div class="wrap">
+
+  <div class="sec">
+    <span class="num">MÓDULO 0</span>
+    <h2>O Restaurante Como Processo de Produção</h2>
+    <p>Por mais que pareça um ofício artesanal, um restaurante é uma fábrica. Não no sentido pejorativo — no sentido técnico: é uma operação que repete, turno após turno, um processo de produção com etapas encadeadas. Entender isso é o primeiro passo para gerir com método em vez de gerir só por instinto e adrenalina.</p>
+    <h3>A meta de qualquer etapa de produção</h3>
+    <p>Toda etapa de um processo produtivo — na indústria ou na cozinha — tem a mesma meta: entregar com <b>qualidade aceitável</b>, no <b>prazo certo</b>, pelo <b>menor custo possível</b>. Não é qualidade máxima a qualquer custo, nem velocidade máxima a qualquer risco de erro. É o equilíbrio consciente dos três ao mesmo tempo — decidido de propósito, não por acidente.</p>
+    <div class="box">Um prato que sai da cozinha não é um evento isolado. É o resultado final de uma linha de produção com etapas: <b>compra e recebimento do insumo → mise en place → cocção → montagem → conferência → entrega no salão.</b> Cada uma dessas etapas tem seu próprio padrão de qualidade, seu próprio prazo e seu próprio custo — e um erro em qualquer etapa aparece lá na ponta, no prato que chega frio, errado ou atrasado na mesa do cliente.</div>
+    <div class="chain">COMPRA/RECEBIMENTO → MISE EN PLACE → COCÇÃO → MONTAGEM → CONFERÊNCIA → ENTREGA NO SALÃO</div>
+    <div class="box exerc"><span class="tag">Exercício do módulo</span><p>Desenhe a linha de produção da sua cozinha, etapa por etapa. Para cada etapa, escreva em uma linha: qual é o padrão de qualidade esperado, qual o prazo (tempo) e qual o custo alvo. Se em alguma etapa você não souber responder as três coisas de cabeça, esse é o seu ponto cego — é ali que o padrão está na cabeça de uma pessoa só, não documentado.</p></div>
+    <h3>Gerir é fazer o processo se repetir sem depender de herói</h3>
+    <p>A maioria dos gestores de restaurante mede o próprio valor pelo quanto correu no turno: quantos incêndios apagou, quantas mesas resolveu pessoalmente, quantas horas ficou de pé. Isso é <b>atividade</b>, não gestão. Gestão de alta performance é garantir que a linha de produção inteira — todas as etapas, em todos os turnos — entregue com o padrão certo mesmo quando o gestor não está debruçado em cima de cada uma delas.</p>
+    <div class="box-gold"><span class="tag">Destaque</span><b>A pergunta certa não é "o que eu fiz hoje". É "o que a minha linha de produção entregou hoje — e isso aconteceria com o mesmo padrão mesmo se eu tivesse tirado folga?"</b></div>
+    <h3>A régua errada e a régua certa para medir um gestor</h3>
+    <p>Quantos pratos um gestor finalizou com as próprias mãos, ou quantas mesas ele mesmo atendeu, não mede gestão nenhuma — mede um cozinheiro ou um garçom disfarçado de gestor. A régua certa é outra: o que o turno inteiro entregou, no padrão da casa, nos momentos em que o gestor estava por perto e também nos momentos em que não estava. Um gerente de salão que passa o turno inteiro carregando prato pessoalmente pode parecer o mais ocupado da casa — e ao mesmo tempo ser o pior gestor, porque enquanto ele carrega prato, ninguém está cuidando de padrão, treinamento ou indicador.</p>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>A cadeira mais perigosa da casa é a do ex-melhor cozinheiro (ou melhor garçom) promovido a gestor. Ele foi promovido exatamente pela habilidade de produzir com as próprias mãos — e continua se avaliando pela régua antiga, de quando não gerenciava ninguém: velocidade e qualidade da própria produção. Enquanto ele não trocar essa régua pela régua de gestor — o que o time inteiro entrega, e não o que ele entrega sozinho —, vai competir pela mesma hora de turno entre "cozinhar bem" e "gerir bem", e a gestão quase sempre perde essa disputa porque cozinhar dá alívio imediato e gerir dá resultado só depois.</p></div>
+    <p class="muted">Os módulos seguintes destrincham, um a um, os instrumentos de trabalho de um gestor de alta performance: o multiplicador de impacto do gestor, indicadores, reuniões, estrutura de liderança, decisão, delegação, avaliação e motivação de equipe.</p>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 1</span>
+    <h2>Multiplicador de Impacto do Gestor</h2>
+    <p>Se o resultado do gestor está no que o turno inteiro entrega, não no que ele produz com as próprias mãos (Módulo 0), a pergunta prática seguinte é: onde vale mais a pena gastar a hora escassa da agenda? Nem toda hora de trabalho do gestor rende o mesmo depois de gasta — algumas ações continuam produzindo resultado muito depois de feitas, outras resolvem um problema e evaporam no mesmo instante. É esse contraste que chamamos de <b>multiplicador de impacto</b>.</p>
+    <div class="box">Pense em duas horas idênticas na agenda do gestor. Na primeira, ele resolve pessoalmente um prato que voltou errado da cozinha. Na segunda, ele senta com o cozinheiro responsável, mostra onde o método falhou e confere o próximo prato igual saindo certo. As duas horas custaram exatamente o mesmo tempo de agenda — mas só a segunda continua rendendo resultado depois que o gestor for embora, prato após prato, turno após turno. Um bom gestor de restaurante vale mais pela quantidade de trabalho alheio que ele destrava do que pelo que produz sozinho.</div>
+    <h3>O que multiplica e o que não multiplica</h3>
+    <p>Treinar um cozinheiro uma única vez, direito, impacta todos os turnos futuros dele — inclusive quando esse cozinheiro treinar o próximo contratado. É uma <b>ação multiplicadora</b>: uma hora de trabalho do gestor vira centenas de horas de trabalho correto no futuro. Resolver pessoalmente, hoje, o mesmo erro desse cozinheiro pela quinta vez é uma <b>ação pontual</b>: a hora do gestor resolve só aquele prato daquele turno, e o erro volta na semana seguinte.</p>
+    <table>
+      <tr><th>Atividade do gestor</th><th>Tipo de impacto</th><th>Por quê</th></tr>
+      <tr><td>Treinar alguém em um procedimento novo</td><td>Multiplicadora</td><td>O efeito se repete em todo turno futuro dessa pessoa, sem o gestor precisar estar presente</td></tr>
+      <tr><td>Criar um padrão escrito (ficha técnica, checklist, script de atendimento)</td><td>Multiplicadora</td><td>Evita a mesma dúvida ou decisão se repetir toda semana, para qualquer pessoa que consultar o padrão</td></tr>
+      <tr><td>Delegar uma tarefa no estágio certo de acompanhamento (Módulo 6)</td><td>Multiplicadora</td><td>Libera a agenda do gestor para outras ações multiplicadoras, sem perder controle do resultado</td></tr>
+      <tr><td>Dar feedback específico na causa de um erro recorrente</td><td>Multiplicadora</td><td>Corrige o comportamento na origem, em vez de corrigir o mesmo sintoma toda vez que ele aparece</td></tr>
+      <tr><td>Resolver pessoalmente um problema pontual de um cliente</td><td>Pontual</td><td>Resolve só aquele caso; não muda nada no turno seguinte</td></tr>
+      <tr><td>Fazer de novo uma tarefa que já era de outra pessoa, "porque é mais rápido"</td><td>Pontual</td><td>Tira a chance da pessoa aprender e mantém o gestor refém daquela tarefa para sempre</td></tr>
+      <tr><td>Apagar o mesmo incêndio operacional toda semana sem investigar a causa</td><td>Pontual</td><td>Consome a agenda do gestor sem reduzir a frequência do problema</td></tr>
+    </table>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>Não é que o gestor não saiba reconhecer uma ação multiplicadora — quase todo mundo, se perguntado, acerta a resposta na teoria. O que acontece é que a ação pontual dá <b>alívio imediato</b> (o incêndio apaga na hora, o problema some da vista) e a ação multiplicadora só paga o retorno <b>semanas depois</b>. Sob pressão de turno, o cérebro escolhe sempre o alívio imediato. Por isso a auditoria de agenda tem que ser um hábito marcado no calendário, não uma boa intenção — porque, no calor do turno, a escolha errada é sempre a mais natural.</p></div>
+    <div class="box template"><span class="tag">Template — Auditoria Semanal do Multiplicador de Impacto</span><p>Liste cada bloco de tempo da sua última semana de trabalho (turno a turno). Para cada bloco, classifique: <b>Multiplicadora</b> (treinar, padronizar, delegar com acompanhamento, decisão que evita repetição do problema) ou <b>Pontual</b> (resolver pessoalmente o que já era de outra pessoa, apagar o mesmo incêndio de sempre). Some as horas de cada coluna e calcule o percentual. Meta realista para começar a virar o jogo: sair de baixo de 20% de ações multiplicadoras para acima de 40% em um trimestre — não para 100%, porque incêndio operacional sempre vai existir.</p></div>
+    <div class="box caso"><span class="tag">Caso</span><p>Um gerente registrou a própria semana de 54 horas: 6h treinando um novo cozinheiro, 4h criando uma ficha técnica padronizada, 6h em reunião semanal de decisão e 38h resolvendo problemas pontuais no salão e na cozinha. Ações multiplicadoras: 6+4+6 = 16h → <b>30% da semana</b>. As outras 38h (70%) foram ações pontuais. Sem mudar a carga total de trabalho, só reorganizando prioridades — delegando parte das 38h para o sub-chefe e o capitão de salão —, ele conseguiu, em dois meses, inverter a proporção para perto de 45% de ações multiplicadoras, e os incêndios da operação começaram a cair porque as causas raiz finalmente estavam sendo tratadas.</p></div>
+    <h3>Auditoria de agenda</h3>
+    <p>Uma vez por mês vale a pena o gestor olhar para a própria semana e classificar, com honestidade, quanto tempo foi para ações multiplicadoras (treinar, padronizar, delegar bem, reunião de decisão) e quanto foi para "apagar incêndio" de retorno pontual. Não existe zero incêndio — restaurante é operação viva —, mas se a proporção estiver sempre 90% incêndio e 10% ação multiplicadora, a equipe nunca vai evoluir além do que o gestor consegue segurar sozinho.</p>
+    <div class="box-gold"><span class="tag">Destaque</span><b>Antes de fazer uma tarefa, pergunte: "essa hora que vou gastar agora vai valer só para hoje, ou vai valer para todos os próximos turnos?"</b> Esse é o filtro mais simples para decidir onde investir o tempo escasso de quem lidera.</div>
+    <div class="box exerc"><span class="tag">Exercício do módulo</span><p>Aplique o template acima na sua própria semana passada, sem embelezar o resultado. Depois escolha apenas <b>uma</b> ação pontual que se repete toda semana e responda: quem poderia assumir essa tarefa se recebesse treino e acompanhamento adequados nas próximas duas semanas?</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 2</span>
+    <h2>Indicadores de Gestão do Restaurante</h2>
+    <p>Indicadores operacionais do dia a dia da cozinha e do salão (tempo de preparo, desperdício, não conformidades) já têm tratamento próprio na metodologia de processos da casa. Este módulo trata de um nível acima: os indicadores que mostram se a <b>gestão da equipe</b> está funcionando — se as pessoas estão produzindo bem, e se o gestor está enxergando os problemas antes deles virarem crise.</p>
+    <h3>Regra 1 — indicador nunca sozinho, sempre em par</h3>
+    <p>Todo indicador de produtividade tem um "gêmeo" de qualidade. Medir só um dos dois ensina a equipe a otimizar o número errado — por exemplo, empurrar velocidade e derrubar qualidade sem que ninguém perceba no indicador isolado.</p>
+    <table>
+      <tr><th>Indicador de produtividade</th><th>Par de qualidade que precisa acompanhar</th></tr>
+      <tr><td>Pratos entregues por hora, por cozinheiro</td><td>Taxa de prato devolvido ou refeito</td></tr>
+      <tr><td>Mesas atendidas por garçom no turno</td><td>Nota de atendimento / reclamações daquele garçom</td></tr>
+      <tr><td>Turnos cobertos sem falta de equipe</td><td>Horas extras geradas para cobrir a escala</td></tr>
+    </table>
+    <h3>Regra 2 — indicador líder prevê, indicador atrasado confirma</h3>
+    <p><b>Indicador líder</b> é aquele que se move antes do problema acontecer — dá tempo do gestor agir. <b>Indicador atrasado</b> é aquele que só aparece depois que o problema já aconteceu — serve para confirmar o diagnóstico, não para evitá-lo. Um painel de gestão saudável olha os dois, mas dá mais peso ao líder, porque é nele que ainda dá para mudar o resultado.</p>
+    <table>
+      <tr><th>Indicador líder (prevê)</th><th>Indicador atrasado (confirma)</th></tr>
+      <tr><td>Nível de estoque de um insumo-chave caindo</td><td>Prato saindo do cardápio no meio do turno por falta de insumo</td></tr>
+      <tr><td>Tempo de fila ou de espera crescendo ao longo do turno</td><td>Avaliação negativa em plataforma pública de avaliação ou reclamação formal do cliente</td></tr>
+      <tr><td>Faltas ou atrasos recorrentes de um mesmo funcionário</td><td>Pedido de demissão ou desligamento por justa causa</td></tr>
+      <tr><td>Queda nas reservas confirmadas para os próximos dias</td><td>Faturamento do mês fechado abaixo da meta</td></tr>
+      <tr><td>Aumento de pratos devolvidos numa mesma estação da cozinha</td><td>Nota de qualidade caindo na avaliação mensal do cardápio</td></tr>
+    </table>
+    <div class="box">Um gestor que só olha indicador atrasado está sempre dirigindo pelo retrovisor: reage ao que já aconteceu e não teve chance de evitar. Um gestor que monitora os líderes toda semana consegue agir na causa — repor o estoque, remanejar a escala, revisar o padrão daquela estação — antes que o cliente sinta o problema.</div>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>Nem todo número que se move antes do problema é de fato um indicador líder — muitas vezes é só um indicador atrasado que chega um pouco mais cedo, e a diferença entre os dois não é o timing, é a <b>ação disponível</b>. O teste real é: "se esse número piorar hoje, eu ainda tenho tempo de mudar o resultado de amanhã?" Se a resposta for sim, é líder de verdade. Se a resposta for "não, só vou saber que já era tarde com alguns dias de antecedência a mais", esse indicador só correlaciona com o problema — ele não te dá controle sobre ele. É esse teste, não a intuição, que separa um painel de gestão útil de um painel bonito e inútil.</p></div>
+    <div class="box template"><span class="tag">Template — Painel de Indicadores da Semana</span><p>Para cada frente da operação, registre três colunas: <b>Indicador líder</b> (o que olho hoje) · <b>Indicador atrasado</b> (o que ele prediz) · <b>Ação se o líder piorar</b> (o que faço antes do atrasado confirmar o problema). Revise esse painel na reunião de alinhamento semanal (Módulo 3) — um indicador líder sem uma ação associada é só um número decorativo.</p></div>
+    <div class="box caso"><span class="tag">Caso</span><p>Um restaurante monitorava o nível de estoque de um insumo-chave (indicador líder) e viu a cobertura cair de 6 para 2 dias em uma semana de alta demanda. Como a ação associada já estava definida no painel ("reposição emergencial abaixo de 3 dias de cobertura"), o gestor fez o pedido extra na hora — sem esperar o prato sumir do cardápio no meio do turno (o indicador atrasado que isso teria gerado). Resultado: zero rupturas de cardápio naquela semana, contra 3 rupturas registradas no mês anterior, quando ninguém olhava o estoque até faltar.</p></div>
+    <div class="box exerc"><span class="tag">Exercício do módulo</span><p>Escolha um problema recorrente da sua operação (ruptura de insumo, fila de espera, falta de funcionário). Usando o template acima, defina um par de indicador líder e atrasado para esse problema específico e escreva a ação concreta que você tomaria se o líder piorasse amanhã.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 3</span>
+    <h2>Reuniões Eficazes</h2>
+    <p>Reunião tem fama de perda de tempo porque a maioria é malfeita, não porque reunião seja ruim por natureza. Ela é, na prática, a principal ferramenta de trabalho de um gestor — é onde informação circula, gente se alinha e decisão é tomada. O problema nunca é "ter reunião", é reunião sem propósito claro e sem final definido.</p>
+    <h3>Dois tipos de reunião — e por que não devem se misturar</h3>
+    <div class="fase"><b>Reunião de rotina:</b> acontece sempre no mesmo horário, existe para trocar informação e manter todo mundo alinhado sobre o funcionamento do dia a dia. Termina no horário previsto, mesmo que sobre assunto — o que sobrar vira pauta da próxima ou de uma reunião de decisão separada.</div>
+    <div class="fase"><b>Reunião de decisão:</b> convocada para resolver um problema específico. Não tem horário fixo — acontece quando o problema aparece — e só termina quando a decisão foi tomada e um responsável foi definido para executá-la.</div>
+    <p>Os três encontros abaixo são a espinha dorsal da rotina de gestão de um restaurante — dois de rotina e um individual:</p>
+    <h3>1. Briefing pré-turno</h3>
+    <div class="box"><b>Objetivo:</b> alinhar a equipe antes de abrir a casa. <b>Duração:</b> 5 a 10 minutos, em pé. <b>Pauta:</b> reservas e eventos do dia, pratos ou insumos em falta, ajustes do cardápio, um lembrete de padrão (higiene, atendimento, segurança). <b>Não fazer:</b> resolver problema de uma pessoa só na frente de todo mundo — isso vai para a individual.</div>
+    <h3>2. Reunião de alinhamento semanal</h3>
+    <div class="box"><b>Objetivo:</b> revisar os indicadores da semana e decidir ajustes de médio prazo com a liderança da casa (cozinha e salão). <b>Duração:</b> 30 a 45 minutos, com pauta definida com antecedência. <b>Pauta:</b> indicadores de produtividade e qualidade (Módulo 2), problemas recorrentes identificados nos briefings, decisões pendentes. <b>Fecha sempre com:</b> lista de decisões tomadas, com responsável e prazo.</div>
+    <h3>3. Reunião individual de acompanhamento</h3>
+    <div class="box"><b>Objetivo:</b> o encontro mais valioso da rotina de gestão. É o único espaço da semana ou do mês reservado para uma conversa 1 a 1 entre o gestor e cada pessoa-chave da equipe. <b>Regra central: quem fala primeiro é a pessoa, não o gestor — e é ela quem traz os assuntos que a conversa vai cobrir.</b> Ela chega com o que está travando o trabalho dela, e o gestor usa o tempo para escutar, destravar e dar feedback direto. <b>Frequência:</b> periódica e protegida na agenda — não é a reunião que sai da grade quando o turno aperta, porque é justamente ali que problema pequeno é pego antes de virar demissão ou crise de qualidade.</div>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>A ordem importa mais do que parece: se o gestor abre a individual falando primeiro ("preciso falar sobre aquele erro de sexta"), o tempo e a energia da conversa já ficam ocupados nisso, e o que a pessoa trazia — muitas vezes um problema estrutural maior — acaba espremido nos últimos minutos ou nem chega a ser dito. Deixar a pessoa começar produz dois efeitos: ela sente que aquele tempo é dela de verdade (o que aumenta a sinceridade nas próximas conversas), e o gestor descobre problemas que não apareceriam se tivesse começado ditando o assunto. O ponto do gestor sempre cabe depois — o caminho inverso raramente funciona tão bem.</p></div>
+    <div class="box script"><span class="tag">Script — Abrindo a individual</span><p class="say">Antes de eu trazer qualquer coisa: como você está com o trabalho essa semana? Tem algo te travando, alguma decisão que você precisa que eu tome, ou algo que eu deveria estar sabendo e não estou?</p><p>Só depois de esgotar a pauta da pessoa, o gestor entra com seus próprios pontos — incluindo feedback sobre algo que precisa melhorar.</p></div>
+    <div class="box-gold"><span class="tag">Destaque</span><b>Regra de ouro de toda reunião:</b> se ela não tem um propósito que justifique tirar todo mundo do posto de trabalho, e não termina em decisão registrada ou próximo passo combinado, ela não deveria existir.</div>
+    <div class="box exerc"><span class="tag">Exercício do módulo</span><p>Na sua próxima reunião individual, não fale nada sobre os seus próprios assuntos nos primeiros 5 minutos — apenas faça a pergunta do script acima e escute. Anote se algo surgiu que você não teria descoberto perguntando do seu jeito de sempre.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 4</span>
+    <h2>Amplitude de Controle e Estrutura de Liderança</h2>
+    <p>Todo gestor tem um limite de quantas pessoas consegue supervisionar de verdade — não só "saber que existem", mas acompanhar de perto, treinar, dar feedback e conhecer o momento de cada uma. Esse limite chama-se <b>amplitude de controle</b>, e ignorá-lo é uma das causas mais comuns de operação que parece bem liderada no papel e desanda na prática.</p>
+    <h3>A faixa que funciona</h3>
+    <p>Supervisão direta funciona melhor numa faixa de <b>6 a 8 subordinados diretos</b> por gestor. Menos que isso desperdiça a capacidade do gestor — ele tem tempo sobrando e a equipe sente falta de autonomia porque ele acaba se metendo demais em cada detalhe. Mais que 10 pessoas reportando direto para a mesma pessoa torna impossível acompanhar de verdade: o gestor vira um distribuidor de tarefas superficial, não um líder que conhece o momento de cada um.</p>
+    <table>
+      <tr><th>Subordinados diretos</th><th>O que costuma acontecer</th></tr>
+      <tr><td>Menos de 6</td><td>Capacidade de liderança ociosa; risco de microgestão por falta de outra coisa para fazer</td></tr>
+      <tr><td>6 a 8</td><td>Faixa saudável: dá para conhecer o momento de cada pessoa, treinar e ainda sobrar tempo para ações multiplicadoras (Módulo 1)</td></tr>
+      <tr><td>Mais de 10</td><td>Acompanhamento vira superficial; problemas pequenos só são percebidos quando já viraram grandes</td></tr>
+    </table>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>A faixa de 6 a 8 não é uma regra fixa de contagem — é uma aproximação para uma coisa mais difícil de medir: quanto de acompanhamento cada pessoa exige. Um líder com 8 pessoas todas em autonomia plena (Módulo 6), que só precisam de acompanhamento pelo indicador, consegue liderar bem mais do que 8. Um líder com 6 pessoas, sendo 4 delas em aprendizado recente, já está sobrecarregado. Antes de contar "quantas cabeças", conte "quantas dessas pessoas ainda dependem de mim de perto" — é esse número que realmente define o limite.</p></div>
+    <h3>Aplicando à estrutura do restaurante</h3>
+    <p>Uma casa pequena, com uma cozinha de 5 pessoas e um salão de 5 pessoas, ainda cabe dentro da faixa saudável com um chef e um gerente de salão se reportando direto ao dono ou ao gestor geral. O problema aparece no crescimento: uma casa com 3 turnos, cozinha quente, cozinha fria, confeitaria, salão e bar facilmente passa de 25 a 30 pessoas na operação. Se todo mundo continuar reportando direto para uma única pessoa, essa pessoa não vai conseguir liderar — só vai conseguir apagar incêndio.</p>
+    <div class="box-gold"><span class="tag">Destaque</span><b>Sinal de que está na hora de criar um nível intermediário de liderança:</b> o gestor geral não sabe, sem perguntar, como está o desempenho de metade da equipe essa semana. Quando isso acontece, a resposta não é o gestor trabalhar mais horas — é criar subchefs, capitão de salão ou líder de turno, cada um com sua própria faixa de 6 a 8 pessoas, reportando à liderança geral.</div>
+    <h3>Gestão como esporte de equipe: a "equipe de equipes"</h3>
+    <p>Num restaurante com múltiplos setores e turnos, cada líder de setor — cozinha, salão, bar — deveria funcionar como o técnico do próprio time, não como uma ilha isolada. Cozinha e salão que só se falam através de bilhete de comanda e nunca se sentam juntos formam <b>silos</b>: cada um otimiza o próprio resultado e empurra o problema para o outro lado (a cozinha atrasa e culpa o salão por vender demais; o salão promete prazo que a cozinha não consegue cumprir).</p>
+    <p>A estrutura que funciona é a de <b>equipe de equipes</b>: cada setor é um time coeso internamente, e os times se conectam entre si através do gestor geral — na reunião de alinhamento semanal (Módulo 3), nos indicadores compartilhados (Módulo 2) e nas decisões que afetam mais de um setor (Módulo 5). O gestor geral não precisa microgerenciar a cozinha e o salão separadamente; precisa garantir que os dois times conversam entre si na frequência certa.</p>
+    <div class="box caso"><span class="tag">Caso</span><p>Uma casa cresceu de uma operação de 12 pessoas para 3 turnos com cozinha quente, cozinha fria, confeitaria, salão e bar — 29 pessoas na escala. Enquanto todos reportavam direto ao gestor geral, metade da equipe só era "vista" de fato quando dava problema. A solução não foi o gestor trabalhar mais: foi criar 4 líderes de setor (cada um com 6 a 8 pessoas reportando direto), todos se encontrando com o gestor geral na reunião semanal. Em três meses, o número de problemas que chegavam direto ao dono caiu por volta de 60%, porque a maioria passou a ser resolvida no nível do líder de setor antes de virar crise.</p></div>
+    <div class="box exerc"><span class="tag">Exercício do módulo</span><p>Desenhe o organograma real da sua operação hoje — quem reporta direto para quem. Marque em vermelho qualquer líder com mais de 8 pessoas reportando direto a ele. Para cada marca vermelha, pergunte: essa pessoa está de fato acompanhando o desempenho de cada um, ou só distribuindo tarefa?</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 5</span>
+    <h2>Tomada de Decisão</h2>
+    <p>Na cozinha e no salão, decisão não espera. Cliente reclamando, prato em falta no meio do serviço, funcionário que não apareceu — quase nunca dá para esperar ter 100% de certeza. Gestão de alta performance treina o gestor para decidir bem e rápido, mesmo com informação incompleta, sabendo quando resolver na hora e quando escalar.</p>
+    <h3>O modelo de decisão em 3 passos</h3>
+    <div class="fase"><b>1. Escuta rápida:</b> antes de decidir algo que afeta a equipe, abrir espaço curto para quem está mais perto do problema falar o que pensa — inclusive discordando do gestor. É rápido, não é assembleia.</div>
+    <div class="fase"><b>2. Dono decide:</b> a pessoa com autoridade clara sobre aquele assunto bate o martelo. Não precisa ser unânime, e não deveria demorar esperando consenso — quem tem a decisão nas mãos (o gestor, ou quem ele delegou aquela decisão) resolve e segue.</div>
+    <div class="fase"><b>3. Execução unificada:</b> a partir do momento que a decisão saiu, todo mundo — inclusive quem discordou na escuta rápida — executa no mesmo ritmo, como se a ideia fosse própria. Discordar durante a escuta é saudável; remar contra ou executar de má vontade depois de decidido, não.</div>
+    <div class="box">Evite o erro mais comum: um grupo sem dono claro da decisão, tentando agradar todo mundo, que só decide quando o problema já passou. Reunião que "concorda em quase tudo" mas não define quem decide de fato costuma travar exatamente o que devia resolver rápido.</div>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>Na prática, quase nenhuma decisão travada trava por falta de informação — trava por falta de clareza sobre <b>quem</b> tem autoridade para decidir. Quando duas pessoas acham que a decisão é delas (ou quando ninguém tem certeza se é sua), o assunto fica indo e voltando até o problema resolver-se sozinho, geralmente da pior forma. Antes de discutir o mérito de qualquer decisão recorrente, defina por escrito quem é o dono dela — mesmo que a resposta mude depois. Um dono claro que erra às vezes ainda produz mais resultado do que um comitê que acerta tarde.</p></div>
+    <div class="box warn"><span class="tag">Risco comum</span><p>Reverter uma decisão já tomada, sem um fato novo que justifique, é mais caro do que parece: quem executou de boa-fé aprende que discordar depois funciona melhor do que apoiar na hora — e a etapa 3 do modelo (execução unificada) desmorona nas próximas decisões. Se a decisão precisa mudar, deixe explícito o que mudou desde a decisão original; sem isso, o time aprende a esperar a decisão "descansar" antes de executar de verdade.</p></div>
+    <h3>Decidir na hora ou escalar?</h3>
+    <table>
+      <tr><th>Decidir na hora (sem esperar aprovação)</th><th>Escalar para o gestor/dono</th></tr>
+      <tr><td>Afeta a experiência de um cliente específico, agora (mesa, prato, reclamação pontual)</td><td>Envolve risco financeiro relevante ou mudança de contrato</td></tr>
+      <tr><td>Está dentro do padrão já combinado da casa</td><td>Muda um padrão da casa que vale para todos os próximos casos</td></tr>
+      <tr><td>O custo de esperar é maior que o custo de errar</td><td>É a segunda ou terceira vez que o mesmo problema se repete (sinal de causa maior)</td></tr>
+    </table>
+    <div class="box-gold"><span class="tag">Destaque</span><b>Informação incompleta é a regra, não a exceção.</b> Esperar ter certeza total antes de agir já é, na prática, a decisão de não decidir — e no meio de um turno cheio, essa costuma ser a pior opção disponível.</div>
+    <div class="box script"><span class="tag">Script — Dando autoridade de decisão</span><p class="say">A partir de agora, decisões sobre [assunto específico, ex.: troca de prato do dia por falta de insumo] são suas — não precisa me consultar antes. Se algo sair diferente do esperado, a gente ajusta juntos depois, sem problema. O que eu preciso é que, quando decidir, você me avise no fim do turno o que foi e por quê.</p></div>
+    <div class="box exerc"><span class="tag">Exercício do módulo</span><p>Liste três decisões que hoje sempre sobem até você. Para cada uma, decida: ela deveria continuar subindo, ou pode ser delegada com um critério claro de quando decidir sozinho e quando escalar? Escreva esse critério em uma frase.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 6</span>
+    <h2>Delegação Eficaz</h2>
+    <p>Delegar mal tem dois extremos igualmente ruins: o gestor que não solta nada e vira gargalo de tudo, e o gestor que solta tudo de uma vez e perde o padrão da casa. O ponto de equilíbrio depende de quanto experiência aquela pessoa específica tem <b>naquela tarefa específica</b> — não da experiência dela em geral.</p>
+    <div class="box">Alguém pode ser referência absoluta na cozinha quente e, ao mesmo tempo, estar dando os primeiros passos como responsável por fechamento de caixa. O mesmo funcionário está em estágios de autonomia diferentes conforme a tarefa — a régua nunca é "essa pessoa é boa ou não é", é "essa pessoa, nessa tarefa específica, está em que ponto?".</div>
+    <h3>Os 3 estágios de autonomia por tarefa</h3>
+    <table>
+      <tr><th>Estágio na tarefa</th><th>O que caracteriza</th><th>Como o gestor age</th></tr>
+      <tr><td>Aprendizado</td><td>Primeira vez ou primeiras vezes fazendo essa tarefa específica</td><td>Ensina o passo a passo e acompanha a execução de perto, sem deixar a pessoa sozinha</td></tr>
+      <tr><td>Prática assistida</td><td>Já executa bem a rotina, mas ainda hesita ou erra fora do padrão comum</td><td>Explica o porquê da regra e confirma a decisão antes dela valer</td></tr>
+      <tr><td>Autonomia plena</td><td>Domina a tarefa em qualquer cenário comum da casa</td><td>Acompanha só pelo indicador de resultado, sem entrar no processo</td></tr>
+    </table>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>A maioria das delegações que dão errado não falha porque o estágio estava mal calibrado — falha porque ninguém combinou explicitamente <b>onde termina a autonomia da pessoa e onde começa a obrigação de consultar o gestor antes</b>. Sem essa fronteira dita em voz alta, dois desfechos ruins acontecem: a pessoa toma uma decisão de alto risco achando que estava dentro do combinado, ou trava numa decisão pequena por medo de errar o limite. Colocar alguém em "prática assistida" ou "autonomia plena" sem combinar junto o limite de decisão é delegar pela metade — as duas coisas precisam sair da mesma conversa.</p></div>
+    <div class="box-gold"><span class="tag">Destaque</span><b>Delegar não é abandonar.</b> É trocar o controle sobre "o como" pelo controle sobre "o quê" — o gestor continua sabendo se o resultado saiu certo, só para de precisar estar em cima do processo passo a passo. Isso é feito acompanhando o indicador daquela função (Módulo 2), não pedindo satisfação a cada decisão pequena.</div>
+    <div class="box script"><span class="tag">Script — Conversa de delegação</span><p class="say">A partir de agora você é responsável por [tarefa]. O resultado que eu vou acompanhar é [indicador]. Você pode decidir sozinho tudo que envolver [limite claro, ex.: até R$200 de ajuste, trocas dentro do cardápio padrão]. Se envolver [situação que exige consulta, ex.: mudança de fornecedor, valor acima do limite], me chama antes. Combinado?</p></div>
+    <div class="box template"><span class="tag">Template — Checklist de Prontidão para Delegar</span><p>Antes de delegar uma tarefa, confirme cada item: (1) A pessoa já executou essa tarefa específica antes, ou só uma parecida? (2) O estágio de autonomia (aprendizado, prática assistida ou autonomia plena) foi dito em voz alta, não só assumido? (3) O indicador de resultado que vai medir o sucesso está definido? (4) O limite de decisão autônoma está claro — o que ela decide sozinha e o que precisa escalar? (5) Foi combinada a frequência de acompanhamento (diário, semanal, só pelo indicador)? Se qualquer resposta for "não", ajuste antes de delegar — não depois que já deu errado.</p></div>
+    <div class="box caso"><span class="tag">Caso</span><p>Uma cozinheira com 2 anos de casa dominava totalmente a praça fria (autonomia plena) mas nunca tinha fechado o caixa do salão sozinha (aprendizado, nessa tarefa). O gestor, por confiar nela em geral, tratou o fechamento de caixa como prática assistida — sem instruções passo a passo. Resultado: uma diferença de caixa no primeiro fechamento sozinha, não por desonestidade, mas porque faltou a etapa de aprendizado com instrução direta. Depois de reconhecer o erro de calibragem, o gestor voltou ao estágio de aprendizado só para essa tarefa, e em três semanas ela avançou para prática assistida sem novos erros.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 7</span>
+    <h2>Avaliação de Desempenho da Equipe</h2>
+    <p>Avaliação de desempenho não deveria ser um evento surpresa uma vez por ano. Se o gestor está fazendo bem os módulos anteriores — indicadores em par, reunião individual periódica, feedback direto — a avaliação formal vira apenas um resumo organizado do que já vinha sendo acompanhado, sem sustos de nenhum lado.</p>
+    <h3>Os dois propósitos da avaliação</h3>
+    <div class="fase"><b>Ajudar a pessoa a melhorar:</b> apontar com clareza o que está bom e o que precisa evoluir, com exemplos concretos e recentes — não impressão vaga tipo "você podia se esforçar mais".</div>
+    <div class="fase"><b>Definir consequência:</b> a avaliação também embasa decisão de aumento, promoção, mudança de função ou desligamento. Fingir que ela só serve para "desenvolvimento" e não tem consequência prática é desonesto com a equipe.</div>
+    <h3>Como estruturar a conversa</h3>
+    <div class="box">Antes de sentar para avaliar, reúna as evidências: anotações das reuniões individuais, indicadores do período, registros de ocorrência (boas e ruins), feedbacks já dados ao longo do caminho. A conversa de avaliação não deve trazer nenhuma surpresa — se um problema nunca foi mencionado antes e aparece só na avaliação, o gestor falhou em dar o feedback na hora certa, não a pessoa.</div>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>Sem anotação escrita ao longo do período, toda avaliação vira refém do <b>viés de recência</b>: o gestor lembra vividamente do erro da semana passada e esquece o acerto consistente de três meses atrás. A correção é simples e barata — uma linha curta depois de cada reunião individual ou depois de qualquer ocorrência relevante, positiva ou negativa, com data. Não precisa de sistema sofisticado: uma nota por pessoa já resolve 90% da distorção. Quem faz isso chega na avaliação formal com fatos espalhados no tempo, não só com a lembrança mais recente.</p></div>
+    <div class="box script"><span class="tag">Script — Feedback sobre meta não batida</span><p class="say">Olhando o indicador do mês, você fechou em [número], e a meta combinada era [número]. Me conta o que você percebeu que dificultou bater esse número — o que estava sob seu controle e o que não estava?</p><p>Só depois de ouvir a leitura da pessoa é que o gestor deve trazer a própria análise e combinar o próximo passo — a pergunta aberta primeiro evita que a conversa vire acusação e abre espaço para causas que o gestor não tinha visto (falta de treino, escala mal montada, meta desalinhada com a realidade do período).</p></div>
+    <p><b>Avalie o resultado entregue (indicadores, Módulo 2), não só o esforço percebido</b> — duas pessoas podem parecer igualmente dedicadas, mas entregar resultados bem diferentes.</p>
+    <h3>Cadência recomendada</h3>
+    <table>
+      <tr><th>Formato</th><th>Frequência</th><th>Foco</th></tr>
+      <tr><td>Conversa rápida de acompanhamento</td><td>Na própria reunião individual (Módulo 3)</td><td>Corrigir ou reforçar algo específico, na hora</td></tr>
+      <tr><td>Avaliação estruturada</td><td>A cada 60-90 dias</td><td>Resumo do período, indicadores, plano de desenvolvimento</td></tr>
+      <tr><td>Avaliação formal com consequência</td><td>Semestral</td><td>Base para aumento, promoção ou plano de melhoria formal</td></tr>
+    </table>
+    <div class="box warn"><span class="tag">Risco comum</span><p>Guardar todo feedback negativo para a avaliação formal, "para não ser chato no dia a dia", é um dos erros mais caros em gestão de equipe: a pessoa perde meses de chance de corrigir o comportamento, o problema cresce, e a avaliação vira um acerto de contas em vez de um resumo esperado. O custo de um feedback direto e pequeno, dado na semana em que o erro aconteceu, é sempre menor do que o custo de uma avaliação semestral cheia de surpresas.</p></div>
+    <div class="box exerc"><span class="tag">Exercício do módulo</span><p>Escolha uma pessoa da sua equipe e escreva, de memória, duas coisas boas e uma a melhorar que você observou nela nas últimas duas semanas — com data e situação concreta. Se não conseguir lembrar de nada com data específica, esse é o sinal de que sua anotação ao longo do tempo precisa começar agora, não na próxima avaliação.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 8</span>
+    <h2>Motivação e Retenção de Equipe</h2>
+    <p>Equipe de restaurante costuma ter rotatividade alta, e boa parte disso se resolve na forma como o gestor lida com as necessidades da equipe — não só com dinheiro. Existe uma ordem: necessidades básicas mal resolvidas travam qualquer tentativa de motivação mais sofisticada.</p>
+    <h3>Camadas de necessidade dentro do restaurante</h3>
+    <div class="fase"><b>Necessidades básicas:</b> salário pago em dia e correto, escala previsível e justa, ambiente físico seguro e digno. Sem isso resolvido, nenhuma estratégia de motivação "avançada" funciona — a pessoa está preocupada em sobreviver ao mês, não em se desenvolver.</div>
+    <div class="fase"><b>Necessidade de pertencimento:</b> sentir que faz parte de um time que se respeita, ser reconhecido pelos colegas e pela liderança, não ser tratado como peça substituível.</div>
+    <div class="fase"><b>Necessidade de realização:</b> sentir que está evoluindo na função, ganhando mais autonomia com o tempo (ligado direto à delegação do Módulo 6), dominando algo que era difícil.</div>
+    <h3>O motivador mais forte e mais barato</h3>
+    <div class="box-gold"><span class="tag">Destaque</span><b>Feedback específico e imediato sobre o trabalho</b> motiva mais do que qualquer discurso motivacional genérico — e não custa nada além do tempo do gestor. Dizer exatamente o que foi bom ou ruim, na hora que aconteceu, é o reforço mais forte que existe para alguém repetir o que funcionou e corrigir o que não funcionou.</div>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>Dinheiro resolve a camada de necessidades básicas — mas, uma vez que o salário está justo e a escala é previsível, aumentar salário sozinho tem retorno decrescente sobre motivação. O erro comum é achar que todo problema de motivação se resolve com mais dinheiro; na prática, depois da base resolvida, o que mais segura uma pessoa-chave é sentir que está evoluindo e que é vista — coisas que custam tempo de atenção do gestor, não orçamento. Isso não significa pagar mal; significa que pagar bem sem dar atenção também perde gente boa.</p></div>
+    <div class="box warn"><span class="tag">Risco comum</span><p>Festa de equipe, discurso motivacional ou brinde ocasional são bons complementos, mas não substituem as três camadas de necessidade. Se a escala continua injusta ou o salário atrasa, nenhuma ação "de clima" segura a saída de uma pessoa-chave — ela só mascara o problema por algumas semanas antes de ele voltar, geralmente mais caro.</p></div>
+    <h3>Retenção: antecipe a saída, não reaja a ela</h3>
+    <p>Para cada pessoa-chave da equipe, o gestor de alta performance deveria conseguir responder: <b>"o que faria essa pessoa sair amanhã?"</b> — falta de reconhecimento, escala impossível, sensação de estar estagnada, salário defasado. Descobrir isso na reunião individual (Módulo 3) e agir antes é sempre mais barato — em dinheiro e em qualidade de operação — do que repor e treinar alguém novo depois do pedido de demissão.</p>
+    <div class="box caso"><span class="tag">Caso</span><p>Repor e treinar um cozinheiro de praça quente custa, somando vaga aberta, horas extras da equipe remanescente, tempo de treinamento e queda de produtividade nas primeiras semanas, o equivalente a cerca de 2 a 3 meses do salário dele. Um restaurante identificou, na reunião individual, que um cozinheiro-chave estava desmotivado por falta de perspectiva de crescimento — não por salário. Criar um caminho claro de evolução para ele (responsabilidade adicional, participação em decisões de cardápio) custou algumas horas de atenção do gestor por mês e evitou uma saída que custaria, em estimativa conservadora, muito mais do que esse tempo investido.</p></div>
+  </div>
+
+  <div class="sec">
+    <span class="num">MÓDULO 9</span>
+    <h2>Checklist do Gestor de Alta Performance</h2>
+    <p>Autoavaliação rápida — para o gestor aplicar nele mesmo periodicamente:</p>
+    <ul>
+      <li>Eu consigo dizer, com dados, o que minha equipe entregou essa semana — não só o quanto eu corri?</li>
+      <li>Eu sei dizer, olhando pra minha última semana, quanto tempo foi para ações multiplicadoras (treinar, padronizar, delegar) e quanto foi para apagar incêndio?</li>
+      <li>Meus indicadores de produtividade têm sempre um par de qualidade junto?</li>
+      <li>Eu olho os indicadores líderes da minha operação com a mesma atenção que olho os atrasados, ou só reajo depois que o problema já aconteceu?</li>
+      <li>Minhas reuniões de rotina começam e terminam no horário, com pauta clara?</li>
+      <li>Cada pessoa-chave da minha equipe tem uma reunião individual protegida na agenda, com pauta definida por ela?</li>
+      <li>Cada líder de setor da minha casa tem entre 6 e 8 pessoas reportando direto pra ele — ou algum deles está sobrecarregado com mais de 10, precisando de um nível intermediário de liderança?</li>
+      <li>Quando decido algo em cima da hora, eu registro a decisão e cobro apoio de quem discordou, em vez de deixar no ar?</li>
+      <li>Eu sei diferenciar o que decido na hora do que preciso escalar?</li>
+      <li>O estágio de autonomia que eu dou para cada pessoa reflete a experiência dela naquela tarefa específica — ou é sempre o mesmo estágio para todo mundo?</li>
+      <li>Minha última avaliação de desempenho trouxe alguma surpresa para a pessoa avaliada? (Se sim, é sinal de falha no acompanhamento contínuo.)</li>
+      <li>Eu sei, hoje, o que faria cada pessoa-chave da minha equipe pedir demissão amanhã?</li>
+      <li>Eu dou feedback específico na hora que o comportamento acontece, ou só junto tudo para a avaliação formal?</li>
+    </ul>
+    <div class="box gato"><span class="tag">🐱 Pulo do gato</span><p>O erro mais comum ao usar este checklist é tentar responder "sim" para tudo ao mesmo tempo. Ele não serve para pontuação — serve para apontar onde focar. Circule apenas os 2 ou 3 itens em que a resposta foi mais fraca, escolha um deles e monte, para o próximo trimestre, um plano de ação de uma página só sobre esse ponto. Melhorar profundamente 2 hábitos de gestão por trimestre muda mais a operação do que tentar melhorar os 13 ao mesmo tempo e não sustentar nenhum.</p></div>
+  </div>
+
+  <div class="footer">
+    ArtBlend Consultoria Gourmet — Metodologia própria de Liderança & Gestão de Alta Performance.<br>
+    Conteúdo adaptado e sintetizado pela metodologia ArtBlend a partir de práticas amplamente reconhecidas de gestão de alta performance, com exemplos e linguagem construídos para a realidade de cozinha e salão.
+  </div>
+
+</div>
+</body>
+</html>

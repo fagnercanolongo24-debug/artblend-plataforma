@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T&amp;D — Treinamento &amp; Desenvolvimento · ArtBlend</title>
+<style>
+  :root{
+    --bg:#F5F7FA; --sidebar:#FFFFFF; --card:#FFFFFF; --card-hover:#EEF6F8; --border:#E2E6ED;
+    --text:#16294A; --muted:#6E7A8C; --accent:#2EC4D6; --accent-soft:#E4F8FB;
+    --good:#2ECC71; --good-bg:#E3FBEF; --bad:#B3411F; --bad-bg:#FBEAE3; --amber:#9a5420; --amber-bg:#FDF3E0;
+    --blue:#1C93A8;
+    --caso:#1C93A8; --caso-bg:#E4F8FB; --script:#2F5D8C; --script-bg:#E8EFF6;
+    --template:#9a5420; --template-bg:#FDF3E0; --exerc:#6B4E9E; --exerc-bg:#EFEAF6;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex;min-height:100vh;}
+  .sidebar{width:250px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);padding:20px 14px;position:sticky;top:0;height:100vh;overflow-y:auto;}
+  .brand{font-size:19px;font-weight:800;letter-spacing:-.4px;color:var(--text);}
+  .brand small{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-top:2px;font-weight:700;}
+  .client-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px;margin:14px 0;}
+  .client-box label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:5px;}
+  .client-box select{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:6px 8px;font-size:12px;}
+  .client-box .add-client{margin-top:6px;display:flex;gap:5px;}
+  .client-box .add-client input{flex:1;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:5px 7px;font-size:11.5px;}
+  .client-box .add-client button{background:var(--accent);border:none;color:#fff;border-radius:6px;padding:0 9px;font-weight:700;cursor:pointer;font-size:13px;}
+  .navitem{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:9px;cursor:pointer;margin-top:4px;font-weight:600;font-size:13.5px;color:var(--text);}
+  .navitem:hover{background:var(--card-hover);}
+  .navitem.active{background:var(--accent);color:#fff;}
+  .navfoot{margin-top:16px;padding-top:12px;border-top:1px solid var(--border);}
+  .navfoot button{width:100%;background:var(--card-hover);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px;font-size:11.5px;font-weight:700;cursor:pointer;margin-top:5px;}
+  .navfoot button:hover{border-color:var(--accent);}
+  .main{flex:1;padding:26px 34px 60px;max-width:960px;}
+  h1{font-size:23px;margin:0;font-weight:800;color:var(--text);}
+  .sub{color:var(--muted);font-size:13.5px;margin:4px 0 18px;line-height:1.5;}
+  .bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:16px;}
+  select,input,textarea{padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;background:#fff;color:var(--text);}
+  .panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:16px;}
+  .panel h3{margin:0 0 12px;font-size:15px;color:var(--text);}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{background:var(--accent-soft);color:var(--blue);text-align:left;padding:8px 9px;font-weight:700;font-size:12px;}
+  td{border-bottom:1px solid var(--border);padding:7px 9px;vertical-align:middle;}
+  .btn{background:var(--accent);color:#fff;border:0;border-radius:9px;padding:9px 15px;font-weight:700;font-size:13px;cursor:pointer;}
+  .btn.alt{background:var(--blue);} .btn.sm{padding:6px 11px;font-size:12px;}
+  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--border);}
+  .btn.ghost:hover{border-color:var(--accent);color:var(--blue);}
+  .del{background:transparent;border:1px solid var(--bad);color:var(--bad);border-radius:7px;padding:4px 8px;font-size:12px;cursor:pointer;font-weight:700;}
+  .formgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+  .formgrid label{display:block;font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
+  .formgrid input,.formgrid textarea,.formgrid select{width:100%;}
+  label.block{display:block;font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;margin:10px 0 4px;}
+  .hint{font-size:12px;color:var(--muted);font-style:italic;}
+  .save{position:fixed;bottom:14px;right:16px;background:var(--text);color:#fff;padding:7px 14px;border-radius:30px;font-size:12px;opacity:0;transition:.3s;}
+  .save.on{opacity:1;}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:14px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:14px 16px;}
+  .card .v{font-size:22px;font-weight:800;color:var(--text);} .card .l{font-size:11.5px;color:var(--muted);font-weight:600;}
+  .radiorow{display:flex;gap:14px;margin-top:6px;flex-wrap:wrap;}
+  .radiorow label{text-transform:none;font-weight:600;font-size:13px;color:var(--text);display:flex;align-items:center;gap:5px;}
+  .chip{display:inline-block;font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px;}
+  .chip.sabe{background:var(--bad-bg);color:var(--bad);} .chip.consegue{background:var(--amber-bg);color:var(--amber);} .chip.quer{background:var(--accent-soft);color:var(--blue);}
+  /* curso */
+  .curso-wrap{max-width:860px;}
+  h2.mh{font-size:19px;color:var(--text);margin:26px 0 4px;font-weight:800;}
+  h2.mh:first-child{margin-top:0;}
+  .m-kick{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);font-weight:700;}
+  h3.ch{font-size:16px;color:var(--text);margin:18px 0 6px;font-weight:750;border-left:4px solid var(--accent);padding-left:10px;}
+  .cbox{border-radius:10px;padding:14px 17px;margin:12px 0;border:1px solid var(--border);}
+  .cbox .tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:20px;color:#fff;margin-bottom:8px;}
+  .cbox.caso{background:var(--caso-bg);} .cbox.caso .tag{background:var(--caso);}
+  .cbox.script{background:var(--script-bg);} .cbox.script .tag{background:var(--script);}
+  .cbox.template{background:var(--template-bg);} .cbox.template .tag{background:var(--template);}
+  .cbox.warn{background:var(--bad-bg);} .cbox.warn .tag{background:var(--bad);}
+  .metodo{background:linear-gradient(135deg,var(--text),var(--blue));color:#EAF6F3;border-radius:12px;padding:18px 20px;margin:16px 0;}
+  .metodo .tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;background:var(--accent);color:#fff;padding:4px 12px;border-radius:20px;margin-bottom:10px;}
+  .metodo h4{color:#fff;margin:0 0 8px;font-size:16px;} .metodo strong{color:#BFF3EE;}
+  .say{background:#fff;border-left:4px solid var(--script);border-radius:6px;padding:9px 13px;margin:8px 0;font-style:italic;font-size:13px;}
+  .chain{text-align:center;font-weight:800;color:var(--blue);background:var(--accent-soft);border-radius:10px;padding:12px;margin:14px 0;font-size:13.5px;}
+  .note{font-size:12.5px;color:var(--muted);font-style:italic;}
+  .lead{font-size:15px;color:var(--muted);}
+  pre.form{background:var(--bg);border:1px dashed var(--template);border-radius:8px;padding:14px 16px;font-family:Consolas,Menlo,monospace;white-space:pre-wrap;font-size:12px;line-height:1.5;color:var(--text);margin:10px 0 0;}
+  @media(max-width:780px){
+    body{flex-direction:column;}
+    .sidebar{width:100%;height:auto;position:relative;top:auto;display:flex;flex-wrap:wrap;align-items:center;gap:8px;border-right:0;border-bottom:1px solid var(--border);padding:12px 14px;overflow-y:visible;}
+    .sidebar .brand{width:100%;}
+    .sidebar .client-box{flex:1 1 220px;margin:0;}
+    .sidebar .navitem{margin-top:0;}
+    .sidebar .navfoot{width:100%;display:flex;flex-wrap:wrap;gap:6px;border-top:0;margin-top:6px;padding-top:6px;}
+    .sidebar .navfoot button{width:auto;flex:1 1 auto;margin-top:0;}
+    .formgrid{grid-template-columns:1fr;}
+    .main{padding:16px;}
+  }
+  #loginGate{position:fixed;inset:0;background:#F5F7FA;z-index:1000;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  #loginGate .box{background:#fff;border:1px solid #E2E6ED;border-radius:14px;padding:32px 30px;max-width:360px;width:92%;}
+  #loginGate h1{font-size:18px;color:#16294A;margin-bottom:4px;}
+  #loginGate p{font-size:12.5px;color:#6E7A8C;margin-bottom:18px;line-height:1.5;}
+  #loginGate label{display:block;font-size:11.5px;font-weight:700;color:#6E7A8C;margin:10px 0 4px;}
+  #loginGate input{width:100%;padding:9px 10px;border:1px solid #E2E6ED;border-radius:8px;font-size:13.5px;font-family:inherit;}
+  #loginGate .row{display:flex;gap:8px;margin-top:16px;}
+  #loginGate button{flex:1;background:#2EC4D6;color:#08343B;border:none;padding:10px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;}
+  #loginGate button.sec{background:#E4F8FB;color:#1C93A8;}
+  #loginGate .msg{margin-top:12px;font-size:12px;padding:8px 10px;border-radius:7px;line-height:1.5;display:none;}
+  #loginGate .msg.ok{background:#E3FBEF;color:#1C9A57;display:block;}
+  #loginGate .msg.err{background:#FBEAE3;color:#B3411F;display:block;}
+  #userBar{position:fixed;top:10px;right:10px;z-index:900;background:#fff;border:1px solid #E2E6ED;font-size:11.5px;font-weight:700;color:#16294A;padding:6px 8px 6px 12px;border-radius:20px;display:none;align-items:center;gap:8px;}
+  #userBar button{background:#FBEAE3;color:#B3411F;border:none;padding:5px 10px;border-radius:14px;font-size:10.5px;font-weight:700;cursor:pointer;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.5"></script>
+</head>
+<body>
+
+<div id="loginGate">
+  <div class="box">
+    <h1>ArtBlend — Área do consultor</h1>
+    <p>Entre com seu login para acessar esta ferramenta.</p>
+    <label>E-mail</label>
+    <input id="lg_email" type="email" placeholder="seu@email.com">
+    <label>Senha</label>
+    <input id="lg_senha" type="password" placeholder="mínimo 6 caracteres">
+    <div class="row">
+      <button onclick="gateEntrar()">Entrar</button>
+      <button class="sec" onclick="gateCadastrar()">Criar conta</button>
+    </div>
+    <div id="lg_msg" class="msg"></div>
+  </div>
+</div>
+<div id="userBar"><span id="userBarEmail"></span><button onclick="gateSair()">Sair</button></div>
+
+<div id="appContent" style="display:none;">
+<div class="sidebar">
+  <div class="brand">ArtBlend<small>T&amp;D</small></div>
+  <div class="client-box">
+    <label>Cliente / Projeto ativo</label>
+    <select id="clientSelect" onchange="switchClient(this.value)"></select>
+    <div class="add-client">
+      <input type="text" id="newClientName" placeholder="Novo cliente...">
+      <button onclick="addClient()">+</button>
+    </div>
+  </div>
+  <div class="navitem active" data-s="curso">🎓 Curso T&amp;D</div>
+  <div class="navitem" data-s="lnt">🔍 LNT — Diagnóstico</div>
+  <div class="navitem" data-s="plano">📋 Plano de Treinamento</div>
+  <div class="navitem" data-s="aval">📊 Avaliação (4 níveis)</div>
+  <div class="navitem" data-s="caso">🧩 Exercício — Caso Simulado</div>
+  <div class="navitem" data-s="guia">📖 Como usar</div>
+  <div class="navfoot">
+    <button onclick="exportJSON()">⬇ Exportar dados</button>
+    <button onclick="document.getElementById('fileIn').click()">⬆ Importar dados</button>
+    <button onclick="window.print()">🖨 Imprimir</button>
+  </div>
+</div>
+<main class="main" id="main"></main>
+<div class="save" id="save">✓ salvo</div>
+<input type="file" id="fileIn" accept="application/json" style="display:none">
+</div>
+
+<script>
+/* ===== login / sessão ===== */
+const FERRAMENTA = 'td';
+const sb = window.supabase.createClient('https://zjvjixiuvnpbpsdnxuyk.supabase.co', 'sb_publishable_f5DJRgs2w0z3_g50QqDmNQ_0btPNSgV');
+let sessaoAtual = null;
+
+function gateMsg(text, type){
+  var el = document.getElementById('lg_msg');
+  el.className = 'msg ' + type;
+  el.textContent = text;
+}
+async function gateEntrar(){
+  var email = document.getElementById('lg_email').value.trim();
+  var senha = document.getElementById('lg_senha').value;
+  var r = await sb.auth.signInWithPassword({ email: email, password: senha });
+  if(r.error){ gateMsg('Erro ao entrar: ' + r.error.message, 'err'); return; }
+  await iniciarApp(r.data.session);
+}
+async function gateCadastrar(){
+  var email = document.getElementById('lg_email').value.trim();
+  var senha = document.getElementById('lg_senha').value;
+  if(!email || senha.length < 6){ gateMsg('Preencha e-mail e uma senha com pelo menos 6 caracteres.', 'err'); return; }
+  var r = await sb.auth.signUp({ email: email, password: senha });
+  if(r.error){ gateMsg('Erro ao criar conta: ' + r.error.message, 'err'); return; }
+  if(r.data.session){ await iniciarApp(r.data.session); }
+  else { gateMsg('Conta criada. Se pedir confirmação por e-mail, confira sua caixa de entrada antes de entrar.', 'ok'); }
+}
+async function gateSair(){
+  await sb.auth.signOut();
+  location.reload();
+}
+async function iniciarApp(session){
+  sessaoAtual = session;
+  document.getElementById('loginGate').style.display = 'none';
+  document.getElementById('appContent').style.display = 'flex';
+  var bar = document.getElementById('userBar');
+  bar.style.display = 'flex';
+  document.getElementById('userBarEmail').textContent = session.user.email;
+  await loadClients();
+  S = await load();
+  render('curso');
+}
+
+/* ===== multi-cliente (Supabase) ===== */
+let clients = []; // [{id, nome}]
+let activeClient = ''; // id do cliente ativo
+async function loadClients(){
+  var r = await sb.from('clientes').select('id,nome').order('created_at', { ascending:true });
+  if(r.error){
+    alert('Erro ao carregar a lista de clientes — não prossiga até resolver, ou você pode sobrescrever dados salvos.\n' + r.error.message);
+    return;
+  }
+  clients = (r.data || []).map(function(c){ return { id:c.id, nome:c.nome }; });
+  if(clients.length === 0){
+    var ins = await sb.from('clientes').insert({ nome:'Cliente padrão', owner_id: sessaoAtual.user.id }).select('id,nome');
+    if(ins.error){ alert('Erro ao criar cliente padrão: ' + ins.error.message); return; }
+    if(ins.data && ins.data[0]) clients = [{ id: ins.data[0].id, nome: ins.data[0].nome }];
+  }
+  if(clients.length === 0) return;
+  var lembrado = localStorage.getItem('artblend_td_v1__active_id');
+  activeClient = (lembrado && clients.some(function(c){return c.id===lembrado;})) ? lembrado : clients[0].id;
+  renderClientSelect();
+}
+function renderClientSelect(){
+  var sel = document.getElementById('clientSelect');
+  sel.innerHTML = clients.map(function(c){ return '<option value="'+c.id+'"'+(c.id===activeClient?' selected':'')+'>'+esc(c.nome)+'</option>'; }).join('');
+}
+async function addClient(){
+  var input = document.getElementById('newClientName');
+  var nome = input.value.trim();
+  if(!nome) return;
+  var ins = await sb.from('clientes').insert({ nome:nome, owner_id: sessaoAtual.user.id }).select('id,nome');
+  if(ins.error){ alert('Erro ao criar cliente: ' + ins.error.message); return; }
+  clients.push({ id: ins.data[0].id, nome: ins.data[0].nome });
+  input.value = '';
+  await switchClient(ins.data[0].id);
+}
+async function switchClient(id){
+  activeClient = id;
+  localStorage.setItem('artblend_td_v1__active_id', id);
+  renderClientSelect();
+  S = await load();
+  render(cur);
+  toast();
+}
+
+function seedCasoSim(){return {prior1:'',prior2:'',prior3:'',causa:'',plano2sem:'',dadosAdicionais:'',gabaritoAberto:false};}
+function seed(){return {
+  lnt:{fat:'',ticket:'',cmv:'',google:'',turnover:'',reclamacao:'',obsInicio:'',obsFim:'',obsBem:'',obsErrado:'',obsLideranca:'',escutaEquipe:'',escutaDono:'',causa:'',prior1:'',prior2:'',prior3:''},
+  planos:[],
+  avaliacoes:[],
+  casoSim: seedCasoSim()
+};}
+var S;
+var loadFailed = false; // true quando a última leitura do Supabase falhou — bloqueia save() pra não gravar seed() vazio por cima de dado real
+async function load(){
+  var r = await sb.from('dados_ferramenta').select('conteudo').eq('cliente_id', activeClient).eq('ferramenta', FERRAMENTA).maybeSingle();
+  if(r.error){
+    loadFailed = true;
+    alert('Erro ao carregar dados do cliente — o salvamento automático foi bloqueado até você recarregar a página com sucesso, pra não sobrescrever dados salvos.\n' + r.error.message);
+    return seed();
+  }
+  loadFailed = false;
+  if(r.data && r.data.conteudo) return r.data.conteudo;
+  return seed();
+}
+async function doSave(){
+  if(loadFailed){ alert('Não é possível salvar agora: o último carregamento de dados falhou. Recarregue a página antes de continuar editando, para não perder dados salvos.'); return; }
+  try{
+    var r = await sb.from('dados_ferramenta').upsert({ cliente_id: activeClient, ferramenta: FERRAMENTA, conteudo: S, updated_at: new Date().toISOString() }, { onConflict: 'cliente_id,ferramenta' });
+    if(r.error){ alert('Não foi possível salvar: ' + r.error.message); return; }
+    toast();
+  }catch(e){ alert('Não foi possível salvar: ' + e.message); }
+}
+var _saveTimer = null;
+function save(){
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(doSave, 600);
+}
+function toast(){var b=document.getElementById('save');b.classList.add('on');clearTimeout(window._t);window._t=setTimeout(function(){b.classList.remove('on');},900);}
+function esc(s){return (s==null?'':String(s)).replace(/"/g,'&quot;');}
+function uid(){return Date.now()+''+Math.floor(Math.random()*999);}
+function num(v){var n=parseFloat(v);return isNaN(n)?0:n;}
+
+/* nav */
+document.querySelectorAll('.navitem').forEach(function(n){n.onclick=function(){
+ document.querySelectorAll('.navitem').forEach(function(x){x.classList.remove('active');});
+ n.classList.add('active'); render(n.dataset.s);};});
+var cur='curso';
+function render(s){cur=s||cur; var m=document.getElementById('main');
+ if(cur=='curso')m.innerHTML=vCurso();
+ else if(cur=='lnt')m.innerHTML=vLnt();
+ else if(cur=='plano')m.innerHTML=vPlano();
+ else if(cur=='aval')m.innerHTML=vAval();
+ else if(cur=='caso')m.innerHTML=vCasoSim();
+ else m.innerHTML=vGuia();
+}
+
+/* ===== LNT ===== */
+function vLnt(){var l=S.lnt;
+ function fi(k,label,ph){return '<div><label>'+label+'</label><input value="'+esc(l[k])+'" placeholder="'+(ph||'')+'" oninput="setLnt(\''+k+'\',this.value)"></div>';}
+ function ta(k,label,ph){return '<div style="grid-column:1/-1"><label>'+label+'</label><textarea rows="2" placeholder="'+(ph||'')+'" oninput="setLnt(\''+k+'\',this.value)">'+esc(l[k])+'</textarea></div>';}
+ var causaChip = l.causa=='sabe'?'<span class="chip sabe">Não sabe → treino de conhecimento</span>':l.causa=='consegue'?'<span class="chip consegue">Não consegue → treino de habilidade + prática</span>':l.causa=='quer'?'<span class="chip quer">Não quer → isso é liderança, não T&D</span>':'';
+ return '<h1>LNT — Levantamento de Necessidades de Treinamento</h1><p class="sub">O diagnóstico antes de qualquer treino. Sem ele, você treina no escuro.</p>'+
+ '<div class="panel"><h3>1. Dados</h3><div class="formgrid">'+
+  fi('fat','Faturamento (R$)','Ex: 90000')+fi('ticket','Ticket médio (R$)','Ex: 32')+fi('cmv','CMV (%)','Ex: 34')+
+  fi('google','Nota Google','Ex: 4.2')+fi('turnover','Turnover mensal (%)','Ex: 9')+fi('reclamacao','Principal reclamação','Ex: atendimento lento')+
+ '</div></div>'+
+ '<div class="panel"><h3>2. Observação (pico, sem intervir)</h3><div class="formgrid">'+
+  fi('obsInicio','Horário início','Ex: 19h')+fi('obsFim','Horário fim','Ex: 21h')+'<div></div>'+
+  ta('obsBem','O que funciona bem')+ta('obsErrado','O que está errado')+ta('obsLideranca','Comportamento da liderança')+
+ '</div></div>'+
+ '<div class="panel"><h3>3. Escuta</h3><div class="formgrid">'+
+  ta('escutaEquipe','O que a equipe diz')+ta('escutaDono','O que o dono diz')+
+ '</div></div>'+
+ '<div class="panel"><h3>4. Causa raiz</h3><p class="hint">A pergunta mais importante do LNT: isso é problema de <b>saber</b>, de <b>poder</b> ou de <b>querer</b>?</p>'+
+ '<div class="radiorow">'+
+  '<label><input type="radio" name="causa" '+(l.causa=='sabe'?'checked':'')+' onchange="setLnt(\'causa\',\'sabe\')"> Não sabe (nunca ensinado)</label>'+
+  '<label><input type="radio" name="causa" '+(l.causa=='consegue'?'checked':'')+' onchange="setLnt(\'causa\',\'consegue\')"> Não consegue (sem condição de aplicar)</label>'+
+  '<label><input type="radio" name="causa" '+(l.causa=='quer'?'checked':'')+' onchange="setLnt(\'causa\',\'quer\')"> Não quer (sabe e não faz)</label>'+
+ '</div><p style="margin-top:8px">'+causaChip+'</p></div>'+
+ '<div class="panel"><h3>5. Prioridades</h3><div class="formgrid">'+fi('prior1','1ª prioridade')+fi('prior2','2ª prioridade')+fi('prior3','3ª prioridade')+'</div></div>';
+}
+function setLnt(k,v){S.lnt[k]=v;save();if(k=='causa')render('lnt');}
+
+/* ===== PLANO DE TREINAMENTO ===== */
+function vPlano(){
+ var rows=S.planos.map(function(p,i){return '<tr><td><b>'+esc(p.nome)+'</b><br><span class="hint">'+esc(p.publico)+'</span></td><td>'+esc(p.duracao)+'</td>'+
+  '<td><button class="btn sm alt" onclick="verPlano('+i+')">ver</button> <button class="del" onclick="delPlano('+i+')">✕</button></td></tr>';}).join('');
+ return '<h1>Plano de Treinamento</h1><p class="sub">Preencha e gere o plano formatado pra levar ao cliente — baseado na causa raiz do LNT.</p>'+
+ '<div class="panel"><h3>Novo plano</h3><div class="formgrid">'+
+  '<div><label>Nome do treinamento</label><input id="pn_nome" placeholder="Ex: Venda sugestiva"></div>'+
+  '<div><label>Cargo / público</label><input id="pn_cargo" placeholder="Ex: Garçons e atendentes"></div>'+
+  '<div><label>Nº de pessoas</label><input id="pn_qtd" type="number" placeholder="Ex: 8"></div>'+
+  '<div><label>Escolaridade predominante</label><input id="pn_escol" placeholder="Ex: Fundamental"></div>'+
+  '<div><label>Duração</label><input id="pn_dur" placeholder="Ex: 4h"></div>'+
+  '<div><label>Local</label><input id="pn_local" placeholder="Ex: salão, antes da abertura"></div>'+
+  '<div style="grid-column:1/-1"><label>Objetivo (verbo de ação)</label><input id="pn_obj" placeholder="Ex: sugerir 1 item adicional por atendimento"></div>'+
+  '<div style="grid-column:1/-1"><label>Dinâmica</label><input id="pn_din" placeholder="Ex: roleplay cliente difícil x receptivo"></div>'+
+  '<div style="grid-column:1/-1"><label>Item afetivo</label><input id="pn_item" placeholder="Ex: café da casa na pausa"></div>'+
+ '</div><button class="btn" onclick="gerarPlano()">Gerar plano</button></div>'+
+ '<div class="panel"><h3>Planos salvos</h3><table><thead><tr><th>Treinamento</th><th>Duração</th><th></th></tr></thead><tbody>'+(rows||'<tr><td colspan=3 class=hint>Nenhum plano ainda.</td></tr>')+'</tbody></table></div>'+
+ '<div class="panel" id="planoOut" style="display:none"></div>';
+}
+function gerarPlano(){
+ var g=function(id){return document.getElementById(id).value;};
+ var causa=S.lnt.causa=='sabe'?'Não sabe':S.lnt.causa=='consegue'?'Não consegue':S.lnt.causa=='quer'?'Não quer (atenção: isso é liderança, não T&D)':'(preencha o LNT antes)';
+ var p={id:uid(),nome:g('pn_nome')||'Treinamento',publico:g('pn_cargo')+' · '+g('pn_qtd')+' pessoas',
+  cargo:g('pn_cargo'),qtd:g('pn_qtd'),escol:g('pn_escol'),duracao:g('pn_dur'),local:g('pn_local'),objetivo:g('pn_obj'),dinamica:g('pn_din'),item:g('pn_item'),causa:causa};
+ S.planos.push(p);save();render('plano');
+ verPlano(S.planos.length-1);
+}
+function nomeClienteAtivo(){var c=clients.find(function(x){return x.id===activeClient;});return c?c.nome:'—';}
+function verPlano(i){var p=S.planos[i];
+ var texto='PLANO DE TREINAMENTO — ARTBLEND CONSULTORIA GOURMET\n'+
+ 'Cliente: '+nomeClienteAtivo()+'\nTreinamento: '+p.nome+'\n\n'+
+ 'DIAGNÓSTICO (LNT): Causa raiz — '+p.causa+'\nPrincipal reclamação: '+(S.lnt.reclamacao||'—')+'\n\n'+
+ 'PÚBLICO: '+p.cargo+' · '+p.qtd+' pessoas · escolaridade predominante: '+p.escol+'\n'+
+ 'OBJETIVO: Ao final, será capaz de: '+p.objetivo+'\n'+
+ 'DURAÇÃO: '+p.duracao+'    LOCAL: '+p.local+'\n'+
+ 'DINÂMICA: '+p.dinamica+'\nITEM AFETIVO: '+p.item+'\n\n'+
+ 'AVALIAÇÃO: N1 (reação) formulário · N2 (aprendizagem) teste em 48-72h · N3 (comportamento) observação em 30 dias · N4 (resultado) indicador em 60-90 dias';
+ document.getElementById('planoOut').style.display='block';
+ document.getElementById('planoOut').innerHTML='<h3>Plano gerado</h3><pre class="form">'+texto.replace(/</g,'&lt;')+'</pre><button class="btn sm ghost" style="margin-top:10px" onclick="navigator.clipboard.writeText('+JSON.stringify(texto)+')">Copiar texto</button>';
+ document.getElementById('planoOut').scrollIntoView({behavior:'smooth'});
+}
+function delPlano(i){if(confirm('Excluir este plano?')){S.planos.splice(i,1);save();render('plano');}}
+
+/* ===== AVALIAÇÃO (4 níveis) ===== */
+function vAval(){
+ var rows=S.avaliacoes.map(function(a,i){return '<tr><td><b>'+esc(a.nome)+'</b></td><td>'+esc(a.n1)+'/5</td><td>'+esc(a.n2)+'%</td>'+
+  '<td>'+esc(a.n4antes)+' → '+esc(a.n4depois)+'</td><td><button class="del" onclick="delAval('+i+')">✕</button></td></tr>';}).join('');
+ return '<h1>Avaliação em 4 Níveis</h1><p class="sub">O número que você apresenta ao dono: reação, aprendizagem, comportamento e resultado.</p>'+
+ '<div class="panel"><h3>Nova avaliação</h3><div class="formgrid">'+
+  '<div style="grid-column:1/-1"><label>Nome do treinamento avaliado</label><input id="av_nome" placeholder="Ex: Venda sugestiva"></div>'+
+  '<div><label>N1 — Reação (nota 1-5, logo após)</label><input id="av_n1" type="number" step="0.1" placeholder="Ex: 4.5"></div>'+
+  '<div><label>N2 — Aprendizagem (% acerto teste, 48-72h)</label><input id="av_n2" type="number" placeholder="Ex: 85"></div>'+
+  '<div><label>N3 — Comportamento (observação em 30 dias)</label><input id="av_n3" placeholder="Ex: 6 de 8 aplicando"></div>'+
+  '<div><label>N4 — Indicador (antes)</label><input id="av_n4a" placeholder="Ex: ticket R$28"></div>'+
+  '<div><label>N4 — Indicador (depois, 60-90 dias)</label><input id="av_n4d" placeholder="Ex: ticket R$38"></div>'+
+ '</div><button class="btn" onclick="addAval()">Salvar avaliação</button></div>'+
+ '<div class="panel"><h3>Histórico</h3><table><thead><tr><th>Treinamento</th><th>N1</th><th>N2</th><th>N4 antes → depois</th><th></th></tr></thead><tbody>'+(rows||'<tr><td colspan=5 class=hint>Nenhuma avaliação ainda.</td></tr>')+'</tbody></table>'+
+ '<p class="hint" style="margin-top:10px">Cuidado: nota alta em N1 não garante aprendizagem. O N3 é onde a maioria falha — reforço diário da liderança é o que sustenta o resultado em N4.</p></div>';
+}
+function addAval(){
+ var g=function(id){return document.getElementById(id).value;};
+ if(!g('av_nome')){alert('Dê um nome ao treinamento.');return;}
+ S.avaliacoes.push({id:uid(),nome:g('av_nome'),n1:g('av_n1'),n2:g('av_n2'),n3:g('av_n3'),n4antes:g('av_n4a'),n4depois:g('av_n4d')});
+ save();render('aval');
+}
+function delAval(i){if(confirm('Excluir esta avaliação?')){S.avaliacoes.splice(i,1);save();render('aval');}}
+
+/* ===== EXERCÍCIO — CASO SIMULADO (treinamento interno) ===== */
+function vCasoSim(){
+ if(!S.casoSim) S.casoSim = seedCasoSim();
+ var c=S.casoSim;
+ function fi(k,label,ph){return '<div><label>'+label+'</label><input value="'+esc(c[k])+'" placeholder="'+(ph||'')+'" oninput="setCaso(\''+k+'\',this.value)"></div>';}
+ function ta(k,label,ph,rows){return '<div style="grid-column:1/-1"><label>'+label+'</label><textarea rows="'+(rows||3)+'" placeholder="'+(ph||'')+'" oninput="setCaso(\''+k+'\',this.value)">'+esc(c[k])+'</textarea></div>';}
+ var causaChip = c.causa=='sabe'?'<span class="chip sabe">Não sabe → treino de conhecimento</span>':c.causa=='consegue'?'<span class="chip consegue">Não consegue → treino de habilidade + prática</span>':c.causa=='quer'?'<span class="chip quer">Não quer → isso é liderança, não T&D</span>':'';
+ var gabaritoBtn = '<button class="btn sm ghost" onclick="toggleGabarito()">'+(c.gabaritoAberto?'Ocultar':'Ver')+' pontos de atenção sugeridos</button>';
+ var gabaritoBox = !c.gabaritoAberto ? '' : '<div class="cbox warn" style="margin-top:12px"><span class="tag">Pontos de atenção sugeridos</span>'+
+  '<p style="margin-top:6px"><b>Isto não é um gabarito único e fechado</b> — é uma referência para comparar seu raciocínio, não a "resposta certa". Compare sua priorização com os pontos abaixo:</p>'+
+  '<ul style="padding-left:20px;line-height:1.9;margin-top:6px">'+
+  '<li><b>CMV alto (38%)</b> costuma ser prioridade nº1 porque tem efeito direto e mensurável na margem — vale checar ficha técnica, porcionamento e perdas antes de qualquer treino de venda.</li>'+
+  '<li><b>Turnover na cozinha (12%/mês)</b> tende a estar ligado a onboarding fraco e falta de padronização — combinar diagnóstico de causa raiz (saber/poder/querer) antes de propor treinamento.</li>'+
+  '<li><b>Cardápio parado há 2 anos</b> é normalmente um problema de gestão/precificação, não de T&D puro — mas pode virar treinamento de venda sugestiva se a equipe não souber apresentar os itens.</li>'+
+  '<li><b>Falta de padronização entre turnos</b> é candidata natural a um plano de treinamento com checklist e prática, especialmente se a causa for "não sabe".</li>'+
+  '<li><b>Ausência de acompanhamento de indicadores</b> é estrutural — sem isso, nenhum resultado de treinamento vai ser mensurado (lembre do Nível 4 da avaliação).</li>'+
+  '<li>Um bom plano de 2 semanas normalmente combina: 1 dia de observação de pico sem intervir, 1 rodada de escuta (equipe + responsável), levantamento de fichas técnicas/CMV, e só depois desenho do primeiro treinamento.</li>'+
+  '</ul></div>';
+ return '<h1>Exercício — Caso de Consultoria Simulado</h1><p class="sub">Case fictício para treinar o time ArtBlend (ou novos consultores) a praticar o raciocínio de diagnóstico antes de aplicar com cliente real. Nenhum dado aqui corresponde a um negócio real.</p>'+
+ '<div class="cbox caso"><span class="tag">Caso fictício — uso interno de treinamento</span><h4 style="margin:0 0 6px">Bistrô Fictício Sabor &amp; Cia</h4>'+
+ '<p><b>Contexto:</b> restaurante fictício de cozinha contemporânea/italiana, 45 lugares, funcionando há cerca de 3 anos em um bairro fictício de médio poder aquisitivo. Equipe de 12 pessoas (cozinha, salão e um gerente). O caso serve apenas para prática — não representa nenhum cliente ou empresa real.</p></div>'+
+ '<div class="panel"><h3>Números do caso (fictícios)</h3><table><tr><th>Indicador</th><th>Valor</th></tr>'+
+ '<tr><td>Faturamento mensal</td><td>R$ 180.000</td></tr>'+
+ '<tr><td>Ticket médio</td><td>R$ 95</td></tr>'+
+ '<tr><td>CMV</td><td>38% (benchmark do segmento: 30–32%)</td></tr>'+
+ '<tr><td>Folha de pagamento</td><td>32% do faturamento</td></tr>'+
+ '<tr><td>Margem líquida estimada</td><td>6%</td></tr>'+
+ '<tr><td>Turnover mensal (equipe de cozinha)</td><td>12%</td></tr>'+
+ '<tr><td>Nota média em avaliações online</td><td>4.1</td></tr>'+
+ '<tr><td>Ocupação média</td><td>~55% em dias de semana · ~90% em fins de semana</td></tr>'+
+ '</table></div>'+
+ '<div class="panel"><h3>Desafios apresentados</h3><ul style="padding-left:20px;line-height:1.9">'+
+ '<li>CMV acima do benchmark, com fichas técnicas desatualizadas e sem controle formal de perdas de estoque.</li>'+
+ '<li>Rotatividade alta na cozinha (12%/mês), com novos contratados aprendendo "na correria" sem processo de integração.</li>'+
+ '<li>Cardápio sem revisão de itens ou precificação há cerca de 2 anos.</li>'+
+ '<li>Atendimento sem padronização perceptível — o cliente relata experiências muito diferentes dependendo do turno/garçom.</li>'+
+ '<li>O responsável pelo negócio não acompanha indicadores semanalmente — decisões são tomadas "no feeling".</li>'+
+ '</ul></div>'+
+ '<div class="panel"><h3>Seu diagnóstico</h3><p class="hint">Preencha como se estivesse aplicando o método ArtBlend neste caso. Não existe uma única resposta certa — o objetivo é praticar o raciocínio de priorização.</p><div class="formgrid">'+
+  fi('prior1','1ª prioridade que você identificaria')+fi('prior2','2ª prioridade')+fi('prior3','3ª prioridade')+
+ '</div><label class="block">Causa raiz predominante (o principal problema)</label><div class="radiorow">'+
+  '<label><input type="radio" name="causaSim" '+(c.causa=='sabe'?'checked':'')+' onchange="setCaso(\'causa\',\'sabe\')"> Não sabe (nunca ensinado)</label>'+
+  '<label><input type="radio" name="causaSim" '+(c.causa=='consegue'?'checked':'')+' onchange="setCaso(\'causa\',\'consegue\')"> Não consegue (sem condição de aplicar)</label>'+
+  '<label><input type="radio" name="causaSim" '+(c.causa=='quer'?'checked':'')+' onchange="setCaso(\'causa\',\'quer\')"> Não quer (sabe e não faz)</label>'+
+ '</div><p style="margin-top:8px">'+causaChip+'</p><div class="formgrid" style="margin-top:12px">'+
+  ta('plano2sem','Plano de ação — primeiras 2 semanas','Ex: dia 1-2 observação de pico sem intervir; dia 3-4 escuta da equipe...',4)+
+  ta('dadosAdicionais','Que dados adicionais você pediria antes de agir?','Ex: fichas técnicas, relatório de estoque, escala de turnos...',3)+
+ '</div></div>'+
+ '<div class="panel"><h3>Pontos de atenção sugeridos</h3>'+gabaritoBtn+gabaritoBox+'</div>';
+}
+function setCaso(k,v){S.casoSim[k]=v;save();if(k=='causa')render('caso');}
+function toggleGabarito(){S.casoSim.gabaritoAberto=!S.casoSim.gabaritoAberto;save();render('caso');}
+
+/* ===== GUIA ===== */
+function vGuia(){
+ return '<h1>Como usar</h1><div class="panel"><ol style="padding-left:20px;line-height:1.9">'+
+ '<li><b>Curso T&D:</b> leia antes de aplicar com o primeiro cliente — entender o porquê muda a qualidade do que você entrega.</li>'+
+ '<li><b>LNT:</b> preencha dados, observação e escuta; defina a causa raiz (não sabe / não consegue / não quer).</li>'+
+ '<li><b>Plano de Treinamento:</b> gere o plano formatado, já puxando a causa raiz do LNT.</li>'+
+ '<li><b>Avaliação:</b> registre os 4 níveis conforme o tempo passa (logo após, 48-72h, 30 dias, 60-90 dias).</li>'+
+ '<li><b>Exercício — Caso Simulado:</b> case fictício pra praticar o raciocínio de diagnóstico com o time interno, antes de aplicar com cliente real.</li>'+
+ '<li><b>Cliente/Projeto:</b> troque no seletor do topo pra manter os dados de cada restaurante separados.</li>'+
+ '</ol></div>';
+}
+
+/* ===== CURSO T&D ===== */
+function vCurso(){
+ return '<div class="curso-wrap">'+
+ '<h1>Curso T&D — Treinamento &amp; Desenvolvimento</h1>'+
+ '<p class="sub">Método ArtBlend · do diagnóstico à avaliação, com aplicação prática como CEP.</p>'+
+ '<p class="lead">Dividido em duas partes: a <b>Parte 1</b> ensina o que é T&amp;D e como funciona; a <b>Parte 2</b> mostra como aplicar com clientes. Leia a Parte 1 primeiro.</p>'+
+
+ '<h2 class="mh"><span class="m-kick">Parte 1 · Capítulo 1</span><br>O que é Treinamento &amp; Desenvolvimento</h2>'+
+ '<table><tr><th>Treinamento — presente</th><th>Desenvolvimento — futuro</th></tr>'+
+ '<tr><td>Resolve uma habilidade específica agora</td><td>Prepara para o que a pessoa ainda vai ser</td></tr>'+
+ '<tr><td>"Garçom não sabe sugerir" → treino de vendas</td><td>"Perfil de supervisora em 6 meses" → liderança</td></tr></table>'+
+ '<p><b>No CEP você faz os dois.</b> Treinamento resolve hoje; desenvolvimento constrói o time de amanhã.</p>'+
+ '<div class="cbox caso"><span class="tag">Caso Real</span><h4 style="margin:0 0 6px">O custo invisível de não treinar</h4><p>15 funcionários, turnover 10%/mês = 18 contratações/ano × ~R$800 = <b>R$14.400/ano desperdiçados</b>. Um ciclo de T&amp;D de R$2.400 que corte o turnover pela metade economiza R$7.200 líquidos.</p></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Capítulo 2</span><br>O processo completo de T&D</h2>'+
+ '<div class="chain">1. LNT → 2. DESIGN → 3. DESENVOLVIMENTO → 4. APLICAÇÃO → 5. AVALIAÇÃO</div>'+
+
+ '<h2 class="mh"><span class="m-kick">Capítulo 3</span><br>Etapa 1 — LNT: Levantamento de Necessidades</h2>'+
+ '<p><b>3 fontes:</b> Dados (vendas, CMV, turnover, avaliações online); Observação (1h de pico sem intervir); Escuta (equipe + dono).</p>'+
+ '<div class="metodo"><span class="tag">Método ArtBlend</span><h4>A pergunta mais importante do LNT</h4><p>"Isso é problema de <b>saber</b>, de <b>poder</b> ou de <b>querer</b>?"</p></div>'+
+ '<table><tr><th>Causa</th><th>Solução</th></tr><tr><td>Não sabe (nunca ensinado)</td><td>Treino de conhecimento</td></tr><tr><td>Não consegue (sem condição de aplicar)</td><td>Treino de habilidade + prática</td></tr><tr><td>Não quer (sabe e não faz)</td><td>Não é T&D — é liderança</td></tr></table>'+
+ '<p class="note">Use a aba "LNT — Diagnóstico" ao lado pra aplicar isso direto com o cliente.</p>'+
+
+ '<h2 class="mh"><span class="m-kick">Capítulo 4</span><br>Etapa 2 — Design Instrucional</h2>'+
+ '<p>Responde 5 perguntas: para quem, para quê, o quê, como, como avaliar.</p>'+
+ '<table><tr><th>Perfil</th><th>%</th><th>Aprende com</th></tr><tr><td>Até Fundamental</td><td>~70%</td><td>Visual — imagem, demonstração, prática</td></tr><tr><td>Médio+</td><td>~30%</td><td>Textual — dados, textos, análise</td></tr></table>'+
+ '<p><b>Objetivo forte (verbo de ação):</b> "sugerir 1 item adicional por atendimento", não "entender a importância do atendimento".</p>'+
+ '<div class="metodo"><span class="tag">Método ArtBlend</span><h4>Modelo de 5 etapas (ADDIE)</h4><p>Análise (LNT) → Design → Desenvolvimento → Implementação → Avaliação.</p></div>'+
+ '<div class="cbox warn"><span class="tag">Regra dos 45 minutos</span><p>A atenção cai após 45–50 min. Máx. 45 min → pausa/dinâmica. Pós-almoço é a pior hora.</p></div>'+
+
+ '<h2 class="mh"><span class="m-kick">Capítulo 5</span><br>Etapa 3 — Desenvolvimento: materiais</h2>'+
+ '<div class="metodo"><span class="tag">Método ArtBlend</span><h4>Os 3 elementos</h4><p><b>1. Material visual</b> · <b>2. Dinâmicas/role-playing</b> · <b>3. Item de marca afetivo.</b></p></div>'+
+ '<p><b>Visual:</b> cartazes A3, infográficos, vídeo de 30–60s; regra dos 7 dias de exposição. <b>Dinâmicas:</b> roleplay de atendimento, quiz, jogos de equipe. <b>Item afetivo:</b> café/brinde na pausa.</p>'+
+
+ '<h2 class="mh"><span class="m-kick">Capítulo 6</span><br>Etapa 4 — Aplicação: como facilitar</h2>'+
+ '<p><b>Os 7 minutos:</b> chegue antes; recepcione pelo nome; comece com pergunta; conecte ao objetivo; diga o que vão ganhar.</p>'+
+ '<div class="cbox script"><span class="tag">Script — Resistências</span>'+
+ '<p class="say">"Isso a gente já sabe." → "Ótimo! Me conta como vocês fazem."</p>'+
+ '<p class="say">"Não vai funcionar aqui." → "O que precisaria mudar pra funcionar?"</p>'+
+ '<p class="say">Silêncio → "Fala com o colega ao lado por 2 min e depois compartilha."</p></div>'+
+ '<p><b>Encerramento (gera aplicação):</b> recapitulação pelo grupo → compromisso público → próximo passo → celebração.</p>'+
+
+ '<h2 class="mh"><span class="m-kick">Capítulo 7</span><br>Etapa 5 — Avaliação em 4 níveis</h2>'+
+ '<table><tr><th>Nível</th><th>Quando</th><th>Como medir</th><th>Meta</th></tr>'+
+ '<tr><td>1. Reação</td><td>Logo após</td><td>Formulário 1–5</td><td>&gt;4,0</td></tr>'+
+ '<tr><td>2. Aprendizagem</td><td>48–72h</td><td>Teste/demonstração</td><td>80%</td></tr>'+
+ '<tr><td>3. Comportamento</td><td>30 dias</td><td>Observação no pico</td><td>—</td></tr>'+
+ '<tr><td>4. Resultado</td><td>60–90 dias</td><td>Indicadores antes×depois</td><td>—</td></tr></table>'+
+ '<div class="cbox warn"><span class="tag">Cuidado</span><p>Nível 1 alto não garante aprendizagem. O Nível 3 é onde a maioria falha — o líder precisa reforçar diariamente.</p></div>'+
+ '<p class="note">Use a aba "Avaliação (4 níveis)" ao lado pra registrar isso por treinamento.</p>'+
+
+ '<h2 class="mh"><span class="m-kick">Capítulo 8</span><br>Seu desenvolvimento como facilitador</h2>'+
+ '<p>Diagnóstico (LNT), design instrucional, facilitação, criação de materiais, avaliação e storytelling. Cada treino vira um <b>case</b> do seu portfólio — em 6 meses, 6–10 cases fecham novos contratos.</p>'+
+
+ '<h2 class="mh"><span class="m-kick">Parte 2 · Capítulo 9</span><br>O T&D no fluxo do CEP</h2>'+
+ '<div class="chain">P1 (sem. 1–3) LNT → P2 (sem. 4–8) Treinamento → P3 (sem. 9–12) 2º treino + avaliação</div>'+
+ '<div class="cbox warn"><span class="tag">Regra de ouro</span><p>Nunca faça treinamento sem diagnóstico. Sem saber o problema real, o treino resolve a coisa errada.</p></div>'+
+ '<div class="cbox script"><span class="tag">Script — Vendendo o treinamento</span><p class="say">O maior impacto agora é um treino focado em [TEMA]. O custo atual desse problema é ~R$[X]/mês. Se a gente mover esse número em 20%, já paga o CEP por 3 meses. Em 60 dias te apresento o resultado.</p></div>'+
+ '<table><tr><th>Treinamento</th><th>Formato</th><th>KPI</th></tr>'+
+ '<tr><td>Vendas</td><td>3h + roleplay</td><td>Ticket médio</td></tr>'+
+ '<tr><td>Atendimento</td><td>4h dramatizações</td><td>Avaliações online</td></tr>'+
+ '<tr><td>Liderança (CNV)</td><td>Workshop 4h + coaching</td><td>Engajamento, turnover</td></tr>'+
+ '<tr><td>Processos (CMV)</td><td>Hands-on 2h</td><td>CMV %</td></tr>'+
+ '<tr><td>Onboarding</td><td>5 dias</td><td>Retenção 90d</td></tr></table>'+
+
+ '<h2 class="mh"><span class="m-kick">Capítulo 10</span><br>Casos práticos</h2>'+
+ '<div class="cbox caso"><span class="tag">Caso Real 1</span><h4 style="margin:0 0 6px">Restaurante de bairro — ticket baixo</h4><p><b>LNT:</b> ticket R$28 (benchmark R$45); garçons com medo de sugerir; nunca treinados. Causa: não sabe. <b>Resultado (60d):</b> ticket R$28 → <b>R$38 (+36%)</b>; impacto ~R$21.000/mês.</p></div>'+
+ '<div class="cbox caso"><span class="tag">Caso Real 2</span><h4 style="margin:0 0 6px">Padaria — conflito de liderança</h4><p><b>LNT:</b> 100% das escutas citaram o supervisor. Causa: não sabe + não consegue sob pressão. <b>Resultado (60d):</b> turnover 15% → <b>4%/mês</b>; engajamento 31 → 47.</p></div>'+
+
+ '<p class="note" style="text-align:center;margin-top:24px;">Curso T&amp;D — Treinamento &amp; Desenvolvimento · Food Service · Método ArtBlend. Use as abas LNT / Plano de Treinamento / Avaliação ao lado pra aplicar direto no cliente.</p>'+
+ '</div>';
+}
+
+function exportJSON(){var b=new Blob([JSON.stringify(S,null,2)],{type:"application/json"});var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="artblend_td_"+nomeClienteAtivo().replace(/[^a-z0-9]+/gi,'_')+".json";a.click();}
+
+function isValidTDState(o){
+  return !!(o && typeof o==='object' && o.lnt && typeof o.lnt==='object' && Array.isArray(o.planos) && Array.isArray(o.avaliacoes));
+}
+document.getElementById('fileIn').onchange=function(e){
+  var f=e.target.files[0]; if(!f) return;
+  var rd=new FileReader();
+  rd.onload=function(){
+    try{
+      var novo=JSON.parse(rd.result);
+      if(!isValidTDState(novo)){ alert('Arquivo inválido: não parece ser um export de dados de T&D (esperado lnt/planos/avaliacoes).'); return; }
+      if(!confirm('Importar este arquivo vai substituir todos os dados do cliente ativo ("'+nomeClienteAtivo()+'"). Deseja continuar?')) return;
+      S=novo;
+      save();
+      render(cur);
+      alert('Importado com sucesso.');
+    }catch(err){ alert('Arquivo inválido: ' + err.message); }
+    e.target.value='';
+  };
+  rd.readAsText(f);
+};
+
+(async function(){
+  var r = await sb.auth.getSession();
+  if(r.data.session){ await iniciarApp(r.data.session); }
+})();
+</script>
+</body>
+</html>
