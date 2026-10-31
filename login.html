@@ -167,6 +167,20 @@
         <button type="submit" class="btn-login" id="btnLogin">
             <i class="fas fa-sign-in-alt"></i> FAZER LOGIN
         </button>
+        <p style="text-align:center;margin-top:14px;">
+            <a href="#" id="btnEsqueci" style="color:#16A5A5;font-weight:600;">Esqueci minha senha</a>
+        </p>
+    </form>
+
+    <form id="novaSenhaForm" style="display:none;">
+        <p style="text-align:center;margin-bottom:12px;"><strong>Crie sua nova senha</strong></p>
+        <div class="form-group">
+            <label for="novaSenha"><i class="fas fa-lock"></i> Nova senha</label>
+            <input type="password" id="novaSenha" placeholder="Mínimo 6 caracteres" minlength="6" required>
+        </div>
+        <button type="submit" class="btn-login" id="btnNovaSenha">
+            <i class="fas fa-save"></i> SALVAR NOVA SENHA
+        </button>
     </form>
     
     <div class="back-link">
@@ -187,10 +201,49 @@ function showMessage(msg, type) {
     const msgDiv = document.getElementById('message');
     msgDiv.textContent = msg;
     msgDiv.className = `message ${type}`;
-    setTimeout(() => {
-        msgDiv.className = 'message';
-    }, 5000);
+    msgDiv.style.display = 'block';
 }
+
+// Esqueci minha senha: envia link de recuperação para o e-mail digitado
+document.getElementById('btnEsqueci').addEventListener('click', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    if (!email) {
+        showMessage('Digite seu e-mail no campo acima e clique de novo.', 'error');
+        return;
+    }
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: 'https://artblendconsultoria.com.br/login'
+    });
+    if (error) {
+        showMessage('Não foi possível enviar o e-mail: ' + error.message, 'error');
+    } else {
+        showMessage('Se o e-mail estiver cadastrado, você vai receber um link para criar a nova senha. Confira também a caixa de spam.', 'success');
+    }
+});
+
+// Quando o usuário chega pelo link do e-mail, mostra o formulário de nova senha
+supabase.auth.onAuthStateChange((event) => {
+    if (event === 'PASSWORD_RECOVERY') {
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('novaSenhaForm').style.display = 'block';
+    }
+});
+
+document.getElementById('novaSenhaForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const nova = document.getElementById('novaSenha').value;
+    const btn = document.getElementById('btnNovaSenha');
+    btn.disabled = true;
+    const { error } = await supabase.auth.updateUser({ password: nova });
+    if (error) {
+        showMessage('Não foi possível salvar: ' + error.message, 'error');
+        btn.disabled = false;
+        return;
+    }
+    showMessage('Senha criada com sucesso! Entrando na plataforma...', 'success');
+    setTimeout(() => { window.location.href = 'plataforma.html'; }, 1200);
+});
 
 // Fazer login
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
