@@ -1250,20 +1250,28 @@
 </div>
 
 <script>
-// INICIALIZAR USUÁRIO
-function initUser() {
-    const userStr = localStorage.getItem('artblend_user');
-    if (!userStr) {
+// INICIALIZAR USUÁRIO (sessão real do Supabase)
+const SB_URL = 'https://zjvjixiuvnpbpsdnxuyk.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqdmppeGl1dm5wYnBzZG54dXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxNDUxMjMsImV4cCI6MjA5OTcyMTEyM30.TgC8A0y8e4Or4FZhSVglUW2micje9belaE0P-vAUwiY';
+const sbPlat = window.supabase.createClient(SB_URL, SB_KEY);
+
+async function initUser() {
+    const { data } = await sbPlat.auth.getSession();
+    if (!data || !data.session) {
         window.location.href = 'login.html';
         return;
     }
-    
-    const user = JSON.parse(userStr);
-    document.getElementById('user-email').textContent = user.email;
-    document.getElementById('user-role').textContent = '👑 ' + (user.role.charAt(0).toUpperCase() + user.role.slice(1));
-    
+    const u = data.session.user;
+    const email = u.email;
+    // Papel: proprietário pelo e-mail da conta; demais pelo metadado do usuário (padrão: consultor)
+    const role = (email === 'fagnercanolongo24@gmail.com')
+        ? 'proprietario'
+        : ((u.user_metadata && u.user_metadata.role) || 'consultor');
+    document.getElementById('user-email').textContent = email;
+    document.getElementById('user-role').textContent = '👑 ' + (role.charAt(0).toUpperCase() + role.slice(1));
+
     // Ocultar clientes para quem não é proprietário/dev
-    if (user.role !== 'proprietario' && user.role !== 'desenvolvedor') {
+    if (role !== 'proprietario' && role !== 'desenvolvedor') {
         document.getElementById('btn-clientes').style.display = 'none';
     }
 }
@@ -1299,8 +1307,7 @@ function showSection(sectionId) {
 // LOGOUT
 function logout() {
     if (confirm('Tem certeza que deseja sair?')) {
-        localStorage.removeItem('artblend_user');
-        window.location.href = 'login.html';
+        sbPlat.auth.signOut().finally(() => { window.location.href = 'login.html'; });
     }
 }
 
