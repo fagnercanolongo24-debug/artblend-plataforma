@@ -102,39 +102,11 @@
             cursor: not-allowed;
         }
         
-        .demo-users {
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 30px;
-            text-align: left;
-        }
-        
-        .demo-users h3 {
-            color: #16A5A5;
-            font-size: 14px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        
-        .demo-user {
-            padding: 10px;
-            background: white;
-            border-radius: 6px;
-            margin-bottom: 8px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            border-left: 4px solid #16A5A5;
-        }
-        
-        .demo-user:hover {
-            background: #e8f5f5;
-        }
-        
-        .demo-user strong { color: #16A5A5; }
-        .demo-user small { color: #999; }
-        
+                
+                
+                
+                
+                        
         .message {
             padding: 12px;
             border-radius: 6px;
@@ -197,31 +169,6 @@
         </button>
     </form>
     
-    <!-- USUÁRIOS DE DEMONSTRAÇÃO -->
-    <div class="demo-users">
-        <h3>👥 Usuários de Teste (Clique para Preencher)</h3>
-        
-        <div class="demo-user" onclick="preencherUser('proprietario@artblend.com', 'senha123')">
-            <strong>👑 Proprietário</strong><br>
-            <small>proprietario@artblend.com</small>
-        </div>
-        
-        <div class="demo-user" onclick="preencherUser('desenvolvedor@artblend.com', 'senha123')">
-            <strong>💻 Desenvolvedor</strong><br>
-            <small>desenvolvedor@artblend.com</small>
-        </div>
-        
-        <div class="demo-user" onclick="preencherUser('consultor@artblend.com', 'senha123')">
-            <strong>📊 Consultor</strong><br>
-            <small>consultor@artblend.com</small>
-        </div>
-        
-        <div class="demo-user" onclick="preencherUser('colaborador@artblend.com', 'senha123')">
-            <strong>👨‍💼 Colaborador</strong><br>
-            <small>colaborador@artblend.com</small>
-        </div>
-    </div>
-    
     <div class="back-link">
         <a href="inicio.html"><i class="fas fa-arrow-left"></i> Voltar</a>
     </div>
@@ -234,13 +181,6 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 const { createClient } = window.supabase;
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-// Preencher formulário com usuário de teste
-function preencherUser(email, password) {
-    document.getElementById('email').value = email;
-    document.getElementById('password').value = password;
-    document.getElementById('email').focus();
-}
 
 // Mostrar mensagem
 function showMessage(msg, type) {
@@ -264,39 +204,17 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     btnLogin.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Validando...';
     
     try {
-        // Simular validação (em produção seria contra Supabase Auth)
-        // Para demo: aceitar usuários de teste
-        const users = {
-            'proprietario@artblend.com': { role: 'proprietario', name: 'Fagner - Proprietário' },
-            'desenvolvedor@artblend.com': { role: 'desenvolvedor', name: 'Desenvolvedor' },
-            'consultor@artblend.com': { role: 'consultor', name: 'Consultor' },
-            'colaborador@artblend.com': { role: 'colaborador', name: 'Colaborador' }
-        };
-        
-        if (users[email] && password === 'senha123') {
-            const userData = users[email];
-            
-            // Salvar no localStorage
-            localStorage.setItem('artblend_user', JSON.stringify({
-                email: email,
-                name: userData.name,
-                role: userData.role,
-                loginTime: new Date().toISOString()
-            }));
-            
-            showMessage('✅ Login realizado com sucesso!', 'success');
-            
-            // Redirecionar para plataforma (TIER 4)
-            setTimeout(() => {
-                window.location.href = 'plataforma.html?role=' + userData.role;
-            }, 1000);
-            
-        } else {
-            showMessage('❌ Email ou senha incorretos!', 'error');
+        // Login real: valida e-mail e senha no Supabase Auth
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error || !data || !data.session) {
+            showMessage('❌ E-mail ou senha incorretos!', 'error');
             btnLogin.disabled = false;
             btnLogin.innerHTML = '<i class="fas fa-sign-in-alt"></i> FAZER LOGIN';
+            return;
         }
-        
+
+        showMessage('✅ Login realizado com sucesso!', 'success');
+        setTimeout(() => { window.location.href = 'plataforma.html'; }, 800);
     } catch (error) {
         console.error('Erro:', error);
         showMessage('❌ Erro ao fazer login. Tente novamente.', 'error');
