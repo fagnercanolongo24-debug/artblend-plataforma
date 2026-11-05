@@ -36,6 +36,18 @@ a{color:var(--pri-esc)}
 .brandmark .letter.abc{font-size:1.28em;font-weight:900;color:var(--pri);animation:letterIn .35s ease forwards,letterGlow 2.4s ease-in-out 1.6s infinite}
 .tagmarca{font-family:'Poppins',inherit;font-size:10.5px;color:var(--txt2);font-weight:500;margin:4px 10px 0;opacity:0;animation:wordIn .55s ease forwards;animation-delay:1.6s}
 .tagmarca b{color:var(--pri);font-weight:800}
+.tagmarca .alvo{display:inline-block;font-weight:800;color:var(--pri);transform-origin:50% 70%}
+.tagmarca .alvo.pisca{animation:alvoCresce 1.5s ease-out}
+.brandmark .letter.abc.viajando{animation:letterIn .35s ease forwards,letterGlow 2.4s ease-in-out 1.6s infinite,letraViaja 1.5s ease-in-out}
+@keyframes letraViaja{
+  0%{transform:translate(0,0) scale(1);opacity:1}
+  20%{transform:translate(calc(var(--tx)*.15 - 22px),calc(var(--ty)*.2)) scale(1.05);opacity:1}
+  45%{transform:translate(calc(var(--tx)*.45 - 38px),calc(var(--ty)*.55)) scale(.7);opacity:.8}
+  70%{transform:translate(var(--tx),var(--ty)) scale(.25);opacity:0}
+  82%{transform:translate(0,0) scale(0);opacity:0}
+  100%{transform:translate(0,0) scale(1);opacity:1}}
+@keyframes alvoCresce{0%,45%{transform:scale(1);color:var(--pri)}68%{transform:scale(1.85);color:var(--acento)}85%{transform:scale(1.25);color:var(--acento)}100%{transform:scale(1);color:var(--pri)}}
+@media (prefers-reduced-motion:reduce){.brandmark .letter.abc.viajando,.tagmarca .alvo.pisca{animation:none}}
 @keyframes letterIn{to{opacity:1;transform:translateY(0)}}
 @keyframes letterGlow{0%,100%{color:var(--pri)}50%{color:var(--acento)}}
 @keyframes wordIn{to{opacity:1}}
@@ -213,7 +225,7 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
       <div class="word"><span class="abc">A</span>rt</div><div class="word"><span class="abc">B</span>lend</div>
       <div class="word"><span class="abc">C</span>onsultoria</div><div class="word"><span class="abc">G</span>ourmet</div>
     </div>
-    <div class="tagmarca">O <b>ABC</b> gastronômico que você precisa</div>
+    <div class="tagmarca">O <span class="alvo">A</span><span class="alvo">B</span><span class="alvo">C</span> <span class="alvo">G</span>astronômico que você precisa</div>
     <div class="sep">Comece aqui</div>
     <button data-mod="abc"><span class="n">0</span>ABC da Qualidade</button>
     <button data-mod="inicio" class="ativo"><span class="n">⌂</span>Painel</button>
@@ -1378,8 +1390,20 @@ let abertosAntes=[];
 window.addEventListener('beforeprint',()=>{ abertosAntes=[...document.querySelectorAll('.bloco-insp.aberto')].map(e=>e.id); document.querySelectorAll('.bloco-insp').forEach(e=>e.classList.add('aberto')); });
 window.addEventListener('afterprint',()=>{ document.querySelectorAll('.bloco-insp').forEach(e=>e.classList.toggle('aberto',abertosAntes.includes(e.id))); });
 /* ---------- marca animada ---------- */
-(function(){ let idx=0; document.querySelectorAll('.brandmark .word').forEach(w=>{ const tem=!!w.querySelector('.abc'); const t=w.textContent; w.textContent='';
-  [...t].forEach((ch,i)=>{ const sp=document.createElement('span'); sp.textContent=ch; sp.className='letter'+(i===0&&tem?' abc':''); sp.style.animationDelay=(idx*0.045).toFixed(3)+'s'; w.appendChild(sp); idx++; }); }); })();
+(function(){ let idx=0; const letras=[];
+  document.querySelectorAll('.brandmark .word').forEach(w=>{ const tem=!!w.querySelector('.abc'); const t=w.textContent; w.textContent='';
+    [...t].forEach((ch,i)=>{ const sp=document.createElement('span'); sp.textContent=ch; sp.className='letter'+(i===0&&tem?' abc':''); sp.style.animationDelay=(idx*0.045).toFixed(3)+'s'; w.appendChild(sp); if(i===0&&tem) letras.push(sp); idx++; }); });
+  const alvos=[...document.querySelectorAll('.tagmarca .alvo')];
+  function medir(){ letras.forEach((l,i)=>{ const a=alvos[i]; if(!a) return; const r1=l.getBoundingClientRect(), r2=a.getBoundingClientRect(); if(!r1.width||!r2.width) return;
+    l.style.setProperty('--tx',Math.round((r2.left+r2.width/2)-(r1.left+r1.width/2))+'px'); l.style.setProperty('--ty',Math.round((r2.top+r2.height/2)-(r1.top+r1.height/2))+'px'); }); }
+  function viajar(l,a){ l.classList.remove('viajando'); void l.offsetWidth; l.classList.add('viajando');
+    setTimeout(()=>{ if(a){ a.classList.remove('pisca'); void a.offsetWidth; a.classList.add('pisca'); } },700);
+    l.addEventListener('animationend',function fim(e){ if(e.animationName!=='letraViaja') return; l.classList.remove('viajando'); l.removeEventListener('animationend',fim); });
+    if(a) a.addEventListener('animationend',function fim2(){ a.classList.remove('pisca'); a.removeEventListener('animationend',fim2); }); }
+  function rodada(){ if(!letras.length || !letras[0].offsetParent) return; medir(); letras.forEach((l,i)=>setTimeout(()=>viajar(l,alvos[i]),i*950)); }
+  setTimeout(()=>{ rodada(); setInterval(rodada,6200); },2400);
+  window.addEventListener('resize',medir);
+})();
 
 /* ---------- início ---------- */
 carregar();
