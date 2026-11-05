@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Central de Qualidade ArtBlend</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root{
   --pri:#1C93A8; --pri-esc:#137487; --pri-clr:#E4F8FB; --acento:#2EC4D6; --verde:#3ADC84; --fundo:#F5F7FA; --card:#FFFFFF;
@@ -20,8 +21,9 @@ a{color:var(--pri-esc)}
 .topo .marca{font-weight:800;font-size:18px;letter-spacing:.3px}
 .topo .marca small{display:block;font-weight:500;font-size:12px;opacity:.85}
 .topo .unidade{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13px}
-.topo .unidade input{border:1.5px solid var(--borda);border-radius:8px;padding:7px 10px;font-size:14px;min-width:200px}
+.topo .unidade input{border:1.5px solid var(--borda);border-radius:8px;padding:7px 10px;font-size:14px;min-width:150px;max-width:190px}
 .topo .voltar{color:var(--pri-esc);text-decoration:none;font-size:13px;border:1.5px solid var(--borda);padding:6px 10px;border-radius:8px}
+@media (max-width:1400px){ .topo .unidade>span{display:none} }
 .topo .marca{font-family:'Poppins',inherit;color:var(--txt)} .topo .marca small{color:var(--txt2)}
 .perfis{display:flex;gap:4px;background:var(--fundo);border:1px solid var(--borda);border-radius:10px;padding:3px}
 .perfis button{border:0;background:none;padding:6px 10px;border-radius:8px;font-size:13px;font-weight:600;color:var(--txt2);cursor:pointer}
@@ -48,6 +50,21 @@ main{position:relative;z-index:1}
 .acesso td{text-align:center} .acesso td:first-child{text-align:left}
 .ac-usa{color:var(--ok);font-weight:800} .ac-ve{color:#946B00;font-weight:700} .ac-nao{color:#B8C0CC}
 nav.menu button.oculto{display:none}
+.busca{position:relative;flex:1;min-width:170px;max-width:260px}
+.busca input{border:1.5px solid var(--borda);border-radius:10px;padding:8px 12px;font-size:14px}
+#lupaRes{position:absolute;top:42px;left:0;right:0;background:#fff;border:1px solid var(--borda);border-radius:10px;box-shadow:0 10px 26px rgba(22,41,74,.12);max-height:380px;overflow:auto;display:none;z-index:50}
+#lupaRes div.r{padding:9px 12px;border-bottom:1px solid var(--borda);cursor:pointer;font-size:14px}
+#lupaRes div.r:hover{background:var(--pri-clr)}
+#lupaRes small{display:block;color:var(--txt2);font-size:12px}
+.etq-folha{display:flex;flex-wrap:wrap;gap:8px}
+.etq{width:60mm;height:40mm;border:1px dashed #9AA6B2;border-radius:4px;padding:2mm 3mm;font-size:8.5pt;line-height:1.25;display:flex;gap:2mm;background:#fff;color:#000;overflow:hidden}
+.etq .q{width:16mm;height:16mm;flex-shrink:0}
+.etq .q img,.etq .q canvas{width:16mm!important;height:16mm!important}
+.etq b.p{font-size:10.5pt;display:block;margin-bottom:1mm}
+.qr-cartao{width:62mm;border:1px dashed #9AA6B2;border-radius:6px;padding:3mm;text-align:center;background:#fff;color:#000}
+.qr-cartao .q{width:38mm;height:38mm;margin:2mm auto}
+.qr-cartao .q img,.qr-cartao .q canvas{width:38mm!important;height:38mm!important}
+@media print{ body.so-etq main>*:not(.ativo){display:none} body.so-etq section.ativo>*:not(.area-print){display:none!important} body.so-etq .area-print .card{border:0} body.so-etq .etq,body.so-etq .qr-cartao{border:1px solid #ccc;page-break-inside:avoid} }
 /* ===== layout ===== */
 .layout{display:flex;min-height:calc(100vh - 64px)}
 nav.menu{width:250px;background:#fff;border-right:1px solid var(--borda);padding:14px 10px;flex-shrink:0}
@@ -149,6 +166,7 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
   main{padding:14px}
   .g2,.g3,.g4{grid-template-columns:1fr 1fr}
   .topo{position:static}
+  .busca{max-width:none;width:100%;order:3}
   .topo .unidade{margin-left:0;width:100%;flex-wrap:wrap}
   .topo .unidade input{flex:1;min-width:0}
   .topo .unidade>span{display:none}
@@ -159,7 +177,7 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
 @media (max-width:520px){ .g2,.g3{grid-template-columns:1fr} .g4{grid-template-columns:1fr 1fr} .kpi .val{font-size:24px} h1{font-size:21px} }
 /* ===== impressão ===== */
 @media print{
-  .topo,nav.menu,.acoes,.nao-imprimir,.abas,.watermark,.opc button:not(.sel){display:none!important}
+  .topo,nav.menu,.acoes,.nao-imprimir,.item-insp .btn,.abas,.watermark,.opc button:not(.sel){display:none!important}
   body{background:#fff}
   main{padding:0;max-width:none}
   section.mod{display:none!important}
@@ -175,6 +193,7 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
 <div class="watermark">ABC</div>
 <header class="topo">
   <div class="marca">Central de Qualidade<small>Segurança dos alimentos do jeito certo, todos os dias</small></div>
+  <div class="busca"><input id="lupa" placeholder="🔍 Buscar na Central…" title="Ex.: freezer, caixa d’água, etiqueta" oninput="buscarCentral(this.value)" autocomplete="off"><div id="lupaRes"></div></div>
   <div class="unidade">
     <span>Estabelecimento:</span>
     <input id="nomeUnidade" placeholder="Nome do restaurante" oninput="salvarUnidade(this.value)">
@@ -185,7 +204,7 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
     </div>
     <button class="btn-imp" onclick="imprimir()" title="Imprimir ou salvar em PDF a tela atual">🖨 Imprimir / PDF</button>
   </div>
-  <a class="voltar" href="plataforma.html">← Voltar à plataforma</a>
+  <a class="voltar" href="plataforma.html" title="Voltar à plataforma">← Plataforma</a>
 </header>
 
 <div class="layout">
@@ -202,6 +221,7 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
     <button data-mod="inspecao"><span class="n">1</span>Inspeção Sanitária</button>
     <button data-mod="pops"><span class="n">2</span>Biblioteca de POPs</button>
     <button data-mod="controles"><span class="n">3</span>Controles do Dia</button>
+    <button data-mod="rotina"><span class="n">3+</span>Rotina Inteligente</button>
     <button data-mod="equipe"><span class="n">4</span>Equipe: Saúde e Treino</button>
     <button data-mod="visita"><span class="n">5</span>Visita do Consultor</button>
     <button data-mod="mbp"><span class="n">6</span>Manual de Boas Práticas</button>
@@ -214,6 +234,8 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
   <section class="mod" id="mod-abc">
     <h1>0 · ABC da Qualidade</h1>
     <p class="sub">O beabá de como usar esta Central: <b>em que momento</b> usar cada parte, <b>quem</b> usa e <b>com que frequência</b>. Leia uma vez e volte sempre que tiver dúvida.</p>
+    <div class="abas nao-imprimir"><button id="abaAbcUso" class="ativo" onclick="abaABC('uso')">📘 Como usar a Central</button><button id="abaAbcCurso" onclick="abaABC('curso')">🎓 Treinamento (curso + certificado)</button></div>
+    <div id="abcUso">
 
     <h2>Os 3 momentos da consultoria ArtBlend</h2>
     <div class="grade g3">
@@ -247,6 +269,9 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
     <div class="card tabela-rola"><table class="acesso" id="tabelaAcesso"></table>
       <p style="font-size:13px;color:var(--txt2);margin-top:8px"><span class="ac-usa">● Usa</span> preenche e altera · <span class="ac-ve">◐ Vê</span> consulta e imprime · <span class="ac-nao">○</span> não aparece</p></div>
     <div class="aviso">Hoje o botão de perfil organiza a tela. Quando a Central for ligada ao login da plataforma (Supabase), cada pessoa entra com a própria senha e o acesso passa a ser travado de verdade.</div>
+    <div class="dica"><b>Consultor e responsável técnico:</b> o consultor pode ser a nutricionista que assina como responsável técnica. Se o dono preferir, ele mesmo pode ser o responsável — desde que faça o curso de Boas Práticas. Isso é definido no módulo 6 · Manual.</div>
+    </div>
+    <div id="abcCurso" style="display:none"><div id="cursoConteudo"></div></div>
   </section>
 
   <!-- ============ PAINEL ============ -->
@@ -262,6 +287,7 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
     </div>
     <h2>Alertas de hoje</h2>
     <div class="card" id="alertasPainel"></div>
+    <div class="card" id="evolucaoPainel"></div>
   </section>
 
   <!-- ============ 1. INSPEÇÃO ============ -->
@@ -278,6 +304,7 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
       <button class="btn sec" onclick="abrirTodos(true)">Abrir todos os blocos</button>
       <button class="btn sec" onclick="abrirTodos(false)">Fechar todos</button>
       <button class="btn" onclick="irPara('visita')">Gerar relatório da visita →</button>
+      <button class="btn sec" onclick="salvarHistorico()">💾 Guardar nota no histórico</button>
       <button class="btn perigo" onclick="limparInspecao()">Começar nova inspeção</button>
     </div>
     <div id="listaInspecao"></div>
@@ -299,6 +326,14 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
     <div id="controleConteudo"></div>
   </section>
 
+  <!-- ============ 3+. ROTINA INTELIGENTE ============ -->
+  <section class="mod" id="mod-rotina">
+    <h1>3+ · Rotina Inteligente</h1>
+    <p class="sub">As automações do dia a dia: etiquetas de validade, QR Code em cada equipamento, lembretes no celular e pesagem no recebimento com fator de correção. Tudo conversa com os Controles do Dia.</p>
+    <div class="abas" id="abasRotina"></div>
+    <div id="rotinaConteudo"></div>
+  </section>
+
   <!-- ============ 4. EQUIPE ============ -->
   <section class="mod" id="mod-equipe">
     <h1>4 · Equipe: Saúde e Treinamento</h1>
@@ -315,7 +350,7 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
       <button class="btn" onclick="addColaborador()">+ Adicionar</button>
     </div>
     <h2>Equipe e trilha de treinamento BPF</h2>
-    <div class="dica">Clique nos círculos para marcar cada treinamento concluído. Com os 8 concluídos, o certificado ArtBlend é liberado.</div>
+    <div class="dica">Cada pessoa faz as aulas no <b>Módulo 0 › Treinamento</b> e o quiz marca o círculo sozinho. Se o treinamento foi presencial, o consultor pode clicar no círculo para marcar. Com os 8 concluídos, o certificado ArtBlend é liberado. <button class="btn peq" onclick="irPara('abc');abaABC('curso')">Abrir o curso</button></div>
     <div class="card tabela-rola" id="tabelaEquipe"></div>
     <h2>Os 8 treinamentos da trilha</h2>
     <div class="grade g2" id="trilhaInfo"></div>
@@ -365,7 +400,37 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
 const ARMAZ = 'artblend_qualidade_v1';
 let DB = {unidade:'', insp:{}, reg:{}, equipe:[], visita:{}, mbp:{}};
 function carregar(){ try{ const s = localStorage.getItem(ARMAZ); if(s) DB = Object.assign(DB, JSON.parse(s)); }catch(e){} }
-function gravar(){ try{ localStorage.setItem(ARMAZ, JSON.stringify(DB)); }catch(e){} }
+function gravar(){ try{ localStorage.setItem(ARMAZ, JSON.stringify(DB)); return true; }catch(e){ alert('A memória deste aparelho está cheia (provavelmente por causa das fotos). Exporte os registros e apague fotos antigas.'); return false; } }
+
+/* =========================================================
+   FOTOS COM PROVA (anti-fraude)
+   - só aceita foto tirada na hora (câmera), carimba data/hora/aparelho
+   - detecta foto repetida (mesma "impressão digital") e foto antiga
+   ========================================================= */
+function idAparelho(){ try{ let d=localStorage.getItem('artblend_aparelho'); if(!d){ d='AP-'+Math.random().toString(36).slice(2,8).toUpperCase(); localStorage.setItem('artblend_aparelho',d);} return d; }catch(e){ return 'AP-?'; } }
+async function hashBytes(buf){ try{ const h=await crypto.subtle.digest('SHA-256',buf); return [...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,24); }catch(e){ let x=0; const u=new Uint8Array(buf); for(let i=0;i<u.length;i+=97) x=(x*31+u[i])>>>0; return 'f'+x.toString(16)+u.length; } }
+function exifData(buf){ // lê DateTimeOriginal do JPEG, se existir
+  try{ const v=new DataView(buf); if(v.getUint16(0)!==0xFFD8) return null; let o=2;
+    while(o<v.byteLength){ const m=v.getUint16(o); const len=v.getUint16(o+2); if(m===0xFFE1){ const s=new TextDecoder('ascii').decode(new Uint8Array(buf,o+4,Math.min(len,65000))); const r=s.match(/(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})/); if(r) return new Date(+r[1],r[2]-1,+r[3],+r[4],+r[5],+r[6]); return null; } o+=2+len; }
+  }catch(e){} return null; }
+function tirarFoto(cb){
+  const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*'; inp.setAttribute('capture','environment');
+  inp.onchange=async()=>{ const f=inp.files[0]; if(!f) return; const buf=await f.arrayBuffer(); const agora=new Date();
+    const hash=await hashBytes(buf); const exif=exifData(buf); const flags=[];
+    DB.fotoHashes=DB.fotoHashes||{};
+    if(DB.fotoHashes[hash]) flags.push('FOTO REPETIDA (já usada em '+DB.fotoHashes[hash]+')');
+    const origem=exif||new Date(f.lastModified||agora); const minutos=Math.round((agora-origem)/60000);
+    if(minutos>15) flags.push('FOTO ANTIGA (tirada há '+(minutos>1440?Math.round(minutos/1440)+' dia(s)':minutos+' min')+')');
+    const img=new Image(); img.onload=()=>{ const max=640, esc2=Math.min(1,max/Math.max(img.width,img.height)); const c=document.createElement('canvas'); c.width=Math.round(img.width*esc2); c.height=Math.round(img.height*esc2);
+      const g=c.getContext('2d'); g.drawImage(img,0,0,c.width,c.height); const tx=agora.toLocaleString('pt-BR')+' · '+idAparelho()+' · '+(DB.unidade||'ArtBlend');
+      g.fillStyle='rgba(22,41,74,.75)'; g.fillRect(0,c.height-26,c.width,26); g.fillStyle='#fff'; g.font='bold 13px Arial'; g.fillText(tx,8,c.height-9);
+      const foto={id:'F'+agora.getTime(),img:c.toDataURL('image/jpeg',0.55),quando:agora.toISOString(),aparelho:idAparelho(),hash,flags};
+      DB.fotos=DB.fotos||{}; DB.fotos[foto.id]=foto; DB.fotoHashes[hash]=agora.toLocaleDateString('pt-BR');
+      if(gravar()){ if(flags.length) alert('⚠ Atenção: '+flags.join(' · ')+'\nA foto foi guardada, mas fica marcada para o consultor conferir.'); cb(foto.id); } };
+    img.src=URL.createObjectURL(f); };
+  inp.click();
+}
+function miniFoto(id,tam){ const f=(DB.fotos||{})[id]; if(!f) return ''; return `<a href="${f.img}" target="_blank" title="${esc(new Date(f.quando).toLocaleString('pt-BR'))}"><img src="${f.img}" style="width:${tam||56}px;height:${tam||56}px;object-fit:cover;border-radius:8px;border:2px solid ${f.flags.length?'var(--erro)':'var(--borda)'};vertical-align:middle"></a>${f.flags.length?`<div class="selo erro" style="margin-top:3px">${esc(f.flags[0].split(' (')[0])}</div>`:''}`; }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function hojeISO(){ const d=new Date(); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,10); }
 function agoraHora(){ return new Date().toTimeString().slice(0,5); }
@@ -382,6 +447,7 @@ function irPara(mod){
   if(mod==='visita') montarRelatorio();
   if(mod==='equipe') montarEquipe();
   if(mod==='mbp') montarMBP();
+  if(mod==='rotina') montarRotina();
 }
 document.querySelectorAll('nav.menu button').forEach(b=>b.addEventListener('click',()=>irPara(b.dataset.mod)));
 
@@ -486,7 +552,10 @@ function montarInspecao(){
       </div>
       <div class="corpo">${b.itens.map((it,i)=>{
         const k=b.id+'_'+i, v=DB.insp[k]||'';
+        const fid=(DB.inspFoto||{})[k];
         return `<div class="item-insp"><div class="txt">${it[1]?'<b style="color:var(--erro)">★ </b>':''}${it[0]}</div>
+        <div class="nao-imprimir-foto">${fid?miniFoto(fid,44):''}</div>
+        <button class="btn sec peq nao-imprimir" title="Tirar foto de evidência" onclick="fotoInsp('${k}')">📷</button>
         <div class="opc">
           <button class="c ${v==='C'?'sel':''}" onclick="marcar('${k}','C')">C</button>
           <button class="nc ${v==='NC'?'sel':''}" onclick="marcar('${k}','NC')">NC</button>
@@ -495,6 +564,7 @@ function montarInspecao(){
   }).join('');
   atualizarNota();
 }
+function fotoInsp(k){ tirarFoto(id=>{ DB.inspFoto=DB.inspFoto||{}; DB.inspFoto[k]=id; gravar(); const abertos=[...document.querySelectorAll('.bloco-insp.aberto')].map(e=>e.id); montarInspecao(); abertos.forEach(x=>document.getElementById(x)?.classList.add('aberto')); }); }
 function marcar(k,v){
   DB.insp[k] = DB.insp[k]===v ? '' : v; gravar();
   const abertos=[...document.querySelectorAll('.bloco-insp.aberto')].map(e=>e.id);
@@ -705,7 +775,8 @@ const CONTROLES = {
   campos:[['data','Data','date'],['tipo','Registro','select',['Ronda diária de pragas','Serviço da dedetizadora','Limpeza da caixa d’água','Laudo de potabilidade']],['result','Resultado','select',['Sem ocorrência / OK','Sinal de praga encontrado','Pendente / vencido']],['prox','Próxima data','date'],['empresa','Empresa / responsável','text'],['obs','Observações','text']],
   avaliar:r=>{ if(r.result==='Sinal de praga encontrado') return 'Isole a área, limpe, descarte alimento atingido e acione a empresa de controle de pragas ainda hoje.'; if(r.result==='Pendente / vencido') return 'Item obrigatório vencido: agende imediatamente (caixa d’água no máximo a cada 6 meses).'; return null;}}
 };
-let ctrlAtual='equip';
+let ctrlAtual='equip', fotoPendente=null;
+function fotoReg(){ tirarFoto(id=>{ fotoPendente=id; document.getElementById('fotoPend').innerHTML=miniFoto(id,48)+' <span class="selo ok">foto pronta</span>'; }); }
 function montarControles(){
   document.getElementById('abasControles').innerHTML = Object.entries(CONTROLES).map(([k,c])=>`<button class="${k===ctrlAtual?'ativo':''}" onclick="ctrlAtual='${k}';montarControles()">${c.t}</button>`).join('');
   const c=CONTROLES[ctrlAtual], regs=(DB.reg[ctrlAtual]||[]);
@@ -716,18 +787,21 @@ function montarControles(){
     return `<div class="campo"><label>${lab}</label>${inp}</div>`;}).join('');
   const hdr=c.campos.map(x=>`<th>${x[1]}</th>`).join('');
   const linhas=regs.slice().reverse().map((r,iRev)=>{ const i=regs.length-1-iRev; const al=c.avaliar(r);
-    return `<tr>${c.campos.map(x=>`<td>${x[2]==='date'?fmtData(r[x[0]]):esc(r[x[0]])}</td>`).join('')}<td>${al?`<span class="selo erro">Alerta</span><div style="font-size:12px;margin-top:4px">${al}</div>`:'<span class="selo ok">OK</span>'}</td><td><button class="btn perigo peq" onclick="apagarReg('${ctrlAtual}',${i})">×</button></td></tr>`;}).join('');
+    return `<tr>${c.campos.map(x=>`<td>${x[2]==='date'?fmtData(r[x[0]]):esc(r[x[0]])}</td>`).join('')}<td>${r.foto?miniFoto(r.foto,48):(c.campos.some(x=>x[0]==='temp')?'<span class="selo alerta">sem foto</span>':'–')}</td><td>${al?`<span class="selo erro">Alerta</span><div style="font-size:12px;margin-top:4px">${al}</div>`:'<span class="selo ok">OK</span>'}</td><td><button class="btn perigo peq" onclick="apagarReg('${ctrlAtual}',${i})">×</button></td></tr>`;}).join('');
   document.getElementById('controleConteudo').innerHTML = `
     <div class="card"><h3 style="margin-top:0">${c.t} ${c.num!=='—'?`<span class="selo neutro">Planilha ${c.num}</span>`:''}</h3><p class="sub" style="margin-bottom:10px">${c.desc}</p>
     <div class="grade g3">${campos}</div>
-    <div class="acoes"><button class="btn" onclick="addReg()">Registrar</button><button class="btn sec" onclick="exportarCSV()">Exportar planilha (CSV)</button></div>
+    <div class="acoes"><button class="btn sec" onclick="fotoReg()">📷 ${c.campos.some(x=>x[0]==='temp')?'Foto do termômetro (prova)':'Foto de prova'}</button><span id="fotoPend"></span>
+    <button class="btn" onclick="addReg()">Registrar</button><button class="btn sec" onclick="exportarCSV()">Exportar planilha (CSV)</button></div>
     <div id="msgReg"></div></div>
-    <div class="card tabela-rola">${regs.length?`<table><thead><tr>${hdr}<th>Situação</th><th></th></tr></thead><tbody>${linhas}</tbody></table>`:'<div class="vazio">Nenhum registro ainda. Faça o primeiro acima.</div>'}</div>`;
+    <div class="card tabela-rola">${regs.length?`<table><thead><tr>${hdr}<th>Foto</th><th>Situação</th><th></th></tr></thead><tbody>${linhas}</tbody></table>`:'<div class="vazio">Nenhum registro ainda. Faça o primeiro acima.</div>'}</div>`;
 }
 function addReg(){
   const c=CONTROLES[ctrlAtual], r={};
   c.campos.forEach(([id])=>r[id]=document.getElementById('f_'+id).value.trim());
   if(c.campos.some(x=>x[0]==='temp') && r.temp===''){ document.getElementById('msgReg').innerHTML='<div class="aviso">Informe a temperatura.</div>'; return; }
+  if(fotoPendente){ r.foto=fotoPendente; fotoPendente=null; }
+  r._quando=new Date().toISOString(); r._aparelho=idAparelho();
   (DB.reg[ctrlAtual]=DB.reg[ctrlAtual]||[]).push(r); gravar();
   const al=c.avaliar(r); montarControles();
   document.getElementById('msgReg').innerHTML = al?`<div class="aviso"><b>⚠ Atenção:</b> ${al}</div>`:'<div class="dica">✔ Registrado e dentro do padrão.</div>';
@@ -764,7 +838,7 @@ function addColaborador(){
   DB.equipe.push({nome:n,funcao:document.getElementById('colFuncao').value,aso:document.getElementById('colAso').value,valid:document.getElementById('colValid').value,trein:[]});
   gravar(); document.getElementById('colNome').value=''; montarEquipe();
 }
-function togTrein(i,t){ const a=DB.equipe[i].trein; const p=a.indexOf(t); p>=0?a.splice(p,1):a.push(t); gravar(); montarEquipe(); }
+function togTrein(i,t){ const c=DB.equipe[i], a=c.trein; const p=a.indexOf(t); p>=0?a.splice(p,1):a.push(t); if(a.length===8 && !c.certData) c.certData=hojeISO(); if(a.length<8) c.certData=null; gravar(); montarEquipe(); }
 function remColab(i){ if(confirm('Remover '+DB.equipe[i].nome+'?')){ DB.equipe.splice(i,1); gravar(); montarEquipe(); } }
 function montarEquipe(){
   const eq=DB.equipe; const venc=eq.filter(c=>statusAso(c)[0]!=='ok').length; const cert=eq.filter(c=>c.trein.length===8).length;
@@ -775,12 +849,16 @@ function montarEquipe(){
   document.getElementById('tabelaEquipe').innerHTML = eq.length? `<table><thead><tr><th>Nome</th><th>Função</th><th>Exame (ASO)</th>${TRILHA.map((_,i)=>`<th title="${TRILHA[i][0]}">T${i+1}</th>`).join('')}<th></th></tr></thead><tbody>
    ${eq.map((c,i)=>{const [cl,tx]=statusAso(c); return `<tr><td><b>${esc(c.nome)}</b></td><td>${esc(c.funcao)}</td><td><span class="selo ${cl}">${tx}</span></td>
    ${TRILHA.map((_,t)=>`<td><button title="${TRILHA[t][0]}" onclick="togTrein(${i},${t})" style="width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid var(--pri);background:${c.trein.includes(t)?'var(--pri)':'#fff'};color:#fff">${c.trein.includes(t)?'✓':''}</button></td>`).join('')}
-   <td style="white-space:nowrap">${c.trein.length===8?`<button class="btn peq" onclick="certificado(${i})">Certificado</button> `:''}<button class="btn perigo peq" onclick="remColab(${i})">×</button></td></tr>`;}).join('')}</tbody></table>`
+   <td style="white-space:nowrap">${c.trein.length===8?(certValido(c)?`<button class="btn peq" onclick="certificado(${i})">Certificado</button> `:`<span class="selo erro">Vencido</span> `):''}${c.trein.length===8?`<button class="btn sec peq" onclick="reciclar(${i})">Reciclar</button> `:''}<button class="btn perigo peq" onclick="remColab(${i})">×</button></td></tr>`;}).join('')}</tbody></table>`
    : '<div class="vazio">Cadastre a equipe acima para acompanhar exames e treinamentos.</div>';
   document.getElementById('trilhaInfo').innerHTML = TRILHA.map((t,i)=>`<div class="card" style="margin:0"><span class="selo neutro">T${i+1}</span> <b>${t[0]}</b><p style="font-size:13px;color:var(--txt2);margin-top:4px">${t[1]}</p></div>`).join('');
 }
+function certValido(c){ if(!c||c.trein.length<8) return false; if(!c.certData){ c.certData=hojeISO(); gravar(); } const v=new Date(c.certData); v.setFullYear(v.getFullYear()+1); return v>=new Date(); }
+function validadeCert(c){ const v=new Date(c.certData); v.setFullYear(v.getFullYear()+1); return v.toLocaleDateString('pt-BR'); }
+function reciclar(i){ const c=DB.equipe[i]; if(!confirm('Iniciar a reciclagem de '+c.nome+'? As 8 aulas voltam a ficar pendentes até o quiz ser refeito.')) return; c.trein=[]; c.notas={}; c.certData=null; c.reciclagens=(c.reciclagens||0)+1; gravar(); alunoAtual=String(i); irPara('abc'); abaABC('curso'); }
 function certificado(i){
   const c=DB.equipe[i];
+  if(!certValido(c)){ alert('Certificado vencido (validade de 1 ano). Para imprimir de novo, '+c.nome+' precisa refazer o curso — use o botão "Reciclar".'); return; }
   document.getElementById('certificadoArea').innerHTML=`<div class="acoes nao-imprimir"><button class="btn" onclick="window.print()">Imprimir certificado</button><button class="btn sec" onclick="document.getElementById('certificadoArea').innerHTML=''">Fechar</button></div>
   <div class="card" style="text-align:center;padding:40px;border:3px solid var(--pri)">
    <div style="color:var(--pri-esc);font-weight:800;letter-spacing:2px">ARTBLEND CONSULTORIA GOURMET</div>
@@ -788,7 +866,7 @@ function certificado(i){
    <p>Certificamos que <b style="font-size:20px">${esc(c.nome)}</b>, ${esc(c.funcao)} em <b>${esc(nomeCasa())}</b>,</p>
    <p>concluiu a <b>Trilha ArtBlend de Boas Práticas na Manipulação de Alimentos</b>, com os 8 módulos:</p>
    <p style="font-size:13px;color:var(--txt2);max-width:700px;margin:10px auto">${TRILHA.map(t=>t[0]).join(' · ')}</p>
-   <p>Emitido em ${new Date().toLocaleDateString('pt-BR')}.</p>
+   <p>Carga horária: 1 hora (8 módulos com avaliação). Concluído em ${fmtData(c.certData)} · <b>válido até ${validadeCert(c)}</b>${c.reciclagens?` · reciclagem nº ${c.reciclagens}`:''}.</p>
    <div class="grade g2" style="margin-top:40px;font-size:13px"><div style="border-top:1px solid #999;padding-top:6px">Consultor(a) ArtBlend</div><div style="border-top:1px solid #999;padding-top:6px">Responsável pelo estabelecimento</div></div>
   </div>`;
   document.getElementById('certificadoArea').scrollIntoView({behavior:'smooth'});
@@ -828,6 +906,10 @@ function montarRelatorio(){
     ${al.length?`<ul style="padding-left:20px">${al.slice(-15).map(a=>`<li><b>${a.ctrl}</b> (${fmtData(a.data)}) ${esc(a.det)}: ${a.txt}</li>`).join('')}</ul>`:'<div class="vazio">Nenhum alerta nos registros.</div>'}
     <h3>Equipe</h3>
     ${eqProb.length?`<ul style="padding-left:20px">${eqProb.map(c=>`<li>${esc(c.nome)} — ${statusAso(c)[1]}</li>`).join('')}</ul>`:'<div class="vazio">Exames em dia.</div>'}
+    ${(()=>{ const fs=Object.entries(DB.inspFoto||{}).map(([k,id])=>({k,id,f:(DB.fotos||{})[id]})).filter(x=>x.f); if(!fs.length) return '';
+      return `<h3>Fotos de evidência</h3><div style="display:flex;flex-wrap:wrap;gap:10px">${fs.map(x=>{const [bid,i]=x.k.split('_'); const b=BLOCOS.find(y=>y.id===bid); const it=b?b.itens[+i][0]:''; const st=DB.insp[x.k]||'';
+        return `<figure style="width:200px;margin:0"><img src="${x.f.img}" style="width:200px;height:150px;object-fit:cover;border-radius:8px;border:2px solid ${st==='NC'||x.f.flags.length?'var(--erro)':'var(--borda)'}"><figcaption style="font-size:11px;color:var(--txt2)">${st?`<b>${st}</b> · `:''}${esc(it.slice(0,80))}${x.f.flags.length?`<br><b style="color:var(--erro)">${esc(x.f.flags.join(' · '))}</b>`:''}</figcaption></figure>`;}).join('')}</div>`; })()}
+    ${grafEvolucao()}
     <h3>Observações do consultor</h3><p>${esc(DB.visita.visObs||'—')}</p>
     <p style="margin-top:10px">Próxima visita: <b>${fmtData(DB.visita.visProx)}</b></p>
     <div class="grade g2" style="margin-top:40px;font-size:13px;text-align:center"><div style="border-top:1px solid #999;padding-top:6px">Consultor(a) ArtBlend</div><div style="border-top:1px solid #999;padding-top:6px">Responsável pelo estabelecimento</div></div>
@@ -841,7 +923,7 @@ function setPlano(k,c,v){ DB.visita.plano=DB.visita.plano||{}; const p=DB.visita
 const MBP_CAMPOS=[
  [1,'razao','Razão social'],[1,'fantasia','Nome fantasia'],[1,'cnpj','CNPJ'],[1,'end','Endereço completo'],[1,'tel','Telefone / e-mail'],
  [1,'tipo','Tipo de serviço','select',['Restaurante à la carte','Restaurante self-service/buffet','Lanchonete','Pizzaria','Bar e petiscaria','Padaria e confeitaria','Cozinha industrial/refeição coletiva','Buffet de eventos','Delivery / dark kitchen']],
- [1,'rt','Responsável pelas Boas Práticas (nome)'],[1,'rtcurso','Curso do responsável (nome e carga horária)'],[1,'dono','Proprietário / sócio responsável'],
+ [1,'rttipo','Quem é o responsável técnico','select',['Nutricionista (consultoria)','Técnico ou engenheiro de alimentos','Proprietário capacitado em Boas Práticas','Gerente capacitado em Boas Práticas']],[1,'rt','Nome do responsável pelas Boas Práticas'],[1,'rtreg','Registro profissional (CRN, CRQ…) — se houver'],[1,'rtcurso','Curso do responsável (nome e carga horária)'],[1,'dono','Proprietário / sócio responsável'],
  [2,'func','Nº de colaboradores','number'],[2,'refeicoes','Refeições por dia (média)','number'],[2,'horario','Horário de funcionamento'],
  [2,'agua','Origem da água','select',['Rede pública (concessionária)','Poço com laudo de potabilidade','Caminhão-pipa com laudo']],
  [2,'reserv','Volume do reservatório (litros)','number'],[2,'pragas','Empresa de controle de pragas (nome e licença)'],[2,'pragasfreq','Frequência do serviço de pragas','select',['Mensal','Bimestral','Trimestral']],
@@ -877,7 +959,7 @@ function docMBP(){
     <p style="margin-top:22px;font-size:13px;color:var(--txt2)">Elaborado conforme a RDC ANVISA nº 216/2004 e a RDC nº 275/2002 · Versão 1.0 · ${new Date().toLocaleDateString('pt-BR')}<br>Elaboração técnica: ArtBlend Consultoria Gourmet</p></div>
    ${cap(1,'Apresentação e objetivo',`<p>Este Manual descreve como o estabelecimento <b>${esc(nome)}</b> garante que os alimentos servidos sejam seguros, desde a compra até a mesa do cliente. Ele é o documento de referência da equipe e deve estar sempre disponível para consulta e para a fiscalização sanitária.</p><p>Todos os colaboradores devem conhecer este Manual. Ele é revisado no mínimo uma vez por ano ou sempre que houver mudança de processo, cardápio, estrutura ou equipe-chave.</p>`)}
    ${cap(2,'Identificação do estabelecimento',`<ul><li><b>Razão social:</b> ${v('razao')}</li><li><b>Nome fantasia:</b> ${esc(nome)}</li><li><b>CNPJ:</b> ${v('cnpj')}</li><li><b>Endereço:</b> ${v('end')}</li><li><b>Tipo de serviço:</b> ${v('tipo')}</li><li><b>Horário de funcionamento:</b> ${v('horario')}</li><li><b>Nº de colaboradores:</b> ${v('func')}</li><li><b>Refeições por dia (média):</b> ${v('refeicoes')}</li><li><b>Proprietário/sócio responsável:</b> ${v('dono')}</li></ul>`)}
-   ${cap(3,'Responsabilidade técnica',`<p>O responsável pelas atividades de manipulação e pela aplicação das Boas Práticas é <b>${v('rt')}</b>, capacitado(a) em: ${v('rtcurso')} — conforme exigido no item 4.12 da RDC 216/2004.</p><p>Cabe ao responsável: aprovar e revisar este Manual e os POPs; verificar os registros diários; decidir ações corretivas; organizar os treinamentos; atender a fiscalização.</p>`)}
+   ${cap(3,'Responsabilidade técnica',`<p>O responsável pelas atividades de manipulação e pela aplicação das Boas Práticas é <b>${v('rt')}</b> (${v('rttipo')}${DB.mbp.rtreg?' · '+esc(DB.mbp.rtreg):''}), capacitado(a) em: ${v('rtcurso')} — conforme o item 4.12 da RDC 216/2004.</p><p style="font-size:13px;color:var(--txt2)">A RDC 216 permite que o responsável seja o próprio dono ou um funcionário capacitado em Boas Práticas. Alguns estados, municípios ou tipos de serviço exigem profissional habilitado (por exemplo, nutricionista em alimentação coletiva) — confira com a vigilância local.</p><p>Cabe ao responsável: aprovar e revisar este Manual e os POPs; verificar os registros diários; decidir ações corretivas; organizar os treinamentos; atender a fiscalização.</p>`)}
    ${cap(4,'Definições',`<ul><li><b>Boas Práticas:</b> conjunto de cuidados para garantir alimento seguro.</li><li><b>Contaminação cruzada:</b> passagem de micróbios ou sujeira de um alimento/superfície para outro (ex.: do cru para o pronto).</li><li><b>Higienização:</b> limpeza (tirar a sujeira) + desinfecção (reduzir os micróbios).</li><li><b>Manipulador:</b> qualquer pessoa que tenha contato com alimento.</li><li><b>POP:</b> Procedimento Operacional Padrão — instrução escrita, passo a passo.</li><li><b>Zona de perigo:</b> entre 5 °C e 60 °C, faixa em que as bactérias se multiplicam rápido.</li><li><b>PVPS:</b> primeiro que vence, primeiro que sai.</li><li><b>APPCC:</b> Análise de Perigos e Pontos Críticos de Controle — método internacional (Codex Alimentarius) para controlar as etapas de maior risco.</li></ul>`)}
    ${cap(5,'Edificação, instalações, equipamentos e utensílios',`<p><b>Áreas:</b> ${v('areas')}</p><p><b>Equipamentos principais:</b> ${v('equip')}</p><ul><li>O fluxo segue uma direção única: recebimento → armazenamento → pré-preparo → preparo → distribuição, sem cruzamento entre áreas sujas e limpas.</li><li>Pisos, paredes e tetos são lisos, laváveis e mantidos em bom estado; ralos são sifonados e com tampa; aberturas têm telas milimétricas removíveis.</li><li>A área de preparo possui lavatório exclusivo para mãos com sabonete antisséptico, papel toalha não reciclado e lixeira com pedal.</li><li>Iluminação com proteção contra quebra; exaustão sem fluxo de ar da área suja para a limpa.</li><li>Equipamentos e utensílios são de material liso, impermeável e resistente; não se usa madeira na área de preparo.</li><li>Equipamentos de frio e calor possuem termômetro; a manutenção e a aferição seguem o POP-16.</li></ul>`)}
    ${cap(6,'Higienização de instalações, equipamentos, móveis e utensílios',`<p>Realizada conforme o <b>POP-01</b> (e POP-14 e POP-15 para frio e cocção), com cronograma afixado e registro diário.</p><ul><li>Somente produtos saneantes regularizados na ANVISA, usados na diluição e no tempo de contato do rótulo.</li><li>Produtos de limpeza guardados em local exclusivo, longe dos alimentos.</li><li>Utensílios de limpeza separados por área e por cor.</li><li>Quem faz a limpeza pesada não manipula alimento ao mesmo tempo.</li></ul>`)}
@@ -894,7 +976,7 @@ function docMBP(){
    <p style="font-size:12px;color:var(--txt2);margin-top:6px">★ obrigatório pela RDC 216/2004. Cada POP completo pode ser impresso no módulo 2 da Central.</p>
    <h2>Termo de aprovação</h2>
    <p>Declaramos que este Manual de Boas Práticas descreve as práticas adotadas em <b>${esc(nome)}</b> e que a equipe foi orientada sobre seu conteúdo.</p>
-   <div class="grade g2" style="margin-top:50px;font-size:13px;text-align:center"><div style="border-top:1px solid #999;padding-top:6px">${v('rt')}<br>Responsável pelas Boas Práticas</div><div style="border-top:1px solid #999;padding-top:6px">${v('dono')}<br>Proprietário / sócio</div></div>
+   <div class="grade g2" style="margin-top:50px;font-size:13px;text-align:center"><div style="border-top:1px solid #999;padding-top:6px">${v('rt')}<br>Responsável pelas Boas Práticas${DB.mbp.rtreg?'<br>'+esc(DB.mbp.rtreg):''}</div><div style="border-top:1px solid #999;padding-top:6px">${v('dono')}<br>Proprietário / sócio</div></div>
    <p style="text-align:center;margin-top:20px">Local e data: ____________________, ____/____/______</p>
   </div>`;
 }
@@ -935,6 +1017,7 @@ function montarNormas(){
    PAINEL
    ========================================================= */
 function montarPainel(){
+  const ev=document.getElementById('evolucaoPainel'); if(ev) ev.innerHTML=grafEvolucao();
   const r=resumoInspecao(), [cl,tx]=classe(r.pct), al=alertasControles(), eqProb=DB.equipe.filter(c=>statusAso(c)[0]!=='ok');
   const hoje=hojeISO(); const regsHoje=Object.values(DB.reg).flat().filter(x=>x.data===hoje).length;
   document.getElementById('kpis').innerHTML=`
@@ -949,12 +1032,329 @@ function montarPainel(){
 }
 
 
+
+
+/* =========================================================
+   3+. ROTINA INTELIGENTE
+   ========================================================= */
+const VALIDADES=[ // referência ArtBlend — ajuste ao rótulo do fabricante e à legislação local
+ ['Alimento pronto refrigerado (até 5 °C)','Refrigerado',3],['Pré-preparado / porcionado refrigerado','Refrigerado',3],
+ ['Carne, frango ou peixe cru refrigerado (0 a 4 °C)','Refrigerado',2],['Molhos, caldos e fundos refrigerados','Refrigerado',3],
+ ['Hortifrúti higienizado','Refrigerado',2],['Sobremesas e cremes refrigerados','Refrigerado',3],
+ ['Congelado no restaurante (-18 °C ou menos)','Congelado',30],['Produto industrializado aberto — seguir o rótulo','Conforme rótulo',0],['Seco fracionado (farinhas, grãos) em pote fechado','Ambiente',30]];
+let rotAtual='etq';
+const ROT_ABAS={etq:'🏷️ Etiquetas de validade',qr:'📱 QR Code dos equipamentos',lemb:'⏰ Lembretes',peso:'⚖️ Pesagem e fator de correção',kit:'🧰 Kit de equipamentos'};
+function montarRotina(){
+  document.getElementById('abasRotina').innerHTML=Object.entries(ROT_ABAS).map(([k,t])=>`<button class="${k===rotAtual?'ativo':''}" onclick="rotAtual='${k}';montarRotina()">${t}</button>`).join('');
+  const el=document.getElementById('rotinaConteudo');
+  ({etq:rotEtq,qr:rotQR,lemb:rotLemb,peso:rotPeso,kit:rotKit})[rotAtual](el);
+}
+function addDias(iso,d){ const x=new Date(iso+'T12:00:00'); x.setDate(x.getDate()+(+d)); return x.toISOString().slice(0,10); }
+function desenharQR(alvo,texto){ alvo.innerHTML=''; try{ if(window.QRCode){ new QRCode(alvo,{text:texto,width:256,height:256,correctLevel:QRCode.CorrectLevel.M}); return; } }catch(e){} alvo.innerHTML='<div style="font-size:7pt;word-break:break-all">'+esc(texto)+'</div>'; }
+/* ---- etiquetas ---- */
+function rotEtq(el){
+  el.innerHTML=`<div class="card nao-imprimir"><h3 style="margin-top:0">Nova etiqueta</h3>
+   <div class="grade g3">
+    <div class="campo"><label>Produto</label><input id="e_prod" placeholder="Ex.: Molho de tomate"></div>
+    <div class="campo"><label>Tipo (preenche a validade)</label><select id="e_tipo" onchange="etqTipo()">${VALIDADES.map((v,i)=>`<option value="${i}">${v[0]}</option>`).join('')}</select></div>
+    <div class="campo"><label>Conservação</label><select id="e_cons"><option>Refrigerado</option><option>Congelado</option><option>Ambiente</option><option>Conforme rótulo</option></select></div>
+    <div class="campo"><label>Data de manipulação / abertura</label><input type="date" id="e_man" value="${hojeISO()}" onchange="etqTipo()"></div>
+    <div class="campo"><label>Validade (dias)</label><input type="number" id="e_dias" min="0" onchange="etqVal()"></div>
+    <div class="campo"><label>Vence em</label><input type="date" id="e_val"></div>
+    <div class="campo"><label>Lote / peso (opcional)</label><input id="e_lote" placeholder="Ex.: 2 kg"></div>
+    <div class="campo"><label>Responsável</label><input id="e_resp"></div>
+    <div class="campo"><label>Quantidade de etiquetas</label><input type="number" id="e_qtd" value="1" min="1" max="60"></div>
+   </div>
+   <div class="acoes"><button class="btn" onclick="gerarEtq()">Gerar etiquetas</button><button class="btn sec" onclick="imprimirSo()">🖨 Imprimir só as etiquetas</button></div>
+   <div class="dica">Tamanho padrão 60 × 40 mm (impressora térmica de etiquetas). Também imprime em folha A4 comum e recorta. As validades sugeridas são uma referência ArtBlend: <b>sempre vale o que estiver no rótulo do fabricante</b> e a regra da vigilância da sua cidade.</div></div>
+   <div class="area-print"><div class="etq-folha" id="folhaEtq"></div></div>
+   <div class="card nao-imprimir" style="margin-top:14px"><h3 style="margin-top:0">Etiquetas emitidas (vai para o estoque)</h3><div class="tabela-rola" id="histEtq"></div></div>`;
+  etqTipo(); histEtq();
+}
+function etqTipo(){ const v=VALIDADES[+document.getElementById('e_tipo').value]; document.getElementById('e_cons').value=v[1]; document.getElementById('e_dias').value=v[2]||''; etqVal(); }
+function etqVal(){ const m=document.getElementById('e_man').value, d=document.getElementById('e_dias').value; if(m&&d!=='') document.getElementById('e_val').value=addDias(m,d); }
+function gerarEtq(){
+  const g=id=>document.getElementById(id).value.trim(); const e={prod:g('e_prod'),cons:g('e_cons'),man:g('e_man'),val:g('e_val'),lote:g('e_lote'),resp:g('e_resp'),qtd:Math.max(1,Math.min(60,+g('e_qtd')||1)),em:new Date().toISOString()};
+  if(!e.prod||!e.val){ alert('Informe o produto e a validade.'); return; }
+  DB.etiquetas=DB.etiquetas||[]; DB.etiquetas.push(e); gravar();
+  const f=document.getElementById('folhaEtq'); f.innerHTML='';
+  for(let i=0;i<e.qtd;i++){ const d=document.createElement('div'); d.className='etq';
+    d.innerHTML=`<div style="flex:1"><b class="p">${esc(e.prod)}</b>Manip.: <b>${fmtData(e.man)}</b><br>Validade: <b style="font-size:10pt">${fmtData(e.val)}</b><br>${esc(e.cons)}${e.lote?' · '+esc(e.lote):''}<br>Resp.: ${esc(e.resp||'—')}<br><span style="font-size:6.5pt">${esc(DB.unidade||'ArtBlend')}</span></div><div class="q"></div>`;
+    f.appendChild(d); desenharQR(d.querySelector('.q'),`ArtBlend|${e.prod}|man ${e.man}|val ${e.val}|${e.cons}|${e.resp}`); }
+  histEtq();
+}
+function histEtq(){ const h=(DB.etiquetas||[]).slice(-30).reverse(); const hoje=hojeISO();
+  document.getElementById('histEtq').innerHTML=h.length?`<table><thead><tr><th>Produto</th><th>Manipulação</th><th>Validade</th><th>Qtd</th><th>Situação</th></tr></thead><tbody>${h.map(e=>`<tr><td>${esc(e.prod)}</td><td>${fmtData(e.man)}</td><td>${fmtData(e.val)}</td><td>${e.qtd}</td><td>${e.val<hoje?'<span class="selo erro">Vencido — descartar</span>':e.val===hoje?'<span class="selo alerta">Vence hoje</span>':'<span class="selo ok">No prazo</span>'}</td></tr>`).join('')}</tbody></table>`:'<div class="vazio">Nenhuma etiqueta emitida ainda.</div>'; }
+function imprimirSo(){ document.body.classList.add('so-etq'); window.print(); setTimeout(()=>document.body.classList.remove('so-etq'),500); }
+/* ---- QR dos equipamentos ---- */
+function equipamentos(){ DB.equipLista=DB.equipLista||[]; const doReg=(DB.reg.equip||[]).map(r=>({nome:r.equip,tipo:r.tipo})); doReg.forEach(x=>{ if(x.nome && !DB.equipLista.some(y=>y.nome===x.nome)) DB.equipLista.push(x); }); return DB.equipLista; }
+function rotQR(el){
+  const lista=equipamentos(); const base=location.href.split('#')[0];
+  el.innerHTML=`<div class="card nao-imprimir"><h3 style="margin-top:0">Como funciona</h3>
+   <div class="passo"><span class="num">1</span><span>Cadastre cada geladeira, freezer, câmara ou estufa e imprima o QR Code.</span></div>
+   <div class="passo"><span class="num">2</span><span>Cole o QR na porta do equipamento.</span></div>
+   <div class="passo"><span class="num">3</span><span>O colaborador aponta a câmera do celular: abre a tela de registro já com o equipamento escolhido. É só digitar a temperatura.</span></div>
+   <div class="grade g3" style="margin-top:10px"><div class="campo"><label>Equipamento</label><input id="q_nome" placeholder="Ex.: Geladeira 1 — cozinha"></div>
+   <div class="campo"><label>Tipo</label><select id="q_tipo">${CONTROLES.equip.campos.find(c=>c[0]==='tipo')[3].map(o=>`<option>${o}</option>`).join('')}</select></div>
+   <div class="campo"><label>&nbsp;</label><button class="btn" onclick="addEquip()">+ Adicionar</button></div></div>
+   <div class="acoes"><button class="btn sec" onclick="imprimirSo()">🖨 Imprimir os QR Codes</button></div>
+   ${base.startsWith('file:')?'<div class="aviso">Os QR Codes funcionam no celular quando a Central estiver publicada no site (artblendconsultoria.com.br). Abrindo pelo arquivo do computador, eles servem só para testar.</div>':''}</div>
+   <div class="area-print"><div class="etq-folha" id="folhaQR"></div></div>`;
+  const f=document.getElementById('folhaQR');
+  if(!lista.length){ f.innerHTML='<div class="vazio">Nenhum equipamento cadastrado.</div>'; return; }
+  lista.forEach((q,i)=>{ const d=document.createElement('div'); d.className='qr-cartao';
+    d.innerHTML=`<b>${esc(q.nome)}</b><div style="font-size:9pt">${esc((q.tipo||'').split('(')[0])}</div><div class="q"></div><div style="font-size:8.5pt">Aponte a câmera e registre a temperatura<br><b>ArtBlend · Central de Qualidade</b></div><button class="btn perigo peq nao-imprimir" style="margin-top:6px" onclick="remEquip(${i})">remover</button>`;
+    f.appendChild(d); desenharQR(d.querySelector('.q'), base+'#reg=equip&eq='+encodeURIComponent(q.nome)+'&tipo='+encodeURIComponent(q.tipo||'')); });
+}
+function addEquip(){ const n=document.getElementById('q_nome').value.trim(); if(!n) return; equipamentos().push({nome:n,tipo:document.getElementById('q_tipo').value}); gravar(); montarRotina(); }
+function remEquip(i){ DB.equipLista.splice(i,1); gravar(); montarRotina(); }
+function abrirPorQR(h){ const p=new URLSearchParams(h); if(p.get('reg')!=='equip') return false; ctrlAtual='equip'; irPara('controles');
+  setTimeout(()=>{ const e=document.getElementById('f_equip'); if(e) e.value=p.get('eq')||''; const t=document.getElementById('f_tipo'); if(t&&p.get('tipo')) t.value=p.get('tipo'); const tp=document.getElementById('f_temp'); if(tp) tp.focus(); },50); return true; }
+/* ---- lembretes ---- */
+const LEMB_PADRAO=[['07:30','Abertura: conferir uniforme/saúde da equipe e ler as temperaturas (Central › Controles)','Gerente/líder'],['08:00','Ronda de pragas (Central › Água e Pragas)','Gerente/líder'],['11:30','Temperatura das preparações e coleta de amostras','Cozinheiro'],['15:00','Conferir resfriamento (2 horas) das preparações','Cozinheiro'],['22:00','Fechamento: segunda leitura de temperatura, limpeza do dia e óleo','Líder de turno']];
+function rotLemb(el){
+  DB.lembretes=DB.lembretes||LEMB_PADRAO.map(x=>({hora:x[0],tarefa:x[1],resp:x[2],tel:''}));
+  el.innerHTML=`<div class="card"><h3 style="margin-top:0">Lembretes da rotina</h3>
+   <p class="sub" style="margin-bottom:8px">Hoje já funciona assim: <b>WhatsApp</b> abre a mensagem pronta para você enviar; <b>Agenda</b> cria um lembrete que se repete todo dia no celular da pessoa (Google Agenda). O envio 100% automático pelo WhatsApp entra quando ligarmos o serviço de mensagens (veja o Kit de equipamentos).</p>
+   <div class="tabela-rola"><table><thead><tr><th>Hora</th><th>Tarefa</th><th>Quem</th><th>WhatsApp (com DDD)</th><th>Ações</th></tr></thead><tbody>
+   ${DB.lembretes.map((l,i)=>`<tr><td><input type="time" value="${l.hora}" onchange="DB.lembretes[${i}].hora=this.value;gravar()" style="width:110px"></td><td><input value="${esc(l.tarefa)}" onchange="DB.lembretes[${i}].tarefa=this.value;gravar()"></td><td><input value="${esc(l.resp)}" onchange="DB.lembretes[${i}].resp=this.value;gravar()" style="width:130px"></td><td><input value="${esc(l.tel)}" placeholder="81 99999-9999" onchange="DB.lembretes[${i}].tel=this.value;gravar()" style="width:150px"></td>
+    <td style="white-space:nowrap"><a class="btn peq" target="_blank" href="${linkWhats(l)}">WhatsApp</a> <a class="btn sec peq" target="_blank" href="${linkAgenda(l)}">Agenda</a> <button class="btn perigo peq" onclick="DB.lembretes.splice(${i},1);gravar();montarRotina()">×</button></td></tr>`).join('')}
+   </tbody></table></div><div class="acoes"><button class="btn sec" onclick="DB.lembretes.push({hora:'09:00',tarefa:'Nova tarefa',resp:'',tel:''});gravar();montarRotina()">+ Novo lembrete</button></div></div>`;
+}
+function linkWhats(l){ const t=encodeURIComponent(`⏰ ArtBlend · ${DB.unidade||'Restaurante'}\n${l.hora} — ${l.tarefa}\nRegistre na Central de Qualidade.`); const n=(l.tel||'').replace(/\D/g,''); return 'https://wa.me/'+(n?(n.startsWith('55')?n:'55'+n):'')+'?text='+t; }
+function linkAgenda(l){ const d=hojeISO().replace(/-/g,''); const [h,m]=(l.hora||'09:00').split(':'); const ini=d+'T'+h+m+'00'; const fimM=String((+m+10)%60).padStart(2,'0'), fimH=String(+h+((+m+10)>=60?1:0)).padStart(2,'0');
+  return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent('ArtBlend: '+l.tarefa)+'&dates='+ini+'/'+d+'T'+fimH+fimM+'00&ctz=America/Recife&recur='+encodeURIComponent('RRULE:FREQ=DAILY')+'&details='+encodeURIComponent('Central de Qualidade ArtBlend — '+(DB.unidade||'')); }
+/* ---- pesagem e fator de correção ---- */
+function rotPeso(el){
+  const regs=DB.pesagens||[];
+  el.innerHTML=`<div class="card"><h3 style="margin-top:0">Recebimento na balança</h3>
+   <p class="sub" style="margin-bottom:8px">Pese o que chegou e compare com a nota. Depois do pré-preparo (limpar, desossar, descascar), pese de novo: o sistema calcula o <b>fator de correção</b>, a <b>perda</b> e o <b>custo real do kg limpo</b> (valor pago ÷ peso limpo), que vão para a ficha técnica e o custo.</p>
+   <div class="grade g4">
+    <div class="campo"><label>Data</label><input type="date" id="p_data" value="${hojeISO()}"></div>
+    <div class="campo"><label>Fornecedor</label><input id="p_forn"></div>
+    <div class="campo"><label>Produto</label><input id="p_prod" placeholder="Ex.: Coxão mole"></div>
+    <div class="campo"><label>Preço por kg na nota (R$)</label><input type="number" step="0.01" id="p_preco"></div>
+    <div class="campo"><label>Peso da nota (kg)</label><input type="number" step="0.001" id="p_nota"></div>
+    <div class="campo"><label>Peso na balança (kg)</label><div style="display:flex;gap:6px"><input type="number" step="0.001" id="p_bal"><button class="btn sec peq" title="Ler de balança ligada por cabo USB (Chrome no computador)" onclick="lerBalanca('p_bal')">⚖️</button></div></div>
+    <div class="campo"><label>Peso limpo após pré-preparo (kg)</label><div style="display:flex;gap:6px"><input type="number" step="0.001" id="p_limpo" placeholder="pode preencher depois"><button class="btn sec peq" onclick="lerBalanca('p_limpo')">⚖️</button></div></div>
+    <div class="campo"><label>Responsável</label><input id="p_resp"></div>
+   </div>
+   <div class="acoes"><button class="btn" onclick="addPeso()">Registrar</button><button class="btn sec" onclick="csvPeso()">Exportar (CSV)</button></div><div id="msgPeso"></div>
+   <div class="dica"><b>Fator de correção (FC)</b> = peso bruto ÷ peso limpo. Ex.: 20 kg de coxão mole que rendem 17 kg limpos → FC 1,18 e perda de 15%. Se o kg custou R$ 40, o kg <b>limpo</b> custa R$ 47,06 — é esse valor que entra na ficha técnica.</div></div>
+   <div class="card tabela-rola">${regs.length?`<table><thead><tr><th>Data</th><th>Produto</th><th>Nota</th><th>Balança</th><th>Diferença</th><th>Limpo</th><th>FC</th><th>Perda</th><th>Custo kg limpo</th><th></th></tr></thead><tbody>${regs.slice().reverse().map((r,j)=>{const i=regs.length-1-j; const c=calcPeso(r);
+     return `<tr><td>${fmtData(r.data)}</td><td><b>${esc(r.prod)}</b><div style="font-size:12px;color:var(--txt2)">${esc(r.forn)}</div></td><td>${r.nota?br(r.nota,3)+' kg':'–'}</td><td>${r.bal?br(r.bal,3)+' kg':'–'}</td><td>${c.dif===null?'–':`<span class="selo ${Math.abs(c.difPct)>2?'erro':'ok'}">${c.dif>0?'+':''}${br(c.dif,3)} kg (${br(c.difPct,1)}%)</span>`}</td>
+     <td>${r.limpo?br(r.limpo,3)+' kg':`<button class="btn sec peq" onclick="limpoDepois(${i})">informar</button>`}</td><td>${c.fc?br(c.fc,2):'–'}</td><td>${c.perda!==null?br(c.perda,1)+'%':'–'}</td><td>${c.custoLimpo?'R$ '+br(c.custoLimpo,2):'–'}</td><td><button class="btn perigo peq" onclick="DB.pesagens.splice(${i},1);gravar();montarRotina()">×</button></td></tr>`;}).join('')}</tbody></table>`:'<div class="vazio">Nenhuma pesagem ainda.</div>'}</div>`;
+}
+function br(n,d){ return Number(n).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}); }
+function calcPeso(r){ const n=+r.nota, b=+r.bal, l=+r.limpo, p=+r.preco; const base=b||n;
+  const dif=(n&&b)?b-n:null; return {dif, difPct:dif===null?0:dif/n*100, fc:(base&&l)?base/l:null, perda:(base&&l)?(1-l/base)*100:null, custoLimpo:(p&&(n||b)&&l)?p*(n||b)/l:null}; }
+function addPeso(){ const g=id=>document.getElementById(id).value.trim(); const r={data:g('p_data'),forn:g('p_forn'),prod:g('p_prod'),preco:g('p_preco'),nota:g('p_nota'),bal:g('p_bal'),limpo:g('p_limpo'),resp:g('p_resp'),_quando:new Date().toISOString()};
+  if(!r.prod||!(r.nota||r.bal)){ alert('Informe o produto e pelo menos um peso.'); return; }
+  (DB.pesagens=DB.pesagens||[]).push(r); gravar(); const c=calcPeso(r); montarRotina();
+  document.getElementById('msgPeso').innerHTML = (c.dif!==null && Math.abs(c.difPct)>2)?`<div class="aviso"><b>⚠ Diferença de ${br(c.dif,3)} kg (${br(c.difPct,1)}%) entre a nota e a balança.</b> Acima de 2%: anote na nota, avise o fornecedor e peça o desconto/complemento.</div>`:'<div class="dica">✔ Pesagem registrada.</div>'; }
+function limpoDepois(i){ const v=prompt('Peso limpo após o pré-preparo (kg):'); if(v){ DB.pesagens[i].limpo=v.replace(',','.'); gravar(); montarRotina(); } }
+function csvPeso(){ const L=['Data;Fornecedor;Produto;Preço/kg;Peso nota;Peso balança;Peso limpo;FC;Perda %;Custo kg limpo'].concat((DB.pesagens||[]).map(r=>{const c=calcPeso(r); return [r.data,r.forn,r.prod,r.preco,r.nota,r.bal,r.limpo,c.fc?c.fc.toFixed(2):'',c.perda!==null?c.perda.toFixed(1):'',c.custoLimpo?c.custoLimpo.toFixed(2):''].join(';');}));
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob(['﻿'+L.join('\n')],{type:'text/csv'})); a.download='ArtBlend_Pesagem_FC.csv'; a.click(); }
+async function lerBalanca(campo){
+  if(!('serial' in navigator)){ alert('Leitura automática da balança funciona no Google Chrome ou Edge do computador, com a balança ligada por cabo USB/serial. Neste aparelho, digite o peso.'); return; }
+  try{ const port=await navigator.serial.requestPort(); await port.open({baudRate:9600}); const rd=port.readable.getReader(); let txt=''; const fim=Date.now()+3000;
+    while(Date.now()<fim){ const {value,done}=await Promise.race([rd.read(),new Promise(r=>setTimeout(()=>r({done:true}),800))]); if(done) break; txt+=new TextDecoder().decode(value); if(/\d+[.,]\d{2,3}/.test(txt)) break; }
+    rd.releaseLock(); await port.close(); const m=txt.match(/(\d+[.,]\d{2,3})/); if(m){ document.getElementById(campo).value=m[1].replace(',','.'); } else alert('Não consegui ler o peso. Confira se a balança está ligada e estável.');
+  }catch(e){ if(e.name!=='NotFoundError') alert('Não foi possível conectar à balança: '+e.message); }
+}
+/* ---- kit de equipamentos ---- */
+function rotKit(el){
+  el.innerHTML=`<div class="card"><h3 style="margin-top:0">Kit ArtBlend de equipamentos</h3><p class="sub">O que a Central já usa hoje e o que entra com cada equipamento. Ideia de negócio: a ArtBlend compra, configura e aluga/revende o kit junto com a consultoria.</p>
+  <div class="tabela-rola"><table><thead><tr><th>Equipamento</th><th>Para quê</th><th>Hoje (sem comprar nada)</th><th>Com o equipamento</th></tr></thead><tbody>
+   <tr><td><b>Celular ou tablet</b></td><td>Registros, fotos, QR Code</td><td><span class="selo ok">Funciona</span> no celular da equipe</td><td>Tablet fixo na cozinha (modo quiosque)</td></tr>
+   <tr><td><b>Impressora térmica de etiquetas</b> (60×40 mm)</td><td>Etiquetas de validade</td><td><span class="selo ok">Funciona</span> imprimindo em folha A4</td><td>Etiqueta adesiva na hora, sem recortar</td></tr>
+   <tr><td><b>Balança com saída USB/serial</b></td><td>Recebimento e fator de correção</td><td><span class="selo ok">Funciona</span> digitando o peso</td><td>Botão ⚖️ lê o peso direto (Chrome no computador)</td></tr>
+   <tr><td><b>Sensores de temperatura Wi-Fi</b></td><td>Geladeiras e câmaras 24 horas</td><td><span class="selo alerta">Manual</span> 2 leituras por dia</td><td>Leitura automática e alerta no celular de madrugada</td></tr>
+   <tr><td><b>Termômetro espeto digital</b></td><td>Cocção, resfriamento, recebimento</td><td>Obrigatório já</td><td>Modelos Bluetooth enviam a leitura para a Central</td></tr>
+   <tr><td><b>Serviço de mensagens (API do WhatsApp)</b></td><td>Lembretes e alertas automáticos</td><td><span class="selo alerta">Semiautomático</span> (botão WhatsApp)</td><td>Envio sozinho no horário e alerta quando algo sai da faixa</td></tr>
+  </tbody></table></div>
+  <div class="aviso">A lista de fornecedores para contato está no arquivo <b>FORNECEDORES_KIT_ARTBLEND</b> (pendrive, pasta FASE2).</div></div>`;
+}
+
+/* =========================================================
+   CURSO ABC DE BOAS PRÁTICAS (aba Treinamento do Módulo 0)
+   ========================================================= */
+const CURSO=[
+ {t:'Por que o alimento contamina', min:8,
+  oque:'Contaminar é quando algo que faz mal entra no alimento. Pode ser <b>biológico</b> (bactérias, vírus, parasitas — não se vê, não tem cheiro), <b>físico</b> (cabelo, plástico, metal, osso, vidro) ou <b>químico</b> (produto de limpeza, veneno de praga, excesso de aditivo). As Doenças Transmitidas por Alimentos (DTA) causam diarreia, vômito, febre e podem matar crianças, idosos e grávidas.',
+  pode:['Desconfiar de tudo que muda de cor, cheiro ou textura','Avisar o líder ao perceber qualquer risco','Lembrar: alimento contaminado muitas vezes parece normal'],
+  naopode:['Achar que "cheirar" ou "provar" garante segurança','Deixar alimento na bancada "só um pouquinho"','Usar o mesmo pano para tudo'],
+  pratica:'A maioria dos surtos em restaurantes vem de 3 falhas: temperatura errada, mãos mal lavadas e contaminação cruzada. Os próximos módulos ensinam a evitar cada uma.',
+  quiz:[['Bactérias no alimento geralmente…',['mudam a cor na hora','não são vistas nem sentidas','sempre deixam cheiro ruim'],1],
+        ['Um fio de cabelo na comida é um perigo…',['biológico','químico','físico'],2],
+        ['Produto de limpeza que respinga na panela é um perigo…',['químico','físico','biológico'],0],
+        ['Quem corre mais risco com uma DTA?',['adultos jovens','crianças, idosos e grávidas','ninguém, é só um mal-estar'],1],
+        ['As 3 falhas que mais causam surtos são…',['temperatura, mãos e contaminação cruzada','preço, cardápio e decoração','sal, açúcar e gordura'],0]]},
+ {t:'Mãos limpas, alimento seguro', min:6,
+  oque:'As mãos são o principal caminho dos micróbios até o alimento. Lavar do jeito certo leva pelo menos <b>20 segundos</b> e inclui palmas, dorso, entre os dedos, polegares, pontas dos dedos, unhas e punhos (POP-05).',
+  pode:['Lavar ao chegar, após banheiro, lixo, dinheiro, celular, tossir ou espirrar','Lavar ao trocar de tarefa (do cru para o pronto)','Secar com papel toalha e fechar a torneira com o papel'],
+  naopode:['Lavar as mãos na pia de lavar panelas ou alimentos','Secar no avental ou no pano de prato','Achar que a luva substitui a lavagem — luva suja contamina igual'],
+  pratica:'Faça o teste do relógio: conte 20 segundos na próxima lavagem. A maioria das pessoas lava em 5.',
+  quiz:[['Quanto tempo, no mínimo, para esfregar as mãos?',['5 segundos','20 segundos','2 minutos'],1],
+        ['Depois de mexer no celular, você…',['lava as mãos','só passa no avental','continua normalmente'],0],
+        ['Onde lavar as mãos na cozinha?',['na pia das panelas','na pia exclusiva para mãos','em qualquer pia'],1],
+        ['Usar luva…',['dispensa lavar as mãos','não dispensa lavar as mãos e trocar a luva','vale para o turno todo'],1],
+        ['Como secar as mãos?',['no avental','com papel toalha descartável','balançando no ar'],1]]},
+ {t:'Higiene pessoal e uniforme', min:7,
+  oque:'Quem manipula alimento precisa estar <b>limpo, saudável e sem adornos</b>. Uniforme claro, limpo e trocado todo dia, usado só no trabalho; cabelo todo preso e coberto; unhas curtas, sem esmalte; sem anel, aliança, relógio, brinco ou piercing (POP-04).',
+  pode:['Avisar o líder se estiver com diarreia, vômito, febre, ferida nas mãos ou garganta inflamada','Proteger pequenos cortes com curativo e luva','Trocar o uniforme se sujar muito durante o turno'],
+  naopode:['Trabalhar doente "para não faltar"','Comer, fumar, mascar chiclete ou usar celular na área de preparo','Tossir ou espirrar sobre o alimento','Chegar de casa já uniformizado'],
+  pratica:'Exame de saúde (ASO) em dia é obrigação do restaurante e direito seu — o módulo Equipe avisa quando vence.',
+  quiz:[['Pode usar aliança na cozinha?',['sim, aliança pode','não, nenhum adorno','só se for de ouro'],1],
+        ['Está com diarreia. O que fazer?',['trabalhar normal','avisar o líder antes de começar','tomar remédio e não contar'],1],
+        ['O uniforme deve ser…',['claro, limpo e usado só no trabalho','de qualquer cor, desde que confortável','vestido em casa para ganhar tempo'],0],
+        ['Unhas de quem manipula alimento…',['curtas e sem esmalte','compridas, se bem lavadas','com esmalte claro'],0],
+        ['Corte pequeno no dedo:',['manipula normalmente','curativo + luva e evita alimento pronto','esconde do líder'],1]]},
+ {t:'Recebimento e armazenamento', min:9,
+  oque:'A segurança começa na porta. No recebimento confira veículo, nota, rótulo, validade, embalagem e <b>temperatura</b>: refrigerados até 5 °C (ou conforme o rótulo) e congelados a -12 °C ou menos. Na hora de guardar: nada no chão (10 cm do piso), prontos em cima e crus embaixo, etiqueta em tudo que foi aberto e <b>PVPS — primeiro que vence, primeiro que sai</b> (POP-06 e 07).',
+  pode:['Recusar e devolver na hora o que estiver fora do padrão','Pesar e comparar com a nota (Rotina Inteligente › Pesagem)','Guardar primeiro os congelados, depois refrigerados, depois secos'],
+  naopode:['Deixar a mercadoria esperando no sol','Guardar caixas de papelão dentro da câmara fria','Misturar produto de limpeza com alimento','Usar produto sem etiqueta "porque ainda está bom"'],
+  pratica:'Use o gerador de etiquetas da Central: produto, data de manipulação, validade e responsável — tudo em 10 segundos.',
+  quiz:[['Carne refrigerada chegou a 9 °C. O que fazer?',['aceitar e guardar rápido','recusar e registrar','colocar no freezer'],1],
+        ['Na geladeira, o alimento pronto fica…',['embaixo','em cima','em qualquer lugar'],1],
+        ['PVPS significa…',['primeiro que vence, primeiro que sai','preço vale pelo sabor','pode vender por semana'],0],
+        ['Produto aberto precisa de…',['etiqueta com data, validade e responsável','nada, se estiver tampado','só o nome'],0],
+        ['Estoque seco deve ficar…',['no chão, encostado na parede','em prateleira, afastado do piso e da parede','dentro da cozinha quente'],1]]},
+ {t:'Temperatura: a regra do 5 e do 60', min:10,
+  oque:'Entre <b>5 °C e 60 °C</b> é a <b>zona de perigo</b>: as bactérias se multiplicam rápido. Por isso: cozinhar a pelo menos <b>70 °C no centro</b>; resfriar de 60 °C para 10 °C em até <b>2 horas</b> e guardar a 5 °C ou menos; manter quente acima de 60 °C (no máximo 6 h); manter frio abaixo de 5 °C; reaquecer acima de 70 °C uma vez só; óleo até 180 °C (POP-08, 10 e 12).',
+  pode:['Usar termômetro espeto higienizado com álcool 70%','Dividir em recipientes rasos e usar banho de gelo para resfriar','Registrar tudo na planilha 08 (Controles do Dia)'],
+  naopode:['Descongelar na bancada','Deixar a panela esfriando na pia por horas','Reaquecer a mesma comida várias vezes','"Olhar" se está cozido sem medir'],
+  pratica:'O termômetro é a ferramenta mais importante da cozinha segura. Sem ele não existe controle — só palpite.',
+  quiz:[['A zona de perigo fica entre…',['0 °C e 30 °C','5 °C e 60 °C','60 °C e 100 °C'],1],
+        ['Temperatura mínima no centro do alimento cozido:',['50 °C','70 °C','100 °C'],1],
+        ['Resfriamento correto: de 60 °C para 10 °C em até…',['2 horas','6 horas','um dia'],0],
+        ['Como descongelar?',['na bancada','na geladeira ou no micro-ondas','em água quente'],1],
+        ['Buffet quente deve ficar acima de…',['40 °C','60 °C','30 °C'],1]]},
+ {t:'Limpeza e desinfecção', min:7,
+  oque:'<b>Limpar</b> é tirar a sujeira que se vê (água + detergente). <b>Desinfetar</b> é reduzir os micróbios que não se veem (álcool 70%, solução clorada ou outro produto aprovado na ANVISA), respeitando a <b>diluição</b> e o <b>tempo de contato</b> do rótulo. Primeiro limpa, depois desinfeta (POP-01, 14 e 15).',
+  pode:['Seguir o cronograma de limpeza e registrar','Usar panos e esponjas de cores diferentes por área','Guardar utensílios limpos protegidos e de boca para baixo'],
+  naopode:['Misturar produtos (água sanitária + outro produto solta gás tóxico)','Usar produto sem registro ou em garrafa de refrigerante','Usar o mesmo pano no banheiro e na cozinha','Varrer a seco na área de preparo'],
+  pratica:'Tire uma foto de prova depois da limpeza na Central: ela registra data, hora e aparelho — e avisa se alguém repetir foto antiga.',
+  quiz:[['Limpar é…',['tirar a sujeira visível','matar todos os micróbios','passar perfume'],0],
+        ['A ordem certa é…',['desinfetar e depois limpar','limpar e depois desinfetar','só desinfetar'],1],
+        ['Pode misturar água sanitária com outro produto?',['sim, fica mais forte','não, pode soltar gás tóxico','só no banheiro'],1],
+        ['O pano do banheiro pode ir para a cozinha?',['sim, se lavado','não, cada área tem o seu','só no fim do dia'],1],
+        ['Onde está a diluição correta do produto?',['no rótulo','na intuição','no tamanho do balde'],0]]},
+ {t:'Contaminação cruzada e alergênicos', min:7,
+  oque:'Contaminação cruzada é quando o micróbio passa do cru para o pronto: pela tábua, faca, mãos, pano ou pelo líquido da carne que pinga. <b>Alergênicos</b> (leite, ovo, trigo, soja, amendoim, castanhas, peixes, crustáceos) podem causar reação grave mesmo em quantidade mínima (POP-09 e 17).',
+  pode:['Usar tábuas e facas separadas (ou higienizar entre cru e pronto)','Higienizar hortifrúti servido cru','Consultar a ficha técnica quando o cliente tiver alergia'],
+  naopode:['Cortar salada na tábua da carne crua','Guardar carne crua acima de alimento pronto','Dizer "acho que não tem" para um cliente alérgico'],
+  pratica:'Na dúvida sobre alergênico, não sirva: informe o cliente. Um erro pode levar alguém ao hospital.',
+  quiz:[['Cortar salada na tábua da carne crua…',['tudo bem se for rápido','causa contaminação cruzada','é recomendado'],1],
+        ['Carne crua na geladeira fica…',['acima do alimento pronto','abaixo do alimento pronto','junto, sem tampa'],1],
+        ['Qual é um alergênico comum?',['amendoim','água','sal'],0],
+        ['Cliente alérgico pergunta e você não sabe:',['diz que não tem','consulta a ficha técnica/cozinha','sugere outro prato sem conferir'],1],
+        ['Folhas que serão servidas cruas devem…',['ser só lavadas','ser higienizadas com produto e tempo certos','ficar de molho em vinagre'],1]]},
+ {t:'Pragas, água e lixo', min:7,
+  oque:'Barata, rato, mosca e pombo transmitem doenças. A melhor defesa são as <b>barreiras</b>: telas, portas vedadas, ralos fechados, lixo tampado, nada de comida exposta. O veneno é só com <b>empresa licenciada</b>. A caixa d’água é limpa no máximo a cada <b>6 meses</b>. O lixo sai sem cruzar com o alimento pronto (POP-02, 03 e 13).',
+  pode:['Fazer a ronda diária e registrar (planilha 12)','Avisar na hora qualquer sinal de praga','Lavar as mãos após mexer no lixo'],
+  naopode:['Aplicar veneno por conta própria','Deixar porta dos fundos aberta','Encher a lixeira até transbordar','Jogar óleo usado no ralo'],
+  pratica:'Achou fezes de rato ou barata? Isole a área, limpe, descarte o alimento atingido e chame a empresa no mesmo dia.',
+  quiz:[['A melhor forma de evitar pragas é…',['veneno toda semana','barreiras: telas, vedação, lixo tampado','gato no restaurante'],1],
+        ['Quem aplica veneno?',['qualquer funcionário','empresa especializada licenciada','o gerente'],1],
+        ['A caixa d’água deve ser limpa no máximo a cada…',['6 meses','2 anos','quando der'],0],
+        ['Óleo de fritura usado vai para…',['o ralo','coletor autorizado','o lixo comum aberto'],1],
+        ['Viu sinal de rato. Primeiro passo:',['ignorar','isolar a área e avisar','limpar e não contar'],1]]},
+ {t:'Bônus · As regras do mundo (Codex, APPCC e ISO)', min:8, bonus:true,
+  oque:'O <b>Codex Alimentarius</b> é o "código mundial dos alimentos" da FAO e da OMS (ONU). Dele vem o <b>APPCC</b> (em inglês, HACCP), um método de 7 passos: 1) descobrir os perigos de cada etapa; 2) escolher os pontos críticos; 3) definir o limite seguro (ex.: 70 °C); 4) definir como medir; 5) definir o que fazer quando sair do limite; 6) verificar se o sistema funciona; 7) registrar tudo. As normas <b>ISO 22000</b> e <b>FSSC 22000</b> são certificações internacionais de segurança de alimentos (auditadas por empresas como SGS, Bureau Veritas, NSF e Intertek). No Brasil, a base para restaurantes é a <b>RDC ANVISA 216/2004</b>; a RDC 275/2002 define como escrever POPs.',
+  pode:['Usar o APPCC como lógica de tudo: perigo → limite → medir → corrigir → registrar','Comparar o restaurante com padrões internacionais para crescer'],
+  naopode:['Achar que norma internacional substitui a lei brasileira','Esquecer as regras extras do seu estado ou município'],
+  pratica:'Repare: a Central de Qualidade ArtBlend já é um APPCC simplificado — os Controles do Dia são os pontos críticos com limite, alerta e registro.',
+  quiz:[['O Codex Alimentarius é…',['uma marca de produto de limpeza','o código mundial dos alimentos da ONU','uma lei municipal'],1],
+        ['APPCC em inglês é…',['HACCP','ISO','ANVISA'],0],
+        ['"70 °C no centro do alimento" é um exemplo de…',['limite crítico','alergênico','POP'],0],
+        ['A lei brasileira base para restaurantes é…',['RDC 216/2004','ISO 9001','Codex'],0],
+        ['O último princípio do APPCC é…',['registrar tudo','comprar equipamento','trocar o cardápio'],0]]}
+];
+let aulaAtual=null, alunoAtual='';
+function montarCurso(){
+  const el=document.getElementById('cursoConteudo'); if(!el) return;
+  const eq=DB.equipe||[];
+  if(aulaAtual===null){
+    const a=eq[+alunoAtual]; const feitos=a?a.trein:[];
+    el.innerHTML=`<div class="card"><div class="grade g2"><div><h3 style="margin-top:0">Curso ABC de Boas Práticas</h3><p class="sub" style="margin:0">8 aulas curtas + 1 bônus · cerca de 1 hora no total · quiz de 5 perguntas no fim de cada aula (acertar 4 para passar). Concluídas as 8, o certificado é liberado no módulo Equipe.</p></div>
+      <div class="campo"><label>Quem está fazendo o curso</label><select onchange="alunoAtual=this.value;montarCurso()"><option value="">— escolha o colaborador —</option>${eq.map((c,i)=>`<option value="${i}" ${String(i)===String(alunoAtual)?'selected':''}>${esc(c.nome)} (${esc(c.funcao)})</option>`).join('')}</select>
+      ${eq.length?'':'<div class="aviso" style="margin-top:6px">Cadastre a equipe no módulo 4 · Equipe para registrar a nota de cada pessoa.</div>'}</div></div>
+      ${a?`<div style="margin-top:8px"><div class="barra"><div style="width:${Math.round(feitos.length/8*100)}%"></div></div><div class="det" style="font-size:13px;margin-top:4px">${feitos.length} de 8 aulas concluídas${feitos.length===8?(certValido(a)?` · <b style="color:var(--ok)">certificado válido até ${validadeCert(a)}</b>`:' · <b style="color:var(--erro)">certificado vencido</b>'):''}</div>
+      <div class="acoes">${feitos.length===8&&certValido(a)?`<button class="btn peq" onclick="irPara('equipe');certificado(${+alunoAtual})">🎓 Imprimir meu certificado</button>`:''}${feitos.length===8?`<button class="btn sec peq" onclick="reciclar(${+alunoAtual})">🔄 Fazer reciclagem</button>`:''}</div></div>`:''}</div>
+     <div class="dica"><b>Ordem certa na implantação:</b> 1º todo mundo faz o curso → 2º recebe o certificado → 3º o Manual de Boas Práticas é implantado e assinado.</div>
+     <div class="pop-lista">${CURSO.map((c,i)=>`<div class="pop-card" onclick="aulaAtual=${i};montarCurso();document.getElementById('mod-abc').scrollIntoView()">
+       <div class="cod">${c.bonus?'BÔNUS':'AULA '+(i+1)} · ${c.min} min</div><div class="nome">${c.t}</div>
+       <div>${!c.bonus&&a&&feitos.includes(i)?'<span class="selo ok">✓ concluída</span>':c.bonus?'<span class="selo neutro">para gerente e consultor</span>':'<span class="selo neutro">a fazer</span>'}${a&&a.notas&&a.notas[i]!=null?` <span class="selo neutro">nota ${a.notas[i]}/5</span>`:''}</div></div>`).join('')}</div>`;
+    return;
+  }
+  const c=CURSO[aulaAtual];
+  el.innerHTML=`<div class="acoes nao-imprimir"><button class="btn sec" onclick="aulaAtual=null;montarCurso()">← Todas as aulas</button><button class="btn sec" onclick="window.print()">🖨 Imprimir a aula</button></div>
+   <div class="pop-doc"><div class="cod" style="color:var(--pri-esc);font-weight:800">${c.bonus?'AULA BÔNUS':'AULA '+(aulaAtual+1)+' DE 8'} · ${c.min} minutos</div><h2>${c.t}</h2>
+    <div class="secao"><h4>O que é</h4><p>${c.oque}</p></div>
+    <div class="grade g2"><div class="secao"><h4 style="color:var(--ok)">✔ Pode / deve</h4><ul>${c.pode.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+    <div class="secao"><h4 style="color:var(--erro)">✘ Não pode</h4><ul>${c.naopode.map(x=>`<li>${x}</li>`).join('')}</ul></div></div>
+    <div class="dica"><b>Na prática:</b> ${c.pratica}</div>
+    <div class="secao nao-imprimir"><h4>Quiz — 5 perguntas</h4><div id="quiz">${c.quiz.map((q,qi)=>`<div class="card" style="padding:12px;margin-bottom:8px"><b>${qi+1}. ${q[0]}</b>${q[1].map((o,oi)=>`<label style="display:flex;gap:8px;align-items:center;font-weight:400;color:var(--txt);margin-top:6px;cursor:pointer"><input type="radio" name="q${qi}" value="${oi}" style="width:auto"> ${o}</label>`).join('')}</div>`).join('')}</div>
+    <button class="btn" onclick="corrigirQuiz()">Corrigir</button><div id="resQuiz"></div></div></div>`;
+}
+function corrigirQuiz(){
+  const c=CURSO[aulaAtual]; let ac=0; c.quiz.forEach((q,qi)=>{ const r=document.querySelector(`input[name=q${qi}]:checked`); const card=document.querySelectorAll('#quiz .card')[qi];
+    const ok=r&&+r.value===q[2]; if(ok) ac++; card.style.borderColor=ok?'var(--ok)':'var(--erro)';
+    if(!ok){ const old=card.querySelector('.resp'); if(old) old.remove(); card.insertAdjacentHTML('beforeend',`<div class="resp" style="font-size:13px;color:var(--erro);margin-top:6px">Resposta certa: ${q[1][q[2]]}</div>`);} });
+  const a=(DB.equipe||[])[+alunoAtual]; const passou=ac>=4;
+  if(a && alunoAtual!==''){ a.notas=a.notas||{}; a.notas[aulaAtual]=Math.max(ac,a.notas[aulaAtual]||0); if(passou && !c.bonus && !a.trein.includes(aulaAtual)) a.trein.push(aulaAtual); if(a.trein.length===8 && !a.certData) a.certData=hojeISO(); gravar(); }
+  document.getElementById('resQuiz').innerHTML=`<div class="${passou?'dica':'aviso'}" style="margin-top:10px"><b>${ac} de 5 acertos.</b> ${passou?(a?'Aula concluída e registrada para '+esc(a.nome)+'!':'Você passou! (escolha o colaborador para registrar)'):'Releia a aula e tente de novo — precisa de 4 acertos.'}
+   ${passou&&a&&a.trein.length===8?'<br>🎓 As 8 aulas foram concluídas: o certificado está liberado no módulo 4 · Equipe.':''}</div>`;
+}
+
+/* ---------- histórico e gráfico de evolução ---------- */
+function salvarHistorico(){
+  const r=resumoInspecao(); if(r.pct===null){ alert('Responda a inspeção antes de guardar a nota.'); return; }
+  DB.historico=DB.historico||[]; const d=hojeISO(); const i=DB.historico.findIndex(h=>h.data.slice(0,7)===d.slice(0,7));
+  const reg={data:d,pct:r.pct,nc:r.nc}; if(i>=0) DB.historico[i]=reg; else DB.historico.push(reg);
+  DB.historico.sort((a,b)=>a.data<b.data?-1:1); gravar(); alert('Nota de '+r.pct+'% guardada no histórico de '+d.slice(5,7)+'/'+d.slice(0,4)+'.');
+}
+function grafEvolucao(){
+  const h=(DB.historico||[]).slice(-12); if(!h.length) return '<h3>Evolução da nota</h3><div class="vazio">Use "Guardar nota no histórico" na Inspeção a cada mês para ver a evolução aqui.</div>';
+  const W=640,H=200,bw=Math.min(60,(W-40)/h.length-10); const meses=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  const barras=h.map((x,i)=>{ const hh=x.pct/100*(H-50), xx=30+i*((W-40)/h.length)+5, cor=x.pct>=76?'#2E9D5B':x.pct>=51?'#E0A100':'#D64545';
+    return `<rect x="${xx}" y="${H-25-hh}" width="${bw}" height="${hh}" rx="5" fill="${cor}"/><text x="${xx+bw/2}" y="${H-30-hh}" text-anchor="middle" font-size="12" font-weight="700" fill="#16294A">${x.pct}%</text><text x="${xx+bw/2}" y="${H-8}" text-anchor="middle" font-size="11" fill="#6E7A8C">${meses[+x.data.slice(5,7)-1]}/${x.data.slice(2,4)}</text>`;}).join('');
+  const ganho=h.length>1? h[h.length-1].pct-h[0].pct : 0;
+  return `<h3>Evolução da nota</h3><svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;height:auto" role="img" aria-label="Evolução da nota de inspeção"><line x1="25" y1="${H-25-0.76*(H-50)}" x2="${W}" y2="${H-25-0.76*(H-50)}" stroke="#2E9D5B" stroke-dasharray="4 4"/><text x="${W-4}" y="${H-29-0.76*(H-50)}" text-anchor="end" font-size="10" fill="#2E9D5B">meta 76% (Bom)</text>${barras}</svg>
+   ${h.length>1?`<p style="font-size:14px">${ganho>=0?'📈':'📉'} Desde ${fmtData(h[0].data)} a nota ${ganho>=0?'subiu':'caiu'} <b>${Math.abs(ganho)} pontos</b>.</p>`:''}`;
+}
+
+function abaABC(q){ document.getElementById('abcUso').style.display=q==='uso'?'':'none'; document.getElementById('abcCurso').style.display=q==='curso'?'':'none'; document.getElementById('abaAbcUso').classList.toggle('ativo',q==='uso'); document.getElementById('abaAbcCurso').classList.toggle('ativo',q==='curso'); if(q==='curso') montarCurso(); }
+
+/* ---------- lupa: busca em toda a Central ---------- */
+const semAc=t=>(t||'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[’'`´]/g,'').toLowerCase();
+function indiceBusca(){
+  const I=[];
+  MODS.forEach(([k,t])=>I.push({t,d:'Módulo',go:()=>irPara(k)}));
+  POPS.forEach((p,i)=>I.push({t:p.cod+' · '+p.nome,d:'POP — '+p.obj,txt:p.passos.join(' ')+' '+p.freq,go:()=>{irPara('pops');popFiltro='Todos';popAberto=i;montarPops();}}));
+  CURSO.forEach((c,i)=>I.push({t:(c.bonus?'Aula bônus':'Aula '+(i+1))+' · '+c.t,d:'Curso ABC',txt:c.oque+' '+c.pode.join(' ')+' '+c.naopode.join(' '),go:()=>{irPara('abc');abaABC('curso');aulaAtual=i;montarCurso();}}));
+  Object.entries(CONTROLES).forEach(([k,c])=>I.push({t:c.t,d:'Controle do dia — '+c.desc,txt:JSON.stringify(c.campos),go:()=>{ctrlAtual=k;irPara('controles');montarControles();}}));
+  Object.entries(ROT_ABAS).forEach(([k,t])=>I.push({t:t.replace(/^\S+\s/,''),d:'Rotina Inteligente',go:()=>{rotAtual=k;irPara('rotina');}}));
+  BLOCOS.forEach(b=>I.push({t:b.ref+' · '+b.t,d:'Inspeção — bloco da RDC 216',txt:b.itens.map(x=>x[0]).join(' '),go:()=>{irPara('inspecao');setTimeout(()=>{const e=document.getElementById('blk-'+b.id);e.classList.add('aberto');e.scrollIntoView({behavior:'smooth'});},50);}}));
+  return I;
+}
+function buscarCentral(q){
+  const box=document.getElementById('lupaRes'); const t=semAc(q.trim()); if(t.length<2){ box.style.display='none'; return; }
+  const palavras=t.split(/\s+/); const I=indiceBusca();
+  const res=I.map(x=>{ const tt=semAc(x.t), all=tt+' '+semAc(x.d)+' '+semAc(x.txt||''); if(!palavras.every(p=>all.includes(p))) return null; return {x,score:palavras.filter(p=>tt.includes(p)).length*10+1}; }).filter(Boolean).sort((a,b)=>b.score-a.score).slice(0,12);
+  window._lupa=res.map(r=>r.x);
+  box.innerHTML=res.length?res.map((r,i)=>`<div class="r" onclick="_lupa[${i}].go();document.getElementById('lupaRes').style.display='none';document.getElementById('lupa').value=''"><b>${esc(r.x.t)}</b><small>${esc(r.x.d.slice(0,110))}</small></div>`).join(''):'<div class="r" style="cursor:default;color:var(--txt2)">Nada encontrado. Tente outra palavra.</div>';
+  box.style.display='block';
+}
+document.addEventListener('click',e=>{ if(!e.target.closest('.busca')){ const b=document.getElementById('lupaRes'); if(b) b.style.display='none'; } });
+
 /* ---------- perfis de acesso ---------- */
-const MODS=[['abc','0 · ABC da Qualidade'],['inicio','Painel'],['inspecao','1 · Inspeção Sanitária'],['pops','2 · Biblioteca de POPs'],['controles','3 · Controles do Dia'],['equipe','4 · Equipe'],['visita','5 · Visita do Consultor'],['mbp','6 · Manual de Boas Práticas'],['normas','Normas e Referências']];
+const MODS=[['abc','0 · ABC da Qualidade'],['inicio','Painel'],['inspecao','1 · Inspeção Sanitária'],['pops','2 · Biblioteca de POPs'],['controles','3 · Controles do Dia'],['rotina','3+ · Rotina Inteligente'],['equipe','4 · Equipe'],['visita','5 · Visita do Consultor'],['mbp','6 · Manual de Boas Práticas'],['normas','Normas e Referências']];
 const ACESSO={ // u = usa, v = vê, n = não aparece
-  consultor:  {abc:'u',inicio:'u',inspecao:'u',pops:'u',controles:'u',equipe:'u',visita:'u',mbp:'u',normas:'u'},
-  gerente:    {abc:'u',inicio:'u',inspecao:'u',pops:'u',controles:'u',equipe:'u',visita:'v',mbp:'v',normas:'v'},
-  colaborador:{abc:'v',inicio:'v',inspecao:'n',pops:'v',controles:'u',equipe:'v',visita:'n',mbp:'n',normas:'n'}
+  consultor:  {abc:'u',inicio:'u',inspecao:'u',pops:'u',controles:'u',rotina:'u',equipe:'u',visita:'u',mbp:'u',normas:'u'},
+  gerente:    {abc:'u',inicio:'u',inspecao:'u',pops:'u',controles:'u',rotina:'u',equipe:'u',visita:'v',mbp:'v',normas:'v'},
+  colaborador:{abc:'v',inicio:'v',inspecao:'n',pops:'v',controles:'u',rotina:'u',equipe:'v',visita:'n',mbp:'n',normas:'n'}
 };
 function setPerfil(p){
   DB.perfil=p; gravar();
@@ -983,7 +1383,7 @@ document.getElementById('nomeUnidade').value = DB.unidade||'';
 carregarVisita();
 montarInspecao(); montarPops(); montarControles(); montarEquipe(); montarNormas(); montarPainel();
 setPerfil(DB.perfil||'consultor');
-const hashMod=(location.hash||'').replace('#',''); irPara(hashMod && document.getElementById('mod-'+hashMod) ? hashMod : (DB.jaViuABC ? 'inicio' : 'abc')); DB.jaViuABC=true; gravar();
+const hashMod=(location.hash||'').replace('#',''); if(!abrirPorQR(hashMod)) irPara(hashMod && document.getElementById('mod-'+hashMod) ? hashMod : (DB.jaViuABC ? 'inicio' : 'abc')); DB.jaViuABC=true; gravar();
 window.addEventListener('hashchange',()=>{const h=location.hash.replace('#',''); if(document.getElementById('mod-'+h)) irPara(h);});
 </script>
 </body>
