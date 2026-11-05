@@ -650,7 +650,7 @@
                     <div style="background: #e8f5e9; height: 6px; border-radius: 3px; margin: 10px 0;">
                         <div style="background: #999; height: 100%; width: 0%; border-radius: 3px;"></div>
                     </div>
-                    <div style="font-size: 11px; color: #999; font-weight: 700;">Bloqueado</div>
+                    <a href="central-qualidade.html#pops" class="btn" style="font-size: 12px; padding: 6px 10px; text-decoration:none;">Abrir na Central de Qualidade</a>
                 </div>
                 
                 <!-- CONSULTORIA SANITÁRIA -->
@@ -661,7 +661,7 @@
                     <div style="background: #e8f5e9; height: 6px; border-radius: 3px; margin: 10px 0;">
                         <div style="background: #999; height: 100%; width: 0%; border-radius: 3px;"></div>
                     </div>
-                    <div style="font-size: 11px; color: #999; font-weight: 700;">Bloqueado</div>
+                    <a href="central-qualidade.html#inspecao" class="btn" style="font-size: 12px; padding: 6px 10px; text-decoration:none;">Abrir na Central de Qualidade</a>
                 </div>
                 
                 <!-- RECEITAS PADRÃO -->
@@ -683,7 +683,7 @@
                     <div style="background: #e8f5e9; height: 6px; border-radius: 3px; margin: 10px 0;">
                         <div style="background: #999; height: 100%; width: 0%; border-radius: 3px;"></div>
                     </div>
-                    <div style="font-size: 11px; color: #999; font-weight: 700;">Bloqueado</div>
+                    <a href="central-qualidade.html#controles" class="btn" style="font-size: 12px; padding: 6px 10px; text-decoration:none;">Abrir na Central de Qualidade</a>
                 </div>
                 
                 <!-- CONCORRÊNCIA -->
@@ -890,31 +890,31 @@
                         <td><strong>01 - Recepcão de Insumos</strong></td>
                         <td>2.1</td>
                         <td>10/07/2026</td>
-                        <td><button class="btn" style="font-size: 11px; padding: 6px 10px;">📖 Ver</button></td>
+                        <td><a href="central-qualidade.html#pops" class="btn" style="font-size: 11px; padding: 6px 10px; text-decoration:none;">📖 Ver</a></td>
                     </tr>
                     <tr>
                         <td><strong>02 - Higienização Cozinha</strong></td>
                         <td>3.0</td>
                         <td>01/08/2026</td>
-                        <td><button class="btn" style="font-size: 11px; padding: 6px 10px;">📖 Ver</button></td>
+                        <td><a href="central-qualidade.html#pops" class="btn" style="font-size: 11px; padding: 6px 10px; text-decoration:none;">📖 Ver</a></td>
                     </tr>
                     <tr>
                         <td><strong>03 - Controle Temperatura</strong></td>
                         <td>2.0</td>
                         <td>15/07/2026</td>
-                        <td><button class="btn" style="font-size: 11px; padding: 6px 10px;">📖 Ver</button></td>
+                        <td><a href="central-qualidade.html#pops" class="btn" style="font-size: 11px; padding: 6px 10px; text-decoration:none;">📖 Ver</a></td>
                     </tr>
                     <tr>
                         <td><strong>04 - Preparo Alimentos</strong></td>
                         <td>1.8</td>
                         <td>05/07/2026</td>
-                        <td><button class="btn" style="font-size: 11px; padding: 6px 10px;">📖 Ver</button></td>
+                        <td><a href="central-qualidade.html#pops" class="btn" style="font-size: 11px; padding: 6px 10px; text-decoration:none;">📖 Ver</a></td>
                     </tr>
                     <tr>
                         <td><strong>05 - Limpeza Sanitários</strong></td>
                         <td>2.2</td>
                         <td>20/07/2026</td>
-                        <td><button class="btn" style="font-size: 11px; padding: 6px 10px;">📖 Ver</button></td>
+                        <td><a href="central-qualidade.html#pops" class="btn" style="font-size: 11px; padding: 6px 10px; text-decoration:none;">📖 Ver</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -1325,8 +1325,18 @@ const ferramentas = [
     { nome: 'Notificações', id: 'notificacoes', icon: '🔔', descricao: 'Alertas automáticos' },
     { nome: 'WhatsApp', id: 'whatsapp', icon: '💬', descricao: 'Automação' },
     { nome: 'Relatórios', id: 'relatorios', icon: '📄', descricao: 'PDFs com dados' },
-    { nome: 'Configurações', id: 'config', icon: '⚙️', descricao: 'Perfil e segurança' }
+    { nome: 'Configurações', id: 'config', icon: '⚙️', descricao: 'Perfil e segurança' },
+    { nome: 'Central de Qualidade', url: 'central-qualidade.html#abc', icon: '🧪', descricao: 'Vigilância sanitária, RDC 216, boas práticas, APPCC' },
+    { nome: 'Inspeção Sanitária', url: 'central-qualidade.html#inspecao', icon: '✅', descricao: 'Checklist RDC 216 com nota' },
+    { nome: 'POPs — Procedimentos', url: 'central-qualidade.html#pops', icon: '📋', descricao: '17 POPs: higienização, pragas, caixa d’água, manipulador' },
+    { nome: 'Controles de Temperatura', url: 'central-qualidade.html#controles', icon: '🌡️', descricao: 'Geladeira, freezer, cocção, resfriamento, óleo, amostras' },
+    { nome: 'Etiquetas de Validade', url: 'central-qualidade.html#rotina', icon: '🏷️', descricao: 'Gerador de etiquetas, QR Code, lembretes' },
+    { nome: 'Pesagem e Fator de Correção', url: 'central-qualidade.html#rotina', icon: '⚖️', descricao: 'Recebimento na balança, perda, custo do kg limpo' },
+    { nome: 'Curso de Boas Práticas', url: 'central-qualidade.html#abc', icon: '🎓', descricao: 'Treinamento com quiz e certificado' },
+    { nome: 'Manual de Boas Práticas', url: 'central-qualidade.html#mbp', icon: '📘', descricao: 'Gerador do manual obrigatório' },
+    { nome: 'Relatório de Visita', url: 'central-qualidade.html#visita', icon: '📝', descricao: 'Relatório do consultor com plano de ação e fotos' }
 ];
+const semAcento = t => (t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[’'`´]/g,'').toLowerCase();
 
 function buscarFerramenta(termo) {
     const sugestoesDiv = document.getElementById('sugestoes');
@@ -1337,8 +1347,8 @@ function buscarFerramenta(termo) {
     }
     
     const resultados = ferramentas.filter(f => 
-        f.nome.toLowerCase().includes(termo.toLowerCase()) ||
-        f.descricao.toLowerCase().includes(termo.toLowerCase())
+        semAcento(f.nome).includes(semAcento(termo)) ||
+        semAcento(f.descricao).includes(semAcento(termo))
     );
     
     if (resultados.length === 0) {
@@ -1348,7 +1358,7 @@ function buscarFerramenta(termo) {
     }
     
     sugestoesDiv.innerHTML = resultados.map(r => `
-        <div onclick="goToSection('${r.id}')" style="padding: 12px 15px; border-bottom: 1px solid #eee; cursor: pointer; transition: background 0.2s;">
+        <div onclick="${r.url ? `location.href='${r.url}'` : `goToSection('${r.id}')`}" style="padding: 12px 15px; border-bottom: 1px solid #eee; cursor: pointer; transition: background 0.2s;">
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span style="font-size: 20px;">${r.icon}</span>
                 <div>
