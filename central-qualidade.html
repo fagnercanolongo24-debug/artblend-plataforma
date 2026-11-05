@@ -4,23 +4,50 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Central de Qualidade ArtBlend</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --pri:#16A5A5; --pri-esc:#0E7C7C; --pri-clr:#E6F6F6; --fundo:#F4F8F8; --card:#FFFFFF;
-  --txt:#1F2D2D; --txt2:#5B6B6B; --borda:#DDE7E7;
+  --pri:#1C93A8; --pri-esc:#137487; --pri-clr:#E4F8FB; --acento:#2EC4D6; --verde:#3ADC84; --fundo:#F5F7FA; --card:#FFFFFF;
+  --txt:#16294A; --txt2:#6E7A8C; --borda:#E2E6ED;
   --ok:#2E9D5B; --ok-clr:#E5F5EC; --alerta:#E0A100; --alerta-clr:#FFF6DC; --erro:#D64545; --erro-clr:#FDE8E8;
-  --raio:12px; --sombra:0 2px 10px rgba(14,124,124,.08);
+  --raio:14px; --sombra:0 1px 2px rgba(22,41,74,.04),0 6px 18px rgba(22,41,74,.05);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:var(--fundo);color:var(--txt);font-size:15px;line-height:1.5}
 a{color:var(--pri-esc)}
 /* ===== topo ===== */
-.topo{background:var(--pri);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;position:sticky;top:0;z-index:20;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.topo{background:#fff;color:var(--txt);border-bottom:1px solid var(--borda);padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;position:sticky;top:0;z-index:20;box-shadow:0 2px 8px rgba(0,0,0,.12)}
 .topo .marca{font-weight:800;font-size:18px;letter-spacing:.3px}
 .topo .marca small{display:block;font-weight:500;font-size:12px;opacity:.85}
 .topo .unidade{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13px}
-.topo .unidade input{border:0;border-radius:8px;padding:7px 10px;font-size:14px;min-width:200px}
-.topo .voltar{color:#fff;text-decoration:none;font-size:13px;border:1px solid rgba(255,255,255,.5);padding:6px 10px;border-radius:8px}
+.topo .unidade input{border:1.5px solid var(--borda);border-radius:8px;padding:7px 10px;font-size:14px;min-width:200px}
+.topo .voltar{color:var(--pri-esc);text-decoration:none;font-size:13px;border:1.5px solid var(--borda);padding:6px 10px;border-radius:8px}
+.topo .marca{font-family:'Poppins',inherit;color:var(--txt)} .topo .marca small{color:var(--txt2)}
+.perfis{display:flex;gap:4px;background:var(--fundo);border:1px solid var(--borda);border-radius:10px;padding:3px}
+.perfis button{border:0;background:none;padding:6px 10px;border-radius:8px;font-size:13px;font-weight:600;color:var(--txt2);cursor:pointer}
+.perfis button.ativo{background:var(--pri);color:#fff}
+.btn-imp{white-space:nowrap;background:#fff;color:var(--pri-esc);border:1.5px solid var(--pri);border-radius:8px;padding:6px 10px;font-size:13px;font-weight:600;cursor:pointer}
+/* marca animada ABC */
+.brandmark{display:inline-flex;flex-direction:column;align-items:flex-start;gap:1px;font-family:'Poppins',inherit;margin:4px 10px 4px}
+.brandmark .word{font-size:17px;font-weight:700;line-height:1.14;color:#3B4A66;letter-spacing:-.3px}
+.brandmark .letter{display:inline-block;opacity:0;transform:translateY(10px);animation:letterIn .35s ease forwards}
+.brandmark .letter.abc{font-size:1.28em;font-weight:900;color:var(--pri);animation:letterIn .35s ease forwards,letterGlow 2.4s ease-in-out 1.6s infinite}
+.tagmarca{font-family:'Poppins',inherit;font-size:10.5px;color:var(--txt2);font-weight:500;margin:4px 10px 0;opacity:0;animation:wordIn .55s ease forwards;animation-delay:1.6s}
+.tagmarca b{color:var(--pri);font-weight:800}
+@keyframes letterIn{to{opacity:1;transform:translateY(0)}}
+@keyframes letterGlow{0%,100%{color:var(--pri)}50%{color:var(--acento)}}
+@keyframes wordIn{to{opacity:1}}
+.watermark{position:fixed;top:55%;left:58%;transform:translate(-50%,-50%);font-size:40vw;font-weight:900;color:var(--acento);opacity:.04;pointer-events:none;z-index:0;font-family:'Poppins',inherit;letter-spacing:-1.5vw}
+main{position:relative;z-index:1}
+/* módulo 0 */
+.fase{border-radius:var(--raio);padding:18px;color:var(--txt);border:1px solid var(--borda);background:#fff;box-shadow:var(--sombra);position:relative;overflow:hidden}
+.fase::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,var(--acento),var(--verde))}
+.fase .letra{font-family:'Poppins',inherit;font-size:44px;font-weight:900;color:var(--pri);line-height:1}
+.fase h3{margin:6px 0 2px}
+.fase ul{padding-left:18px;font-size:14px}
+.acesso td{text-align:center} .acesso td:first-child{text-align:left}
+.ac-usa{color:var(--ok);font-weight:800} .ac-ve{color:#946B00;font-weight:700} .ac-nao{color:#B8C0CC}
+nav.menu button.oculto{display:none}
 /* ===== layout ===== */
 .layout{display:flex;min-height:calc(100vh - 64px)}
 nav.menu{width:250px;background:#fff;border-right:1px solid var(--borda);padding:14px 10px;flex-shrink:0}
@@ -116,19 +143,23 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
 @media (max-width:860px){
   .layout{flex-direction:column}
   nav.menu{width:100%;display:flex;overflow-x:auto;padding:8px;gap:6px;border-right:0;border-bottom:1px solid var(--borda);position:sticky;top:0}
-  nav.menu .sep{display:none}
+  nav.menu .sep,nav.menu .brandmark,nav.menu .tagmarca{display:none}
+  .perfis{width:100%} .perfis button{flex:1}
   nav.menu button{width:auto;white-space:nowrap;flex-shrink:0;padding:8px 10px}
   main{padding:14px}
   .g2,.g3,.g4{grid-template-columns:1fr 1fr}
   .topo{position:static}
-  .topo .unidade{margin-left:0;width:100%}
+  .topo .unidade{margin-left:0;width:100%;flex-wrap:wrap}
   .topo .unidade input{flex:1;min-width:0}
+  .topo .unidade>span{display:none}
+  .btn-imp{flex:1}
+  .watermark{display:none}
   .mbp-doc{padding:16px}
 }
 @media (max-width:520px){ .g2,.g3{grid-template-columns:1fr} .g4{grid-template-columns:1fr 1fr} .kpi .val{font-size:24px} h1{font-size:21px} }
 /* ===== impressão ===== */
 @media print{
-  .topo,nav.menu,.acoes,.nao-imprimir,.abas{display:none!important}
+  .topo,nav.menu,.acoes,.nao-imprimir,.abas,.watermark,.opc button:not(.sel){display:none!important}
   body{background:#fff}
   main{padding:0;max-width:none}
   section.mod{display:none!important}
@@ -141,18 +172,31 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
 </head>
 <body>
 
+<div class="watermark">ABC</div>
 <header class="topo">
-  <div class="marca">ArtBlend · Central de Qualidade<small>Segurança dos alimentos do jeito certo, todos os dias</small></div>
+  <div class="marca">Central de Qualidade<small>Segurança dos alimentos do jeito certo, todos os dias</small></div>
   <div class="unidade">
     <span>Estabelecimento:</span>
     <input id="nomeUnidade" placeholder="Nome do restaurante" oninput="salvarUnidade(this.value)">
+    <div class="perfis" id="perfis" title="Ver como">
+      <button data-p="consultor" onclick="setPerfil('consultor')">Consultor</button>
+      <button data-p="gerente" onclick="setPerfil('gerente')">Dono/Gerente</button>
+      <button data-p="colaborador" onclick="setPerfil('colaborador')">Colaborador</button>
+    </div>
+    <button class="btn-imp" onclick="imprimir()" title="Imprimir ou salvar em PDF a tela atual">🖨 Imprimir / PDF</button>
   </div>
   <a class="voltar" href="plataforma.html">← Voltar à plataforma</a>
 </header>
 
 <div class="layout">
   <nav class="menu" id="menu">
-    <div class="sep">Visão geral</div>
+    <div class="brandmark" aria-label="ArtBlend Consultoria Gourmet">
+      <div class="word"><span class="abc">A</span>rt</div><div class="word"><span class="abc">B</span>lend</div>
+      <div class="word"><span class="abc">C</span>onsultoria</div><div class="word"><span class="abc">G</span>ourmet</div>
+    </div>
+    <div class="tagmarca">O <b>ABC</b> gastronômico que você precisa</div>
+    <div class="sep">Comece aqui</div>
+    <button data-mod="abc"><span class="n">0</span>ABC da Qualidade</button>
     <button data-mod="inicio" class="ativo"><span class="n">⌂</span>Painel</button>
     <div class="sep">Módulos</div>
     <button data-mod="inspecao"><span class="n">1</span>Inspeção Sanitária</button>
@@ -166,8 +210,47 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
   </nav>
 
   <main>
+  <!-- ============ 0. ABC ============ -->
+  <section class="mod" id="mod-abc">
+    <h1>0 · ABC da Qualidade</h1>
+    <p class="sub">O beabá de como usar esta Central: <b>em que momento</b> usar cada parte, <b>quem</b> usa e <b>com que frequência</b>. Leia uma vez e volte sempre que tiver dúvida.</p>
+
+    <h2>Os 3 momentos da consultoria ArtBlend</h2>
+    <div class="grade g3">
+      <div class="fase"><div class="letra">A</div><h3>Avaliar</h3><p class="sub" style="margin:2px 0 8px">Visita técnica para fechar a consultoria · 1 visita de 2 a 3 horas</p>
+        <ul><li><b>Quem:</b> consultor, com o dono.</li><li><b>Use:</b> 1 · Inspeção Sanitária (completa) e 5 · Visita do Consultor.</li><li><b>Entrega:</b> nota do restaurante + relatório com plano de ação impresso.</li><li><b>Objetivo:</b> mostrar ao dono onde ele está e o que pode dar multa — é o argumento para fechar.</li></ul>
+        <button class="btn peq" onclick="irPara('inspecao')">Começar avaliação</button></div>
+      <div class="fase"><div class="letra">B</div><h3>Base</h3><p class="sub" style="margin:2px 0 8px">Implantação com o consultor dentro · de 30 a 90 dias</p>
+        <ul><li><b>Quem:</b> consultor + dono/gerente + equipe.</li><li><b>Use:</b> 6 · Manual de Boas Práticas, 2 · POPs (implantar e imprimir), 4 · Equipe (cadastro, exames e trilha de 8 treinamentos), 3 · Controles (ensinar a registrar).</li><li><b>Entrega:</b> manual assinado, POPs afixados, equipe certificada, registros funcionando.</li></ul>
+        <button class="btn peq" onclick="irPara('mbp')">Montar a base</button></div>
+      <div class="fase"><div class="letra">C</div><h3>Constância</h3><p class="sub" style="margin:2px 0 8px">Rotina sem depender do consultor · para sempre</p>
+        <ul><li><b>Quem:</b> gerente e colaboradores no dia a dia; consultor em visitas de acompanhamento.</li><li><b>Use:</b> 3 · Controles todo dia, Painel para ver alertas, 1 · Inspeção como autoinspeção mensal.</li><li><b>Entrega:</b> restaurante sempre pronto para a fiscalização.</li></ul>
+        <button class="btn peq" onclick="irPara('controles')">Ir para a rotina</button></div>
+    </div>
+
+    <h2>Agenda da Qualidade — o que fazer e quando</h2>
+    <div class="card tabela-rola"><table>
+      <thead><tr><th>Quando</th><th>O que fazer</th><th>Quem</th><th>Onde</th></tr></thead><tbody>
+      <tr><td><b>Todo dia — abertura</b></td><td>Conferir uniforme e saúde da equipe; ler temperatura de geladeiras/freezers; ronda de pragas</td><td>Gerente / líder</td><td>3 · Controles</td></tr>
+      <tr><td><b>A cada entrega</b></td><td>Conferir e registrar o recebimento</td><td>Colaborador do estoque</td><td>3 · Recebimento</td></tr>
+      <tr><td><b>A cada produção</b></td><td>Temperatura de cocção, resfriamento e exposição; amostras</td><td>Cozinheiros</td><td>3 · Planilha 08 e Amostras</td></tr>
+      <tr><td><b>Todo dia — fechamento</b></td><td>Segunda leitura de temperatura; limpeza do dia; óleo de fritura</td><td>Líder de turno</td><td>3 · Controles</td></tr>
+      <tr><td><b>Toda semana</b></td><td>Revisar os registros e os alertas; limpezas semanais</td><td>Gerente</td><td>Painel e 3 · Limpeza</td></tr>
+      <tr><td><b>Todo mês</b></td><td>Autoinspeção completa; conferir exames que vencem; 1 treinamento da trilha</td><td>Gerente (+ consultor)</td><td>1 · Inspeção e 4 · Equipe</td></tr>
+      <tr><td><b>A cada 3 meses</b></td><td>Serviço da empresa de pragas (ou conforme contrato)</td><td>Dono</td><td>3 · Água e Pragas</td></tr>
+      <tr><td><b>A cada 6 meses</b></td><td>Limpeza da caixa d’água; aferição dos termômetros; manutenção preventiva</td><td>Dono</td><td>3 · Água e Pragas</td></tr>
+      <tr><td><b>Todo ano</b></td><td>Revisar Manual e POPs; exames periódicos; reciclagem da equipe</td><td>Dono + consultor</td><td>6 · Manual, 2 · POPs, 4 · Equipe</td></tr>
+      </tbody></table></div>
+
+    <h2>Quem usa o quê</h2>
+    <p class="sub">Escolha o perfil no botão lá em cima (<b>Consultor · Dono/Gerente · Colaborador</b>) e o menu mostra só o que aquela pessoa usa.</p>
+    <div class="card tabela-rola"><table class="acesso" id="tabelaAcesso"></table>
+      <p style="font-size:13px;color:var(--txt2);margin-top:8px"><span class="ac-usa">● Usa</span> preenche e altera · <span class="ac-ve">◐ Vê</span> consulta e imprime · <span class="ac-nao">○</span> não aparece</p></div>
+    <div class="aviso">Hoje o botão de perfil organiza a tela. Quando a Central for ligada ao login da plataforma (Supabase), cada pessoa entra com a própria senha e o acesso passa a ser travado de verdade.</div>
+  </section>
+
   <!-- ============ PAINEL ============ -->
-  <section class="mod ativo" id="mod-inicio">
+  <section class="mod" id="mod-inicio">
     <h1>Painel da Qualidade</h1>
     <p class="sub">Tudo o que a vigilância sanitária cobra, organizado em 6 passos. Comece pela Inspeção e siga a ordem.</p>
     <div class="grade g4" id="kpis"></div>
@@ -865,12 +948,43 @@ function montarPainel(){
   document.getElementById('alertasPainel').innerHTML = itens.length?`<ul style="list-style:none;display:grid;gap:8px">${itens.join('')}</ul>`:'<div class="vazio">✔ Nenhum alerta. Continue registrando todos os dias.</div>';
 }
 
+
+/* ---------- perfis de acesso ---------- */
+const MODS=[['abc','0 · ABC da Qualidade'],['inicio','Painel'],['inspecao','1 · Inspeção Sanitária'],['pops','2 · Biblioteca de POPs'],['controles','3 · Controles do Dia'],['equipe','4 · Equipe'],['visita','5 · Visita do Consultor'],['mbp','6 · Manual de Boas Práticas'],['normas','Normas e Referências']];
+const ACESSO={ // u = usa, v = vê, n = não aparece
+  consultor:  {abc:'u',inicio:'u',inspecao:'u',pops:'u',controles:'u',equipe:'u',visita:'u',mbp:'u',normas:'u'},
+  gerente:    {abc:'u',inicio:'u',inspecao:'u',pops:'u',controles:'u',equipe:'u',visita:'v',mbp:'v',normas:'v'},
+  colaborador:{abc:'v',inicio:'v',inspecao:'n',pops:'v',controles:'u',equipe:'v',visita:'n',mbp:'n',normas:'n'}
+};
+function setPerfil(p){
+  DB.perfil=p; gravar();
+  document.querySelectorAll('#perfis button').forEach(b=>b.classList.toggle('ativo',b.dataset.p===p));
+  document.querySelectorAll('nav.menu button[data-mod]').forEach(b=>b.classList.toggle('oculto',ACESSO[p][b.dataset.mod]==='n'));
+  const atual=document.querySelector('section.mod.ativo'); if(atual && ACESSO[p][atual.id.replace('mod-','')]==='n') irPara('abc');
+  montarAcesso();
+}
+function montarAcesso(){
+  const ic={u:'<span class="ac-usa">●</span>',v:'<span class="ac-ve">◐</span>',n:'<span class="ac-nao">○</span>'};
+  const p=DB.perfil||'consultor';
+  document.getElementById('tabelaAcesso').innerHTML=`<thead><tr><th>Parte da Central</th><th>Consultor</th><th>Dono / Gerente</th><th>Colaborador</th></tr></thead><tbody>${MODS.map(([k,t])=>`<tr><td>${t}</td>${['consultor','gerente','colaborador'].map(x=>`<td style="${x===p?'background:var(--pri-clr)':''}">${ic[ACESSO[x][k]]}</td>`).join('')}</tr>`).join('')}</tbody>`;
+}
+/* ---------- impressão de qualquer tela ---------- */
+function imprimir(){ window.print(); }
+let abertosAntes=[];
+window.addEventListener('beforeprint',()=>{ abertosAntes=[...document.querySelectorAll('.bloco-insp.aberto')].map(e=>e.id); document.querySelectorAll('.bloco-insp').forEach(e=>e.classList.add('aberto')); });
+window.addEventListener('afterprint',()=>{ document.querySelectorAll('.bloco-insp').forEach(e=>e.classList.toggle('aberto',abertosAntes.includes(e.id))); });
+/* ---------- marca animada ---------- */
+(function(){ let idx=0; document.querySelectorAll('.brandmark .word').forEach(w=>{ const tem=!!w.querySelector('.abc'); const t=w.textContent; w.textContent='';
+  [...t].forEach((ch,i)=>{ const sp=document.createElement('span'); sp.textContent=ch; sp.className='letter'+(i===0&&tem?' abc':''); sp.style.animationDelay=(idx*0.045).toFixed(3)+'s'; w.appendChild(sp); idx++; }); }); })();
+
 /* ---------- início ---------- */
 carregar();
 document.getElementById('nomeUnidade').value = DB.unidade||'';
 carregarVisita();
 montarInspecao(); montarPops(); montarControles(); montarEquipe(); montarNormas(); montarPainel();
-const hashMod=(location.hash||'').replace('#',''); if(hashMod && document.getElementById('mod-'+hashMod)) irPara(hashMod);
+setPerfil(DB.perfil||'consultor');
+const hashMod=(location.hash||'').replace('#',''); irPara(hashMod && document.getElementById('mod-'+hashMod) ? hashMod : (DB.jaViuABC ? 'inicio' : 'abc')); DB.jaViuABC=true; gravar();
+window.addEventListener('hashchange',()=>{const h=location.hash.replace('#',''); if(document.getElementById('mod-'+h)) irPara(h);});
 </script>
 </body>
 </html>
