@@ -552,10 +552,11 @@ function montarInspecao(){
       </div>
       <div class="corpo">${b.itens.map((it,i)=>{
         const k=b.id+'_'+i, v=DB.insp[k]||'';
-        const fid=(DB.inspFoto||{})[k];
-        return `<div class="item-insp"><div class="txt">${it[1]?'<b style="color:var(--erro)">★ </b>':''}${it[0]}</div>
+        const fid=(DB.inspFoto||{})[k], com=(DB.inspCom||{})[k];
+        return `<div class="item-insp"><div class="txt">${it[1]?'<b style="color:var(--erro)">★ </b>':''}${it[0]}${com?`<small style="color:var(--pri-esc);font-size:13px">💬 ${esc(com)}</small>`:''}</div>
         <div class="nao-imprimir-foto">${fid?miniFoto(fid,44):''}</div>
         <button class="btn sec peq nao-imprimir" title="Tirar foto de evidência" onclick="fotoInsp('${k}')">📷</button>
+        <button class="btn sec peq nao-imprimir" title="Comentário" onclick="comentInsp('${k}')">💬</button>
         <div class="opc">
           <button class="c ${v==='C'?'sel':''}" onclick="marcar('${k}','C')">C</button>
           <button class="nc ${v==='NC'?'sel':''}" onclick="marcar('${k}','NC')">NC</button>
@@ -565,14 +566,17 @@ function montarInspecao(){
   atualizarNota();
 }
 function fotoInsp(k){ tirarFoto(id=>{ DB.inspFoto=DB.inspFoto||{}; DB.inspFoto[k]=id; gravar(); const abertos=[...document.querySelectorAll('.bloco-insp.aberto')].map(e=>e.id); montarInspecao(); abertos.forEach(x=>document.getElementById(x)?.classList.add('aberto')); }); }
+function comentInsp(k){ DB.inspCom=DB.inspCom||{}; const t=prompt('Comentário sobre este item (o que viu, onde, o que combinou):',DB.inspCom[k]||''); if(t===null) return; DB.inspCom[k]=t.trim(); gravar(); const ab=[...document.querySelectorAll('.bloco-insp.aberto')].map(e=>e.id); montarInspecao(); ab.forEach(x=>document.getElementById(x)?.classList.add('aberto')); }
+function tempoInsp(){ if(!DB.inspInicio) return '0 min'; const m=Math.round((Date.now()-new Date(DB.inspInicio))/60000); return m<60?m+' min':Math.floor(m/60)+'h'+String(m%60).padStart(2,'0'); }
 function marcar(k,v){
+  if(!DB.inspInicio) DB.inspInicio=new Date().toISOString();
   DB.insp[k] = DB.insp[k]===v ? '' : v; gravar();
   const abertos=[...document.querySelectorAll('.bloco-insp.aberto')].map(e=>e.id);
   montarInspecao(); abertos.forEach(id=>document.getElementById(id)?.classList.add('aberto'));
 }
 function resumoInspecao(){
   let c=0,nc=0,resp=0; const ncs=[];
-  BLOCOS.forEach(b=>b.itens.forEach((it,i)=>{ const v=DB.insp[b.id+'_'+i]; if(v)resp++; if(v==='C')c++; if(v==='NC'){nc++; ncs.push({bloco:b.t,ref:b.ref,item:it[0],critico:!!it[1]});} }));
+  BLOCOS.forEach(b=>b.itens.forEach((it,i)=>{ const v=DB.insp[b.id+'_'+i]; if(v)resp++; if(v==='C')c++; if(v==='NC'){nc++; ncs.push({bloco:b.t,ref:b.ref,item:it[0],critico:!!it[1],com:(DB.inspCom||{})[b.id+'_'+i]||''});} }));
   const pct = (c+nc)? Math.round(c/(c+nc)*100):null; return {c,nc,resp,pct,ncs};
 }
 function atualizarNota(){
@@ -580,11 +584,11 @@ function atualizarNota(){
   document.getElementById('notaGeral').textContent = r.pct===null?'–':r.pct+'%';
   document.getElementById('classeGeral').innerHTML = `<span class="selo ${cl}">${tx}</span>`;
   document.getElementById('respondidos').textContent = r.resp;
-  document.getElementById('totalItens').textContent = 'de '+totalItens()+' itens';
+  document.getElementById('totalItens').textContent = 'de '+totalItens()+' itens · ⏱ '+tempoInsp();
   document.getElementById('qtdNC').textContent = r.nc;
 }
 function abrirTodos(a){ document.querySelectorAll('.bloco-insp').forEach(e=>e.classList.toggle('aberto',a)); }
-function limparInspecao(){ if(confirm('Apagar as respostas atuais e começar uma nova inspeção?')){ DB.insp={}; gravar(); montarInspecao(); } }
+function limparInspecao(){ if(confirm('Apagar as respostas atuais e começar uma nova inspeção?')){ DB.insp={}; DB.inspCom={}; DB.inspFoto={}; DB.inspInicio=null; gravar(); montarInspecao(); } }
 
 /* =========================================================
    2. POPs — 17 procedimentos (texto ArtBlend)
@@ -882,14 +886,14 @@ function montarRelatorio(){
   const r=resumoInspecao(), [cl,tx]=classe(r.pct), al=alertasControles(), eqProb=DB.equipe.filter(c=>statusAso(c)[0]!=='ok');
   DB.visita.plano = DB.visita.plano||{};
   const plano=r.ncs.map((n,i)=>{ const k=n.ref+'|'+n.item.slice(0,40); const p=DB.visita.plano[k]||{quem:'',prazo:prazoPadrao(n.critico),como:''};
-    return `<tr><td>${i+1}</td><td>${n.critico?'<b style="color:var(--erro)">★ </b>':''}${n.item}<div style="font-size:12px;color:var(--txt2)">${n.ref} · ${n.bloco}</div></td>
+    return `<tr><td>${i+1}</td><td>${n.critico?'<b style="color:var(--erro)">★ </b>':''}${n.item}<div style="font-size:12px;color:var(--txt2)">${n.ref} · ${n.bloco}</div>${n.com?`<div style="font-size:12px;color:var(--pri-esc)">💬 ${esc(n.com)}</div>`:''}</td>
      <td><input value="${esc(p.como)}" placeholder="O que fazer" onchange="setPlano('${esc(k)}','como',this.value)"></td>
      <td><input value="${esc(p.quem)}" placeholder="Responsável" onchange="setPlano('${esc(k)}','quem',this.value)"></td>
      <td><input type="date" value="${p.prazo}" onchange="setPlano('${esc(k)}','prazo',this.value)"></td></tr>`;}).join('');
   document.getElementById('relatorio').innerHTML = `<div class="card">
     <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;border-bottom:2px solid var(--pri);padding-bottom:10px">
       <div><div style="color:var(--pri-esc);font-weight:800;letter-spacing:1px">ARTBLEND · RELATÓRIO DE VISITA TÉCNICA</div><h2 style="margin:4px 0">${esc(nomeCasa())}</h2></div>
-      <div style="font-size:13px;text-align:right">Data: <b>${fmtData(DB.visita.visData||hojeISO())}</b><br>Consultor(a): <b>${esc(DB.visita.visCons||'–')}</b><br>Acompanhado por: ${esc(DB.visita.visAcomp||'–')}</div>
+      <div style="font-size:13px;text-align:right">Data: <b>${fmtData(DB.visita.visData||hojeISO())}</b> · duração da inspeção: ${tempoInsp()}<br>Consultor(a): <b>${esc(DB.visita.visCons||'–')}</b><br>Acompanhado por: ${esc(DB.visita.visAcomp||'–')}</div>
     </div>
     <div class="grade g4" style="margin-top:14px">
       <div class="kpi"><div class="rot">Nota da inspeção</div><div class="val">${r.pct===null?'–':r.pct+'%'}</div><span class="selo ${cl}">${tx}</span></div>
@@ -1152,7 +1156,7 @@ function addPeso(){ const g=id=>document.getElementById(id).value.trim(); const 
   if(!r.prod||!(r.nota||r.bal)){ alert('Informe o produto e pelo menos um peso.'); return; }
   (DB.pesagens=DB.pesagens||[]).push(r); gravar(); const c=calcPeso(r); montarRotina();
   document.getElementById('msgPeso').innerHTML = (c.dif!==null && Math.abs(c.difPct)>2)?`<div class="aviso"><b>⚠ Diferença de ${br(c.dif,3)} kg (${br(c.difPct,1)}%) entre a nota e a balança.</b> Acima de 2%: anote na nota, avise o fornecedor e peça o desconto/complemento.</div>`:'<div class="dica">✔ Pesagem registrada.</div>'; }
-function limpoDepois(i){ const v=prompt('Peso limpo após o pré-preparo (kg):'); if(v){ DB.pesagens[i].limpo=v.replace(',','.'); gravar(); montarRotina(); } }
+function limpoDepois(i){ const v=prompt('Peso limpo após o pré-preparo (kg):'); if(v===null) return; const n=parseFloat(String(v).replace(',','.')); if(!(n>0)){ alert('Digite só o número do peso, por exemplo 17,5'); return; } DB.pesagens[i].limpo=String(n); gravar(); montarRotina(); }
 function csvPeso(){ const L=['Data;Fornecedor;Produto;Preço/kg;Peso nota;Peso balança;Peso limpo;FC;Perda %;Custo kg limpo'].concat((DB.pesagens||[]).map(r=>{const c=calcPeso(r); return [r.data,r.forn,r.prod,r.preco,r.nota,r.bal,r.limpo,c.fc?c.fc.toFixed(2):'',c.perda!==null?c.perda.toFixed(1):'',c.custoLimpo?c.custoLimpo.toFixed(2):''].join(';');}));
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob(['﻿'+L.join('\n')],{type:'text/csv'})); a.download='ArtBlend_Pesagem_FC.csv'; a.click(); }
 async function lerBalanca(campo){
