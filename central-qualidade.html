@@ -62,6 +62,7 @@ main{position:relative;z-index:1}
 .acesso td{text-align:center} .acesso td:first-child{text-align:left}
 .ac-usa{color:var(--ok);font-weight:800} .ac-ve{color:#946B00;font-weight:700} .ac-nao{color:#B8C0CC}
 nav.menu button.oculto{display:none}
+.marca-movel{display:none}
 .busca{position:relative;flex:1;min-width:170px;max-width:260px}
 .busca input{border:1.5px solid var(--borda);border-radius:10px;padding:8px 12px;font-size:14px}
 #lupaRes{position:absolute;top:42px;left:0;right:0;background:#fff;border:1px solid var(--borda);border-radius:10px;box-shadow:0 10px 26px rgba(22,41,74,.12);max-height:380px;overflow:auto;display:none;z-index:50}
@@ -171,7 +172,16 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
 /* ===== celular ===== */
 @media (max-width:860px){
   .layout{flex-direction:column}
-  nav.menu{width:100%;display:flex;overflow-x:auto;padding:8px;gap:6px;border-right:0;border-bottom:1px solid var(--borda);position:sticky;top:0}
+  nav.menu{width:100%;display:flex;overflow-x:auto;padding:8px;gap:6px;border-right:0;border-bottom:1px solid var(--borda);position:sticky;top:var(--hm,0px);z-index:25;background:#fff;transition:top .25s}
+  .marca-movel{display:block;position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--borda);padding:14px 16px 12px;transition:padding .25s}
+  .marca-movel.oculta{display:none}
+  .marca-movel .brandmark{margin:0}
+  .marca-movel .brandmark .word{font-size:24px}
+  .marca-movel .tagmarca{margin:6px 0 0;font-size:12.5px}
+  .marca-movel.compacta{padding:6px 16px}
+  .marca-movel.compacta .brandmark{flex-direction:row;gap:6px}
+  .marca-movel.compacta .brandmark .word{font-size:15px}
+  .marca-movel.compacta .tagmarca{margin-top:1px;font-size:10.5px}
   nav.menu .sep,nav.menu .brandmark,nav.menu .tagmarca{display:none}
   .perfis{width:100%} .perfis button{flex:1}
   nav.menu button{width:auto;white-space:nowrap;flex-shrink:0;padding:8px 10px}
@@ -203,6 +213,13 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
 <body>
 
 <div class="watermark">ABC</div>
+<div id="marcaMovel" class="marca-movel">
+  <div class="brandmark" aria-label="ArtBlend Consultoria Gourmet">
+    <div class="word"><span class="abc">A</span>rt</div><div class="word"><span class="abc">B</span>lend</div>
+    <div class="word"><span class="abc">C</span>onsultoria</div><div class="word"><span class="abc">G</span>ourmet</div>
+  </div>
+  <div class="tagmarca">O <span class="alvo">A</span><span class="alvo">B</span><span class="alvo">C</span> <span class="alvo">G</span>astronômico que você precisa</div>
+</div>
 <header class="topo">
   <div class="marca">Central de Qualidade<small>Segurança dos alimentos do jeito certo, todos os dias</small></div>
   <div class="busca"><input id="lupa" placeholder="🔍 Buscar na Central…" title="Ex.: freezer, caixa d’água, etiqueta" oninput="buscarCentral(this.value)" autocomplete="off"><div id="lupaRes"></div></div>
@@ -455,6 +472,7 @@ function irPara(mod){
   document.querySelectorAll('nav.menu button').forEach(b=>b.classList.toggle('ativo', b.dataset.mod===mod));
   document.querySelectorAll('section.mod').forEach(s=>s.classList.toggle('ativo', s.id==='mod-'+mod));
   window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(()=>{ if(typeof atualizarMarcaMovel==='function') atualizarMarcaMovel(); },30);
   if(mod==='inicio') montarPainel();
   if(mod==='visita') montarRelatorio();
   if(mod==='equipe') montarEquipe();
@@ -1390,20 +1408,29 @@ let abertosAntes=[];
 window.addEventListener('beforeprint',()=>{ abertosAntes=[...document.querySelectorAll('.bloco-insp.aberto')].map(e=>e.id); document.querySelectorAll('.bloco-insp').forEach(e=>e.classList.add('aberto')); });
 window.addEventListener('afterprint',()=>{ document.querySelectorAll('.bloco-insp').forEach(e=>e.classList.toggle('aberto',abertosAntes.includes(e.id))); });
 /* ---------- marca animada ---------- */
-(function(){ let idx=0; const letras=[];
-  document.querySelectorAll('.brandmark .word').forEach(w=>{ const tem=!!w.querySelector('.abc'); const t=w.textContent; w.textContent='';
+function animarMarca(caixa){ let idx=0; const letras=[];
+  caixa.querySelectorAll('.brandmark .word').forEach(w=>{ const tem=!!w.querySelector('.abc'); const t=w.textContent; w.textContent='';
     [...t].forEach((ch,i)=>{ const sp=document.createElement('span'); sp.textContent=ch; sp.className='letter'+(i===0&&tem?' abc':''); sp.style.animationDelay=(idx*0.045).toFixed(3)+'s'; w.appendChild(sp); if(i===0&&tem) letras.push(sp); idx++; }); });
-  const alvos=[...document.querySelectorAll('.tagmarca .alvo')];
+  const alvos=[...caixa.querySelectorAll('.tagmarca .alvo')];
   function medir(){ letras.forEach((l,i)=>{ const a=alvos[i]; if(!a) return; const r1=l.getBoundingClientRect(), r2=a.getBoundingClientRect(); if(!r1.width||!r2.width) return;
     l.style.setProperty('--tx',Math.round((r2.left+r2.width/2)-(r1.left+r1.width/2))+'px'); l.style.setProperty('--ty',Math.round((r2.top+r2.height/2)-(r1.top+r1.height/2))+'px'); }); }
   function viajar(l,a){ l.classList.remove('viajando'); void l.offsetWidth; l.classList.add('viajando');
     setTimeout(()=>{ if(a){ a.classList.remove('pisca'); void a.offsetWidth; a.classList.add('pisca'); } },700);
     l.addEventListener('animationend',function fim(e){ if(e.animationName!=='letraViaja') return; l.classList.remove('viajando'); l.removeEventListener('animationend',fim); });
     if(a) a.addEventListener('animationend',function fim2(){ a.classList.remove('pisca'); a.removeEventListener('animationend',fim2); }); }
-  function rodada(){ if(!letras.length || !letras[0].offsetParent) return; medir(); letras.forEach((l,i)=>setTimeout(()=>viajar(l,alvos[i]),i*950)); }
+  function rodada(){ if(!letras.length || !letras[0].offsetParent) return; medir(); letras.forEach((l,i)=>setTimeout(()=>{ medir(); viajar(l,alvos[i]); },i*950)); }
   setTimeout(()=>{ rodada(); setInterval(rodada,6200); },2400);
   window.addEventListener('resize',medir);
-})();
+}
+document.querySelectorAll('nav.menu, #marcaMovel').forEach(animarMarca);
+/* marca no celular: aparece no ABC e no Painel; encolhe para uma barrinha ao rolar */
+function atualizarMarcaMovel(){
+  const m=document.getElementById('marcaMovel'); if(!m) return; const at=document.querySelector('section.mod.ativo');
+  const mostra = at && (at.id==='mod-abc' || at.id==='mod-inicio'); m.classList.toggle('oculta',!mostra);
+  m.classList.toggle('compacta', mostra && window.scrollY>140);
+  const h = (mostra && getComputedStyle(m).display!=='none') ? m.offsetHeight : 0; document.documentElement.style.setProperty('--hm',h+'px');
+}
+window.addEventListener('scroll',atualizarMarcaMovel,{passive:true}); window.addEventListener('resize',atualizarMarcaMovel);
 
 /* ---------- início ---------- */
 carregar();
@@ -1412,6 +1439,7 @@ carregarVisita();
 montarInspecao(); montarPops(); montarControles(); montarEquipe(); montarNormas(); montarPainel();
 setPerfil(DB.perfil||'consultor');
 const hashMod=(location.hash||'').replace('#',''); if(!abrirPorQR(hashMod)) irPara(hashMod && document.getElementById('mod-'+hashMod) ? hashMod : (DB.jaViuABC ? 'inicio' : 'abc')); DB.jaViuABC=true; gravar();
+setTimeout(atualizarMarcaMovel,50);
 window.addEventListener('hashchange',()=>{const h=location.hash.replace('#',''); if(document.getElementById('mod-'+h)) irPara(h);});
 </script>
 </body>
