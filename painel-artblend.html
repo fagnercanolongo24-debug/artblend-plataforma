@@ -53,6 +53,8 @@ table.t{width:100%;border-collapse:collapse;font-size:13.5px}table.t th,table.t 
 button.chip{border:0;cursor:pointer;font-family:inherit}button.chip:hover{background:#C9EFF5}
 .areas{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;align-items:center}.areas span{font-weight:700;font-size:13px;margin-right:2px}.areas button{border:1.5px solid rgba(19,116,135,.3);background:rgba(255,255,255,.6);color:#0E5A69;border-radius:20px;padding:6px 12px;font-weight:600;cursor:pointer;font-size:13px}.areas button.ativo{background:#137487;color:#fff;border-color:#137487}
 .add.campos{grid-template-columns:2fr 1.5fr 1fr auto;align-items:start}
+.cfgbtn{margin-left:auto;border:1.5px solid rgba(19,116,135,.35);background:rgba(255,255,255,.65);color:#0E5A69;border-radius:10px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:13px}.cfgbtn+.perfis{margin-left:0}
+#negInfo{display:inline-block;background:rgba(255,255,255,.7);border-radius:20px;padding:4px 12px;font-size:13px;font-weight:700;margin-bottom:8px}#negInfo:empty{display:none}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#16294A;color:#fff;padding:10px 16px;border-radius:12px;font-weight:600;z-index:60;display:none}
 @media print{body.f-aberta header,body.f-aberta main{display:none}.ferr{position:static;padding:0;background:none}.ferr .cab button,.botoes,.nao-imp{display:none!important}}
 main{max-width:1180px;margin:-46px auto 40px;padding:0 16px;position:relative;z-index:2}
@@ -90,18 +92,18 @@ h2{font:800 19px 'Poppins',sans-serif;margin:28px 0 4px;letter-spacing:-.3px}
 .tar button{border:0;background:none;cursor:pointer;font-size:14px;color:var(--pri-esc)}
 .add{display:flex;gap:6px;margin-top:10px}.add input{flex:1;border:1.5px solid var(--borda);border-radius:10px;padding:9px;font-size:14px}
 .btn{background:var(--pri);color:#fff;border:0;border-radius:10px;padding:9px 14px;font-weight:600;cursor:pointer}
-@media(max-width:640px){.exp span,.fechar span{display:none}.add.campos{grid-template-columns:1fr}.topo{padding:14px 16px 60px}.saudacao h1{font-size:21px}.perfis{margin-left:0;width:100%}.perfis button{flex:1}.kanban{grid-template-columns:1fr}.ferr{padding:0}.ferr .caixa{border-radius:0;min-height:100%}.ferr .cab{border-radius:0;padding:10px 12px}.ferr .cab h3{font-size:16px}.ferr .corpo{padding:12px}.etapas{grid-template-columns:1fr 1fr}.hbar span:first-child{width:110px;flex-basis:110px}.add{flex-wrap:wrap}.add input{max-width:none!important;flex:1 1 45%}.perfis button{padding:7px 6px;font-size:12.5px;white-space:nowrap}.periodos{flex-wrap:nowrap;overflow-x:auto}.periodos button{min-width:104px;flex:0 0 auto}.grade{grid-template-columns:1fr 1fr;gap:10px}.cartao{padding:13px}.cartao .num{font-size:22px}.cartao .frase{font-size:12px}}
+@media(max-width:640px){.cfgbtn{margin-left:0;width:100%}.exp span,.fechar span{display:none}.add.campos{grid-template-columns:1fr}.topo{padding:14px 16px 60px}.saudacao h1{font-size:21px}.perfis{margin-left:0;width:100%}.perfis button{flex:1}.kanban{grid-template-columns:1fr}.ferr{padding:0}.ferr .caixa{border-radius:0;min-height:100%}.ferr .cab{border-radius:0;padding:10px 12px}.ferr .cab h3{font-size:16px}.ferr .corpo{padding:12px}.etapas{grid-template-columns:1fr 1fr}.hbar span:first-child{width:110px;flex-basis:110px}.add{flex-wrap:wrap}.add input{max-width:none!important;flex:1 1 45%}.perfis button{padding:7px 6px;font-size:12.5px;white-space:nowrap}.periodos{flex-wrap:nowrap;overflow-x:auto}.periodos button{min-width:104px;flex:0 0 auto}.grade{grid-template-columns:1fr 1fr;gap:10px}.cartao{padding:13px}.cartao .num{font-size:22px}.cartao .frase{font-size:12px}}
 </style>
 </head>
 <body>
 <header class="topo">
   <div class="linha">
     <div class="marca"><b>A</b>rt<b>B</b>lend <span style="font-weight:600;font-size:14px;opacity:.85">· <b>C</b>onsultoria <b>G</b>ourmet</span></div>
-    <div class="perfis" id="perfis">
+    <button class="cfgbtn" onclick="abrirConfig()">⚙️ Configurar negócio</button><div class="perfis" id="perfis">
       <button data-p="dono" class="ativo">🏠 Dono</button><button data-p="consultor">🧭 Consultor</button><button data-p="colaborador">🙋 Colaborador</button>
     </div>
   </div>
-  <div class="saudacao"><h1 id="titulo"></h1><p id="frase"></p><div class="areas" id="areas"></div></div>
+  <div class="saudacao"><div id="negInfo"></div><h1 id="titulo"></h1><p id="frase"></p><div class="areas" id="areas"></div></div>
 </header>
 <main>
   <div class="periodos" id="periodos"></div>
@@ -205,11 +207,12 @@ try{ perfil=localStorage.getItem('painel_perfil')||'dono'; }catch(e){}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function montar(){
   document.querySelectorAll('#perfis button').forEach(b=>b.classList.toggle('ativo',b.dataset.p===perfil));
-  const P=perfil==='colaborador'?(C.colab[area]||C.colab.cozinha):C[perfil];
-  document.getElementById('areas').innerHTML=perfil==='colaborador'?'<span>Sua área:</span>'+AREAS_COL.map(([k,t])=>`<button class="${k===area?'ativo':''}" onclick="area='${k}';try{localStorage.setItem('painel_area',area)}catch(e){};montar()">${t}</button>`).join(''):'';
+  const P=perfil==='colaborador'?cardsArea():C[perfil];
+  document.getElementById('negInfo').textContent=NEG?'🏪 '+(NEG.nome||'Meu negócio')+' · '+NEG.tipos.join(' + '):'';
+  document.getElementById('areas').innerHTML=perfil==='colaborador'?'<span>Seu setor:</span>'+areasAtivas().map(([k,t])=>`<button class="${k===area?'ativo':''}" onclick="area='${k}';try{localStorage.setItem('painel_area',area)}catch(e){};montar()">${t}</button>`).join(''):'';
   document.getElementById('titulo').textContent=P.titulo; document.getElementById('frase').textContent=P.frase;
   document.getElementById('periodos').innerHTML=PER.map(([k,t,s])=>`<button class="${k===per?'ativo':''}" onclick="per='${k}';montar()">${t}<small>${s}</small></button>`).join('');
-  document.getElementById('cartoes').innerHTML=(P[per]||[]).map(c=>`<a class="cartao" style="--cor:${c[6]};--fundoic:${c[6]}1A" href="${c[7]||'#'}">
+  document.getElementById('cartoes').innerHTML=(P[per]||[]).map(c=>`<a class="cartao" style="--cor:${c[6]};--fundoic:${c[6]}1A" href="${c[7]||'#'}" ${c[7]==='#checklist'?`onclick="event.preventDefault();chkSetor='${c[8]}';abrirF('check')"`:''}>
     <div class="ic">${c[0]}</div><div class="nome">${esc(c[1])}</div><div class="frase">${esc(c[2])}</div>
     <div class="num">${esc(c[3])}</div><div class="det">${c[5]==='+'?'<span class="seta sobe">▲</span>':c[5]==='-'?'<span class="seta desce">▼</span>':''}${esc(c[4])}</div></a>`).join('')||'<p class="sub">Sem cartões para este período.</p>';
 }
@@ -233,13 +236,13 @@ function montarK(){ const h=hoje();
  renderMet(); }
 function mover(k,i,d){ const ks=COLS.map(c=>c[0]); const n=ks[ks.indexOf(k)+d]; K[n].push(K[k].splice(i,1)[0]); salvarK(); montarK(); }
 const TAREFAS_SUG=['Treinar a equipe','Atualizar o procedimento (POP)','Atualizar a ficha técnica','Consertar equipamento','Comprar utensílio ou equipamento','Organizar o estoque','Fazer a limpeza pesada','Revisar os preços do cardápio','Falar com o fornecedor','Marcar visita do consultor','Fazer o inventário do estoque'];
-function montarKAdd(){ document.getElementById('kAdd').innerHTML=escolha('novaTarefa',TAREFAS_SUG,'Qual é a tarefa?')+escolha('novaResp',FUNCOES,'Quem vai fazer?')+'<input id="novaPrazo" type="date" title="Prazo"><button class="btn" onclick="addTarefa()">+ Adicionar</button>'; document.getElementById('kExp').innerHTML=barraExp('kanban'); }
+function montarKAdd(){ document.getElementById('kAdd').innerHTML=escolha('novaTarefa',TAREFAS_SUG,'Qual é a tarefa?')+escolha('novaResp',FUNC(),'Quem vai fazer?')+'<input id="novaPrazo" type="date" title="Prazo"><button class="btn" onclick="addTarefa()">+ Adicionar</button>'; document.getElementById('kExp').innerHTML=barraExp('kanban'); }
 function addTarefa(){ const v=pegar('novaTarefa'); if(!v){aviso('Escolha ou escreva a tarefa');return;} K.afazer.push({t:v,resp:pegar('novaResp'),prazo:val('novaPrazo')}); salvarK(); montarK(); montarKAdd(); aviso('📋 Tarefa adicionada'); }
 function paraKanban(t,resp,prazo,orig){ K.afazer.push({t,resp:resp||'',prazo:prazo||'',orig}); salvarK(); montarK(); aviso('📋 Enviado para o quadro de melhorias'); }
 
 /* ---------- dados das ferramentas ---------- */
 let M; try{ M=JSON.parse(localStorage.getItem('artblend_melhoria_v1')); }catch(e){}
-M=Object.assign({pdca:[],ideias:[],desp:[],porques:[],medidas:[],s5:[]},M||{});
+M=Object.assign({pdca:[],ideias:[],desp:[],porques:[],medidas:[],s5:[],check:[]},M||{});
 function salvarM(){ try{localStorage.setItem('artblend_melhoria_v1',JSON.stringify(M))}catch(e){} }
 let fAtual=null, leanAba='desp', verArq=false;
 function abrirF(f){ fAtual=f; document.getElementById('ferr').classList.add('aberta'); document.body.classList.add('f-aberta'); render(); }
@@ -271,7 +274,7 @@ function addSug(i,j,k){ const c=M.pdca[i]; c.n[j]=(c.n[j]?c.n[j].replace(/\s+$/,
 function novoPDCA(prob,nota){ prob=prob||pegar('pProb'); if(!prob){aviso('Escolha ou escreva qual é o problema');return;} M.pdca.unshift({prob,meta:val('pMeta'),resp:pegar('pResp'),prazo:val('pPrazo'),etapa:0,n:[nota||'','','',''],criado:hoje()}); salvarM(); aviso('🔄 Ciclo PDCA aberto'); }
 function fPDCA(){ const lista=M.pdca.map((c,i)=>[c,i]).filter(([c])=>!!c.arq===verArq);
  return `<div class="bloco"><b>Abrir um novo ciclo de melhoria</b><p class="dica">Escolha o problema na lista (separada por área) ou toque em <b>Outro</b> para escrever. A meta aparece sugerida e você pode mudar.</p>
- <div class="campos">${escolha('pProb',PROBS,'Qual é o problema?','metaSug()')}<input id="pMeta" placeholder="Meta (ex.: CMV até 29%)" oninput="delete this.dataset.auto">${escolha('pResp',FUNCOES,'Quem é o responsável?')}<input id="pPrazo" type="date" title="Prazo"></div>
+ <div class="campos">${escolha('pProb',PROBS,'Qual é o problema?','metaSug()')}<input id="pMeta" placeholder="Meta (ex.: CMV até 29%)" oninput="delete this.dataset.auto">${escolha('pResp',FUNC(),'Quem é o responsável?')}<input id="pPrazo" type="date" title="Prazo"></div>
  <div class="botoes"><button class="btn" onclick="novoPDCA();render()">+ Abrir ciclo</button><button class="btn sec" onclick="verArq=!verArq;render()">${verArq?'← Ver ciclos ativos':'📥 Ver arquivados ('+M.pdca.filter(c=>c.arq).length+')'}</button></div></div>
  ${lista.map(([c,i])=>{const e=Math.min(c.etapa,3),fim=c.etapa>=4;
   return `<div class="bloco"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><b>${esc(c.prob)}</b><span class="selo ${fim?'ok':'alerta'}">${fim?'✔ Concluído':'Etapa: '+ETP[e][1]}</span></div>
@@ -292,7 +295,7 @@ function fKaizen(){ const rank={}; M.ideias.forEach(x=>rank[x.nome]=(rank[x.nome
  const ST={nova:['Nova','alerta'],aprovada:['Aprovada','ok'],feita:['Feita ✔','ok']};
  const lista=M.ideias.map((x,i)=>[x,i]).sort((a,b)=>(a[0].status==='feita')-(b[0].status==='feita')||b[0].votos-a[0].votos);
  return `<div class="bloco"><b>💡 Nova ideia de melhoria</b><p class="dica">Qualquer pessoa da equipe pode sugerir. Ideia boa é simples, barata e dá para fazer logo. Meta: 1 ideia por pessoa por semana.</p>
- <div class="campos"><input id="kNome" placeholder="Seu nome">${escolha('kFunc',FUNCOES,'Sua função')}${escolha('kArea',AREAS,'Em qual área?')}${escolha('kTipo',TIPOS_IDEIA,'A ideia ajuda a…')}</div>
+ <div class="campos"><input id="kNome" placeholder="Seu nome">${escolha('kFunc',FUNC(),'Sua função')}${escolha('kArea',AREAS_K(),'Em qual área?')}${escolha('kTipo',TIPOS_IDEIA,'A ideia ajuda a…')}</div>
  <div class="dica" style="margin-top:8px">Exemplos (toque para usar):</div>${chips(IDEIAS_EX,k=>`document.getElementById('kTxt').value=IDEIAS_EX[${k}]`)}
  <textarea id="kTxt" placeholder="Qual é a sua ideia?"></textarea>
  <button class="btn" onclick="novaIdeia()">💡 Enviar ideia</button></div>
@@ -346,9 +349,9 @@ const S5=[['Separar','Só fica o que é usado; o resto sai.'],['Organizar','Cada
 const SETORES=['Cozinha quente','Cozinha fria','Confeitaria','Estoque seco','Câmara e geladeiras','Salão','Bar','Cafeteria','Balcão e caixa','Banheiros','Área externa'];
 function fS5(){ const ult={}; M.s5.forEach(a=>{ if(!ult[a.setor]) ult[a.setor]=a; });
  const h=hoje(), feitos=new Set(M.s5.filter(a=>a.data===h).map(a=>a.setor)), media7=st=>{const l=M.s5.filter(a=>a.setor===st&&(new Date(h)-new Date(a.data))/864e5<7);return l.length?Math.round(l.reduce((x,a)=>x+a.n.reduce((y,z)=>y+z,0),0)/(l.length*25)*100)+'%':'—';};
- return `<div class="bloco"><b>📅 Conferência de hoje (${dataBR(h)})</b><p class="dica">Todo dia, o líder de cada setor faz a sua conferência 5S. Verde = feita hoje.</p><div class="lista-mini">${SETORES.map(st=>`<span class="chip" style="${feitos.has(st)?'background:#E5F5EC;color:#2E9D5B':'background:#FFF6DC;color:#946B00'}">${feitos.has(st)?'✔':'⏳'} ${esc(st)} · 7 dias: ${media7(st)}</span>`).join('')}</div></div>
+ return `<div class="bloco"><b>📅 Conferência de hoje (${dataBR(h)})</b><p class="dica">Todo dia, o líder de cada setor faz a sua conferência 5S. Verde = feita hoje.</p><div class="lista-mini">${SET5S().map(st=>`<span class="chip" style="${feitos.has(st)?'background:#E5F5EC;color:#2E9D5B':'background:#FFF6DC;color:#946B00'}">${feitos.has(st)?'✔':'⏳'} ${esc(st)} · 7 dias: ${media7(st)}</span>`).join('')}</div></div>
  <div class="bloco"><b>Conferência diária 5S do líder do setor</b><p class="dica">Escolha o setor e dê uma nota de 0 a 5 para cada "S" (0 = péssimo, 5 = perfeito). Leva 3 minutos, de preferência na abertura ou no fechamento do turno.</p>
- <div class="campos">${escolha('sSetor',SETORES,'Qual setor?')}${escolha('sResp',['Líder do setor','Chef de cozinha','Gerente','Maître / recepção','Chefe de bar','Barista líder','Confeiteiro(a) líder','Proprietário','Consultor ArtBlend'],'Quem conferiu?')}</div>
+ <div class="campos">${escolha('sSetor',SET5S(),'Qual setor?')}${escolha('sResp',['Líder do setor','Chef de cozinha','Gerente','Maître / recepção','Chefe de bar','Barista líder','Confeiteiro(a) líder','Proprietário','Consultor ArtBlend'],'Quem conferiu?')}</div>
  ${S5.map((s,j)=>`<div class="campos" style="grid-template-columns:1fr 120px;align-items:center"><span><b>${j+1}º S · ${s[0]}</b><br><span class="dica">${s[1]}</span></span><select id="sN${j}">${[5,4,3,2,1,0].map(n=>`<option>${n}</option>`).join('')}</select></div>`).join('')}
  <div class="botoes"><button class="btn" onclick="const st=pegar('sSetor');if(!st){aviso('Escolha o setor');return;}M.s5.unshift({setor:st,resp:pegar('sResp'),n:[0,1,2,3,4].map(j=>+val('sN'+j)),data:hoje()});salvarM();render();aviso('🧹 Auditoria salva')">💾 Salvar auditoria</button></div></div>
  ${Object.values(ult).map(a=>{const pc=Math.round(a.n.reduce((x,y)=>x+y,0)/25*100), fr=a.n.map((n,j)=>[n,j]).filter(([n])=>n<=2), ix=M.s5.indexOf(a);
@@ -382,15 +385,148 @@ function envPor(como){ const f=envF, t=REL[f]()[0], txt=textoRel(f); document.ge
  if(como==='baixar') baixarRel(f); }
 function barraExp(f){ return `<div class="botoes nao-imp"><button class="btn sec peq" onclick="imprimirRel('${f}')">🖨️ Imprimir</button><button class="btn sec peq" onclick="baixarRel('${f}')">⬇️ Baixar</button><button class="btn sec peq" onclick="enviarRel('${f}')">📤 Enviar</button></div>`; }
 
-const FERR={pdca:['🔄 PDCA — Ciclos de melhoria',fPDCA],kaizen:['💡 Kaizen — Caixa de ideias da equipe',fKaizen],lean:['🎯 Lean Seis Sigma — Desperdícios e erros',fLean],s5:['🧹 5S — Conferência diária do setor',fS5]};
+const FERR={pdca:['🔄 PDCA — Ciclos de melhoria',fPDCA],kaizen:['💡 Kaizen — Caixa de ideias da equipe',fKaizen],lean:['🎯 Lean Seis Sigma — Desperdícios e erros',fLean],s5:['🧹 5S — Conferência diária do setor',fS5],check:['✅ Checklists do dia por setor',()=>fCheck()],config:['⚙️ Configuração do negócio',()=>fConfig()]};
 function renderMet(){ const el=document.getElementById('metodo'); if(!el) return;
  const totD=M.desp.reduce((s,x)=>s+(+x.valor||0),0);
  const MET=[['pdca','O ciclo','PDCA — Planejar, Fazer, Checar, Agir','Todo problema passa pelo mesmo ciclo: planeja a solução, testa, confere o resultado e padroniza o que deu certo.',`<div class="pdca"><div style="background:#1C93A8">P · Planejar<small>meta e plano</small></div><div style="background:#2E9D5B">D · Fazer<small>executar o plano</small></div><div style="background:#E0A100">C · Checar<small>medir o resultado</small></div><div style="background:#16294A">A · Agir<small>padronizar ou corrigir</small></div></div>`,M.pdca.filter(c=>c.etapa<4&&!c.arq).length+' ciclo(s) em andamento'],
   ['kanban','O quadro','Kanban — ver o trabalho','As tarefas de melhoria em 3 colunas: <b>A fazer → Fazendo → Feito</b>, com responsável e prazo. Atrasou, fica vermelho.','<div class="lista-mini"><span class="chip">Responsável</span><span class="chip">Prazo</span><span class="chip">Origem da tarefa</span></div>',(K.afazer.length+K.fazendo.length)+' tarefa(s) aberta(s)'],
   ['kaizen','O hábito','Kaizen — 1% melhor todo dia','Caixa de ideias da equipe, com votação e ranking. Ideia aprovada vira tarefa no quadro automaticamente.','<div class="lista-mini"><span class="chip">Caixa de ideias</span><span class="chip">Votação</span><span class="chip">Ranking</span></div>',M.ideias.length+' ideia(s)'],
   ['lean','O foco','Lean Seis Sigma — menos desperdício e erro','Registra os 8 desperdícios em reais, descobre a causa raiz com 5 Porquês e mede a % de acertos da casa.','<div class="lista-mini"><span class="chip">8 desperdícios</span><span class="chip">5 Porquês</span><span class="chip">Medidor de acertos</span></div>','R$ '+fmt(totD)+' em desperdício'],
+  ['check','O dia a dia','Checklists do dia por setor','Conferência de cada setor com os itens das praças e equipamentos que a casa tem (forno, fritadeira, caixa, almoxarifado, banheiros…). Problema vai direto para o quadro.','<div class="lista-mini"><span class="chip">Por setor e praça</span><span class="chip">Responsável</span><span class="chip">Histórico</span></div>',M.check.filter(r=>r.data===hoje()).length+' feito(s) hoje'],
   ['s5','A casa em ordem','5S — Separar, Organizar, Limpar, Padronizar, Disciplina','Conferência diária do líder de cada setor: nota, pontos fracos e média da semana. O que estiver ruim vai direto para o quadro.','<div class="lista-mini"><span class="chip">Nota por setor</span><span class="chip">Pontos fracos</span><span class="chip">Histórico</span></div>',M.s5.length+' auditoria(s)']];
  el.innerHTML=MET.map(m=>`<div class="met"><div class="q">${m[1]}</div><h3>${m[2]}</h3><p>${m[3]}</p>${m[4]}<div class="ab"><span class="dica">${m[5]}</span><button class="btn peq" onclick="${m[0]==='kanban'?"document.getElementById('quadro').scrollIntoView({behavior:'smooth'})":"abrirF('"+m[0]+"')"}">Abrir ferramenta →</button></div></div>`).join(''); }
+/* =========================================================
+   CONFIGURAÇÃO DO NEGÓCIO — setores, praças, equipamentos e funções
+   ========================================================= */
+const CAT=[
+ {id:'cq',n:'Cozinha quente',ic:'🔥',pr:[['fogao','Fogão e panelas'],['chapa','Chapa'],['frit','Fritadeira (entradas e fritos)'],['forno','Forno (combinado, turbo ou convencional)'],['grill','Grill / charbroiler'],['churras','Churrasqueira / parrilha',['A lenha','A carvão','A gás','Elétrica','Parrilha','Grill / charbroiler']],['pizza','Forno de pizza',['A lenha','Esteira','A gás','Elétrico (resistência)']],['wok','Wok (cozinha oriental)'],['bm','Banho-maria / buffet quente']],f:['Chef de cozinha','Subchef','Cozinheiro(a)','Auxiliar de cozinha','Pizzaiolo','Chapeiro','Churrasqueiro / parrillero','Fritadeiro(a)']},
+ {id:'cf',n:'Cozinha fria',ic:'❄️',pr:[['salada','Saladas e entradas frias'],['sushi','Sushi e sashimi'],['sobfria','Sobremesas geladas'],['sand','Sanduíches e montagem fria']],f:['Cozinheiro(a) de cozinha fria','Sushiman','Saladeiro(a)','Auxiliar de cozinha']},
+ {id:'conf',n:'Confeitaria e padaria',ic:'🧁',pr:[['fconf','Forno de confeitaria / padaria (lastro, turbo, esteira)'],['massa','Batedeira, masseira e cilindro'],['estufa','Estufa e fermentação'],['vitrine','Vitrine refrigerada'],['decor','Decoração e montagem']],f:['Confeiteiro(a)','Padeiro(a)','Auxiliar de confeitaria']},
+ {id:'salao',n:'Salão e atendimento',ic:'🍽️',pr:[['recep','Recepção'],['garcom','Atendimento nas mesas'],['cumim','Cumim (mesas, louças e polimento)'],['apoio','Praça de apoio do salão (aparador, talheres, louças)'],['buffet','Buffet e balança (por quilo)']],f:['Maître','Recepcionista','Garçom / garçonete','Cumim']},
+ {id:'bar',n:'Bar e cafeteria',ic:'🍸',pr:[['drinks','Drinks e coquetelaria'],['chope','Chope e cervejas'],['vinho','Vinhos'],['cafe','Café e espresso (barista)'],['sucos','Sucos e bebidas sem álcool']],f:['Bartender','Barista','Atendente de bar','Sommelier']},
+ {id:'dc',n:'Delivery e caixa',ic:'🛵',pr:[['caixa','Caixa e conferência'],['impr','Impressoras, bobinas e comandas'],['exped','Expedição do delivery (embalagem e conferência)'],['balcao','Balcão de atendimento']],f:['Caixa','Atendente de balcão','Atendente de delivery','Expedidor(a)','Entregador(a)']},
+ {id:'est',n:'Estoque e almoxarifado',ic:'📦',pr:[['receb','Recebimento de mercadorias'],['camara','Câmaras e geladeiras'],['seco','Estoque seco'],['almox','Almoxarifado (descartáveis, limpeza, utensílios)']],f:['Estoquista','Almoxarife','Comprador(a)']},
+ {id:'limp',n:'Limpeza e manutenção',ic:'🧽',pr:[['banh','Banheiros'],['copa','Copa e lavagem de louça'],['geral','Limpeza geral (pisos, lixo, ralos)'],['manut','Manutenção de equipamentos'],['pragas','Controle de pragas']],f:['Auxiliar de limpeza','Copeiro(a) / lavador(a) de louça','Encarregado(a) de manutenção']}];
+const catS=id=>CAT.find(s=>s.id===id);
+const EST=['receb','camara','seco','almox'], LIMP=['banh','copa','geral','manut','pragas'], BASE=[...EST,...LIMP];
+const TIPOS_NEG=[
+ ['Restaurante à la carte','🍽️',['cq','cf','salao','bar','dc','est','limp'],['fogao','chapa','frit','forno','grill','salada','sobfria','recep','garcom','cumim','apoio','drinks','chope','vinho','cafe','sucos','caixa','impr']],
+ ['Buffet por quilo / self-service','⚖️',['cq','cf','salao','bar','dc','est','limp'],['fogao','frit','forno','bm','salada','sobfria','buffet','cumim','apoio','sucos','cafe','caixa','impr']],
+ ['Pizzaria','🍕',['cq','cf','salao','bar','dc','est','limp'],['pizza','frit','forno','salada','garcom','cumim','apoio','chope','drinks','sucos','caixa','impr','exped']],
+ ['Hamburgueria','🍔',['cq','cf','salao','bar','dc','est','limp'],['chapa','frit','grill','sand','garcom','apoio','chope','sucos','caixa','impr','exped','balcao']],
+ ['Churrascaria / steakhouse','🥩',['cq','cf','salao','bar','dc','est','limp'],['churras','fogao','frit','salada','recep','garcom','cumim','apoio','chope','drinks','vinho','sucos','caixa','impr']],
+ ['Cozinha oriental / japonesa','🍣',['cq','cf','salao','bar','dc','est','limp'],['wok','frit','fogao','sushi','garcom','cumim','apoio','drinks','chope','sucos','caixa','impr','exped']],
+ ['Cafeteria','☕',['conf','salao','bar','dc','est','limp'],['fconf','vitrine','garcom','apoio','cafe','sucos','caixa','balcao','impr']],
+ ['Confeitaria / doceria','🎂',['conf','cf','bar','dc','est','limp'],['fconf','massa','estufa','vitrine','decor','sobfria','cafe','caixa','balcao','exped']],
+ ['Padaria','🥖',['conf','cq','bar','dc','est','limp'],['fconf','massa','estufa','vitrine','chapa','fogao','cafe','caixa','balcao','impr']],
+ ['Bar e petiscaria','🍻',['cq','cf','salao','bar','dc','est','limp'],['frit','chapa','fogao','salada','garcom','cumim','apoio','drinks','chope','sucos','caixa','impr']],
+ ['Delivery / dark kitchen','🛵',['cq','cf','dc','est','limp'],['fogao','chapa','frit','forno','salada','sand','caixa','impr','exped']],
+ ['Buffet de eventos','🎉',['cq','cf','conf','salao','bar','est','limp'],['fogao','forno','frit','bm','salada','sobfria','fconf','decor','garcom','cumim','apoio','drinks','chope','vinho','cafe','sucos']],
+ ['Hotel / pousada','🏨',['cq','cf','conf','salao','bar','dc','est','limp'],['fogao','chapa','forno','bm','salada','sobfria','fconf','vitrine','recep','garcom','cumim','apoio','buffet','drinks','vinho','cafe','sucos','caixa','impr']]];
+let NEG=null; try{ NEG=JSON.parse(localStorage.getItem('artblend_negocio_v1')); }catch(e){}
+function salvarNEG(){ try{ localStorage.setItem('artblend_negocio_v1',JSON.stringify(NEG)); }catch(e){} }
+const setoresAtivos=()=>NEG&&NEG.setores&&NEG.setores.length?CAT.filter(s=>NEG.setores.includes(s.id)):CAT;
+const pracasDe=sid=>{ const s=catS(sid); const base=s.pr.filter(p=>!NEG||NEG.pracas.includes(p[0])); return base.map(p=>({id:p[0],n:p[1],eq:NEG&&NEG.equip&&NEG.equip[p[0]]||[]})).concat(((NEG&&NEG.extra&&NEG.extra[sid])||[]).map(n=>({id:'x',n,eq:[]}))); };
+function FUNC(){ if(!NEG) return FUNCOES; const f=new Set([NEG.prop||'Proprietário','Gerente']); setoresAtivos().forEach(s=>s.f.forEach(x=>f.add(x))); f.add('Nutricionista / responsável técnico'); f.add('Consultor ArtBlend'); return [...f]; }
+const SET5S=()=>NEG?setoresAtivos().map(s=>s.n):SETORES;
+const AREAS_K=()=>NEG?setoresAtivos().map(s=>s.n).concat(['Geral']):AREAS;
+
+/* ---------- Checklists do dia por setor ---------- */
+const CHECK={
+ cq:['Gás: registro, mangueiras e cheiro de vazamento conferidos','Fogões e queimadores limpos e funcionando','Coifa e filtros limpos','Mise en place da praça pronto antes de abrir','Alimentos quentes acima de 60 °C','Tábuas e utensílios por cor no lugar'],
+ cf:['Bancada higienizada antes de começar','Geladeiras da praça até 5 °C','Hortifrúti higienizado com registro','Etiquetas de validade em todos os preparos','Tábuas e facas separadas para crus e prontos'],
+ conf:['Balanças conferidas (tara e zero)','Insumos pesados conforme a ficha técnica','Etiquetas de validade em todos os produtos','Bancadas e utensílios higienizados'],
+ salao:['Mesas e cadeiras limpas e alinhadas','Pratos, copos e talheres limpos e polidos (cumim)','Aparador abastecido (guardanapos, talheres, temperos)','Cardápios limpos e sem rasuras','Banheiro do cliente limpo e abastecido','Luz, música e temperatura do ambiente ok'],
+ bar:['Gelo suficiente para o turno','Frutas e guarnições cortadas e etiquetadas','Copos limpos e polidos','Bebidas geladas e estoque do bar reposto'],
+ dc:['Fundo de troco conferido','Máquinas de cartão carregadas e funcionando'],
+ est:['Recebimento conferido (temperatura, validade e nota)','PVPS: o primeiro que vence é o primeiro que sai','Itens abaixo do mínimo anotados para compra','Estoque organizado e etiquetado'],
+ limp:['Lixeiras esvaziadas e higienizadas','Produtos de limpeza diluídos corretamente e identificados']};
+const CHECK_P={frit:['Óleo da fritadeira avaliado (cor, cheiro, fumaça) e filtrado','Cestos da fritadeira limpos'],chapa:['Chapa limpa e temperada'],forno:['Forno limpo e na temperatura certa'],grill:['Grelha do grill limpa'],
+ churras:['Grelhas e espetos limpos','Combustível suficiente para o turno','Extintor perto e dentro da validade'],pizza:['Forno de pizza pré-aquecido na temperatura','Lastro / pedra limpo','Massas porcionadas e fermentação conferida'],wok:['Queimadores do wok limpos'],bm:['Banho-maria com água e acima de 60 °C'],
+ sushi:['Arroz do sushi temperado e na temperatura certa','Peixes na faixa de temperatura e com etiqueta'],sobfria:['Sobremesas geladas na temperatura e com etiqueta'],sand:['Pães e frios dentro da validade'],
+ fconf:['Forno de confeitaria aquecido e limpo'],massa:['Batedeira, masseira e cilindro limpos e com proteção'],estufa:['Estufa / fermentação na temperatura e umidade'],vitrine:['Vitrine refrigerada na temperatura e produtos etiquetados'],decor:['Bicos, sacos e utensílios de decoração higienizados'],
+ recep:['Lista de reservas e mapa de mesas conferidos'],garcom:['Bloco ou comanda eletrônica carregada'],cumim:['Louças e talheres conferidos e polidos','Mesas montadas no padrão da casa'],apoio:['Praça de apoio abastecida e organizada'],buffet:['Balança aferida e zerada','Buffet abastecido e com protetor salivar'],
+ drinks:['Mise en place de drinks pronto (xaropes, ervas, frutas)'],chope:['Chope: temperatura e pressão conferidas'],vinho:['Vinhos na temperatura certa e carta atualizada'],cafe:['Máquina de café ligada, limpa e regulada','Moinho regulado e café do dia testado'],sucos:['Frutas para suco higienizadas'],
+ caixa:['Fechamento do caixa contado e conferido'],impr:['Bobinas / papel da impressora com reserva','Impressora de comandas funcionando'],exped:['Embalagens e lacres abastecidos','Pedidos conferidos antes de sair'],balcao:['Balcão limpo e organizado'],
+ receb:['Termômetro de recebimento disponível'],camara:['Câmaras e geladeiras na temperatura e com registro'],seco:['Estoque seco longe do chão e da parede'],almox:['Almoxarifado abastecido (descartáveis, luvas, produtos de limpeza)'],
+ banh:['Banheiros limpos e abastecidos (papel, sabão, álcool)'],copa:['Louça lavada, conferida e guardada'],geral:['Pisos e ralos limpos'],manut:['Equipamentos conferidos (vazamentos, ruídos, borrachas)'],pragas:['Sem sinais de pragas']};
+const CHECK_EQ={'A lenha':'Lenha seca e guardada longe do forno ou da churrasqueira','A carvão':'Carvão seco e suficiente para o turno','A gás':'Botijão ou rede de gás conferidos','Elétrica':'Fiação e tomada sem aquecimento','Elétrico (resistência)':'Resistência e fiação sem aquecimento','Esteira':'Esteira limpa e na velocidade certa'};
+function itensCheck(sid){ let l=[...(CHECK[sid]||[])]; pracasDe(sid).forEach(p=>{ l=l.concat(CHECK_P[p.id]||[]); p.eq.forEach(e=>{ if(CHECK_EQ[e]&&!l.includes(CHECK_EQ[e])) l.push(CHECK_EQ[e]); }); }); return l; }
+let chkSetor='', chkTmp={};
+const chkHoje=sid=>M.check.find(r=>r.setor===sid&&r.data===hoje());
+function fCheck(){ const sets=setoresAtivos(); if(!chkSetor||!sets.find(s=>s.id===chkSetor)) chkSetor=sets[0].id;
+ const it=itensCheck(chkSetor); chkTmp[chkSetor]=chkTmp[chkSetor]||it.map(()=>0); const st=chkTmp[chkSetor], S=catS(chkSetor);
+ const ICO=['⬜','✅','❌'];
+ return `<div class="bloco"><b>📅 Situação de hoje (${dataBR(hoje())})</b><div class="lista-mini">${sets.map(s=>{const r=chkHoje(s.id);return `<button type="button" class="chip" style="${r?(r.itens.some(x=>x.st===2)?'background:#FDE8E8;color:#D64545':'background:#E5F5EC;color:#2E9D5B'):'background:#FFF6DC;color:#946B00'}" onclick="chkSetor='${s.id}';render()">${r?(r.itens.some(x=>x.st===2)?'⚠️':'✔'):'⏳'} ${s.ic} ${esc(s.n)}</button>`}).join('')}</div><p class="dica" style="margin-top:6px">✔ feito sem problemas · ⚠️ feito com problemas · ⏳ ainda não feito. Toque num setor para abrir.</p></div>
+ <div class="bloco"><b>${S.ic} Checklist do dia · ${esc(S.n)}</b><p class="dica">Toque em cada item: ⬜ não conferido → ✅ ok → ❌ problema. Os itens mudam conforme as praças e equipamentos que a casa tem.</p>
+ <div class="campos">${escolha('cResp',S.f.concat(['Líder do setor','Gerente']),'Quem conferiu?')}</div>
+ <div style="margin-top:8px">${it.map((t,k)=>`<div class="tar" style="cursor:pointer;border-color:${['#C9D1DC','#2E9D5B','#D64545'][st[k]]}" onclick="chkTmp['${chkSetor}'][${k}]=(chkTmp['${chkSetor}'][${k}]+1)%3;render()"><span>${esc(t)}</span><span style="font-size:18px">${ICO[st[k]]}</span></div>`).join('')}</div>
+ <textarea id="cObs" placeholder="Observação (opcional)"></textarea>
+ <div class="botoes"><button class="btn" onclick="salvarCheck()">💾 Salvar checklist</button><span class="dica">${st.filter(x=>x===1).length} ok · ${st.filter(x=>x===2).length} problema(s) · ${st.filter(x=>x===0).length} sem conferir</span></div></div>
+ ${M.check.filter(r=>r.setor===chkSetor).slice(0,5).map(r=>{const ix=M.check.indexOf(r),pb=r.itens.filter(x=>x.st===2);return `<div class="bloco"><b>${dataBR(r.data)}</b> <span class="dica">· ${esc(r.resp||'—')} · ${r.itens.filter(x=>x.st===1).length} de ${r.itens.length} ok</span>${pb.length?`<div class="dica" style="color:#D64545;margin-top:4px">Problemas: ${pb.map(x=>esc(x.t)).join(' · ')}</div><div class="botoes"><button class="btn sec peq" onclick="M.check[${ix}].itens.filter(x=>x.st===2).forEach(x=>paraKanban(x.t,M.check[${ix}].resp,'','Checklist '+catS(M.check[${ix}].setor).n))">📋 Mandar problemas para o quadro</button></div>`:''}${r.obs?`<div class="dica">Obs.: ${esc(r.obs)}</div>`:''}</div>`}).join('')}`; }
+function salvarCheck(){ const it=itensCheck(chkSetor), st=chkTmp[chkSetor]; if(!st.some(x=>x)){aviso('Confira pelo menos um item');return;} M.check.unshift({data:hoje(),setor:chkSetor,resp:pegar('cResp'),obs:val('cObs'),itens:it.map((t,k)=>({t,st:st[k]}))}); delete chkTmp[chkSetor]; salvarM(); render(); montar(); aviso('✅ Checklist salvo'); }
+REL.check=()=>['Checklists do dia por setor',M.check.slice(0,40).map(r=>`<h2>${dataBR(r.data)} · ${esc(catS(r.setor).n)} · ${esc(r.resp||'')}</h2>${tab(['Item','Situação'],r.itens.map(x=>[x.t,['Não conferido','Ok','PROBLEMA'][x.st]]))}${r.obs?'<p>Obs.: '+esc(r.obs)+'</p>':''}`).join('')||'<p>Nenhum checklist salvo.</p>'];
+
+/* ---------- Assistente de configuração ---------- */
+let cfgPasso=1, cfgTmp=null;
+function abrirConfig(){ cfgTmp=JSON.parse(JSON.stringify(NEG||{nome:'',tipos:[],colabs:'',prop:'',consultor:'',setores:[],pracas:[],equip:{},extra:{},equipe:[]})); cfgPasso=1; abrirF('config'); }
+function aplicarTipos(){ const s=new Set(), p=new Set(BASE); cfgTmp.tipos.forEach(t=>{ const T=TIPOS_NEG.find(x=>x[0]===t); if(T){ T[2].forEach(x=>s.add(x)); T[3].forEach(x=>p.add(x)); } }); if(!s.size) CAT.forEach(c=>s.add(c.id)); cfgTmp.setores=[...s]; cfgTmp.pracas=[...p]; cfgTmp.tiposAplicados=cfgTmp.tipos.join('|'); }
+function tog(arr,v){ const i=arr.indexOf(v); i<0?arr.push(v):arr.splice(i,1); }
+function cfgIr(n){ const g=id=>document.getElementById(id);
+ if(cfgPasso===1){ cfgTmp.nome=g('cfNome').value.trim(); cfgTmp.colabs=g('cfColab').value; cfgTmp.prop=pegar('cfProp')||cfgTmp.prop; cfgTmp.consultor=pegar('cfCons')||cfgTmp.consultor; const o=g('cfTipoO').value.trim(); if(o&&!cfgTmp.tipos.includes(o)) cfgTmp.tipos.push(o);
+  if(n>1){ if(!cfgTmp.tipos.length){aviso('Escolha pelo menos um tipo de negócio');return;} if(cfgTmp.tiposAplicados!==cfgTmp.tipos.join('|')) aplicarTipos(); } }
+ cfgPasso=n; render(); document.getElementById('ferr').scrollTop=0; }
+function fConfig(){ const T=cfgTmp; const passos=['1 · Negócio','2 · Setores e praças','3 · Equipe','4 · Conferir e salvar'];
+ let h=`<div class="etapas">${passos.map((p,j)=>`<div class="${j+1<cfgPasso?'feita':''}" style="${j+1<cfgPasso?'background:#1C93A8':j+1===cfgPasso?'outline:2px solid #1C93A8;color:#137487':''}">${p}</div>`).join('')}</div>`;
+ if(cfgPasso===1){ h+=`<div class="bloco"><b>Qual é o negócio?</b><p class="dica">Preencha quando fechar a consultoria. Pode marcar mais de um tipo (ex.: cafeteria + confeitaria).</p>
+  <div class="campos"><input id="cfNome" placeholder="Nome do estabelecimento" value="${esc(T.nome)}"><input id="cfColab" type="number" placeholder="Quantos colaboradores?" value="${esc(T.colabs)}"></div>
+  <div class="dica" style="margin-top:10px"><b>Tipo de negócio</b></div><div class="lista-mini">${TIPOS_NEG.map(t=>`<button type="button" class="chip" style="${T.tipos.includes(t[0])?'background:#137487;color:#fff':''}" onclick="cfgIr(1);tog(cfgTmp.tipos,'${t[0]}');render()">${t[1]} ${t[0]}</button>`).join('')}${T.tipos.map((t,ix)=>TIPOS_NEG.find(x=>x[0]===t)?'':`<button type="button" class="chip" style="background:#137487;color:#fff" onclick="cfgIr(1);cfgTmp.tipos.splice(${ix},1);render()">✏️ ${esc(t)} ✕</button>`).join('')}</div>
+  <div class="campos"><input id="cfTipoO" placeholder="✏️ Outro tipo de negócio (escrever)"></div>
+  <div class="campos" style="margin-top:12px">${escolha('cfProp',['Dono(a)','Sócio(a)','Gerente responsável'],T.prop?'Proprietário: '+T.prop:'Quem é o responsável pela casa?')}${escolha('cfCons',['Consultor(a) ArtBlend','Consultor(a) parceiro que aluga a plataforma'],T.consultor?'Consultor: '+T.consultor:'Quem é o consultor?')}</div>
+  <div class="botoes"><button class="btn" onclick="cfgIr(2)">Próximo: setores e praças →</button></div></div>`; }
+ if(cfgPasso===2){ h+=`<div class="bloco"><b>Setores e praças da casa</b><p class="dica">Já deixamos marcado o que costuma existir em: <b>${esc(T.tipos.join(', '))}</b>. Desmarque o que a casa não tem e marque o que faltar. Nas praças com equipamento, escolha o tipo.</p><div class="botoes"><button class="btn sec peq" onclick="aplicarTipos();render()">↺ Voltar à sugestão do tipo de negócio</button></div></div>
+  ${CAT.map(s=>{const on=T.setores.includes(s.id);return `<div class="bloco" style="${on?'':'opacity:.6'}"><label style="display:flex;gap:8px;align-items:center;font-weight:700;cursor:pointer"><input type="checkbox" ${on?'checked':''} onchange="tog(cfgTmp.setores,'${s.id}');render()" style="width:20px;height:20px"> ${s.ic} ${s.n}</label>
+   ${on?`<div style="margin:8px 0 0 28px">${s.pr.map(p=>{const pon=T.pracas.includes(p[0]);return `<div style="margin:4px 0"><label style="cursor:pointer;font-size:14px"><input type="checkbox" ${pon?'checked':''} onchange="tog(cfgTmp.pracas,'${p[0]}');render()"> ${p[1]}</label>${pon&&p[2]?`<div class="lista-mini" style="margin:4px 0 0 22px">${p[2].map(e=>{const eq=(T.equip[p[0]]||[]);return `<button type="button" class="chip" style="${eq.includes(e)?'background:#137487;color:#fff':''}" onclick="cfgTmp.equip['${p[0]}']=cfgTmp.equip['${p[0]}']||[];tog(cfgTmp.equip['${p[0]}'],'${e}');render()">${e}</button>`}).join('')}</div>`:''}</div>`}).join('')}
+   ${(T.extra[s.id]||[]).map((x,k)=>`<div style="font-size:14px;margin:4px 0">✏️ ${esc(x)} <button class="btn sec peq" onclick="cfgTmp.extra['${s.id}'].splice(${k},1);render()">tirar</button></div>`).join('')}
+   <div class="add" style="margin-top:6px"><input id="ex_${s.id}" placeholder="✏️ Outra praça ou equipamento neste setor"><button class="btn sec peq" onclick="const v=document.getElementById('ex_${s.id}').value.trim();if(v){cfgTmp.extra['${s.id}']=cfgTmp.extra['${s.id}']||[];cfgTmp.extra['${s.id}'].push(v);render()}">+ Incluir</button></div></div>`:''}</div>`}).join('')}
+  <div class="botoes"><button class="btn sec" onclick="cfgIr(1)">← Voltar</button><button class="btn" onclick="if(!cfgTmp.setores.length){aviso('Marque pelo menos um setor');return;}cfgIr(3)">Próximo: equipe →</button></div>`; }
+ if(cfgPasso===3){ const sets=CAT.filter(s=>T.setores.includes(s.id)); const sel=document.getElementById('eqSetor'), sid=(window._eqS&&T.setores.includes(window._eqS))?window._eqS:sets[0].id;
+  h+=`<div class="bloco"><b>Equipe</b><p class="dica">Cadastre cada colaborador com o setor e a função. Assim cada um vê só o painel, os checklists e os cursos do seu setor. Pode pular e fazer depois.</p>
+  <div class="campos"><input id="eqNome" placeholder="Nome do colaborador"><select id="eqSetor" onchange="window._eqS=this.value;cfgIr(3)">${sets.map(s=>`<option value="${s.id}" ${s.id===sid?'selected':''}>${s.ic} ${s.n}</option>`).join('')}</select>${escolha('eqFunc',catS(sid).f.concat(['Líder do setor']),'Função')}</div>
+  <div class="botoes"><button class="btn" onclick="const n=document.getElementById('eqNome').value.trim();if(!n){aviso('Escreva o nome');return;}cfgTmp.equipe.push({nome:n,setor:'${sid}',funcao:pegar('eqFunc')});render()">+ Incluir na equipe</button></div></div>
+  ${T.equipe.length?`<div class="bloco"><table class="t"><thead><tr><th>Nome</th><th>Setor</th><th>Função</th><th></th></tr></thead><tbody>${T.equipe.map((e,k)=>`<tr><td>${esc(e.nome)}</td><td>${catS(e.setor).ic} ${catS(e.setor).n}</td><td>${esc(e.funcao||'—')}</td><td><button class="btn sec peq" onclick="cfgTmp.equipe.splice(${k},1);render()">tirar</button></td></tr>`).join('')}</tbody></table></div>`:''}
+  <div class="botoes"><button class="btn sec" onclick="cfgIr(2)">← Voltar</button><button class="btn" onclick="cfgIr(4)">Próximo: conferir →</button></div>`; }
+ if(cfgPasso===4){ const sets=CAT.filter(s=>T.setores.includes(s.id));
+  h+=`<div class="bloco"><b>🏪 ${esc(T.nome||'(sem nome)')}</b><div class="dica">${esc(T.tipos.join(' + '))} · ${esc(T.colabs||'?')} colaboradores · ${esc(T.prop||'responsável não informado')} · ${esc(T.consultor||'consultor não informado')}</div></div>
+  ${sets.map(s=>`<div class="bloco"><b>${s.ic} ${s.n}</b> <span class="dica">· ${T.equipe.filter(e=>e.setor===s.id).length} pessoa(s)</span><div class="lista-mini">${s.pr.filter(p=>T.pracas.includes(p[0])).map(p=>`<span class="chip">${p[1]}${(T.equip[p[0]]||[]).length?' — '+T.equip[p[0]].join(', '):''}</span>`).join('')}${(T.extra[s.id]||[]).map(x=>`<span class="chip">✏️ ${esc(x)}</span>`).join('')}</div></div>`).join('')}
+  <div class="bloco"><b>Quem vê o quê</b><ul style="margin:6px 0 0 20px;font-size:14px"><li><b>Dono / gerente:</b> tudo do restaurante, de todos os setores.</li><li><b>Consultor:</b> todos os restaurantes que atende.</li><li><b>Colaborador:</b> só o setor dele — painel, checklist do dia e cursos.</li></ul></div>
+  <div class="botoes"><button class="btn sec" onclick="cfgIr(3)">← Voltar</button><button class="btn" onclick="NEG=cfgTmp;salvarNEG();fecharF();area='';montar();aviso('✔ Negócio configurado')">✔ Salvar configuração</button></div>`; }
+ return h; }
+REL.config=()=>['Configuração do negócio',NEG?`<p><b>${esc(NEG.nome||'')}</b> · ${esc(NEG.tipos.join(' + '))} · ${esc(NEG.colabs||'')} colaboradores</p>${tab(['Setor','Praças e equipamentos','Equipe'],setoresAtivos().map(s=>[s.ic+' '+s.n,pracasDe(s.id).map(p=>p.n+(p.eq.length?' ('+p.eq.join(', ')+')':'')).join('\n'),NEG.equipe.filter(e=>e.setor===s.id).map(e=>e.nome+(e.funcao?' — '+e.funcao:'')).join('\n')]))}`:'<p>Negócio ainda não configurado.</p>'];
+
+/* cartões das novas áreas */
+C.colab.cfria={titulo:'Olá! Veja como foi o seu trabalho na cozinha fria',frase:'Seus pratos frios, as geladeiras da praça e as etiquetas em dia.',
+ hoje:[['🥗','Pratos frios montados','Saladas, entradas e sobremesas geladas','52','todos no padrão','+','#2E9D5B'],['🌡️','Geladeiras da praça','Temperatura até 5 °C','3 de 3','dentro da faixa','+','#2E9D5B','central-qualidade.html#controles'],['🥬','Hortifrúti higienizado','Registro da higienização','✔','feito às 10h','','#2E9D5B'],['🏷️','Etiquetas de validade','Preparos etiquetados hoje','100%','tudo com data','+','#2E9D5B']],
+ semana:[['📏','Padrão dos pratos','Iguais à ficha técnica','97%','1 fora do padrão','','#1C93A8'],['🗑️','Desperdício da praça','O que foi jogado fora','0,6 kg','meta: até 1 kg','+','#2E9D5B'],['⭐','Meus pontos','Gamificação da equipe','290','4º lugar','','#1C93A8']],
+ mes:[['🎓','Meus certificados','Treinamentos concluídos','1 de 2','Boas Práticas ✔','','#1C93A8','central-qualidade.html#abc']],tri:[['📈','Minha evolução','Comparado ao trimestre passado','+15%','menos desperdício','+','#2E9D5B']],futuro:[['🎯','Meu próximo passo','Trilha de crescimento','Chefe de cozinha fria','faltam 2 cursos','','#1C93A8']]};
+C.colab.estoque={titulo:'Olá! Veja como está o estoque e o almoxarifado',frase:'Recebimentos, itens que faltam e o almoxarifado abastecido.',
+ hoje:[['🚚','Recebimentos do dia','Mercadorias conferidas na chegada','4','1 devolvida (temperatura)','','#1C93A8','central-qualidade.html#rotina'],['📉','Itens abaixo do mínimo','O que precisa comprar','5','sal, óleo, limão…','-','#E0A100'],['🌡️','Câmaras e geladeiras','Temperaturas registradas','6 de 6','dentro da faixa','+','#2E9D5B','central-qualidade.html#controles'],['🧻','Almoxarifado','Descartáveis e limpeza abastecidos','✔','luvas acabando','','#1C93A8']],
+ semana:[['🔄','PVPS em dia','Primeiro que vence, primeiro que sai','98%','1 item fora de ordem','','#1C93A8'],['🗑️','Perdas por validade','Produtos vencidos no estoque','R$ 42','meta: até R$ 50','+','#2E9D5B'],['⭐','Meus pontos','Gamificação da equipe','305','3º lugar','','#1C93A8']],
+ mes:[['📋','Inventário do mês','Diferença entre sistema e contagem','1,4%','meta: até 2%','+','#2E9D5B'],['🎓','Meus certificados','Treinamentos concluídos','1 de 2','Recebimento ✔','','#1C93A8']],tri:[['📈','Minha evolução','Perdas por validade','-35%','comparado ao trimestre passado','+','#2E9D5B']],futuro:[['🎯','Meu próximo passo','Trilha de crescimento','Comprador(a)','curso de compras e negociação','','#1C93A8']]};
+C.colab.limpeza={titulo:'Olá! Veja como está a limpeza e a manutenção',frase:'Banheiros, louças, lixo, pragas e equipamentos em dia.',
+ hoje:[['🚻','Banheiros','Limpeza e abastecimento conferidos','4 de 4','última às 14h','+','#2E9D5B'],['🍽️','Louças e talheres','Lavados, conferidos e polidos','✔','sem manchas','','#2E9D5B'],['🗑️','Lixo e ralos','Lixeiras e ralos higienizados','✔','tudo em dia','','#2E9D5B'],['🔧','Equipamentos','Conferência de manutenção','1 alerta','borracha da geladeira 2','-','#E0A100']],
+ semana:[['🧴','Produtos de limpeza','Diluição correta e estoque','✔','reposição na sexta','','#1C93A8'],['🐜','Controle de pragas','Sinais de pragas na semana','0','tudo limpo','+','#2E9D5B'],['⭐','Meus pontos','Gamificação da equipe','285','5º lugar','','#1C93A8']],
+ mes:[['🧰','Manutenções feitas','Consertos e trocas do mês','6','2 preventivas','+','#1C93A8'],['🎓','Meus certificados','Treinamentos concluídos','1 de 2','Higienização ✔','','#1C93A8']],tri:[['📈','Minha evolução','Notas de limpeza','+12%','comparado ao trimestre passado','+','#2E9D5B']],futuro:[['🎯','Meu próximo passo','Trilha de crescimento','Encarregado(a) de manutenção','curso de manutenção preventiva','','#1C93A8']]};
+C.colab.balcao.titulo='Olá! Veja como foi o seu trabalho no caixa e no delivery'; C.colab.balcao.frase='Atendimentos, caixa conferido, pedidos de delivery e impressoras em dia.';
+C.colab.balcao.hoje.splice(2,0,['🛵','Pedidos de delivery','Pedidos conferidos antes de sair','37','0 erros','+','#2E9D5B'],['🖨️','Impressora e bobinas','Papel de reserva e comandas','✔','2 bobinas de reserva','','#1C93A8']);
+const MAPA_CARD={cq:'cozinha',cf:'cfria',conf:'confeitaria',salao:'salao',bar:'bar',dc:'balcao',est:'estoque',limp:'limpeza'};
+function areasAtivas(){ return setoresAtivos().map(s=>[s.id,s.ic+' '+s.n]); }
+function cardsArea(){ const sets=setoresAtivos(); if(!sets.find(s=>s.id===area)) area=sets[0].id;
+ let k=MAPA_CARD[area]; if(area==='bar'&&NEG&&NEG.pracas.includes('cafe')&&!NEG.pracas.some(p=>['drinks','chope','vinho'].includes(p))) k='cafe';
+ const B=C.colab[k], r=chkHoje(area), it=itensCheck(area), pr=pracasDe(area);
+ const card=['✅','Checklist do dia','Conferência da sua praça e dos equipamentos',r?r.itens.filter(x=>x.st===1).length+' de '+r.itens.length:'Fazer agora',r?(r.itens.some(x=>x.st===2)?'⚠️ tem problema anotado':'tudo ok'):it.length+' itens · '+pr.map(p=>p.n.split(' (')[0]+(p.eq.length?' ('+p.eq.join(', ')+')':'')).slice(0,3).join(', '),r?(r.itens.some(x=>x.st===2)?'-':'+'):'',r?(r.itens.some(x=>x.st===2)?'#D64545':'#2E9D5B'):'#E0A100','#checklist',area];
+ return Object.assign({},B,{hoje:[card,...B.hoje]}); }
+
 montarKAdd(); montar(); montarK();
 </script>
 </body>

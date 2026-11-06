@@ -36,3 +36,11 @@ Situação: ✅ feito · 🛠️ em andamento · ⏳ aguardando confirmação ·
 - Listas prontas + "✏️ Outro (escrever)" em: problema e responsável (PDCA), sugestões para cada etapa P-D-C-A, função/área/tipo e exemplos de ideia (Kaizen), o que aconteceu em cada um dos 8 desperdícios, problema dos 5 Porquês, tipo de erro do medidor, setor e avaliador (5S), tarefa e responsável (Kanban).
 - Em todas as ferramentas: 🖨️ Imprimir · ⬇️ Baixar (arquivo que abre em qualquer aparelho) · 📤 Enviar (no celular abre a lista do próprio aparelho: WhatsApp, Gmail, Drive…; no computador: WhatsApp, e-mail, Google Drive, baixar, copiar texto).
 - Colaborador com 6 áreas: Cozinha, Salão, Bar, Cafeteria, Confeitaria, Balcão e caixa — cada uma com seus próprios cartões.
+
+### Pedidos de 06/11 às 11h20 — configuração do negócio (✅ primeira versão feita na área de teste)
+- Separar **tipo de negócio** (cafeteria, confeitaria, pizzaria…) de **setor**. Setores: Cozinha quente, Cozinha fria, Confeitaria e padaria, Salão e atendimento, Bar e cafeteria (barista dentro do bar), Delivery e caixa, Estoque e almoxarifado, Limpeza e manutenção.
+- Cada setor com suas **praças e equipamentos**: forno de pizza (lenha, esteira, gás, elétrico/resistência), churrasqueira (lenha, carvão, gás, elétrica, parrilha, grill/charbroiler), fritadeira, chapa, wok, banho-maria, estufa, vitrine etc.
+- Ao fechar a consultoria, o consultor escolhe o tipo de negócio e a plataforma **já marca sozinha** os setores e praças que fazem sentido (cafeteria não tem churrasqueira; sushi não tem parrilha). Dá para ajustar e incluir "Outro".
+- **Checklists do dia por setor**, com responsável: cumim (pratos limpos e polidos), caixa (bobina, impressora, contagem), estoque/almoxarifado, limpeza e manutenção de equipamentos. Os itens mudam conforme as praças e equipamentos marcados.
+- Colaborador vê só o seu setor, com mais detalhes.
+- 💤 Próximo: levar essa configuração para a nuvem (cada cliente com a sua) e adaptar os cursos por tipo de negócio.
