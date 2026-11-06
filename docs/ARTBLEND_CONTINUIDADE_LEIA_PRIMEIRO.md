@@ -1,5 +1,5 @@
 # ARTBLEND · DOCUMENTO DE CONTINUIDADE
-Versão do documento: 05/11/2026 (noite) · Plataforma no ar: **Versão 3** · **Versão 4 pronta para publicar** (pull request no GitHub)
+Versão do documento: 05/11/2026 (noite) · Plataforma no ar: **Versão 4.1** (V4 + login corrigido)
 
 ---
 
@@ -48,7 +48,8 @@ Cópias de segurança → pendrive (E:\Arquivos artblend\BACKUPS) + Downloads do
 | V1 | Landing, início, login, plataforma com menu turquesa, cursos EEG | histórico |
 | V2 | + Custos, comanda, estoque, agenda, checklist, login real do Supabase | `backup/2026-11-05-antes-fase2` |
 | **V3 (no ar)** | **+ Central de Qualidade** (detalhes na seção 4) | `versao/v3-central-qualidade` |
-| **V4 (aguardando aprovação)** | **+ Central de Salão e Vendas** (`central-salao.html`) + **ligação com a nuvem** (`artblend-sync.js`) | `fase2/central-qualidade` |
+| V4 | + Central de Salão e Vendas (`central-salao.html`) + ligação com a nuvem (`artblend-sync.js`) | `versao/v4-central-salao` |
+| **V4.1 (no ar)** | + correção da página de login (travava desde agosto) | `versao/v4.1-login-corrigido` |
 | Visual guardado | "Hub no visual turquesa original (aprovado pelo Fagner)" — ainda não no ar; o visual dele foi usado na Central | `feat/v1-plataforma-turquesa` |
 
 Para voltar atrás: *"Volte o site para a cópia congelada `<nome>`."*
@@ -57,7 +58,8 @@ Para voltar atrás: *"Volte o site para a cópia congelada `<nome>`."*
 
 ## 3. REGRAS DE OURO (segurança)
 1. **Nunca apagar** nada da plataforma ou dos meus arquivos. Tudo novo é **somado** (V4, V5…).
-2. **Antes de publicar:** cópia congelada no GitHub + comparação de arquivos. **Só publicar com zero arquivos apagados.** Mostrar a comparação ao Fagner.
+2. **Publicação:** a segurança do Claude só publica no site quando o Fagner escreve na mensagem "pode publicar … no site oficial agora".
+3. **Antes de publicar:** cópia congelada no GitHub + comparação de arquivos. **Só publicar com zero arquivos apagados.** Mostrar a comparação ao Fagner.
 3. Toda mudança é feita numa **cópia de teste** (branch separada). Fagner olha e aprova. Só depois vai ao ar.
 4. Depois de publicar: abrir **todas as páginas** do site e confirmar que nenhuma quebrou; atualizar **backup no pendrive** e o **cofre**.
 5. **Senhas e chaves nunca** no GitHub nem na conversa. Chaves (Claude API, WhatsApp) são coladas pelo próprio Fagner no painel do Supabase.
@@ -115,7 +117,7 @@ Landing (`index.html`), início (`inicio.html`), login real Supabase com "esquec
 ---
 
 ## 7. PRÓXIMOS PASSOS (em ordem sugerida)
-1. **Publicar a V4** (Fagner aprova o pull request no GitHub ou pede "pode publicar a V4 no site oficial agora").
+1. ~~Publicar a V4~~ (no ar em 05/11/2026, com o login corrigido na V4.1). Fagner testa: entrar na Central, criar cliente de teste, ver em outro aparelho.
 1.1 **Nuvem — parte 2:** acesso de Dono e Colaborador com login próprio (hoje só o consultor dono dos clientes entra), fotos no armazenamento do Supabase, painel do consultor com todos os clientes, etiquetas descontando do estoque.
 2. ~~Central de Salão e Vendas~~ (feita na V4). Próximo nela: marketing e networking, integração com o PDV, perfis do Instagram que o Fagner indicar.
 3. **Empratamento** — Fagner vai mandar o conteúdo dos cursos que fez.
