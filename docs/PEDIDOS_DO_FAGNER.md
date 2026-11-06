@@ -81,3 +81,16 @@ Site "Quem é a ArtBlend" (index) → **Acessar a plataforma** → entrada com A
 - Curso básico para todos (cozinha e salão): Boas Práticas da Central de Qualidade — link no curso.
 - **Caminho completo ligado na área de teste**: site → Acessar a plataforma → entrada com ABC animado → login "Quem é você?" → painel novo.
 - Endereço de teste (não é o site oficial): https://fase2-central-qualidade.artblend-plataforma.pages.dev
+
+### Pedidos de 06/11 às 13h10 — página de vendas (✅ primeira versão na área de teste)
+- Página "Quem é a ArtBlend" refeita (index.html): uma página só, sem botões no topo, cores azul-claro originais, **ABC bem grande**, "ArtBlend Consultoria Gourmet · Soluções assertivas · O ABC gastronômico que você precisa".
+- Chamada: "Confira como está o seu caixa, o seu estoque, a sua equipe…", com figuras de exemplo do painel (não funcionam — só amostra, para não copiarem).
+- **Três partes por público**: 🏠 dono, 🧭 consultor, 👨‍🍳 chef/colaborador. Endereços para tráfego pago: `/#dono`, `/#consultor`, `/#colaborador` (a parte escolhida aparece primeiro).
+- Método ArtBlend explicado (Veja → Confira → Ache a causa → Resolva → Acompanhe → Ouça a equipe; A-B-C = Avaliar, Base, Constância), cursos (disponíveis e em breve) e quem somos.
+- A versão anterior da página foi guardada em `index-v1-quem-e-artblend.html` (nada apagado).
+- ⏳ Falta: número de WhatsApp/contato para o botão "Fale com a gente"; confirmar como o nome do chef deve aparecer.
+
+### Anotado para depois (módulos de ensino)
+- 💤 **Módulo de ensinamento técnico** a partir da biblioteca do Drive (cerca de 20 livros da Le Cordon Bleu, 20 apostilas do Senac, grandes nomes da gastronomia): conteúdo reescrito com palavras ArtBlend (não copiar os livros), por tema: técnicas de cocção, empratamento, confeitaria, cozinha oriental, pizzaria etc.
+- 💤 **Gestão estratégica**, **gestão de processos** (curso que o Fagner fez) e **gestão de alta performance**: ferramentas + curso ensinando.
+- 💤 Anúncios separados por público (consultor, dono, chef/cozinheiro) usando os endereços acima.
