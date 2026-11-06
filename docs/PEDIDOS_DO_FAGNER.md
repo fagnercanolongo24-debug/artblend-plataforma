@@ -123,3 +123,10 @@ Site "Quem é a ArtBlend" (index) → **Acessar a plataforma** → entrada com A
 - Cores: azul = obrigatório, vermelho = proibido, amarelo = atenção, verde = orientação.
 - Valores conferidos no texto da RDC 216/2004: cozimento ≥ 70 °C; quente > 60 °C por até 6 h; resfriar de 60 °C a 10 °C em até 2 h; refrigerado < 5 °C; congelado ≤ −18 °C; óleo ≤ 180 °C; descongelar em refrigeração < 5 °C.
 - Atalho no painel: **🪧 Placas de Boas Práticas**. Depois: levar também para dentro da Central de Qualidade.
+
+### 06/11 às 17h45 — Placas, parte 2 (✅ feito na área de teste)
+- Regra combinada: **novas placas vão sendo criadas conforme forem aparecendo** nas normas e nas ferramentas.
+- Agora são **50 placas**, separadas por grupo (filtro por grupo + "Marcar todas deste grupo"):
+  - **Boas práticas (38)**: + nada no chão, organização da geladeira, registro de temperatura, validade depois de aberto, diluição dos produtos de limpeza, uso do pegador, buffet seguro, separação do lixo, higienização da bancada, EPI na limpeza, funcionário lave as mãos, recebimento, alergênicos, proibido reaproveitar o que voltou da mesa, água potável, controle de pragas.
+  - **Segurança do trabalho (12)**: cheiro de gás, extintor, saída de emergência, câmara fria, superfície quente, faca com segurança, equipamento ligado não limpe, choque elétrico, nunca jogue água no óleo quente, EPI obrigatório, primeiros socorros em queimadura, levantar peso.
+- ⏳ Parte 3 (próxima): placas do salão/cliente exigidas por lei (conferir cada lei antes) e gestão à vista (quadro de melhorias, 5S, PDCA, Kaizen, "pare e avise", metas, briefing, checklists de abertura e fechamento por setor conforme a configuração da casa, mise en place e padrão de montagem do prato).
