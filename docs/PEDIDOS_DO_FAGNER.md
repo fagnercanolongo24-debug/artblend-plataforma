@@ -44,3 +44,10 @@ Situação: ✅ feito · 🛠️ em andamento · ⏳ aguardando confirmação ·
 - **Checklists do dia por setor**, com responsável: cumim (pratos limpos e polidos), caixa (bobina, impressora, contagem), estoque/almoxarifado, limpeza e manutenção de equipamentos. Os itens mudam conforme as praças e equipamentos marcados.
 - Colaborador vê só o seu setor, com mais detalhes.
 - 💤 Próximo: levar essa configuração para a nuvem (cada cliente com a sua) e adaptar os cursos por tipo de negócio.
+
+### Pedidos de 06/11 às 12h (✅ feito na área de teste)
+- **📎 Anexar** ao Imprimir/Baixar/Enviar: "Só esta folha" (individual, padrão) ou "Anexar outros documentos" com lupa e período (hoje, 7 dias, 30 dias, tudo). Cada documento em folha própria, com capa e índice.
+- **Método de Melhoria + Kanban saíram do painel** e foram para a área **📈 Gestão e Melhoria Contínua** (o líder usa conforme os dados do painel). No painel ficaram os atalhos.
+- Links do painel abrem o site oficial quando vistos fora do site (na janela do Claude davam erro).
+- Painel ligado à **nuvem (Supabase)**: com login, escolhe o cliente e tudo (ferramentas, Kanban, configuração do negócio) fica salvo por cliente e igual em todos os aparelhos.
+- 💤 Conferência cruzada (vendas do salão x saída da cozinha/produção): depende dos dados do sistema de vendas — fazer depois.

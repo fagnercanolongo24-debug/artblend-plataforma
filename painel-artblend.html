@@ -55,6 +55,9 @@ button.chip{border:0;cursor:pointer;font-family:inherit}button.chip:hover{backgr
 .add.campos{grid-template-columns:2fr 1.5fr 1fr auto;align-items:start}
 .cfgbtn{margin-left:auto;border:1.5px solid rgba(19,116,135,.35);background:rgba(255,255,255,.65);color:#0E5A69;border-radius:10px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:13px}.cfgbtn+.perfis{margin-left:0}
 #negInfo{display:inline-block;background:rgba(255,255,255,.7);border-radius:20px;padding:4px 12px;font-size:13px;font-weight:700;margin-bottom:8px}#negInfo:empty{display:none}
+body.modo-gestao #vPainel,body:not(.modo-gestao) #vGestao{display:none}
+.btn-imp{background:#fff;color:var(--pri-esc);border:1.5px solid var(--pri);border-radius:8px;padding:5px 9px;font-weight:700;font-size:12px}
+#syncBox{font-size:12px;background:rgba(255,255,255,.65);border-radius:10px;padding:4px 8px}#syncBox:empty{display:none}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#16294A;color:#fff;padding:10px 16px;border-radius:12px;font-weight:600;z-index:60;display:none}
 @media print{body.f-aberta header,body.f-aberta main{display:none}.ferr{position:static;padding:0;background:none}.ferr .cab button,.botoes,.nao-imp{display:none!important}}
 main{max-width:1180px;margin:-46px auto 40px;padding:0 16px;position:relative;z-index:2}
@@ -99,13 +102,14 @@ h2{font:800 19px 'Poppins',sans-serif;margin:28px 0 4px;letter-spacing:-.3px}
 <header class="topo">
   <div class="linha">
     <div class="marca"><b>A</b>rt<b>B</b>lend <span style="font-weight:600;font-size:14px;opacity:.85">· <b>C</b>onsultoria <b>G</b>ourmet</span></div>
-    <button class="cfgbtn" onclick="abrirConfig()">⚙️ Configurar negócio</button><div class="perfis" id="perfis">
+    <span id="syncBox"></span><button class="cfgbtn" onclick="abrirConfig()">⚙️ Configurar negócio</button><div class="perfis" id="perfis">
       <button data-p="dono" class="ativo">🏠 Dono</button><button data-p="consultor">🧭 Consultor</button><button data-p="colaborador">🙋 Colaborador</button>
     </div>
   </div>
   <div class="saudacao"><div id="negInfo"></div><h1 id="titulo"></h1><p id="frase"></p><div class="areas" id="areas"></div></div>
 </header>
 <main>
+  <div id="vPainel">
   <div class="periodos" id="periodos"></div>
   <div class="aviso">🧪 <b>Modelo para aprovação</b> — os números abaixo são de exemplo. Depois de aprovado, cada cartão puxa os dados reais das Centrais e da plataforma.</div>
   <div class="grade" id="cartoes"></div>
@@ -116,8 +120,13 @@ h2{font:800 19px 'Poppins',sans-serif;margin:28px 0 4px;letter-spacing:-.3px}
     <a class="atalho" href="central-qualidade.html"><span class="ic2">🛡️</span><span><b>Central de Qualidade</b><small>segurança dos alimentos, controles e cursos</small></span></a>
     <a class="atalho" href="central-salao.html"><span class="ic2">🍽️</span><span><b>Central de Salão e Vendas</b><small>atendimento, vendas e cliente oculto</small></span></a>
     <a class="atalho" href="plataforma.html"><span class="ic2">🧩</span><span><b>Plataforma completa</b><small>estoque, custos, fichas e demais ferramentas</small></span></a>
+    <a class="atalho" href="#gestao" onclick="event.preventDefault();irPara('gestao')"><span class="ic2">📈</span><span><b>Gestão e Melhoria Contínua</b><small>PDCA, Kanban, Kaizen, Lean Seis Sigma e 5S — para o líder agir</small></span></a>
+    <a class="atalho" href="#" onclick="event.preventDefault();abrirF('check')"><span class="ic2">✅</span><span><b>Checklists do dia</b><small>conferência de cada setor, com responsável</small></span></a>
   </div>
 
+</div>
+<div id="vGestao">
+  <div class="botoes" style="margin:0 0 6px"><a class="btn sec" href="#" onclick="event.preventDefault();irPara('')">← Voltar ao painel</a></div>
   <h2>🔁 Método ArtBlend de Melhoria Contínua</h2>
   <p class="sub">Cinco métodos de gestão juntos num jeito só. Toque em <b>Abrir ferramenta</b> para usar no dia a dia — elas conversam entre si: uma ideia vira tarefa, um problema vira ciclo de melhoria.</p>
   <div class="metodo" id="metodo"></div>
@@ -127,9 +136,11 @@ h2{font:800 19px 'Poppins',sans-serif;margin:28px 0 4px;letter-spacing:-.3px}
   <div class="kanban" id="kanban"></div>
   <div class="add campos" id="kAdd"></div>
   <div id="kExp"></div>
+</div>
 </main>
 <div class="ferr" id="ferr" onclick="if(event.target===this)fecharF()"><div class="caixa"><div class="cab"><h3 id="fTit"></h3><span class="exp"><button class="btn sec peq" onclick="imprimirRel(fAtual)" title="Imprimir ou salvar em PDF">🖨️<span> Imprimir</span></button><button class="btn sec peq" onclick="baixarRel(fAtual)" title="Baixar no aparelho">⬇️<span> Baixar</span></button><button class="btn sec peq" onclick="enviarRel(fAtual)" title="Enviar por WhatsApp, e-mail ou Drive">📤<span> Enviar</span></button></span><button class="fechar" onclick="fecharF()">✕<span> Fechar</span></button></div><div class="corpo" id="fCorpo"></div></div></div>
 <div class="toast" id="toast"></div>
+<div class="ferr" id="menuAnexar" style="z-index:65;align-items:center" onclick="if(event.target===this)this.classList.remove('aberta')"><div class="caixa" style="max-width:460px"><div class="cab"><h3 id="anxTit"></h3><button class="fechar" onclick="document.getElementById('menuAnexar').classList.remove('aberta')">✕</button></div><div class="corpo" id="anxCorpo"></div></div></div>
 <div class="ferr" id="menuEnviar" style="z-index:70;align-items:center" onclick="if(event.target===this)this.classList.remove('aberta')"><div class="caixa" style="max-width:380px"><div class="cab"><h3>📤 Enviar relatório</h3><button class="fechar" onclick="document.getElementById('menuEnviar').classList.remove('aberta')">✕</button></div><div class="corpo"><div class="envios">
 <button onclick="envPor('whats')">🟢 WhatsApp<small>manda o resumo em texto</small></button>
 <button onclick="envPor('email')">✉️ E-mail<small>abre o seu e-mail com o resumo</small></button>
@@ -210,7 +221,9 @@ function montar(){
   const P=perfil==='colaborador'?cardsArea():C[perfil];
   document.getElementById('negInfo').textContent=NEG?'🏪 '+(NEG.nome||'Meu negócio')+' · '+NEG.tipos.join(' + '):'';
   document.getElementById('areas').innerHTML=perfil==='colaborador'?'<span>Seu setor:</span>'+areasAtivas().map(([k,t])=>`<button class="${k===area?'ativo':''}" onclick="area='${k}';try{localStorage.setItem('painel_area',area)}catch(e){};montar()">${t}</button>`).join(''):'';
-  document.getElementById('titulo').textContent=P.titulo; document.getElementById('frase').textContent=P.frase;
+  const G=document.body.classList.contains('modo-gestao');
+  document.getElementById('titulo').textContent=G?'📈 Gestão e Melhoria Contínua':P.titulo; document.getElementById('frase').textContent=G?'Ferramentas do líder, do dono e do consultor: use o que o painel mostra para planejar, corrigir e acompanhar as melhorias.':P.frase;
+  if(G) document.getElementById('areas').style.display='none'; else document.getElementById('areas').style.display='';
   document.getElementById('periodos').innerHTML=PER.map(([k,t,s])=>`<button class="${k===per?'ativo':''}" onclick="per='${k}';montar()">${t}<small>${s}</small></button>`).join('');
   document.getElementById('cartoes').innerHTML=(P[per]||[]).map(c=>`<a class="cartao" style="--cor:${c[6]};--fundoic:${c[6]}1A" href="${c[7]||'#'}" ${c[7]==='#checklist'?`onclick="event.preventDefault();chkSetor='${c[8]}';abrirF('check')"`:''}>
     <div class="ic">${c[0]}</div><div class="nome">${esc(c[1])}</div><div class="frase">${esc(c[2])}</div>
@@ -360,29 +373,57 @@ function fS5(){ const ult={}; M.s5.forEach(a=>{ if(!ult[a.setor]) ult[a.setor]=a
   ${fr.length?`<div class="botoes"><button class="btn sec peq" onclick="const a=M.s5[${ix}];paraKanban('5S '+a.setor+': melhorar '+a.n.map((n,j)=>n<=2?S5[j][0]:'').filter(Boolean).join(', '),'','','Auditoria 5S')">📋 Mandar para o quadro</button></div>`:''}</div>`}).join('')}
  ${M.s5.length?`<p class="dica">${M.s5.length} auditoria(s) no histórico.</p>`:''}`; }
 
-/* ---------- Imprimir, baixar e enviar ---------- */
-const tab=(cab,linhas)=>`<table><thead><tr>${cab.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${linhas.map(l=>`<tr>${l.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${cab.length}">Nada registrado ainda.</td></tr>`}</tbody></table>`;
+/* ---------- Imprimir, baixar e enviar (com anexos) ---------- */
+const tab=(cab,linhas)=>`<table><thead><tr>${cab.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${linhas.map(l=>`<tr>${l.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${cab.length}">Nada registrado neste período.</td></tr>`}</tbody></table>`;
+let perRel='tudo';
+function noPer(d){ if(perRel==='tudo'||!d) return true; const dias=(new Date(hoje())-new Date(d))/864e5; return perRel==='hoje'?dias<1:perRel==='semana'?dias<7:dias<31; }
+const fp=x=>noPer(x.data||x.criado);
 const REL={
- pdca:()=>['Ciclos de melhoria (PDCA)',M.pdca.filter(c=>!c.arq).map(c=>`<h2>${esc(c.prob)}</h2><p>Meta: ${esc(c.meta||'—')} · Responsável: ${esc(c.resp||'—')} · Prazo: ${dataBR(c.prazo)} · Situação: ${c.etapa>=4?'Concluído':'Etapa '+ETP[c.etapa][1]}</p>${tab(['Etapa','Anotações'],ETP.map((t,j)=>[t[0]+' · '+t[1],c.n[j]||'']))}`).join('')||'<p>Nenhum ciclo ativo.</p>'],
+ pdca:()=>['Ciclos de melhoria (PDCA)',M.pdca.filter(c=>!c.arq).filter(fp).map(c=>`<h2>${esc(c.prob)}</h2><p>Meta: ${esc(c.meta||'—')} · Responsável: ${esc(c.resp||'—')} · Prazo: ${dataBR(c.prazo)} · Situação: ${c.etapa>=4?'Concluído':'Etapa '+ETP[c.etapa][1]}</p>${tab(['Etapa','Anotações'],ETP.map((t,j)=>[t[0]+' · '+t[1],c.n[j]||'']))}`).join('')||'<p>Nenhum ciclo ativo neste período.</p>'],
  kanban:()=>['Quadro de melhorias (Kanban)',COLS.map(([k,t])=>`<h2>${t}</h2>${tab(['Tarefa','Responsável','Prazo','Origem'],K[k].map(x=>[x.t,x.resp||'',dataBR(x.prazo),x.orig||'']))}`).join('')],
- kaizen:()=>['Caixa de ideias (Kaizen)',tab(['Data','Nome','Área','Ajuda a','Ideia','Apoios','Situação'],M.ideias.map(x=>[dataBR(x.data),x.nome+(x.funcao?' ('+x.funcao+')':''),x.area||'',x.tipo||'',x.texto,x.votos,x.status]))],
- lean:()=>['Lean Seis Sigma — desperdícios e erros',`<h2>Desperdícios</h2>${tab(['Data','Tipo','O que aconteceu','R$'],M.desp.map(x=>[dataBR(x.data),DESP[x.tipo][0],x.desc,fmt(x.valor)]))}<p><b>Total: R$ ${fmt(M.desp.reduce((s,x)=>s+(+x.valor||0),0))}</b></p><h2>5 Porquês</h2>${tab(['Data','Problema','Porquês','Causa raiz'],M.porques.map(x=>[dataBR(x.data),x.prob,x.w.filter(Boolean).join(' → '),x.causa]))}<h2>Medidor de acertos</h2>${tab(['Data','Tipo','Período','Pedidos','Erros','Acerto','Sigma'],M.medidas.map(m=>{const s=sigma(m.ped,m.err);return [dataBR(m.data),m.tipo||'',m.obs||'',m.ped,m.err,s.ac.toFixed(1).replace('.',',')+'%',s.s.toFixed(1).replace('.',',')]}))}`],
- s5:()=>['Auditorias 5S',tab(['Data','Setor','Avaliador',...S5.map(s=>s[0]),'Nota'],M.s5.map(a=>[dataBR(a.data),a.setor,a.resp||'',...a.n,Math.round(a.n.reduce((x,y)=>x+y,0)/25*100)+'%']))]
+ kaizen:()=>['Caixa de ideias (Kaizen)',tab(['Data','Nome','Área','Ajuda a','Ideia','Apoios','Situação'],M.ideias.filter(fp).map(x=>[dataBR(x.data),x.nome+(x.funcao?' ('+x.funcao+')':''),x.area||'',x.tipo||'',x.texto,x.votos,x.status]))],
+ lean:()=>{const d=M.desp.filter(fp);return ['Lean Seis Sigma — desperdícios e erros',`<h2>Desperdícios</h2>${tab(['Data','Tipo','O que aconteceu','R$'],d.map(x=>[dataBR(x.data),DESP[x.tipo][0],x.desc,fmt(x.valor)]))}<p><b>Total: R$ ${fmt(d.reduce((s,x)=>s+(+x.valor||0),0))}</b></p><h2>5 Porquês</h2>${tab(['Data','Problema','Porquês','Causa raiz'],M.porques.filter(fp).map(x=>[dataBR(x.data),x.prob,x.w.filter(Boolean).join(' → '),x.causa]))}<h2>Medidor de acertos</h2>${tab(['Data','Tipo','Período','Pedidos','Erros','Acerto','Sigma'],M.medidas.filter(fp).map(m=>{const s=sigma(m.ped,m.err);return [dataBR(m.data),m.tipo||'',m.obs||'',m.ped,m.err,s.ac.toFixed(1).replace('.',',')+'%',s.s.toFixed(1).replace('.',',')]}))}`]},
+ s5:()=>['Conferência 5S',tab(['Data','Setor','Quem conferiu',...S5.map(s=>s[0]),'Nota'],M.s5.filter(fp).map(a=>[dataBR(a.data),a.setor,a.resp||'',...a.n,Math.round(a.n.reduce((x,y)=>x+y,0)/25*100)+'%']))]
 };
-function docRel(f){ const [t,h]=REL[f](); return [t,`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${t}</title><style>body{font-family:Arial,sans-serif;color:#16294A;max-width:900px;margin:24px auto;padding:0 16px}h1{color:#137487;font-size:22px;margin:4px 0}h2{font-size:16px;margin-top:18px;color:#137487}table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}th,td{border:1px solid #ccd;padding:6px;text-align:left;vertical-align:top;white-space:pre-line}th{background:#E4F8FB}.rod{margin-top:30px;font-size:12px;color:#6E7A8C}</style></head><body><div style="font-weight:800;color:#1C93A8">ArtBlend Consultoria Gourmet</div><h1>${t}</h1><p>Gerado em ${new Date().toLocaleString('pt-BR')}</p>${h}<p class="rod">Documento gerado pela plataforma ArtBlend · artblendconsultoria.com.br</p></body></html>`]; }
-function nomeArq(t){ return 'ArtBlend - '+t.replace(/[^\wÀ-ú ()-]/g,'').trim()+' - '+dataBR(hoje()).replace(/\//g,'-')+'.html'; }
-function imprimirRel(f){ const [,d]=docRel(f); const fr=document.createElement('iframe'); fr.style.cssText='position:fixed;width:0;height:0;border:0'; document.body.appendChild(fr); fr.contentDocument.open(); fr.contentDocument.write(d); fr.contentDocument.close(); setTimeout(()=>{ fr.contentWindow.focus(); fr.contentWindow.print(); setTimeout(()=>fr.remove(),1500); },300); }
-function baixarRel(f){ const [t,d]=docRel(f); const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([d],{type:'text/html'})); a.download=nomeArq(t); document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500); aviso('⬇️ Arquivo baixado no aparelho'); }
-function textoRel(f){ const [t,d]=docRel(f); const div=document.createElement('div'); div.innerHTML=d.replace(/<style[\s\S]*?<\/style>/,'').replace(/<\/(tr|h1|h2|p)>/g,'</$1>\n').replace(/<\/t[dh]>/g,' | '); return div.textContent.replace(/\n{3,}/g,'\n\n').trim(); }
-let envF=null;
-async function enviarRel(f){ envF=f; const [t,d]=docRel(f); try{ const arq=new File([d],nomeArq(t),{type:'text/html'}); if(navigator.canShare&&navigator.canShare({files:[arq]})){ await navigator.share({files:[arq],title:t,text:'Relatório ArtBlend: '+t}); return; } }catch(e){ if(e&&e.name==='AbortError') return; }
+function relCheck(sid){ const S=catS(sid), l=M.check.filter(r=>(!sid||r.setor===sid)).filter(fp); return ['Checklist do dia'+(S?' · '+S.n:''),l.slice(0,60).map(r=>`<h2>${dataBR(r.data)} · ${esc(catS(r.setor).n)} · ${esc(r.resp||'')}</h2>${tab(['Item','Situação'],r.itens.map(x=>[x.t,['Não conferido','Ok','PROBLEMA'][x.st]]))}${r.obs?'<p>Obs.: '+esc(r.obs)+'</p>':''}`).join('')||'<p>Nenhum checklist neste período.</p>']; }
+function relDe(k){ if(k.startsWith('check:')) return relCheck(k.slice(6)); if(k==='check') return relCheck(''); return REL[k](); }
+function docsDisp(){ return [['pdca','🔄 Ciclos de melhoria (PDCA)'],['kanban','📋 Quadro de melhorias (Kanban)'],['kaizen','💡 Caixa de ideias (Kaizen)'],['lean','🎯 Desperdícios e erros (Lean Seis Sigma)'],['s5','🧹 Conferência 5S'],...setoresAtivos().map(s=>['check:'+s.id,'✅ Checklist · '+s.ic+' '+s.n]),['config','⚙️ Configuração do negócio']]; }
+const PER_TXT={hoje:'de hoje',semana:'dos últimos 7 dias',mes:'dos últimos 30 dias',tudo:'completo'};
+function montarDoc(chaves){ const partes=chaves.map(relDe), casa=NEG&&NEG.nome?' — '+esc(NEG.nome):'';
+ const titulo=partes.length===1?partes[0][0]:'Relatório ArtBlend'+(NEG&&NEG.nome?' · '+NEG.nome:'');
+ const capa=partes.length>1?`<h1>Relatório${casa}</h1><p>Período: ${PER_TXT[perRel]} · gerado em ${new Date().toLocaleString('pt-BR')}</p><h2>Documentos anexados</h2><ol>${partes.map(p=>`<li>${esc(p[0])}</li>`).join('')}</ol>`:'';
+ const corpo=partes.length>1?capa+partes.map(p=>`<div class="folha"><h1>${esc(p[0])}</h1>${p[1]}</div>`).join(''):`<h1>${esc(partes[0][0])}${casa}</h1><p>Período: ${PER_TXT[perRel]} · gerado em ${new Date().toLocaleString('pt-BR')}</p>${partes[0][1]}`;
+ return [titulo,`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(titulo)}</title><style>body{font-family:Arial,sans-serif;color:#16294A;max-width:900px;margin:24px auto;padding:0 16px}h1{color:#137487;font-size:22px;margin:4px 0}h2{font-size:16px;margin-top:18px;color:#137487}table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}th,td{border:1px solid #ccd;padding:6px;text-align:left;vertical-align:top;white-space:pre-line}th{background:#E4F8FB}.folha{page-break-before:always;break-before:page;margin-top:40px;padding-top:10px;border-top:2px dashed #cde}@media print{.folha{border:0;margin-top:0}}.rod{margin-top:30px;font-size:12px;color:#6E7A8C}</style></head><body><div style="font-weight:800;color:#1C93A8">ArtBlend Consultoria Gourmet</div>${corpo}<p class="rod">Documento gerado pela plataforma ArtBlend · artblendconsultoria.com.br</p></body></html>`]; }
+function nomeArq(t){ return 'ArtBlend - '+t.replace(/[^\wÀ-ú ()·-]/g,'').trim()+' - '+dataBR(hoje()).replace(/\//g,'-')+'.html'; }
+function imprimirDoc([,d]){ const fr=document.createElement('iframe'); fr.style.cssText='position:fixed;width:0;height:0;border:0'; document.body.appendChild(fr); fr.contentDocument.open(); fr.contentDocument.write(d); fr.contentDocument.close(); setTimeout(()=>{ fr.contentWindow.focus(); fr.contentWindow.print(); setTimeout(()=>fr.remove(),1500); },300); }
+function baixarDoc([t,d]){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([d],{type:'text/html'})); a.download=nomeArq(t); document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500); aviso('⬇️ Arquivo baixado no aparelho'); }
+function textoDoc([,d]){ const div=document.createElement('div'); div.innerHTML=d.replace(/<style[\s\S]*?<\/style>/,'').replace(/<\/(tr|h1|h2|p|li)>/g,'</$1>\n').replace(/<\/t[dh]>/g,' | '); return div.textContent.replace(/\n{3,}/g,'\n\n').trim(); }
+let envDoc=null;
+async function enviarDoc(doc){ envDoc=doc; const [t,d]=doc; try{ const arq=new File([d],nomeArq(t),{type:'text/html'}); if(navigator.canShare&&navigator.canShare({files:[arq]})){ await navigator.share({files:[arq],title:t,text:'Relatório ArtBlend: '+t}); return; } }catch(e){ if(e&&e.name==='AbortError') return; }
  document.getElementById('menuEnviar').classList.add('aberta'); }
-function envPor(como){ const f=envF, t=REL[f]()[0], txt=textoRel(f); document.getElementById('menuEnviar').classList.remove('aberta');
+function envPor(como){ const doc=envDoc, t=doc[0], txt=textoDoc(doc); document.getElementById('menuEnviar').classList.remove('aberta');
  if(como==='whats') window.open('https://wa.me/?text='+encodeURIComponent(txt.slice(0,3000)),'_blank');
  if(como==='email') location.href='mailto:?subject='+encodeURIComponent('ArtBlend — '+t)+'&body='+encodeURIComponent(txt.slice(0,1800));
  if(como==='copiar'){ (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>aviso('📋 Texto copiado'),()=>aviso('Não deu para copiar neste aparelho')); }
- if(como==='drive'){ baixarRel(f); setTimeout(()=>window.open('https://drive.google.com/drive/my-drive','_blank'),600); aviso('Arquivo baixado. No Drive, toque em + Novo › Upload de arquivo'); }
- if(como==='baixar') baixarRel(f); }
+ if(como==='drive'){ baixarDoc(doc); setTimeout(()=>window.open('https://drive.google.com/drive/my-drive','_blank'),600); aviso('Arquivo baixado. No Drive, toque em + Novo › Upload de arquivo'); }
+ if(como==='baixar') baixarDoc(doc); }
+/* janela "Só esta" ou "📎 Anexar" */
+let expAcao='imprimir', expBase='pdca', expSel=new Set(), expBusca='', expAnexar=false;
+const ACAO_TXT={imprimir:['🖨️','Imprimir'],baixar:['⬇️','Baixar'],enviar:['📤','Enviar']};
+function exportar(acao,f){ expAcao=acao; expBase=f; expSel=new Set([f]); expBusca=''; expAnexar=false; document.getElementById('menuAnexar').classList.add('aberta'); montarAnexar(); }
+function montarAnexar(){ const A=ACAO_TXT[expAcao], base=docsDisp().find(d=>d[0]===expBase)||[expBase,relDe(expBase)[0]];
+ const lista=docsDisp().filter(d=>d[0]!==expBase&&d[1].toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').includes(expBusca.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')));
+ document.getElementById('anxTit').textContent=A[0]+' '+A[1];
+ document.getElementById('anxCorpo').innerHTML=`<div class="dica">Documento: <b>${esc(base[1])}</b></div>
+ <div class="campos"><select id="anxPer" onchange="perRel=this.value">${Object.entries({tudo:'Período: tudo',hoje:'Período: hoje',semana:'Período: últimos 7 dias',mes:'Período: últimos 30 dias'}).map(([k,t])=>`<option value="${k}" ${k===perRel?'selected':''}>${t}</option>`).join('')}</select></div>
+ <div class="envios" style="margin-top:10px"><button onclick="executarExp([expBase])">${A[0]} Só esta folha<small>sai a folha individual desta ferramenta</small></button>
+ <button onclick="expAnexar=!expAnexar;montarAnexar()" style="${expAnexar?'border-color:var(--pri);background:var(--pri-clr)':''}">📎 Anexar outros documentos<small>cada documento sai na sua própria folha, com capa e índice</small></button></div>
+ ${expAnexar?`<div class="bloco" style="margin-top:10px"><input id="anxBusca" placeholder="🔍 Procurar documento…" value="${esc(expBusca)}" oninput="expBusca=this.value;const p=this.selectionStart;montarAnexar();const i=document.getElementById('anxBusca');i.focus();i.setSelectionRange(p,p)" style="width:100%;border:1.5px solid var(--borda);border-radius:10px;padding:9px;font:inherit">
+  <div style="margin-top:8px">${lista.map(([k,t])=>`<label style="display:flex;gap:8px;align-items:center;padding:7px 4px;border-bottom:1px solid var(--borda);cursor:pointer;font-size:14px"><input type="checkbox" ${expSel.has(k)?'checked':''} onchange="this.checked?expSel.add('${k}'):expSel.delete('${k}');montarAnexar()" style="width:18px;height:18px"> ${esc(t)}</label>`).join('')||'<p class="dica">Nenhum documento com esse nome.</p>'}</div>
+  <div class="botoes"><button class="btn" onclick="executarExp([...expSel])">${A[0]} ${A[1]} ${expSel.size} documento(s) juntos</button></div></div>`:''}`; }
+function executarExp(chaves){ perRel=(document.getElementById('anxPer')||{}).value||perRel; document.getElementById('menuAnexar').classList.remove('aberta'); const doc=montarDoc(chaves.filter(Boolean));
+ if(expAcao==='imprimir') imprimirDoc(doc); if(expAcao==='baixar') baixarDoc(doc); if(expAcao==='enviar') enviarDoc(doc); }
+const imprimirRel=f=>exportar('imprimir',f), baixarRel=f=>exportar('baixar',f), enviarRel=f=>exportar('enviar',f);
 function barraExp(f){ return `<div class="botoes nao-imp"><button class="btn sec peq" onclick="imprimirRel('${f}')">🖨️ Imprimir</button><button class="btn sec peq" onclick="baixarRel('${f}')">⬇️ Baixar</button><button class="btn sec peq" onclick="enviarRel('${f}')">📤 Enviar</button></div>`; }
 
 const FERR={pdca:['🔄 PDCA — Ciclos de melhoria',fPDCA],kaizen:['💡 Kaizen — Caixa de ideias da equipe',fKaizen],lean:['🎯 Lean Seis Sigma — Desperdícios e erros',fLean],s5:['🧹 5S — Conferência diária do setor',fS5],check:['✅ Checklists do dia por setor',()=>fCheck()],config:['⚙️ Configuração do negócio',()=>fConfig()]};
@@ -527,7 +568,25 @@ function cardsArea(){ const sets=setoresAtivos(); if(!sets.find(s=>s.id===area))
  const card=['✅','Checklist do dia','Conferência da sua praça e dos equipamentos',r?r.itens.filter(x=>x.st===1).length+' de '+r.itens.length:'Fazer agora',r?(r.itens.some(x=>x.st===2)?'⚠️ tem problema anotado':'tudo ok'):it.length+' itens · '+pr.map(p=>p.n.split(' (')[0]+(p.eq.length?' ('+p.eq.join(', ')+')':'')).slice(0,3).join(', '),r?(r.itens.some(x=>x.st===2)?'-':'+'):'',r?(r.itens.some(x=>x.st===2)?'#D64545':'#2E9D5B'):'#E0A100','#checklist',area];
  return Object.assign({},B,{hoje:[card,...B.hoje]}); }
 
-montarKAdd(); montar(); montarK();
+/* ---------- Painel x Gestão ---------- */
+function irPara(m){ if(m) location.hash=m; else history.replaceState(null,'',location.pathname+location.search); modo(); window.scrollTo(0,0); }
+function modo(){ document.body.classList.toggle('modo-gestao',location.hash==='#gestao'); montar(); }
+window.addEventListener('hashchange',modo);
+/* links: fora do site (ex.: pré-visualização) abrem o site oficial */
+const SITE=/artblendconsultoria\.com\.br|pages\.dev|localhost|127\.0\.0\.1/.test(location.hostname)?'':'https://artblendconsultoria.com.br/';
+function ajustarLinks(){ if(!SITE) return; document.querySelectorAll('a[href]').forEach(a=>{ const h=a.getAttribute('href'); if(/^[\w-]+\.html/.test(h)) a.setAttribute('href',SITE+h); }); }
+/* ---------- Nuvem (Supabase) ---------- */
+function dadosPainel(){ return {M,K,NEG}; }
+function aplicarPainel(d){ d=d||{}; M=Object.assign({pdca:[],ideias:[],desp:[],porques:[],medidas:[],s5:[],check:[]},d.M||{}); K=d.K||{afazer:[],fazendo:[],feito:[],arquivo:[]}; ['afazer','fazendo','feito','arquivo'].forEach(k=>K[k]=(K[k]||[]).map(x=>typeof x==='string'?{t:x}:x)); NEG=d.NEG||null;
+ try{ localStorage.setItem('artblend_melhoria_v1',JSON.stringify(M)); localStorage.setItem('painel_kanban',JSON.stringify(K)); localStorage.setItem('artblend_negocio_v1',JSON.stringify(NEG)); }catch(e){}
+ montarKAdd(); montar(); montarK(); if(fAtual) render(); }
+const _sM=salvarM, _sK=salvarK, _sN=salvarNEG;
+salvarM=function(){ _sM(); if(window.ABSync&&ABSync.agendar) ABSync.agendar(); };
+salvarK=function(){ _sK(); if(window.ABSync&&ABSync.agendar) ABSync.agendar(); };
+salvarNEG=function(){ _sN(); if(window.ABSync&&ABSync.agendar) ABSync.agendar(); };
+(function(){ const sc=document.createElement('script'); sc.src=SITE+'artblend-sync.js'; sc.onload=()=>{ if(window.ABSync) ABSync.iniciar('painel_artblend',dadosPainel,aplicarPainel); }; document.head.appendChild(sc); })();
+
+montarKAdd(); modo(); montarK(); ajustarLinks();
 </script>
 </body>
 </html>
