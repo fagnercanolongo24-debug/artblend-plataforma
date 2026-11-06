@@ -134,3 +134,12 @@ Site "Quem é a ArtBlend" (index) → **Acessar a plataforma** → entrada com A
 ### 06/11 às 18h — Placas, parte 3 (✅ feito na área de teste) — agora são 75
 - **Salão e cliente (8)**, com as leis conferidas: proibido fumar (Lei 9.294/1996, alterada pela 12.546/2011, e Decreto 8.262/2014 — conferir lei estadual), proibida venda de bebida alcoólica a menores de 18 (ECA, arts. 81 e 243), exemplar do Código de Defesa do Consumidor (Lei 12.291/2010), atendimento prioritário (Lei 10.048/2000 com a redação da Lei 14.626/2023: inclui autismo, mobilidade reduzida e doadores de sangue), alergia (avise o garçom), taxa de serviço opcional, lave as mãos (cliente), se beber não dirija.
 - **Gestão à vista (17)**, modelos para preencher: quadro de melhorias (Kanban), ciclo PDCA, 5S do setor, caixa de ideias (Kaizen), "Pare e avise o líder" (Andon), metas do mês, briefing do dia, mise en place da praça, padrão de montagem do prato (espaço para foto) e **checklist semanal de cada setor** (gerado sozinho conforme as praças e equipamentos da configuração do negócio).
+
+### 06/11 às 18h40 — Pacote 2, rotina da operação (✅ feito na área de teste, dentro da Gestão)
+- 🚶 **Ronda do gestor (Gemba)**: roteiro de 7 perguntas por setor (ok / atenção / problema + o que viu); problemas vão para o quadro.
+- 🚨 **Sinal de alerta (Andon)**: botões grandes (faltou insumo, equipamento parado, prato vai atrasar, risco para a segurança dos alimentos, acidente, preciso de ajuda); o líder vê o tempo correndo e marca "resolvido"; Pareto dos alertas. Também tem atalho no painel.
+- ⏱️ **Troca rápida (SMED)**: modelos (almoço → jantar, abertura, fechamento, troca de óleo, buffet), separa "antes de parar" x "durante a troca", cronômetro e melhor tempo.
+- 🥕 **Mise en place da praça**: lista por praça (puxa as praças da configuração do negócio), itens e quantidades, % pronto do dia.
+- 🎓 **Treino em 4 passos (TWI)**: preparar, mostrar, fazer junto, acompanhar → "apto".
+- Cada uma com aula (curso agora com **20 aulas**) e imprimir/baixar/enviar/anexar.
+- Correção: as listas de escolha agora **lembram o que foi escolhido** quando a tela se atualiza (antes, tocar num item apagava a escolha do setor).
