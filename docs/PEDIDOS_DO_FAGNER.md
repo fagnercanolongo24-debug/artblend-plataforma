@@ -146,3 +146,9 @@ Site "Quem é a ArtBlend" (index) → **Acessar a plataforma** → entrada com A
 
 ### 🔔 Lembrete (06/11, 19h56) — Área de PESSOAS
 - Buscar **todas as bases e referências mundiais de treinamento e desenvolvimento (T&D)** para usar na ala **Pessoas**: RH, Gestão de Pessoas (GP), NR-1 (riscos psicossociais), T&D etc. (ex.: modelos de avaliação de treinamento, trilhas por função, aprendizagem de adultos, avaliação de desempenho, PDI). Juntar com o Pacote 3 do catálogo (matriz de polivalência, cargos, integração, avaliação, feedback, PDI, 1:1, clima, 9 box, RACI).
+
+### 06/11 às 20h — APPCC (✅ feito na área de teste)
+- 🛡️ **Curso completo de APPCC — 12 aulas** com teste e certificado próprio: o que é e de onde vem (NASA/Pillsbury, Codex, Portaria MS 1.428/1993), os 4 tipos de perigo, a base (Boas Práticas e pré-requisitos — RDC 216), os 5 passos de preparação, os 7 princípios um a um (análise de perigos, PCC com a **árvore de decisão revisada pelo Codex em 2022**, limites críticos da RDC 216, monitoramento, ações corretivas, validação e verificação, registros) e um exemplo completo (frango assado do buffet).
+- 🛡️ **Plano APPCC da casa** (ferramenta): escolhe o prato (frango assado, maionese, sushi, arroz do buffet, hambúrguer, salada crua, bolo com recheio ou Outro), o fluxograma já vem montado e cada etapa traz os perigos sugeridos; nota de probabilidade × gravidade marca os significativos; a árvore de decisão (Sim/Não) diz se é PCC; para cada PCC: limite crítico (atalhos com os valores da RDC 216), monitoramento, ação corretiva e verificação; resumo dos PCC, imprimir/baixar/enviar e mandar para o quadro.
+- O leitor de cursos agora tem **vários cursos** (Método ArtBlend com 20 aulas e APPCC com 12), cada um com o seu certificado.
+- Base: Codex Alimentarius — Princípios Gerais de Higiene dos Alimentos (CXC 1-1969, revisão 2020; árvore de decisão de 2022) e RDC 216/2004. Texto próprio ArtBlend.
