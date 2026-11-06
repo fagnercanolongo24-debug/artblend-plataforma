@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Central de Salão e Vendas ArtBlend</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="artblend-sync.js"></script>
+<style>
+:root{
+  --pri:#1C93A8; --pri-esc:#137487; --pri-clr:#E4F8FB; --acento:#2EC4D6; --verde:#3ADC84; --fundo:#F5F7FA; --card:#FFFFFF;
+  --txt:#16294A; --txt2:#6E7A8C; --borda:#E2E6ED;
+  --ok:#2E9D5B; --ok-clr:#E5F5EC; --alerta:#E0A100; --alerta-clr:#FFF6DC; --erro:#D64545; --erro-clr:#FDE8E8;
+  --raio:14px; --sombra:0 1px 2px rgba(22,41,74,.04),0 6px 18px rgba(22,41,74,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:var(--fundo);color:var(--txt);font-size:15px;line-height:1.5}
+a{color:var(--pri-esc)}
+/* ===== topo ===== */
+.topo{background:#fff;color:var(--txt);border-bottom:1px solid var(--borda);padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;position:sticky;top:0;z-index:20;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.topo .marca{font-weight:800;font-size:18px;letter-spacing:.3px}
+.topo .marca small{display:block;font-weight:500;font-size:12px;opacity:.85}
+.topo .unidade{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13px}
+.topo .unidade input{border:1.5px solid var(--borda);border-radius:8px;padding:7px 10px;font-size:14px;min-width:150px;max-width:190px}
+.topo .voltar{color:var(--pri-esc);text-decoration:none;font-size:13px;border:1.5px solid var(--borda);padding:6px 10px;border-radius:8px}
+@media (max-width:1400px){ .topo .unidade>span{display:none} }
+.topo .marca{font-family:'Poppins',inherit;color:var(--txt)} .topo .marca small{color:var(--txt2)}
+.perfis{display:flex;gap:4px;background:var(--fundo);border:1px solid var(--borda);border-radius:10px;padding:3px}
+.perfis button{border:0;background:none;padding:6px 10px;border-radius:8px;font-size:13px;font-weight:600;color:var(--txt2);cursor:pointer}
+.perfis button.ativo{background:var(--pri);color:#fff}
+.btn-imp{white-space:nowrap;background:#fff;color:var(--pri-esc);border:1.5px solid var(--pri);border-radius:8px;padding:6px 10px;font-size:13px;font-weight:600;cursor:pointer}
+/* marca animada ABC */
+.brandmark{display:inline-flex;flex-direction:column;align-items:flex-start;gap:1px;font-family:'Poppins',inherit;margin:4px 10px 4px}
+.brandmark .word{font-size:17px;font-weight:700;line-height:1.14;color:#3B4A66;letter-spacing:-.3px}
+.brandmark .letter{display:inline-block;opacity:0;transform:translateY(10px);animation:letterIn .35s ease forwards}
+.brandmark .letter.abc{font-size:1.28em;font-weight:900;color:var(--pri);animation:letterIn .35s ease forwards,letterGlow 2.4s ease-in-out 1.6s infinite}
+.tagmarca{font-family:'Poppins',inherit;font-size:10.5px;color:var(--txt2);font-weight:500;margin:4px 10px 0;opacity:0;animation:wordIn .55s ease forwards;animation-delay:1.6s}
+.tagmarca b{color:var(--pri);font-weight:800}
+.tagmarca .alvo{display:inline-block;font-weight:800;color:var(--pri);transform-origin:50% 70%}
+.tagmarca .alvo.pisca{animation:alvoCresce 1.5s ease-out}
+.brandmark .letter.abc.viajando{animation:letterIn .35s ease forwards,letterGlow 2.4s ease-in-out 1.6s infinite,letraViaja 1.5s ease-in-out}
+@keyframes letraViaja{
+  0%{transform:translate(0,0) scale(1);opacity:1}
+  20%{transform:translate(calc(var(--tx)*.15 - 22px),calc(var(--ty)*.2)) scale(1.05);opacity:1}
+  45%{transform:translate(calc(var(--tx)*.45 - 38px),calc(var(--ty)*.55)) scale(.7);opacity:.8}
+  70%{transform:translate(var(--tx),var(--ty)) scale(.25);opacity:0}
+  82%{transform:translate(0,0) scale(0);opacity:0}
+  100%{transform:translate(0,0) scale(1);opacity:1}}
+@keyframes alvoCresce{0%,45%{transform:scale(1);color:var(--pri)}68%{transform:scale(1.85);color:var(--acento)}85%{transform:scale(1.25);color:var(--acento)}100%{transform:scale(1);color:var(--pri)}}
+@media (prefers-reduced-motion:reduce){.brandmark .letter.abc.viajando,.tagmarca .alvo.pisca{animation:none}}
+@keyframes letterIn{to{opacity:1;transform:translateY(0)}}
+@keyframes letterGlow{0%,100%{color:var(--pri)}50%{color:var(--acento)}}
+@keyframes wordIn{to{opacity:1}}
+.watermark{position:fixed;top:55%;left:58%;transform:translate(-50%,-50%);font-size:40vw;font-weight:900;color:var(--acento);opacity:.04;pointer-events:none;z-index:0;font-family:'Poppins',inherit;letter-spacing:-1.5vw}
+main{position:relative;z-index:1}
+/* módulo 0 */
+.fase{border-radius:var(--raio);padding:18px;color:var(--txt);border:1px solid var(--borda);background:#fff;box-shadow:var(--sombra);position:relative;overflow:hidden}
+.fase::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,var(--acento),var(--verde))}
+.fase .letra{font-family:'Poppins',inherit;font-size:44px;font-weight:900;color:var(--pri);line-height:1}
+.fase h3{margin:6px 0 2px}
+.fase ul{padding-left:18px;font-size:14px}
+.acesso td{text-align:center} .acesso td:first-child{text-align:left}
+.ac-usa{color:var(--ok);font-weight:800} .ac-ve{color:#946B00;font-weight:700} .ac-nao{color:#B8C0CC}
+nav.menu button.oculto{display:none}
+.marca-movel{display:none}
+.busca{position:relative;flex:1;min-width:170px;max-width:260px}
+.busca input{border:1.5px solid var(--borda);border-radius:10px;padding:8px 12px;font-size:14px}
+#lupaRes{position:absolute;top:42px;left:0;right:0;background:#fff;border:1px solid var(--borda);border-radius:10px;box-shadow:0 10px 26px rgba(22,41,74,.12);max-height:380px;overflow:auto;display:none;z-index:50}
+#lupaRes div.r{padding:9px 12px;border-bottom:1px solid var(--borda);cursor:pointer;font-size:14px}
+#lupaRes div.r:hover{background:var(--pri-clr)}
+#lupaRes small{display:block;color:var(--txt2);font-size:12px}
+.etq-folha{display:flex;flex-wrap:wrap;gap:8px}
+.etq{width:60mm;height:40mm;border:1px dashed #9AA6B2;border-radius:4px;padding:2mm 3mm;font-size:8.5pt;line-height:1.25;display:flex;gap:2mm;background:#fff;color:#000;overflow:hidden}
+.etq .q{width:16mm;height:16mm;flex-shrink:0}
+.etq .q img,.etq .q canvas{width:16mm!important;height:16mm!important}
+.etq b.p{font-size:10.5pt;display:block;margin-bottom:1mm}
+.qr-cartao{width:62mm;border:1px dashed #9AA6B2;border-radius:6px;padding:3mm;text-align:center;background:#fff;color:#000}
+.qr-cartao .q{width:38mm;height:38mm;margin:2mm auto}
+.qr-cartao .q img,.qr-cartao .q canvas{width:38mm!important;height:38mm!important}
+@media print{ body.so-etq main>*:not(.ativo){display:none} body.so-etq section.ativo>*:not(.area-print){display:none!important} body.so-etq .area-print .card{border:0} body.so-etq .etq,body.so-etq .qr-cartao{border:1px solid #ccc;page-break-inside:avoid} }
+/* ===== layout ===== */
+.layout{display:flex;min-height:calc(100vh - 64px)}
+nav.menu{width:250px;background:#fff;border-right:1px solid var(--borda);padding:14px 10px;flex-shrink:0}
+nav.menu button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;padding:11px 12px;border-radius:10px;font-size:14px;color:var(--txt);cursor:pointer;margin-bottom:2px}
+nav.menu button .n{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:var(--pri-clr);color:var(--pri-esc);font-weight:700;font-size:13px;flex-shrink:0}
+nav.menu button:hover{background:var(--pri-clr)}
+nav.menu button.ativo{background:var(--pri);color:#fff}
+nav.menu button.ativo .n{background:#fff;color:var(--pri)}
+nav.menu .sep{font-size:11px;text-transform:uppercase;color:var(--txt2);margin:14px 12px 6px;letter-spacing:.6px}
+main{flex:1;padding:24px;max-width:1150px;width:100%}
+section.mod{display:none}
+section.mod.ativo{display:block}
+h1{font-size:24px;margin-bottom:4px}
+h2{font-size:19px;margin:22px 0 10px}
+h3{font-size:16px;margin:14px 0 8px}
+.sub{color:var(--txt2);margin-bottom:18px}
+/* ===== componentes ===== */
+.card{background:var(--card);border:1px solid var(--borda);border-radius:var(--raio);padding:18px;box-shadow:var(--sombra);margin-bottom:16px}
+.grade{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)}
+.kpi{background:#fff;border:1px solid var(--borda);border-radius:var(--raio);padding:16px;box-shadow:var(--sombra)}
+.kpi .rot{font-size:12px;color:var(--txt2);text-transform:uppercase;letter-spacing:.4px}
+.kpi .val{font-size:28px;font-weight:800;color:var(--pri-esc);margin-top:4px}
+.kpi .det{font-size:12px;color:var(--txt2)}
+.btn{display:inline-flex;align-items:center;gap:6px;background:var(--pri);color:#fff;border:0;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--pri-esc)}
+.btn.sec{background:#fff;color:var(--pri-esc);border:1.5px solid var(--pri)}
+.btn.sec:hover{background:var(--pri-clr)}
+.btn.peq{padding:6px 11px;font-size:13px;border-radius:8px}
+.btn.perigo{background:#fff;color:var(--erro);border:1.5px solid var(--erro)}
+.acoes{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.selo{display:inline-block;padding:3px 9px;border-radius:20px;font-size:12px;font-weight:700}
+.selo.ok{background:var(--ok-clr);color:var(--ok)} .selo.alerta{background:var(--alerta-clr);color:#946B00} .selo.erro{background:var(--erro-clr);color:var(--erro)} .selo.neutro{background:#EEF2F2;color:var(--txt2)}
+.dica{background:var(--pri-clr);border-left:4px solid var(--pri);padding:12px 14px;border-radius:8px;font-size:14px;margin:10px 0}
+.aviso{background:var(--alerta-clr);border-left:4px solid var(--alerta);padding:12px 14px;border-radius:8px;font-size:14px;margin:10px 0}
+label{display:block;font-size:13px;font-weight:600;margin-bottom:4px;color:var(--txt2)}
+input,select,textarea{width:100%;border:1.5px solid var(--borda);border-radius:8px;padding:9px 10px;font-size:14px;font-family:inherit;background:#fff;color:var(--txt)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--pri)}
+textarea{min-height:70px;resize:vertical}
+.campo{margin-bottom:10px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{background:var(--pri-clr);color:var(--pri-esc);text-align:left;padding:9px;font-size:12px;text-transform:uppercase;letter-spacing:.3px}
+td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
+.tabela-rola{overflow-x:auto}
+.barra{height:10px;background:#E8EEEE;border-radius:10px;overflow:hidden}
+.barra>div{height:100%;background:var(--pri);border-radius:10px;transition:width .4s}
+/* abas internas */
+.abas{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;border-bottom:2px solid var(--borda);padding-bottom:8px}
+.abas button{background:#fff;border:1.5px solid var(--borda);border-radius:20px;padding:7px 13px;font-size:13px;cursor:pointer;color:var(--txt)}
+.abas button.ativo{background:var(--pri);border-color:var(--pri);color:#fff}
+/* inspeção */
+.bloco-insp{border:1px solid var(--borda);border-radius:var(--raio);margin-bottom:12px;background:#fff;overflow:hidden}
+.bloco-insp>.cab{display:flex;align-items:center;gap:10px;padding:13px 16px;cursor:pointer;background:#fff}
+.bloco-insp>.cab:hover{background:var(--pri-clr)}
+.bloco-insp .cab .tit{font-weight:700;flex:1}
+.bloco-insp .corpo{display:none;padding:0 16px 12px}
+.bloco-insp.aberto .corpo{display:block}
+.item-insp{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--borda);flex-wrap:wrap}
+.item-insp .txt{flex:1;min-width:220px;font-size:14px}
+.item-insp .txt small{display:block;color:var(--txt2);font-size:12px}
+.opc{display:flex;gap:4px}
+.opc button{border:1.5px solid var(--borda);background:#fff;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:700;cursor:pointer}
+.opc button.c.sel{background:var(--ok);border-color:var(--ok);color:#fff}
+.opc button.nc.sel{background:var(--erro);border-color:var(--erro);color:#fff}
+.opc button.na.sel{background:var(--txt2);border-color:var(--txt2);color:#fff}
+/* POPs */
+.pop-lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.pop-card{background:#fff;border:1px solid var(--borda);border-radius:var(--raio);padding:14px;cursor:pointer;box-shadow:var(--sombra);transition:transform .15s}
+.pop-card:hover{transform:translateY(-2px);border-color:var(--pri)}
+.pop-card .cod{font-size:12px;color:var(--pri-esc);font-weight:800}
+.pop-card .nome{font-weight:700;margin:4px 0}
+.pop-doc{background:#fff;border:1px solid var(--borda);border-radius:var(--raio);padding:24px}
+.pop-doc h2{margin-top:0}
+.pop-doc .secao{margin-top:16px}
+.pop-doc .secao h4{color:var(--pri-esc);font-size:14px;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.pop-doc ol,.pop-doc ul{padding-left:22px}
+.pop-doc li{margin-bottom:4px}
+.passo{display:flex;gap:10px;margin-bottom:8px}
+.passo .num{background:var(--pri);color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
+/* MBP */
+.mbp-doc{background:#fff;border:1px solid var(--borda);border-radius:var(--raio);padding:32px;font-size:14px}
+.mbp-doc h2{border-bottom:2px solid var(--pri);padding-bottom:6px;color:var(--pri-esc)}
+.mbp-doc p{margin-bottom:8px}
+.mbp-doc ul{padding-left:22px;margin-bottom:8px}
+.capa{text-align:center;padding:50px 10px;border-bottom:3px solid var(--pri);margin-bottom:24px}
+.capa h1{font-size:30px;color:var(--pri-esc)}
+.passos-wiz{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.passos-wiz span{padding:6px 12px;border-radius:20px;background:#EEF2F2;font-size:13px;color:var(--txt2)}
+.passos-wiz span.ativo{background:var(--pri);color:#fff}
+.vazio{text-align:center;color:var(--txt2);padding:24px}
+.menu-mobile{display:none}
+/* ===== celular ===== */
+@media (max-width:860px){
+  .layout{flex-direction:column}
+  nav.menu{width:100%;display:flex;overflow-x:auto;padding:8px;gap:6px;border-right:0;border-bottom:1px solid var(--borda);position:sticky;top:var(--hm,0px);z-index:25;background:#fff;transition:top .25s}
+  .marca-movel{display:block;position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--borda);padding:14px 16px 12px;transition:padding .25s}
+  .marca-movel.oculta{display:none}
+  .marca-movel .brandmark{margin:0}
+  .marca-movel .brandmark .word{font-size:24px}
+  .marca-movel .tagmarca{margin:6px 0 0;font-size:12.5px}
+  .marca-movel.compacta{padding:6px 16px}
+  .marca-movel.compacta .brandmark{flex-direction:row;gap:6px}
+  .marca-movel.compacta .brandmark .word{font-size:15px}
+  .marca-movel.compacta .tagmarca{margin-top:1px;font-size:10.5px}
+  nav.menu .sep,nav.menu .brandmark,nav.menu .tagmarca{display:none}
+  .perfis{width:100%} .perfis button{flex:1}
+  nav.menu button{width:auto;white-space:nowrap;flex-shrink:0;padding:8px 10px}
+  main{padding:14px}
+  .g2,.g3,.g4{grid-template-columns:1fr 1fr}
+  .topo{position:static}
+  .busca{max-width:none;width:100%;order:3}
+  .topo .unidade{margin-left:0;width:100%;flex-wrap:wrap}
+  .topo .unidade input{flex:1;min-width:0}
+  .topo .unidade>span{display:none}
+  .btn-imp{flex:1}
+  .watermark{display:none}
+  .mbp-doc{padding:16px}
+}
+@media (max-width:520px){ .g2,.g3{grid-template-columns:1fr} .g4{grid-template-columns:1fr 1fr} .kpi .val{font-size:24px} h1{font-size:21px} }
+/* ===== impressão ===== */
+@media print{
+  .topo,nav.menu,.acoes,.nao-imprimir,.item-insp .btn,.abas,.watermark,.opc button:not(.sel){display:none!important}
+  body{background:#fff}
+  main{padding:0;max-width:none}
+  section.mod{display:none!important}
+  section.mod.ativo{display:block!important}
+  .card,.pop-doc,.mbp-doc{box-shadow:none;border:0;padding:0}
+  .mbp-doc h2{page-break-before:always}
+  .mbp-doc .capa+h2,.mbp-doc h2:first-of-type{page-break-before:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="watermark">ABC</div>
+<div id="marcaMovel" class="marca-movel">
+  <div class="brandmark" aria-label="ArtBlend Consultoria Gourmet">
+    <div class="word"><span class="abc">A</span>rt</div><div class="word"><span class="abc">B</span>lend</div>
+    <div class="word"><span class="abc">C</span>onsultoria</div><div class="word"><span class="abc">G</span>ourmet</div>
+  </div>
+  <div class="tagmarca">O <span class="alvo">A</span><span class="alvo">B</span><span class="alvo">C</span> <span class="alvo">G</span>astronômico que você precisa</div>
+</div>
+<header class="topo">
+  <div class="marca">Central de Salão e Vendas<small>Hospitalidade que encanta e vende, todos os dias</small></div>
+  <div class="busca"><input id="lupa" placeholder="🔍 Buscar na Central…" title="Ex.: vinho, reclamação, sobremesa" oninput="buscarCentral(this.value)" autocomplete="off"><div id="lupaRes"></div></div>
+  <div class="unidade">
+    <span id="syncBox" style="display:inline-flex;align-items:center;gap:6px;font-size:12px"></span>
+    <span>Estabelecimento:</span>
+    <input id="nomeUnidade" placeholder="Nome do restaurante" oninput="salvarUnidade(this.value)">
+    <div class="perfis" id="perfis" title="Ver como">
+      <button data-p="consultor" onclick="setPerfil('consultor')">Consultor</button>
+      <button data-p="gerente" onclick="setPerfil('gerente')">Dono/Gerente</button>
+      <button data-p="colaborador" onclick="setPerfil('colaborador')">Colaborador</button>
+    </div>
+    <button class="btn-imp" onclick="imprimir()" title="Imprimir ou salvar em PDF a tela atual">🖨 Imprimir / PDF</button>
+  </div>
+  <a class="voltar" href="plataforma.html" title="Voltar à plataforma">← Plataforma</a>
+</header>
+
+<div class="layout">
+  <nav class="menu" id="menu">
+    <div class="brandmark" aria-label="ArtBlend Consultoria Gourmet">
+      <div class="word"><span class="abc">A</span>rt</div><div class="word"><span class="abc">B</span>lend</div>
+      <div class="word"><span class="abc">C</span>onsultoria</div><div class="word"><span class="abc">G</span>ourmet</div>
+    </div>
+    <div class="tagmarca">O <span class="alvo">A</span><span class="alvo">B</span><span class="alvo">C</span> <span class="alvo">G</span>astronômico que você precisa</div>
+    <div class="sep">Comece aqui</div>
+    <button data-mod="abc"><span class="n">0</span>ABC do Salão</button>
+    <button data-mod="inicio" class="ativo"><span class="n">⌂</span>Painel</button>
+    <div class="sep">Módulos</div>
+    <button data-mod="inspecao"><span class="n">1</span>Cliente Oculto</button>
+    <button data-mod="pops"><span class="n">2</span>Padrões de Serviço</button>
+    <button data-mod="controles"><span class="n">3</span>Rotina do Salão</button>
+    <button data-mod="rotina"><span class="n">3+</span>Vendas & Metas</button>
+    <button data-mod="equipe"><span class="n">4</span>Equipe e Treinamento</button>
+    <button data-mod="visita"><span class="n">5</span>Visita do Consultor</button>
+    <button data-mod="mbp"><span class="n">6</span>Manual de Atendimento</button>
+    <div class="sep">Apoio</div>
+    <button data-mod="normas"><span class="n">§</span>Normas e Referências</button>
+  </nav>
+
+  <main>
+  <!-- ============ 0. ABC ============ -->
+  <section class="mod" id="mod-abc">
+    <h1>0 · ABC do Salão</h1>
+    <p class="sub">O beabá de como usar esta Central: <b>em que momento</b> usar cada parte, <b>quem</b> usa e <b>com que frequência</b>. Leia uma vez e volte sempre que tiver dúvida.</p>
+    <div class="abas nao-imprimir"><button id="abaAbcUso" class="ativo" onclick="abaABC('uso')">📘 Como usar a Central</button><button id="abaAbcCurso" onclick="abaABC('curso')">🎓 Treinamento (Curso ABC de Atendimento)</button></div>
+    <div id="abcUso">
+
+    <h2>Os 3 momentos da consultoria ArtBlend</h2>
+    <div class="grade g3">
+      <div class="fase"><div class="letra">A</div><h3>Avaliar</h3><p class="sub" style="margin:2px 0 8px">Visita técnica para fechar a consultoria · 1 visita de 2 a 3 horas</p>
+        <ul><li><b>Quem:</b> consultor (como cliente oculto) + conversa com o dono.</li><li><b>Use:</b> 1 · Cliente Oculto (completo) e 5 · Visita do Consultor.</li><li><b>Entrega:</b> nota do atendimento + relatório com fotos e plano de ação.</li><li><b>Objetivo:</b> mostrar ao dono quanto ele perde em vendas e clientes — é o argumento para fechar.</li></ul>
+        <button class="btn peq" onclick="irPara('inspecao')">Começar avaliação</button></div>
+      <div class="fase"><div class="letra">B</div><h3>Base</h3><p class="sub" style="margin:2px 0 8px">Implantação com o consultor dentro · de 30 a 90 dias</p>
+        <ul><li><b>Quem:</b> consultor + dono/gerente + equipe de salão.</li><li><b>Use:</b> 0 · Curso ABC de Atendimento, 2 · Padrões de Serviço, 6 · Manual de Atendimento, 3+ · metas, pratos estrela e objeções.</li><li><b>Entrega:</b> equipe certificada, manual assinado, briefing diário e metas funcionando.</li></ul>
+        <button class="btn peq" onclick="irPara('abc');abaABC('curso')">Treinar a equipe</button></div>
+      <div class="fase"><div class="letra">C</div><h3>Constância</h3><p class="sub" style="margin:2px 0 8px">Rotina sem depender do consultor · para sempre</p>
+        <ul><li><b>Quem:</b> gerente e garçons no dia a dia; consultor em visitas de acompanhamento.</li><li><b>Use:</b> 3 · Rotina do Salão todo turno, 3+ · ranking e NPS, 1 · Cliente Oculto mensal.</li><li><b>Entrega:</b> ticket médio subindo, nota alta e clientes voltando.</li></ul>
+        <button class="btn peq" onclick="irPara('controles')">Ir para a rotina</button></div>
+    </div>
+
+    <h2>Agenda do Salão — o que fazer e quando</h2>
+    <div class="card tabela-rola"><table>
+      <thead><tr><th>Quando</th><th>O que fazer</th><th>Quem</th><th>Onde</th></tr></thead><tbody>
+      <tr><td><b>Todo turno — antes de abrir</b></td><td>Abertura do salão e briefing de 5 minutos (meta + padrão do dia)</td><td>Líder de salão</td><td>3 · Rotina › Abertura e Briefing</td></tr>
+      <tr><td><b>Durante o serviço</b></td><td>Sequência de serviço, venda sugestiva, encantamentos, lista de espera, reclamações</td><td>Garçons e recepção</td><td>2 · PS-01, PS-08 · 3 · Rotina</td></tr>
+      <tr><td><b>Fim do turno</b></td><td>Fechamento, vendas por garçom, notas de satisfação</td><td>Líder de salão</td><td>3 · Rotina</td></tr>
+      <tr><td><b>Toda semana</b></td><td>Ranking, ticket médio, NPS e reclamações; responder avaliações do Google</td><td>Gerente</td><td>3+ · Vendas & Metas</td></tr>
+      <tr><td><b>Todo mês</b></td><td>Cliente Oculto completo; revisar pratos estrela; 1 aula da trilha com a equipe</td><td>Gerente + consultor</td><td>1 · Cliente Oculto · 0 · Curso</td></tr>
+      <tr><td><b>Todo ano</b></td><td>Revisar o Manual de Atendimento; reciclagem e novos certificados</td><td>Dono + consultor</td><td>6 · Manual · 4 · Equipe</td></tr>
+      </tbody></table></div>
+
+    <h2>Quem usa o quê</h2>
+    <p class="sub">Escolha o perfil no botão lá em cima (<b>Consultor · Dono/Gerente · Colaborador</b>) e o menu mostra só o que aquela pessoa usa.</p>
+    <div class="card tabela-rola"><table class="acesso" id="tabelaAcesso"></table>
+      <p style="font-size:13px;color:var(--txt2);margin-top:8px"><span class="ac-usa">● Usa</span> preenche e altera · <span class="ac-ve">◐ Vê</span> consulta e imprime · <span class="ac-nao">○</span> não aparece</p></div>
+    <div class="aviso">Hoje o botão de perfil organiza a tela. Quando a Central for ligada ao login da plataforma (Supabase), cada pessoa entra com a própria senha e o acesso passa a ser travado de verdade.</div>
+    <div class="dica"><b>Ordem certa:</b> 1º Cliente Oculto para mostrar a situação → 2º toda a equipe faz o Curso ABC de Atendimento → 3º implantar padrões, metas e o Manual de Atendimento.</div>
+    </div>
+    <div id="abcCurso" style="display:none"><div id="cursoConteudo"></div></div>
+  </section>
+
+  <!-- ============ PAINEL ============ -->
+  <section class="mod" id="mod-inicio">
+    <h1>Painel da Qualidade</h1>
+    <p class="sub">Atendimento, vendas e encantamento organizados em 6 passos. Comece pelo Cliente Oculto e siga a ordem.</p>
+    <div class="grade g4" id="kpis"></div>
+    <h2>Por onde começar</h2>
+    <div class="grade g3">
+      <div class="card"><b>1. Seja o cliente oculto</b><p class="sub" style="margin:6px 0">Viva a experiência como cliente e marque cada item. Você sai com uma nota e a lista do que corrigir.</p><button class="btn peq" onclick="irPara('inspecao')">Abrir Cliente Oculto</button></div>
+      <div class="card"><b>2. Treine e padronize</b><p class="sub" style="margin:6px 0">Curso ABC de Atendimento com certificado e 20 padrões de serviço prontos para imprimir.</p><button class="btn peq" onclick="irPara('pops')">Ver padrões</button></div>
+      <div class="card"><b>3. Meça todo turno</b><p class="sub" style="margin:6px 0">Briefing, vendas por garçom, satisfação e reclamações. O ranking e o ticket médio saem sozinhos.</p><button class="btn peq" onclick="irPara('controles')">Registrar agora</button></div>
+    </div>
+    <h2>Alertas de hoje</h2>
+    <div class="card" id="alertasPainel"></div>
+    <div class="card" id="evolucaoPainel"></div>
+  </section>
+
+  <!-- ============ 1. INSPEÇÃO ============ -->
+  <section class="mod" id="mod-inspecao">
+    <h1>1 · Cliente Oculto</h1>
+    <p class="sub">Avalie a experiência do cliente do telefone à despedida, em 12 blocos. Marque <b>C</b> (conforme), <b>NC</b> (não conforme) ou <b>NA</b> (não se aplica).</p>
+    <div class="grade g3">
+      <div class="kpi"><div class="rot">Nota geral</div><div class="val" id="notaGeral">–</div><div class="det" id="classeGeral">Responda os itens</div></div>
+      <div class="kpi"><div class="rot">Itens respondidos</div><div class="val" id="respondidos">0</div><div class="det" id="totalItens"></div></div>
+      <div class="kpi"><div class="rot">Falhas (NC)</div><div class="val" id="qtdNC">0</div><div class="det">vão direto para o plano de ação</div></div>
+    </div>
+    <div class="dica"><b>Como ler a nota:</b> 76–100% = <span class="selo ok">Bom</span> · 51–75% = <span class="selo alerta">Regular</span> · 0–50% = <span class="selo erro">Ruim</span>. Itens marcados com ★ são críticos: um "NC" neles faz o cliente não voltar.</div>
+    <div class="acoes nao-imprimir">
+      <button class="btn sec" onclick="abrirTodos(true)">Abrir todos os blocos</button>
+      <button class="btn sec" onclick="abrirTodos(false)">Fechar todos</button>
+      <button class="btn" onclick="irPara('visita')">Gerar relatório da visita →</button>
+      <button class="btn sec" onclick="salvarHistorico()">💾 Guardar nota no histórico</button>
+      <button class="btn perigo" onclick="limparInspecao()">Começar nova avaliação</button>
+    </div>
+    <div id="listaInspecao"></div>
+  </section>
+
+  <!-- ============ 2. POPs ============ -->
+  <section class="mod" id="mod-pops">
+    <h1>2 · Padrões de Serviço ArtBlend</h1>
+    <p class="sub">O jeito ArtBlend de atender, igual para todos. Os marcados como <span class="selo erro">Essencial</span> são a base — implante primeiro.</p>
+    <div class="abas" id="filtroPops"></div>
+    <div id="popsConteudo"></div>
+  </section>
+
+  <!-- ============ 3. CONTROLES ============ -->
+  <section class="mod" id="mod-controles">
+    <h1>3 · Rotina do Salão</h1>
+    <p class="sub">Os registros de cada turno. O que é medido melhora — e vira o ranking e os indicadores da aba Vendas & Metas.</p>
+    <div class="abas" id="abasControles"></div>
+    <div id="controleConteudo"></div>
+  </section>
+
+  <!-- ============ 3+. ROTINA INTELIGENTE ============ -->
+  <section class="mod" id="mod-rotina">
+    <h1>3+ · Vendas & Metas</h1>
+    <p class="sub">Ticket médio, ranking dos garçons, satisfação (NPS), banco de objeções, roteiro de venda, pratos estrela e cadastro de clientes.</p>
+    <div class="abas" id="abasRotina"></div>
+    <div id="rotinaConteudo"></div>
+  </section>
+
+  <!-- ============ 4. EQUIPE ============ -->
+  <section class="mod" id="mod-equipe">
+    <h1>4 · Equipe e Treinamento</h1>
+    <p class="sub">Equipe treinada vende mais e encanta mais. Aqui você acompanha a trilha de cada um, os exames e emite os certificados.</p>
+    <div class="grade g3" id="kpisEquipe"></div>
+    <div class="card">
+      <h3 style="margin-top:0">Cadastrar colaborador</h3>
+      <div class="grade g4">
+        <div class="campo"><label>Nome</label><input id="colNome"></div>
+        <div class="campo"><label>Função</label><select id="colFuncao"><option>Cozinheiro(a)</option><option>Auxiliar de cozinha</option><option>Chapeiro/Pizzaiolo</option><option>Confeiteiro(a)</option><option>Estoquista/Recebimento</option><option>Garçom/Atendimento</option><option>Limpeza</option><option>Gerente/Líder</option></select></div>
+        <div class="campo"><label>Último exame (ASO)</label><input type="date" id="colAso"></div>
+        <div class="campo"><label>Validade (meses)</label><input type="number" id="colValid" value="12" min="1"></div>
+      </div>
+      <button class="btn" onclick="addColaborador()">+ Adicionar</button>
+    </div>
+    <h2>Equipe e trilha de treinamento BPF</h2>
+    <div class="dica">Cada pessoa faz as aulas no <b>Módulo 0 › Treinamento</b> e o quiz marca o círculo sozinho. Se o treinamento foi presencial, o consultor pode clicar no círculo para marcar. Com os 8 concluídos, o certificado ArtBlend é liberado. <button class="btn peq" onclick="irPara('abc');abaABC('curso')">Abrir o curso</button></div>
+    <div class="card tabela-rola" id="tabelaEquipe"></div>
+    <h2>Os 8 treinamentos da trilha</h2>
+    <div class="grade g2" id="trilhaInfo"></div>
+    <div id="certificadoArea"></div>
+  </section>
+
+  <!-- ============ 5. VISITA ============ -->
+  <section class="mod" id="mod-visita">
+    <h1>5 · Visita do Consultor</h1>
+    <p class="sub">O relatório sai pronto: junta a nota do Cliente Oculto, as falhas, os alertas da rotina e a situação da equipe. Você só revisa o plano de ação e imprime.</p>
+    <div class="card nao-imprimir">
+      <div class="grade g4">
+        <div class="campo"><label>Data da visita</label><input type="date" id="visData" oninput="salvarVisita()"></div>
+        <div class="campo"><label>Consultor(a)</label><input id="visCons" oninput="salvarVisita()"></div>
+        <div class="campo"><label>Acompanhado por</label><input id="visAcomp" oninput="salvarVisita()" placeholder="Dono/gerente"></div>
+        <div class="campo"><label>Próxima visita</label><input type="date" id="visProx" oninput="salvarVisita()"></div>
+      </div>
+      <div class="campo"><label>Observações gerais do consultor</label><textarea id="visObs" oninput="salvarVisita()" placeholder="Pontos positivos, combinados com a equipe..."></textarea></div>
+      <div class="acoes"><button class="btn" onclick="montarRelatorio()">Atualizar relatório</button><button class="btn sec" onclick="window.print()">Imprimir / salvar PDF</button></div>
+    </div>
+    <div id="relatorio"></div>
+  </section>
+
+  <!-- ============ 6. MBP ============ -->
+  <section class="mod" id="mod-mbp">
+    <h1>6 · Manual de Atendimento</h1>
+    <p class="sub">O jeito de atender da casa, escrito e assinado pela equipe. Preencha os dados e o manual completo, com 13 capítulos, é montado automaticamente.</p>
+    <div class="passos-wiz nao-imprimir" id="wizPassos"><span class="ativo">1. Dados da empresa</span><span>2. Estrutura e rotina</span><span>3. Manual pronto</span></div>
+    <div id="mbpForm" class="card nao-imprimir"></div>
+    <div id="mbpDoc"></div>
+  </section>
+
+  <!-- ============ NORMAS ============ -->
+  <section class="mod" id="mod-normas">
+    <h1>Normas e Referências</h1>
+    <p class="sub">As referências mundiais de hospitalidade por trás desta Central.</p>
+    <div id="normasConteudo"></div>
+  </section>
+  </main>
+</div>
+
+<script>
+/* =========================================================
+   ArtBlend · Central de Qualidade
+   Dados ficam salvos no navegador deste aparelho.
+   ========================================================= */
+const ARMAZ = 'artblend_salao_v1';
+let DB = {unidade:'', insp:{}, reg:{}, equipe:[], visita:{}, mbp:{}};
+function carregar(){ try{ const s = localStorage.getItem(ARMAZ); if(s) DB = Object.assign(DB, JSON.parse(s)); }catch(e){} }
+function gravar(){ try{ localStorage.setItem(ARMAZ, JSON.stringify(DB)); if(window.ABSync&&ABSync.agendar) ABSync.agendar(); return true; }catch(e){ alert('A memória deste aparelho está cheia (provavelmente por causa das fotos). Exporte os registros e apague fotos antigas.'); return false; } }
+
+/* =========================================================
+   FOTOS COM PROVA (anti-fraude)
+   - só aceita foto tirada na hora (câmera), carimba data/hora/aparelho
+   - detecta foto repetida (mesma "impressão digital") e foto antiga
+   ========================================================= */
+function idAparelho(){ try{ let d=localStorage.getItem('artblend_aparelho'); if(!d){ d='AP-'+Math.random().toString(36).slice(2,8).toUpperCase(); localStorage.setItem('artblend_aparelho',d);} return d; }catch(e){ return 'AP-?'; } }
+async function hashBytes(buf){ try{ const h=await crypto.subtle.digest('SHA-256',buf); return [...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,24); }catch(e){ let x=0; const u=new Uint8Array(buf); for(let i=0;i<u.length;i+=97) x=(x*31+u[i])>>>0; return 'f'+x.toString(16)+u.length; } }
+function exifData(buf){ // lê DateTimeOriginal do JPEG, se existir
+  try{ const v=new DataView(buf); if(v.getUint16(0)!==0xFFD8) return null; let o=2;
+    while(o<v.byteLength){ const m=v.getUint16(o); const len=v.getUint16(o+2); if(m===0xFFE1){ const s=new TextDecoder('ascii').decode(new Uint8Array(buf,o+4,Math.min(len,65000))); const r=s.match(/(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})/); if(r) return new Date(+r[1],r[2]-1,+r[3],+r[4],+r[5],+r[6]); return null; } o+=2+len; }
+  }catch(e){} return null; }
+function tirarFoto(cb){
+  const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*'; inp.setAttribute('capture','environment');
+  inp.onchange=async()=>{ const f=inp.files[0]; if(!f) return; const buf=await f.arrayBuffer(); const agora=new Date();
+    const hash=await hashBytes(buf); const exif=exifData(buf); const flags=[];
+    DB.fotoHashes=DB.fotoHashes||{};
+    if(DB.fotoHashes[hash]) flags.push('FOTO REPETIDA (já usada em '+DB.fotoHashes[hash]+')');
+    const origem=exif||new Date(f.lastModified||agora); const minutos=Math.round((agora-origem)/60000);
+    if(minutos>15) flags.push('FOTO ANTIGA (tirada há '+(minutos>1440?Math.round(minutos/1440)+' dia(s)':minutos+' min')+')');
+    const img=new Image(); img.onload=()=>{ const max=640, esc2=Math.min(1,max/Math.max(img.width,img.height)); const c=document.createElement('canvas'); c.width=Math.round(img.width*esc2); c.height=Math.round(img.height*esc2);
+      const g=c.getContext('2d'); g.drawImage(img,0,0,c.width,c.height); const tx=agora.toLocaleString('pt-BR')+' · '+idAparelho()+' · '+(DB.unidade||'ArtBlend');
+      g.fillStyle='rgba(22,41,74,.75)'; g.fillRect(0,c.height-26,c.width,26); g.fillStyle='#fff'; g.font='bold 13px Arial'; g.fillText(tx,8,c.height-9);
+      const foto={id:'F'+agora.getTime(),img:c.toDataURL('image/jpeg',0.55),quando:agora.toISOString(),aparelho:idAparelho(),hash,flags};
+      DB.fotos=DB.fotos||{}; DB.fotos[foto.id]=foto; DB.fotoHashes[hash]=agora.toLocaleDateString('pt-BR');
+      if(gravar()){ if(flags.length) alert('⚠ Atenção: '+flags.join(' · ')+'\nA foto foi guardada, mas fica marcada para o consultor conferir.'); cb(foto.id); } };
+    img.src=URL.createObjectURL(f); };
+  inp.click();
+}
+function miniFoto(id,tam){ const f=(DB.fotos||{})[id]; if(!f) return ''; return `<a href="${f.img}" target="_blank" title="${esc(new Date(f.quando).toLocaleString('pt-BR'))}"><img src="${f.img}" style="width:${tam||56}px;height:${tam||56}px;object-fit:cover;border-radius:8px;border:2px solid ${f.flags.length?'var(--erro)':'var(--borda)'};vertical-align:middle"></a>${f.flags.length?`<div class="selo erro" style="margin-top:3px">${esc(f.flags[0].split(' (')[0])}</div>`:''}`; }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function hojeISO(){ const d=new Date(); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,10); }
+function agoraHora(){ return new Date().toTimeString().slice(0,5); }
+function fmtData(iso){ if(!iso) return '–'; const [a,m,d]=iso.split('-'); return `${d}/${m}/${a}`; }
+function nomeCasa(){ return DB.unidade || '[nome do estabelecimento]'; }
+function salvarUnidade(v){ DB.unidade=v; gravar(); }
+
+/* ---------- navegação ---------- */
+function irPara(mod){
+  document.querySelectorAll('nav.menu button').forEach(b=>b.classList.toggle('ativo', b.dataset.mod===mod));
+  document.querySelectorAll('section.mod').forEach(s=>s.classList.toggle('ativo', s.id==='mod-'+mod));
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(()=>{ if(typeof atualizarMarcaMovel==='function') atualizarMarcaMovel(); },30);
+  if(mod==='inicio') montarPainel();
+  if(mod==='visita') montarRelatorio();
+  if(mod==='equipe') montarEquipe();
+  if(mod==='mbp') montarMBP();
+  if(mod==='rotina') montarRotina();
+}
+document.querySelectorAll('nav.menu button').forEach(b=>b.addEventListener('click',()=>irPara(b.dataset.mod)));
+
+/* =========================================================
+   1. CLIENTE OCULTO — 12 blocos
+   ========================================================= */
+const BLOCOS = [
+ {id:'b1', t:'Antes de entrar: fachada, reserva e telefone', ref:'S1', itens:[
+  ['Fachada limpa, iluminada, com nome e horário visíveis.'],
+  ['Telefone/WhatsApp atendido em até 3 toques ou 5 minutos, com saudação e nome da casa.',1],
+  ['Reserva confirmada com nome, horário e número de pessoas; ocasião especial perguntada.'],
+  ['Perfil no Google e redes com fotos atuais, horário certo e respostas às avaliações.']]},
+ {id:'b2', t:'Chegada e recepção', ref:'S2', itens:[
+  ['Cliente cumprimentado em até 30 segundos após entrar, com contato visual e sorriso.',1],
+  ['Recepção sabe as reservas e chama o cliente pelo nome quando possível.'],
+  ['Espera informada com tempo realista; cliente acomodado em local confortável enquanto espera.'],
+  ['Conduzido à mesa (não apenas apontada), cadeira oferecida, cardápio entregue aberto.']]},
+ {id:'b3', t:'Ambiente e mesa', ref:'S3', itens:[
+  ['Mesa limpa, montada e firme (sem balanço); talheres, copos e guardanapos impecáveis.',1],
+  ['Temperatura, música e luz agradáveis ao horário e ao público.'],
+  ['Banheiro limpo, abastecido, perfumado e conferido a cada hora.',1],
+  ['Cardápio limpo, sem rasuras, preços atualizados e itens em falta já retirados.']]},
+ {id:'b4', t:'Primeiro contato do garçom', ref:'S4', itens:[
+  ['Garçom chega em até 2 minutos após o cliente sentar.',1],
+  ['Apresenta-se, dá boas-vindas e oferece bebida já sugerindo uma opção da casa.'],
+  ['Pergunta se é a primeira visita e explica o conceito/destaques do cardápio.'],
+  ['Pergunta sobre alergias ou restrições antes de anotar o pedido.',1]]},
+ {id:'b5', t:'Pedido e venda sugestiva', ref:'S5', itens:[
+  ['Conhece todos os pratos (ingredientes, preparo, tempo) e responde sem ir perguntar.',1],
+  ['Sugere entrada, prato estrela, acompanhamento e harmonização sem ser insistente.'],
+  ['Repete o pedido para confirmar, com pontos e modificações.'],
+  ['Informa o tempo de preparo dos pratos mais demorados.']]},
+ {id:'b6', t:'Serviço de bebidas e vinho', ref:'S6', itens:[
+  ['Bebida chega em até 5 minutos, na temperatura certa, com copo adequado.',1],
+  ['Vinho apresentado (rótulo ao cliente), aberto à mesa, prova oferecida a quem pediu.'],
+  ['Copos reabastecidos sem o cliente precisar pedir; nova rodada oferecida no momento certo.']]},
+ {id:'b7', t:'Entrega dos pratos', ref:'S7', itens:[
+  ['Pratos chegam juntos para a mesa toda, na temperatura certa e bem apresentados.',1],
+  ['Garçom anuncia o prato ao servir e serve sem perguntar "de quem é" (posição na mesa anotada).'],
+  ['Checagem em até 2 minutos ou 2 garfadas: "está tudo como esperava?".',1],
+  ['Tempo entre pedido e prato principal dentro do padrão da casa.']]},
+ {id:'b8', t:'Durante a refeição', ref:'S8', itens:[
+  ['Mesa acompanhada à distância; garçom percebe sinais sem o cliente precisar chamar.'],
+  ['Pratos e copos vazios retirados quando todos terminam (não um por um).'],
+  ['Sobremesa e café oferecidos com uma sugestão concreta.']]},
+ {id:'b9', t:'Problemas e reclamações', ref:'S9', itens:[
+  ['Reclamação ouvida sem interromper, com desculpas sinceras e sem justificar.',1],
+  ['Solução rápida e oferecida pela própria equipe (sem empurrar a culpa para a cozinha).'],
+  ['Gerente aparece em reclamações sérias; ocorrência registrada.']]},
+ {id:'b10', t:'Conta e despedida', ref:'S10', itens:[
+  ['Conta entregue em até 3 minutos após o pedido, correta e explicada (10% informado).',1],
+  ['Formas de pagamento fáceis; maquininha trazida à mesa.'],
+  ['Despedida calorosa, pelo nome se possível, com convite para voltar.',1],
+  ['Pedido de avaliação (Google/QR) feito de forma natural.']]},
+ {id:'b11', t:'Postura e aparência da equipe', ref:'S11', itens:[
+  ['Uniforme limpo e padronizado; crachá com o nome; higiene pessoal impecável.'],
+  ['Equipe não conversa alto, não usa celular e não come à vista do cliente.'],
+  ['Clima de equipe: colegas se ajudam, ninguém diz "não é minha mesa".']]},
+ {id:'b12', t:'Encantamento (o algo a mais)', ref:'S12', itens:[
+  ['Houve pelo menos um gesto personalizado inesperado (aniversário, preferência lembrada, cortesia).'],
+  ['O cliente sai sentindo que foi tratado como pessoa, não como mesa.'],
+  ['O avaliador voltaria e recomendaria a casa.',1]]}
+];
+function totalItens(){ return BLOCOS.reduce((a,b)=>a+b.itens.length,0); }
+function calcBloco(b){
+  let c=0,nc=0,na=0;
+  b.itens.forEach((_,i)=>{ const v=DB.insp[b.id+'_'+i]; if(v==='C')c++; else if(v==='NC')nc++; else if(v==='NA')na++; });
+  const base=c+nc; return {c,nc,na,pct: base? Math.round(c/base*100):null, resp:c+nc+na};
+}
+function classe(p){ if(p===null) return ['neutro','Sem respostas']; if(p>=76) return ['ok','Bom']; if(p>=51) return ['alerta','Regular']; return ['erro','Ruim']; }
+function montarInspecao(){
+  const el=document.getElementById('listaInspecao');
+  el.innerHTML = BLOCOS.map(b=>{
+    const r=calcBloco(b), [cl,tx]=classe(r.pct);
+    return `<div class="bloco-insp" id="blk-${b.id}">
+      <div class="cab" onclick="this.parentElement.classList.toggle('aberto')">
+        <span class="selo neutro">${b.ref}</span><span class="tit">${b.t}</span>
+        <span class="selo ${cl}">${r.pct===null?'–':r.pct+'%'} · ${tx}</span>
+        <span style="font-size:12px;color:var(--txt2)">${r.resp}/${b.itens.length}</span>
+      </div>
+      <div class="corpo">${b.itens.map((it,i)=>{
+        const k=b.id+'_'+i, v=DB.insp[k]||'';
+        const fid=(DB.inspFoto||{})[k], com=(DB.inspCom||{})[k];
+        return `<div class="item-insp"><div class="txt">${it[1]?'<b style="color:var(--erro)">★ </b>':''}${it[0]}${com?`<small style="color:var(--pri-esc);font-size:13px">💬 ${esc(com)}</small>`:''}</div>
+        <div class="nao-imprimir-foto">${fid?miniFoto(fid,44):''}</div>
+        <button class="btn sec peq nao-imprimir" title="Tirar foto de evidência" onclick="fotoInsp('${k}')">📷</button>
+        <button class="btn sec peq nao-imprimir" title="Comentário" onclick="comentInsp('${k}')">💬</button>
+        <div class="opc">
+          <button class="c ${v==='C'?'sel':''}" onclick="marcar('${k}','C')">C</button>
+          <button class="nc ${v==='NC'?'sel':''}" onclick="marcar('${k}','NC')">NC</button>
+          <button class="na ${v==='NA'?'sel':''}" onclick="marcar('${k}','NA')">NA</button>
+        </div></div>`;}).join('')}</div></div>`;
+  }).join('');
+  atualizarNota();
+}
+function fotoInsp(k){ tirarFoto(id=>{ DB.inspFoto=DB.inspFoto||{}; DB.inspFoto[k]=id; gravar(); const abertos=[...document.querySelectorAll('.bloco-insp.aberto')].map(e=>e.id); montarInspecao(); abertos.forEach(x=>document.getElementById(x)?.classList.add('aberto')); }); }
+function comentInsp(k){ DB.inspCom=DB.inspCom||{}; const t=prompt('Comentário sobre este item (o que viu, onde, o que combinou):',DB.inspCom[k]||''); if(t===null) return; DB.inspCom[k]=t.trim(); gravar(); const ab=[...document.querySelectorAll('.bloco-insp.aberto')].map(e=>e.id); montarInspecao(); ab.forEach(x=>document.getElementById(x)?.classList.add('aberto')); }
+function tempoInsp(){ if(!DB.inspInicio) return '0 min'; const m=Math.round((Date.now()-new Date(DB.inspInicio))/60000); return m<60?m+' min':Math.floor(m/60)+'h'+String(m%60).padStart(2,'0'); }
+function marcar(k,v){
+  if(!DB.inspInicio) DB.inspInicio=new Date().toISOString();
+  DB.insp[k] = DB.insp[k]===v ? '' : v; gravar();
+  const abertos=[...document.querySelectorAll('.bloco-insp.aberto')].map(e=>e.id);
+  montarInspecao(); abertos.forEach(id=>document.getElementById(id)?.classList.add('aberto'));
+}
+function resumoInspecao(){
+  let c=0,nc=0,resp=0; const ncs=[];
+  BLOCOS.forEach(b=>b.itens.forEach((it,i)=>{ const v=DB.insp[b.id+'_'+i]; if(v)resp++; if(v==='C')c++; if(v==='NC'){nc++; ncs.push({bloco:b.t,ref:b.ref,item:it[0],critico:!!it[1],com:(DB.inspCom||{})[b.id+'_'+i]||''});} }));
+  const pct = (c+nc)? Math.round(c/(c+nc)*100):null; return {c,nc,resp,pct,ncs};
+}
+function atualizarNota(){
+  const r=resumoInspecao(), [cl,tx]=classe(r.pct);
+  document.getElementById('notaGeral').textContent = r.pct===null?'–':r.pct+'%';
+  document.getElementById('classeGeral').innerHTML = `<span class="selo ${cl}">${tx}</span>`;
+  document.getElementById('respondidos').textContent = r.resp;
+  document.getElementById('totalItens').textContent = 'de '+totalItens()+' itens · ⏱ '+tempoInsp();
+  document.getElementById('qtdNC').textContent = r.nc;
+}
+function abrirTodos(a){ document.querySelectorAll('.bloco-insp').forEach(e=>e.classList.toggle('aberto',a)); }
+function limparInspecao(){ if(confirm('Apagar as respostas atuais e começar uma nova avaliação?')){ DB.insp={}; DB.inspCom={}; DB.inspFoto={}; DB.inspInicio=null; gravar(); montarInspecao(); } }
+
+/* =========================================================
+   2. POPs — 17 procedimentos (texto ArtBlend)
+   ========================================================= */
+const PS=(o)=>Object.assign({mat:[],monit:'Observação do líder de salão e o Cliente Oculto mensal.',corr:'Orientar na hora, com respeito e longe do cliente; reforçar no briefing do dia seguinte.',verif:'Gerente revisa no Cliente Oculto e nos indicadores do Painel.',reg:'Rotina do Salão e Cliente Oculto.'},o);
+const POPS = [
+ PS({cod:'PS-01', nome:'Sequência de serviço ArtBlend (da chegada à despedida)', cat:'Serviço', obrig:true,
+  obj:'Garantir que todo cliente viva a mesma experiência de excelência, em qualquer dia e com qualquer garçom.', apl:'Todo atendimento à mesa.', resp:'Garçons, cumins e recepção. Líder confere.', freq:'Em cada mesa.',
+  passos:['Receber em até 30 segundos (recepção).','Acomodar e entregar o cardápio aberto.','Garçom chega em até 2 minutos: apresenta-se, boas-vindas, sugere uma bebida da casa.','Pergunta sobre alergias e primeira visita; explica os destaques.','Anota e repete o pedido; informa tempos.','Bebidas em até 5 minutos.','Pratos juntos, anunciados, servidos sem perguntar "de quem é".','Checagem em 2 minutos ou 2 garfadas.','Retirada quando todos terminarem; sobremesa e café com sugestão.','Conta em até 3 minutos, correta, com 10% explicado.','Despedida pelo nome e convite para voltar.'],
+  mat:['Bloco/comanda ou sistema','Caneta','Mapa de mesas com posições numeradas']}),
+ PS({cod:'PS-02', nome:'Abertura e fechamento do salão', cat:'Rotina',
+  obj:'Salão pronto antes do primeiro cliente e entregue organizado para o próximo turno.', apl:'Salão, varanda, bar, banheiros e recepção.', resp:'Equipe do turno; líder assina.', freq:'Todo turno.',
+  passos:['Limpar e conferir mesas e cadeiras (firmes, sem balanço).','Montar mesas no padrão (talheres, copos, guardanapos).','Repor aparadores: talheres, guardanapos, sal, azeite, palitos.','Conferir cardápios (limpos, preços certos, itens em falta).','Banheiros: limpeza, papel, sabonete, lixo, perfume.','Música, luz e climatização no padrão do horário.','Briefing de 5 minutos (PS-07).','Fechamento: limpar, repor, desligar, registrar pendências para o próximo turno.'],
+  mat:['Checklist de abertura e fechamento','Panos e produtos de limpeza do salão']}),
+ PS({cod:'PS-03', nome:'Recepção, reservas e lista de espera', cat:'Recepção',
+  obj:'Primeira impressão perfeita e espera sem estresse.', apl:'Porta, telefone, WhatsApp e reservas.', resp:'Recepcionista/hostess ou gerente.', freq:'Sempre.',
+  passos:['Cumprimentar em até 30 segundos, mesmo ocupado (contato visual e "já vou te atender").','Perguntar: reserva? quantas pessoas? alguma ocasião especial?','Com espera: informar tempo realista, anotar nome e telefone, oferecer lugar e bebida.','Conduzir à mesa caminhando à frente, puxar a cadeira, entregar cardápio aberto.','Passar ao garçom: nome, ocasião e observações.','Reservas: confirmar no dia, guardar preferências do cliente (PS-13).'],
+  mat:['Livro/sistema de reservas','Lista de espera com horário']}),
+ PS({cod:'PS-04', nome:'Mapa do salão e divisão de praças', cat:'Rotina',
+  obj:'Cada mesa tem dono e nenhum cliente fica esquecido.', apl:'Divisão de mesas entre garçons.', resp:'Líder de salão.', freq:'Todo turno.',
+  passos:['Numere mesas e posições (posição 1 = mais perto da porta, sentido horário).','Divida as praças por número de mesas e dificuldade (não só quantidade).','Faça rodízio das praças "boas" ao longo da semana.','Defina quem cobre quem nos intervalos.','Regra de equipe: viu uma mesa precisando, atende — "não é minha mesa" não existe.']}),
+ PS({cod:'PS-05', nome:'Técnicas de serviço à mesa e etiqueta', cat:'Serviço',
+  obj:'Servir com elegância, segurança e sem incomodar o cliente.', apl:'Salão.', resp:'Garçons e cumins.', freq:'Sempre.',
+  passos:['Servir pela direita e retirar pela direita (ou conforme o padrão da casa); bebidas pela direita.','Damas e convidados mais velhos primeiro; anfitrião por último.','Pegar copos pela base e talheres pelo cabo; nunca tocar onde a boca encosta.','Bandeja na mão esquerda, peso no centro, itens altos no meio.','Montagem básica: garfo à esquerda, faca (corte para dentro) e colher à direita, copo de água acima da faca.','Retirar pratos só quando todos terminarem; não empilhar na frente do cliente.','Tipos de serviço: empratado (à americana), à francesa (cliente se serve da travessa), à inglesa (garçom serve da travessa) — usar o da casa.'],
+  mat:['Bandeja','Guardanapo de serviço (liteau)','Abridor','Mapa de posições']}),
+ PS({cod:'PS-06', nome:'Comunicação e postura no salão', cat:'Serviço',
+  obj:'Falar e agir de um jeito que transmita cuidado e confiança.', apl:'Toda a equipe de frente.', resp:'Todos.', freq:'Sempre.',
+  passos:['Contato visual, sorriso e postura aberta (sem braços cruzados, sem mãos no bolso).','Use: "com prazer", "excelente escolha", "posso sugerir…", "vou verificar para o senhor agora".','Evite: "não sei", "não é comigo", "acabou" (diga "hoje esse esgotou, posso sugerir…"), gírias e intimidade excessiva.','Fale baixo; nunca discuta com colega na frente do cliente.','Leia o cliente: quer conversar ou quer privacidade? Ajuste.']}),
+ PS({cod:'PS-07', nome:'Briefing de 5 minutos antes do turno', cat:'Rotina', obrig:true,
+  obj:'Alinhar a equipe todos os dias, como fazem os melhores hotéis do mundo.', apl:'Toda a equipe de salão e um representante da cozinha.', resp:'Líder de salão.', freq:'Todo turno, 5 a 10 minutos.',
+  passos:['Reservas e ocasiões especiais do dia.','Prato/drink do dia e o que está em falta (cozinha explica).','Meta do turno (ex.: sobremesas, vinho, ticket médio).','Um padrão de serviço para lembrar (gire os PS da biblioteca).','Uma história de encantamento ou elogio de ontem.','Dúvidas rápidas. Registrar o briefing na Rotina do Salão.']}),
+ PS({cod:'PS-08', nome:'Venda sugestiva em 5 momentos', cat:'Vendas', obrig:true,
+  obj:'Aumentar o ticket médio ajudando o cliente a escolher melhor — sem empurrar.', apl:'Todo atendimento.', resp:'Garçons e bartenders.', freq:'Em cada mesa.',
+  passos:['Bebida: troque "vai beber algo?" por "nossa limonada da casa está ótima hoje, posso trazer?".','Entrada: "para começar, a [entrada] é ótima para dividir enquanto o prato fica pronto".','Prato: indique o prato estrela e um acompanhamento que combina.','Sobremesa: leve a sugestão concreta (ou mostre o carrinho/foto), nunca "vai querer sobremesa?".','Café/digestivo: ofereça junto com a conta pedida.','Regra de ouro: sugira 1 opção específica, diga por que é boa e aceite o "não" com elegância.']}),
+ PS({cod:'PS-09', nome:'Quebra de objeções', cat:'Vendas',
+  obj:'Responder às dúvidas do cliente com respeito e transformar hesitação em boa escolha.', apl:'Salão, telefone e delivery.', resp:'Equipe de frente.', freq:'Sempre que houver objeção.',
+  passos:['Escute até o fim e reconheça: "entendo perfeitamente".','Pergunte para entender o real motivo (preço, tempo, fome, dúvida do sabor).','Responda com benefício concreto (porção, ingrediente, preparo, experiência).','Ofereça alternativa (meia porção, prato para dividir, opção mais rápida).','Respeite a decisão final — o cliente precisa sair bem, comprando ou não.','Consulte o Banco de Objeções na aba Vendas & Metas.']}),
+ PS({cod:'PS-10', nome:'Reclamação que vira elogio (método O.D.R.E.)', cat:'Encantamento', obrig:true,
+  obj:'Recuperar o cliente insatisfeito e transformar o problema em fidelidade.', apl:'Qualquer reclamação.', resp:'Quem ouviu resolve; gerente nas graves.', freq:'Sempre.',
+  passos:['Ouvir sem interromper, olhando nos olhos.','Desculpar-se com sinceridade ("sinto muito que isso aconteceu") — sem justificar nem culpar a cozinha.','Resolver rápido: trocar, refazer, oferecer outra opção; dar ao garçom autonomia até um valor combinado.','Encantar: um gesto além do esperado (sobremesa, café, visita do gerente).','Registrar a ocorrência na Rotina do Salão para corrigir a causa.'],
+  reg:'Rotina do Salão › Reclamações.'}),
+ PS({cod:'PS-11', nome:'Momentos de encantamento', cat:'Encantamento',
+  obj:'Criar pequenos gestos personalizados que o cliente vai contar para os outros.', apl:'Todo atendimento, principalmente ocasiões especiais.', resp:'Toda a equipe, com orçamento definido pelo dono.', freq:'Pelo menos 1 por turno.',
+  passos:['Preste atenção ao que o cliente fala (aniversário, primeira vez, comemoração, preferência).','Pense em um gesto simples e verdadeiro (vela na sobremesa, bilhete, prato do jeito que ele gosta, guarda-chuva emprestado).','Combine com o líder e execute sem alarde.','Registre o encantamento e conte no briefing — vira cultura.'],
+  reg:'Rotina do Salão › Encantamentos.'}),
+ PS({cod:'PS-12', nome:'Pesquisa de satisfação e avaliações no Google', cat:'Encantamento',
+  obj:'Medir a experiência e aumentar a nota pública da casa.', apl:'Fim do atendimento e pós-visita.', resp:'Garçom pede; gerente responde avaliações.', freq:'Todo cliente; respostas em até 48 h.',
+  passos:['Na conta, convide: "sua opinião nos ajuda muito, pode avaliar pelo QR?".','Nota 9–10: peça avaliação no Google.','Nota até 6: gerente fala com o cliente antes de ele sair (PS-10).','Responda todas as avaliações do Google em até 48 h, agradecendo pelo nome; nas negativas, peça desculpas e convide a voltar.','Registre as notas na Rotina do Salão (o Painel calcula a nota média).']}),
+ PS({cod:'PS-13', nome:'Colecionar pontos do cliente (fidelização)', cat:'Encantamento',
+  obj:'Lembrar de cada cliente: o que gosta, o que não pode, o que comemora.', apl:'Clientes frequentes e reservas.', resp:'Recepção, garçons e gerente.', freq:'Sempre que aprender algo novo.',
+  passos:['Anote no cadastro: nome, aniversário, preferências, alergias, mesa favorita, bebida preferida.','Antes do turno, veja quem tem reserva e revise as anotações.','Use a informação com naturalidade ("trouxe sua água com gás de sempre?").','Datas especiais: mensagem no aniversário com convite.'],
+  reg:'Vendas & Metas › Clientes.'}),
+ PS({cod:'PS-14', nome:'Serviço do vinho (sommelier básico)', cat:'Bebidas',
+  obj:'Servir vinho com segurança e valorizar a venda.', apl:'Vinhos em taça e garrafa.', resp:'Garçom treinado ou sommelier.', freq:'A cada garrafa.',
+  passos:['Temperaturas: espumantes 6–8 °C; brancos e rosés 8–12 °C; tintos leves 14–16 °C; tintos encorpados 16–18 °C.','Apresente a garrafa a quem pediu, com o rótulo virado para ele (vinho, produtor, safra).','Corte a cápsula abaixo do gargalo, retire a rolha sem barulho e entregue-a.','Sirva uma prova a quem pediu; aprovado, sirva as damas, depois os demais e por último o anfitrião.','Encha a taça até 1/3 (espumante até 2/3); gire a garrafa ao terminar para não pingar.','Mantenha a garrafa ao alcance (ou no balde) e reabasteça sem exagero.','Harmonização simples: peso com peso (prato leve, vinho leve); gordura pede acidez; doce pede vinho mais doce que a sobremesa.'],
+  mat:['Saca-rolhas de garçom','Balde de gelo','Taças limpas e polidas','Guardanapo de serviço']}),
+ PS({cod:'PS-15', nome:'Bar, café e cerveja', cat:'Bebidas',
+  obj:'Padronizar bebidas que vendem muito e dão margem.', apl:'Bar e copa.', resp:'Bartender/copeiro.', freq:'Sempre.',
+  passos:['Fichas técnicas para todos os drinks (dose, gelo, copo, guarnição).','Cerveja: copo limpo e gelado, inclinado a 45°, colarinho de 2 a 3 dedos.','Café: xícara aquecida, extração no tempo certo, servido com água e um docinho se for padrão.','Copos e taças polidos e sem cheiro.','Sugira o drink da casa e a segunda rodada no momento certo.']}),
+ PS({cod:'PS-16', nome:'Delivery e atendimento por WhatsApp', cat:'Canais',
+  obj:'Levar o padrão do salão para quem pede em casa.', apl:'WhatsApp, telefone, iFood e balcão.', resp:'Atendente de delivery.', freq:'Sempre.',
+  passos:['Responder em até 5 minutos com saudação e nome da casa.','Mandar o cardápio e uma sugestão concreta (combo/prato estrela).','Confirmar pedido, endereço, troco/forma de pagamento e tempo de entrega.','Embalagem: lacrada, quente/frio separados, bilhete de agradecimento.','Depois da entrega, pedir avaliação.']}),
+ PS({cod:'PS-17', nome:'Eventos e grupos', cat:'Canais',
+  obj:'Vender e executar eventos sem surpresas.', apl:'Aniversários, confraternizações, grupos acima de 10 pessoas.', resp:'Gerente/comercial.', freq:'Por evento.',
+  passos:['Levantar data, horário, número de pessoas, orçamento por pessoa e restrições.','Oferecer 2 ou 3 cardápios fechados com preço por pessoa.','Formalizar por escrito: cardápio, valores, sinal, prazo de confirmação, política de cancelamento.','Briefing do evento com cozinha e salão (horários de serviço).','Pós-evento: agradecer e pedir avaliação.']}),
+ PS({cod:'PS-18', nome:'Gorjeta (10%) e regras da casa', cat:'Gestão',
+  obj:'Tratar a taxa de serviço com transparência para cliente e equipe.', apl:'Contas e folha de pagamento.', resp:'Dono e contador.', freq:'Mensal.',
+  passos:['A taxa de serviço é opcional para o cliente e deve ser informada na conta.','A gorjeta pertence aos empregados; a Lei 13.419/2017 regula a distribuição e anotação em carteira.','Defina por escrito (acordo/convenção) os critérios de divisão.','Mostre à equipe o valor arrecadado e a divisão todo mês.','Confirme sempre com o contador e a convenção coletiva da sua região.']}),
+ PS({cod:'PS-19', nome:'Pratos estrela e engenharia de cardápio no salão', cat:'Vendas',
+  obj:'Fazer o salão vender os pratos que mais agradam e dão mais lucro.', apl:'Cardápio e equipe de frente.', resp:'Dono/consultor define; garçons executam.', freq:'Revisão mensal.',
+  passos:['Liste os pratos mais vendidos e os de maior margem (ficha técnica).','Escolha 3 a 5 pratos estrela: muito pedidos e boa margem.','Ensine a equipe a descrever cada um em 1 frase apetitosa.','Destaque no cardápio (quadro, foto, posição).','Acompanhe as vendas desses pratos no Painel.'],
+  reg:'Vendas & Metas › Pratos estrela.'}),
+ PS({cod:'PS-20', nome:'Uniforme, apresentação e higiene da equipe de salão', cat:'Serviço',
+  obj:'Imagem profissional e segura.', apl:'Equipe de frente.', resp:'Todos; líder confere no briefing.', freq:'Todo turno.',
+  passos:['Uniforme limpo, passado e completo; sapato fechado e limpo.','Crachá com o primeiro nome.','Cabelo preso, unhas curtas e limpas, perfume discreto.','Mãos lavadas ao entrar, após banheiro, lixo e dinheiro.','Celular guardado durante o serviço.']})
+];
+let popFiltro='Todos', popAberto=null;
+function montarPops(){
+  const cats=['Todos','Essenciais',...new Set(POPS.map(p=>p.cat))];
+  document.getElementById('filtroPops').innerHTML = cats.map(c=>`<button class="${c===popFiltro?'ativo':''}" onclick="popFiltro='${c}';popAberto=null;montarPops()">${c}</button>`).join('');
+  const el=document.getElementById('popsConteudo');
+  if(popAberto!==null){ el.innerHTML = docPOP(POPS[popAberto]); return; }
+  const lista=POPS.map((p,i)=>({p,i})).filter(({p})=>popFiltro==='Todos'||(popFiltro==='Essenciais'?p.obrig:p.cat===popFiltro));
+  el.innerHTML = `<div class="pop-lista">${lista.map(({p,i})=>`<div class="pop-card" onclick="popAberto=${i};montarPops();window.scrollTo(0,0)">
+    <div class="cod">${p.cod}</div><div class="nome">${p.nome}</div>
+    <div style="font-size:13px;color:var(--txt2)">${p.obj}</div>
+    <div style="margin-top:8px">${p.obrig?'<span class="selo erro">Essencial</span> ':''}<span class="selo neutro">${p.cat}</span></div></div>`).join('')}</div>`;
+}
+function docPOP(p){
+  return `<div class="acoes nao-imprimir"><button class="btn sec" onclick="popAberto=null;montarPops()">← Voltar à lista</button><button class="btn" onclick="window.print()">Imprimir / salvar PDF</button></div>
+  <div class="pop-doc">
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;border-bottom:2px solid var(--pri);padding-bottom:10px;margin-bottom:6px">
+      <div><div class="cod" style="color:var(--pri-esc);font-weight:800">${p.cod} ${p.obrig?'· <span class="selo erro">Essencial</span>':''}</div><h2>${p.nome}</h2><div style="color:var(--txt2)">${esc(nomeCasa())}</div></div>
+      <div style="font-size:12px;color:var(--txt2);text-align:right">Versão 1.0 · Emissão: ${fmtData(hojeISO())}<br>Revisão: anual ou quando o processo mudar</div>
+    </div>
+    <div class="secao"><h4>1. Objetivo</h4><p>${p.obj}</p></div>
+    <div class="secao"><h4>2. Onde se aplica</h4><p>${p.apl}</p></div>
+    <div class="secao"><h4>3. Quem faz</h4><p>${p.resp}</p></div>
+    <div class="secao"><h4>4. Frequência</h4><p>${p.freq}</p></div>
+    <div class="secao"><h4>5. Materiais</h4><ul>${p.mat.map(m=>`<li>${m}</li>`).join('')}</ul></div>
+    <div class="secao"><h4>6. Passo a passo</h4>${p.passos.map((s,i)=>`<div class="passo"><span class="num">${i+1}</span><span>${s}</span></div>`).join('')}</div>
+    <div class="secao"><h4>7. Monitoramento (como saber que foi feito)</h4><p>${p.monit}</p></div>
+    <div class="secao"><h4>8. Ação corretiva (se der errado)</h4><p>${p.corr}</p></div>
+    <div class="secao"><h4>9. Verificação</h4><p>${p.verif}</p></div>
+    <div class="secao"><h4>10. Registro</h4><p>${p.reg}</p></div>
+    <div class="grade g3" style="margin-top:28px;font-size:13px;text-align:center">
+      <div style="border-top:1px solid #999;padding-top:6px">Elaborado por</div><div style="border-top:1px solid #999;padding-top:6px">Aprovado por (responsável)</div><div style="border-top:1px solid #999;padding-top:6px">Data de implantação</div>
+    </div>
+  </div>`;
+}
+
+/* =========================================================
+   3. CONTROLES — registros com alerta automático
+   ========================================================= */
+const CONTROLES = {
+ abertura:{t:'Abertura e fechamento', num:'PS-02', desc:'Marque se o salão foi entregue no padrão. Use a foto de prova para mostrar o salão pronto.',
+  campos:[['data','Data','date'],['turno','Turno','select',['Almoço','Jantar','Dia todo']],['tipo','Momento','select',['Abertura','Fechamento']],['mesas','Mesas montadas e firmes','select',['Sim','Não']],['banheiro','Banheiros conferidos','select',['Sim','Não']],['cardapio','Cardápios conferidos','select',['Sim','Não']],['resp','Responsável','text']],
+  avaliar:r=>[r.mesas,r.banheiro,r.cardapio].includes('Não')?'Item da abertura/fechamento não conferido: resolver antes de abrir as portas e avisar o líder.':null},
+ briefing:{t:'Briefing de 5 minutos', num:'PS-07', desc:'Registre o que foi falado na reunião antes do turno.',
+  campos:[['data','Data','date'],['turno','Turno','select',['Almoço','Jantar']],['meta','Meta do turno','text','Ex.: 20 sobremesas'],['padrao','Padrão relembrado','text','Ex.: PS-08 venda sugestiva'],['presentes','Nº de presentes','number'],['resp','Quem conduziu','text']],
+  avaliar:r=>(r.meta&&r.padrao)?null:'Briefing sem meta ou sem padrão relembrado: o próximo precisa ter os dois.'},
+ vendas:{t:'Vendas do turno por garçom', num:'—', desc:'Base do ranking e do ticket médio (aba Vendas & Metas).',
+  campos:[['data','Data','date'],['turno','Turno','select',['Almoço','Jantar']],['garcom','Garçom','text'],['pessoas','Pessoas atendidas','number'],['total','Total vendido (R$)','number'],['sobremesas','Sobremesas vendidas','number'],['vinhos','Garrafas de vinho / drinks especiais','number']],
+  avaliar:r=>{ const p=+r.pessoas,t=+r.total; if(p&&t&&t/p<(+(DB.metaTicket||0))) return 'Ticket médio de R$ '+(t/p).toFixed(2).replace('.',',')+' abaixo da meta da casa (R$ '+DB.metaTicket+'). Reforçar a venda sugestiva (PS-08).'; return null;}},
+ reclam:{t:'Reclamações', num:'PS-10', desc:'Toda reclamação registrada vira melhoria. Nunca é para punir.',
+  campos:[['data','Data','date'],['mesa','Mesa','text'],['motivo','Motivo','select',['Demora','Prato errado','Sabor/qualidade','Temperatura do prato','Atendimento','Conta/cobrança','Limpeza','Outro']],['detalhe','O que aconteceu','text'],['solucao','Como resolvemos','text'],['cliente','Cliente saiu','select',['Satisfeito','Neutro','Insatisfeito']],['resp','Quem atendeu','text']],
+  avaliar:r=>r.cliente==='Insatisfeito'?'Cliente saiu insatisfeito: gerente deve fazer contato em até 24 h (WhatsApp/telefone) e convidar para voltar.':null},
+ satisf:{t:'Pesquisa de satisfação', num:'PS-12', desc:'Nota de 0 a 10 que o cliente deu (QR na mesa ou na conta).',
+  campos:[['data','Data','date'],['mesa','Mesa','text'],['nota','Nota (0 a 10)','number'],['coment','Comentário','text'],['garcom','Garçom','text']],
+  avaliar:r=>{ const n=+r.nota; if(r.nota==='') return null; if(n<=6) return 'Nota baixa (detrator): gerente fala com o cliente e registra uma reclamação (PS-10).'; return null;}},
+ encanto:{t:'Encantamentos', num:'PS-11', desc:'Os gestos especiais que a equipe fez. Conte no briefing!',
+  campos:[['data','Data','date'],['cliente','Cliente / mesa','text'],['ocasiao','Ocasião','select',['Aniversário','Primeira visita','Comemoração','Cliente frequente','Recuperação de reclamação','Outro']],['gesto','O que fizemos','text'],['quem','Quem fez','text']],
+  avaliar:r=>null},
+ espera:{t:'Reservas e lista de espera', num:'PS-03', desc:'Registre a espera para medir o tempo e não perder clientes.',
+  campos:[['data','Data','date'],['hora','Hora de chegada','time'],['nome','Nome','text'],['pessoas','Pessoas','number'],['tel','Telefone','text'],['espera','Minutos de espera','number'],['situacao','Situação','select',['Sentou','Desistiu','Reserva confirmada','Não compareceu']]],
+  avaliar:r=>{ if(r.situacao==='Desistiu') return 'Cliente desistiu da espera: mande mensagem convidando para outro dia (com uma cortesia, se a casa permitir).'; if(+r.espera>30) return 'Espera acima de 30 minutos: rever divisão de praças, giro de mesas e comunicação do tempo.'; return null;}}
+};
+let ctrlAtual='abertura', fotoPendente=null;
+function fotoReg(){ tirarFoto(id=>{ fotoPendente=id; document.getElementById('fotoPend').innerHTML=miniFoto(id,48)+' <span class="selo ok">foto pronta</span>'; }); }
+function montarControles(){
+  document.getElementById('abasControles').innerHTML = Object.entries(CONTROLES).map(([k,c])=>`<button class="${k===ctrlAtual?'ativo':''}" onclick="ctrlAtual='${k}';montarControles()">${c.t}</button>`).join('');
+  const c=CONTROLES[ctrlAtual], regs=(DB.reg[ctrlAtual]||[]);
+  const campos=c.campos.map(([id,lab,tipo,opt])=>{
+    let inp;
+    if(tipo==='select') inp=`<select id="f_${id}">${opt.map(o=>`<option>${o}</option>`).join('')}</select>`;
+    else inp=`<input id="f_${id}" type="${tipo}" ${tipo==='number'?'step="0.1"':''} placeholder="${opt||''}" value="${tipo==='date'?hojeISO():tipo==='time'?agoraHora():''}">`;
+    return `<div class="campo"><label>${lab}</label>${inp}</div>`;}).join('');
+  const hdr=c.campos.map(x=>`<th>${x[1]}</th>`).join('');
+  const linhas=regs.slice().reverse().map((r,iRev)=>{ const i=regs.length-1-iRev; const al=c.avaliar(r);
+    return `<tr>${c.campos.map(x=>`<td>${x[2]==='date'?fmtData(r[x[0]]):esc(r[x[0]])}</td>`).join('')}<td>${r.foto?miniFoto(r.foto,48):(c.campos.some(x=>x[0]==='temp')?'<span class="selo alerta">sem foto</span>':'–')}</td><td>${al?`<span class="selo erro">Alerta</span><div style="font-size:12px;margin-top:4px">${al}</div>`:'<span class="selo ok">OK</span>'}</td><td><button class="btn perigo peq" onclick="apagarReg('${ctrlAtual}',${i})">×</button></td></tr>`;}).join('');
+  document.getElementById('controleConteudo').innerHTML = `
+    <div class="card"><h3 style="margin-top:0">${c.t} ${c.num!=='—'?`<span class="selo neutro">Planilha ${c.num}</span>`:''}</h3><p class="sub" style="margin-bottom:10px">${c.desc}</p>
+    <div class="grade g3">${campos}</div>
+    <div class="acoes"><button class="btn sec" onclick="fotoReg()">📷 ${c.campos.some(x=>x[0]==='temp')?'Foto do termômetro (prova)':'Foto de prova'}</button><span id="fotoPend"></span>
+    <button class="btn" onclick="addReg()">Registrar</button><button class="btn sec" onclick="exportarCSV()">Exportar planilha (CSV)</button></div>
+    <div id="msgReg"></div></div>
+    <div class="card tabela-rola">${regs.length?`<table><thead><tr>${hdr}<th>Foto</th><th>Situação</th><th></th></tr></thead><tbody>${linhas}</tbody></table>`:'<div class="vazio">Nenhum registro ainda. Faça o primeiro acima.</div>'}</div>`;
+}
+function addReg(){
+  const c=CONTROLES[ctrlAtual], r={};
+  c.campos.forEach(([id])=>r[id]=document.getElementById('f_'+id).value.trim());
+  if(c.campos.some(x=>x[0]==='temp') && r.temp===''){ document.getElementById('msgReg').innerHTML='<div class="aviso">Informe a temperatura.</div>'; return; }
+  if(fotoPendente){ r.foto=fotoPendente; fotoPendente=null; }
+  r._quando=new Date().toISOString(); r._aparelho=idAparelho();
+  (DB.reg[ctrlAtual]=DB.reg[ctrlAtual]||[]).push(r); gravar();
+  const al=c.avaliar(r); montarControles();
+  document.getElementById('msgReg').innerHTML = al?`<div class="aviso"><b>⚠ Atenção:</b> ${al}</div>`:'<div class="dica">✔ Registrado e dentro do padrão.</div>';
+}
+function apagarReg(k,i){ if(confirm('Apagar este registro?')){ DB.reg[k].splice(i,1); gravar(); montarControles(); } }
+function exportarCSV(){
+  const c=CONTROLES[ctrlAtual], regs=DB.reg[ctrlAtual]||[];
+  const linhas=[c.campos.map(x=>x[1]).concat('Situação').join(';')].concat(regs.map(r=>c.campos.map(x=>String(r[x[0]]||'').replace(/;/g,',')).concat(c.avaliar(r)?'ALERTA':'OK').join(';')));
+  const blob=new Blob(['﻿'+linhas.join('\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`ArtBlend_${c.t.replace(/[^\w]+/g,'_')}.csv`; a.click();
+}
+function alertasControles(){
+  const out=[]; Object.entries(CONTROLES).forEach(([k,c])=>(DB.reg[k]||[]).forEach(r=>{const a=c.avaliar(r); if(a) out.push({ctrl:c.t,data:r.data,txt:a,det:r.equip||r.prep||r.prod||r.area||r.tipo||''});}));
+  return out;
+}
+
+/* =========================================================
+   4. EQUIPE
+   ========================================================= */
+const TRILHA=[
+ ['Hospitalidade: servir x acolher','Diferença entre serviço (técnica) e hospitalidade (como o cliente se sente).'],
+ ['A sequência de serviço ArtBlend','Da chegada à despedida, com os tempos de cada etapa (PS-01).'],
+ ['Técnicas de mesa e etiqueta','Montagem, ordem de serviço, bandeja, retirada (PS-05).'],
+ ['Comunicação e postura','Frases que usar e evitar, linguagem corporal, ler o cliente (PS-06).'],
+ ['Venda sugestiva','Os 5 momentos de venda e como sugerir sem empurrar (PS-08).'],
+ ['Objeções e reclamações','Quebra de objeções e o método O.D.R.E. (PS-09 e PS-10).'],
+ ['Encantar e fidelizar','Momentos de encantamento e colecionar pontos do cliente (PS-11 e PS-13).'],
+ ['Bebidas e vinho','Serviço do vinho, temperaturas, harmonização simples, bar e café (PS-14 e PS-15).']
+];
+function statusAso(c){ if(!c.aso) return ['erro','Sem exame']; const v=new Date(c.aso); v.setMonth(v.getMonth()+(+c.valid||12)); const dias=Math.round((v-new Date())/864e5);
+  if(dias<0) return ['erro','Vencido há '+(-dias)+' dias']; if(dias<=30) return ['alerta','Vence em '+dias+' dias']; return ['ok','Válido até '+v.toLocaleDateString('pt-BR')]; }
+function addColaborador(){
+  const n=document.getElementById('colNome').value.trim(); if(!n){alert('Informe o nome.');return;}
+  DB.equipe.push({nome:n,funcao:document.getElementById('colFuncao').value,aso:document.getElementById('colAso').value,valid:document.getElementById('colValid').value,trein:[]});
+  gravar(); document.getElementById('colNome').value=''; montarEquipe();
+}
+function togTrein(i,t){ const c=DB.equipe[i], a=c.trein; const p=a.indexOf(t); p>=0?a.splice(p,1):a.push(t); if(a.length===8 && !c.certData) c.certData=hojeISO(); if(a.length<8) c.certData=null; gravar(); montarEquipe(); }
+function remColab(i){ if(confirm('Remover '+DB.equipe[i].nome+'?')){ DB.equipe.splice(i,1); gravar(); montarEquipe(); } }
+function montarEquipe(){
+  const eq=DB.equipe; const venc=eq.filter(c=>statusAso(c)[0]!=='ok').length; const cert=eq.filter(c=>c.trein.length===8).length;
+  const media=eq.length?Math.round(eq.reduce((a,c)=>a+c.trein.length,0)/(eq.length*8)*100):0;
+  document.getElementById('kpisEquipe').innerHTML=`<div class="kpi"><div class="rot">Colaboradores</div><div class="val">${eq.length}</div></div>
+   <div class="kpi"><div class="rot">Exames a resolver</div><div class="val" style="color:${venc?'var(--erro)':'var(--ok)'}">${venc}</div><div class="det">vencidos, vencendo ou sem exame</div></div>
+   <div class="kpi"><div class="rot">Trilha concluída</div><div class="val">${media}%</div><div class="barra"><div style="width:${media}%"></div></div><div class="det">${cert} certificado(s) liberado(s)</div></div>`;
+  document.getElementById('tabelaEquipe').innerHTML = eq.length? `<table><thead><tr><th>Nome</th><th>Função</th><th>Exame (ASO)</th>${TRILHA.map((_,i)=>`<th title="${TRILHA[i][0]}">T${i+1}</th>`).join('')}<th></th></tr></thead><tbody>
+   ${eq.map((c,i)=>{const [cl,tx]=statusAso(c); return `<tr><td><b>${esc(c.nome)}</b></td><td>${esc(c.funcao)}</td><td><span class="selo ${cl}">${tx}</span></td>
+   ${TRILHA.map((_,t)=>`<td><button title="${TRILHA[t][0]}" onclick="togTrein(${i},${t})" style="width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid var(--pri);background:${c.trein.includes(t)?'var(--pri)':'#fff'};color:#fff">${c.trein.includes(t)?'✓':''}</button></td>`).join('')}
+   <td style="white-space:nowrap">${c.trein.length===8?(certValido(c)?`<button class="btn peq" onclick="certificado(${i})">Certificado</button> `:`<span class="selo erro">Vencido</span> `):''}${c.trein.length===8?`<button class="btn sec peq" onclick="reciclar(${i})">Reciclar</button> `:''}<button class="btn perigo peq" onclick="remColab(${i})">×</button></td></tr>`;}).join('')}</tbody></table>`
+   : '<div class="vazio">Cadastre a equipe acima para acompanhar exames e treinamentos.</div>';
+  document.getElementById('trilhaInfo').innerHTML = TRILHA.map((t,i)=>`<div class="card" style="margin:0"><span class="selo neutro">T${i+1}</span> <b>${t[0]}</b><p style="font-size:13px;color:var(--txt2);margin-top:4px">${t[1]}</p></div>`).join('');
+}
+function certValido(c){ if(!c||c.trein.length<8) return false; if(!c.certData){ c.certData=hojeISO(); gravar(); } const v=new Date(c.certData); v.setFullYear(v.getFullYear()+1); return v>=new Date(); }
+function validadeCert(c){ const v=new Date(c.certData); v.setFullYear(v.getFullYear()+1); return v.toLocaleDateString('pt-BR'); }
+function reciclar(i){ const c=DB.equipe[i]; if(!confirm('Iniciar a reciclagem de '+c.nome+'? As 8 aulas voltam a ficar pendentes até o quiz ser refeito.')) return; c.trein=[]; c.notas={}; c.certData=null; c.reciclagens=(c.reciclagens||0)+1; gravar(); alunoAtual=String(i); irPara('abc'); abaABC('curso'); }
+function certificado(i){
+  const c=DB.equipe[i];
+  if(!certValido(c)){ alert('Certificado vencido (validade de 1 ano). Para imprimir de novo, '+c.nome+' precisa refazer o curso — use o botão "Reciclar".'); return; }
+  document.getElementById('certificadoArea').innerHTML=`<div class="acoes nao-imprimir"><button class="btn" onclick="window.print()">Imprimir certificado</button><button class="btn sec" onclick="document.getElementById('certificadoArea').innerHTML=''">Fechar</button></div>
+  <div class="card" style="text-align:center;padding:40px;border:3px solid var(--pri)">
+   <div style="color:var(--pri-esc);font-weight:800;letter-spacing:2px">ARTBLEND CONSULTORIA GOURMET</div>
+   <h1 style="margin:16px 0;color:var(--pri-esc)">Certificado de Capacitação</h1>
+   <p>Certificamos que <b style="font-size:20px">${esc(c.nome)}</b>, ${esc(c.funcao)} em <b>${esc(nomeCasa())}</b>,</p>
+   <p>concluiu a <b>Trilha ArtBlend de Atendimento e Vendas</b>, com os 8 módulos:</p>
+   <p style="font-size:13px;color:var(--txt2);max-width:700px;margin:10px auto">${TRILHA.map(t=>t[0]).join(' · ')}</p>
+   <p>Carga horária: 1 hora (8 módulos com avaliação). Concluído em ${fmtData(c.certData)} · <b>válido até ${validadeCert(c)}</b>${c.reciclagens?` · reciclagem nº ${c.reciclagens}`:''}.</p>
+   <div class="grade g2" style="margin-top:40px;font-size:13px"><div style="border-top:1px solid #999;padding-top:6px">Consultor(a) ArtBlend</div><div style="border-top:1px solid #999;padding-top:6px">Responsável pelo estabelecimento</div></div>
+  </div>`;
+  document.getElementById('certificadoArea').scrollIntoView({behavior:'smooth'});
+}
+
+/* =========================================================
+   5. VISITA DO CONSULTOR
+   ========================================================= */
+function salvarVisita(){ ['visData','visCons','visAcomp','visProx','visObs'].forEach(id=>DB.visita[id]=document.getElementById(id).value); gravar(); }
+function carregarVisita(){ ['visData','visCons','visAcomp','visProx','visObs'].forEach(id=>{ document.getElementById(id).value = DB.visita[id]|| (id==='visData'?hojeISO():''); }); }
+function prazoPadrao(crit){ const d=new Date(); d.setDate(d.getDate()+(crit?2:15)); return d.toISOString().slice(0,10); }
+function montarRelatorio(){
+  const r=resumoInspecao(), [cl,tx]=classe(r.pct), al=alertasControles(), eqProb=DB.equipe.filter(c=>statusAso(c)[0]!=='ok');
+  DB.visita.plano = DB.visita.plano||{};
+  const plano=r.ncs.map((n,i)=>{ const k=n.ref+'|'+n.item.slice(0,40); const p=DB.visita.plano[k]||{quem:'',prazo:prazoPadrao(n.critico),como:''};
+    return `<tr><td>${i+1}</td><td>${n.critico?'<b style="color:var(--erro)">★ </b>':''}${n.item}<div style="font-size:12px;color:var(--txt2)">${n.ref} · ${n.bloco}</div>${n.com?`<div style="font-size:12px;color:var(--pri-esc)">💬 ${esc(n.com)}</div>`:''}</td>
+     <td><input value="${esc(p.como)}" placeholder="O que fazer" onchange="setPlano('${esc(k)}','como',this.value)"></td>
+     <td><input value="${esc(p.quem)}" placeholder="Responsável" onchange="setPlano('${esc(k)}','quem',this.value)"></td>
+     <td><input type="date" value="${p.prazo}" onchange="setPlano('${esc(k)}','prazo',this.value)"></td></tr>`;}).join('');
+  document.getElementById('relatorio').innerHTML = `<div class="card">
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;border-bottom:2px solid var(--pri);padding-bottom:10px">
+      <div><div style="color:var(--pri-esc);font-weight:800;letter-spacing:1px">ARTBLEND · RELATÓRIO DE VISITA TÉCNICA</div><h2 style="margin:4px 0">${esc(nomeCasa())}</h2></div>
+      <div style="font-size:13px;text-align:right">Data: <b>${fmtData(DB.visita.visData||hojeISO())}</b> · duração da avaliação: ${tempoInsp()}<br>Consultor(a): <b>${esc(DB.visita.visCons||'–')}</b><br>Acompanhado por: ${esc(DB.visita.visAcomp||'–')}</div>
+    </div>
+    <div class="grade g4" style="margin-top:14px">
+      <div class="kpi"><div class="rot">Nota do Cliente Oculto</div><div class="val">${r.pct===null?'–':r.pct+'%'}</div><span class="selo ${cl}">${tx}</span></div>
+      <div class="kpi"><div class="rot">Falhas (NC)</div><div class="val">${r.nc}</div><div class="det">${r.ncs.filter(n=>n.critico).length} críticas ★</div></div>
+      <div class="kpi"><div class="rot">Alertas nos registros</div><div class="val">${al.length}</div></div>
+      <div class="kpi"><div class="rot">Pendências da equipe</div><div class="val">${eqProb.length}</div><div class="det">exames</div></div>
+    </div>
+    <h3>Resultado por bloco (Cliente Oculto)</h3>
+    <table><thead><tr><th>Bloco</th><th>Conformidade</th><th>Situação</th></tr></thead><tbody>
+    ${BLOCOS.map(b=>{const x=calcBloco(b),[c2,t2]=classe(x.pct); return `<tr><td>${b.ref} · ${b.t}</td><td style="min-width:140px"><div class="barra"><div style="width:${x.pct||0}%"></div></div> ${x.pct===null?'–':x.pct+'%'}</td><td><span class="selo ${c2}">${t2}</span></td></tr>`;}).join('')}</tbody></table>
+    <h3>Plano de ação</h3>
+    ${r.ncs.length?`<p class="sub" style="margin-bottom:6px">Prazos sugeridos: 2 dias para itens críticos ★, 15 dias para os demais. Ajuste se precisar.</p><div class="tabela-rola"><table><thead><tr><th>#</th><th>O que está errado</th><th>O que fazer</th><th>Quem</th><th>Até quando</th></tr></thead><tbody>${plano}</tbody></table></div>`:'<div class="vazio">Nenhuma falha registrada na avaliação.</div>'}
+    <h3>Alertas da rotina do salão</h3>
+    ${al.length?`<ul style="padding-left:20px">${al.slice(-15).map(a=>`<li><b>${a.ctrl}</b> (${fmtData(a.data)}) ${esc(a.det)}: ${a.txt}</li>`).join('')}</ul>`:'<div class="vazio">Nenhum alerta nos registros.</div>'}
+    <h3>Equipe</h3>
+    ${eqProb.length?`<ul style="padding-left:20px">${eqProb.map(c=>`<li>${esc(c.nome)} — ${statusAso(c)[1]}</li>`).join('')}</ul>`:'<div class="vazio">Exames em dia.</div>'}
+    ${(()=>{ const fs=Object.entries(DB.inspFoto||{}).map(([k,id])=>({k,id,f:(DB.fotos||{})[id]})).filter(x=>x.f); if(!fs.length) return '';
+      return `<h3>Fotos de evidência</h3><div style="display:flex;flex-wrap:wrap;gap:10px">${fs.map(x=>{const [bid,i]=x.k.split('_'); const b=BLOCOS.find(y=>y.id===bid); const it=b?b.itens[+i][0]:''; const st=DB.insp[x.k]||'';
+        return `<figure style="width:200px;margin:0"><img src="${x.f.img}" style="width:200px;height:150px;object-fit:cover;border-radius:8px;border:2px solid ${st==='NC'||x.f.flags.length?'var(--erro)':'var(--borda)'}"><figcaption style="font-size:11px;color:var(--txt2)">${st?`<b>${st}</b> · `:''}${esc(it.slice(0,80))}${x.f.flags.length?`<br><b style="color:var(--erro)">${esc(x.f.flags.join(' · '))}</b>`:''}</figcaption></figure>`;}).join('')}</div>`; })()}
+    ${grafEvolucao()}
+    <h3>Observações do consultor</h3><p>${esc(DB.visita.visObs||'—')}</p>
+    <p style="margin-top:10px">Próxima visita: <b>${fmtData(DB.visita.visProx)}</b></p>
+    <div class="grade g2" style="margin-top:40px;font-size:13px;text-align:center"><div style="border-top:1px solid #999;padding-top:6px">Consultor(a) ArtBlend</div><div style="border-top:1px solid #999;padding-top:6px">Responsável pelo estabelecimento</div></div>
+  </div>`;
+}
+function setPlano(k,c,v){ DB.visita.plano=DB.visita.plano||{}; const p=DB.visita.plano[k]||{quem:'',prazo:'',como:''}; p[c]=v; DB.visita.plano[k]=p; gravar(); }
+
+/* =========================================================
+   6. MANUAL DE BOAS PRÁTICAS
+   ========================================================= */
+const MBP_CAMPOS=[
+ [1,'fantasia','Nome da casa'],[1,'tipo','Tipo de casa','select',['Restaurante à la carte','Self-service / buffet','Bar e petiscaria','Pizzaria','Hamburgueria','Cafeteria / padaria','Restaurante de hotel / pousada','Buffet de eventos']],
+ [1,'conceito','Conceito em uma frase (ex.: cozinha nordestina contemporânea, ambiente familiar)'],[1,'valores','3 valores da casa (ex.: acolhimento, capricho, alegria)'],
+ [1,'boasvindas','Frase de boas-vindas padrão'],[1,'dono','Proprietário / responsável'],
+ [2,'servico','Estilo de serviço','select',['Empratado (à americana)','À francesa / à inglesa (travessas)','Self-service com apoio de garçom','Balcão com retirada','Misto']],
+ [2,'mesas','Nº de mesas','number'],[2,'garcons','Nº de garçons por turno','number'],[2,'horario','Horário de funcionamento'],
+ [2,'ticket','Meta de ticket médio (R$)','number'],[2,'tempos','Tempo máximo do prato principal (minutos)','number'],
+ [2,'reservas','Política de reservas e espera'],[2,'taxa','Taxa de serviço (ex.: 10% opcional, dividida conforme acordo)'],
+ [2,'autonomia','Valor que o garçom pode usar para resolver reclamações sem chamar o gerente (R$)','number'],[2,'estrelas','Pratos estrela (separe por vírgula)','textarea']
+];
+let mbpPasso=1;
+function montarMBP(){
+  DB.mbp=DB.mbp||{}; if(!DB.mbp.fantasia && DB.unidade) DB.mbp.fantasia=DB.unidade;
+  document.querySelectorAll('#wizPassos span').forEach((s,i)=>s.classList.toggle('ativo',i+1===mbpPasso));
+  const f=document.getElementById('mbpForm'), d=document.getElementById('mbpDoc');
+  if(mbpPasso<3){
+    f.style.display='block'; d.innerHTML='';
+    f.innerHTML=`<div class="grade g2">${MBP_CAMPOS.filter(c=>c[0]===mbpPasso).map(([_,id,lab,tipo,opt])=>{
+      const v=esc(DB.mbp[id]||''); let inp;
+      if(tipo==='select') inp=`<select onchange="DB.mbp['${id}']=this.value;gravar()"><option value="">Selecione</option>${opt.map(o=>`<option ${DB.mbp[id]===o?'selected':''}>${o}</option>`).join('')}</select>`;
+      else if(tipo==='textarea') inp=`<textarea oninput="DB.mbp['${id}']=this.value;gravar()">${v}</textarea>`;
+      else inp=`<input type="${tipo||'text'}" value="${v}" oninput="DB.mbp['${id}']=this.value;gravar()">`;
+      return `<div class="campo"><label>${lab}</label>${inp}</div>`;}).join('')}</div>
+      <div class="acoes">${mbpPasso>1?`<button class="btn sec" onclick="mbpPasso--;montarMBP()">← Voltar</button>`:''}
+      <button class="btn" onclick="mbpPasso++;montarMBP()">${mbpPasso===2?'Gerar manual completo →':'Próximo →'}</button></div>
+      <div class="dica">Pode deixar campos em branco — no manual eles aparecem como "______" para completar à mão.</div>`;
+  } else { f.style.display='none'; d.innerHTML=docMBP(); }
+}
+function v(k){ return DB.mbp[k]? esc(DB.mbp[k]) : '________________'; }
+function docMBP(){
+  const nome = DB.mbp.fantasia||DB.unidade||'________________';
+  const cap=(n,t,html)=>`<h2>${n}. ${t}</h2>${html}`;
+  return `<div class="acoes nao-imprimir"><button class="btn sec" onclick="mbpPasso=1;montarMBP()">← Editar dados</button><button class="btn" onclick="window.print()">Imprimir / salvar PDF</button></div>
+  <div class="mbp-doc">
+   <div class="capa"><div style="color:var(--pri-esc);font-weight:800;letter-spacing:2px">MANUAL DE ATENDIMENTO E VENDAS</div><h1>${esc(nome)}</h1><p>${v('tipo')} · ${v('conceito')}</p>
+    <p style="margin-top:22px;font-size:13px;color:var(--txt2)">Versão 1.0 · ${new Date().toLocaleDateString('pt-BR')} · Elaboração técnica: ArtBlend Consultoria Gourmet</p></div>
+   ${cap(1,'Quem somos e como queremos que o cliente se sinta',`<p><b>${esc(nome)}</b> — ${v('conceito')}.</p><p><b>Nossos valores:</b> ${v('valores')}.</p><p>Aqui, servir bem é obrigação; o que nos diferencia é a <b>hospitalidade</b>: cada cliente deve se sentir bem-vindo, lembrado e cuidado, como convidado da nossa casa.</p><p><b>Frase de boas-vindas:</b> "${v('boasvindas')}"</p>`)}
+   ${cap(2,'A sequência de serviço da casa',`<p>Estilo de serviço: <b>${v('servico')}</b>. Tempo máximo do prato principal: <b>${v('tempos')} minutos</b>.</p><ol>${POPS[0].passos.map(p=>`<li>${p}</li>`).join('')}</ol>`)}
+   ${cap(3,'Recepção, reservas e espera',`<p>${v('reservas')}</p><ul>${POPS[2].passos.map(p=>`<li>${p}</li>`).join('')}</ul>`)}
+   ${cap(4,'Organização do salão',`<p>${v('mesas')} mesas · ${v('garcons')} garçons por turno · horário: ${v('horario')}.</p><ul>${POPS[3].passos.map(p=>`<li>${p}</li>`).join('')}</ul><h3>Abertura e fechamento</h3><ul>${POPS[1].passos.map(p=>`<li>${p}</li>`).join('')}</ul>`)}
+   ${cap(5,'Técnicas de serviço e etiqueta',`<ul>${POPS[4].passos.map(p=>`<li>${p}</li>`).join('')}</ul>`)}
+   ${cap(6,'Comunicação, postura e apresentação',`<ul>${POPS[5].passos.concat(POPS[19].passos).map(p=>`<li>${p}</li>`).join('')}</ul>`)}
+   ${cap(7,'Briefing diário',`<p>Antes de cada turno, 5 a 10 minutos:</p><ul>${POPS[6].passos.map(p=>`<li>${p}</li>`).join('')}</ul>`)}
+   ${cap(8,'Vendas: sugerir é ajudar a escolher',`<p>Meta de ticket médio: <b>R$ ${v('ticket')}</b>. Pratos estrela: <b>${v('estrelas')}</b>.</p><ul>${POPS[7].passos.map(p=>`<li>${p}</li>`).join('')}</ul><h3>Objeções mais comuns</h3><ul>${OBJECOES.slice(0,8).map(o=>`<li><b>${o[0]}</b> — ${o[1]}</li>`).join('')}</ul>`)}
+   ${cap(9,'Reclamações: método O.D.R.E.',`<p>O garçom tem autonomia para resolver até <b>R$ ${v('autonomia')}</b> sem chamar o gerente.</p><ul>${POPS[9].passos.map(p=>`<li>${p}</li>`).join('')}</ul>`)}
+   ${cap(10,'Encantar e fidelizar',`<ul>${POPS[10].passos.concat(POPS[12].passos).map(p=>`<li>${p}</li>`).join('')}</ul><h3>Satisfação e Google</h3><ul>${POPS[11].passos.map(p=>`<li>${p}</li>`).join('')}</ul>`)}
+   ${cap(11,'Bebidas e vinho',`<ul>${POPS[13].passos.concat(POPS[14].passos).map(p=>`<li>${p}</li>`).join('')}</ul>`)}
+   ${cap(12,'Delivery, eventos e taxa de serviço',`<h3>Delivery</h3><ul>${POPS[15].passos.map(p=>`<li>${p}</li>`).join('')}</ul><h3>Eventos e grupos</h3><ul>${POPS[16].passos.map(p=>`<li>${p}</li>`).join('')}</ul><h3>Taxa de serviço</h3><p>${v('taxa')}</p><p style="font-size:13px;color:var(--txt2)">A gorjeta é regulada pela Lei 13.419/2017; confirme os critérios com o contador e a convenção coletiva.</p>`)}
+   ${cap(13,'Indicadores que acompanhamos',`<ul><li><b>Ticket médio</b> = total vendido ÷ pessoas atendidas.</li><li><b>Sobremesa por pessoa</b> e <b>vinhos/drinks especiais</b> por turno.</li><li><b>NPS</b> = % notas 9–10 menos % notas até 6.</li><li><b>Tempo de espera</b> e desistências.</li><li><b>Nota do Cliente Oculto</b> mensal.</li></ul>`)}
+   <h2>Termo de ciência</h2><p>Declaro que li e recebi treinamento sobre este Manual de Atendimento e Vendas de <b>${esc(nome)}</b>.</p>
+   <table><thead><tr><th>Nome</th><th>Função</th><th>Data</th><th>Assinatura</th></tr></thead><tbody>${(DB.equipe.length?DB.equipe:[{},{},{},{},{}]).map(c=>`<tr><td>${esc(c.nome||'')}&nbsp;</td><td>${esc(c.funcao||'')}</td><td></td><td></td></tr>`).join('')}</tbody></table>
+   <div class="grade g2" style="margin-top:40px;font-size:13px;text-align:center"><div style="border-top:1px solid #999;padding-top:6px">${v('dono')}<br>Proprietário / responsável</div><div style="border-top:1px solid #999;padding-top:6px">Consultor(a) ArtBlend</div></div>
+  </div>`;
+}
+
+/* =========================================================
+   NORMAS E REFERÊNCIAS — Salão e Vendas
+   ========================================================= */
+function montarNormas(){
+  document.getElementById('normasConteudo').innerHTML=`
+  <div class="card"><h3 style="margin-top:0">Referências que sustentam esta Central</h3>
+  <table><thead><tr><th>Referência</th><th>O que ensina</th><th>Onde aparece aqui</th></tr></thead><tbody>
+   <tr><td><b>Ritz-Carlton · Gold Standards</b></td><td>Os 3 passos do serviço (receber pelo nome, antecipar, despedir pelo nome) e o alinhamento diário da equipe.</td><td>PS-01, PS-07 (briefing), Cliente Oculto S2 e S10</td></tr>
+   <tr><td><b>Danny Meyer · Union Square Hospitality (Hospitality Quotient)</b></td><td>"Hospitalidade iluminada": equipe em primeiro lugar; atenção aos detalhes de cada cliente.</td><td>PS-13 (colecionar pontos), aula 1 e bônus</td></tr>
+   <tr><td><b>Will Guidara · Unreasonable Hospitality</b></td><td>Encantar com gestos pessoais e inesperados.</td><td>PS-11, Rotina › Encantamentos</td></tr>
+   <tr><td><b>Forbes Travel Guide</b></td><td>Padrões objetivos de serviço e avaliação anônima.</td><td>1 · Cliente Oculto</td></tr>
+   <tr><td><b>Le Cordon Bleu</b></td><td>Formação internacional em gestão de hotelaria e restaurantes, vinho e gastronomia.</td><td>Padrões técnicos (PS-05, PS-14)</td></tr>
+   <tr><td><b>Abrasel e Senac</b></td><td>Qualificação de garçons e atendimento no Brasil.</td><td>Trilha de treinamento</td></tr>
+   <tr><td><b>Lei 13.419/2017</b></td><td>Regras da gorjeta / taxa de serviço.</td><td>PS-18 (confirmar com contador)</td></tr>
+  </tbody></table></div>
+  <div class="card"><h3 style="margin-top:0">Comparação: o que a ArtBlend entrega</h3><div class="tabela-rola"><table><thead><tr><th>Recurso</th><th>Referências do mercado</th><th>ArtBlend</th></tr></thead><tbody>
+   <tr><td>Cliente oculto com nota</td><td>Empresas de mystery shopping, Forbes</td><td><span class="selo ok">Tem</span> 12 blocos, fotos e comentários</td></tr>
+   <tr><td>Padrões de serviço escritos</td><td>Redes de hotelaria</td><td><span class="selo ok">Tem</span> 20 padrões imprimíveis</td></tr>
+   <tr><td>Treinamento com certificado</td><td>Plataformas de e-learning de hospitalidade</td><td><span class="selo ok">Tem</span> 8 aulas + bônus, quiz, certificado com reciclagem</td></tr>
+   <tr><td>Ranking e metas de venda</td><td>Sistemas de PDV</td><td><span class="selo ok">Tem</span> ticket médio, sobremesa, NPS</td></tr>
+   <tr><td>Integração com o PDV (vendas automáticas)</td><td>Saipos, Consumer, iFood</td><td><span class="selo neutro">Próximo passo</span></td></tr>
+   <tr><td><b>Diferencial</b></td><td colspan="2"><b>Método único em português, para a realidade brasileira, com o consultor junto da equipe.</b></td></tr>
+  </tbody></table></div></div>
+  <div class="aviso">Taxa de serviço, contratos e regras trabalhistas: orientação geral. Confirme sempre com o contador e a convenção coletiva da sua região.</div>`;
+}
+
+/* =========================================================
+   PAINEL
+   ========================================================= */
+function montarPainel(){
+  const ev=document.getElementById('evolucaoPainel'); if(ev) ev.innerHTML=grafEvolucao();
+  const r=resumoInspecao(), [cl,tx]=classe(r.pct), al=alertasControles(), eqProb=DB.equipe.filter(c=>statusAso(c)[0]!=='ok');
+  const hoje=hojeISO(); const regsHoje=Object.values(DB.reg).flat().filter(x=>x.data===hoje).length;
+  document.getElementById('kpis').innerHTML=`
+   <div class="kpi"><div class="rot">Nota do Cliente Oculto</div><div class="val">${r.pct===null?'–':r.pct+'%'}</div><span class="selo ${cl}">${tx}</span></div>
+   <div class="kpi"><div class="rot">Registros hoje</div><div class="val">${regsHoje}</div><div class="det">registros dos turnos</div></div>
+   <div class="kpi"><div class="rot">Alertas abertos</div><div class="val" style="color:${al.length?'var(--erro)':'var(--ok)'}">${al.length}</div><div class="det">nos controles</div></div>
+   <div class="kpi"><div class="rot">Exames a resolver</div><div class="val" style="color:${eqProb.length?'var(--erro)':'var(--ok)'}">${eqProb.length}</div><div class="det">${DB.equipe.length} na equipe</div></div>`;
+  const itens=[...al.slice(-6).map(a=>`<li><span class="selo erro">Controle</span> <b>${a.ctrl}</b> — ${esc(a.det)} (${fmtData(a.data)}): ${a.txt}</li>`),
+    ...eqProb.map(c=>`<li><span class="selo alerta">Equipe</span> ${esc(c.nome)}: ${statusAso(c)[1]}</li>`),
+    ...r.ncs.filter(n=>n.critico).slice(0,5).map(n=>`<li><span class="selo erro">★ Crítico</span> ${n.item}</li>`)];
+  document.getElementById('alertasPainel').innerHTML = itens.length?`<ul style="list-style:none;display:grid;gap:8px">${itens.join('')}</ul>`:'<div class="vazio">✔ Nenhum alerta. Continue registrando todos os dias.</div>';
+}
+
+
+
+
+/* =========================================================
+   3+. VENDAS & METAS
+   ========================================================= */
+let rotAtual='painel';
+const ROT_ABAS={painel:'📈 Painel de vendas',obj:'🛡️ Banco de objeções',roteiro:'🗣️ Roteiro de venda',estrela:'⭐ Pratos estrela',clientes:'👥 Clientes (colecionar pontos)'};
+function abrirPorQR(){ return false; }
+function montarRotina(){
+  document.getElementById('abasRotina').innerHTML=Object.entries(ROT_ABAS).map(([k,t])=>`<button class="${k===rotAtual?'ativo':''}" onclick="rotAtual='${k}';montarRotina()">${t}</button>`).join('');
+  ({painel:rotPainel,obj:rotObj,roteiro:rotRoteiro,estrela:rotEstrela,clientes:rotClientes})[rotAtual](document.getElementById('rotinaConteudo'));
+}
+function brl(n){ return 'R$ '+Number(n||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function rotPainel(el){
+  const v=DB.reg.vendas||[]; const meta=+(DB.metaTicket||0);
+  const tot=v.reduce((a,r)=>a+(+r.total||0),0), pes=v.reduce((a,r)=>a+(+r.pessoas||0),0), sob=v.reduce((a,r)=>a+(+r.sobremesas||0),0), vin=v.reduce((a,r)=>a+(+r.vinhos||0),0);
+  const sat=(DB.reg.satisf||[]).filter(r=>r.nota!=='').map(r=>+r.nota); const prom=sat.filter(n=>n>=9).length, det=sat.filter(n=>n<=6).length; const nps=sat.length?Math.round((prom-det)/sat.length*100):null;
+  const g={}; v.forEach(r=>{ const k=(r.garcom||'—').trim(); g[k]=g[k]||{t:0,p:0,s:0,w:0}; g[k].t+=+r.total||0; g[k].p+=+r.pessoas||0; g[k].s+=+r.sobremesas||0; g[k].w+=+r.vinhos||0; });
+  const rank=Object.entries(g).map(([n,x])=>({n,tm:x.p?x.t/x.p:0,...x})).sort((a,b)=>b.tm-a.tm);
+  el.innerHTML=`<div class="card"><div class="grade g4">
+    <div class="kpi"><div class="rot">Ticket médio</div><div class="val">${pes?brl(tot/pes):'–'}</div><div class="det">${meta?'meta '+brl(meta):'defina a meta abaixo'}</div></div>
+    <div class="kpi"><div class="rot">Sobremesa por pessoa</div><div class="val">${pes?Math.round(sob/pes*100)+'%':'–'}</div><div class="det">${sob} sobremesas</div></div>
+    <div class="kpi"><div class="rot">Vinhos/drinks especiais</div><div class="val">${vin}</div><div class="det">${pes} pessoas atendidas</div></div>
+    <div class="kpi"><div class="rot">Satisfação (NPS)</div><div class="val" style="color:${nps===null?'var(--txt2)':nps>=50?'var(--ok)':nps>=0?'#946B00':'var(--erro)'}">${nps===null?'–':nps}</div><div class="det">${sat.length} respostas · ${prom} promotores · ${det} detratores</div></div></div>
+    <div class="grade g3" style="margin-top:12px"><div class="campo"><label>Meta de ticket médio da casa (R$)</label><input type="number" step="0.5" value="${DB.metaTicket||''}" onchange="DB.metaTicket=this.value;gravar();montarRotina()"></div>
+    <div class="campo" style="grid-column:span 2"><label>&nbsp;</label><button class="btn sec" onclick="ctrlAtual='vendas';irPara('controles')">+ Registrar vendas do turno</button></div></div>
+    <div class="dica"><b>NPS</b> = % de notas 9–10 menos % de notas até 6. Acima de 50 é excelente; abaixo de 0, alerta vermelho.</div></div>
+   <div class="card tabela-rola"><h3 style="margin-top:0">🏆 Ranking dos garçons</h3>${rank.length?`<table><thead><tr><th>#</th><th>Garçom</th><th>Ticket médio</th><th>Pessoas</th><th>Sobremesas</th><th>Vinhos/drinks</th><th>Total</th></tr></thead><tbody>${rank.map((r,i)=>`<tr><td>${['🥇','🥈','🥉'][i]||i+1}</td><td><b>${esc(r.n)}</b></td><td>${brl(r.tm)} ${meta?(r.tm>=meta?'<span class="selo ok">meta</span>':'<span class="selo alerta">abaixo</span>'):''}</td><td>${r.p}</td><td>${r.s}</td><td>${r.w}</td><td>${brl(r.t)}</td></tr>`).join('')}</tbody></table>`:'<div class="vazio">Registre as vendas do turno (Rotina do Salão › Vendas do turno) para ver o ranking.</div>'}</div>`;
+}
+const OBJECOES=[
+ ['"Tá caro."','Entendo. Esse prato serve bem duas pessoas e leva [ingrediente/preparo especial]. Se preferir algo mais leve no bolso, o [opção] é ótimo e sai por menos.'],
+ ['"Vou só beber."','Perfeito! Para acompanhar, nossa [porção/petisco] é pequena e combina muito com essa bebida — posso trazer para dividirem?'],
+ ['"Demora muito?"','Esse leva cerca de [X] minutos porque é feito na hora. Enquanto isso, posso trazer a [entrada rápida]. Se estiverem com pressa, o [prato rápido] sai em [Y] minutos.'],
+ ['"Não estou com muita fome."','Temos meia porção do [prato] / uma entrada que funciona como refeição leve. Quer que eu traga?'],
+ ['"Não gosto de vinho."','Sem problema! Nosso [drink/suco da casa] combina muito com esse prato. Quer provar?'],
+ ['"Sobremesa engorda / estou de dieta."','Entendo! Temos [opção leve/fruta] ou podemos trazer uma [sobremesa] com duas colheres para dividir.'],
+ ['"Já conheço, sempre peço o mesmo."','Ótimo, então já trago o de sempre! Hoje o chef fez [novidade] — se quiser, trago uma prova pequena para conhecer.'],
+ ['"Vou pensar."','Claro, fique à vontade. Volto em dois minutos — se quiser, posso contar o que os clientes mais elogiam.'],
+ ['"No outro lugar é mais barato."','Pode ser! Aqui a gente trabalha com [diferencial: ingrediente fresco, porção, preparo]. Se quiser algo mais em conta, recomendo o [opção].'],
+ ['"Não quero pagar os 10%."','A taxa de serviço é opcional, sem problema nenhum. Fico à disposição se precisar de algo mais.'],
+ ['"Estava melhor da última vez."','Obrigado por nos contar — é muito importante. O que estava diferente? Vou falar com o chef agora. (Siga o PS-10.)'],
+ ['"Só olhando o cardápio."','Fique à vontade! Se ajudar, os mais pedidos são [prato estrela 1] e [prato estrela 2]. Estou aqui do lado.'],
+ ['"Tem algo sem glúten / sem lactose?"','Tem sim: [opções]. Vou confirmar com a cozinha o preparo para não ter contato cruzado.'],
+ ['"A porção é pequena?"','Ela serve bem [X] pessoa(s). Se a fome for grande, sugiro acrescentar o [acompanhamento].'],
+ ['"Garrafa de vinho é muito para nós."','Temos vinho em taça e meia garrafa. E a garrafa que sobrar pode ser fechada para levar, se a casa permitir.']
+];
+function rotObj(el){
+  el.innerHTML=`<div class="card"><h3 style="margin-top:0">Banco de objeções</h3><p class="sub" style="margin-bottom:8px">Respostas-modelo (PS-09). Troque os [colchetes] pelos pratos da casa e treine em dupla no briefing.</p>
+   <input placeholder="🔍 Procurar objeção (ex.: caro, demora, dieta)" oninput="filtrarObj(this.value)" style="margin-bottom:10px">
+   <div id="listaObj">${OBJECOES.map((o,i)=>`<div class="card obj" style="margin-bottom:8px;padding:12px"><b>Cliente:</b> ${o[0]}<div style="margin-top:6px;color:var(--pri-esc)"><b>Resposta ArtBlend:</b> ${o[1]}</div></div>`).join('')}</div></div>`;
+}
+function filtrarObj(q){ const t=semAc(q); document.querySelectorAll('#listaObj .obj').forEach(c=>c.style.display=semAc(c.textContent).includes(t)?'':'none'); }
+function rotRoteiro(el){
+  const m=[['🍹 Bebida','"Boa noite! Para começar, nossa [bebida da casa] está ótima hoje — posso trazer uma?"','Sugira 1 bebida específica logo na chegada.'],
+   ['🥟 Entrada','"Enquanto o prato fica pronto, a [entrada] é ótima para dividir."','Ideal para mesas de 2 ou mais pessoas.'],
+   ['🍽️ Prato','"O nosso mais pedido é o [prato estrela]: [descrição em 1 frase]. Combina muito com [acompanhamento]."','Use os pratos estrela da aba ao lado.'],
+   ['🍮 Sobremesa','"Para fechar, a [sobremesa] é feita aqui na casa — trago com duas colheres?"','Nunca pergunte "vai querer sobremesa?".'],
+   ['☕ Café','"Junto com a conta, um café para acompanhar?"','Ofereça quando a conta for pedida.']];
+  el.innerHTML=`<div class="card"><h3 style="margin-top:0">Roteiro de venda sugestiva — 5 momentos (PS-08)</h3>${m.map((x,i)=>`<div class="passo"><span class="num">${i+1}</span><span><b>${x[0]}</b> — ${x[1]}<br><small style="color:var(--txt2)">${x[2]}</small></span></div>`).join('')}
+   <div class="dica"><b>Regra de ouro:</b> 1 sugestão específica + por que é boa + aceitar o "não" com elegância.</div></div>`;
+}
+function rotEstrela(el){
+  DB.estrelas=DB.estrelas||[];
+  el.innerHTML=`<div class="card"><h3 style="margin-top:0">Pratos estrela (PS-19)</h3><p class="sub" style="margin-bottom:8px">De 3 a 5 pratos muito pedidos e com boa margem. Escreva a frase que todo garçom vai usar.</p>
+   <div class="grade g3"><div class="campo"><label>Prato</label><input id="pe_nome"></div><div class="campo"><label>Frase apetitosa (1 linha)</label><input id="pe_frase" placeholder="Ex.: costela assada por 12 horas, desmancha no garfo"></div><div class="campo"><label>Combina com</label><input id="pe_comb" placeholder="Ex.: vinho tinto da casa"></div></div>
+   <button class="btn" onclick="addEstrela()">+ Adicionar</button>
+   <div style="margin-top:12px">${DB.estrelas.length?DB.estrelas.map((p,i)=>`<div class="card" style="padding:12px;margin-bottom:8px">⭐ <b>${esc(p.nome)}</b> — "${esc(p.frase)}" ${p.comb?`<small style="color:var(--txt2)">· combina com ${esc(p.comb)}</small>`:''} <button class="btn perigo peq" style="float:right" onclick="DB.estrelas.splice(${i},1);gravar();montarRotina()">×</button></div>`).join(''):'<div class="vazio">Nenhum prato estrela cadastrado.</div>'}</div></div>`;
+}
+function addEstrela(){ const n=document.getElementById('pe_nome').value.trim(); if(!n) return; DB.estrelas.push({nome:n,frase:document.getElementById('pe_frase').value.trim(),comb:document.getElementById('pe_comb').value.trim()}); gravar(); montarRotina(); }
+function rotClientes(el){
+  DB.clientes=DB.clientes||[]; const hoje=hojeISO().slice(5);
+  const aniv=DB.clientes.filter(c=>c.aniv && c.aniv.slice(5,7)===hoje.slice(0,2));
+  el.innerHTML=`<div class="card"><h3 style="margin-top:0">Colecionar pontos do cliente (PS-13)</h3>
+   <div class="grade g4"><div class="campo"><label>Nome</label><input id="cl_nome"></div><div class="campo"><label>WhatsApp</label><input id="cl_tel"></div><div class="campo"><label>Aniversário</label><input type="date" id="cl_aniv"></div><div class="campo"><label>Alergias / restrições</label><input id="cl_alerg"></div></div>
+   <div class="campo"><label>Preferências (mesa, bebida, ponto da carne, o que comemora…)</label><input id="cl_pref"></div>
+   <button class="btn" onclick="addCliente()">+ Salvar cliente</button>
+   ${aniv.length?`<div class="dica" style="margin-top:10px">🎂 <b>Aniversariantes do mês:</b> ${aniv.map(c=>`${esc(c.nome)} (${fmtData(c.aniv).slice(0,5)}) ${c.tel?`<a target="_blank" href="https://wa.me/55${c.tel.replace(/\D/g,'')}?text=${encodeURIComponent('Olá, '+c.nome+'! Feliz aniversário! 🎉 Venha comemorar com a gente na '+(DB.unidade||'nossa casa')+'.')}">enviar parabéns</a>`:''}`).join(' · ')}</div>`:''}</div>
+   <div class="card tabela-rola">${DB.clientes.length?`<table><thead><tr><th>Nome</th><th>Aniversário</th><th>Alergias</th><th>Preferências</th><th></th></tr></thead><tbody>${DB.clientes.map((c,i)=>`<tr><td><b>${esc(c.nome)}</b><div style="font-size:12px;color:var(--txt2)">${esc(c.tel||'')}</div></td><td>${c.aniv?fmtData(c.aniv).slice(0,5):'–'}</td><td>${c.alerg?`<span class="selo erro">${esc(c.alerg)}</span>`:'–'}</td><td>${esc(c.pref||'')}</td><td><button class="btn perigo peq" onclick="DB.clientes.splice(${i},1);gravar();montarRotina()">×</button></td></tr>`).join('')}</tbody></table>`:'<div class="vazio">Nenhum cliente cadastrado ainda.</div>'}</div>`;
+}
+function addCliente(){ const g=id=>document.getElementById(id).value.trim(); if(!g('cl_nome')) return; DB.clientes.push({nome:g('cl_nome'),tel:g('cl_tel'),aniv:g('cl_aniv'),alerg:g('cl_alerg'),pref:g('cl_pref')}); gravar(); montarRotina(); }
+
+/* =========================================================
+   CURSO ABC DE BOAS PRÁTICAS (aba Treinamento do Módulo 0)
+   ========================================================= */
+const CURSO=[
+ {t:'Hospitalidade: servir é técnica, acolher é sentimento', min:8,
+  oque:'<b>Serviço</b> é o que fazemos (levar o prato certo, na hora certa). <b>Hospitalidade</b> é como o cliente se <b>sente</b> enquanto fazemos isso. Os restaurantes mais admirados do mundo ensinam que a técnica impecável é obrigação — o que faz o cliente voltar e indicar é se sentir bem-vindo, lembrado e cuidado. A ideia de "hospitalidade fora do comum" é simples: dar às pessoas um pouco mais do que elas esperam, de forma pessoal.',
+  pode:['Tratar cada mesa como convidados da sua casa','Prestar atenção ao que o cliente diz e usar isso a favor dele','Ajudar o colega — a experiência é da casa, não do garçom'],
+  naopode:['Atender no "piloto automático"','Dizer "não é minha mesa"','Fazer o cliente se sentir apressado ou incomodando'],
+  pratica:'Pense no último lugar onde você foi muito bem tratado. O que fizeram? É isso que vamos fazer aqui, todo dia.',
+  quiz:[['Hospitalidade é…',['como o cliente se sente','a velocidade da cozinha','o preço do cardápio'],0],
+        ['A técnica de serviço impecável é…',['opcional','a obrigação mínima','só para restaurante caro'],1],
+        ['Um colega está sobrecarregado e a mesa dele chama você. Você…',['diz que não é sua mesa','atende e avisa o colega','ignora'],1],
+        ['"Hospitalidade fora do comum" é…',['dar um pouco mais do que o cliente espera, de forma pessoal','dar desconto sempre','falar muito com o cliente'],0],
+        ['O que faz o cliente voltar e indicar?',['se sentir bem-vindo e lembrado','só o preço baixo','a decoração'],0]]},
+ {t:'A sequência de serviço ArtBlend', min:9,
+  oque:'Todo atendimento segue a mesma sequência (PS-01): <b>receber em até 30 s</b> → acomodar → <b>garçom em até 2 min</b> com boas-vindas e sugestão de bebida → alergias e destaques → pedido repetido → <b>bebidas em até 5 min</b> → pratos juntos e anunciados → <b>checagem em 2 minutos ou 2 garfadas</b> → retirada quando todos terminarem → sobremesa e café → <b>conta em até 3 min</b> → despedida pelo nome. Os tempos são a régua do Cliente Oculto.',
+  pode:['Anotar a posição de cada pessoa para servir sem perguntar "de quem é"','Informar tempos de pratos demorados','Checar a satisfação logo nas primeiras garfadas'],
+  naopode:['Deixar a mesa esperando sem ninguém aparecer','Servir pratos da mesma mesa em momentos diferentes','Retirar o prato de um enquanto o outro ainda come'],
+  pratica:'Imprima a sequência (módulo 2 · PS-01) e cole na estação dos garçons.',
+  quiz:[['Em quanto tempo o cliente deve ser recebido na porta?',['até 30 segundos','até 5 minutos','quando der'],0],
+        ['O garçom deve chegar à mesa em até…',['2 minutos','10 minutos','15 minutos'],0],
+        ['A checagem de satisfação acontece…',['só na conta','em 2 minutos ou 2 garfadas','nunca'],1],
+        ['Quando retirar os pratos?',['quando todos terminarem','assim que cada um terminar','no fim da noite'],0],
+        ['A conta deve chegar em até…',['3 minutos','15 minutos','30 minutos'],0]]},
+ {t:'Técnicas de mesa e etiqueta', min:8,
+  oque:'Servir com elegância é servir sem atrapalhar. Padrão básico (PS-05): bebidas pela direita; pratos conforme o padrão da casa; <b>damas e convidados mais velhos primeiro, anfitrião por último</b>; pegar copo pela base e talher pelo cabo; bandeja na mão esquerda com peso no centro. Montagem: garfo à esquerda, faca à direita com o corte para dentro, copo de água acima da faca.',
+  pode:['Pedir licença ao servir','Usar o liteau (guardanapo de serviço)','Manter mãos e unhas impecáveis'],
+  naopode:['Tocar a borda do copo ou a parte do talher que vai à boca','Empilhar pratos na frente do cliente','Passar o braço na frente do rosto do cliente'],
+  pratica:'Treine montagem e bandeja 10 minutos antes de abrir, uma vez por semana.',
+  quiz:[['Quem é servido por último?',['o anfitrião','as damas','as crianças'],0],
+        ['Como pegar um copo?',['pela borda','pela base','por dentro'],1],
+        ['O garfo fica…',['à esquerda do prato','à direita do prato','em cima do prato'],0],
+        ['O corte da faca fica virado para…',['dentro (o prato)','fora','cima'],0],
+        ['Onde ficam os itens mais altos na bandeja?',['no centro','na borda','não importa'],0]]},
+ {t:'Comunicação e postura', min:7,
+  oque:'O cliente percebe a sua energia antes de você falar. Contato visual, sorriso, postura aberta. Palavras fazem diferença (PS-06): "com prazer", "excelente escolha", "posso sugerir…", "vou verificar agora". Troque "acabou" por "hoje esse esgotou — posso sugerir o…". E leia o cliente: tem mesa que quer conversa, tem mesa que quer privacidade.',
+  pode:['Chamar pelo nome quando souber','Falar baixo e com calma','Admitir "vou confirmar com a cozinha" em vez de chutar'],
+  naopode:['Gírias e intimidade exagerada','Discutir com colega na frente do cliente','Responder "não sei" e sair'],
+  pratica:'No briefing, cada um fala uma frase que vai trocar hoje (ex.: "acabou" → "esgotou, posso sugerir…").',
+  quiz:[['Qual frase é melhor?',['"Acabou."','"Hoje esse esgotou, posso sugerir o…?"','"Não tem."'],1],
+        ['Não sabe a resposta. Você diz…',['"não sei"','"vou confirmar com a cozinha agora"','inventa'],1],
+        ['Postura correta no salão:',['braços cruzados','mãos no bolso','postura aberta, contato visual e sorriso'],2],
+        ['Uma mesa quer privacidade. Você…',['puxa conversa mesmo assim','atende com discrição','ignora a mesa'],1],
+        ['Discordou do colega durante o serviço. Você…',['discute ali mesmo','conversa depois, longe do cliente','reclama com o cliente'],1]]},
+ {t:'Venda sugestiva: vender é ajudar a escolher', min:9,
+  oque:'Venda sugestiva é ajudar o cliente a ter uma experiência melhor — e, de quebra, aumentar o <b>ticket médio</b> (total vendido ÷ pessoas). São 5 momentos (PS-08): bebida, entrada, prato, sobremesa e café. A regra de ouro: <b>sugira 1 opção específica, diga por que é boa e aceite o "não" com elegância</b>. Perguntas abertas como "vai querer sobremesa?" quase sempre recebem "não".',
+  pode:['Conhecer e descrever os pratos estrela em 1 frase apetitosa','Sugerir algo para dividir','Oferecer a segunda rodada no momento certo'],
+  naopode:['Insistir depois do "não"','Sugerir sempre o mais caro sem motivo','Perguntar "vai querer mais alguma coisa?" de forma genérica'],
+  pratica:'Meta do turno no briefing (ex.: 1 sobremesa a cada 3 pessoas) e ranking no Painel de vendas.',
+  quiz:[['Ticket médio é…',['total vendido ÷ número de pessoas','o preço do prato mais caro','a gorjeta'],0],
+        ['Melhor jeito de vender sobremesa:',['"vai querer sobremesa?"','sugerir uma sobremesa específica e dizer por que é boa','não oferecer'],1],
+        ['Quantos momentos de venda sugestiva existem no padrão ArtBlend?',['2','5','10'],1],
+        ['O cliente disse não à sugestão. Você…',['insiste 3 vezes','aceita com elegância','fica chateado'],1],
+        ['Venda sugestiva serve para…',['ajudar o cliente a escolher melhor e aumentar o ticket','empurrar qualquer coisa','esvaziar o estoque'],0]]},
+ {t:'Objeções e reclamações', min:10,
+  oque:'<b>Objeção</b> é uma dúvida antes da compra ("tá caro", "demora?"). Responda com escuta, pergunta e benefício (PS-09) — e ofereça alternativa. <b>Reclamação</b> é um problema que já aconteceu. Use o método <b>O.D.R.E.</b> (PS-10): <b>O</b>uvir sem interromper · <b>D</b>esculpar-se com sinceridade · <b>R</b>esolver rápido · <b>E</b>ncantar com um gesto a mais. Cliente que tem o problema bem resolvido costuma ficar mais fiel do que quem nunca teve problema.',
+  pode:['Ter autonomia para resolver até o valor combinado com o dono','Chamar o gerente em casos graves','Registrar toda reclamação (para corrigir a causa)'],
+  naopode:['Culpar a cozinha ou o colega','Discutir quem tem razão','Esconder a reclamação do gerente'],
+  pratica:'Consulte o Banco de Objeções (Vendas & Metas) e treine as respostas em dupla.',
+  quiz:[['O.D.R.E. significa…',['Ouvir, Desculpar, Resolver, Encantar','Olhar, Dizer, Repetir, Explicar','Organizar, Decidir, Reclamar, Encerrar'],0],
+        ['"Tá caro" é…',['uma objeção','uma reclamação','uma ofensa'],0],
+        ['Ao ouvir uma reclamação, você…',['explica por que não foi culpa sua','ouve até o fim e pede desculpas','chama a cozinha para discutir'],1],
+        ['Toda reclamação deve ser…',['escondida','registrada para corrigir a causa','ignorada se o cliente for embora'],1],
+        ['Alternativa boa para "é muita comida":',['meia porção ou prato para dividir','dizer que não é','tirar o prato do cardápio'],0]]},
+ {t:'Encantar e fidelizar', min:8,
+  oque:'Encantar é transformar uma visita em história (PS-11): um gesto pequeno, pessoal e inesperado — a vela na sobremesa do aniversário, a água com gás de sempre já na mesa. Para isso é preciso <b>colecionar pontos</b> sobre o cliente (PS-13): nome, aniversário, preferências, alergias. Medir também é cuidar: pesquisa de satisfação (nota 0 a 10) e avaliações no Google, respondidas em até 48 h (PS-12).',
+  pode:['Anotar preferências no cadastro de clientes','Contar os encantamentos no briefing','Pedir avaliação com naturalidade para quem gostou'],
+  naopode:['Prometer o que a casa não pode cumprir','Usar informação do cliente de forma invasiva','Deixar avaliação negativa sem resposta'],
+  pratica:'Meta: pelo menos 1 encantamento registrado por turno.',
+  quiz:[['Um momento de encantamento é…',['um gesto pessoal e inesperado','um desconto obrigatório','falar alto o nome do cliente'],0],
+        ['"Colecionar pontos" do cliente é…',['anotar preferências, datas e restrições','juntar notas fiscais','pedir CPF'],0],
+        ['Nota 4 na pesquisa de satisfação. Você…',['ignora','chama o gerente para falar com o cliente','apaga a nota'],1],
+        ['Avaliações no Google devem ser respondidas em até…',['48 horas','1 mês','não precisa responder'],0],
+        ['Meta mínima de encantamentos:',['1 por turno','1 por ano','nenhuma'],0]]},
+ {t:'Bebidas e vinho', min:10,
+  oque:'Bebida é onde a casa mais ganha margem. Vinho (PS-14): temperaturas — <b>espumantes 6–8 °C, brancos e rosés 8–12 °C, tintos leves 14–16 °C, encorpados 16–18 °C</b>; apresente a garrafa a quem pediu, abra sem barulho, sirva a prova, depois damas, demais e o anfitrião; taça até 1/3. Harmonização simples: peso com peso; gordura pede acidez; o vinho deve ser mais doce que a sobremesa. Bar e café (PS-15): ficha técnica para drinks, cerveja com 2 a 3 dedos de colarinho, xícara aquecida.',
+  pode:['Sugerir vinho em taça para quem está em dúvida','Manter a garrafa ao alcance e reabastecer','Seguir a ficha técnica do drink'],
+  naopode:['Servir tinto encorpado quente demais ou branco quente','Encher a taça até a borda','Improvisar dose de drink'],
+  pratica:'Monte com o consultor uma carta enxuta: poucos rótulos bem escolhidos, que a equipe saiba explicar.',
+  quiz:[['Temperatura de serviço de espumante:',['6 a 8 °C','16 a 18 °C','ambiente'],0],
+        ['A quem se apresenta a garrafa?',['a quem pediu o vinho','a qualquer pessoa','ao gerente'],0],
+        ['Até onde encher a taça de vinho tranquilo?',['até a borda','cerca de 1/3','meia taça sempre'],1],
+        ['Prato gorduroso combina com vinho de…',['boa acidez','nenhuma acidez','só água'],0],
+        ['Colarinho de cerveja recomendado:',['2 a 3 dedos','nenhum','metade do copo'],0]]},
+ {t:'Bônus · Referências mundiais de hospitalidade', min:8, bonus:true,
+  oque:'O que as referências ensinam (resumo ArtBlend, para gerente e consultor):<br>• <b>Ritz-Carlton</b>: os "3 passos do serviço" — receber com calor e pelo nome, antecipar necessidades, despedir-se com carinho e pelo nome; e a reunião diária de alinhamento (nosso briefing de 5 minutos).<br>• <b>Danny Meyer / Union Square Hospitality</b>: "hospitalidade iluminada" — cuidar primeiro da equipe, depois do cliente; prestar atenção nos detalhes do cliente para personalizar (nosso "colecionar pontos").<br>• <b>Will Guidara (Eleven Madison Park)</b>: "hospitalidade fora do comum" — encantar com gestos pessoais e inesperados (nossos momentos de encantamento).<br>• <b>Forbes Travel Guide</b>: padrões objetivos e avaliação anônima (nosso Cliente Oculto).<br>• <b>Le Cordon Bleu</b>: formação em gestão de hotelaria e restaurantes, vinho e gastronomia — referência de padrão técnico.<br>• <b>No Brasil</b>: cursos de garçom e atendimento da Abrasel e do Senac; a Lei 13.419/2017 regula a gorjeta.',
+  pode:['Adaptar as ideias à realidade da casa','Medir sempre (tempo, nota, ticket)'],
+  naopode:['Copiar padrão de luxo sem estrutura para cumprir','Esquecer que a equipe vem primeiro'],
+  pratica:'A Central de Salão ArtBlend junta essas referências num método só, em português e para a realidade brasileira.',
+  quiz:[['Os "3 passos do serviço" são da…',['Ritz-Carlton','Forbes','Abrasel'],0],
+        ['"Colecionar pontos" do cliente vem da ideia de…',['Danny Meyer','Le Cordon Bleu','Lei 13.419'],0],
+        ['Avaliação anônima com padrões objetivos é o…',['Cliente Oculto','briefing','ticket médio'],0],
+        ['Para Danny Meyer, quem vem primeiro?',['a equipe','o fornecedor','o concorrente'],0],
+        ['A gorjeta no Brasil é regulada pela…',['Lei 13.419/2017','RDC 216','ISO 22000'],0]]}
+];
+let aulaAtual=null, alunoAtual='';
+function montarCurso(){
+  const el=document.getElementById('cursoConteudo'); if(!el) return;
+  const eq=DB.equipe||[];
+  if(aulaAtual===null){
+    const a=eq[+alunoAtual]; const feitos=a?a.trein:[];
+    el.innerHTML=`<div class="card"><div class="grade g2"><div><h3 style="margin-top:0">Curso ABC de Atendimento</h3><p class="sub" style="margin:0">8 aulas curtas + 1 bônus · cerca de 1 hora no total · quiz de 5 perguntas no fim de cada aula (acertar 4 para passar). Concluídas as 8, o certificado é liberado no módulo Equipe.</p></div>
+      <div class="campo"><label>Quem está fazendo o curso</label><select onchange="alunoAtual=this.value;montarCurso()"><option value="">— escolha o colaborador —</option>${eq.map((c,i)=>`<option value="${i}" ${String(i)===String(alunoAtual)?'selected':''}>${esc(c.nome)} (${esc(c.funcao)})</option>`).join('')}</select>
+      ${eq.length?'':'<div class="aviso" style="margin-top:6px">Cadastre a equipe no módulo 4 · Equipe para registrar a nota de cada pessoa.</div>'}</div></div>
+      ${a?`<div style="margin-top:8px"><div class="barra"><div style="width:${Math.round(feitos.length/8*100)}%"></div></div><div class="det" style="font-size:13px;margin-top:4px">${feitos.length} de 8 aulas concluídas${feitos.length===8?(certValido(a)?` · <b style="color:var(--ok)">certificado válido até ${validadeCert(a)}</b>`:' · <b style="color:var(--erro)">certificado vencido</b>'):''}</div>
+      <div class="acoes">${feitos.length===8&&certValido(a)?`<button class="btn peq" onclick="irPara('equipe');certificado(${+alunoAtual})">🎓 Imprimir meu certificado</button>`:''}${feitos.length===8?`<button class="btn sec peq" onclick="reciclar(${+alunoAtual})">🔄 Fazer reciclagem</button>`:''}</div></div>`:''}</div>
+     <div class="dica"><b>Ordem certa na implantação:</b> 1º todo mundo faz o curso → 2º recebe o certificado → 3º o Manual de Atendimento é implantado e assinado.</div>
+     <div class="pop-lista">${CURSO.map((c,i)=>`<div class="pop-card" onclick="aulaAtual=${i};montarCurso();document.getElementById('mod-abc').scrollIntoView()">
+       <div class="cod">${c.bonus?'BÔNUS':'AULA '+(i+1)} · ${c.min} min</div><div class="nome">${c.t}</div>
+       <div>${!c.bonus&&a&&feitos.includes(i)?'<span class="selo ok">✓ concluída</span>':c.bonus?'<span class="selo neutro">para gerente e consultor</span>':'<span class="selo neutro">a fazer</span>'}${a&&a.notas&&a.notas[i]!=null?` <span class="selo neutro">nota ${a.notas[i]}/5</span>`:''}</div></div>`).join('')}</div>`;
+    return;
+  }
+  const c=CURSO[aulaAtual];
+  el.innerHTML=`<div class="acoes nao-imprimir"><button class="btn sec" onclick="aulaAtual=null;montarCurso()">← Todas as aulas</button><button class="btn sec" onclick="window.print()">🖨 Imprimir a aula</button></div>
+   <div class="pop-doc"><div class="cod" style="color:var(--pri-esc);font-weight:800">${c.bonus?'AULA BÔNUS':'AULA '+(aulaAtual+1)+' DE 8'} · ${c.min} minutos</div><h2>${c.t}</h2>
+    <div class="secao"><h4>O que é</h4><p>${c.oque}</p></div>
+    <div class="grade g2"><div class="secao"><h4 style="color:var(--ok)">✔ Pode / deve</h4><ul>${c.pode.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+    <div class="secao"><h4 style="color:var(--erro)">✘ Não pode</h4><ul>${c.naopode.map(x=>`<li>${x}</li>`).join('')}</ul></div></div>
+    <div class="dica"><b>Na prática:</b> ${c.pratica}</div>
+    <div class="secao nao-imprimir"><h4>Quiz — 5 perguntas</h4><div id="quiz">${c.quiz.map((q,qi)=>`<div class="card" style="padding:12px;margin-bottom:8px"><b>${qi+1}. ${q[0]}</b>${q[1].map((o,oi)=>`<label style="display:flex;gap:8px;align-items:center;font-weight:400;color:var(--txt);margin-top:6px;cursor:pointer"><input type="radio" name="q${qi}" value="${oi}" style="width:auto"> ${o}</label>`).join('')}</div>`).join('')}</div>
+    <button class="btn" onclick="corrigirQuiz()">Corrigir</button><div id="resQuiz"></div></div></div>`;
+}
+function corrigirQuiz(){
+  const c=CURSO[aulaAtual]; let ac=0; c.quiz.forEach((q,qi)=>{ const r=document.querySelector(`input[name=q${qi}]:checked`); const card=document.querySelectorAll('#quiz .card')[qi];
+    const ok=r&&+r.value===q[2]; if(ok) ac++; card.style.borderColor=ok?'var(--ok)':'var(--erro)';
+    if(!ok){ const old=card.querySelector('.resp'); if(old) old.remove(); card.insertAdjacentHTML('beforeend',`<div class="resp" style="font-size:13px;color:var(--erro);margin-top:6px">Resposta certa: ${q[1][q[2]]}</div>`);} });
+  const a=(DB.equipe||[])[+alunoAtual]; const passou=ac>=4;
+  if(a && alunoAtual!==''){ a.notas=a.notas||{}; a.notas[aulaAtual]=Math.max(ac,a.notas[aulaAtual]||0); if(passou && !c.bonus && !a.trein.includes(aulaAtual)) a.trein.push(aulaAtual); if(a.trein.length===8 && !a.certData) a.certData=hojeISO(); gravar(); }
+  document.getElementById('resQuiz').innerHTML=`<div class="${passou?'dica':'aviso'}" style="margin-top:10px"><b>${ac} de 5 acertos.</b> ${passou?(a?'Aula concluída e registrada para '+esc(a.nome)+'!':'Você passou! (escolha o colaborador para registrar)'):'Releia a aula e tente de novo — precisa de 4 acertos.'}
+   ${passou&&a&&a.trein.length===8?'<br>🎓 As 8 aulas foram concluídas: o certificado está liberado no módulo 4 · Equipe.':''}</div>`;
+}
+
+/* ---------- histórico e gráfico de evolução ---------- */
+function salvarHistorico(){
+  const r=resumoInspecao(); if(r.pct===null){ alert('Responda a avaliação antes de guardar a nota.'); return; }
+  DB.historico=DB.historico||[]; const d=hojeISO(); const i=DB.historico.findIndex(h=>h.data.slice(0,7)===d.slice(0,7));
+  const reg={data:d,pct:r.pct,nc:r.nc}; if(i>=0) DB.historico[i]=reg; else DB.historico.push(reg);
+  DB.historico.sort((a,b)=>a.data<b.data?-1:1); gravar(); alert('Nota de '+r.pct+'% guardada no histórico de '+d.slice(5,7)+'/'+d.slice(0,4)+'.');
+}
+function grafEvolucao(){
+  const h=(DB.historico||[]).slice(-12); if(!h.length) return '<h3>Evolução da nota</h3><div class="vazio">Use "Guardar nota no histórico" no Cliente Oculto a cada mês para ver a evolução aqui.</div>';
+  const W=640,H=200,bw=Math.min(60,(W-40)/h.length-10); const meses=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  const barras=h.map((x,i)=>{ const hh=x.pct/100*(H-50), xx=30+i*((W-40)/h.length)+5, cor=x.pct>=76?'#2E9D5B':x.pct>=51?'#E0A100':'#D64545';
+    return `<rect x="${xx}" y="${H-25-hh}" width="${bw}" height="${hh}" rx="5" fill="${cor}"/><text x="${xx+bw/2}" y="${H-30-hh}" text-anchor="middle" font-size="12" font-weight="700" fill="#16294A">${x.pct}%</text><text x="${xx+bw/2}" y="${H-8}" text-anchor="middle" font-size="11" fill="#6E7A8C">${meses[+x.data.slice(5,7)-1]}/${x.data.slice(2,4)}</text>`;}).join('');
+  const ganho=h.length>1? h[h.length-1].pct-h[0].pct : 0;
+  return `<h3>Evolução da nota</h3><svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;height:auto" role="img" aria-label="Evolução da nota de inspeção"><line x1="25" y1="${H-25-0.76*(H-50)}" x2="${W}" y2="${H-25-0.76*(H-50)}" stroke="#2E9D5B" stroke-dasharray="4 4"/><text x="${W-4}" y="${H-29-0.76*(H-50)}" text-anchor="end" font-size="10" fill="#2E9D5B">meta 76% (Bom)</text>${barras}</svg>
+   ${h.length>1?`<p style="font-size:14px">${ganho>=0?'📈':'📉'} Desde ${fmtData(h[0].data)} a nota ${ganho>=0?'subiu':'caiu'} <b>${Math.abs(ganho)} pontos</b>.</p>`:''}`;
+}
+
+function abaABC(q){ document.getElementById('abcUso').style.display=q==='uso'?'':'none'; document.getElementById('abcCurso').style.display=q==='curso'?'':'none'; document.getElementById('abaAbcUso').classList.toggle('ativo',q==='uso'); document.getElementById('abaAbcCurso').classList.toggle('ativo',q==='curso'); if(q==='curso') montarCurso(); }
+
+/* ---------- lupa: busca em toda a Central ---------- */
+const semAc=t=>(t||'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[’'`´]/g,'').toLowerCase();
+function indiceBusca(){
+  const I=[];
+  MODS.forEach(([k,t])=>I.push({t,d:'Módulo',go:()=>irPara(k)}));
+  POPS.forEach((p,i)=>I.push({t:p.cod+' · '+p.nome,d:'Padrão de serviço — '+p.obj,txt:p.passos.join(' ')+' '+p.freq,go:()=>{irPara('pops');popFiltro='Todos';popAberto=i;montarPops();}}));
+  CURSO.forEach((c,i)=>I.push({t:(c.bonus?'Aula bônus':'Aula '+(i+1))+' · '+c.t,d:'Curso ABC de Atendimento',txt:c.oque+' '+c.pode.join(' ')+' '+c.naopode.join(' '),go:()=>{irPara('abc');abaABC('curso');aulaAtual=i;montarCurso();}}));
+  Object.entries(CONTROLES).forEach(([k,c])=>I.push({t:c.t,d:'Rotina do Salão — '+c.desc,txt:JSON.stringify(c.campos),go:()=>{ctrlAtual=k;irPara('controles');montarControles();}}));
+  Object.entries(ROT_ABAS).forEach(([k,t])=>I.push({t:t.replace(/^\S+\s/,''),d:'Vendas & Metas',go:()=>{rotAtual=k;irPara('rotina');}}));
+  BLOCOS.forEach(b=>I.push({t:b.ref+' · '+b.t,d:'Cliente Oculto — bloco',txt:b.itens.map(x=>x[0]).join(' '),go:()=>{irPara('inspecao');setTimeout(()=>{const e=document.getElementById('blk-'+b.id);e.classList.add('aberto');e.scrollIntoView({behavior:'smooth'});},50);}}));
+  return I;
+}
+function buscarCentral(q){
+  const box=document.getElementById('lupaRes'); const t=semAc(q.trim()); if(t.length<2){ box.style.display='none'; return; }
+  const palavras=t.split(/\s+/); const I=indiceBusca();
+  const res=I.map(x=>{ const tt=semAc(x.t), all=tt+' '+semAc(x.d)+' '+semAc(x.txt||''); if(!palavras.every(p=>all.includes(p))) return null; return {x,score:palavras.filter(p=>tt.includes(p)).length*10+1}; }).filter(Boolean).sort((a,b)=>b.score-a.score).slice(0,12);
+  window._lupa=res.map(r=>r.x);
+  box.innerHTML=res.length?res.map((r,i)=>`<div class="r" onclick="_lupa[${i}].go();document.getElementById('lupaRes').style.display='none';document.getElementById('lupa').value=''"><b>${esc(r.x.t)}</b><small>${esc(r.x.d.slice(0,110))}</small></div>`).join(''):'<div class="r" style="cursor:default;color:var(--txt2)">Nada encontrado. Tente outra palavra.</div>';
+  box.style.display='block';
+}
+document.addEventListener('click',e=>{ if(!e.target.closest('.busca')){ const b=document.getElementById('lupaRes'); if(b) b.style.display='none'; } });
+
+/* ---------- perfis de acesso ---------- */
+const MODS=[['abc','0 · ABC do Salão'],['inicio','Painel'],['inspecao','1 · Cliente Oculto'],['pops','2 · Padrões de Serviço'],['controles','3 · Rotina do Salão'],['rotina','3+ · Vendas & Metas'],['equipe','4 · Equipe e Treinamento'],['visita','5 · Visita do Consultor'],['mbp','6 · Manual de Atendimento'],['normas','Normas e Referências']];
+const ACESSO={ // u = usa, v = vê, n = não aparece
+  consultor:  {abc:'u',inicio:'u',inspecao:'u',pops:'u',controles:'u',rotina:'u',equipe:'u',visita:'u',mbp:'u',normas:'u'},
+  gerente:    {abc:'u',inicio:'u',inspecao:'u',pops:'u',controles:'u',rotina:'u',equipe:'u',visita:'v',mbp:'v',normas:'v'},
+  colaborador:{abc:'v',inicio:'v',inspecao:'n',pops:'v',controles:'u',rotina:'u',equipe:'v',visita:'n',mbp:'n',normas:'n'}
+};
+function setPerfil(p){
+  DB.perfil=p; gravar();
+  document.querySelectorAll('#perfis button').forEach(b=>b.classList.toggle('ativo',b.dataset.p===p));
+  document.querySelectorAll('nav.menu button[data-mod]').forEach(b=>b.classList.toggle('oculto',ACESSO[p][b.dataset.mod]==='n'));
+  const atual=document.querySelector('section.mod.ativo'); if(atual && ACESSO[p][atual.id.replace('mod-','')]==='n') irPara('abc');
+  montarAcesso();
+}
+function montarAcesso(){
+  const ic={u:'<span class="ac-usa">●</span>',v:'<span class="ac-ve">◐</span>',n:'<span class="ac-nao">○</span>'};
+  const p=DB.perfil||'consultor';
+  document.getElementById('tabelaAcesso').innerHTML=`<thead><tr><th>Parte da Central</th><th>Consultor</th><th>Dono / Gerente</th><th>Colaborador</th></tr></thead><tbody>${MODS.map(([k,t])=>`<tr><td>${t}</td>${['consultor','gerente','colaborador'].map(x=>`<td style="${x===p?'background:var(--pri-clr)':''}">${ic[ACESSO[x][k]]}</td>`).join('')}</tr>`).join('')}</tbody>`;
+}
+/* ---------- impressão de qualquer tela ---------- */
+function imprimir(){ window.print(); }
+let abertosAntes=[];
+window.addEventListener('beforeprint',()=>{ abertosAntes=[...document.querySelectorAll('.bloco-insp.aberto')].map(e=>e.id); document.querySelectorAll('.bloco-insp').forEach(e=>e.classList.add('aberto')); });
+window.addEventListener('afterprint',()=>{ document.querySelectorAll('.bloco-insp').forEach(e=>e.classList.toggle('aberto',abertosAntes.includes(e.id))); });
+/* ---------- marca animada ---------- */
+function animarMarca(caixa){ let idx=0; const letras=[];
+  caixa.querySelectorAll('.brandmark .word').forEach(w=>{ const tem=!!w.querySelector('.abc'); const t=w.textContent; w.textContent='';
+    [...t].forEach((ch,i)=>{ const sp=document.createElement('span'); sp.textContent=ch; sp.className='letter'+(i===0&&tem?' abc':''); sp.style.animationDelay=(idx*0.045).toFixed(3)+'s'; w.appendChild(sp); if(i===0&&tem) letras.push(sp); idx++; }); });
+  const alvos=[...caixa.querySelectorAll('.tagmarca .alvo')];
+  function medir(){ letras.forEach((l,i)=>{ const a=alvos[i]; if(!a) return; const r1=l.getBoundingClientRect(), r2=a.getBoundingClientRect(); if(!r1.width||!r2.width) return;
+    l.style.setProperty('--tx',Math.round((r2.left+r2.width/2)-(r1.left+r1.width/2))+'px'); l.style.setProperty('--ty',Math.round((r2.top+r2.height/2)-(r1.top+r1.height/2))+'px'); }); }
+  function viajar(l,a){ l.classList.remove('viajando'); void l.offsetWidth; l.classList.add('viajando');
+    setTimeout(()=>{ if(a){ a.classList.remove('pisca'); void a.offsetWidth; a.classList.add('pisca'); } },700);
+    l.addEventListener('animationend',function fim(e){ if(e.animationName!=='letraViaja') return; l.classList.remove('viajando'); l.removeEventListener('animationend',fim); });
+    if(a) a.addEventListener('animationend',function fim2(){ a.classList.remove('pisca'); a.removeEventListener('animationend',fim2); }); }
+  function rodada(){ if(!letras.length || !letras[0].offsetParent) return; medir(); letras.forEach((l,i)=>setTimeout(()=>{ medir(); viajar(l,alvos[i]); },i*950)); }
+  setTimeout(()=>{ rodada(); setInterval(rodada,6200); },2400);
+  window.addEventListener('resize',medir);
+}
+document.querySelectorAll('nav.menu, #marcaMovel').forEach(animarMarca);
+/* marca no celular: aparece no ABC e no Painel; encolhe para uma barrinha ao rolar */
+function atualizarMarcaMovel(){
+  const m=document.getElementById('marcaMovel'); if(!m) return; const at=document.querySelector('section.mod.ativo');
+  const mostra = at && (at.id==='mod-abc' || at.id==='mod-inicio'); m.classList.toggle('oculta',!mostra);
+  m.classList.toggle('compacta', mostra && window.scrollY>140);
+  const h = (mostra && getComputedStyle(m).display!=='none') ? m.offsetHeight : 0; document.documentElement.style.setProperty('--hm',h+'px');
+}
+window.addEventListener('scroll',atualizarMarcaMovel,{passive:true}); window.addEventListener('resize',atualizarMarcaMovel);
+
+/* ---------- início ---------- */
+carregar();
+document.getElementById('nomeUnidade').value = DB.unidade||'';
+carregarVisita();
+montarInspecao(); montarPops(); montarControles(); montarEquipe(); montarNormas(); montarPainel();
+setPerfil(DB.perfil||'consultor');
+const hashMod=(location.hash||'').replace('#',''); if(!abrirPorQR(hashMod)) irPara(hashMod && document.getElementById('mod-'+hashMod) ? hashMod : (DB.jaViuABC ? 'inicio' : 'abc')); DB.jaViuABC=true; gravar();
+setTimeout(atualizarMarcaMovel,50);
+/* ---------- nuvem ---------- */
+const LOCAL_SO=['perfil','jaViuABC'];
+function dadosParaNuvem(){ const c={}; Object.keys(DB).forEach(k=>{ if(!LOCAL_SO.includes(k)) c[k]=DB[k]; }); return c; }
+function aplicarDaNuvem(d){ const loc={}; LOCAL_SO.forEach(k=>loc[k]=DB[k]); DB=Object.assign({unidade:'',insp:{},reg:{},equipe:[],visita:{},mbp:{}},d||{},loc);
+  try{ localStorage.setItem(ARMAZ, JSON.stringify(DB)); }catch(e){}
+  document.getElementById('nomeUnidade').value=DB.unidade||''; carregarVisita();
+  montarInspecao(); montarPops(); montarControles(); montarEquipe(); montarPainel(); const at=document.querySelector('section.mod.ativo'); if(at){ const m=at.id.replace('mod-',''); if(m==='rotina') montarRotina(); if(m==='visita') montarRelatorio(); if(m==='mbp') montarMBP(); if(m==='abc'&&document.getElementById('abcCurso').style.display!=='none') montarCurso(); } }
+if(window.ABSync) ABSync.iniciar('central_salao', dadosParaNuvem, aplicarDaNuvem);
+window.addEventListener('hashchange',()=>{const h=location.hash.replace('#',''); if(document.getElementById('mod-'+h)) irPara(h);});
+</script>
+</body>
+</html>
