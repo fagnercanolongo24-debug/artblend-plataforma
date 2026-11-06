@@ -6,6 +6,7 @@
 <title>Central de Qualidade ArtBlend</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="artblend-sync.js"></script>
 <style>
 :root{
   --pri:#1C93A8; --pri-esc:#137487; --pri-clr:#E4F8FB; --acento:#2EC4D6; --verde:#3ADC84; --fundo:#F5F7FA; --card:#FFFFFF;
@@ -224,6 +225,7 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
   <div class="marca">Central de Qualidade<small>Segurança dos alimentos do jeito certo, todos os dias</small></div>
   <div class="busca"><input id="lupa" placeholder="🔍 Buscar na Central…" title="Ex.: freezer, caixa d’água, etiqueta" oninput="buscarCentral(this.value)" autocomplete="off"><div id="lupaRes"></div></div>
   <div class="unidade">
+    <span id="syncBox" style="display:inline-flex;align-items:center;gap:6px;font-size:12px"></span>
     <span>Estabelecimento:</span>
     <input id="nomeUnidade" placeholder="Nome do restaurante" oninput="salvarUnidade(this.value)">
     <div class="perfis" id="perfis" title="Ver como">
@@ -429,7 +431,7 @@ td{padding:9px;border-bottom:1px solid var(--borda);vertical-align:top}
 const ARMAZ = 'artblend_qualidade_v1';
 let DB = {unidade:'', insp:{}, reg:{}, equipe:[], visita:{}, mbp:{}};
 function carregar(){ try{ const s = localStorage.getItem(ARMAZ); if(s) DB = Object.assign(DB, JSON.parse(s)); }catch(e){} }
-function gravar(){ try{ localStorage.setItem(ARMAZ, JSON.stringify(DB)); return true; }catch(e){ alert('A memória deste aparelho está cheia (provavelmente por causa das fotos). Exporte os registros e apague fotos antigas.'); return false; } }
+function gravar(){ try{ localStorage.setItem(ARMAZ, JSON.stringify(DB)); if(window.ABSync&&ABSync.agendar) ABSync.agendar(); return true; }catch(e){ alert('A memória deste aparelho está cheia (provavelmente por causa das fotos). Exporte os registros e apague fotos antigas.'); return false; } }
 
 /* =========================================================
    FOTOS COM PROVA (anti-fraude)
@@ -1440,6 +1442,14 @@ montarInspecao(); montarPops(); montarControles(); montarEquipe(); montarNormas(
 setPerfil(DB.perfil||'consultor');
 const hashMod=(location.hash||'').replace('#',''); if(!abrirPorQR(hashMod)) irPara(hashMod && document.getElementById('mod-'+hashMod) ? hashMod : (DB.jaViuABC ? 'inicio' : 'abc')); DB.jaViuABC=true; gravar();
 setTimeout(atualizarMarcaMovel,50);
+/* ---------- nuvem ---------- */
+const LOCAL_SO=['perfil','jaViuABC'];
+function dadosParaNuvem(){ const c={}; Object.keys(DB).forEach(k=>{ if(!LOCAL_SO.includes(k)) c[k]=DB[k]; }); return c; }
+function aplicarDaNuvem(d){ const loc={}; LOCAL_SO.forEach(k=>loc[k]=DB[k]); DB=Object.assign({unidade:'',insp:{},reg:{},equipe:[],visita:{},mbp:{}},d||{},loc);
+  try{ localStorage.setItem(ARMAZ, JSON.stringify(DB)); }catch(e){}
+  document.getElementById('nomeUnidade').value=DB.unidade||''; carregarVisita();
+  montarInspecao(); montarPops(); montarControles(); montarEquipe(); montarPainel(); const at=document.querySelector('section.mod.ativo'); if(at){ const m=at.id.replace('mod-',''); if(m==='rotina') montarRotina(); if(m==='visita') montarRelatorio(); if(m==='mbp') montarMBP(); if(m==='abc'&&document.getElementById('abcCurso').style.display!=='none') montarCurso(); } }
+if(window.ABSync) ABSync.iniciar('central_qualidade', dadosParaNuvem, aplicarDaNuvem);
 window.addEventListener('hashchange',()=>{const h=location.hash.replace('#',''); if(document.getElementById('mod-'+h)) irPara(h);});
 </script>
 </body>

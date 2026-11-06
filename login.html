@@ -267,7 +267,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         }
 
         showMessage('✅ Login realizado com sucesso!', 'success');
-        setTimeout(() => { window.location.href = 'plataforma.html'; }, 800);
+        setTimeout(() => { const v=new URLSearchParams(location.search).get('volta'); window.location.href = (v && /^[\w-]+\.html(#[\w=&%-]*)?$/.test(v)) ? v : 'plataforma.html'; }, 800);
     } catch (error) {
         console.error('Erro:', error);
         showMessage('❌ Erro ao fazer login. Tente novamente.', 'error');
