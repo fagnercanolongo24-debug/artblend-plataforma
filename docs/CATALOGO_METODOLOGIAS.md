@@ -56,7 +56,7 @@ Lista de ferramentas de gestão, qualidade e operação usadas no mundo, adaptad
 | 35 | Mise en place por praça | Cozinha clássica francesa | Lista do que cada praça precisa pronto antes de abrir | 🟢 | Q |
 | 36 | TWI — instrução de trabalho | EUA (Segunda Guerra) | Ensinar uma tarefa em 4 passos: preparar, mostrar, fazer junto, acompanhar | 🟢 | P |
 
-## 3. Seis Sigma
+## 3. Zero Desperdício, Mais Acertos (nome ArtBlend para o Lean Seis Sigma)
 | # | Ferramenta | De onde vem | Para que serve no restaurante | Situação | Onde |
 |---|---|---|---|---|---|
 | 37 | Medidor de acertos (nível sigma) | Motorola | % de pedidos sem erro | ✅ | G |

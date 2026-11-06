@@ -104,3 +104,6 @@ Site "Quem é a ArtBlend" (index) → **Acessar a plataforma** → entrada com A
 - ⏳ **Curso completo de APPCC** (pesquisar as maiores referências do mundo; reescrever com linguagem ArtBlend, sem copiar métodos de outros).
 - ⏳ **Consultoria sanitária completa**: implantação do Manual de Boas Práticas (como, quando, quem), RDC 216 explicada com figuras, e **placas e cartazes para imprimir** (lavar as mãos, lixeira com tampa e pedal, chão molhado, proibido adornos, uso correto de luvas, contaminação cruzada, temperaturas etc.).
 - ⏳ **Ficha técnica para imprimir**: com foto do prato, ordem do processo com figuras — entra na parte de ficha técnica / produção.
+
+### 06/11 às 16h30
+- ✅ **Lean Seis Sigma** ganhou nome ArtBlend: **"Zero Desperdício, Mais Acertos"** (combina com "Soluções Assertivas"). O nome original fica pequeno entre parênteses. Trocado no painel, na Gestão, no curso, nos relatórios, na página de vendas e no catálogo. A aula agora explica o que é "Lean" e "Sigma" em linguagem simples.
