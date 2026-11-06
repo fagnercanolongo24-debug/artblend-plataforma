@@ -117,3 +117,9 @@ Site "Quem é a ArtBlend" (index) → **Acessar a plataforma** → entrada com A
 - 📄 **Relatório A3** (7 partes; puxa dados do PDCA e da espinha de peixe).
 - 🛡️ **À prova de erro (Poka-yoke)** (21 ideias por área + as da casa; "Adotar" manda para o quadro).
 - Cada uma com **aula** (curso agora com 15 aulas), **Imprimir/Baixar/Enviar/📎 Anexar**.
+
+### 06/11 às 17h — Placas de Boas Práticas (✅ feito na área de teste)
+- 🪧 **22 placas da RDC 216 para imprimir**, uma por folha A4, com nome da casa no rodapé: lavar as mãos (passo a passo e quando), proibido adornos, uniforme e touca, proibições na área de preparo, lixeira com tampa e pedal, piso molhado, contaminação cruzada, tábuas por cor, temperaturas seguras, descongelamento, óleo de fritura, PVPS, etiquetas, higienização de hortifrúti, uso de luvas, manipulador doente, área restrita, produtos de limpeza, lavagem de louças, portas fechadas, proibida a entrada de animais.
+- Cores: azul = obrigatório, vermelho = proibido, amarelo = atenção, verde = orientação.
+- Valores conferidos no texto da RDC 216/2004: cozimento ≥ 70 °C; quente > 60 °C por até 6 h; resfriar de 60 °C a 10 °C em até 2 h; refrigerado < 5 °C; congelado ≤ −18 °C; óleo ≤ 180 °C; descongelar em refrigeração < 5 °C.
+- Atalho no painel: **🪧 Placas de Boas Práticas**. Depois: levar também para dentro da Central de Qualidade.
