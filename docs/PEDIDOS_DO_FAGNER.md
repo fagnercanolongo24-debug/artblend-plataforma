@@ -143,3 +143,6 @@ Site "Quem é a ArtBlend" (index) → **Acessar a plataforma** → entrada com A
 - 🎓 **Treino em 4 passos (TWI)**: preparar, mostrar, fazer junto, acompanhar → "apto".
 - Cada uma com aula (curso agora com **20 aulas**) e imprimir/baixar/enviar/anexar.
 - Correção: as listas de escolha agora **lembram o que foi escolhido** quando a tela se atualiza (antes, tocar num item apagava a escolha do setor).
+
+### 🔔 Lembrete (06/11, 19h56) — Área de PESSOAS
+- Buscar **todas as bases e referências mundiais de treinamento e desenvolvimento (T&D)** para usar na ala **Pessoas**: RH, Gestão de Pessoas (GP), NR-1 (riscos psicossociais), T&D etc. (ex.: modelos de avaliação de treinamento, trilhas por função, aprendizagem de adultos, avaliação de desempenho, PDI). Juntar com o Pacote 3 do catálogo (matriz de polivalência, cargos, integração, avaliação, feedback, PDI, 1:1, clima, 9 box, RACI).
