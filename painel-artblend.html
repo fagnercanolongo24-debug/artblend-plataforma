@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel ArtBlend</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--pri:#1C93A8;--pri-esc:#137487;--pri-clr:#E4F8FB;--acento:#2EC4D6;--verde:#3ADC84;--fundo:#F5F7FA;--txt:#16294A;--txt2:#6E7A8C;--borda:#E2E6ED;--ok:#2E9D5B;--alerta:#E0A100;--erro:#D64545;--raio:16px;--sombra:0 1px 2px rgba(22,41,74,.04),0 8px 22px rgba(22,41,74,.06)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:var(--fundo);color:var(--txt);font-size:15px;line-height:1.5}
+.topo{background:linear-gradient(135deg,#1C93A8,#137487);color:#fff;padding:18px 22px 70px;position:relative;overflow:hidden}
+.topo::after{content:"ABC";position:absolute;right:-20px;top:-30px;font:900 180px 'Poppins',sans-serif;color:#fff;opacity:.06;letter-spacing:-8px}
+.linha{display:flex;align-items:center;gap:14px;flex-wrap:wrap;max-width:1180px;margin:0 auto;position:relative;z-index:1}
+.marca{font:800 22px 'Poppins',sans-serif;letter-spacing:-.4px}.marca b{color:#BFF6FB;font-weight:900}
+.perfis{margin-left:auto;display:flex;background:rgba(255,255,255,.15);border-radius:12px;padding:4px;gap:4px}
+.perfis button{border:0;background:none;color:#fff;padding:7px 12px;border-radius:9px;font-weight:600;font-size:13px;cursor:pointer}
+.perfis button.ativo{background:#fff;color:var(--pri-esc)}
+.saudacao{max-width:1180px;margin:22px auto 0;position:relative;z-index:1}
+.saudacao h1{font:800 26px 'Poppins',sans-serif;letter-spacing:-.4px}
+.saudacao p{opacity:.9;margin-top:4px;max-width:640px}
+main{max-width:1180px;margin:-46px auto 40px;padding:0 16px;position:relative;z-index:2}
+.periodos{display:flex;gap:6px;flex-wrap:wrap;background:#fff;border-radius:14px;padding:6px;box-shadow:var(--sombra);margin-bottom:18px}
+.periodos button{flex:1;min-width:120px;border:0;background:none;padding:10px;border-radius:10px;font-weight:600;color:var(--txt2);cursor:pointer;font-size:14px}
+.periodos button small{display:block;font-weight:500;font-size:11px}
+.periodos button.ativo{background:var(--pri);color:#fff}
+.grade{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.cartao{background:#fff;border-radius:var(--raio);padding:18px;box-shadow:var(--sombra);border:1px solid var(--borda);position:relative;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s;text-decoration:none;color:inherit;display:block}
+.cartao:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(22,41,74,.12)}
+.cartao::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--cor,var(--pri))}
+.cartao .ic{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;background:var(--fundoic,var(--pri-clr));margin-bottom:10px}
+.cartao .nome{font-weight:700;font-size:15px}
+.cartao .frase{font-size:13px;color:var(--txt2);margin:2px 0 10px}
+.cartao .num{font:800 28px 'Poppins',sans-serif;color:var(--txt);letter-spacing:-.5px}
+.cartao .det{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--txt2);margin-top:4px}
+.seta{font-weight:800}.seta.sobe{color:var(--ok)}.seta.desce{color:var(--erro)}
+.selo{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700}
+.selo.ok{background:#E5F5EC;color:var(--ok)}.selo.alerta{background:#FFF6DC;color:#946B00}.selo.erro{background:#FDE8E8;color:var(--erro)}
+.barra{height:8px;background:#E8EEEE;border-radius:8px;overflow:hidden;margin-top:8px}.barra>div{height:100%;border-radius:8px;background:var(--cor,var(--pri))}
+h2{font:800 19px 'Poppins',sans-serif;margin:28px 0 4px;letter-spacing:-.3px}
+.sub{color:var(--txt2);margin-bottom:12px;font-size:14px}
+.aviso{background:#FFF6DC;border-left:4px solid var(--alerta);padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:16px}
+.metodo{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.met{background:#fff;border-radius:var(--raio);padding:18px;box-shadow:var(--sombra);border:1px solid var(--borda)}
+.met h3{font-size:16px;margin-bottom:2px}.met .q{font-size:12px;color:var(--pri-esc);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.met p{font-size:13.5px;color:var(--txt2);margin-top:6px}
+.pdca{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.pdca div{border-radius:10px;padding:10px;color:#fff;font-weight:700;font-size:13px}
+.pdca small{display:block;font-weight:500;opacity:.9}
+.kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+.col{background:#fff;border-radius:14px;padding:12px;border:1px solid var(--borda);min-height:160px}
+.col h4{font-size:13px;text-transform:uppercase;letter-spacing:.5px;color:var(--txt2);margin-bottom:8px;display:flex;justify-content:space-between}
+.tar{background:var(--fundo);border-radius:10px;padding:9px 10px;font-size:13.5px;margin-bottom:8px;border-left:4px solid var(--pri);display:flex;justify-content:space-between;gap:6px;align-items:flex-start}
+.tar button{border:0;background:none;cursor:pointer;font-size:14px;color:var(--pri-esc)}
+.add{display:flex;gap:6px;margin-top:10px}.add input{flex:1;border:1.5px solid var(--borda);border-radius:10px;padding:9px;font-size:14px}
+.btn{background:var(--pri);color:#fff;border:0;border-radius:10px;padding:9px 14px;font-weight:600;cursor:pointer}
+@media(max-width:640px){.topo{padding:14px 16px 60px}.saudacao h1{font-size:21px}.perfis{margin-left:0;width:100%}.perfis button{flex:1}.kanban{grid-template-columns:1fr}.perfis button{padding:7px 6px;font-size:12.5px;white-space:nowrap}.periodos{flex-wrap:nowrap;overflow-x:auto}.periodos button{min-width:104px;flex:0 0 auto}.grade{grid-template-columns:1fr 1fr;gap:10px}.cartao{padding:13px}.cartao .num{font-size:22px}.cartao .frase{font-size:12px}}
+</style>
+</head>
+<body>
+<header class="topo">
+  <div class="linha">
+    <div class="marca"><b>A</b>rt<b>B</b>lend <span style="font-weight:600;font-size:14px;opacity:.85">· <b>C</b>onsultoria <b>G</b>ourmet</span></div>
+    <div class="perfis" id="perfis">
+      <button data-p="dono" class="ativo">🏠 Dono</button><button data-p="consultor">🧭 Consultor</button><button data-p="colaborador">🙋 Colaborador</button>
+    </div>
+  </div>
+  <div class="saudacao"><h1 id="titulo"></h1><p id="frase"></p></div>
+</header>
+<main>
+  <div class="periodos" id="periodos"></div>
+  <div class="aviso">🧪 <b>Modelo para aprovação</b> — os números abaixo são de exemplo. Depois de aprovado, cada cartão puxa os dados reais das Centrais e da plataforma.</div>
+  <div class="grade" id="cartoes"></div>
+
+  <h2>🔁 Método ArtBlend de Melhoria Contínua</h2>
+  <p class="sub">Quatro métodos famosos de gestão, juntos num jeito só e simples de usar no restaurante.</p>
+  <div class="metodo">
+    <div class="met"><div class="q">O ciclo</div><h3>PDCA — Planejar, Fazer, Checar, Agir</h3><p>Todo problema passa pelo mesmo ciclo: planeja a solução, testa, confere o resultado e padroniza o que deu certo.</p>
+      <div class="pdca"><div style="background:#1C93A8">P · Planejar<small>meta e plano</small></div><div style="background:#2E9D5B">D · Fazer<small>executar o plano</small></div><div style="background:#E0A100">C · Checar<small>medir o resultado</small></div><div style="background:#16294A">A · Agir<small>padronizar ou corrigir</small></div></div></div>
+    <div class="met"><div class="q">O quadro</div><h3>Kanban — ver o trabalho</h3><p>As tarefas de melhoria num quadro de 3 colunas: <b>A fazer → Fazendo → Feito</b>. Todo mundo vê o que está parado.</p></div>
+    <div class="met"><div class="q">O hábito</div><h3>Kaizen — 1% melhor todo dia</h3><p>Pequenas melhorias diárias sugeridas pela própria equipe. Uma ideia por semana por pessoa já muda o restaurante.</p></div>
+    <div class="met"><div class="q">O foco</div><h3>Lean Seis Sigma — menos desperdício e erro</h3><p>Cortar o que não agrega (espera, sobra, retrabalho) e reduzir erros (prato errado, temperatura fora, conta errada) usando os números.</p></div>
+  </div>
+
+  <h2>📋 Quadro de melhorias (Kanban)</h2>
+  <p class="sub">Cada tarefa nasce de um alerta, de uma visita do consultor ou de uma ideia Kaizen da equipe.</p>
+  <div class="kanban" id="kanban"></div>
+  <div class="add"><input id="novaTarefa" placeholder="Nova melhoria (ex.: trocar borracha da geladeira 2)"><button class="btn" onclick="addTarefa()">+ Adicionar</button></div>
+</main>
+<script>
+const PER=[['hoje','☀️ Hoje','rotina do dia'],['semana','📅 Semana','acompanhamento'],['mes','🗓️ Mês','resultados'],['tri','📈 3 meses','tendências'],['futuro','🚀 Projetos','viabilidade e futuro']];
+// Cartões de exemplo por perfil e período: [ícone, nome, frase, número, detalhe, tendência(+/-/''), cor, link, barra%]
+const C={
+ dono:{titulo:'Bom dia! Veja como está o seu restaurante',frase:'Tudo o que importa no seu negócio, em linguagem simples. Toque em um cartão para ver os detalhes.',
+  hoje:[['💰','Seu caixa de hoje','Confira quanto entrou e saiu até agora','R$ 3.240','42 pessoas atendidas','+','#2E9D5B','plataforma.html'],
+        ['🧾','Ticket médio','Quanto cada cliente gastou, em média','R$ 77,10','meta R$ 75','+','#1C93A8','central-salao.html#rotina'],
+        ['🌡️','Segurança dos alimentos','Temperaturas e registros do dia','2 alertas','geladeira 2 e óleo','-','#D64545','central-qualidade.html#controles'],
+        ['👥','Sua equipe hoje','Quem está trabalhando e o briefing do turno','8 de 9','briefing feito ✔','','#1C93A8','central-salao.html#controles'],
+        ['📦','Estoque crítico','Itens que podem faltar hoje','3 itens','sal, óleo, limão','-','#E0A100','plataforma.html'],
+        ['⭐','Satisfação dos clientes','Nota que os clientes deram hoje','9,2','12 respostas','+','#2E9D5B','central-salao.html#rotina']],
+  semana:[['📊','Faturamento da semana','Como a semana está indo','R$ 21.800','+8% que a anterior','+','#2E9D5B'],['🏆','Ranking da equipe','Quem mais vendeu e encantou','Carlos','R$ 80 de ticket','','#1C93A8','central-salao.html#rotina'],['🍽️','Pratos mais vendidos','O que o cliente mais pede','Costela','86 pedidos','+','#1C93A8'],['🗑️','Desperdício','Comida jogada fora na semana','4,2 kg','meta: até 5 kg','+','#2E9D5B'],['😟','Reclamações','O que precisa melhorar','3','2 por demora','-','#E0A100','central-salao.html#controles'],['🧹','Limpezas em dia','Cronograma de higiene','92%','2 atrasadas','','#1C93A8','central-qualidade.html#controles']],
+  mes:[['💵','Lucro do mês','O que sobrou depois de pagar tudo','R$ 9.800','21,7% do faturamento','+','#2E9D5B'],['🥩','CMV','Quanto da venda vai para comprar comida','28,3%','meta até 30%','+','#2E9D5B'],['✅','Nota sanitária','Inspeção da Central de Qualidade','84%','Bom','+','#2E9D5B','central-qualidade.html#inspecao'],['🕵️','Cliente oculto','Nota do atendimento','78%','Bom','+','#1C93A8','central-salao.html#inspecao'],['🎓','Equipe treinada','Certificados em dia','6 de 9','3 em curso','','#1C93A8','central-qualidade.html#equipe'],['📈','NPS','Clientes que recomendariam a casa','62','excelente acima de 50','+','#2E9D5B']],
+  tri:[['📈','Crescimento','Faturamento dos últimos 3 meses','+14%','comparado ao trimestre anterior','+','#2E9D5B'],['🔁','Clientes que voltam','Clientes com 2+ visitas','38%','meta 40%','+','#1C93A8'],['👋','Rotatividade da equipe','Quantos saíram no período','1','baixa','+','#2E9D5B'],['🧭','Metas do trimestre','Plano combinado com o consultor','4 de 6','2 em andamento','','#1C93A8']],
+  futuro:[['🚀','Novo projeto: delivery','Estudo de viabilidade','em análise','retorno em 7 meses','','#1C93A8'],['🏗️','Reforma da cozinha','Orçamento e prazo','R$ 18 mil','previsto para março','','#E0A100'],['🎯','Meta do ano','Onde queremos chegar','R$ 300 mil','faturamento anual','','#1C93A8']]},
+ consultor:{titulo:'Seus restaurantes em um só lugar',frase:'Veja quem está bem, quem precisa de visita e o que fazer primeiro.',
+  hoje:[['🏪','Clientes ativos','Restaurantes que você atende','3','1 aguardando início','','#1C93A8'],['🚨','Alertas dos clientes','O que precisa da sua atenção hoje','5','2 no Bar21','-','#D64545'],['📅','Visitas de hoje','Agenda do consultor','2','Bar21 · Rest. Silva','','#1C93A8'],['✍️','Planos de ação','Correções combinadas e vencendo','4','vencem esta semana','','#E0A100']],
+  semana:[['📊','Evolução dos clientes','Quem melhorou na semana','2 de 3','Bar21 +6 pontos','+','#2E9D5B'],['🎓','Equipes em treinamento','Colaboradores fazendo cursos','14','8 certificados','+','#1C93A8'],['🧾','Relatórios enviados','Relatórios de visita entregues','3','todos assinados','','#2E9D5B']],
+  mes:[['💼','Seu faturamento de consultoria','Contratos ativos','R$ 6.500','3 contratos','+','#2E9D5B'],['🏆','Melhor resultado','Cliente que mais evoluiu','Bar21','nota 62% → 84%','+','#2E9D5B'],['⚠️','Cliente em risco','Precisa de atenção','Rest. Silva','CMV 31,5%','-','#D64545']],
+  tri:[['📈','Resultado médio dos clientes','Melhora na nota sanitária','+18 pts','em 3 meses','+','#2E9D5B'],['🤝','Renovações','Contratos renovados','2 de 2','100%','+','#2E9D5B']],
+  futuro:[['🚀','Novos clientes em negociação','Propostas enviadas','4','2 visitas de diagnóstico','','#1C93A8'],['🧰','Kit de equipamentos','Etiquetas, sensores e balança para revender','em estudo','3 fornecedores','','#E0A100']]},
+ colaborador:{titulo:'Olá! Veja como foi o seu trabalho',frase:'Seus pontos, seus treinamentos e o que você fez de certo hoje.',
+  hoje:[['✅','Minhas tarefas de hoje','O que é seu neste turno','5 de 7','faltam 2 registros','','#1C93A8'],['🌡️','Meus registros','Temperaturas e controles que você fez','6','todos dentro da faixa','+','#2E9D5B'],['🍮','Minhas vendas','Sobremesas e bebidas que você vendeu','9','meta: 8','+','#2E9D5B'],['😊','Elogios','O que os clientes falaram de você','2','"atendimento nota 10"','+','#2E9D5B']],
+  semana:[['⭐','Meus pontos','Gamificação da equipe','340','2º lugar no ranking','+','#1C93A8'],['📚','Meu curso','Próxima aula para fazer','Aula 5','Venda sugestiva','','#1C93A8','central-salao.html#abc'],['⚠️','Pontos de atenção','O que posso melhorar','1','esqueci 1 registro','-','#E0A100']],
+  mes:[['🎓','Meus certificados','Treinamentos concluídos','1 de 2','Boas Práticas ✔','','#2E9D5B'],['🏅','Minha nota','Média das avaliações','9,1','excelente','+','#2E9D5B']],
+  tri:[['📈','Minha evolução','Comparado ao trimestre passado','+22%','mais vendas e acertos','+','#2E9D5B']],
+  futuro:[['🎯','Meu próximo passo','Trilha de crescimento na casa','Líder de salão','faltam 2 cursos','','#1C93A8']]}
+};
+let perfil='dono', per='hoje';
+try{ perfil=localStorage.getItem('painel_perfil')||'dono'; }catch(e){}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function montar(){
+  document.querySelectorAll('#perfis button').forEach(b=>b.classList.toggle('ativo',b.dataset.p===perfil));
+  const P=C[perfil]; document.getElementById('titulo').textContent=P.titulo; document.getElementById('frase').textContent=P.frase;
+  document.getElementById('periodos').innerHTML=PER.map(([k,t,s])=>`<button class="${k===per?'ativo':''}" onclick="per='${k}';montar()">${t}<small>${s}</small></button>`).join('');
+  document.getElementById('cartoes').innerHTML=(P[per]||[]).map(c=>`<a class="cartao" style="--cor:${c[6]};--fundoic:${c[6]}1A" href="${c[7]||'#'}">
+    <div class="ic">${c[0]}</div><div class="nome">${esc(c[1])}</div><div class="frase">${esc(c[2])}</div>
+    <div class="num">${esc(c[3])}</div><div class="det">${c[5]==='+'?'<span class="seta sobe">▲</span>':c[5]==='-'?'<span class="seta desce">▼</span>':''}${esc(c[4])}</div></a>`).join('')||'<p class="sub">Sem cartões para este período.</p>';
+}
+document.querySelectorAll('#perfis button').forEach(b=>b.onclick=()=>{perfil=b.dataset.p; try{localStorage.setItem('painel_perfil',perfil)}catch(e){} montar();});
+/* Kanban */
+let K; try{ K=JSON.parse(localStorage.getItem('painel_kanban')); }catch(e){}
+K=K||{afazer:['Trocar borracha da geladeira 2','Treinar venda de sobremesa'],fazendo:['Implantar etiquetas de validade'],feito:['Briefing diário de 5 minutos']};
+const COLS=[['afazer','A fazer'],['fazendo','Fazendo'],['feito','Feito']];
+function salvarK(){ try{localStorage.setItem('painel_kanban',JSON.stringify(K))}catch(e){} }
+function montarK(){ document.getElementById('kanban').innerHTML=COLS.map(([k,t],ci)=>`<div class="col"><h4>${t}<span>${K[k].length}</span></h4>${K[k].map((x,i)=>`<div class="tar" style="border-color:${['#E0A100','#1C93A8','#2E9D5B'][ci]}"><span>${esc(x)}</span><span>${ci>0?`<button title="voltar" onclick="mover('${k}',${i},-1)">◀</button>`:''}${ci<2?`<button title="avançar" onclick="mover('${k}',${i},1)">▶</button>`:`<button title="remover" onclick="K.feito.splice(${i},1);salvarK();montarK()">✕</button>`}</span></div>`).join('')}</div>`).join(''); }
+function mover(k,i,d){ const ks=COLS.map(c=>c[0]); const n=ks[ks.indexOf(k)+d]; K[n].push(K[k].splice(i,1)[0]); salvarK(); montarK(); }
+function addTarefa(){ const v=document.getElementById('novaTarefa').value.trim(); if(!v) return; K.afazer.push(v); document.getElementById('novaTarefa').value=''; salvarK(); montarK(); }
+montar(); montarK();
+</script>
+</body>
+</html>
