@@ -74,3 +74,10 @@ Site "Quem é a ArtBlend" (index) → **Acessar a plataforma** → entrada com A
 - ⏳ E-mail aparecendo duas vezes no celular — corrigido na área de teste (topo da plataforma), aguardando publicação.
 - ⏳ Conteúdo que depende do Fagner: vídeo/anotações do Jorge Lucena, pasta da Mayara Vale (consultoria sanitária), conteúdo de empratamento, print que ia mandar.
 - 💤 Itens da lista antiga ainda sem decisão: Instagram da ArtBlend, Monday e Base44, ligar diagnósticos ao nome da empresa, treinamento de texturas e sabores para neurodivergentes, reunião com sócio investidor, análise do grupo foodservice.
+
+### Pedidos de 06/11 às 12h40 (✅ feito na área de teste)
+- **Curso do Método ArtBlend** dentro da Gestão: 7 aulas (o método, PDCA, Kanban, Kaizen, Lean Seis Sigma, 5S, Checklists do dia). Cada aula: de onde vem, o que é, quando usar, quem usa, passo a passo, exemplo no restaurante, erros comuns, o papel do consultor / dono / colaborador, teste e certificado (vale 12 meses, depois recicla).
+- Botão **📚 Como usar** em cada ferramenta e **📚 Aula** em cada cartão do método.
+- Curso básico para todos (cozinha e salão): Boas Práticas da Central de Qualidade — link no curso.
+- **Caminho completo ligado na área de teste**: site → Acessar a plataforma → entrada com ABC animado → login "Quem é você?" → painel novo.
+- Endereço de teste (não é o site oficial): https://fase2-central-qualidade.artblend-plataforma.pages.dev
