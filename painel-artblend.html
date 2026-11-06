@@ -121,6 +121,7 @@ h2{font:800 19px 'Poppins',sans-serif;margin:28px 0 4px;letter-spacing:-.3px}
     <a class="atalho" href="central-salao.html"><span class="ic2">🍽️</span><span><b>Central de Salão e Vendas</b><small>atendimento, vendas e cliente oculto</small></span></a>
     <a class="atalho" href="plataforma.html"><span class="ic2">🧩</span><span><b>Plataforma completa</b><small>estoque, custos, fichas e demais ferramentas</small></span></a>
     <a class="atalho" href="#gestao" onclick="event.preventDefault();irPara('gestao')"><span class="ic2">📈</span><span><b>Gestão e Melhoria Contínua</b><small>PDCA, Kanban, Kaizen, Lean Seis Sigma e 5S — para o líder agir</small></span></a>
+    <a class="atalho" href="#" onclick="event.preventDefault();abrirF('msgs');carregarMsgs()"><span class="ic2">📨</span><span><b>Mensagens do site</b><small>quem escreveu no "Fale com a gente"</small></span></a>
     <a class="atalho" href="#" onclick="event.preventDefault();abrirF('check')"><span class="ic2">✅</span><span><b>Checklists do dia</b><small>conferência de cada setor, com responsável</small></span></a>
   </div>
 
@@ -671,6 +672,23 @@ function fCurso(){ M.curso=M.curso||{nome:'',aulas:{}}; const feitas=AULAS.filte
 function docCert(){ const n=esc(M.curso.nome), d=dataBR(hoje()), v=new Date(); v.setFullYear(v.getFullYear()+1);
  return ['Certificado - Método ArtBlend de Melhoria Contínua',`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Certificado</title><style>@page{size:A4 landscape;margin:14mm}body{font-family:Arial,sans-serif;color:#16294A;text-align:center;border:6px double #1C93A8;padding:40px;margin:0}h1{color:#137487;font-size:34px;margin:10px 0}h2{font-size:26px;margin:18px 0}p{font-size:16px;line-height:1.6}.m{color:#1C93A8;font-weight:900;font-size:22px}</style></head><body><div class="m">ArtBlend Consultoria Gourmet</div><p>O ABC gastronômico que você precisa</p><h1>Certificado de conclusão</h1><p>Certificamos que</p><h2>${n}</h2><p>concluiu o curso <b>Método ArtBlend de Melhoria Contínua</b> — PDCA, Kanban, Kaizen, Lean Seis Sigma (8 desperdícios, 5 Porquês, medidor de acertos), 5S e Checklists do dia — com aprovação em todas as ${AULAS.length} aulas.</p><p>Emitido em ${d} · válido até ${dataBR(v.toISOString().slice(0,10))}</p><p style="margin-top:50px">_______________________________<br>Consultor(a) ArtBlend</p></body></html>`]; }
 REL.curso=()=>['Curso do Método ArtBlend',tab(['Aula','Situação','Data'],AULAS.map(a=>[a.tit,aulaOk(a.id)?'Concluída':'Pendente',aulaOk(a.id)?dataBR(M.curso.aulas[a.id].data):'']))];
+
+/* ---------- Mensagens do site (Fale com a gente) — só o dono da ArtBlend, com login ---------- */
+let MSGS=null, msgsErro='';
+async function carregarMsgs(){ MSGS=null; msgsErro=''; render();
+ if(!window.ABSync||!ABSync.sb||!ABSync.sessao){ msgsErro='Entre com o seu login (no topo do painel: "☁ Entrar para salvar na nuvem") para ver as mensagens.'; render(); return; }
+ const {data,error}=await ABSync.sb.from('site_mensagens').select('id,criado_em,nome,contato,perfil,mensagem,pagina,lida').order('criado_em',{ascending:false}).limit(200);
+ if(error){ msgsErro='Não consegui ler as mensagens: '+error.message; render(); return; } MSGS=data||[]; render(); }
+async function marcarLida(id,v){ const {error}=await ABSync.sb.from('site_mensagens').update({lida:v}).eq('id',id); if(!error){ const m=MSGS.find(x=>x.id===id); if(m) m.lida=v; render(); } }
+function zapDe(c){ const d=String(c||'').replace(/\D/g,''); if(d.length<10) return ''; return 'https://wa.me/'+(d.length<=11?'55'+d:d); }
+function fMsgs(){ if(msgsErro) return `<div class="bloco"><p>${esc(msgsErro)}</p></div>`; if(!MSGS) return '<p class="dica">Carregando mensagens…</p>';
+ const novas=MSGS.filter(m=>!m.lida).length;
+ return `<div class="bloco"><b>📨 Mensagens do site</b> <span class="dica">· ${MSGS.length} no total · ${novas} nova(s)</span><p class="dica">Quem escreveu na caixinha "Fale com a gente" da página da ArtBlend.</p><div class="botoes"><button class="btn sec peq" onclick="carregarMsgs()">↻ Atualizar</button></div></div>
+ ${MSGS.map(m=>{const z=zapDe(m.contato);return `<div class="bloco" style="${m.lida?'opacity:.7':'border-color:#1C93A8'}"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><b>${esc(m.nome)}</b><span class="selo ${m.lida?'ok':'alerta'}">${m.lida?'respondida':'nova'}</span></div>
+  <div class="dica">${new Date(m.criado_em).toLocaleString('pt-BR')} · ${esc(m.perfil||'—')} · ${esc(m.contato||'sem contato')}</div><p style="margin-top:6px;white-space:pre-line">${esc(m.mensagem)}</p>
+  <div class="botoes">${z?`<a class="btn peq" style="text-decoration:none" target="_blank" rel="noopener" href="${z}?text=${encodeURIComponent('Olá, '+m.nome+'! Aqui é da ArtBlend Consultoria Gourmet. Recebemos sua mensagem pelo site.')}">💬 Responder no WhatsApp</a>`:''}<button class="btn sec peq" onclick="marcarLida('${m.id}',${!m.lida})">${m.lida?'↩ Marcar como nova':'✔ Marcar como respondida'}</button></div></div>`}).join('')||'<p class="dica">Nenhuma mensagem ainda.</p>'}`; }
+FERR.msgs=['📨 Mensagens do site',()=>fMsgs()];
+REL.msgs=()=>['Mensagens do site',tab(['Data','Nome','Você é','Contato','Mensagem','Situação'],(MSGS||[]).map(m=>[new Date(m.criado_em).toLocaleString('pt-BR'),m.nome,m.perfil||'',m.contato||'',m.mensagem,m.lida?'respondida':'nova']))];
 
 /* ---------- Painel x Gestão ---------- */
 function irPara(m){ if(m) location.hash=m; else history.replaceState(null,'',location.pathname+location.search); modo(); window.scrollTo(0,0); }

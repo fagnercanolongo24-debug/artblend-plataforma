@@ -234,7 +234,7 @@ footer a{color:#fff}
       <div class="abcp">ABC</div>
       <h2 style="margin-top:6px">O ABC gastronômico que você precisa.</h2>
       <p class="sub" style="margin:8px auto 0">Já é cliente ArtBlend? Entre com o seu login. Ainda não é? Fale com a gente e veja o seu restaurante na prática.</p>
-      <div style="margin-top:22px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><a class="btn" href="entrada-abc.html">Acessar a plataforma</a><a class="btn sec" id="btnZap" href="https://wa.me/5581991374054?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ArtBlend%20e%20quero%20saber%20mais." target="_blank" rel="noopener">💬 Chamar no WhatsApp</a></div>
+      <div style="margin-top:22px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><a class="btn" href="entrada-abc.html">Acessar a plataforma</a><a class="btn sec" id="btnZap" href="https://wa.me/5581991374054?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ArtBlend%20e%20quero%20saber%20mais." target="_blank" rel="noopener">💬 Fale com a gente pelo WhatsApp</a></div>
     </div>
   </section>
 
@@ -243,12 +243,14 @@ footer a{color:#fff}
       <div class="bloco-pub" style="max-width:720px;margin:0 auto">
         <span class="etq">✉️ Fale com a gente</span>
         <h2>Conte o que você precisa.</h2>
-        <p class="sub">Escreva sua mensagem e a ArtBlend responde. Se preferir, chame no WhatsApp: <b>(81) 9 9137-4054</b>.</p>
+        <p class="sub">Deixe seu nome e seu WhatsApp, conte o que você precisa, e a ArtBlend te responde.</p>
+        <div style="margin-top:12px"><a class="btn sec" href="https://wa.me/5581991374054?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ArtBlend%20e%20quero%20saber%20mais." target="_blank" rel="noopener">💬 Fale com a gente pelo WhatsApp</a></div>
+        <p class="sub" style="font-size:15px;margin-top:14px">Ou deixe sua mensagem aqui:</p>
         <form id="formFale" style="display:grid;gap:10px;margin-top:16px">
-          <input id="fNome" required maxlength="120" placeholder="Seu nome" class="campo">
-          <input id="fContato" required maxlength="160" placeholder="Seu WhatsApp ou e-mail" class="campo">
-          <select id="fPerfil" class="campo"><option value="">Você é…</option><option>Dono(a) de restaurante</option><option>Consultor(a)</option><option>Chef ou cozinheiro(a)</option><option>Outro</option></select>
-          <textarea id="fMsg" required maxlength="3000" rows="4" placeholder="Sua mensagem" class="campo"></textarea>
+          <input id="fNome" required maxlength="120" placeholder="Seu nome (ex.: Maria Souza)" class="campo">
+          <input id="fContato" required maxlength="160" placeholder="Seu WhatsApp com DDD (para a resposta)" class="campo">
+          <select id="fPerfil" class="campo"><option value="">Você é… (dono, consultor, chef)</option><option>Dono(a) de restaurante</option><option>Consultor(a)</option><option>Chef ou cozinheiro(a)</option><option>Outro</option></select>
+          <textarea id="fMsg" required maxlength="3000" rows="4" placeholder="O que você quer da ArtBlend? (ex.: quero organizar a cozinha do meu restaurante)" class="campo"></textarea>
           <button class="btn" type="submit" id="fEnviar" style="border:0;cursor:pointer;font-size:16px">Enviar mensagem</button>
           <p id="fAviso" class="sub" style="font-size:15px;margin:0"></p>
         </form>
@@ -292,7 +294,7 @@ footer a{color:#fff}
     const zap='https://wa.me/5581991374054?text='+encodeURIComponent('Olá! Sou '+d.nome+(d.perfil?' ('+d.perfil+')':'')+'. '+d.mensagem+(d.contato?' — contato: '+d.contato:''));
     try{ const r=await fetch(URL_SB+'/rest/v1/site_mensagens',{method:'POST',headers:{apikey:KEY_SB,Authorization:'Bearer '+KEY_SB,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(d)});
       if(!r.ok) throw new Error(r.status);
-      av.innerHTML='✅ Mensagem enviada! A ArtBlend vai te responder em breve.'; f.reset();
+      av.innerHTML='✅ Mensagem enviada! A ArtBlend vai te responder pelo WhatsApp que você deixou.'; f.reset();
     }catch(err){ av.innerHTML='Não consegui enviar por aqui agora. <a href="'+zap+'" target="_blank" rel="noopener" style="color:var(--pri-esc);font-weight:700">Toque aqui para mandar pelo WhatsApp</a> — sua mensagem já vai escrita.'; }
     bt.disabled=false; bt.textContent='Enviar mensagem'; });
 })();
