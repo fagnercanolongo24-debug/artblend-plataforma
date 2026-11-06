@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
 <!-- Versão anterior desta página guardada em index-v1-quem-e-artblend.html -->
 <style>
-:root{--pri:#1C93A8;--pri-esc:#137487;--escuro:#0E5A69;--clr:#E4F8FB;--clr2:#BFF6FB;--acento:#2EC4D6;--txt:#16294A;--txt2:#5B6B80;--borda:#DCE8EC;--fundo:#F5FAFB;--ok:#2E9D5B;--alerta:#E0A100;--erro:#D64545}
+:root{--meio:#23A4B8;--pri:#1C93A8;--pri-esc:#137487;--escuro:#0E5A69;--clr:#E4F8FB;--clr2:#BFF6FB;--acento:#2EC4D6;--txt:#16294A;--txt2:#5B6B80;--borda:#DCE8EC;--fundo:#F5FAFB;--ok:#2E9D5B;--alerta:#E0A100;--erro:#D64545}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;color:var(--txt);background:var(--fundo);line-height:1.55;font-size:16px}
@@ -21,15 +21,16 @@ h3{font:700 19px/1.3 'Poppins',sans-serif}
 /* HERO */
 .hero{background:linear-gradient(160deg,#E9FBFD 0%,#C8F3F8 55%,#A9ECF4 100%);padding:46px 0 70px;text-align:center;position:relative;overflow:hidden}
 .abc{font:900 clamp(110px,26vw,230px)/.9 'Poppins',sans-serif;letter-spacing:-6px;color:var(--pri-esc);display:flex;justify-content:center;gap:.02em;user-select:none}
-.abc span{display:inline-block;animation:cai 1s cubic-bezier(.5,.05,.3,1.3) both}
-.abc span:nth-child(1){color:var(--pri);animation-delay:.1s}.abc span:nth-child(2){color:var(--acento);animation-delay:.35s}.abc span:nth-child(3){color:var(--pri-esc);animation-delay:.6s}
+.abc span{display:inline-block;color:var(--meio);transition:opacity .35s}
+.abc.esperando span{opacity:0}
+.voa{position:absolute;left:0;top:0;font-family:'Poppins',sans-serif;font-weight:900;color:var(--meio);transform-origin:0 0;pointer-events:none;z-index:5;line-height:1;will-change:transform,opacity}
 .abc span:hover{animation:pula .6s}
 @keyframes cai{0%{opacity:0;transform:translateY(-120px) scale(.6)}100%{opacity:1;transform:none}}
 @keyframes pula{50%{transform:translateY(-14px)}}
-.nome{font:800 clamp(22px,4.5vw,36px) 'Poppins',sans-serif;color:var(--txt);margin-top:6px;animation:sobe .8s .9s both}
-.nome b{color:var(--pri)}
+.nome{font:800 clamp(22px,4.5vw,36px) 'Poppins',sans-serif;color:var(--txt);margin-top:6px;animation:sobe .6s .1s both}
+.nome .i{color:var(--meio)}
 .solu{margin-top:8px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--pri-esc);font-size:clamp(12px,2.4vw,15px);animation:sobe .8s 1.1s both}
-.lema{margin-top:10px;font-size:clamp(17px,3vw,21px);color:var(--escuro);animation:sobe .8s 1.3s both}.lema b{color:var(--pri);font-weight:900}
+.lema{margin-top:10px;font-size:clamp(17px,3vw,21px);color:var(--escuro);animation:sobe .8s 1.3s both}.lema b{color:var(--meio);font-weight:900}
 @keyframes sobe{0%{opacity:0;transform:translateY(16px)}100%{opacity:1;transform:none}}
 .chamada{max-width:760px;margin:26px auto 0;font:700 clamp(19px,3.4vw,26px)/1.35 'Poppins',sans-serif;color:var(--txt);animation:sobe .8s 1.5s both}
 .chamada span{color:var(--pri-esc)}
@@ -84,6 +85,7 @@ section.s{padding:64px 0}
 /* FINAL */
 .final{background:linear-gradient(160deg,#C8F3F8,#A9ECF4);text-align:center}
 .final .abcp{font:900 80px/1 'Poppins',sans-serif;color:var(--pri-esc);letter-spacing:-3px}
+.campo{width:100%;border:1.5px solid var(--borda);border-radius:12px;padding:12px;font:inherit;background:#fff}.campo:focus{outline:none;border-color:var(--pri)}
 footer{background:#0E3E49;color:#CFEFF4;text-align:center;padding:22px 16px;font-size:14px}
 footer a{color:#fff}
 .revela{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}.revela.vis{opacity:1;transform:none}
@@ -96,8 +98,8 @@ footer a{color:#fff}
 <header class="hero">
   <div class="fundoabc">ABC</div>
   <div class="cont">
-    <div class="abc" aria-label="ABC"><span>A</span><span>B</span><span>C</span></div>
-    <div class="nome"><b>Art</b>Blend Consultoria <b>G</b>ourmet</div>
+    <div class="abc esperando" id="abcGrande" aria-label="ABC"><span>A</span><span>B</span><span>C</span></div>
+    <div class="nome" id="nomeMarca"><span class="i">A</span>rt<span class="i">B</span>lend <span class="i">C</span>onsultoria <span class="i">G</span>ourmet</div>
     <div class="solu">Soluções assertivas</div>
     <div class="lema">O <b>ABC</b> gastronômico que você precisa</div>
     <p class="chamada">Confira como está o seu <span>caixa</span>, o seu <span>estoque</span>, a sua <span>equipe</span> e a <span>segurança dos alimentos</span> — tudo num só lugar, em linguagem simples.</p>
@@ -232,7 +234,25 @@ footer a{color:#fff}
       <div class="abcp">ABC</div>
       <h2 style="margin-top:6px">O ABC gastronômico que você precisa.</h2>
       <p class="sub" style="margin:8px auto 0">Já é cliente ArtBlend? Entre com o seu login. Ainda não é? Fale com a gente e veja o seu restaurante na prática.</p>
-      <div style="margin-top:22px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><a class="btn" href="entrada-abc.html">Acessar a plataforma</a></div>
+      <div style="margin-top:22px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><a class="btn" href="entrada-abc.html">Acessar a plataforma</a><a class="btn sec" id="btnZap" href="https://wa.me/5581991374054?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20ArtBlend%20e%20quero%20saber%20mais." target="_blank" rel="noopener">💬 Chamar no WhatsApp</a></div>
+    </div>
+  </section>
+
+  <section class="s revela" id="fale">
+    <div class="cont">
+      <div class="bloco-pub" style="max-width:720px;margin:0 auto">
+        <span class="etq">✉️ Fale com a gente</span>
+        <h2>Conte o que você precisa.</h2>
+        <p class="sub">Escreva sua mensagem e a ArtBlend responde. Se preferir, chame no WhatsApp: <b>(81) 9 9137-4054</b>.</p>
+        <form id="formFale" style="display:grid;gap:10px;margin-top:16px">
+          <input id="fNome" required maxlength="120" placeholder="Seu nome" class="campo">
+          <input id="fContato" required maxlength="160" placeholder="Seu WhatsApp ou e-mail" class="campo">
+          <select id="fPerfil" class="campo"><option value="">Você é…</option><option>Dono(a) de restaurante</option><option>Consultor(a)</option><option>Chef ou cozinheiro(a)</option><option>Outro</option></select>
+          <textarea id="fMsg" required maxlength="3000" rows="4" placeholder="Sua mensagem" class="campo"></textarea>
+          <button class="btn" type="submit" id="fEnviar" style="border:0;cursor:pointer;font-size:16px">Enviar mensagem</button>
+          <p id="fAviso" class="sub" style="font-size:15px;margin:0"></p>
+        </form>
+      </div>
     </div>
   </section>
 </main>
@@ -240,6 +260,43 @@ footer a{color:#fff}
 <footer>© 2026 ArtBlend Consultoria Gourmet · Gravatá-PE · <a href="https://artblendconsultoria.com.br">artblendconsultoria.com.br</a></footer>
 
 <script>
+// Marca: as iniciais A, B e C do nome voam, crescem e formam o ABC grande (em loop).
+(function(){
+  const grande=document.getElementById('abcGrande'), alvos=[...grande.querySelectorAll('span')], ini=[...document.querySelectorAll('#nomeMarca .i')].slice(0,3);
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches||!Element.prototype.animate){ grande.classList.remove('esperando'); return; }
+  function ciclo(){
+    grande.classList.add('esperando');
+    ini.forEach((l,i)=>{
+      const a=l.getBoundingClientRect(), b=alvos[i].getBoundingClientRect(), sx=scrollX, sy=scrollY, cs=getComputedStyle(alvos[i]);
+      const v=document.createElement('div'); v.className='voa'; v.textContent=l.textContent;
+      Object.assign(v.style,{fontSize:cs.fontSize,lineHeight:cs.lineHeight,width:b.width+'px',height:b.height+'px',textAlign:'center'}); document.body.appendChild(v);
+      const s0=a.height/b.height, x0=a.left+sx+a.width/2-b.width*s0/2, y0=a.top+sy+a.height/2-b.height*s0/2, x1=b.left+sx, y1=b.top+sy;
+      const sm=(s0+1)/2, xm=(x0+x1)/2+(i-1)*40, ym=Math.min(y0,y1)-30;
+      const an=v.animate([{transform:`translate(${x0}px,${y0}px) scale(${s0})`},{transform:`translate(${xm}px,${ym}px) scale(${sm})`,offset:.55},{transform:`translate(${x1}px,${y1}px) scale(1)`}],{duration:1500,delay:300+i*350,easing:'cubic-bezier(.45,.05,.3,1)',fill:'both'});
+      an.onfinish=()=>{ alvos[i].style.opacity=1; v.animate([{opacity:1},{opacity:0}],{duration:200,fill:'forwards'}).onfinish=()=>v.remove(); };
+    });
+    setTimeout(()=>{ grande.classList.remove('esperando'); alvos.forEach(a=>a.style.opacity=''); },3200);
+  }
+  document.fonts&&document.fonts.ready?document.fonts.ready.then(()=>setTimeout(ciclo,200)):setTimeout(ciclo,400);
+  setInterval(()=>{ if(!document.hidden&&scrollY<400) ciclo(); },9000);
+})();
+
+// Fale com a gente: a mensagem fica guardada na plataforma (tabela site_mensagens). Se não der, oferece o WhatsApp com o texto pronto.
+(function(){
+  const f=document.getElementById('formFale'); if(!f) return;
+  const URL_SB='https://zjvjixiuvnpbpsdnxuyk.supabase.co', KEY_SB='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqdmppeGl1dm5wYnBzZG54dXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxNDUxMjMsImV4cCI6MjA5OTcyMTEyM30.TgC8A0y8e4Or4FZhSVglUW2micje9belaE0P-vAUwiY';
+  const av=document.getElementById('fAviso'), bt=document.getElementById('fEnviar');
+  f.addEventListener('submit',async e=>{ e.preventDefault();
+    const d={nome:fNome.value.trim(),contato:fContato.value.trim(),perfil:fPerfil.value,mensagem:fMsg.value.trim(),pagina:location.pathname+location.hash};
+    if(!d.nome||!d.mensagem) return; bt.disabled=true; bt.textContent='Enviando…';
+    const zap='https://wa.me/5581991374054?text='+encodeURIComponent('Olá! Sou '+d.nome+(d.perfil?' ('+d.perfil+')':'')+'. '+d.mensagem+(d.contato?' — contato: '+d.contato:''));
+    try{ const r=await fetch(URL_SB+'/rest/v1/site_mensagens',{method:'POST',headers:{apikey:KEY_SB,Authorization:'Bearer '+KEY_SB,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify(d)});
+      if(!r.ok) throw new Error(r.status);
+      av.innerHTML='✅ Mensagem enviada! A ArtBlend vai te responder em breve.'; f.reset();
+    }catch(err){ av.innerHTML='Não consegui enviar por aqui agora. <a href="'+zap+'" target="_blank" rel="noopener" style="color:var(--pri-esc);font-weight:700">Toque aqui para mandar pelo WhatsApp</a> — sua mensagem já vai escrita.'; }
+    bt.disabled=false; bt.textContent='Enviar mensagem'; });
+})();
+
 // Endereços para anúncios: #dono, #consultor ou #colaborador colocam essa parte logo depois da abertura.
 (function(){
   const alvo=(location.hash||'').slice(1), sec=document.getElementById(alvo);
