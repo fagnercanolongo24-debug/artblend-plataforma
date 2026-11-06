@@ -107,3 +107,13 @@ Site "Quem é a ArtBlend" (index) → **Acessar a plataforma** → entrada com A
 
 ### 06/11 às 16h30
 - ✅ **Lean Seis Sigma** ganhou nome ArtBlend: **"Zero Desperdício, Mais Acertos"** (combina com "Soluções Assertivas"). O nome original fica pequeno entre parênteses. Trocado no painel, na Gestão, no curso, nos relatórios, na página de vendas e no catálogo. A aula agora explica o que é "Lean" e "Sigma" em linguagem simples.
+
+### 06/11 às 16h50 — Pacote 1 (✅ feito na área de teste, dentro da Gestão)
+- 🐟 **Espinha de peixe** (6 lados: equipe, método, insumo, equipamento, ambiente, medida; sugestões prontas + Outro; marcar ⭐ causa principal → 5 Porquês ou PDCA).
+- ✍️ **Folha de verificação** (modelos: erros de pratos, reclamações do salão, problemas da cozinha, delivery; botão +1 por turno) → 📊 **Pareto** (desperdícios, folhas ou lançamento manual; marca em 🔴 onde focar; abre PDCA).
+- 📝 **Plano 5W2H** (o quê, por quê, onde, quando, quem, como, quanto; linha vermelha se atrasar; manda para o quadro).
+- ⚖️ **Matriz GUT** (nota G × U × T, ordem de prioridade, abre PDCA).
+- ⏰ **Prioridades do gestor** (urgente x importante e esforço x resultado).
+- 📄 **Relatório A3** (7 partes; puxa dados do PDCA e da espinha de peixe).
+- 🛡️ **À prova de erro (Poka-yoke)** (21 ideias por área + as da casa; "Adotar" manda para o quadro).
+- Cada uma com **aula** (curso agora com 15 aulas), **Imprimir/Baixar/Enviar/📎 Anexar**.
