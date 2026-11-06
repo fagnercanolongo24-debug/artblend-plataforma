@@ -51,3 +51,26 @@ Situação: ✅ feito · 🛠️ em andamento · ⏳ aguardando confirmação ·
 - Links do painel abrem o site oficial quando vistos fora do site (na janela do Claude davam erro).
 - Painel ligado à **nuvem (Supabase)**: com login, escolhe o cliente e tudo (ferramentas, Kanban, configuração do negócio) fica salvo por cliente e igual em todos os aparelhos.
 - 💤 Conferência cruzada (vendas do salão x saída da cozinha/produção): depende dos dados do sistema de vendas — fazer depois.
+
+---
+## Revisão das conversas antigas (feita em 06/11) — o que ficou para trás
+
+### Recuperado hoje (estava só em prévia, agora está no projeto, área de teste)
+- ✅ `entrada-abc.html` — página de entrada com o ABC animado (Art/Blend/Consultoria/Gourmet, letras correndo até "O ABC gastronômico que você precisa", G no azul escuro, botão "Acessar a plataforma").
+- ✅ `login-novo.html` — login "Quem é você?" (Desenvolvedor, Proprietário, Consultor, Colaborador), "Esqueci minha senha", botão "Trocar". Corrigido o mesmo erro da V4.1. Depois do login vai para o painel novo.
+
+### Caminho combinado (conversa de 04/11)
+Site "Quem é a ArtBlend" (index) → **Acessar a plataforma** → entrada com ABC animado → **login "Quem é você?"** → **painel novo** (por perfil) → Centrais, Gestão e plataforma completa.
+
+### Pendências encontradas (mapa da plataforma de 31/10 e conversas anteriores)
+- ⏳ Trocar os nomes CCP e CEP nos cursos (sem nomes de origem).
+- ⏳ Trilhas de curso por visão (consultor, colaborador, dono) e por tipo de negócio.
+- ⏳ Plano de viabilidade financeira como módulo, ligado à ficha técnica.
+- ⏳ Operação integrada: pedido → cozinha → baixa no estoque → etiqueta (o que mais aproxima das grandes operações).
+- ⏳ Checklist de fim de expediente pelo WhatsApp, com foto.
+- ⏳ Aluguel da plataforma para outros consultores — definir o modelo (ideia: mensalidade + 3% do faturamento).
+- ⏳ CRM com dados reais e funil de vendas.
+- ⏳ Supabase: ativar a proteção contra senhas vazadas; liberar `https://artblendconsultoria.com.br/login` em Redirect URLs (só o Fagner consegue, no painel do Supabase).
+- ⏳ E-mail aparecendo duas vezes no celular — corrigido na área de teste (topo da plataforma), aguardando publicação.
+- ⏳ Conteúdo que depende do Fagner: vídeo/anotações do Jorge Lucena, pasta da Mayara Vale (consultoria sanitária), conteúdo de empratamento, print que ia mandar.
+- 💤 Itens da lista antiga ainda sem decisão: Instagram da ArtBlend, Monday e Base44, ligar diagnósticos ao nome da empresa, treinamento de texturas e sabores para neurodivergentes, reunião com sócio investidor, análise do grupo foodservice.

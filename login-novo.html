@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArtBlend - Login</title>
+<!-- Login "Quem é você?" (recuperado da prévia de 31/10/2026), com a correção da V4.1: o cliente se chama sbLogin, nunca "supabase". -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>
+  :root { --primary:#2EC4D6; --dark:#165D71; --text:#16294A; --muted:#6E7A8C; --border:#E2E6ED; --bg-soft:#F5F7FA; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:linear-gradient(135deg,var(--primary) 0%,var(--dark) 100%); display:flex; align-items:center; justify-content:center; min-height:100vh; padding:20px; }
+  .card { background:#fff; border-radius:14px; box-shadow:0 10px 40px rgba(0,0,0,.2); max-width:440px; width:100%; padding:40px 34px; text-align:center; }
+  .logo-abc { color:var(--primary); font-weight:900; font-size:64px; line-height:.95; letter-spacing:2px; }
+  .logo-abc span { display:inline-block; opacity:0; transform:translateY(-46px); animation:caiAbc .8s cubic-bezier(.6,.05,.3,1) forwards; }
+  .logo-abc span:nth-child(1){animation-delay:.2s}.logo-abc span:nth-child(2){animation-delay:.6s}.logo-abc span:nth-child(3){animation-delay:1s}
+  @keyframes caiAbc { to { opacity:1; transform:translateY(0); } }
+  .logo-nome { margin-top:12px; color:var(--text); font-weight:800; font-size:18px; letter-spacing:.03em; opacity:0; animation:caiAbc .7s 1.5s forwards; }
+  .logo-nome span { color:var(--primary); }
+  @media (prefers-reduced-motion: reduce) { .logo-abc span, .logo-nome { opacity:1; transform:none; animation:none; } }
+  .logo-slogan { margin-top:10px; color:var(--muted); font-size:13px; letter-spacing:.14em; text-transform:uppercase; }
+  .logo-slogan b { color:var(--primary); }
+  .tela { display:none; } .tela.ativa { display:block; }
+  .pergunta { margin:30px 0 18px; color:var(--text); font-weight:700; font-size:17px; }
+  .opcoes { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .opcao { border:2px solid var(--border); border-radius:12px; padding:18px 10px; background:var(--bg-soft); color:var(--text); font-size:15px; font-weight:700; cursor:pointer; transition:all .2s; font-family:inherit; }
+  .opcao i { display:block; font-size:24px; color:var(--primary); margin-bottom:8px; }
+  .opcao:hover { border-color:var(--primary); background:#E4F8FB; transform:translateY(-2px); }
+  .topo-login { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+  .voltar { background:none; border:none; color:var(--primary); font-weight:700; font-size:14px; cursor:pointer; font-family:inherit; }
+  .entrando-como { color:var(--text); font-weight:700; font-size:15px; }
+  .form-group { margin-bottom:18px; text-align:left; }
+  .form-group label { display:block; color:var(--dark); font-weight:600; margin-bottom:8px; font-size:14px; }
+  .form-group input { width:100%; padding:12px; border:2px solid var(--border); border-radius:8px; font-size:14px; font-family:inherit; }
+  .form-group input:focus { outline:none; border-color:var(--primary); }
+  .btn { width:100%; background:var(--primary); color:#fff; padding:13px; border:none; border-radius:10px; font-size:16px; font-weight:700; cursor:pointer; margin-top:8px; box-shadow:0 4px 14px rgba(28,147,168,.35); font-family:inherit; }
+  .btn:hover { background:var(--dark); } .btn:disabled { opacity:.6; cursor:not-allowed; }
+  .esqueci { margin-top:16px; font-size:14px; } .esqueci a { color:var(--dark); font-weight:600; text-decoration:none; }
+  .message { padding:12px; border-radius:8px; margin-bottom:18px; display:none; font-size:14px; text-align:left; }
+  .message.error { background:#FBEAE3; color:#B3411F; border-left:4px solid #B3411F; display:block; }
+  .message.success { background:#E4F8FB; color:#165D71; border-left:4px solid var(--primary); display:block; }
+  .hidden { display:none !important; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div>
+    <div class="logo-abc"><span>A</span><span>B</span><span>C</span></div>
+    <div class="logo-nome"><span>ArtBlend</span> Consultoria</div>
+    <div class="logo-slogan">O <b>ABC</b> gastronômico que você precisa</div>
+    <div class="logo-slogan" style="margin-top:6px;color:var(--primary);font-weight:700;">Soluções assertivas</div>
+  </div>
+  <section class="tela ativa" id="telaEntrada">
+    <div class="pergunta">Quem é você?</div>
+    <div class="opcoes">
+      <button type="button" class="opcao" data-role="desenvolvedor"><i class="fas fa-code"></i>Desenvolvedor</button>
+      <button type="button" class="opcao" data-role="proprietario"><i class="fas fa-crown"></i>Proprietário</button>
+      <button type="button" class="opcao" data-role="consultor"><i class="fas fa-user-tie"></i>Consultor</button>
+      <button type="button" class="opcao" data-role="colaborador"><i class="fas fa-users"></i>Colaborador</button>
+    </div>
+  </section>
+  <section class="tela" id="telaLogin">
+    <div class="topo-login"><button type="button" class="voltar" id="btnVoltar"><i class="fas fa-arrow-left"></i> Trocar</button><span class="entrando-como" id="entrandoComo"></span></div>
+    <div id="message" class="message"></div>
+    <form id="loginForm">
+      <div class="form-group"><label for="email"><i class="fas fa-envelope"></i> E-mail</label><input type="email" id="email" placeholder="seu@email.com" required></div>
+      <div class="form-group"><label for="password"><i class="fas fa-lock"></i> Senha</label><input type="password" id="password" placeholder="Sua senha" required></div>
+      <button type="submit" class="btn" id="btnLogin"><i class="fas fa-sign-in-alt"></i> Entrar</button>
+      <div class="esqueci"><a href="#" id="btnEsqueci">Esqueci minha senha</a></div>
+    </form>
+    <form id="novaSenhaForm" class="hidden">
+      <p style="text-align:center;color:var(--text);font-weight:700;margin-bottom:12px">Crie sua nova senha</p>
+      <div class="form-group"><label for="novaSenha"><i class="fas fa-lock"></i> Nova senha</label><input type="password" id="novaSenha" placeholder="Mínimo 6 caracteres" minlength="6" required></div>
+      <button type="submit" class="btn" id="btnNovaSenha"><i class="fas fa-save"></i> Salvar nova senha</button>
+    </form>
+  </section>
+</div>
+<script>
+const SUPABASE_URL = 'https://zjvjixiuvnpbpsdnxuyk.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqdmppeGl1dm5wYnBzZG54dXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxNDUxMjMsImV4cCI6MjA5OTcyMTEyM30.TgC8A0y8e4Or4FZhSVglUW2micje9belaE0P-vAUwiY';
+const OWNER_EMAIL = 'fagnercanolongo24@gmail.com';
+// Correção V4.1: nunca declarar "const supabase" (o nome já é usado pela biblioteca).
+const sbLogin = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const NOMES = { desenvolvedor:'Desenvolvedor', proprietario:'Proprietário', consultor:'Consultor', colaborador:'Colaborador' };
+let papelEscolhido = null;
+function destino(){ const v = new URLSearchParams(location.search).get('volta'); return (v && /^[\w-]+\.html(#[\w=&%-]*)?$/.test(v)) ? v : 'painel-artblend.html'; }
+try { const e = localStorage.getItem('artblend_email'); if (e) document.getElementById('email').value = e; } catch (e) {}
+function papeisDaConta(user){ if (user.email === OWNER_EMAIL) return ['proprietario','desenvolvedor','consultor']; return [(user.user_metadata && user.user_metadata.role) || 'consultor']; }
+function mostrarTela(id){ document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa')); document.getElementById(id).classList.add('ativa'); }
+function showMessage(msg, type){ const m = document.getElementById('message'); m.textContent = msg; m.className = 'message ' + type; }
+function resetBtnLogin(){ const b = document.getElementById('btnLogin'); b.disabled = false; b.innerHTML = '<i class="fas fa-sign-in-alt"></i> Entrar'; document.getElementById('password').value = ''; }
+document.querySelectorAll('.opcao').forEach(btn => btn.addEventListener('click', () => {
+  papelEscolhido = btn.dataset.role;
+  try { localStorage.setItem('artblend_papel', papelEscolhido); } catch (e) {}
+  document.getElementById('entrandoComo').textContent = 'Entrar como ' + NOMES[papelEscolhido];
+  document.getElementById('message').className = 'message';
+  document.getElementById('loginForm').classList.remove('hidden'); document.getElementById('novaSenhaForm').classList.add('hidden');
+  mostrarTela('telaLogin'); document.getElementById('email').focus();
+}));
+document.getElementById('btnVoltar').addEventListener('click', () => { papelEscolhido = null; document.getElementById('password').value = ''; document.getElementById('message').className = 'message'; mostrarTela('telaEntrada'); });
+document.getElementById('btnEsqueci').addEventListener('click', async e => {
+  e.preventDefault(); const email = document.getElementById('email').value.trim();
+  if (!email) { showMessage('Digite seu e-mail no campo acima e clique de novo.', 'error'); return; }
+  const { error } = await sbLogin.auth.resetPasswordForEmail(email, { redirectTo: 'https://artblendconsultoria.com.br/login' });
+  showMessage(error ? 'Não foi possível enviar o e-mail: ' + error.message : 'Se o e-mail estiver cadastrado, você vai receber um link para criar a nova senha. Confira também a caixa de spam.', error ? 'error' : 'success');
+});
+sbLogin.auth.onAuthStateChange(event => { if (event === 'PASSWORD_RECOVERY') { mostrarTela('telaLogin'); document.getElementById('entrandoComo').textContent = 'Nova senha'; document.getElementById('loginForm').classList.add('hidden'); document.getElementById('novaSenhaForm').classList.remove('hidden'); } });
+document.getElementById('novaSenhaForm').addEventListener('submit', async e => {
+  e.preventDefault(); const b = document.getElementById('btnNovaSenha'); b.disabled = true;
+  const { error } = await sbLogin.auth.updateUser({ password: document.getElementById('novaSenha').value });
+  if (error) { showMessage('Não foi possível salvar: ' + error.message, 'error'); b.disabled = false; return; }
+  showMessage('Senha criada com sucesso! Entrando na plataforma...', 'success'); setTimeout(() => { location.href = destino(); }, 1200);
+});
+document.getElementById('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  if (!papelEscolhido) { showMessage('Escolha quem você é antes de entrar.', 'error'); mostrarTela('telaEntrada'); return; }
+  const email = document.getElementById('email').value.trim(), password = document.getElementById('password').value, b = document.getElementById('btnLogin');
+  b.disabled = true; b.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Validando...';
+  try {
+    const { data, error } = await sbLogin.auth.signInWithPassword({ email, password });
+    if (error || !data || !data.session) { showMessage('E-mail ou senha incorretos.', 'error'); resetBtnLogin(); return; }
+    if (!papeisDaConta(data.session.user).includes(papelEscolhido)) { await sbLogin.auth.signOut(); showMessage('Esta conta não tem acesso como ' + NOMES[papelEscolhido] + '.', 'error'); resetBtnLogin(); return; }
+    try { localStorage.setItem('artblend_email', email); } catch (e) {}
+    showMessage('Login realizado com sucesso!', 'success'); setTimeout(() => { location.href = destino(); }, 800);
+  } catch (err) { showMessage('Erro ao fazer login. Tente novamente.', 'error'); resetBtnLogin(); }
+});
+</script>
+</body>
+</html>

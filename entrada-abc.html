@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ArtBlend Consultoria</title>
+<!-- Página de entrada com o ABC animado (recuperada da prévia de 31/10/2026). Leva ao login. -->
+<style>
+  :root { --primary:#2EC4D6; --dark:#165D71; --text:#16294A; --muted:#6E7A8C; --bg:#F5F7FA; }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+    padding: 0 max(16px, env(safe-area-inset-left, 0px)) 0 max(16px, env(safe-area-inset-right, 0px));
+  }
+  .stage { position: relative; width: 100%; max-width: 520px; height: 100vh; max-height: 760px; }
+  .words { position: absolute; left: 50%; top: 38%; transform: translate(-50%, -50%); width: max-content;
+           display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 2px; opacity: 0; }
+  .word { font-weight: 800; font-size: clamp(30px, 8vw, 50px); line-height: 1.1; }
+  .word .l { color: var(--primary); display: inline-block; }
+  .word .l.g { color: var(--dark); }
+  .word .r { color: var(--text); }
+  .mover { position: fixed; left: 0; top: 0; font-weight: 800; color: var(--primary); opacity: 0;
+           pointer-events: none; z-index: 2; line-height: 1.1; will-change: transform, opacity; }
+  .tag { position: absolute; top: 74%; left: 16px; right: 16px; text-align: center; font-size: clamp(15px, 4vw, 19px);
+         color: var(--muted); transform-origin: 50% 50%; }
+  .tag b { color: var(--primary); font-weight: 800; }
+  .sub { position: absolute; top: 81%; left: 16px; right: 16px; text-align: center; font-size: 14px; letter-spacing: .14em;
+         text-transform: uppercase; color: var(--primary); font-weight: 700; }
+  .cta { position: absolute; top: 88%; left: 0; right: 0; text-align: center; }
+  .btn { display: inline-block; background: var(--primary); color: #0F1B2D; text-decoration: none; padding: 14px 28px; border-radius: 12px;
+         font-weight: 700; box-shadow: 0 4px 14px rgba(46,196,214,.35); }
+  .btn:focus-visible { outline: 3px solid var(--dark); outline-offset: 3px; }
+  .skip { position: fixed; right: max(14px, env(safe-area-inset-right, 0px)); bottom: 12px; font-size: 13px; color: var(--muted);
+          background: none; border: none; cursor: pointer; text-decoration: underline; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<main class="stage" id="stage">
+  <div class="words" id="words">
+    <div class="word"><span class="l">A</span><span class="r">rt</span></div>
+    <div class="word"><span class="l">B</span><span class="r">lend</span></div>
+    <div class="word"><span class="l">C</span><span class="r">onsultoria</span></div>
+    <div class="word"><span class="l g">G</span><span class="r">ourmet</span></div>
+  </div>
+  <div class="tag" id="tag">O <b id="slot">ABC</b> gastronômico que você precisa</div>
+  <div class="sub" id="sub">Soluções assertivas</div>
+  <div class="cta" id="cta"><a class="btn" href="login-novo.html">Acessar a plataforma</a></div>
+</main>
+<button class="skip" id="skip" type="button">pular</button>
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var words = document.getElementById('words'), tag = document.getElementById('tag'), slot = document.getElementById('slot'), skip = document.getElementById('skip');
+  var letters = Array.prototype.slice.call(document.querySelectorAll('.word .l')).slice(0, 3);
+  var T = 11000, HOLD = 1500, GAP = 1400, D = 2200, GROW_END = 7000, SHRINK = 9300;
+  var movers = letters.map(function () { var m = document.createElement('div'); m.className = 'mover'; document.body.appendChild(m); return m; });
+  var starts = letters.map(function (_, i) { return HOLD + i * GAP; });
+  var P0 = [], P2 = [], CT = [], lastT = 0, stopped = false, startTime = 0;
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  function ease(p) { return p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2; }
+  function measure() {
+    var sb = slot.getBoundingClientRect();
+    letters.forEach(function (l, i) {
+      var r = l.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      P0[i] = { x: cx, y: cy };
+      P2[i] = { x: sb.left + (sb.width / 3) * (i + 0.5), y: sb.top + sb.height / 2 };
+      CT[i] = { x: Math.max(20, cx - 120), y: (cy + P2[i].y) / 2 };
+      movers[i].textContent = l.textContent; movers[i].style.fontSize = getComputedStyle(l).fontSize;
+    });
+  }
+  function resetVisual() { letters.forEach(function (l) { l.style.opacity = '1'; }); movers.forEach(function (m) { m.style.opacity = '0'; }); tag.style.transform = 'scale(1)'; }
+  function frame(now) {
+    var t = (now - startTime) % T;
+    if (t < lastT) { measure(); resetVisual(); }
+    lastT = t;
+    var wo = t < 900 ? t / 900 : (t > 9500 ? 1 - (t - 9500) / 1000 : 1);
+    words.style.opacity = clamp(wo, 0, 1);
+    letters.forEach(function (l, i) {
+      var s = starts[i], p = clamp((t - s) / D, 0, 1), m = movers[i];
+      if (t < s) { l.style.opacity = '1'; m.style.opacity = '0'; return; }
+      l.style.opacity = '0';
+      var e = ease(p);
+      var x = (1 - e) * (1 - e) * P0[i].x + 2 * (1 - e) * e * CT[i].x + e * e * P2[i].x;
+      var y = (1 - e) * (1 - e) * P0[i].y + 2 * (1 - e) * e * CT[i].y + e * e * P2[i].y;
+      m.style.transform = 'translate(' + (x - m.offsetWidth / 2) + 'px,' + (y - m.offsetHeight / 2) + 'px) scale(' + (1 - 0.35 * e) + ')';
+      m.style.opacity = String(p < 0.6 ? 1 : clamp(1 - (p - 0.6) / 0.4, 0, 1));
+    });
+    var k = clamp((t - HOLD) / (GROW_END - HOLD), 0, 1);
+    var back = t > SHRINK ? clamp(1 - (t - SHRINK) / (T - SHRINK), 0, 1) : 1;
+    tag.style.transform = 'scale(' + (1 + 0.3 * k * back) + ')';
+    if (!stopped) requestAnimationFrame(frame);
+  }
+  function stopAndShowEnd() { stopped = true; words.style.opacity = '0'; letters.forEach(function (l) { l.style.opacity = '1'; }); movers.forEach(function (m) { m.style.opacity = '0'; }); tag.style.transform = 'scale(1)'; skip.classList.add('hidden'); }
+  if (reduce) { stopped = true; words.style.opacity = '0'; skip.classList.add('hidden'); return; }
+  skip.addEventListener('click', stopAndShowEnd);
+  measure(); startTime = performance.now(); requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
