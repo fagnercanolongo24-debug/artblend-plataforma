@@ -290,7 +290,44 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+
+        /* ===== Marca animada ABC (padrão ArtBlend) ===== */
+        .brandmark{display:inline-flex;flex-direction:column;align-items:flex-start;gap:1px;font-family:'Poppins',-apple-system,'Segoe UI',sans-serif;text-align:left}
+        .brandmark .word{font-size:18px;font-weight:700;line-height:1.14;color:#fff;letter-spacing:-.3px}
+        .brandmark .letter{display:inline-block;opacity:0;transform:translateY(10px);animation:letterIn .35s ease forwards}
+        .brandmark .letter.abc{font-size:1.28em;font-weight:900;color:#BFF6FB;animation:letterIn .35s ease forwards,letterGlow 2.4s ease-in-out 1.6s infinite}
+        .brandmark .letter.abc.viajando{animation:letterIn .35s ease forwards,letterGlow 2.4s ease-in-out 1.6s infinite,letraViaja 1.5s ease-in-out}
+        .tagmarca{font-size:11px;color:rgba(255,255,255,.85);margin-top:6px;text-align:left}
+        .tagmarca .alvo{display:inline-block;font-weight:800;color:#BFF6FB;transform-origin:50% 70%}
+        .tagmarca .alvo.pisca{animation:alvoCresce 1.5s ease-out}
+        .sidebar-header{text-align:left}
+        @keyframes letterIn{to{opacity:1;transform:translateY(0)}}
+        @keyframes letterGlow{0%,100%{color:#BFF6FB}50%{color:#fff}}
+        @keyframes letraViaja{0%{transform:translate(0,0) scale(1);opacity:1}20%{transform:translate(calc(var(--tx)*.15 - 22px),calc(var(--ty)*.2)) scale(1.05);opacity:1}45%{transform:translate(calc(var(--tx)*.45 - 38px),calc(var(--ty)*.55)) scale(.7);opacity:.8}70%{transform:translate(var(--tx),var(--ty)) scale(.25);opacity:0}82%{transform:translate(0,0) scale(0);opacity:0}100%{transform:translate(0,0) scale(1);opacity:1}}
+        @keyframes alvoCresce{0%,45%{transform:scale(1)}68%{transform:scale(1.85);color:#fff}85%{transform:scale(1.25)}100%{transform:scale(1)}}
+        .menu-toggle,.marca-topo,.menu-fundo{display:none}
+        .header .header-left h2{color:#fff !important;opacity:1 !important}
+        #buscador::placeholder{color:rgba(255,255,255,.75)}
+        @media (max-width: 768px) {
+            .app{grid-template-rows:auto 1fr !important}
+            .sidebar{position:fixed !important;top:0;left:0;bottom:0;width:270px;max-height:none !important;overflow-y:auto !important;padding:20px 0 !important;transform:translateX(-100%);transition:transform .25s;z-index:3000}
+            .sidebar.aberta{transform:translateX(0)}
+            .menu-fundo.aberto{display:block;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:2500}
+            .header{flex-wrap:wrap;padding:10px 14px !important;gap:8px;position:sticky;top:0;z-index:2000}
+            .menu-toggle{display:block;background:rgba(255,255,255,.18);border:0;color:#fff;font-size:22px;width:42px;height:42px;border-radius:10px;cursor:pointer;flex-shrink:0}
+            .marca-topo{display:inline-flex;flex-direction:row;gap:0;flex:1;min-width:0}
+            .marca-topo .word{font-size:21px;white-space:nowrap}
+            .marca-topo .word:nth-child(n+3){display:none}
+            .header-left{display:none}
+            .busca-plat{order:5;flex:1 1 100% !important;margin:0 !important}
+            .header-right{gap:6px}
+            .header-right #user-email{display:none}
+            .header-right .user-badge{font-size:11px;padding:4px 8px}
+            .header-right .btn-logout{padding:6px 10px;font-size:12px}
+        }
     </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -299,8 +336,11 @@
     <!-- SIDEBAR ESQUERDA -->
     <div class="sidebar">
         <div class="sidebar-header">
-            <h2>🎯 ArtBlend</h2>
-            <p>Consultoria Gourmet</p>
+            <div class="brandmark" aria-label="ArtBlend Consultoria Gourmet">
+                <div class="word"><span class="abc">A</span>rt</div><div class="word"><span class="abc">B</span>lend</div>
+                <div class="word"><span class="abc">C</span>onsultoria</div><div class="word"><span class="abc">G</span>ourmet</div>
+            </div>
+            <div class="tagmarca">O <span class="alvo">A</span><span class="alvo">B</span><span class="alvo">C</span> <span class="alvo">G</span>astronômico que você precisa</div>
         </div>
         
         <ul class="sidebar-menu">
@@ -382,12 +422,18 @@
     </div>
     
     <!-- HEADER -->
+    <div class="menu-fundo" onclick="fecharMenu()"></div>
     <div class="header">
+        <button class="menu-toggle" onclick="abrirMenu()" aria-label="Abrir menu">☰</button>
+        <div class="marca-topo brandmark" aria-label="ArtBlend Consultoria Gourmet">
+            <div class="word"><span class="abc">A</span>rt</div><div class="word"><span class="abc">B</span>lend</div>
+            <div class="word"><span class="abc">C</span>onsultoria</div><div class="word"><span class="abc">G</span>ourmet</div>
+        </div>
         <div class="header-left">
             <h2 id="header-title">Dashboard</h2>
             <p id="header-subtitle">Bom dia, Fagner Canolongo! 👋</p>
         </div>
-        <div style="flex: 1; margin: 0 40px;">
+        <div class="busca-plat" style="flex: 1; margin: 0 40px;">
             <div style="position: relative;">
                 <input type="text" id="buscador" placeholder="🔍 Pesquisar ferramenta... (ex: custos, comanda, estoque)" 
                     style="width: 100%; padding: 10px 15px; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; background: rgba(255,255,255,0.1); color: white; font-size: 13px;"
@@ -1448,5 +1494,28 @@ function calcularPrecificacao() {
 window.addEventListener('load', initUser);
 </script>
 
+
+<script>
+/* Marca animada ABC + menu no celular */
+function abrirMenu(){ document.querySelector('.sidebar').classList.add('aberta'); document.querySelector('.menu-fundo').classList.add('aberto'); }
+function fecharMenu(){ document.querySelector('.sidebar').classList.remove('aberta'); document.querySelector('.menu-fundo').classList.remove('aberto'); }
+document.addEventListener('click',function(e){ if(e.target.closest('.sidebar-menu button, .sidebar-menu a') && window.innerWidth<=768) fecharMenu(); });
+(function(){
+  function animar(caixa, alvosCaixa){ let idx=0; const letras=[];
+    caixa.querySelectorAll('.word').forEach(w=>{ const tem=!!w.querySelector('.abc'); const t=w.textContent; w.textContent='';
+      [...t].forEach((ch,i)=>{ const sp=document.createElement('span'); sp.textContent=ch; sp.className='letter'+(i===0&&tem?' abc':''); sp.style.animationDelay=(idx*0.045).toFixed(3)+'s'; w.appendChild(sp); if(i===0&&tem) letras.push(sp); idx++; }); });
+    const alvos=alvosCaixa?[...alvosCaixa.querySelectorAll('.alvo')]:[];
+    if(!alvos.length) return;
+    function medir(){ letras.forEach((l,i)=>{ const a=alvos[i]; if(!a) return; const r1=l.getBoundingClientRect(), r2=a.getBoundingClientRect(); if(!r1.width||!r2.width) return; l.style.setProperty('--tx',Math.round((r2.left+r2.width/2)-(r1.left+r1.width/2))+'px'); l.style.setProperty('--ty',Math.round((r2.top+r2.height/2)-(r1.top+r1.height/2))+'px'); }); }
+    function viajar(l,a){ l.classList.remove('viajando'); void l.offsetWidth; l.classList.add('viajando'); setTimeout(()=>{ a.classList.remove('pisca'); void a.offsetWidth; a.classList.add('pisca'); },700);
+      l.addEventListener('animationend',function f(e){ if(e.animationName!=='letraViaja') return; l.classList.remove('viajando'); l.removeEventListener('animationend',f); });
+      a.addEventListener('animationend',function f2(){ a.classList.remove('pisca'); a.removeEventListener('animationend',f2); }); }
+    function rodada(){ if(!letras[0]||!letras[0].offsetParent||!alvos[0].offsetParent) return; letras.forEach((l,i)=>setTimeout(()=>{ medir(); viajar(l,alvos[i]); },i*950)); }
+    setTimeout(()=>{ rodada(); setInterval(rodada,6200); },2400);
+  }
+  const sb=document.querySelector('.sidebar-header'); if(sb) animar(sb.querySelector('.brandmark'), sb.querySelector('.tagmarca'));
+  const mt=document.querySelector('.marca-topo'); if(mt) animar(mt, null);
+})();
+</script>
 </body>
 </html>
