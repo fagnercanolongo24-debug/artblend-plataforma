@@ -1,5 +1,5 @@
 # ARTBLEND · DOCUMENTO DE CONTINUIDADE
-Versão do documento: 05/11/2026 (noite) · Plataforma no ar: **Versão 3**
+Versão do documento: 05/11/2026 (noite) · Plataforma no ar: **Versão 3** · **Versão 4 pronta para publicar** (pull request no GitHub)
 
 ---
 
@@ -48,6 +48,7 @@ Cópias de segurança → pendrive (E:\Arquivos artblend\BACKUPS) + Downloads do
 | V1 | Landing, início, login, plataforma com menu turquesa, cursos EEG | histórico |
 | V2 | + Custos, comanda, estoque, agenda, checklist, login real do Supabase | `backup/2026-11-05-antes-fase2` |
 | **V3 (no ar)** | **+ Central de Qualidade** (detalhes na seção 4) | `versao/v3-central-qualidade` |
+| **V4 (aguardando aprovação)** | **+ Central de Salão e Vendas** (`central-salao.html`) + **ligação com a nuvem** (`artblend-sync.js`) | `fase2/central-qualidade` |
 | Visual guardado | "Hub no visual turquesa original (aprovado pelo Fagner)" — ainda não no ar; o visual dele foi usado na Central | `feat/v1-plataforma-turquesa` |
 
 Para voltar atrás: *"Volte o site para a cópia congelada `<nome>`."*
@@ -81,7 +82,16 @@ Landing (`index.html`), início (`inicio.html`), login real Supabase com "esquec
 - **6 · Manual de Boas Práticas:** gerador com 14 capítulos + POPs anexos; responsável técnico pode ser **nutricionista, técnico ou o dono capacitado**.
 - **Normas e Referências:** RDC 216, RDC 275, Codex Alimentarius/APPCC, ISO 22000, comparação com SafetyCulture, Jolt, FoodDocs, Squizify, Zenput, PathSpot.
 - Perfis no topo: **Consultor · Dono/Gerente · Colaborador**. Lupa de busca. Botão **🖨 Imprimir / PDF**.
-- **Limite atual:** os dados ficam **só no aparelho** onde foram feitos (falta a etapa "ligar ao Supabase").
+- **Nuvem (V4):** com login, a Central salva por **cliente** no Supabase (tabela `dados_ferramenta`, ferramentas `central_qualidade` e `central_salao`) e atualiza os outros aparelhos a cada minuto. Sem login, funciona só no aparelho.
+
+### Central de Salão e Vendas (V4) — `central-salao.html`
+- **0 · ABC do Salão** (Avaliar com Cliente Oculto → Base com curso e padrões → Constância com rotina e metas) + **Curso ABC de Atendimento** (8 aulas + bônus de referências mundiais, quiz, certificado).
+- **1 · Cliente Oculto:** 12 blocos, 43 itens, do telefone à despedida, com fotos e comentários.
+- **2 · Padrões de Serviço:** 20 PS (sequência de serviço, abertura/fechamento, recepção e espera, mapa de praças, técnicas de mesa e etiqueta, comunicação, briefing de 5 min, venda sugestiva em 5 momentos, quebra de objeções, O.D.R.E., encantamento, NPS e Google, colecionar pontos, vinho, bar e café, delivery, eventos, gorjeta, pratos estrela, apresentação).
+- **3 · Rotina do Salão:** abertura/fechamento, briefing, vendas por garçom, reclamações, satisfação, encantamentos, lista de espera — com alertas.
+- **3+ · Vendas & Metas:** ticket médio, ranking de garçons, NPS, banco de 15 objeções, roteiro de venda, pratos estrela, clientes e aniversariantes (parabéns pelo WhatsApp).
+- **6 · Manual de Atendimento:** 13 capítulos + termo de ciência da equipe.
+- Referências: Ritz-Carlton, Danny Meyer/Union Square (Hospitality Quotient), Will Guidara, Forbes Travel Guide, Le Cordon Bleu, Abrasel/Senac, Lei 13.419/2017.
 
 ### Documentos já feitos
 `PADRAO_ARTBLEND.md` (padrão visual), `docs/FORNECEDORES_KIT_ARTBLEND.md`, `docs/PLANO_AGENTE_IA_WHATSAPP.md`, `PROMPT_MESTRE_ARTBLEND_FASE2.md`, `INVENTARIO_QUALIDADE_SANITARIA.xlsx`, planilhas `08` e `12` (pendrive `E:\Arquivos artblend\FASE2\`).
@@ -105,8 +115,9 @@ Landing (`index.html`), início (`inicio.html`), login real Supabase com "esquec
 ---
 
 ## 7. PRÓXIMOS PASSOS (em ordem sugerida)
-1. **"Ligar" a Central ao Supabase** — login, escolher cliente, registros/fotos/cursos na nuvem e em todos os aparelhos, perfis Dono e Colaborador, painel do consultor com todos os clientes, etiquetas descontando do estoque. (Só acrescenta tabelas; pedir o "sim" do Fagner antes.)
-2. **Central de Salão e Vendas (V4)** no mesmo padrão: recepção, garçom, etiqueta e serviço de mesa, comunicação, persuasão, quebra de objeção, marketing e networking; **Sommelier** (serviço do vinho, apostila ABS).
+1. **Publicar a V4** (Fagner aprova o pull request no GitHub ou pede "pode publicar a V4 no site oficial agora").
+1.1 **Nuvem — parte 2:** acesso de Dono e Colaborador com login próprio (hoje só o consultor dono dos clientes entra), fotos no armazenamento do Supabase, painel do consultor com todos os clientes, etiquetas descontando do estoque.
+2. ~~Central de Salão e Vendas~~ (feita na V4). Próximo nela: marketing e networking, integração com o PDV, perfis do Instagram que o Fagner indicar.
 3. **Empratamento** — Fagner vai mandar o conteúdo dos cursos que fez.
 4. **Gestão e Indicadores** ("números": metas, CMV, prime cost, fluxo de caixa) no mesmo padrão.
 5. **Cardápio e Produção (método CCP com nome ArtBlend):** usar as 63 fotos, o Manual CCP e as 8 planilhas do chef → ferramentas (com nomes ArtBlend no lugar de "plano de ataque" etc.).
