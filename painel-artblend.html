@@ -9,16 +9,46 @@
 :root{--pri:#1C93A8;--pri-esc:#137487;--pri-clr:#E4F8FB;--acento:#2EC4D6;--verde:#3ADC84;--fundo:#F5F7FA;--txt:#16294A;--txt2:#6E7A8C;--borda:#E2E6ED;--ok:#2E9D5B;--alerta:#E0A100;--erro:#D64545;--raio:16px;--sombra:0 1px 2px rgba(22,41,74,.04),0 8px 22px rgba(22,41,74,.06)}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:var(--fundo);color:var(--txt);font-size:15px;line-height:1.5}
-.topo{background:linear-gradient(135deg,#1C93A8,#137487);color:#fff;padding:18px 22px 70px;position:relative;overflow:hidden}
-.topo::after{content:"ABC";position:absolute;right:-20px;top:-30px;font:900 180px 'Poppins',sans-serif;color:#fff;opacity:.06;letter-spacing:-8px}
+.topo{background:linear-gradient(135deg,#D4F7FB,#A9ECF4);color:#0E5A69;padding:18px 22px 70px;position:relative;overflow:hidden}
+.topo::after{content:"ABC";position:absolute;right:-20px;top:-30px;font:900 180px 'Poppins',sans-serif;color:#137487;opacity:.07;letter-spacing:-8px}
 .linha{display:flex;align-items:center;gap:14px;flex-wrap:wrap;max-width:1180px;margin:0 auto;position:relative;z-index:1}
-.marca{font:800 22px 'Poppins',sans-serif;letter-spacing:-.4px}.marca b{color:#BFF6FB;font-weight:900}
-.perfis{margin-left:auto;display:flex;background:rgba(255,255,255,.15);border-radius:12px;padding:4px;gap:4px}
-.perfis button{border:0;background:none;color:#fff;padding:7px 12px;border-radius:9px;font-weight:600;font-size:13px;cursor:pointer}
-.perfis button.ativo{background:#fff;color:var(--pri-esc)}
+.marca{font:800 22px 'Poppins',sans-serif;letter-spacing:-.4px}.marca b{color:#1C93A8;font-weight:900}
+.perfis{margin-left:auto;display:flex;background:rgba(19,116,135,.10);border-radius:12px;padding:4px;gap:4px}
+.perfis button{border:0;background:none;color:#0E5A69;padding:7px 12px;border-radius:9px;font-weight:600;font-size:13px;cursor:pointer}
+.perfis button.ativo{background:#137487;color:#fff}
 .saudacao{max-width:1180px;margin:22px auto 0;position:relative;z-index:1}
 .saudacao h1{font:800 26px 'Poppins',sans-serif;letter-spacing:-.4px}
-.saudacao p{opacity:.9;margin-top:4px;max-width:640px}
+.saudacao p{color:#2B5560;margin-top:4px;max-width:640px}
+.met{display:flex;flex-direction:column}.met .ab{margin-top:auto;padding-top:12px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ferr{position:fixed;inset:0;background:rgba(14,40,60,.45);z-index:50;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:24px 12px}
+.ferr.aberta{display:flex}
+.ferr .caixa{background:var(--fundo);border-radius:20px;max-width:980px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.ferr .cab{background:linear-gradient(135deg,#D4F7FB,#A9ECF4);color:#0E5A69;padding:14px 18px;border-radius:20px 20px 0 0;display:flex;gap:8px;align-items:center;position:sticky;top:0;z-index:2}
+.ferr .cab h3{font:800 19px 'Poppins',sans-serif;flex:1}
+.ferr .corpo{padding:16px}
+.fechar{border:0;background:#137487;color:#fff;border-radius:10px;padding:8px 12px;font-weight:700;cursor:pointer}
+.bloco{background:#fff;border:1px solid var(--borda);border-radius:14px;padding:14px;margin-bottom:12px}
+.campos{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));margin-top:8px}
+.campos input,.campos select,.bloco textarea,.bloco select{width:100%;border:1.5px solid var(--borda);border-radius:10px;padding:9px;font:inherit;font-size:14px;background:#fff}
+.bloco textarea{min-height:58px;margin:6px 0 8px;display:block}
+.btn.sec{background:#fff;color:var(--pri-esc);border:1.5px solid var(--pri)}
+.btn.peq{padding:6px 10px;font-size:13px}
+.botoes{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.etapas{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0}
+.etapas div{border-radius:10px;padding:8px;font-size:12px;font-weight:700;text-align:center;background:#E8EEF2;color:var(--txt2)}
+.etapas div.feita{color:#fff}
+.dica{font-size:13px;color:var(--txt2)}
+.lista-mini{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{background:var(--pri-clr);color:var(--pri-esc);border-radius:20px;padding:4px 10px;font-size:12.5px;font-weight:600}
+.abas{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.abas button{border:1.5px solid var(--borda);background:#fff;border-radius:10px;padding:8px 12px;font-weight:600;cursor:pointer;color:var(--txt2)}.abas button.ativo{background:var(--pri-clr);border-color:var(--pri);color:var(--pri-esc)}
+.atalhos{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.atalho{background:#fff;border:1px solid var(--borda);border-radius:14px;padding:14px;display:flex;gap:12px;align-items:center;text-decoration:none;color:inherit;box-shadow:var(--sombra);transition:transform .15s}.atalho:hover{transform:translateY(-2px)}
+.atalho .ic2{font-size:28px}.atalho b{display:block}.atalho small{color:var(--txt2)}
+.medidor{font:800 34px 'Poppins',sans-serif;color:var(--pri-esc)}
+.hbar{display:flex;align-items:center;gap:8px;font-size:13px;margin:5px 0}.hbar span:first-child{width:150px;flex:0 0 150px}.hbar .barra{flex:1;margin:0}
+table.t{width:100%;border-collapse:collapse;font-size:13.5px}table.t th,table.t td{padding:7px;border-bottom:1px solid var(--borda);text-align:left}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#16294A;color:#fff;padding:10px 16px;border-radius:12px;font-weight:600;z-index:60;display:none}
+@media print{body.f-aberta header,body.f-aberta main{display:none}.ferr{position:static;padding:0;background:none}.ferr .cab button,.botoes,.nao-imp{display:none!important}}
 main{max-width:1180px;margin:-46px auto 40px;padding:0 16px;position:relative;z-index:2}
 .periodos{display:flex;gap:6px;flex-wrap:wrap;background:#fff;border-radius:14px;padding:6px;box-shadow:var(--sombra);margin-bottom:18px}
 .periodos button{flex:1;min-width:120px;border:0;background:none;padding:10px;border-radius:10px;font-weight:600;color:var(--txt2);cursor:pointer;font-size:14px}
@@ -54,7 +84,7 @@ h2{font:800 19px 'Poppins',sans-serif;margin:28px 0 4px;letter-spacing:-.3px}
 .tar button{border:0;background:none;cursor:pointer;font-size:14px;color:var(--pri-esc)}
 .add{display:flex;gap:6px;margin-top:10px}.add input{flex:1;border:1.5px solid var(--borda);border-radius:10px;padding:9px;font-size:14px}
 .btn{background:var(--pri);color:#fff;border:0;border-radius:10px;padding:9px 14px;font-weight:600;cursor:pointer}
-@media(max-width:640px){.topo{padding:14px 16px 60px}.saudacao h1{font-size:21px}.perfis{margin-left:0;width:100%}.perfis button{flex:1}.kanban{grid-template-columns:1fr}.perfis button{padding:7px 6px;font-size:12.5px;white-space:nowrap}.periodos{flex-wrap:nowrap;overflow-x:auto}.periodos button{min-width:104px;flex:0 0 auto}.grade{grid-template-columns:1fr 1fr;gap:10px}.cartao{padding:13px}.cartao .num{font-size:22px}.cartao .frase{font-size:12px}}
+@media(max-width:640px){.topo{padding:14px 16px 60px}.saudacao h1{font-size:21px}.perfis{margin-left:0;width:100%}.perfis button{flex:1}.kanban{grid-template-columns:1fr}.ferr{padding:0}.ferr .caixa{border-radius:0;min-height:100%}.ferr .cab{border-radius:0;padding:10px 12px}.ferr .cab h3{font-size:16px}.ferr .corpo{padding:12px}.etapas{grid-template-columns:1fr 1fr}.hbar span:first-child{width:110px;flex-basis:110px}.add{flex-wrap:wrap}.add input{max-width:none!important;flex:1 1 45%}.perfis button{padding:7px 6px;font-size:12.5px;white-space:nowrap}.periodos{flex-wrap:nowrap;overflow-x:auto}.periodos button{min-width:104px;flex:0 0 auto}.grade{grid-template-columns:1fr 1fr;gap:10px}.cartao{padding:13px}.cartao .num{font-size:22px}.cartao .frase{font-size:12px}}
 </style>
 </head>
 <body>
@@ -72,21 +102,25 @@ h2{font:800 19px 'Poppins',sans-serif;margin:28px 0 4px;letter-spacing:-.3px}
   <div class="aviso">🧪 <b>Modelo para aprovação</b> — os números abaixo são de exemplo. Depois de aprovado, cada cartão puxa os dados reais das Centrais e da plataforma.</div>
   <div class="grade" id="cartoes"></div>
 
-  <h2>🔁 Método ArtBlend de Melhoria Contínua</h2>
-  <p class="sub">Quatro métodos famosos de gestão, juntos num jeito só e simples de usar no restaurante.</p>
-  <div class="metodo">
-    <div class="met"><div class="q">O ciclo</div><h3>PDCA — Planejar, Fazer, Checar, Agir</h3><p>Todo problema passa pelo mesmo ciclo: planeja a solução, testa, confere o resultado e padroniza o que deu certo.</p>
-      <div class="pdca"><div style="background:#1C93A8">P · Planejar<small>meta e plano</small></div><div style="background:#2E9D5B">D · Fazer<small>executar o plano</small></div><div style="background:#E0A100">C · Checar<small>medir o resultado</small></div><div style="background:#16294A">A · Agir<small>padronizar ou corrigir</small></div></div></div>
-    <div class="met"><div class="q">O quadro</div><h3>Kanban — ver o trabalho</h3><p>As tarefas de melhoria num quadro de 3 colunas: <b>A fazer → Fazendo → Feito</b>. Todo mundo vê o que está parado.</p></div>
-    <div class="met"><div class="q">O hábito</div><h3>Kaizen — 1% melhor todo dia</h3><p>Pequenas melhorias diárias sugeridas pela própria equipe. Uma ideia por semana por pessoa já muda o restaurante.</p></div>
-    <div class="met"><div class="q">O foco</div><h3>Lean Seis Sigma — menos desperdício e erro</h3><p>Cortar o que não agrega (espera, sobra, retrabalho) e reduzir erros (prato errado, temperatura fora, conta errada) usando os números.</p></div>
+  <h2>🧰 Acesse suas ferramentas</h2>
+  <p class="sub">Daqui você entra nas Centrais completas, com módulos, cursos, controles e normas.</p>
+  <div class="atalhos">
+    <a class="atalho" href="central-qualidade.html"><span class="ic2">🛡️</span><span><b>Central de Qualidade</b><small>segurança dos alimentos, controles e cursos</small></span></a>
+    <a class="atalho" href="central-salao.html"><span class="ic2">🍽️</span><span><b>Central de Salão e Vendas</b><small>atendimento, vendas e cliente oculto</small></span></a>
+    <a class="atalho" href="plataforma.html"><span class="ic2">🧩</span><span><b>Plataforma completa</b><small>estoque, custos, fichas e demais ferramentas</small></span></a>
   </div>
 
-  <h2>📋 Quadro de melhorias (Kanban)</h2>
-  <p class="sub">Cada tarefa nasce de um alerta, de uma visita do consultor ou de uma ideia Kaizen da equipe.</p>
+  <h2>🔁 Método ArtBlend de Melhoria Contínua</h2>
+  <p class="sub">Cinco métodos de gestão juntos num jeito só. Toque em <b>Abrir ferramenta</b> para usar no dia a dia — elas conversam entre si: uma ideia vira tarefa, um problema vira ciclo de melhoria.</p>
+  <div class="metodo" id="metodo"></div>
+
+  <h2 id="quadro">📋 Quadro de melhorias (Kanban)</h2>
+  <p class="sub">Cada tarefa nasce de um alerta, de uma visita do consultor, de um ciclo PDCA ou de uma ideia Kaizen da equipe. Tarefa com prazo vencido fica vermelha.</p>
   <div class="kanban" id="kanban"></div>
-  <div class="add"><input id="novaTarefa" placeholder="Nova melhoria (ex.: trocar borracha da geladeira 2)"><button class="btn" onclick="addTarefa()">+ Adicionar</button></div>
+  <div class="add"><input id="novaTarefa" placeholder="Nova melhoria (ex.: trocar borracha da geladeira 2)"><input id="novaResp" placeholder="Responsável" style="max-width:170px"><input id="novaPrazo" type="date" style="max-width:170px"><button class="btn" onclick="addTarefa()">+ Adicionar</button></div>
 </main>
+<div class="ferr" id="ferr" onclick="if(event.target===this)fecharF()"><div class="caixa"><div class="cab"><h3 id="fTit"></h3><button class="btn sec peq" onclick="window.print()">🖨️ Imprimir</button><button class="fechar" onclick="fecharF()">✕ Fechar</button></div><div class="corpo" id="fCorpo"></div></div></div>
+<div class="toast" id="toast"></div>
 <script>
 const PER=[['hoje','☀️ Hoje','rotina do dia'],['semana','📅 Semana','acompanhamento'],['mes','🗓️ Mês','resultados'],['tri','📈 3 meses','tendências'],['futuro','🚀 Projetos','viabilidade e futuro']];
 // Cartões de exemplo por perfil e período: [ícone, nome, frase, número, detalhe, tendência(+/-/''), cor, link, barra%]
@@ -127,14 +161,122 @@ function montar(){
     <div class="num">${esc(c[3])}</div><div class="det">${c[5]==='+'?'<span class="seta sobe">▲</span>':c[5]==='-'?'<span class="seta desce">▼</span>':''}${esc(c[4])}</div></a>`).join('')||'<p class="sub">Sem cartões para este período.</p>';
 }
 document.querySelectorAll('#perfis button').forEach(b=>b.onclick=()=>{perfil=b.dataset.p; try{localStorage.setItem('painel_perfil',perfil)}catch(e){} montar();});
-/* Kanban */
+/* ---------- utilidades ---------- */
+const hoje=()=>new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
+const dataBR=d=>d?d.split('-').reverse().join('/'):'—';
+const fmt=n=>(+n||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const val=id=>(document.getElementById(id)||{}).value||'';
+function aviso(t){const e=document.getElementById('toast');e.textContent=t;e.style.display='block';clearTimeout(aviso.t);aviso.t=setTimeout(()=>e.style.display='none',2200);}
+
+/* ---------- Kanban ---------- */
 let K; try{ K=JSON.parse(localStorage.getItem('painel_kanban')); }catch(e){}
 K=K||{afazer:['Trocar borracha da geladeira 2','Treinar venda de sobremesa'],fazendo:['Implantar etiquetas de validade'],feito:['Briefing diário de 5 minutos']};
+['afazer','fazendo','feito'].forEach(k=>K[k]=(K[k]||[]).map(x=>typeof x==='string'?{t:x}:x)); K.arquivo=K.arquivo||[];
 const COLS=[['afazer','A fazer'],['fazendo','Fazendo'],['feito','Feito']];
 function salvarK(){ try{localStorage.setItem('painel_kanban',JSON.stringify(K))}catch(e){} }
-function montarK(){ document.getElementById('kanban').innerHTML=COLS.map(([k,t],ci)=>`<div class="col"><h4>${t}<span>${K[k].length}</span></h4>${K[k].map((x,i)=>`<div class="tar" style="border-color:${['#E0A100','#1C93A8','#2E9D5B'][ci]}"><span>${esc(x)}</span><span>${ci>0?`<button title="voltar" onclick="mover('${k}',${i},-1)">◀</button>`:''}${ci<2?`<button title="avançar" onclick="mover('${k}',${i},1)">▶</button>`:`<button title="remover" onclick="K.feito.splice(${i},1);salvarK();montarK()">✕</button>`}</span></div>`).join('')}</div>`).join(''); }
+function montarK(){ const h=hoje();
+ document.getElementById('kanban').innerHTML=COLS.map(([k,t],ci)=>`<div class="col"><h4>${t}<span>${K[k].length}</span></h4>${K[k].map((x,i)=>{const atras=ci<2&&x.prazo&&x.prazo<h;const info=[x.orig?'↳ '+x.orig:'',x.resp?'👤 '+x.resp:'',x.prazo?(atras?'⏰ atrasada ':'📅 ')+dataBR(x.prazo):''].filter(Boolean);
+  return `<div class="tar" style="border-color:${atras?'#D64545':['#E0A100','#1C93A8','#2E9D5B'][ci]}"><span>${esc(x.t)}${info.length?`<small style="display:block;font-size:11.5px;color:${atras?'#D64545':'var(--txt2)'}">${info.map(esc).join(' · ')}</small>`:''}</span><span style="white-space:nowrap">${ci>0?`<button title="voltar" onclick="mover('${k}',${i},-1)">◀</button>`:''}${ci<2?`<button title="avançar" onclick="mover('${k}',${i},1)">▶</button>`:`<button title="guardar no arquivo" onclick="K.arquivo.push(K.feito.splice(${i},1)[0]);salvarK();montarK()">📥</button>`}</span></div>`}).join('')}</div>`).join('');
+ renderMet(); }
 function mover(k,i,d){ const ks=COLS.map(c=>c[0]); const n=ks[ks.indexOf(k)+d]; K[n].push(K[k].splice(i,1)[0]); salvarK(); montarK(); }
-function addTarefa(){ const v=document.getElementById('novaTarefa').value.trim(); if(!v) return; K.afazer.push(v); document.getElementById('novaTarefa').value=''; salvarK(); montarK(); }
+function addTarefa(){ const v=val('novaTarefa').trim(); if(!v) return; K.afazer.push({t:v,resp:val('novaResp').trim(),prazo:val('novaPrazo')}); ['novaTarefa','novaResp','novaPrazo'].forEach(id=>document.getElementById(id).value=''); salvarK(); montarK(); }
+function paraKanban(t,resp,prazo,orig){ K.afazer.push({t,resp:resp||'',prazo:prazo||'',orig}); salvarK(); montarK(); aviso('📋 Enviado para o quadro de melhorias'); }
+
+/* ---------- dados das ferramentas ---------- */
+let M; try{ M=JSON.parse(localStorage.getItem('artblend_melhoria_v1')); }catch(e){}
+M=Object.assign({pdca:[],ideias:[],desp:[],porques:[],medidas:[],s5:[]},M||{});
+function salvarM(){ try{localStorage.setItem('artblend_melhoria_v1',JSON.stringify(M))}catch(e){} }
+let fAtual=null, leanAba='desp', verArq=false;
+function abrirF(f){ fAtual=f; document.getElementById('ferr').classList.add('aberta'); document.body.classList.add('f-aberta'); render(); }
+function fecharF(){ fAtual=null; document.getElementById('ferr').classList.remove('aberta'); document.body.classList.remove('f-aberta'); renderMet(); }
+function render(){ if(!fAtual) return; const T=FERR[fAtual]; document.getElementById('fTit').textContent=T[0]; document.getElementById('fCorpo').innerHTML=T[1](); renderMet(); }
+
+/* PDCA */
+const ETP=[['P','Planejar','#1C93A8','Qual a causa do problema? O que vamos fazer, quem faz e até quando?'],['D','Fazer','#2E9D5B','O que foi feito na prática? Anote datas e o que mudou.'],['C','Checar','#E0A100','Qual foi o resultado? Compare o número de antes com o de agora.'],['A','Agir','#16294A','Deu certo? Vira padrão (procedimento e treinamento). Não deu? Abra um novo ciclo.']];
+function novoPDCA(prob,nota){ prob=prob||val('pProb').trim(); if(!prob){aviso('Escreva qual é o problema');return;} M.pdca.unshift({prob,meta:val('pMeta'),resp:val('pResp'),prazo:val('pPrazo'),etapa:0,n:[nota||'','','',''],criado:hoje()}); salvarM(); aviso('🔄 Ciclo PDCA aberto'); }
+function fPDCA(){ const lista=M.pdca.map((c,i)=>[c,i]).filter(([c])=>!!c.arq===verArq);
+ return `<div class="bloco"><b>Abrir um novo ciclo de melhoria</b><p class="dica">Comece por um problema real e que dá para medir. Ex.: "CMV acima de 30%", "prato principal saindo em mais de 25 minutos".</p>
+ <div class="campos"><input id="pProb" placeholder="Qual é o problema?"><input id="pMeta" placeholder="Meta (ex.: CMV até 29%)"><input id="pResp" placeholder="Responsável"><input id="pPrazo" type="date"></div>
+ <div class="botoes"><button class="btn" onclick="novoPDCA();render()">+ Abrir ciclo</button><button class="btn sec" onclick="verArq=!verArq;render()">${verArq?'← Ver ciclos ativos':'📥 Ver arquivados ('+M.pdca.filter(c=>c.arq).length+')'}</button></div></div>
+ ${lista.map(([c,i])=>{const e=Math.min(c.etapa,3),fim=c.etapa>=4;
+  return `<div class="bloco"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><b>${esc(c.prob)}</b><span class="selo ${fim?'ok':'alerta'}">${fim?'✔ Concluído':'Etapa: '+ETP[e][1]}</span></div>
+  <div class="dica">Meta: ${esc(c.meta||'—')} · Responsável: ${esc(c.resp||'—')} · Prazo: ${dataBR(c.prazo)} · Aberto em ${dataBR(c.criado)}</div>
+  <div class="etapas">${ETP.map((t,j)=>{const ok=j<c.etapa;return `<div class="${ok?'feita':''}" style="${ok?'background:'+t[2]:j===c.etapa?'outline:2px solid '+t[2]+';color:'+t[2]:''}">${t[0]} · ${t[1]}</div>`}).join('')}</div>
+  ${ETP.map((t,j)=>j<=e?`<div class="dica"><b style="color:${t[2]}">${t[0]} · ${t[1]}:</b> ${t[3]}</div><textarea onchange="M.pdca[${i}].n[${j}]=this.value;salvarM()">${esc(c.n[j]||'')}</textarea>`:'').join('')}
+  <div class="botoes">${!fim?`<button class="btn peq" onclick="M.pdca[${i}].etapa++;salvarM();render()">${c.etapa<3?'Avançar para '+ETP[c.etapa+1][1]+' →':'✔ Concluir ciclo'}</button>`:''}
+  ${c.etapa>0&&!fim?`<button class="btn sec peq" onclick="M.pdca[${i}].etapa--;salvarM();render()">← Voltar etapa</button>`:''}
+  <button class="btn sec peq" onclick="const c=M.pdca[${i}];paraKanban(c.prob,c.resp,c.prazo,'Ciclo PDCA')">📋 Mandar para o quadro</button>
+  <button class="btn sec peq" onclick="M.pdca[${i}].arq=!M.pdca[${i}].arq;salvarM();render()">${c.arq?'↩ Reativar':'📥 Arquivar'}</button></div></div>`}).join('')||'<p class="dica">Nenhum ciclo aqui ainda.</p>'}`; }
+
+/* Kaizen */
+const AREAS=['Cozinha','Salão','Bar','Estoque','Limpeza','Caixa','Delivery','Geral'];
+function novaIdeia(){ const t=val('kTxt').trim(); if(!t){aviso('Escreva a sua ideia');return;} M.ideias.unshift({nome:val('kNome').trim()||'Anônimo',area:val('kArea'),texto:t,votos:0,status:'nova',data:hoje()}); salvarM(); render(); aviso('💡 Ideia enviada. Obrigado!'); }
+function fKaizen(){ const rank={}; M.ideias.forEach(x=>rank[x.nome]=(rank[x.nome]||0)+1);
+ const ST={nova:['Nova','alerta'],aprovada:['Aprovada','ok'],feita:['Feita ✔','ok']};
+ const lista=M.ideias.map((x,i)=>[x,i]).sort((a,b)=>(a[0].status==='feita')-(b[0].status==='feita')||b[0].votos-a[0].votos);
+ return `<div class="bloco"><b>💡 Nova ideia de melhoria</b><p class="dica">Qualquer pessoa da equipe pode sugerir. Ideia boa é simples, barata e dá para fazer logo. Meta: 1 ideia por pessoa por semana.</p>
+ <div class="campos"><input id="kNome" placeholder="Seu nome"><select id="kArea">${AREAS.map(a=>`<option>${a}</option>`).join('')}</select></div>
+ <textarea id="kTxt" placeholder="Qual é a sua ideia? (ex.: deixar as bandejas perto da saída da cozinha)"></textarea>
+ <button class="btn" onclick="novaIdeia()">💡 Enviar ideia</button></div>
+ <div class="bloco"><b>🏆 Quem mais sugere melhorias</b><div class="lista-mini">${Object.entries(rank).sort((a,b)=>b[1]-a[1]).map(([n,q],j)=>`<span class="chip">${j<3?['🥇','🥈','🥉'][j]:''} ${esc(n)} · ${q}</span>`).join('')||'<span class="dica">Ainda sem ideias.</span>'}</div></div>
+ ${lista.map(([x,i])=>`<div class="bloco"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><b>${esc(x.texto)}</b><span class="selo ${ST[x.status][1]}">${ST[x.status][0]}</span></div>
+  <div class="dica">${esc(x.nome)} · ${esc(x.area)} · ${dataBR(x.data)} · 👍 ${x.votos} voto(s)</div>
+  <div class="botoes"><button class="btn sec peq" onclick="M.ideias[${i}].votos++;salvarM();render()">👍 Apoiar</button>
+  ${x.status==='nova'?`<button class="btn peq" onclick="const x=M.ideias[${i}];x.status='aprovada';salvarM();paraKanban(x.texto,x.nome,'','Ideia Kaizen');render()">✔ Aprovar e mandar para o quadro</button>`:''}
+  ${x.status==='aprovada'?`<button class="btn peq" onclick="M.ideias[${i}].status='feita';salvarM();render()">✔ Marcar como feita</button>`:''}</div></div>`).join('')}`; }
+
+/* Lean Seis Sigma */
+const DESP=[['Preparar demais','comida produzida sem pedido e jogada fora'],['Espera','cliente ou equipe parados esperando'],['Transporte','levar coisas de um lado para o outro sem necessidade'],['Trabalho extra','etapas que o cliente não percebe nem valoriza'],['Estoque parado','produto vencido, estragado ou comprado demais'],['Movimento','andar e procurar coisas por falta de organização'],['Erros e retrabalho','prato errado, devolvido, conta errada'],['Talento desperdiçado','ideias da equipe que ninguém escuta']];
+function invNorm(p){ const q=p<.5?p:1-p, t=Math.sqrt(-2*Math.log(q)), z=t-(2.515517+.802853*t+.010328*t*t)/(1+1.432788*t+.189269*t*t+.001308*t*t*t); return p<.5?-z:z; }
+function sigma(ped,err){ if(!ped) return null; const ac=1-err/ped; if(ac>=1) return {ac:100,dpmo:0,s:6}; if(ac<=0) return {ac:0,dpmo:1e6,s:0}; return {ac:ac*100,dpmo:Math.round(err/ped*1e6),s:Math.max(0,invNorm(ac)+1.5)}; }
+function nivel(s){ return s>=4?['Excelente','ok']:s>=3?['Bom','ok']:s>=2?['Regular','alerta']:['Precisa de atenção','erro']; }
+function fLean(){
+ const abas=[['desp','🗑️ 8 desperdícios'],['porques','❓ 5 Porquês'],['medidor','🎯 Medidor de acertos']];
+ let h=`<div class="abas">${abas.map(([k,t])=>`<button class="${leanAba===k?'ativo':''}" onclick="leanAba='${k}';render()">${t}</button>`).join('')}</div>`;
+ if(leanAba==='desp'){ const tot=DESP.map((d,j)=>M.desp.filter(x=>x.tipo==j).reduce((s,x)=>s+(+x.valor||0),0)); const mx=Math.max(1,...tot), soma=tot.reduce((a,b)=>a+b,0);
+  h+=`<div class="bloco"><b>Registrar um desperdício</b><p class="dica">Tudo o que custa dinheiro e não chega ao cliente. Coloque o valor aproximado em reais.</p>
+  <div class="campos"><select id="dTipo">${DESP.map((d,j)=>`<option value="${j}">${d[0]} — ${d[1]}</option>`).join('')}</select><input id="dDesc" placeholder="O que aconteceu? (ex.: 3 kg de arroz jogados fora)"><input id="dVal" type="number" step="0.01" placeholder="Valor perdido (R$)"></div>
+  <div class="botoes"><button class="btn" onclick="const v=val('dDesc').trim();if(!v){aviso('Descreva o desperdício');return;}M.desp.unshift({tipo:+val('dTipo'),desc:v,valor:+val('dVal')||0,data:hoje()});salvarM();render()">+ Registrar</button></div></div>
+  <div class="bloco"><b>Onde está indo o dinheiro</b> <span class="dica">· total R$ ${fmt(soma)}</span>${DESP.map((d,j)=>`<div class="hbar"><span>${d[0]}</span><div class="barra"><div style="width:${tot[j]/mx*100}%;background:${tot[j]===mx&&soma?'#D64545':'#1C93A8'}"></div></div><span>R$ ${fmt(tot[j])}</span></div>`).join('')}
+  ${soma?`<div class="botoes"><button class="btn sec peq" onclick="const j=${tot.indexOf(mx)};novoPDCA('Reduzir desperdício: '+DESP[j][0]);abrirF('pdca')">🔄 Abrir ciclo PDCA para o maior desperdício</button></div>`:''}</div>
+  ${M.desp.length?`<div class="bloco"><table class="t"><thead><tr><th>Data</th><th>Tipo</th><th>O que aconteceu</th><th>R$</th></tr></thead><tbody>${M.desp.slice(0,30).map(x=>`<tr><td>${dataBR(x.data)}</td><td>${DESP[x.tipo][0]}</td><td>${esc(x.desc)}</td><td>${fmt(x.valor)}</td></tr>`).join('')}</tbody></table></div>`:''}`; }
+ if(leanAba==='porques'){
+  h+=`<div class="bloco"><b>Descobrir a causa raiz com 5 Porquês</b><p class="dica">Pergunte "por quê?" até chegar na causa de verdade. Ex.: Prato voltou frio → por quê? Ficou parado no passe → por quê? Garçom estava em outra mesa → … </p>
+  <div class="campos"><input id="wProb" placeholder="Qual foi o problema?"></div>${[1,2,3,4,5].map(n=>`<div class="campos"><input id="w${n}" placeholder="${n}º Por quê?"></div>`).join('')}
+  <div class="botoes"><button class="btn" onclick="const p=val('wProb').trim();if(!p){aviso('Escreva o problema');return;}const w=[1,2,3,4,5].map(n=>val('w'+n).trim());M.porques.unshift({prob:p,w,causa:w.filter(Boolean).pop()||'',data:hoje()});salvarM();render()">💾 Salvar análise</button></div></div>
+  ${M.porques.map((x,i)=>`<div class="bloco"><b>${esc(x.prob)}</b> <span class="dica">· ${dataBR(x.data)}</span><ol style="margin:6px 0 0 20px;font-size:13.5px">${x.w.filter(Boolean).map(w=>`<li>${esc(w)}</li>`).join('')}</ol>
+  <p style="margin-top:6px"><b>Causa raiz:</b> ${esc(x.causa||'—')}</p><div class="botoes"><button class="btn sec peq" onclick="const x=M.porques[${i}];novoPDCA(x.prob,'Causa raiz: '+x.causa);abrirF('pdca')">🔄 Abrir ciclo PDCA</button></div></div>`).join('')}`; }
+ if(leanAba==='medidor'){ const ult=M.medidas[0], r=ult?sigma(ult.ped,ult.err):null;
+  h+=`<div class="bloco"><b>Quantos erros a casa comete?</b><p class="dica">Some os pedidos do período e os erros (prato errado, devolvido, atrasado, conta errada). A ferramenta calcula a % de acerto e o nível Sigma (quanto maior, melhor; 6 é perfeição).</p>
+  <div class="campos"><input id="mPed" type="number" placeholder="Pedidos no período"><input id="mErr" type="number" placeholder="Erros no período"><input id="mObs" placeholder="Período / observação (ex.: semana 45)"></div>
+  <div class="botoes"><button class="btn" onclick="const p=+val('mPed'),e=+val('mErr');if(!p||e<0||e>p){aviso('Confira os números');return;}M.medidas.unshift({ped:p,err:e,obs:val('mObs'),data:hoje()});salvarM();render()">📏 Calcular e salvar</button></div></div>
+  ${r?`<div class="bloco" style="display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))"><div><div class="dica">Acerto</div><div class="medidor">${r.ac.toFixed(1).replace('.',',')}%</div></div><div><div class="dica">Erros a cada 1 milhão</div><div class="medidor">${r.dpmo.toLocaleString('pt-BR')}</div></div><div><div class="dica">Nível Sigma</div><div class="medidor">${r.s.toFixed(1).replace('.',',')}</div><span class="selo ${nivel(r.s)[1]}">${nivel(r.s)[0]}</span></div></div>`:''}
+  ${M.medidas.length?`<div class="bloco"><table class="t"><thead><tr><th>Data</th><th>Período</th><th>Pedidos</th><th>Erros</th><th>Acerto</th><th>Sigma</th></tr></thead><tbody>${M.medidas.map(m=>{const s=sigma(m.ped,m.err);return `<tr><td>${dataBR(m.data)}</td><td>${esc(m.obs||'')}</td><td>${m.ped}</td><td>${m.err}</td><td>${s.ac.toFixed(1).replace('.',',')}%</td><td>${s.s.toFixed(1).replace('.',',')}</td></tr>`}).join('')}</tbody></table></div>`:''}`; }
+ return h; }
+
+/* 5S */
+const S5=[['Separar','Só fica o que é usado; o resto sai.'],['Organizar','Cada coisa no seu lugar, com etiqueta.'],['Limpar','Limpar é também inspecionar.'],['Padronizar','Fotos e regras do jeito certo, à vista.'],['Disciplina','Fazer todo dia, sem precisar cobrar.']];
+const SETORES=['Cozinha quente','Cozinha fria','Estoque seco','Câmara e geladeiras','Salão','Bar','Banheiros','Área externa'];
+function fS5(){ const ult={}; M.s5.forEach(a=>{ if(!ult[a.setor]) ult[a.setor]=a; });
+ return `<div class="bloco"><b>Auditoria rápida 5S</b><p class="dica">Escolha o setor e dê uma nota de 0 a 5 para cada "S" (0 = péssimo, 5 = perfeito). Leva 3 minutos.</p>
+ <div class="campos"><select id="sSetor">${SETORES.map(s=>`<option>${s}</option>`).join('')}</select><input id="sResp" placeholder="Quem avaliou"></div>
+ ${S5.map((s,j)=>`<div class="campos" style="grid-template-columns:1fr 120px;align-items:center"><span><b>${j+1}º S · ${s[0]}</b><br><span class="dica">${s[1]}</span></span><select id="sN${j}">${[5,4,3,2,1,0].map(n=>`<option>${n}</option>`).join('')}</select></div>`).join('')}
+ <div class="botoes"><button class="btn" onclick="M.s5.unshift({setor:val('sSetor'),resp:val('sResp'),n:[0,1,2,3,4].map(j=>+val('sN'+j)),data:hoje()});salvarM();render();aviso('🧹 Auditoria salva')">💾 Salvar auditoria</button></div></div>
+ ${Object.values(ult).map(a=>{const pc=Math.round(a.n.reduce((x,y)=>x+y,0)/25*100), fr=a.n.map((n,j)=>[n,j]).filter(([n])=>n<=2);
+  return `<div class="bloco"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><b>${esc(a.setor)}</b><span class="selo ${pc>=80?'ok':pc>=60?'alerta':'erro'}">${pc}%</span></div><div class="barra"><div style="width:${pc}%;background:${pc>=80?'#2E9D5B':pc>=60?'#E0A100':'#D64545'}"></div></div>
+  <div class="dica" style="margin-top:6px">Última auditoria: ${dataBR(a.data)}${a.resp?' · '+esc(a.resp):''} · ${fr.length?'Pontos fracos: '+fr.map(([n,j])=>S5[j][0]+' ('+n+')').join(', '):'Sem pontos fracos 👏'}</div>
+  ${fr.length?`<div class="botoes"><button class="btn sec peq" onclick="paraKanban('5S ${esc(a.setor)}: melhorar ${fr.map(([n,j])=>S5[j][0]).join(', ')}','','','Auditoria 5S')">📋 Mandar para o quadro</button></div>`:''}</div>`}).join('')}
+ ${M.s5.length?`<p class="dica">${M.s5.length} auditoria(s) no histórico.</p>`:''}`; }
+
+const FERR={pdca:['🔄 PDCA — Ciclos de melhoria',fPDCA],kaizen:['💡 Kaizen — Caixa de ideias da equipe',fKaizen],lean:['🎯 Lean Seis Sigma — Desperdícios e erros',fLean],s5:['🧹 5S — Casa em ordem',fS5]};
+function renderMet(){ const el=document.getElementById('metodo'); if(!el) return;
+ const totD=M.desp.reduce((s,x)=>s+(+x.valor||0),0);
+ const MET=[['pdca','O ciclo','PDCA — Planejar, Fazer, Checar, Agir','Todo problema passa pelo mesmo ciclo: planeja a solução, testa, confere o resultado e padroniza o que deu certo.',`<div class="pdca"><div style="background:#1C93A8">P · Planejar<small>meta e plano</small></div><div style="background:#2E9D5B">D · Fazer<small>executar o plano</small></div><div style="background:#E0A100">C · Checar<small>medir o resultado</small></div><div style="background:#16294A">A · Agir<small>padronizar ou corrigir</small></div></div>`,M.pdca.filter(c=>c.etapa<4&&!c.arq).length+' ciclo(s) em andamento'],
+  ['kanban','O quadro','Kanban — ver o trabalho','As tarefas de melhoria em 3 colunas: <b>A fazer → Fazendo → Feito</b>, com responsável e prazo. Atrasou, fica vermelho.','<div class="lista-mini"><span class="chip">Responsável</span><span class="chip">Prazo</span><span class="chip">Origem da tarefa</span></div>',(K.afazer.length+K.fazendo.length)+' tarefa(s) aberta(s)'],
+  ['kaizen','O hábito','Kaizen — 1% melhor todo dia','Caixa de ideias da equipe, com votação e ranking. Ideia aprovada vira tarefa no quadro automaticamente.','<div class="lista-mini"><span class="chip">Caixa de ideias</span><span class="chip">Votação</span><span class="chip">Ranking</span></div>',M.ideias.length+' ideia(s)'],
+  ['lean','O foco','Lean Seis Sigma — menos desperdício e erro','Registra os 8 desperdícios em reais, descobre a causa raiz com 5 Porquês e mede a % de acertos da casa.','<div class="lista-mini"><span class="chip">8 desperdícios</span><span class="chip">5 Porquês</span><span class="chip">Medidor de acertos</span></div>','R$ '+fmt(totD)+' em desperdício'],
+  ['s5','A casa em ordem','5S — Separar, Organizar, Limpar, Padronizar, Disciplina','Auditoria rápida por setor com nota, pontos fracos e histórico. O que estiver ruim vai direto para o quadro.','<div class="lista-mini"><span class="chip">Nota por setor</span><span class="chip">Pontos fracos</span><span class="chip">Histórico</span></div>',M.s5.length+' auditoria(s)']];
+ el.innerHTML=MET.map(m=>`<div class="met"><div class="q">${m[1]}</div><h3>${m[2]}</h3><p>${m[3]}</p>${m[4]}<div class="ab"><span class="dica">${m[5]}</span><button class="btn peq" onclick="${m[0]==='kanban'?"document.getElementById('quadro').scrollIntoView({behavior:'smooth'})":"abrirF('"+m[0]+"')"}">Abrir ferramenta →</button></div></div>`).join(''); }
 montar(); montarK();
 </script>
 </body>
