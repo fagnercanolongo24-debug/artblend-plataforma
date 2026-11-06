@@ -194,7 +194,7 @@ const SUPABASE_URL = 'https://zjvjixiuvnpbpsdnxuyk.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqdmppeGl1dm5wYnBzZG54dXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxNDUxMjMsImV4cCI6MjA5OTcyMTEyM30.TgC8A0y8e4Or4FZhSVglUW2micje9belaE0P-vAUwiY';
 
 const { createClient } = window.supabase;
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const sbLogin = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // Mostrar mensagem
 function showMessage(msg, type) {
@@ -212,7 +212,7 @@ document.getElementById('btnEsqueci').addEventListener('click', async (e) => {
         showMessage('Digite seu e-mail no campo acima e clique de novo.', 'error');
         return;
     }
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    const { error } = await sbLogin.auth.resetPasswordForEmail(email, {
         redirectTo: 'https://artblendconsultoria.com.br/login'
     });
     if (error) {
@@ -223,7 +223,7 @@ document.getElementById('btnEsqueci').addEventListener('click', async (e) => {
 });
 
 // Quando o usuário chega pelo link do e-mail, mostra o formulário de nova senha
-supabase.auth.onAuthStateChange((event) => {
+sbLogin.auth.onAuthStateChange((event) => {
     if (event === 'PASSWORD_RECOVERY') {
         document.getElementById('loginForm').style.display = 'none';
         document.getElementById('novaSenhaForm').style.display = 'block';
@@ -235,7 +235,7 @@ document.getElementById('novaSenhaForm').addEventListener('submit', async (e) =>
     const nova = document.getElementById('novaSenha').value;
     const btn = document.getElementById('btnNovaSenha');
     btn.disabled = true;
-    const { error } = await supabase.auth.updateUser({ password: nova });
+    const { error } = await sbLogin.auth.updateUser({ password: nova });
     if (error) {
         showMessage('Não foi possível salvar: ' + error.message, 'error');
         btn.disabled = false;
@@ -258,7 +258,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     
     try {
         // Login real: valida e-mail e senha no Supabase Auth
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await sbLogin.auth.signInWithPassword({ email, password });
         if (error || !data || !data.session) {
             showMessage('❌ E-mail ou senha incorretos!', 'error');
             btnLogin.disabled = false;
