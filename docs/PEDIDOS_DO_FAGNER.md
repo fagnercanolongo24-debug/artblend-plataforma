@@ -158,3 +158,10 @@ Site "Quem é a ArtBlend" (index) → **Acessar a plataforma** → entrada com A
 - 🧭 **Curso de Consultoria Sanitária — 8 aulas** com teste e certificado.
 - Exigências conferidas no texto da RDC 216/2004: Manual de Boas Práticas e POPs (4.11.1); **4 POPs obrigatórios** (4.11.4): higienização de instalações/equipamentos/móveis, controle de vetores e pragas, higienização do reservatório, higiene e saúde dos manipuladores; **registros por no mínimo 30 dias** (4.11.3); **responsável** = proprietário ou funcionário designado, com curso comprovado (contaminantes, DTA, manipulação higiênica, boas práticas) (4.12.1/4.12.2); **capacitação periódica** dos manipuladores (4.6.7); **reservatório no máximo a cada 6 meses** (4.4.4) — placa "Água potável" atualizada.
 - Agora são **3 cursos** no leitor: Método ArtBlend (20 aulas), APPCC (12) e Consultoria Sanitária (8).
+
+### 07/11 00h52 — Combinado de trabalho
+- O Fagner autorizou: **executar todas as tarefas sem pedir permissão**, **nunca apagar nada**. Retomada automática marcada para 02h05 (lembrete nesta sessão).
+- Continua tudo na área de teste; publicar no site oficial segue exigindo a frase dele.
+
+### NR-1 — riscos psicossociais (conferido em 07/11)
+- Portaria MTE nº 1.419/2024 incluiu os fatores psicossociais no Gerenciamento de Riscos Ocupacionais (GRO/PGR); a Portaria MTE nº 765/2025 adiou; **vigência/fiscalização a partir de 26/05/2026**. A empresa deve identificar, avaliar com critério técnico, definir medidas, monitorar e documentar no PGR, com participação e consulta dos trabalhadores (junto com a NR-17). Vale também para pequenas empresas.
