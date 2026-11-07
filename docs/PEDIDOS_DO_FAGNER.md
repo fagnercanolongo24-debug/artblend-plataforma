@@ -165,3 +165,18 @@ Site "Quem é a ArtBlend" (index) → **Acessar a plataforma** → entrada com A
 
 ### NR-1 — riscos psicossociais (conferido em 07/11)
 - Portaria MTE nº 1.419/2024 incluiu os fatores psicossociais no Gerenciamento de Riscos Ocupacionais (GRO/PGR); a Portaria MTE nº 765/2025 adiou; **vigência/fiscalização a partir de 26/05/2026**. A empresa deve identificar, avaliar com critério técnico, definir medidas, monitorar e documentar no PGR, com participação e consulta dos trabalhadores (junto com a NR-17). Vale também para pequenas empresas.
+
+### 07/11 madrugada — Área de PESSOAS (✅ feito na área de teste, dentro da Gestão)
+- 👥 Equipe (puxa da configuração do negócio + cadastro aqui).
+- 🧩 **Matriz de polivalência** (não sabe → em treino → faz com ajuda → faz sozinho → ensina; tarefa com menos de 2 pessoas = 🔴 risco; botão cria os treinos no Treino em 4 passos).
+- 📇 **Descrição de cargos** com missão, responsabilidades e **CHA** — 11 modelos prontos (chef, cozinheiro, auxiliar, garçom, cumim, bartender, barista, caixa, estoquista, limpeza, gerente), editáveis.
+- 🤝 **Integração** do novo colaborador: roteiro de 30 dias com padrinho (11 passos).
+- ⭐ **Avaliação de desempenho** (8 competências) + **matriz 9 box** (desempenho × potencial).
+- 💬 **Feedback** situação–comportamento–impacto (CCL). ☕ **Conversa 1:1** mensal com roteiro.
+- 🚀 **PDI com 70-20-10** (sugestões prontas de prática, pessoas e cursos).
+- 📈 **Avaliação de treinamento** — Kirkpatrick (4 níveis) + ROI de Phillips.
+- 🌤️ **Pesquisa de clima anônima** (8 perguntas, médias, pontos de atenção para o quadro).
+- 🗂️ **RACI** (quem faz, aprova, é consultado e informado; avisa se falta ou sobra o "A").
+- 🧠 **NR-1 riscos psicossociais**: 10 fatores do dia a dia de restaurante, chance × efeito na saúde, medidas sugeridas, responsável e prazo, registro de como os trabalhadores foram ouvidos (base: Portaria MTE 1.419/2024, vigência a partir de 26/05/2026; apoio ao PGR — validar com profissional de SST).
+- 📚 **Curso de Gestão de Pessoas e T&D — 10 aulas** com as referências mundiais: CHA e ISO 10015:2019, ADDIE, andragogia (Knowles), 70-20-10 (CCL), Bloom/Kolb/curva do esquecimento (Ebbinghaus), Kirkpatrick + ROI (Phillips), feedback SCI e 1:1, 9 box e PDI, integração/polivalência/RACI e NR-1. Agora são **4 cursos** no leitor.
+- Correções: itens que fechavam sozinhos ao preencher e o "potencial" que voltava para "médio" agora ficam guardados; níveis da matriz em etiquetas coloridas legíveis.
