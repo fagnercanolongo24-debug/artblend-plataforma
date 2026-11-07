@@ -27,11 +27,11 @@ Lista de ferramentas de gestão, qualidade e operação usadas no mundo, adaptad
 | 10 | Fluxograma | Engenharia de processos | Desenhar o passo a passo (do pedido ao prato) | 🟡 | G |
 | 11 | Histograma | Estatística básica | Ver a variação (tempo de prato, peso de porção) | 🟡 | G |
 | 12 | Gráfico de controle (CEP) | Walter Shewhart | Ver se um processo está fora do normal (temperatura, tempo) | 🟡 | Q |
-| 13 | Relatório A3 | Toyota | Um problema inteiro resolvido numa folha só | 🟢 | G |
+| 13 | Relatório A3 | Toyota | Um problema inteiro resolvido numa folha só | ✅ (painel novo) | G |
 | 14 | MASP (8 passos) | Qualidade total no Brasil | Método de análise e solução de problemas | 🟢 | G |
 | 15 | 8D (8 disciplinas) | Indústria automotiva (EUA) | Tratar reclamação grave de cliente ou intoxicação | 🟢 | Q |
 | 16 | FMEA (análise de falhas) | Indústria aeroespacial (EUA) | Prever o que pode dar errado antes de acontecer | 🟡 | Q |
-| 17 | Poka-yoke (à prova de erro) | Shigeo Shingo (Toyota) | Ideias que impedem o erro (tábuas por cor, potes com tampa da mesma cor) | 🟢 | G |
+| 17 | Poka-yoke (à prova de erro) | Shigeo Shingo (Toyota) | Ideias que impedem o erro (tábuas por cor, potes com tampa da mesma cor) | ✅ (painel novo) | G |
 
 ## 2. Lean e rotina da operação
 | # | Ferramenta | De onde vem | Para que serve no restaurante | Situação | Onde |
@@ -43,18 +43,18 @@ Lista de ferramentas de gestão, qualidade e operação usadas no mundo, adaptad
 | 22 | Checklist do dia | Aviação / OMS | Conferência de cada setor e praça | ✅ | G |
 | 23 | Briefing diário | Hotelaria de luxo | Alinhamento de 5 a 10 minutos antes do turno | ✅ | S |
 | 24 | Trabalho padronizado (POP) | Toyota / qualidade | Todo mundo fazendo do mesmo jeito | ✅ | Q |
-| 25 | Gemba (ir ao lugar) | Toyota | O gestor percorre a operação observando, com roteiro | 🟢 | G |
+| 25 | Gemba (ir ao lugar) | Toyota | O gestor percorre a operação observando, com roteiro | ✅ (painel novo) | G |
 | 26 | Gestão à vista | Lean | Quadros e indicadores visíveis para a equipe | 🟢 | G |
-| 27 | Andon (sinal de alerta) | Toyota | "Botão" para pedir ajuda: falta insumo, atraso, equipamento parado | 🟡 | G |
+| 27 | Andon (sinal de alerta) | Toyota | "Botão" para pedir ajuda: falta insumo, atraso, equipamento parado | ✅ (painel novo) | G |
 | 28 | Jidoka (parar no erro) | Toyota | Parar e corrigir antes de o prato errado sair | 🟢 | G |
-| 29 | SMED (troca rápida) | Shigeo Shingo | Trocar de turno ou de cardápio (almoço → jantar) mais rápido | 🟢 | G |
+| 29 | SMED (troca rápida) | Shigeo Shingo | Trocar de turno ou de cardápio (almoço → jantar) mais rápido | ✅ (painel novo) | G |
 | 30 | Heijunka (nivelar) | Toyota | Distribuir o pré-preparo ao longo do dia | 🟡 | G |
 | 31 | Just in time | Toyota | Comprar e produzir na quantidade certa | 🟡 | F |
 | 32 | Takt time (ritmo) | Lean | Ritmo da cozinha conforme o movimento do salão | 🔴 | G |
 | 33 | Mapa do fluxo de valor (VSM) | Lean (Rother e Shook) | Ver tempo de espera do pedido até a mesa | 🟡 | G |
 | 34 | Diagrama de espaguete | Lean | Desenhar quanto a equipe anda na cozinha (layout) | 🟢 | G |
-| 35 | Mise en place por praça | Cozinha clássica francesa | Lista do que cada praça precisa pronto antes de abrir | 🟢 | Q |
-| 36 | TWI — instrução de trabalho | EUA (Segunda Guerra) | Ensinar uma tarefa em 4 passos: preparar, mostrar, fazer junto, acompanhar | 🟢 | P |
+| 35 | Mise en place por praça | Cozinha clássica francesa | Lista do que cada praça precisa pronto antes de abrir | ✅ (painel novo) | Q |
+| 36 | TWI — instrução de trabalho | EUA (Segunda Guerra) | Ensinar uma tarefa em 4 passos: preparar, mostrar, fazer junto, acompanhar | ✅ (painel novo) | P |
 
 ## 3. Zero Desperdício, Mais Acertos (nome ArtBlend para o Lean Seis Sigma)
 | # | Ferramenta | De onde vem | Para que serve no restaurante | Situação | Onde |
@@ -68,8 +68,8 @@ Lista de ferramentas de gestão, qualidade e operação usadas no mundo, adaptad
 ## 4. Segurança dos alimentos
 | # | Ferramenta | De onde vem | Para que serve no restaurante | Situação | Onde |
 |---|---|---|---|---|---|
-| 42 | APPCC (7 princípios) | NASA e Pillsbury (EUA) / Codex | Controlar os perigos nos pontos críticos | 🟡 (curso a fazer) | Q |
-| 43 | Árvore decisória de PCC | Codex Alimentarius | Decidir se uma etapa é ponto crítico de controle | 🟢 | Q |
+| 42 | APPCC (7 princípios) | NASA e Pillsbury (EUA) / Codex | Controlar os perigos nos pontos críticos | ✅ (painel novo) | Q |
+| 43 | Árvore decisória de PCC | Codex Alimentarius | Decidir se uma etapa é ponto crítico de controle | ✅ (painel novo) | Q |
 | 44 | Manual de Boas Práticas (RDC 216) | Anvisa | Documento obrigatório da casa | ✅ | Q |
 | 45 | POP / PPHO | Anvisa | Procedimentos de higiene obrigatórios | ✅ | Q |
 | 46 | Controle de temperaturas | Boas práticas | Geladeiras, câmaras, alimentos quentes e frios | ✅ | Q |
@@ -81,31 +81,31 @@ Lista de ferramentas de gestão, qualidade e operação usadas no mundo, adaptad
 | 52 | Potabilidade da água | Boas práticas | Limpeza da caixa d'água e laudos | 🟢 | Q |
 | 53 | Saúde do manipulador | Boas práticas | Exames, afastamentos, uniforme | 🟢 | Q |
 | 54 | Simulação de recolhimento (recall) | Indústria de alimentos | Treino de rastrear um lote com problema | 🟢 | Q |
-| 55 | Placas e cartazes da RDC 216 | Anvisa | Lavar as mãos, lixeira com pedal, chão molhado… para imprimir | 🟢 (a fazer) | Q |
+| 55 | Placas e cartazes da RDC 216 | Anvisa | Lavar as mãos, lixeira com pedal, chão molhado… para imprimir | ✅ (painel novo) | Q |
 
 ## 5. Estratégia do negócio
 | # | Ferramenta | De onde vem | Para que serve no restaurante | Situação | Onde |
 |---|---|---|---|---|---|
-| 56 | FOFA (SWOT) | Stanford (EUA) | Forças, fraquezas, oportunidades e ameaças da casa | 🟢 | E |
-| 57 | Canvas do modelo de negócio | Alexander Osterwalder | O negócio inteiro numa folha | 🟢 | E |
-| 58 | OKR (metas de 3 meses) | Intel / Google | Objetivo + 3 resultados medíveis por trimestre | 🟢 | E |
+| 56 | FOFA (SWOT) | Stanford (EUA) | Forças, fraquezas, oportunidades e ameaças da casa | ✅ (painel novo) | E |
+| 57 | Canvas do modelo de negócio | Alexander Osterwalder | O negócio inteiro numa folha | ✅ (painel novo) | E |
+| 58 | OKR (metas de 3 meses) | Intel / Google | Objetivo + 3 resultados medíveis por trimestre | ✅ (painel novo) | E |
 | 59 | BSC simplificado | Kaplan e Norton (Harvard) | Indicadores de finanças, clientes, processos e equipe | 🟡 | E |
 | 60 | Hoshin Kanri | Japão | Desdobrar a meta do ano em metas de cada setor | 🟡 | E |
-| 61 | Matriz BCG dos pratos | Boston Consulting Group | Quais pratos crescer, manter ou tirar | 🟡 | F |
-| 62 | 5 forças de Porter | Michael Porter (Harvard) | Entender a concorrência da região | 🟢 | E |
+| 61 | Matriz BCG dos pratos | Boston Consulting Group | Quais pratos crescer, manter ou tirar | ✅ (painel novo) | F |
+| 62 | 5 forças de Porter | Michael Porter (Harvard) | Entender a concorrência da região | ✅ (painel novo) | E |
 | 63 | Análise de concorrência | Marketing | Comparar preço, cardápio e avaliações dos vizinhos | ✅ (curso) | E |
-| 64 | Persona do cliente | Marketing | Quem é o cliente da casa | 🟢 | E |
+| 64 | Persona do cliente | Marketing | Quem é o cliente da casa | ✅ (painel novo) | E |
 | 65 | Mapa de empatia | Design (XPLANE) | O que o cliente pensa, sente, vê e ouve | 🟢 | E |
-| 66 | Jornada do cliente | Design de serviços | Cada momento, da reserva à despedida | 🟢 | S |
-| 67 | Matriz de Ansoff | Igor Ansoff | Crescer com novos produtos, novos públicos ou os dois | 🟢 | E |
-| 68 | Estudo de viabilidade | Finanças | Vale a pena abrir delivery, nova unidade, reforma? | 🟡 | E/F |
+| 66 | Jornada do cliente | Design de serviços | Cada momento, da reserva à despedida | ✅ (painel novo) | S |
+| 67 | Matriz de Ansoff | Igor Ansoff | Crescer com novos produtos, novos públicos ou os dois | ✅ (painel novo) | E |
+| 68 | Estudo de viabilidade | Finanças | Vale a pena abrir delivery, nova unidade, reforma? | ✅ (painel novo) | E/F |
 
 ## 6. Prioridade e organização do gestor
 | # | Ferramenta | De onde vem | Para que serve no restaurante | Situação | Onde |
 |---|---|---|---|---|---|
-| 69 | Matriz de Eisenhower | Dwight Eisenhower / Stephen Covey | Urgente x importante: o que fazer, agendar, delegar ou cortar | 🟢 | G |
-| 70 | Matriz esforço x impacto | Gestão de projetos | Escolher as melhorias que dão mais resultado com menos esforço | 🟢 | G |
-| 71 | RACI (quem faz o quê) | Gestão de projetos | Responsável, quem aprova, quem é consultado, quem é avisado | 🟢 | P |
+| 69 | Matriz de Eisenhower | Dwight Eisenhower / Stephen Covey | Urgente x importante: o que fazer, agendar, delegar ou cortar | ✅ (painel novo) | G |
+| 70 | Matriz esforço x impacto | Gestão de projetos | Escolher as melhorias que dão mais resultado com menos esforço | ✅ (painel novo) | G |
+| 71 | RACI (quem faz o quê) | Gestão de projetos | Responsável, quem aprova, quem é consultado, quem é avisado | ✅ (painel novo) | P |
 | 72 | Agenda da semana do gestor | Gestão | Rotina fixa: compras, inventário, reunião, visita | 🟢 | G |
 | 73 | Reunião semanal de resultados | Gestão | 30 minutos olhando os números e o quadro | 🟢 | G |
 
@@ -120,13 +120,13 @@ Lista de ferramentas de gestão, qualidade e operação usadas no mundo, adaptad
 | 79 | Fluxo de caixa | Finanças | Entradas e saídas do dia e do mês | ✅ | F |
 | 80 | Precificação / markup | Finanças | Preço de venda certo para cada prato | ✅ | F |
 | 81 | Engenharia de cardápio | Kasavana e Smith (EUA) | Pratos estrela, quebra-cabeça, cavalo de batalha e cão | ✅ (curso) | F |
-| 82 | Ponto de equilíbrio | Finanças | Quanto precisa vender por dia para não ter prejuízo | 🟢 | F |
-| 83 | Curva ABC do estoque | Vilfredo Pareto | Os poucos itens que mais pesam no custo | 🟡 | F |
-| 84 | Giro de estoque | Finanças | Quantos dias o estoque dura | 🟡 | F |
+| 82 | Ponto de equilíbrio | Finanças | Quanto precisa vender por dia para não ter prejuízo | ✅ (painel novo) | F |
+| 83 | Curva ABC do estoque | Vilfredo Pareto | Os poucos itens que mais pesam no custo | ✅ (painel novo) | F |
+| 84 | Giro de estoque | Finanças | Quantos dias o estoque dura | ✅ (painel novo) | F |
 | 85 | Inventário mensal | Contabilidade | Contagem e diferença entre sistema e prateleira | ✅ | F |
-| 86 | Orçamento mensal | Finanças | Quanto pode gastar em cada conta | 🟢 | F |
-| 87 | Custo de mão de obra | RH / finanças | Folha + encargos + benefícios em % do faturamento | 🟢 | F/P |
-| 88 | Retorno do investimento (ROI e payback) | Finanças | Em quanto tempo uma compra ou reforma se paga | 🟢 | F |
+| 86 | Orçamento mensal | Finanças | Quanto pode gastar em cada conta | ✅ (painel novo) | F |
+| 87 | Custo de mão de obra | RH / finanças | Folha + encargos + benefícios em % do faturamento | ✅ (painel novo) | F/P |
+| 88 | Retorno do investimento (ROI e payback) | Finanças | Em quanto tempo uma compra ou reforma se paga | ✅ (painel novo) | F |
 
 ## 8. Vendas e clientes
 | # | Ferramenta | De onde vem | Para que serve no restaurante | Situação | Onde |
@@ -145,18 +145,18 @@ Lista de ferramentas de gestão, qualidade e operação usadas no mundo, adaptad
 ## 9. Pessoas
 | # | Ferramenta | De onde vem | Para que serve no restaurante | Situação | Onde |
 |---|---|---|---|---|---|
-| 99 | Matriz de polivalência | Indústria (Toyota) | Quem sabe fazer o quê, e quem treinar | 🟢 | P |
-| 100 | Descrição de cargos | RH | O que cada função faz | 🟢 | P |
-| 101 | Integração do novo colaborador | RH | Roteiro dos primeiros 7 dias | 🟢 | P |
-| 102 | Avaliação de desempenho | RH | Nota por comportamento e técnica | 🟢 | P |
-| 103 | Feedback (situação, comportamento, impacto) | Center for Creative Leadership | Elogiar e corrigir do jeito certo | 🟢 | P |
-| 104 | PDI (plano de desenvolvimento) | RH | Próximo passo de carreira de cada pessoa | 🟢 | P |
-| 105 | Conversa individual (1:1) | Gestão | 15 minutos por mês com cada pessoa | 🟢 | P |
+| 99 | Matriz de polivalência | Indústria (Toyota) | Quem sabe fazer o quê, e quem treinar | ✅ (painel novo) | P |
+| 100 | Descrição de cargos | RH | O que cada função faz | ✅ (painel novo) | P |
+| 101 | Integração do novo colaborador | RH | Roteiro dos primeiros 7 dias | ✅ (painel novo) | P |
+| 102 | Avaliação de desempenho | RH | Nota por comportamento e técnica | ✅ (painel novo) | P |
+| 103 | Feedback (situação, comportamento, impacto) | Center for Creative Leadership | Elogiar e corrigir do jeito certo | ✅ (painel novo) | P |
+| 104 | PDI (plano de desenvolvimento) | RH | Próximo passo de carreira de cada pessoa | ✅ (painel novo) | P |
+| 105 | Conversa individual (1:1) | Gestão | 15 minutos por mês com cada pessoa | ✅ (painel novo) | P |
 | 106 | Escala de trabalho (5x2, 6x1, 12x36) | Legislação trabalhista | Montar a escala da semana | 🟡 | P |
-| 107 | Pesquisa de clima | RH | Como a equipe se sente | 🟢 | P |
+| 107 | Pesquisa de clima | RH | Como a equipe se sente | ✅ (painel novo) | P |
 | 108 | NR-1 — riscos psicossociais | Ministério do Trabalho | Avaliar e cuidar dos riscos à saúde mental | ✅ (curso) | P |
 | 109 | Gamificação | Jogos / RH | Pontos, ranking e reconhecimento | ✅ | P |
-| 110 | Matriz 9 box | McKinsey / GE | Desempenho x potencial: quem promover e quem desenvolver | 🟢 | P |
+| 110 | Matriz 9 box | McKinsey / GE | Desempenho x potencial: quem promover e quem desenvolver | ✅ (painel novo) | P |
 
 ---
 
@@ -169,3 +169,7 @@ Lista de ferramentas de gestão, qualidade e operação usadas no mundo, adaptad
 6. **Segurança dos alimentos**: placas da RDC 216 para imprimir, curso completo de APPCC com árvore decisória, controle de pragas, água e saúde do manipulador.
 
 Cada ferramenta nova entra **com a sua aula** no curso (origem, quando usar, quem usa, passo a passo, exemplo, teste) e com **Imprimir / Baixar / Enviar / 📎 Anexar**.
+
+
+## Situação em 07/11/2026
+Pacotes 1 a 6 montados no painel novo (área de teste). Também prontos: engenharia de cardápio, retorno do marketing e ficha técnica com foto. Próximos: Estoque e compras (lista pelo mínimo, inventário, validade/PVPS), MASP/8D, SIPOC, voz do cliente, mapa de empatia, gestão à vista, agenda e reunião semanal do gestor, controles de pragas/água/saúde do manipulador, simulação de recolhimento, reputação no Google.
