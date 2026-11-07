@@ -187,3 +187,4 @@ Site "Quem é a ArtBlend" (index) → **Acessar a plataforma** → entrada com A
 - Curso de Estratégia e Números: 8 aulas com origem, passo a passo, exemplo, papéis, teste e certificado.
 - Tudo com imprimir/baixar/enviar/anexar e "mandar para o quadro". Testado no computador e no celular.
 - Ainda falta: Matriz BCG dos pratos e ROI de marketing (próximo), ficha técnica com foto.
+- Feito também (07/11): Engenharia de cardápio (matriz BCG dos pratos: Estrela, Cavalo de batalha, Quebra-cabeça, Abacaxi, com a ação de cada um) e Retorno do marketing (custo por cliente novo e ROI). Curso de Estratégia e Números agora com 9 aulas.
