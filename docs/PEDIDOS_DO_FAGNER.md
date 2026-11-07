@@ -188,3 +188,4 @@ Site "Quem é a ArtBlend" (index) → **Acessar a plataforma** → entrada com A
 - Tudo com imprimir/baixar/enviar/anexar e "mandar para o quadro". Testado no computador e no celular.
 - Ainda falta: Matriz BCG dos pratos e ROI de marketing (próximo), ficha técnica com foto.
 - Feito também (07/11): Engenharia de cardápio (matriz BCG dos pratos: Estrela, Cavalo de batalha, Quebra-cabeça, Abacaxi, com a ação de cada um) e Retorno do marketing (custo por cliente novo e ROI). Curso de Estratégia e Números agora com 9 aulas.
+- Feito (07/11): Ficha técnica com foto do prato (tirar ou escolher), ingredientes com fator de correção e custo, modo de preparo em ordem (subir/descer, foto opcional por passo, alertas de temperatura da RDC 216), montagem, alergênicos, preço sugerido pelo CMV, duplicar, arquivar (não apaga) e mandar para a engenharia de cardápio. Imprime em 2 versões: cozinha (sem preços) e completa. Aula nova no curso de Estratégia e Números (10 aulas).
