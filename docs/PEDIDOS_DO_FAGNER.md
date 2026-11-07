@@ -180,3 +180,10 @@ Site "Quem é a ArtBlend" (index) → **Acessar a plataforma** → entrada com A
 - 🧠 **NR-1 riscos psicossociais**: 10 fatores do dia a dia de restaurante, chance × efeito na saúde, medidas sugeridas, responsável e prazo, registro de como os trabalhadores foram ouvidos (base: Portaria MTE 1.419/2024, vigência a partir de 26/05/2026; apoio ao PGR — validar com profissional de SST).
 - 📚 **Curso de Gestão de Pessoas e T&D — 10 aulas** com as referências mundiais: CHA e ISO 10015:2019, ADDIE, andragogia (Knowles), 70-20-10 (CCL), Bloom/Kolb/curva do esquecimento (Ebbinghaus), Kirkpatrick + ROI (Phillips), feedback SCI e 1:1, 9 box e PDI, integração/polivalência/RACI e NR-1. Agora são **4 cursos** no leitor.
 - Correções: itens que fechavam sozinhos ao preencher e o "potencial" que voltava para "médio" agora ficam guardados; níveis da matriz em etiquetas coloridas legíveis.
+
+## 07/11/2026 — Pacotes 4 e 5: Estratégia e Números (área de teste)
+- Estratégia (Gestão): FOFA/SWOT, Canvas do modelo de negócio, OKR do trimestre, Persona, Jornada do cliente, Matriz de Ansoff, 5 forças de Porter, Estudo de viabilidade (payback e retorno em 12 meses).
+- Números (Gestão): Ponto de equilíbrio (por dia e clientes por dia), Curva ABC do estoque, Giro de estoque, Orçamento planejado × realizado (guarda os meses), Mão de obra e Prime Cost (encargos: confirmar com o contador).
+- Curso de Estratégia e Números: 8 aulas com origem, passo a passo, exemplo, papéis, teste e certificado.
+- Tudo com imprimir/baixar/enviar/anexar e "mandar para o quadro". Testado no computador e no celular.
+- Ainda falta: Matriz BCG dos pratos e ROI de marketing (próximo), ficha técnica com foto.
